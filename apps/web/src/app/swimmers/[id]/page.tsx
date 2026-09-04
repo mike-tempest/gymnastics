@@ -17,6 +17,7 @@ import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useFormatters } from '@/hooks/useFormatters';
 import { deleteSwimmer } from '@/lib/api/swimmers';
+import { isCompetitionsEnabled } from '@/lib/features';
 import { useSwimmer, useSquad } from '@/lib/hooks';
 
 export default function SwimmerDetailPage({ params }: { params: { id: string } }) {
@@ -352,10 +353,12 @@ export default function SwimmerDetailPage({ params }: { params: { id: string } }
             </p>
           </div>
 
-          {/* Personal Bests */}
-          <div className="bg-dark-primary rounded-3xl shadow-lg p-6 md:p-8 border border-white/20 mb-8">
-            <PersonalBests swimmerId={params.id} />
-          </div>
+          {/* Personal Bests: swimming times, feature-flagged off by default (TEM-15) */}
+          {isCompetitionsEnabled() && (
+            <div className="bg-dark-primary rounded-3xl shadow-lg p-6 md:p-8 border border-white/20 mb-8">
+              <PersonalBests swimmerId={params.id} />
+            </div>
+          )}
 
           {/* Attendance History */}
           <div className="bg-dark-primary rounded-3xl shadow-lg p-6 border border-white/20">

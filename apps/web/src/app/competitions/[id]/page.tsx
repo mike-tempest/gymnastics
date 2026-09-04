@@ -3,7 +3,7 @@
 import { CompetitionStatus } from '@swim-nexus/shared-types';
 import { ArrowLeft, Trophy, ClipboardList, Medal } from 'lucide-react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import { useState } from 'react';
 
 import EntryManagement from '@/components/competitions/EntryManagement';
@@ -22,6 +22,7 @@ import {
   formatCompetitionDate,
   courseLabel,
 } from '@/lib/competitions-utils';
+import { isCompetitionsEnabled } from '@/lib/features';
 import { useCompetition } from '@/lib/hooks/useCompetitions';
 
 function statusBadge(status: CompetitionStatus) {
@@ -35,6 +36,16 @@ function statusBadge(status: CompetitionStatus) {
 type Tab = 'entries' | 'results';
 
 export default function CompetitionDetailPage() {
+  // Swimming times/strokes module, feature-flagged off by default (TEM-15).
+  // The gate lives in a hook-free wrapper so the content component keeps its
+  // unconditional hook order.
+  if (!isCompetitionsEnabled()) {
+    notFound();
+  }
+  return <CompetitionDetailPageContent />;
+}
+
+function CompetitionDetailPageContent() {
   const params = useParams();
   const id = params.id as string;
   const { data: competition, isLoading, error, refetch } = useCompetition(id);

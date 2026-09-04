@@ -11,6 +11,7 @@ import { TenantInterceptor } from './common/tenancy/tenant.interceptor';
 import { AuditInterceptor } from './common/audit/audit.interceptor';
 import { AuditLogsModule } from './modules/compliance/audit-logs/audit-logs.module';
 import { validate } from './config/env.validation';
+import { competitionsEnabled } from './common/features/competitions.feature';
 import { SwimmersModule } from './modules/swimmers/swimmers.module';
 import { SquadsModule } from './modules/squads/squads.module';
 import { FamiliesModule } from './modules/families/families.module';
@@ -83,7 +84,11 @@ import { AppController } from './app.controller';
     CommunicationsModule,
     WaitlistModule,
     HealthModule,
-    CompetitionsModule,
+    // Swimming times/strokes module, feature-flagged off by default (TEM-15).
+    // With the flag unset its controllers are never mounted, so /competitions
+    // routes 404. ConfigModule.forRoot() above has already loaded .env files
+    // into process.env by the time this spread is evaluated.
+    ...(competitionsEnabled() ? [CompetitionsModule] : []),
     WellbeingModule,
     DataImportModule,
     ActivationModule,

@@ -19,6 +19,7 @@ import { ParentService } from './parent.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { InvoicePdfService } from '../finance/invoices/invoice-pdf.service';
 import { UpdateParentProfileDto } from './dto/update-parent-profile.dto';
+import { CompetitionsEnabledGuard } from '../../common/features/competitions.feature';
 
 @Controller('parent')
 @UseGuards(JwtAuthGuard)
@@ -103,7 +104,9 @@ export class ParentController {
     return this.parentService.getChildSchedule(familyId, childId, days);
   }
 
+  // 404s while the competitions module is flagged off (TEM-15).
   @Get('children/:id/results')
+  @UseGuards(CompetitionsEnabledGuard)
   async getChildResults(
     @Request() req: { user?: { family_id?: string } },
     @Param('id') childId: string,
@@ -115,7 +118,9 @@ export class ParentController {
     return this.parentService.getChildResults(familyId, childId);
   }
 
+  // 404s while the competitions module is flagged off (TEM-15).
   @Get('children/:id/personal-bests')
+  @UseGuards(CompetitionsEnabledGuard)
   async getChildPersonalBests(
     @Request() req: { user?: { family_id?: string } },
     @Param('id') childId: string,

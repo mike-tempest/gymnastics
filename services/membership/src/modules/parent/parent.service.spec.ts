@@ -412,6 +412,53 @@ describe('ParentService', () => {
     });
   });
 
+  describe('with the competitions module flagged off (TEM-15)', () => {
+    // ParentModule omits the CompetitionResult repository and
+    // CompetitionsModule when ENABLE_COMPETITIONS is not 'true', so the
+    // service must compile without them and 404 the two results methods.
+    let gatedService: ParentService;
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          ParentService,
+          TenantScopedHelper,
+          TenantContextService,
+          { provide: ClsService, useValue: cls },
+          { provide: getRepositoryToken(Family), useValue: mockFamilyRepository },
+          { provide: getRepositoryToken(Swimmer), useValue: mockSwimmersRepository },
+          { provide: getRepositoryToken(Session), useValue: mockSessionsRepository },
+          { provide: getRepositoryToken(Invoice), useValue: mockInvoicesRepository },
+          { provide: getRepositoryToken(Attendance), useValue: mockAttendanceRepository },
+          { provide: getRepositoryToken(Payment), useValue: mockPaymentRepository },
+          { provide: getRepositoryToken(DirectDebitMandate), useValue: mockMandateRepository },
+          { provide: GoCardlessService, useValue: mockGoCardlessService },
+          { provide: ClubsRepository, useValue: mockClubsRepository },
+        ],
+      }).compile();
+
+      gatedService = module.get<ParentService>(ParentService);
+    });
+
+    it('boots without the competitions providers', () => {
+      expect(gatedService).toBeDefined();
+    });
+
+    it('404s getChildResults instead of failing at DI time', async () => {
+      await expect(gatedService.getChildResults(familyId, childId)).rejects.toThrow(
+        NotFoundException,
+      );
+      expect(mockSwimmersRepository.findOne).not.toHaveBeenCalled();
+    });
+
+    it('404s getChildPersonalBests instead of failing at DI time', async () => {
+      await expect(gatedService.getChildPersonalBests(familyId, childId)).rejects.toThrow(
+        NotFoundException,
+      );
+      expect(mockPersonalBestsService.getForSwimmer).not.toHaveBeenCalled();
+    });
+  });
+
   describe('getInvoices', () => {
     it('should return all invoices for a family', async () => {
       mockInvoicesRepository.find.mockResolvedValue([mockInvoice]);

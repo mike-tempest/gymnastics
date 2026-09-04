@@ -13,6 +13,7 @@ import { GoCardlessModule } from '../gocardless/gocardless.module';
 import { InvoicePdfService } from '../finance/invoices/invoice-pdf.service';
 import { CompetitionsModule } from '../competitions/competitions.module';
 import { CompetitionResult } from '../competitions/entities/competition-result.entity';
+import { competitionsEnabled } from '../../common/features/competitions.feature';
 
 @Module({
   imports: [
@@ -24,10 +25,12 @@ import { CompetitionResult } from '../competitions/entities/competition-result.e
       Family,
       Payment,
       DirectDebitMandate,
-      CompetitionResult,
+      // Only registered while the competitions module is on (TEM-15); the
+      // matching providers in ParentService are @Optional() for the off case.
+      ...(competitionsEnabled() ? [CompetitionResult] : []),
     ]),
     GoCardlessModule,
-    CompetitionsModule,
+    ...(competitionsEnabled() ? [CompetitionsModule] : []),
   ],
   controllers: [ParentController],
   // InvoicePdfService is a stateless renderer whose only dependency

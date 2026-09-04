@@ -36,6 +36,7 @@ import { signOut } from 'next-auth/react';
 import { useState, useEffect, useMemo } from 'react';
 
 import { useClubRegion } from '@/hooks/useClubRegion';
+import { isCompetitionsEnabled } from '@/lib/features';
 import { useRole, isAdmin, isCoach, isParent } from '@/lib/hooks/useRole';
 
 interface NavItem {
@@ -72,7 +73,10 @@ const allNavEntries: NavEntry[] = [
     ],
   },
   { name: 'Attendance', href: '/attendance', icon: CheckSquare },
-  { name: 'Competitions', href: '/competitions', icon: Trophy },
+  // Swimming times/strokes module, feature-flagged off by default (TEM-15).
+  ...(isCompetitionsEnabled()
+    ? [{ name: 'Competitions', href: '/competitions', icon: Trophy }]
+    : []),
   {
     name: 'Billing',
     icon: CreditCard,
@@ -116,7 +120,8 @@ const COACH_NAV_NAMES = new Set([
   'Sessions',
   'Communications',
   'Attendance',
-  'Competitions',
+  // Swimming times/strokes module, feature-flagged off by default (TEM-15).
+  ...(isCompetitionsEnabled() ? ['Competitions'] : []),
 ]);
 
 // Parent navigation (entirely separate set of routes)

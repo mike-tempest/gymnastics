@@ -17,6 +17,7 @@ import {
   fetchSwimmerResults,
   fetchSwimmerSchedule,
 } from '@/lib/api/parent';
+import { isCompetitionsEnabled } from '@/lib/features';
 
 function formatTime(time: string): string {
   return time.slice(0, 5);
@@ -357,20 +358,22 @@ export default function ChildDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Times and Personal Bests */}
-        <div className="bg-dark-primary rounded-card shadow-card border border-white/10 mb-8">
-          <div className="p-4 md:p-6 border-b border-white/10">
-            <h2 className="font-serif text-2xl text-white">Times and personal bests</h2>
+        {/* Times and Personal Bests: swimming times, feature-flagged off by default (TEM-15) */}
+        {isCompetitionsEnabled() && (
+          <div className="bg-dark-primary rounded-card shadow-card border border-white/10 mb-8">
+            <div className="p-4 md:p-6 border-b border-white/10">
+              <h2 className="font-serif text-2xl text-white">Times and personal bests</h2>
+            </div>
+            <div className="p-4 md:p-6">
+              <PersonalBests
+                swimmerId={id}
+                fetchPersonalBests={fetchSwimmerPersonalBests}
+                fetchResults={fetchSwimmerResults}
+                emptyMessage="No competition times recorded yet. Times will appear here after their first gala, time trial or meet."
+              />
+            </div>
           </div>
-          <div className="p-4 md:p-6">
-            <PersonalBests
-              swimmerId={id}
-              fetchPersonalBests={fetchSwimmerPersonalBests}
-              fetchResults={fetchSwimmerResults}
-              emptyMessage="No competition times recorded yet. Times will appear here after their first gala, time trial or meet."
-            />
-          </div>
-        </div>
+        )}
 
         {/* Progress Notes */}
         <div className="bg-dark-primary rounded-card shadow-card border border-white/10">
