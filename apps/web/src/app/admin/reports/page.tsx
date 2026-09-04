@@ -23,12 +23,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import { useClubRegion } from '@/hooks/useClubRegion';
 import { useFormatters } from '@/hooks/useFormatters';
 import { getAdminDashboard, type DashboardStats } from '@/lib/api/admin';
 import { getInvoices, type InvoiceWithDetails } from '@/lib/api/finance';
 import { getAdminReports, type AdminReportsData } from '@/lib/api/reports';
 import { BRAND } from '@/lib/brand';
-import { useClubSettings } from '@/lib/hooks';
 
 // ---------------------------------------------------------------------------
 // Colour palette for squads
@@ -80,8 +80,8 @@ function StatCard({
 
 export default function ReportsPage() {
   const { formatDate } = useFormatters();
-  const { data: clubSettings } = useClubSettings();
-  const clubDisplayName = clubSettings?.club_name || BRAND.name;
+  const { club } = useClubRegion();
+  const clubDisplayName = club?.name || BRAND.name;
   const [dashboard, setDashboard] = useState<DashboardStats | null>(null);
   const [reports, setReports] = useState<AdminReportsData | null>(null);
   const [pendingInvoices, setPendingInvoices] = useState<InvoiceWithDetails[]>([]);

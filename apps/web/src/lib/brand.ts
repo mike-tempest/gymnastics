@@ -8,13 +8,17 @@
  * JSON files cannot import this module, so apps/web/public/manifest.json
  * and apps/web/public/site.webmanifest must be kept in sync by hand.
  */
+const PRODUCT_NAME = 'Club Manager';
+
 export const BRAND = {
   /** Product name shown in headings, wordmarks and body copy. */
-  name: 'Club Manager',
+  name: PRODUCT_NAME,
   /** Meta description for the app shell. */
   description: 'Club management platform for sports clubs',
   /** Alt text for the product logo image. */
-  logoAlt: 'Club Manager',
-  /** Copyright line rendered in page footers. */
-  copyright: `${new Date().getFullYear()} Club Manager. All rights reserved.`,
+  logoAlt: PRODUCT_NAME,
+  /** Copyright line rendered in page footers; the year resolves at render time. */
+  get copyright(): string {
+    return `${new Date().getFullYear()} ${PRODUCT_NAME}. All rights reserved.`;
+  },
 } as const;

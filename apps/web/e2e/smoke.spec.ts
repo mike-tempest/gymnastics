@@ -17,7 +17,8 @@ test.describe('Public Pages', () => {
     expect(page.url()).toContain('/login');
     
     // Verify some expected content is present
-    await expect(page).toHaveTitle(new RegExp(`${BRAND.name}|Login`, 'i'));
+    const escapedBrand = BRAND.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    await expect(page).toHaveTitle(new RegExp(`${escapedBrand}|Login`, 'i'));
   });
 });
 
