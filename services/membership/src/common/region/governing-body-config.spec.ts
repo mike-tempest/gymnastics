@@ -112,6 +112,37 @@ describe('GOVERNING_BODY_CONFIG', () => {
     expect(au.safeguardingFramework).toBe('Safe Sport');
     expect(au.safeguardingOfficerLabel).toBe('Member Protection Information Officer (MPIO)');
   });
+
+  it('models British Gymnastics per the compliance brief', () => {
+    const bg = GOVERNING_BODY_CONFIG[GoverningBody.BRITISH_GYMNASTICS];
+    expect(bg.label).toBe('British Gymnastics');
+    expect(bg.country).toBe('GB');
+    expect(bg.registrationNumberLabel).toBe('BG membership number');
+    expect(bg.backgroundCheckFramework).toBe('DBS');
+    expect(bg.backgroundCheckShortLabel).toBe('DBS');
+    expect(bg.certificateNumberLabel).toBe('Certificate number');
+    expect(bg.safeguardingFramework).toBe('Safeguarding and Protecting Children Policy');
+    expect(bg.safeguardingOfficerLabel).toBe('Welfare Officer');
+    expect(bg.dataSharingRecipient).toBe('British Gymnastics');
+    // DBS types for England and Wales, plus the Scottish and Northern Irish
+    // home-nation schemes.
+    expect(bg.backgroundCheckTypes.map((t) => t.label)).toEqual([
+      'Basic DBS Check',
+      'Standard DBS Check',
+      'Enhanced DBS Check',
+      'Enhanced DBS Check with Barred Lists',
+      'PVG Scheme Membership (Scotland)',
+      'AccessNI Check (Northern Ireland)',
+    ]);
+    expect(bg.backgroundCheckTypes.map((t) => t.value)).toEqual([
+      BackgroundCheckType.BASIC,
+      BackgroundCheckType.STANDARD,
+      BackgroundCheckType.ENHANCED,
+      BackgroundCheckType.ENHANCED_BARRED,
+      BackgroundCheckType.BACKGROUND_CHECK,
+      BackgroundCheckType.CRIMINAL_RECORD_CHECK,
+    ]);
+  });
 });
 
 describe('AU_STATES', () => {
@@ -170,11 +201,12 @@ describe('orderedBackgroundCheckTypes', () => {
 });
 
 describe('UK_GOVERNING_BODIES', () => {
-  it('contains exactly the three UK bodies', () => {
+  it('contains exactly the four UK bodies', () => {
     expect(UK_GOVERNING_BODIES).toEqual([
       GoverningBody.SWIM_ENGLAND,
       GoverningBody.SCOTTISH_SWIMMING,
       GoverningBody.SWIM_WALES,
+      GoverningBody.BRITISH_GYMNASTICS,
     ]);
   });
 });
@@ -193,6 +225,18 @@ describe('COUNTRY_GOVERNING_BODIES', () => {
     expect(defaultGoverningBodyForCountry(undefined)).toBe(GoverningBody.SWIM_ENGLAND);
   });
 
+  it('lists British Gymnastics for GB clubs after the swimming bodies', () => {
+    expect(COUNTRY_GOVERNING_BODIES.GB).toEqual([
+      GoverningBody.SWIM_ENGLAND,
+      GoverningBody.SCOTTISH_SWIMMING,
+      GoverningBody.SWIM_WALES,
+      GoverningBody.BRITISH_GYMNASTICS,
+    ]);
+    // The GB default stays pinned to Swim England: defaultGoverningBodyForCountry
+    // returns the first entry, so British Gymnastics must be appended last.
+    expect(defaultGoverningBodyForCountry('GB')).toBe(GoverningBody.SWIM_ENGLAND);
+  });
+
   it('only lists bodies whose config country matches', () => {
     for (const [country, bodies] of Object.entries(COUNTRY_GOVERNING_BODIES)) {
       for (const body of bodies) {
@@ -205,6 +249,7 @@ describe('COUNTRY_GOVERNING_BODIES', () => {
 describe('governingBodyConfig', () => {
   it('returns the matching config for a valid body string', () => {
     expect(governingBodyConfig('USA_SWIMMING').label).toBe('USA Swimming');
+    expect(governingBodyConfig('BRITISH_GYMNASTICS').label).toBe('British Gymnastics');
   });
 
   it('falls back to Swim England for null, undefined or unknown values', () => {

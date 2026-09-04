@@ -45,8 +45,8 @@ describe('SwimmerModal governing-body region filtering', () => {
 
     await waitFor(() => {
       const options = within(governingBodySelect()).getAllByRole('option');
-      // Placeholder plus the three GB bodies.
-      expect(options).toHaveLength(4);
+      // Placeholder plus the four GB bodies.
+      expect(options).toHaveLength(5);
     });
 
     const optionText = within(governingBodySelect())
@@ -55,6 +55,7 @@ describe('SwimmerModal governing-body region filtering', () => {
     expect(optionText).toContain('Swim England');
     expect(optionText).toContain('Scottish Swimming');
     expect(optionText).toContain('Swim Wales');
+    expect(optionText).toContain('British Gymnastics');
     expect(optionText).not.toContain('USA Swimming');
   });
 
@@ -65,7 +66,7 @@ describe('SwimmerModal governing-body region filtering', () => {
 
     await waitFor(() => {
       const options = within(governingBodySelect()).getAllByRole('option');
-      expect(options).toHaveLength(4);
+      expect(options).toHaveLength(5);
     });
 
     const optionText = within(governingBodySelect())

@@ -168,6 +168,7 @@ export enum GoverningBody {
   USA_SWIMMING = 'USA_SWIMMING',
   SWIMMING_CANADA = 'SWIMMING_CANADA',
   SWIMMING_AUSTRALIA = 'SWIMMING_AUSTRALIA',
+  BRITISH_GYMNASTICS = 'BRITISH_GYMNASTICS',
 }
 
 // Human-readable labels for each governing body
@@ -179,6 +180,7 @@ export const GOVERNING_BODY_LABELS: Record<GoverningBody, string> = {
   [GoverningBody.USA_SWIMMING]: 'USA Swimming',
   [GoverningBody.SWIMMING_CANADA]: 'Swimming Canada',
   [GoverningBody.SWIMMING_AUSTRALIA]: 'Swimming Australia',
+  [GoverningBody.BRITISH_GYMNASTICS]: 'British Gymnastics',
 };
 
 // Background check type. GB values predate the international ones and must
@@ -444,11 +446,44 @@ export const GOVERNING_BODY_CONFIG: Record<GoverningBody, GoverningBodyConfig> =
     safeguardingOfficerLabel: 'Member Protection Information Officer (MPIO)',
     dataSharingRecipient: 'Swimming Australia',
   },
+  [GoverningBody.BRITISH_GYMNASTICS]: {
+    label: 'British Gymnastics',
+    country: 'GB',
+    registrationNumberLabel: 'BG membership number',
+    // "DBS" is the England and Wales framework and the shorthand BG itself
+    // uses; Scotland (PVG) and Northern Ireland (AccessNI) appear as their
+    // own check types below so clubs in every home nation record the right
+    // scheme.
+    backgroundCheckFramework: 'DBS',
+    backgroundCheckShortLabel: 'DBS',
+    certificateNumberLabel: 'Certificate number',
+    backgroundCheckTypes: [
+      ...DBS_CHECK_TYPES,
+      {
+        value: BackgroundCheckType.BACKGROUND_CHECK,
+        label: 'PVG Scheme Membership (Scotland)',
+      },
+      {
+        value: BackgroundCheckType.CRIMINAL_RECORD_CHECK,
+        label: 'AccessNI Check (Northern Ireland)',
+      },
+    ],
+    // BG has no Wavepower-style brand: the governing policy document sits
+    // under BG's "Safe & Fair Sport" programme.
+    safeguardingFramework: 'Safeguarding and Protecting Children Policy',
+    safeguardingOfficerLabel: 'Welfare Officer',
+    dataSharingRecipient: 'British Gymnastics',
+  },
 };
 
 /** Governing bodies available to clubs in each supported country. */
 export const COUNTRY_GOVERNING_BODIES: Record<string, GoverningBody[]> = {
-  GB: [GoverningBody.SWIM_ENGLAND, GoverningBody.SCOTTISH_SWIMMING, GoverningBody.SWIM_WALES],
+  GB: [
+    GoverningBody.SWIM_ENGLAND,
+    GoverningBody.SCOTTISH_SWIMMING,
+    GoverningBody.SWIM_WALES,
+    GoverningBody.BRITISH_GYMNASTICS,
+  ],
   IE: [GoverningBody.SWIM_IRELAND],
   US: [GoverningBody.USA_SWIMMING],
   CA: [GoverningBody.SWIMMING_CANADA],
@@ -469,11 +504,17 @@ export function governingBodyConfig(body?: GoverningBody | string | null): Gover
   return GOVERNING_BODY_CONFIG[GoverningBody.SWIM_ENGLAND];
 }
 
-/** Governing bodies on UK background-check regimes (7-digit SE-style numbers). */
+/**
+ * Governing bodies on UK background-check regimes. Data-import applies the
+ * strict 7-digit SE-style registration-number format to every body listed
+ * here; the British Gymnastics membership number format is unverified, so
+ * relax that gate for BG once the real format is confirmed.
+ */
 export const UK_GOVERNING_BODIES: GoverningBody[] = [
   GoverningBody.SWIM_ENGLAND,
   GoverningBody.SCOTTISH_SWIMMING,
   GoverningBody.SWIM_WALES,
+  GoverningBody.BRITISH_GYMNASTICS,
 ];
 
 /**

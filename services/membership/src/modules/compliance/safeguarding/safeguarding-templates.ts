@@ -163,6 +163,55 @@ const SWIMMING_AUSTRALIA_TEMPLATE: SafeguardingChecklistTemplateItem[] = [
 ];
 
 /**
+ * British Gymnastics checklist. BG publishes no Wavepower-style branded
+ * suite: the governing document is the Safeguarding and Protecting Children
+ * Policy, sitting under BG's "Safe & Fair Sport" programme. Every registered
+ * club must nominate a Welfare Officer, and criminal record checks are
+ * administered through British Gymnastics using the home-nation scheme (DBS
+ * in England and Wales, PVG in Scotland, AccessNI in Northern Ireland).
+ */
+const BRITISH_GYMNASTICS_TEMPLATE: SafeguardingChecklistTemplateItem[] = [
+  {
+    requirement: 'Safeguarding and Protecting Children Policy Review',
+    description:
+      'Annual review and acknowledgement of the British Gymnastics Safeguarding and Protecting Children Policy under Safe & Fair Sport',
+  },
+  {
+    requirement: 'Welfare Officer Appointment',
+    description: 'Nominated Welfare Officer appointed and contact details published to members',
+  },
+  {
+    requirement: 'Criminal Record Checks for All Coaches',
+    description:
+      'Criminal record checks (DBS, PVG or AccessNI as applicable) completed through British Gymnastics for all coaches and volunteers working with children',
+  },
+  {
+    requirement: 'Safeguarding Training Completion',
+    description:
+      'All coaches and committee members to complete British Gymnastics safeguarding training',
+  },
+  {
+    requirement: 'Photography and Filming Consent',
+    description:
+      'Parental consent obtained for photography and filming at training and competitions',
+  },
+  {
+    requirement: 'Changing Room Supervision Policy',
+    description: 'Clear policy in place for changing-room supervision and adult-to-child ratios',
+  },
+  {
+    requirement: 'Incident Reporting Procedure',
+    description:
+      'Documented procedure for reporting safeguarding concerns and incidents to the British Gymnastics Safe & Fair Sport team',
+  },
+  {
+    requirement: 'Code of Conduct Acknowledgement',
+    description:
+      'All members, parents, and coaches to sign and acknowledge the club Code of Conduct',
+  },
+];
+
+/**
  * Generic template for governing bodies without a hand-authored checklist.
  * The framework name and label come from the body's config, so each body
  * reports its own safeguarding framework, background-check regime and name.
@@ -209,11 +258,11 @@ function genericTemplate(body: GoverningBody): SafeguardingChecklistTemplateItem
 
 /**
  * Returns the safeguarding checklist template for a governing body. Swim
- * England, USA Swimming and Swimming Australia have hand-authored lists;
- * every other body gets a generic list adapted to its own framework and
- * label. An unknown or null body falls back to Swim England, matching
- * governingBodyConfig's fallback. Templates seed persisted rows per club on
- * first read, so changes affect newly seeded clubs only.
+ * England, USA Swimming, Swimming Australia and British Gymnastics have
+ * hand-authored lists; every other body gets a generic list adapted to its
+ * own framework and label. An unknown or null body falls back to Swim
+ * England, matching governingBodyConfig's fallback. Templates seed persisted
+ * rows per club on first read, so changes affect newly seeded clubs only.
  */
 export function getSafeguardingTemplate(
   body?: GoverningBody | string | null,
@@ -225,6 +274,8 @@ export function getSafeguardingTemplate(
       return USA_SWIMMING_TEMPLATE;
     case GoverningBody.SWIMMING_AUSTRALIA:
       return SWIMMING_AUSTRALIA_TEMPLATE;
+    case GoverningBody.BRITISH_GYMNASTICS:
+      return BRITISH_GYMNASTICS_TEMPLATE;
     case GoverningBody.SCOTTISH_SWIMMING:
     case GoverningBody.SWIM_WALES:
     case GoverningBody.SWIM_IRELAND:
