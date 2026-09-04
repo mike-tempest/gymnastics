@@ -1,0 +1,76 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+.nyc_output
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Production
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment variables
+.env
+.env*.local
+.env.production
+
+# Secrets
+.jwt_secret
+
+# OS
+.DS_Store
+*.pem
+Thumbs.db
+
+# Debug
+*.tsbuildinfo
+.eslintcache
+
+# IDEs
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Turbo
+.turbo
+
+# Docker
+*.log
+
+.claude
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+tests/e2e/node_modules/
+
+# Prod env snapshots (multi-tenancy rollout)
+.env.railway-prod
+*.env.railway-prod
+
+# Env backups (may contain secrets, never commit)
+.env.backup*
+*.env.backup*
+.env.local.backup*
+
+# Generated activity dashboards (contain customer email addresses)
+reports/activity-dashboard*.html

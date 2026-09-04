@@ -1,0 +1,228 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { ArrowRight, Users, CalendarDays, CreditCard, CheckCircle } from "@lucide/astro";
+
+const title = "Swim Club Season Setup Guide: Squads, Schedules, Fees | Swimly";
+const description =
+  "Get your swimming club set up before the September season starts: squads first, then schedules, then fees. A practical order of work for committee volunteers.";
+
+const faqItems = [
+  {
+    question: "When should a UK swimming club start setting up for the new season?",
+    answer:
+      "August. Most UK clubs restart training in early September, and the setup work (confirming squads, agreeing schedules, and communicating fees) takes a few weeks when it depends on volunteers, pool operators, and committee sign-off. Starting in August means the first week back is about swimming, not admin.",
+  },
+  {
+    question: "What order should we set things up in?",
+    answer:
+      "Squads first, then schedules, then fees. Schedules depend on which squads exist and how many swimmers are in each, and fees usually differ by squad. Doing it in this order means you never have to redo work: each step builds on the one before it.",
+  },
+  {
+    question: "Do we need to have squad moves finished before setting the schedule?",
+    answer:
+      "You need squad definitions and rough numbers, not a final swimmer-by-squad list. The schedule is driven by how many lanes and hours each squad needs. Individual moves can continue into September, but changing the squad structure after pool time is booked means renegotiating with the pool.",
+  },
+  {
+    question: "When should we tell parents about fees for the new season?",
+    answer:
+      "Before the first payment is collected, with enough notice for questions. A short note stating each squad's fee, what it covers, and when the first collection happens avoids most of the September inbox. If fees have changed, say so plainly and explain why.",
+  },
+];
+---
+
+<Layout title={title} description={description} faqItems={faqItems}>
+  <Nav />
+  <main>
+    <!-- Hero -->
+    <section class="relative pt-32 pb-12 sm:pt-40 sm:pb-16 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none" aria-hidden="true"></div>
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="eyebrow">Season setup guide</p>
+        <h1 class="font-display text-4xl sm:text-5xl leading-tight text-[#0F2D2D] mt-5">
+          Set your club up <em>before</em> September
+        </h1>
+        <p class="mt-5 text-lg text-ink-soft max-w-2xl mx-auto leading-relaxed">
+          Most UK clubs are back in the water in early September. The clubs that
+          have a calm first week back are the ones that did the setup in August,
+          in the right order: squads first, then schedules, then fees.
+        </p>
+      </div>
+    </section>
+
+    <!-- Why the order matters -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Why the order matters</h2>
+      <p class="text-ink-soft leading-relaxed mb-4">
+        Season setup goes wrong in a predictable way: someone books pool time
+        before squad sizes are known, or announces fees before the schedule is
+        agreed, and then everything gets redone twice. Each piece depends on the
+        one before it.
+      </p>
+      <ul class="space-y-3 text-ink-soft leading-relaxed">
+        <li class="flex items-start gap-2.5">
+          <CheckCircle class="w-5 h-5 text-mint-ink mt-0.5 shrink-0" />
+          <span><strong class="text-[#0F2D2D]">Schedules depend on squads.</strong> How much pool time you need, and in which lanes, follows from which squads exist and how many swimmers each holds.</span>
+        </li>
+        <li class="flex items-start gap-2.5">
+          <CheckCircle class="w-5 h-5 text-mint-ink mt-0.5 shrink-0" />
+          <span><strong class="text-[#0F2D2D]">Fees depend on both.</strong> Most clubs charge by squad, and the fee has to reflect the training the squad actually gets.</span>
+        </li>
+        <li class="flex items-start gap-2.5">
+          <CheckCircle class="w-5 h-5 text-mint-ink mt-0.5 shrink-0" />
+          <span><strong class="text-[#0F2D2D]">Parents only need to hear it once.</strong> One clear message in late August (your squad, your sessions, your fee) beats a month of corrections.</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Step 1: Squads -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center">
+          <Users class="w-5 h-5 text-mint-ink" />
+        </div>
+        <p class="eyebrow">Step 1</p>
+      </div>
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Squads first</h2>
+      <p class="text-ink-soft leading-relaxed mb-4">
+        Before anything else, agree the squad structure for the season with your
+        head coach. For each squad, write down four things:
+      </p>
+      <ul class="list-disc pl-6 space-y-2 text-ink-soft leading-relaxed mb-4">
+        <li>What the squad is for (development, age group, performance, masters, learn to swim).</li>
+        <li>Roughly how many swimmers it will hold, and the entry criteria or expected move-up path.</li>
+        <li>Who coaches it.</li>
+        <li>How many sessions a week it trains.</li>
+      </ul>
+      <p class="text-ink-soft leading-relaxed mb-4">
+        Then place swimmers. You do not need every move finalised in August, but
+        you do need rough numbers per squad, because that is what drives the
+        schedule. Handle the sensitive conversations (swimmers moving down, or
+        not moving up) personally and early, not via a published list.
+      </p>
+      <p class="text-ink-soft leading-relaxed">
+        In Swimly, squads are the first thing you create, and everything else
+        (sessions, registers, fees) hangs off them. See
+        <a href="/features/membership/" class="text-mint-ink font-medium hover:underline">membership and squads</a>.
+      </p>
+    </section>
+
+    <!-- Step 2: Schedules -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center">
+          <CalendarDays class="w-5 h-5 text-mint-ink" />
+        </div>
+        <p class="eyebrow">Step 2</p>
+      </div>
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Then schedules</h2>
+      <p class="text-ink-soft leading-relaxed mb-4">
+        With squads agreed, turn pool time into a weekly timetable. Confirm your
+        hours with the pool operator first; term-time patterns, galas, and
+        school events all move sessions, so pin down the exceptions as well as
+        the routine.
+      </p>
+      <ul class="list-disc pl-6 space-y-2 text-ink-soft leading-relaxed mb-4">
+        <li>Map each squad's sessions to days, times, and lanes.</li>
+        <li>Work to your term dates: agree when the season starts and when breaks fall.</li>
+        <li>Note which sessions clash with galas or pool closures you already know about.</li>
+        <li>Publish the timetable to parents before the first week back.</li>
+      </ul>
+      <p class="text-ink-soft leading-relaxed">
+        Once the timetable exists, registers follow from it: every session
+        becomes something a coach can take attendance against from a phone,
+        poolside. See <a href="/features/attendance/" class="text-mint-ink font-medium hover:underline">sessions and attendance</a>.
+      </p>
+    </section>
+
+    <!-- Step 3: Fees -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center">
+          <CreditCard class="w-5 h-5 text-mint-ink" />
+        </div>
+        <p class="eyebrow">Step 3</p>
+      </div>
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Then fees</h2>
+      <p class="text-ink-soft leading-relaxed mb-4">
+        Fees come last because they follow from the first two steps: what each
+        squad pays should reflect the training it gets. Before September:
+      </p>
+      <ul class="list-disc pl-6 space-y-2 text-ink-soft leading-relaxed mb-4">
+        <li>Set the fee for each squad, and decide how membership and swim
+        governance fees are handled alongside squad fees.</li>
+        <li>Decide the collection method. Direct Debit collects itself each
+        month; chasing bank transfers by hand is where treasurer evenings go.</li>
+        <li>Tell parents before the first collection: the amount, what it
+        covers, and the collection date. If fees changed over the summer, say
+        so plainly.</li>
+        <li>Agree how you will handle the awkward cases up front: siblings,
+        mid-term joiners, and swimmers who leave.</li>
+      </ul>
+      <p class="text-ink-soft leading-relaxed">
+        Swimly generates invoices from your squad fee structure and collects by
+        Direct Debit, so September's fees do not depend on anyone's spare
+        evenings. See <a href="/swimming-club-billing-software/" class="text-mint-ink font-medium hover:underline">billing for swimming clubs</a>.
+      </p>
+    </section>
+
+    <!-- Checklist -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">The August checklist</h2>
+      <div class="rounded-2xl bg-surface-raised border border-[#39393A]/10 p-6 sm:p-8">
+        <ol class="list-decimal pl-6 space-y-3 text-ink-soft leading-relaxed">
+          <li>Agree the squad structure and coaching assignments with the head coach.</li>
+          <li>Place swimmers into squads, handling move conversations personally.</li>
+          <li>Confirm pool hours and term dates with the pool operator.</li>
+          <li>Build and publish the weekly timetable per squad.</li>
+          <li>Set squad fees and the collection method.</li>
+          <li>Send one clear message to parents: squad, sessions, fee, first collection date.</li>
+          <li>Check safeguarding basics for the new season: DBS status for anyone new poolside, and welfare contact details on your comms.</li>
+        </ol>
+      </div>
+      <p class="mt-6 text-ink-soft leading-relaxed">
+        For the registration and handover side of the pre-season window, see our
+        companion piece:
+        <a href="/blog/new-season-setup-guide-swim-clubs/" class="text-mint-ink font-medium hover:underline">New Season Setup: Starting Your Swim Club Year Right</a>.
+      </p>
+    </section>
+
+    <!-- FAQ -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Season setup questions</h2>
+      <div class="space-y-6">
+        {faqItems.map((item) => (
+          <div class="rounded-2xl bg-surface-raised border border-[#39393A]/10 p-6">
+            <h3 class="font-semibold text-lg text-[#0F2D2D] mb-2">{item.question}</h3>
+            <p class="text-ink-soft leading-relaxed">{item.answer}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="pb-20 sm:pb-28 pt-8">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative rounded-[28px] bg-[#0F2D2D] px-6 py-14 sm:px-12 sm:py-16 text-center overflow-hidden">
+          <div class="ripple absolute -top-16 -right-16 w-56 h-56" aria-hidden="true"></div>
+          <h2 class="relative font-display text-3xl sm:text-4xl text-[#E6E6E6] mb-4">
+            Set up in an afternoon, not a month
+          </h2>
+          <p class="relative text-lg text-[#E6E6E6]/65 mb-8 max-w-xl mx-auto leading-relaxed">
+            Create your club, add your squads, build the timetable, and set the
+            fees. Free for clubs under 50 members, no card required.
+          </p>
+          <a
+            href="https://app.swimly.uk/create-club"
+            class="relative inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-lg bg-lime-cta text-[#0F2D2D] font-semibold hover:bg-lime-cta-hover transition-colors text-lg"
+          >
+            Start your club, free
+            <ArrowRight class="w-5 h-5" />
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

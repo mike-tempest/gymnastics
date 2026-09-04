@@ -1,0 +1,319 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #E6E6E6;
+  --bg-secondary: #F2F2F2;
+  --brand: #85FFC7;
+  --brand-dark: #5CE6A8;
+  --text-primary: #39393A;
+  --text-secondary: #6B6B6B;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+
+
+@layer base {
+  :root {
+    --background: 0 0% 90%;
+    --foreground: 240 1% 23%;
+    --card: 0 0% 95%;
+    --card-foreground: 240 1% 23%;
+    --popover: 0 0% 95%;
+    --popover-foreground: 240 1% 23%;
+    --primary: 180 47% 31%;
+    --primary-foreground: 0 0% 95%;
+    --secondary: 0 0% 90%;
+    --secondary-foreground: 240 1% 23%;
+    --muted: 0 0% 85%;
+    --muted-foreground: 0 0% 42%;
+    --accent: 152 100% 76%;
+    --accent-foreground: 240 1% 23%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 95%;
+    --border: 0 0% 80%;
+    --input: 0 0% 80%;
+    --ring: 152 100% 76%;
+    --chart-1: 18 100% 66%;
+    --chart-2: 180 47% 31%;
+    --chart-3: 152 100% 76%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 0 0% 42%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 180 52% 15%;
+    --foreground: 0 0% 90%;
+    --card: 180 47% 31%;
+    --card-foreground: 0 0% 90%;
+    --popover: 180 47% 31%;
+    --popover-foreground: 0 0% 90%;
+    --primary: 152 100% 76%;
+    --primary-foreground: 180 52% 15%;
+    --secondary: 180 48% 22%;
+    --secondary-foreground: 0 0% 90%;
+    --muted: 180 48% 22%;
+    --muted-foreground: 0 0% 70%;
+    --accent: 18 100% 66%;
+    --accent-foreground: 0 0% 95%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 90%;
+    --border: 180 48% 22%;
+    --input: 180 48% 22%;
+    --ring: 152 100% 76%;
+    --chart-1: 152 100% 76%;
+    --chart-2: 18 100% 66%;
+    --chart-3: 43 74% 66%;
+    --chart-4: 0 0% 70%;
+    --chart-5: 180 46% 42%;
+  }
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  :focus-visible {
+    outline: 2px solid #85FFC7;
+    outline-offset: 2px;
+  }
+}
+
+/* Visible focus rings for inputs on dark backgrounds */
+@layer components {
+  .input-dark {
+    @apply w-full px-4 py-3 min-h-[44px] rounded-lg bg-dark-primary border border-grey-50/10 text-grey-50
+      focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-dark-primary focus:border-brand;
+  }
+}
+
+/* -----------------------------------------------------------------
+   Print styles -- layout
+   ----------------------------------------------------------------- */
+@page {
+  size: A4 portrait;
+  margin: 15mm 12mm 15mm 12mm;
+}
+
+@media print {
+  html {
+    font-size: 12pt;
+  }
+
+  body {
+    background: #F2F2F2 !important;
+    color: #39393A !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Hide sidebar and top bar */
+  [data-layout="sidebar"],
+  [data-layout="topbar"] {
+    display: none !important;
+  }
+
+  /* Remove flex / overflow constraints so content flows naturally */
+  [data-layout="root"] {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  [data-layout="content-column"] {
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  #main-content {
+    overflow: visible !important;
+  }
+
+  /* Utility: hide on print */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Utility: show only on print (pair with display:none in normal styles) */
+  .print-only {
+    display: block !important;
+  }
+
+  /* Default table styles for print */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  /* Prevent page breaks inside table rows and cards */
+  tr {
+    break-inside: avoid;
+  }
+
+  /* Links: show as plain text in print */
+  a {
+    color: #39393A !important;
+    text-decoration: none !important;
+  }
+
+  /* -----------------------------------------------------------------
+     Invoice-specific print styles
+     ----------------------------------------------------------------- */
+
+  /* Hide invoice action buttons and interactive elements */
+  button,
+  [role="button"],
+  .no-print {
+    display: none !important;
+  }
+
+  /* Hide breadcrumbs for cleaner invoice print */
+  nav[aria-label="Breadcrumb"] {
+    display: none !important;
+  }
+
+  /* Simplify invoice header for print */
+  h1 {
+    font-size: 24pt !important;
+    margin-bottom: 8pt !important;
+    color: #39393A !important;
+  }
+
+  h2 {
+    font-size: 16pt !important;
+    margin-top: 12pt !important;
+    margin-bottom: 6pt !important;
+    color: #39393A !important;
+  }
+
+  h3 {
+    font-size: 14pt !important;
+    margin-top: 10pt !important;
+    margin-bottom: 4pt !important;
+    color: #39393A !important;
+  }
+
+  /* Status badges: simplify for print */
+  span[class*="badge"],
+  span[class*="rounded-full"] {
+    border: 1px solid #39393A !important;
+    background: #F2F2F2 !important;
+    color: #39393A !important;
+    padding: 2pt 6pt !important;
+  }
+
+  /* Invoice cards and sections: remove dark backgrounds */
+  div[class*="bg-dark-primary"],
+  div[class*="bg-canvas"] {
+    background: #F2F2F2 !important;
+    border: 1px solid #CCCCCC !important;
+    box-shadow: none !important;
+  }
+
+  /* Tables: clear borders for print */
+  table thead {
+    border-bottom: 2pt solid #39393A !important;
+  }
+
+  table tbody tr {
+    border-bottom: 1pt solid #CCCCCC !important;
+  }
+
+  table tbody tr:last-child {
+    border-bottom: none !important;
+  }
+
+  table tfoot {
+    border-top: 2pt solid #39393A !important;
+    font-weight: bold !important;
+  }
+
+  table th,
+  table td {
+    padding: 6pt 8pt !important;
+    color: #39393A !important;
+  }
+
+  /* Invoice line items: ensure readability */
+  table th {
+    text-align: left !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    font-size: 10pt !important;
+    color: #525253 !important;
+  }
+
+  /* Payment summary: highlight totals */
+  div[class*="balance"],
+  div[class*="payment-summary"] {
+    border: 2pt solid #39393A !important;
+    padding: 8pt !important;
+    margin-top: 12pt !important;
+  }
+
+  /* Force total amounts to be bold and clear */
+  span[class*="font-bold"],
+  p[class*="font-bold"] {
+    font-weight: bold !important;
+    font-size: 14pt !important;
+  }
+
+  /* Payment history: simplify layout */
+  div[class*="payment-history"] > div {
+    border: 1px solid #CCCCCC !important;
+    background: #F2F2F2 !important;
+    padding: 6pt !important;
+    margin-bottom: 4pt !important;
+  }
+
+  /* Remove shadows and effects */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Ensure grid layouts stack for print */
+  div[class*="grid"] {
+    display: block !important;
+  }
+
+  div[class*="grid"] > div {
+    width: 100% !important;
+    margin-bottom: 8pt !important;
+  }
+
+  /* Page break control for long invoices */
+  .invoice-section {
+    break-inside: avoid !important;
+  }
+
+  /* Invoice details section */
+  div[class*="rounded-3xl"] {
+    border-radius: 0 !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Monetary values: ensure clarity */
+  span[class*="currency"],
+  span[class*="formatCurrency"] {
+    font-family: 'Courier New', monospace !important;
+    font-weight: bold !important;
+  }
+}

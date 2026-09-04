@@ -1,0 +1,308 @@
+{
+  "alabama": {
+    "name": "Alabama",
+    "abbr": "AL",
+    "slug": "alabama",
+    "largestCities": ["Huntsville", "Birmingham", "Montgomery", "Mobile", "Tuscaloosa"]
+  },
+  "alaska": {
+    "name": "Alaska",
+    "abbr": "AK",
+    "slug": "alaska",
+    "largestCities": ["Anchorage", "Fairbanks", "Juneau", "Wasilla", "Sitka"]
+  },
+  "arizona": {
+    "name": "Arizona",
+    "abbr": "AZ",
+    "slug": "arizona",
+    "largestCities": ["Phoenix", "Tucson", "Mesa", "Chandler", "Scottsdale"]
+  },
+  "arkansas": {
+    "name": "Arkansas",
+    "abbr": "AR",
+    "slug": "arkansas",
+    "largestCities": ["Little Rock", "Fayetteville", "Fort Smith", "Springdale", "Jonesboro"]
+  },
+  "california": {
+    "name": "California",
+    "abbr": "CA",
+    "slug": "california",
+    "largestCities": ["Los Angeles", "San Diego", "San Jose", "San Francisco", "Fresno", "Sacramento"]
+  },
+  "colorado": {
+    "name": "Colorado",
+    "abbr": "CO",
+    "slug": "colorado",
+    "largestCities": ["Denver", "Colorado Springs", "Aurora", "Fort Collins", "Boulder"]
+  },
+  "connecticut": {
+    "name": "Connecticut",
+    "abbr": "CT",
+    "slug": "connecticut",
+    "largestCities": ["Bridgeport", "New Haven", "Stamford", "Hartford", "Waterbury"]
+  },
+  "delaware": {
+    "name": "Delaware",
+    "abbr": "DE",
+    "slug": "delaware",
+    "largestCities": ["Wilmington", "Dover", "Newark", "Middletown", "Bear"]
+  },
+  "district-of-columbia": {
+    "name": "District of Columbia",
+    "abbr": "DC",
+    "slug": "district-of-columbia",
+    "largestCities": ["Washington"]
+  },
+  "florida": {
+    "name": "Florida",
+    "abbr": "FL",
+    "slug": "florida",
+    "largestCities": ["Jacksonville", "Miami", "Tampa", "Orlando", "St. Petersburg", "Fort Lauderdale"]
+  },
+  "georgia": {
+    "name": "Georgia",
+    "abbr": "GA",
+    "slug": "georgia",
+    "largestCities": ["Atlanta", "Augusta", "Columbus", "Savannah", "Athens"]
+  },
+  "hawaii": {
+    "name": "Hawaii",
+    "abbr": "HI",
+    "slug": "hawaii",
+    "largestCities": ["Honolulu", "Hilo", "Kailua", "Kapolei", "Pearl City"]
+  },
+  "idaho": {
+    "name": "Idaho",
+    "abbr": "ID",
+    "slug": "idaho",
+    "largestCities": ["Boise", "Meridian", "Nampa", "Idaho Falls", "Caldwell"]
+  },
+  "illinois": {
+    "name": "Illinois",
+    "abbr": "IL",
+    "slug": "illinois",
+    "largestCities": ["Chicago", "Aurora", "Naperville", "Joliet", "Rockford", "Springfield"]
+  },
+  "indiana": {
+    "name": "Indiana",
+    "abbr": "IN",
+    "slug": "indiana",
+    "largestCities": ["Indianapolis", "Fort Wayne", "Evansville", "Carmel", "South Bend"]
+  },
+  "iowa": {
+    "name": "Iowa",
+    "abbr": "IA",
+    "slug": "iowa",
+    "largestCities": ["Des Moines", "Cedar Rapids", "Davenport", "Sioux City", "Iowa City"]
+  },
+  "kansas": {
+    "name": "Kansas",
+    "abbr": "KS",
+    "slug": "kansas",
+    "largestCities": ["Wichita", "Overland Park", "Kansas City", "Olathe", "Topeka"]
+  },
+  "kentucky": {
+    "name": "Kentucky",
+    "abbr": "KY",
+    "slug": "kentucky",
+    "largestCities": ["Louisville", "Lexington", "Bowling Green", "Owensboro", "Covington"]
+  },
+  "louisiana": {
+    "name": "Louisiana",
+    "abbr": "LA",
+    "slug": "louisiana",
+    "largestCities": ["New Orleans", "Baton Rouge", "Shreveport", "Lafayette", "Lake Charles"]
+  },
+  "maine": {
+    "name": "Maine",
+    "abbr": "ME",
+    "slug": "maine",
+    "largestCities": ["Portland", "Lewiston", "Bangor", "South Portland", "Auburn"]
+  },
+  "maryland": {
+    "name": "Maryland",
+    "abbr": "MD",
+    "slug": "maryland",
+    "largestCities": ["Baltimore", "Columbia", "Germantown", "Silver Spring", "Frederick"]
+  },
+  "massachusetts": {
+    "name": "Massachusetts",
+    "abbr": "MA",
+    "slug": "massachusetts",
+    "largestCities": ["Boston", "Worcester", "Springfield", "Cambridge", "Lowell"]
+  },
+  "michigan": {
+    "name": "Michigan",
+    "abbr": "MI",
+    "slug": "michigan",
+    "largestCities": ["Detroit", "Grand Rapids", "Warren", "Sterling Heights", "Ann Arbor"]
+  },
+  "minnesota": {
+    "name": "Minnesota",
+    "abbr": "MN",
+    "slug": "minnesota",
+    "largestCities": ["Minneapolis", "Saint Paul", "Rochester", "Bloomington", "Duluth"]
+  },
+  "mississippi": {
+    "name": "Mississippi",
+    "abbr": "MS",
+    "slug": "mississippi",
+    "largestCities": ["Jackson", "Gulfport", "Southaven", "Hattiesburg", "Biloxi"]
+  },
+  "missouri": {
+    "name": "Missouri",
+    "abbr": "MO",
+    "slug": "missouri",
+    "largestCities": ["Kansas City", "St. Louis", "Springfield", "Columbia", "Independence"]
+  },
+  "montana": {
+    "name": "Montana",
+    "abbr": "MT",
+    "slug": "montana",
+    "largestCities": ["Billings", "Missoula", "Great Falls", "Bozeman", "Helena"]
+  },
+  "nebraska": {
+    "name": "Nebraska",
+    "abbr": "NE",
+    "slug": "nebraska",
+    "largestCities": ["Omaha", "Lincoln", "Bellevue", "Grand Island", "Kearney"]
+  },
+  "nevada": {
+    "name": "Nevada",
+    "abbr": "NV",
+    "slug": "nevada",
+    "largestCities": ["Las Vegas", "Henderson", "Reno", "North Las Vegas", "Sparks"]
+  },
+  "new-hampshire": {
+    "name": "New Hampshire",
+    "abbr": "NH",
+    "slug": "new-hampshire",
+    "largestCities": ["Manchester", "Nashua", "Concord", "Dover", "Rochester"]
+  },
+  "new-jersey": {
+    "name": "New Jersey",
+    "abbr": "NJ",
+    "slug": "new-jersey",
+    "largestCities": ["Newark", "Jersey City", "Paterson", "Elizabeth", "Trenton"]
+  },
+  "new-mexico": {
+    "name": "New Mexico",
+    "abbr": "NM",
+    "slug": "new-mexico",
+    "largestCities": ["Albuquerque", "Las Cruces", "Rio Rancho", "Santa Fe", "Roswell"]
+  },
+  "new-york": {
+    "name": "New York",
+    "abbr": "NY",
+    "slug": "new-york",
+    "largestCities": ["New York City", "Buffalo", "Rochester", "Yonkers", "Syracuse", "Albany"]
+  },
+  "north-carolina": {
+    "name": "North Carolina",
+    "abbr": "NC",
+    "slug": "north-carolina",
+    "largestCities": ["Charlotte", "Raleigh", "Greensboro", "Durham", "Winston-Salem"]
+  },
+  "north-dakota": {
+    "name": "North Dakota",
+    "abbr": "ND",
+    "slug": "north-dakota",
+    "largestCities": ["Fargo", "Bismarck", "Grand Forks", "Minot", "West Fargo"]
+  },
+  "ohio": {
+    "name": "Ohio",
+    "abbr": "OH",
+    "slug": "ohio",
+    "largestCities": ["Columbus", "Cleveland", "Cincinnati", "Toledo", "Akron", "Dayton"]
+  },
+  "oklahoma": {
+    "name": "Oklahoma",
+    "abbr": "OK",
+    "slug": "oklahoma",
+    "largestCities": ["Oklahoma City", "Tulsa", "Norman", "Broken Arrow", "Edmond"]
+  },
+  "oregon": {
+    "name": "Oregon",
+    "abbr": "OR",
+    "slug": "oregon",
+    "largestCities": ["Portland", "Salem", "Eugene", "Gresham", "Hillsboro", "Bend"]
+  },
+  "pennsylvania": {
+    "name": "Pennsylvania",
+    "abbr": "PA",
+    "slug": "pennsylvania",
+    "largestCities": ["Philadelphia", "Pittsburgh", "Allentown", "Erie", "Reading"]
+  },
+  "rhode-island": {
+    "name": "Rhode Island",
+    "abbr": "RI",
+    "slug": "rhode-island",
+    "largestCities": ["Providence", "Cranston", "Warwick", "Pawtucket", "East Providence"]
+  },
+  "south-carolina": {
+    "name": "South Carolina",
+    "abbr": "SC",
+    "slug": "south-carolina",
+    "largestCities": ["Charleston", "Columbia", "North Charleston", "Greenville", "Mount Pleasant"]
+  },
+  "south-dakota": {
+    "name": "South Dakota",
+    "abbr": "SD",
+    "slug": "south-dakota",
+    "largestCities": ["Sioux Falls", "Rapid City", "Aberdeen", "Brookings", "Watertown"]
+  },
+  "tennessee": {
+    "name": "Tennessee",
+    "abbr": "TN",
+    "slug": "tennessee",
+    "largestCities": ["Nashville", "Memphis", "Knoxville", "Chattanooga", "Clarksville"]
+  },
+  "texas": {
+    "name": "Texas",
+    "abbr": "TX",
+    "slug": "texas",
+    "largestCities": ["Houston", "San Antonio", "Dallas", "Austin", "Fort Worth", "El Paso"]
+  },
+  "utah": {
+    "name": "Utah",
+    "abbr": "UT",
+    "slug": "utah",
+    "largestCities": ["Salt Lake City", "West Valley City", "West Jordan", "Provo", "Orem"]
+  },
+  "vermont": {
+    "name": "Vermont",
+    "abbr": "VT",
+    "slug": "vermont",
+    "largestCities": ["Burlington", "Essex", "South Burlington", "Colchester", "Rutland"]
+  },
+  "virginia": {
+    "name": "Virginia",
+    "abbr": "VA",
+    "slug": "virginia",
+    "largestCities": ["Virginia Beach", "Chesapeake", "Norfolk", "Richmond", "Arlington"]
+  },
+  "washington": {
+    "name": "Washington",
+    "abbr": "WA",
+    "slug": "washington",
+    "largestCities": ["Seattle", "Spokane", "Tacoma", "Vancouver", "Bellevue"]
+  },
+  "west-virginia": {
+    "name": "West Virginia",
+    "abbr": "WV",
+    "slug": "west-virginia",
+    "largestCities": ["Charleston", "Huntington", "Morgantown", "Parkersburg", "Wheeling"]
+  },
+  "wisconsin": {
+    "name": "Wisconsin",
+    "abbr": "WI",
+    "slug": "wisconsin",
+    "largestCities": ["Milwaukee", "Madison", "Green Bay", "Kenosha", "Racine"]
+  },
+  "wyoming": {
+    "name": "Wyoming",
+    "abbr": "WY",
+    "slug": "wyoming",
+    "largestCities": ["Cheyenne", "Casper", "Laramie", "Gillette", "Rock Springs"]
+  }
+}

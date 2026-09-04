@@ -1,0 +1,372 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+
+// Region-only page on swimly.club. Self-canonical: no cross-region hreflang.
+// Commonwealth spelling, CAD, Swimming Canada. Parent-facing guide.
+const SITE = "https://swimly.club";
+const PATH = "/ca/guides/joining-a-swim-club-in-canada-parent-guide/";
+const canonical = `${SITE}${PATH}`;
+const contactEmail = "hello@swimly.club";
+
+const title = "Joining a Swim Club in Canada: A Parent's Guide | Swimly";
+const description =
+  "A reassuring, practical guide for Canadian parents on joining a swim club: how club swimming is structured, finding a club, registering through Swimming Canada and your provincial section, the season, costs, and gear.";
+
+const faqItems = [
+  {
+    question: "How do I join a swim club in Canada?",
+    answer:
+      "Find a club near you, contact them about programmes and openings, and complete the club's registration. Your swimmer is registered with the club, and the club in turn registers them with your provincial or territorial section and Swimming Canada. There is no separate sign-up you do directly with Swimming Canada; the club handles that step as part of joining.",
+  },
+  {
+    question: "What age can children start club swimming in Canada?",
+    answer:
+      "Most clubs start children once they are comfortable and reasonably safe in the water, often around five to seven years old, through a learn-to-swim or development group rather than competitive training. Age-group competition is then organised in bands such as 10 and under, 11 to 12, 13 to 14, 15 to 16, and 17 to 18. Each club sets its own entry points, so ask the club what suits your child.",
+  },
+  {
+    question: "Do swimmers have to register with Swimming Canada?",
+    answer:
+      "Yes, swimmers who train and compete with an affiliated club are registered with Swimming Canada through their provincial or territorial section, normally once each season. The club registrar completes this through the national registration system. Registration provides insurance cover and is what makes a swimmer eligible for sanctioned competitions. There is no unattached category for age-group swimmers, so registration goes hand in hand with joining a club.",
+  },
+  {
+    question: "How much does it cost to join a swim club in Canada?",
+    answer:
+      "Costs vary widely by club, province, training group, and how many hours your child swims, so ask each club for its current fees. Typically you should budget for club training fees, an annual registration fee that covers your provincial section and Swimming Canada, meet entry fees during the season, and gear. Many clubs can explain payment plans, and some offer financial assistance, so it is worth asking.",
+  },
+  {
+    question: "What does my child need for their first swim practice?",
+    answer:
+      "Very little to begin with: a well-fitting swimsuit, goggles, a towel, and a swim cap if the club asks for one. A water bottle and a bag for wet kit are useful. Hold off on buying training equipment such as fins or paddles until the coach tells you what the group uses, as clubs often provide it or have specific preferences.",
+  },
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/ca/` },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/ca/guides/` },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Joining a Swim Club in Canada: A Parent's Guide",
+      item: canonical,
+    },
+  ],
+};
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How to join a swim club in Canada",
+  description:
+    "The steps a parent takes to enrol a child in a Canadian swim club, from finding a club to completing registration.",
+  step: [
+    {
+      "@type": "HowToStep",
+      position: 1,
+      name: "Find a club near you",
+      text: "Use Swimming Canada's club finder or your provincial section's club list to find affiliated clubs within reach.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 2,
+      name: "Contact the club",
+      text: "Ask about programmes, the right group for your child's age and ability, openings, trial sessions, and fees.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 3,
+      name: "Try a session if you can",
+      text: "Many clubs offer a trial or assessment so your child can experience training before you commit.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 4,
+      name: "Complete registration",
+      text: "Sign up through the club. The club registers your swimmer with your provincial or territorial section and Swimming Canada for the season.",
+    },
+  ],
+};
+
+// Internal links point outward only, to the Canada pricing and features pages.
+const stages = [
+  {
+    heading: "Learn-to-swim and development",
+    body:
+      "Most children start here. The focus is water confidence, safety, and the basics of the four strokes, in a friendly group rather than hard training. It is the usual route into a club for younger or newer swimmers.",
+  },
+  {
+    heading: "Age-group squads",
+    body:
+      "As swimmers progress they move into age-group training, organised in bands such as 10 and under, 11 to 12, 13 to 14, and upward. Sessions become more regular and structured, and swimmers begin entering meets.",
+  },
+  {
+    heading: "Performance and senior",
+    body:
+      "Committed swimmers progress to senior and performance groups with more pool time and higher-level competition. Not every child takes this path, and that is completely normal. Plenty of swimmers stay in age-group swimming for the friendships and fitness.",
+  },
+];
+
+const budgetItems = [
+  {
+    heading: "Club training fees",
+    body:
+      "The main ongoing cost, usually billed monthly, by term, or by season depending on the club. The amount reflects how many hours a week the group trains.",
+  },
+  {
+    heading: "Registration fee",
+    body:
+      "An annual fee, collected by the club, that covers your provincial or territorial section and Swimming Canada. It includes insurance cover and competition eligibility.",
+  },
+  {
+    heading: "Meet entry fees",
+    body:
+      "Once a swimmer starts competing, each meet has entry fees, typically charged per event. These are usually modest individually but add up across a season.",
+  },
+  {
+    heading: "Gear and travel",
+    body:
+      "Swimsuits, goggles, and caps wear out, and you may add a club kit later. Some meets involve travel, so factor in petrol or transit and the occasional overnight stay.",
+  },
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonical={canonical}
+  imageUrl={`${SITE}/og-image.png`}
+  faqItems={faqItems}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(howToSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+
+  <header class="border-b border-hairline bg-canvas/85 backdrop-blur-xl">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-[68px]">
+        <a href="/ca/" class="font-display text-[26px] text-[#0F2D2D] tracking-tight leading-none">Swimly</a>
+        <a
+          href="/ca/pricing/"
+          class="text-[15px] font-bold px-5 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-colors min-h-12 inline-flex items-center shadow-[0_1px_3px_rgba(57,57,58,0.16)]"
+        >
+          See plans
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pb-16">
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section class="py-12">
+        <p class="eyebrow mb-3">Canada Guide</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          Joining a Swim Club in Canada: A Parent's Guide
+        </h1>
+        <p class="text-xl text-ink-soft leading-relaxed">
+          To join a swim club in Canada you find a club near you, contact them about programmes and openings, and
+          complete the club's registration. Your swimmer is then registered with your provincial or territorial section
+          and Swimming Canada through the club, normally once each season. That registration provides insurance cover
+          and makes your child eligible for sanctioned meets. If this is all new, do not worry. Clubs are used to
+          welcoming first-time families, and this guide walks you through what to expect.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How swimming is organised in Canada</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Competitive swimming in Canada is run by
+          <a href="https://www.swimming.ca/" rel="noopener" class="text-mint-ink font-semibold hover:underline">Swimming Canada</a>
+          at the national level, with day-to-day governance handled by provincial and territorial sections such as Swim
+          Ontario, Swim BC, and Swim Alberta. Your local club is affiliated with the section for your province, which is
+          in turn part of Swimming Canada. This structure is why joining a club automatically connects your swimmer to
+          the wider system.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Most clubs run a ladder of groups so a child can start gently and progress at their own pace. The names differ
+          from club to club, but the shape is usually similar.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">The path through a club</h2>
+        <div class="grid gap-6 sm:grid-cols-3">
+          {stages.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-6">
+          Age-group competition is grouped into bands, commonly 10 and under, 11 to 12, 13 to 14, 15 to 16, and 17 to
+          18, with senior and open categories above. This keeps children racing others of a similar age and stage. Your
+          child does not need to be fast to join. Clubs welcome swimmers across a wide range of abilities, and the early
+          groups are about learning and enjoyment far more than winning.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Finding a club</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The easiest starting point is Swimming Canada's
+          <a href="https://findaclub.swimming.ca/" rel="noopener" class="text-mint-ink font-semibold hover:underline">Find a Club</a>
+          tool, which lets you search for affiliated clubs by location. Your provincial section's website also keeps a
+          list of member clubs and is a good way to see what is available nearby.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          You can also browse the
+          <a href="/ca/clubs/" class="text-mint-ink font-semibold hover:underline">Swimly directory
+          of swim clubs and swim schools across Canada</a>, including a
+          <a href="/ca/clubs/map/" class="text-mint-ink font-semibold hover:underline">map view</a>
+          to see what is near you.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          When you contact a club, useful questions to ask include:
+        </p>
+        <ul class="space-y-3 text-lg text-ink-soft leading-relaxed list-disc pl-6">
+          <li>Which group would suit my child's age and ability, and is there space?</li>
+          <li>Where and when does that group train, and how many sessions a week?</li>
+          <li>Is there a trial or assessment session before we commit?</li>
+          <li>What are the fees, and how and when are they paid?</li>
+          <li>What does my child need to bring to start?</li>
+        </ul>
+        <p class="text-lg text-ink-soft leading-relaxed mt-4">
+          Clubs vary in size, philosophy, and how competitive they are, so it is worth speaking to more than one if you
+          can. A club where your child feels comfortable and the schedule fits family life matters more than reputation.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Registering: how it actually works</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          A point that surprises many new parents is that you do not register your child directly with Swimming Canada.
+          Swimmers register through their club. Once you sign up, the club registrar enters your swimmer into the
+          national registration system, which links them to your provincial or territorial section and to Swimming
+          Canada for the season. You can read more on the
+          <a href="https://www.swimming.ca/registration/" rel="noopener" class="text-mint-ink font-semibold hover:underline">Swimming Canada registration page</a>
+          and on your provincial section's site.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          A few things are worth knowing. Registration is normally annual and renews each season. It provides insurance
+          cover that is tied to membership, and it is what makes a swimmer eligible to enter sanctioned competitions.
+          There is no unattached or independent option for age-group swimmers, so being registered through a club is
+          part and parcel of taking part. Swimmers generally register with a club within their province of residence.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          In practice this means the paperwork is light on your side. You complete the club's joining forms and consent,
+          and the club takes care of the registration step behind the scenes. If anything is unclear, the club
+          registrar is the right person to ask.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">The season and meets</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The club swimming season generally runs from the autumn through to the spring, broadly following the school
+          year, with many clubs offering reduced or optional summer training. Within the season, training builds over
+          time, and swimmers in age-group groups start entering meets.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Meets range from friendly, club-level and regional events for newer swimmers up to provincial championships,
+          and nationally to events such as the Canadian Age Group Championships for those who reach the standards.
+          Early on, the goal is simply to experience racing and to chip away at personal best times rather than to
+          qualify for anything. A first meet can feel daunting, but they are sociable, well-organised days, and other
+          parents are usually happy to show you the ropes.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          You will not need to attend every meet, especially at first. The coach will advise which meets are suitable,
+          and you can ease in at a pace that works for your family. If your child's first meet is coming up, our
+          <a href="/ca/guides/how-swim-meets-work-parent-guide/" class="text-mint-ink font-semibold hover:underline">guide to how swim meets work in Canada</a>
+          explains events, heats and lanes, how to read a heat sheet, and what to pack.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Costs to budget for</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          Fees vary a great deal between clubs and provinces, so always ask each club for its current figures rather
+          than relying on a single number. As a guide, here are the costs most families plan for.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {budgetItems.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-6">
+          Many clubs offer payment plans, and some have bursaries or financial-assistance schemes, so do ask if cost is
+          a concern. Clubs would far rather help than lose a keen swimmer.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Gear basics</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          You do not need much to start, and it is best not to over-buy before your child has settled in. The essentials
+          are a comfortable, well-fitting swimsuit suited to training rather than play, a pair of goggles, a towel, and
+          a swim cap if the club asks for one. A water bottle keeps swimmers hydrated through a session, and a separate
+          bag for wet kit saves the rest of the car.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Hold off on training equipment such as fins, paddles, kickboards, and pull buoys until the coach tells you
+          what the group uses. Clubs often supply this equipment or have particular preferences, so buying early can
+          mean buying the wrong thing. As your swimmer progresses you can add a club cap or kit, but none of that is
+          needed on day one.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Common questions from new parents</h2>
+        <div class="space-y-6">
+          {faqItems.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.question}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How Swimly helps clubs and families</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Swimly is the software many clubs use to run the admin side of all this, so the experience of joining and
+          staying on top of fees, attendance, and meet information is calmer for parents. If your club uses Swimly, you
+          can register online, complete consents in one place, pay fees in Canadian dollars, and keep club
+          communication in one tidy spot rather than scattered across email and chat.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          If you help run a club, you can explore what Swimly does on the
+          <a href="/ca/features/" class="text-mint-ink font-semibold hover:underline">features page</a>
+          and see plans on the
+          <a href="/ca/pricing/" class="text-mint-ink font-semibold hover:underline">pricing page</a>.
+          Questions? Email us at
+          <a href={`mailto:${contactEmail}`} class="text-mint-ink font-semibold hover:underline">{contactEmail}</a>.
+        </p>
+      </section>
+
+      <section class="py-12 text-center">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Run a club? Make joining effortless for families</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-8 max-w-2xl mx-auto">
+          Online registration, fees in CAD, attendance, and parent communication in one calm platform.
+        </p>
+        <a
+          href="/ca/pricing/"
+          class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+        >
+          See plans and pricing
+        </a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="border-t border-hairline">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-ink-mute">&copy; {new Date().getFullYear()} Swimly</p>
+      <a href={`mailto:${contactEmail}`} class="text-sm text-ink-mute hover:text-[#0F2D2D] transition-colors">{contactEmail}</a>
+    </div>
+  </footer>
+</Layout>

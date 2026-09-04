@@ -1,0 +1,94 @@
+---
+import { REGIONS, regionFromPath } from "../config/regions";
+
+// Privacy is a shared legal page hosted on the UK origin. On the UK site (root)
+// link to the bare path as before; on the international editions (us/ca/au) and
+// the hub (served at swimly.club root) link to the absolute swimly.uk URL so the
+// link does not 404 on swimly.club.
+const path = Astro.url.pathname;
+const isHub = path === "/international/" || path.startsWith("/international/");
+const region = regionFromPath(path);
+const isUK = region === "uk" && !isHub;
+const privacyHref = isUK ? "/privacy/" : `${REGIONS.uk.host}/privacy/`;
+---
+
+<div
+  id="cookie-consent"
+  class="hidden fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-sm z-50"
+  role="dialog"
+  aria-label="Cookie consent"
+>
+  <div class="p-5 rounded-2xl bg-dark-900 border border-mint-500/20 shadow-2xl shadow-dark-950/60">
+    <p class="text-base sm:text-sm text-gray-300 leading-relaxed">
+      We use one optional analytics cookie to understand which pages help clubs most.
+      No tracking across other sites, no ads.
+      <a href={privacyHref} class="text-mint-400 hover:text-mint-300 underline underline-offset-2">Privacy policy</a>
+    </p>
+    <div class="mt-4 flex items-center gap-3">
+      <button
+        id="cookie-accept"
+        class="flex-1 px-4 py-2.5 rounded-xl bg-mint-500 text-dark-950 font-bold hover:bg-mint-400 transition-colors text-sm min-h-12"
+      >
+        Accept analytics
+      </button>
+      <button
+        id="cookie-decline"
+        class="flex-1 px-4 py-2.5 rounded-xl border border-light-grey/15 text-gray-300 font-semibold hover:border-mint-500/40 hover:text-light-grey transition-colors text-sm min-h-12"
+      >
+        Decline
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // One static build is served on both hosts, so pick the GA property at
+  // runtime: swimly.uk (UK) vs swimly.club (international hub + us/ca/au).
+  const GA_ID = location.hostname.endsWith("swimly.club")
+    ? "G-JKCD400Z5T"
+    : "G-3TMMR4GQND";
+  const CONSENT_KEY = "swimly-consent";
+
+  function loadAnalytics() {
+    if (document.getElementById("ga-script")) return;
+    const w = window as any;
+    w.dataLayer = w.dataLayer || [];
+    function gtag(...args: any[]) {
+      w.dataLayer.push(arguments);
+    }
+    w.gtag = gtag;
+    gtag("consent", "default", {
+      analytics_storage: "granted",
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+    });
+    gtag("js", new Date());
+    gtag("config", GA_ID, { anonymize_ip: true });
+    const s = document.createElement("script");
+    s.id = "ga-script";
+    s.async = true;
+    s.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+    document.head.appendChild(s);
+  }
+
+  const banner = document.getElementById("cookie-consent");
+  const stored = localStorage.getItem(CONSENT_KEY);
+
+  if (stored === "granted") {
+    loadAnalytics();
+  } else if (stored !== "denied") {
+    banner?.classList.remove("hidden");
+  }
+
+  document.getElementById("cookie-accept")?.addEventListener("click", () => {
+    localStorage.setItem(CONSENT_KEY, "granted");
+    banner?.classList.add("hidden");
+    loadAnalytics();
+  });
+
+  document.getElementById("cookie-decline")?.addEventListener("click", () => {
+    localStorage.setItem(CONSENT_KEY, "denied");
+    banner?.classList.add("hidden");
+  });
+</script>

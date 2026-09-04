@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swimly for Committee Chairs</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sage: #8D9F87;
+    --sage-light: #E8EDE6;
+    --sage-dark: #6B7D65;
+    --lime: #D4E157;
+    --lime-dark: #B0C43E;
+    --text-primary: #1A1A1A;
+    --text-secondary: #4A4A4A;
+    --text-muted: #6B6B6B;
+    --white: #FFFFFF;
+    --border: #E0E0E0;
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html, body {
+    width: 210mm;
+    height: 297mm;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 10pt;
+    line-height: 1.5;
+    color: var(--text-primary);
+    background: var(--white);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    padding: 14mm 16mm 12mm;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10mm;
+    border-bottom: 2px solid var(--sage);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo-mark {
+    width: 36px;
+    height: 36px;
+    background: var(--sage);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-mark svg {
+    width: 22px;
+    height: 22px;
+    fill: var(--white);
+  }
+
+  .logo-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22pt;
+    color: var(--sage-dark);
+    letter-spacing: -0.5px;
+  }
+
+  .audience-badge {
+    font-size: 8pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--sage-dark);
+    background: var(--sage-light);
+    padding: 4px 12px;
+    border-radius: 4px;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 8mm 0 6mm;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24pt;
+    line-height: 1.15;
+    color: var(--text-primary);
+    max-width: 90%;
+  }
+
+  .hero-subtitle {
+    margin-top: 3mm;
+    font-size: 10.5pt;
+    color: var(--text-secondary);
+    max-width: 80%;
+    line-height: 1.55;
+  }
+
+  /* Pain Points */
+  .section-label {
+    font-size: 7.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    color: var(--sage-dark);
+    margin-bottom: 3mm;
+  }
+
+  .pain-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4mm;
+    margin-bottom: 6mm;
+  }
+
+  .pain-card {
+    background: #FAFAFA;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4mm;
+  }
+
+  .pain-card .icon {
+    font-size: 18pt;
+    margin-bottom: 2mm;
+    display: block;
+    line-height: 1;
+  }
+
+  .pain-card h3 {
+    font-size: 9pt;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1mm;
+  }
+
+  .pain-card p {
+    font-size: 8pt;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+
+  /* Solutions */
+  .solutions {
+    background: var(--sage-light);
+    border-radius: 8px;
+    padding: 5mm 6mm;
+    margin-bottom: 6mm;
+  }
+
+  .solutions h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14pt;
+    color: var(--sage-dark);
+    margin-bottom: 3mm;
+  }
+
+  .solution-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2mm 6mm;
+  }
+
+  .solution-list li {
+    font-size: 9pt;
+    color: var(--text-secondary);
+    padding-left: 5mm;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .solution-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 8px;
+    height: 8px;
+    background: var(--lime);
+    border-radius: 50%;
+    border: 1.5px solid var(--sage);
+  }
+
+  /* Features */
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 4mm;
+    margin-bottom: 6mm;
+  }
+
+  .feature-item {
+    text-align: center;
+    padding: 4mm 2mm;
+    border: 1.5px solid var(--sage-light);
+    border-radius: 6px;
+  }
+
+  .feature-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--sage-light);
+    border-radius: 50%;
+    margin: 0 auto 2mm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14pt;
+  }
+
+  .feature-item h4 {
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1mm;
+  }
+
+  .feature-item p {
+    font-size: 7.5pt;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* Social Proof */
+  .proof-bar {
+    display: flex;
+    align-items: center;
+    gap: 4mm;
+    padding: 4mm 5mm;
+    background: var(--sage);
+    border-radius: 6px;
+    margin-bottom: 6mm;
+  }
+
+  .proof-stat {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28pt;
+    color: var(--lime);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .proof-text {
+    font-size: 10pt;
+    color: var(--white);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .proof-text em {
+    font-style: italic;
+    font-weight: 400;
+    display: block;
+    font-size: 8.5pt;
+    opacity: 0.85;
+    margin-top: 1mm;
+  }
+
+  /* CTA */
+  .cta {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--text-primary);
+    border-radius: 8px;
+    padding: 5mm 6mm;
+  }
+
+  .cta-content h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14pt;
+    color: var(--lime);
+    margin-bottom: 1.5mm;
+  }
+
+  .cta-content p {
+    font-size: 9pt;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.5;
+  }
+
+  .cta-url {
+    background: var(--lime);
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 10pt;
+    padding: 3mm 5mm;
+    border-radius: 6px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  /* Print styles */
+  @media print {
+    html, body {
+      width: 210mm;
+      height: 297mm;
+    }
+
+    .page {
+      page-break-after: avoid;
+      page-break-inside: avoid;
+    }
+
+    .proof-bar, .cta, .logo-mark, .feature-icon, .solution-list li::before {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* B&W fallback */
+    @media (prefers-color-scheme: dark), (monochrome) {
+      .proof-bar { background: #333; }
+      .cta { background: #1A1A1A; }
+      .solutions { background: #F0F0F0; }
+    }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 12c2-2 4-3 6-3s4 1 6 3 4 3 6 3M2 8c2-2 4-3 6-3s4 1 6 3 4 3 6 3M2 16c2-2 4-3 6-3s4 1 6 3 4 3 6 3"/>
+        </svg>
+      </div>
+      <span class="logo-text">swimly</span>
+    </div>
+    <span class="audience-badge">For Committee Chairs</span>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Run your club with confidence.<br>Hand it over without chaos.</h1>
+    <p class="hero-subtitle">Swimly gives you the tools to manage governance, safeguarding, and operations with full transparency and a complete audit trail.</p>
+  </section>
+
+  <!-- Pain Points -->
+  <p class="section-label">Sound familiar?</p>
+  <div class="pain-grid">
+    <div class="pain-card">
+      <span class="icon">&#128221;</span>
+      <h3>Governance anxiety</h3>
+      <p>Worrying about Wavepower compliance, DBS expiry dates, and whether your club would pass an audit.</p>
+    </div>
+    <div class="pain-card">
+      <span class="icon">&#128260;</span>
+      <h3>Knowledge locked in heads</h3>
+      <p>Committee members leave, taking years of know-how with them. Handovers are chaotic.</p>
+    </div>
+    <div class="pain-card">
+      <span class="icon">&#9888;</span>
+      <h3>Accountability gaps</h3>
+      <p>No clear record of who did what or when. Disputes with no way to verify facts.</p>
+    </div>
+  </div>
+
+  <!-- Solutions -->
+  <div class="solutions">
+    <h2>How Swimly helps</h2>
+    <ul class="solution-list">
+      <li>Wavepower compliance tracking with automated DBS renewal reminders</li>
+      <li>Role-based access so every committee member sees exactly what they need</li>
+      <li>Complete audit trail for every action taken in the system</li>
+      <li>Documented processes that survive committee turnover</li>
+      <li>Instant access to member data, financial reports, and attendance records</li>
+      <li>AGM-ready reports at the click of a button</li>
+    </ul>
+  </div>
+
+  <!-- Features -->
+  <p class="section-label">Key features</p>
+  <div class="features-grid">
+    <div class="feature-item">
+      <div class="feature-icon">&#128274;</div>
+      <h4>Role-Based Access</h4>
+      <p>Control who can see and do what</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">&#128269;</div>
+      <h4>Full Audit Trail</h4>
+      <p>Every action is logged and traceable</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">&#128221;</div>
+      <h4>Compliance Tracking</h4>
+      <p>DBS checks, safeguarding, Wavepower</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">&#128202;</div>
+      <h4>AGM Reports</h4>
+      <p>Professional reports in seconds</p>
+    </div>
+  </div>
+
+  <!-- Social Proof -->
+  <div class="proof-bar">
+    <span class="proof-stat">100%</span>
+    <div class="proof-text">
+      confidence in your club's compliance
+      <em>"Finally, I can sleep at night knowing our safeguarding is properly tracked." &mdash; Club Chair</em>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div class="cta-content">
+      <h3>Join our founding club programme</h3>
+      <p>Be one of the first clubs to shape Swimly. Free access, direct input, priority support.</p>
+    </div>
+    <a href="https://swimly.uk/pilot" class="cta-url">swimly.uk/pilot</a>
+  </div>
+</div>
+</body>
+</html>

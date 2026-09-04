@@ -1,0 +1,115 @@
+{
+  "london": {
+    "name": "London",
+    "clubs": [
+      {"name": "Aquavision North London Swim Club", "area": "Waltham Forest"},
+      {"name": "Barnet Copthall SC", "area": "Barnet"},
+      {"name": "Camden Swiss Cottage SC", "area": "Camden"},
+      {"name": "Chelsea & Westminster SC", "area": "Chelsea"},
+      {"name": "Dulwich Dolphins", "area": "Dulwich"},
+      {"name": "Ealing SC", "area": "Ealing"},
+      {"name": "Hackney Anaconda SC", "area": "Hackney"},
+      {"name": "Kingston Royals SC", "area": "Kingston"}
+    ]
+  },
+  "manchester": {
+    "name": "Manchester",
+    "clubs": [
+      {"name": "City of Manchester Aquatics", "area": "Manchester"},
+      {"name": "Sale Water Polo and SC", "area": "Sale"},
+      {"name": "Stretford SC", "area": "Stretford"},
+      {"name": "Manchester Tritons", "area": "Manchester"},
+      {"name": "Altrincham SC", "area": "Altrincham"},
+      {"name": "Wigan SC", "area": "Wigan"}
+    ]
+  },
+  "birmingham": {
+    "name": "Birmingham",
+    "clubs": [
+      {"name": "City of Birmingham Swimming Club", "area": "Birmingham"},
+      {"name": "Birmingham Masters Swimming Club", "area": "Birmingham"},
+      {"name": "Solihull SC", "area": "Solihull"},
+      {"name": "Sutton Coldfield SC", "area": "Sutton Coldfield"},
+      {"name": "Erdington SC", "area": "Erdington"}
+    ]
+  },
+  "leeds": {
+    "name": "Leeds",
+    "clubs": [
+      {"name": "City of Leeds SC", "area": "Leeds"},
+      {"name": "Leeds & Bradford Triathlon Club", "area": "Leeds"},
+      {"name": "Morley SC", "area": "Morley"},
+      {"name": "Wetherby SC", "area": "Wetherby"},
+      {"name": "Horsforth SC", "area": "Horsforth"}
+    ]
+  },
+  "bristol": {
+    "name": "Bristol",
+    "clubs": [
+      {"name": "Bristol Central SC", "area": "Bristol"},
+      {"name": "Bristol Henleaze SC", "area": "Henleaze"},
+      {"name": "Bristol North SC", "area": "Bristol"},
+      {"name": "City of Bristol Aquatics", "area": "Bristol"},
+      {"name": "Keynsham SC", "area": "Keynsham"}
+    ]
+  },
+  "sheffield": {
+    "name": "Sheffield",
+    "clubs": [
+      {"name": "City of Sheffield Swim Squad", "area": "Sheffield"},
+      {"name": "Sheffield City SC", "area": "Sheffield"},
+      {"name": "Rotherham Metro SC", "area": "Rotherham"},
+      {"name": "Chapeltown & District SC", "area": "Chapeltown"}
+    ]
+  },
+  "edinburgh": {
+    "name": "Edinburgh",
+    "clubs": [
+      {"name": "City of Edinburgh SC", "area": "Edinburgh"},
+      {"name": "Warrender Baths Club", "area": "Edinburgh"},
+      {"name": "Edinburgh University SC", "area": "Edinburgh"},
+      {"name": "Portobello SC", "area": "Portobello"}
+    ]
+  },
+  "glasgow": {
+    "name": "Glasgow",
+    "clubs": [
+      {"name": "City of Glasgow Swim Team", "area": "Glasgow"},
+      {"name": "Glasgow SC", "area": "Glasgow"},
+      {"name": "Eastwood SC", "area": "Eastwood"},
+      {"name": "University of Strathclyde SC", "area": "Glasgow"}
+    ]
+  },
+  "liverpool": {
+    "name": "Liverpool",
+    "clubs": [
+      {"name": "City of Liverpool SC", "area": "Liverpool"},
+      {"name": "Liverpool Penguins", "area": "Liverpool"},
+      {"name": "Bebington SC", "area": "Bebington"},
+      {"name": "Crosby SC", "area": "Crosby"}
+    ]
+  },
+  "newcastle": {
+    "name": "Newcastle",
+    "clubs": [
+      {"name": "Newcastle Swim Team", "area": "Newcastle"},
+      {"name": "Tynemouth SC", "area": "Tynemouth"},
+      {"name": "Durham City SC", "area": "Durham"},
+      {"name": "Gateshead SC", "area": "Gateshead"}
+    ]
+  },
+  "kent": {
+    "name": "Kent",
+    "clubs": [
+      {"name": "Monson Swimming Club", "area": "Tunbridge Wells"},
+      {"name": "Maidstone SC", "area": "Maidstone"},
+      {"name": "Tonbridge SC", "area": "Tonbridge"},
+      {"name": "Sevenoaks SC", "area": "Sevenoaks"},
+      {"name": "Canterbury City SC", "area": "Canterbury"},
+      {"name": "Gravesend & Northfleet SC", "area": "Gravesend"},
+      {"name": "Dartford District SC", "area": "Dartford"},
+      {"name": "Bromley SC", "area": "Bromley"},
+      {"name": "Beckenham SC", "area": "Beckenham"}
+    ]
+  }
+}

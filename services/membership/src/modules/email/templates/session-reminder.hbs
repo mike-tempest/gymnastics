@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upcoming Session Reminder - {{clubName}}</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .header {
+      background: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%);
+      color: #fff;
+      padding: 35px 20px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0 0 8px 0;
+      font-size: 26px;
+      font-weight: 700;
+    }
+    .header .icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+    .header p {
+      margin: 0;
+      font-size: 15px;
+      opacity: 0.95;
+    }
+    .content {
+      padding: 30px 20px;
+    }
+    .reminder-banner {
+      background: #ECFEFF;
+      border: 2px solid #67E8F9;
+      border-radius: 6px;
+      padding: 20px;
+      margin: 25px 0;
+      text-align: center;
+    }
+    .reminder-banner h2 {
+      margin: 0 0 5px 0;
+      font-size: 20px;
+      color: #0E7490;
+    }
+    .reminder-banner .time {
+      font-size: 32px;
+      font-weight: 700;
+      color: #0891B2;
+      margin: 10px 0;
+    }
+    .reminder-banner p {
+      margin: 5px 0 0 0;
+      color: #164E63;
+      font-size: 15px;
+    }
+    .session-details {
+      background: #F8FAFC;
+      border-left: 4px solid #06B6D4;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .session-details h3 {
+      margin: 0 0 15px 0;
+      font-size: 16px;
+      color: #1E293B;
+      font-weight: 600;
+    }
+    .detail-row {
+      display: flex;
+      padding: 10px 0;
+      border-bottom: 1px solid #E2E8F0;
+    }
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+    .detail-icon {
+      width: 24px;
+      margin-right: 12px;
+      font-size: 18px;
+    }
+    .detail-content {
+      flex: 1;
+    }
+    .detail-label {
+      font-weight: 600;
+      color: #64748B;
+      font-size: 13px;
+      display: block;
+      margin-bottom: 3px;
+    }
+    .detail-value {
+      color: #1E293B;
+      font-weight: 500;
+      font-size: 15px;
+    }
+    .swimmers-list {
+      background: #ECFEFF;
+      border: 1px solid #A5F3FC;
+      border-radius: 6px;
+      padding: 18px;
+      margin: 20px 0;
+    }
+    .swimmers-list h4 {
+      margin: 0 0 12px 0;
+      font-size: 14px;
+      color: #0E7490;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .swimmer-item {
+      background: #fff;
+      padding: 10px 12px;
+      margin: 8px 0;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      border-left: 3px solid #06B6D4;
+    }
+    .swimmer-name {
+      flex: 1;
+      font-weight: 600;
+      color: #164E63;
+    }
+    .checklist {
+      background: #FFFBEB;
+      border-left: 4px solid #F59E0B;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .checklist h3 {
+      margin: 0 0 15px 0;
+      font-size: 16px;
+      color: #B45309;
+    }
+    .checklist-item {
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+    }
+    .checklist-item .checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #D97706;
+      border-radius: 3px;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    .checklist-item .text {
+      color: #78350F;
+    }
+    .map-container {
+      margin: 20px 0;
+      text-align: center;
+    }
+    .map-link {
+      display: inline-block;
+      background: #F0F9FF;
+      border: 1px solid #BAE6FD;
+      padding: 12px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      color: #0369A1;
+      font-weight: 600;
+      margin: 5px;
+    }
+    .map-link:hover {
+      background: #E0F2FE;
+    }
+    .button {
+      display: inline-block;
+      background: #06B6D4;
+      color: #fff;
+      padding: 14px 32px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .button:hover {
+      background: #0891B2;
+    }
+    .button-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .footer {
+      background: #F8FAFC;
+      padding: 20px;
+      text-align: center;
+      color: #64748B;
+      font-size: 14px;
+    }
+    .footer p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="icon">🏊</div>
+      <h1>Upcoming Session Reminder</h1>
+      <p>Don't forget your {{sessionType}} session!</p>
+    </div>
+
+    <div class="content">
+      <p>Dear {{parentName}},</p>
+
+      <p>This is a friendly reminder about an upcoming swimming session for {{#if multipleSwimmers}}your swimmers{{else}}{{swimmerName}}{{/if}}.</p>
+
+      <div class="reminder-banner">
+        <h2>Session in {{timeUntilSession}}</h2>
+        <div class="time">{{sessionTime}}</div>
+        <p>{{sessionDate}}</p>
+      </div>
+
+      <div class="session-details">
+        <h3>Session Details</h3>
+
+        <div class="detail-row">
+          <div class="detail-icon">📅</div>
+          <div class="detail-content">
+            <span class="detail-label">DATE & TIME</span>
+            <div class="detail-value">{{fullDateTime}}</div>
+          </div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-icon">👥</div>
+          <div class="detail-content">
+            <span class="detail-label">SQUAD</span>
+            <div class="detail-value">{{squadName}}</div>
+          </div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-icon">📍</div>
+          <div class="detail-content">
+            <span class="detail-label">LOCATION</span>
+            <div class="detail-value">{{poolName}}<br><span style="font-size: 13px; color: #64748B;">{{poolAddress}}</span></div>
+          </div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-icon">⏱️</div>
+          <div class="detail-content">
+            <span class="detail-label">DURATION</span>
+            <div class="detail-value">{{duration}}</div>
+          </div>
+        </div>
+
+        {{#if coachName}}
+        <div class="detail-row">
+          <div class="detail-icon">🏅</div>
+          <div class="detail-content">
+            <span class="detail-label">COACH</span>
+            <div class="detail-value">{{coachName}}</div>
+          </div>
+        </div>
+        {{/if}}
+      </div>
+
+      {{#if swimmers}}
+      <div class="swimmers-list">
+        <h4>Registered Swimmers</h4>
+        {{#each swimmers}}
+        <div class="swimmer-item">
+          <span class="swimmer-name">{{this.name}}</span>
+          {{#if this.lane}}<span style="color: #64748B; font-size: 14px;">Lane {{this.lane}}</span>{{/if}}
+        </div>
+        {{/each}}
+      </div>
+      {{/if}}
+
+      <div class="checklist">
+        <h3>Don't Forget to Bring</h3>
+        <div class="checklist-item">
+          <div class="checkbox"></div>
+          <div class="text">Swimsuit and towel</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checkbox"></div>
+          <div class="text">Goggles and swim cap</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checkbox"></div>
+          <div class="text">Water bottle</div>
+        </div>
+        {{#if additionalEquipment}}
+        <div class="checklist-item">
+          <div class="checkbox"></div>
+          <div class="text">{{additionalEquipment}}</div>
+        </div>
+        {{/if}}
+        <div class="checklist-item">
+          <div class="checkbox"></div>
+          <div class="text">Arrive 10 minutes early</div>
+        </div>
+      </div>
+
+      {{#if poolMapUrl}}
+      <div class="map-container">
+        <a href="{{poolMapUrl}}" class="map-link">📍 Get Directions</a>
+        {{#if poolParkingInfo}}
+        <a href="{{poolParkingInfo}}" class="map-link">🅿️ Parking Information</a>
+        {{/if}}
+      </div>
+      {{/if}}
+
+      {{#if sessionNotes}}
+      <div style="background: #EFF6FF; border-left: 4px solid #3B82F6; padding: 16px; margin: 20px 0; border-radius: 4px;">
+        <p style="margin: 0; color: #1E3A8A;"><strong>Session Notes:</strong> {{sessionNotes}}</p>
+      </div>
+      {{/if}}
+
+      <div class="button-container">
+        <a href="{{viewSessionUrl}}" class="button">View Session Details</a>
+      </div>
+
+      <p style="margin-top: 30px; font-size: 14px; color: #64748B;">
+        <strong>Can't make it?</strong> Please inform us as soon as possible if your swimmer cannot attend.
+      </p>
+
+      <p style="margin-top: 20px;">
+        See you at the pool!<br>
+        <strong>{{clubName}} Team</strong>
+      </p>
+    </div>
+
+    <div class="footer">
+      <p>&copy; {{year}} {{clubName}}. All rights reserved.</p>
+      <p>This is an automated reminder. Please do not reply to this email.</p>
+    </div>
+  </div>
+</body>
+</html>

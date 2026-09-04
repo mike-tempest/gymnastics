@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_astro/
+
+User-agent: Googlebot
+Allow: /
+
+Sitemap: https://swimly.uk/sitemap-index.xml

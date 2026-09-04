@@ -1,0 +1,206 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import { BookOpen, ChevronRight } from "@lucide/astro";
+
+// Region-only hub on swimly.club. The Layout derives the canonical
+// (https://swimly.club/ca/guides/), <html lang="en-CA"> and CAD from this
+// page's path, so none of those are hardcoded here.
+// Commonwealth spelling and Canadian terminology ("swim club", "meet").
+// Swimming Canada and the provincial sections only; no Swim England,
+// Wavepower, DBS or USA Swimming specifics.
+//
+// This page also makes the BreadcrumbList that every /ca/guides/ page emits
+// resolve: each one lists a position-2 "Guides" item pointing here.
+const SITE = "https://swimly.club";
+const PATH = "/ca/guides/";
+const canonical = `${SITE}${PATH}`;
+
+const title = "Swim Club Guides for Canadian Clubs and Parents | Swimly";
+const description =
+  "Plain-language guides for Canadian swim clubs: Swimming Canada and the provincial sections, joining a club, how meets work, fees, and club software.";
+
+const parentGuides = [
+  {
+    href: "/ca/guides/joining-a-swim-club-in-canada-parent-guide/",
+    name: "Joining a swim club in Canada",
+    blurb:
+      "How club swimming is structured, finding a club, registering through Swimming Canada and your provincial section, the season, costs, and gear.",
+  },
+  {
+    href: "/ca/guides/how-swim-meets-work-parent-guide/",
+    name: "How swim meets work",
+    blurb:
+      "Events, heats and lanes, reading a heat sheet, seeding, officials, and timing, ahead of your child's first meet.",
+  },
+];
+
+const committeeGuides = [
+  {
+    href: "/ca/guides/swimming-canada-provincial-sections-explained/",
+    name: "Swimming Canada and the provincial sections",
+    blurb:
+      "What Swimming Canada is, how the provincial and territorial sections work, how clubs affiliate and register, and how Safe Sport applies.",
+  },
+  {
+    href: "/ca/guides/swim-club-treasurer-membership-fees/",
+    name: "A treasurer's guide to membership fees",
+    blurb:
+      "Building membership fees, registration pass-through, CAD pricing and billing cadence, pre-authorized debit and card payments, and records.",
+  },
+  {
+    href: "/ca/guides/swim-club-management-software/",
+    name: "Choosing swim club management software",
+    blurb:
+      "How Canadian clubs choose software for registration, billing, attendance, and parent communication, without the jargon.",
+  },
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/ca/` },
+    { "@type": "ListItem", position: 2, name: "Guides", item: canonical },
+  ],
+};
+
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Swimly guides for Canadian swim clubs",
+  description:
+    "Guides for Canadian swim club parents, board members, treasurers, and coaches.",
+  numberOfItems: parentGuides.length + committeeGuides.length,
+  itemListElement: [...parentGuides, ...committeeGuides].map((guide, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: guide.name,
+    item: `${SITE}${guide.href}`,
+  })),
+};
+---
+
+<Layout title={title} description={description}>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(breadcrumbSchema, null, 2)}
+  />
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(itemListSchema, null, 2)}
+  />
+
+  <Nav />
+
+  <main>
+    <!-- Hero -->
+    <section class="relative pt-32 pb-16 sm:pt-40 sm:pb-20 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none"></div>
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="eyebrow inline-flex items-center gap-2 mb-6">
+          <BookOpen class="w-4 h-4" />
+          Canada Guides
+        </p>
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.1] text-[#0F2D2D]">
+          Swim club <em class="text-mint-ink">guides</em>
+        </h1>
+        <p class="mt-6 text-lg sm:text-xl text-ink-soft max-w-2xl mx-auto leading-relaxed">
+          Practical, plain-language guides for Canadian swim clubs. Written for the parents working
+          out their first season and the volunteers keeping a club running, not for software people.
+        </p>
+      </div>
+    </section>
+
+    <!-- For parents -->
+    <section class="pb-12">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-2">For parents</h2>
+        <p class="text-ink-soft mb-6 max-w-2xl">
+          New to swimming? Start here. These two cover what happens before your child joins a club
+          and what happens once they start racing.
+        </p>
+        <div class="grid sm:grid-cols-2 gap-4">
+          {
+            parentGuides.map((guide) => (
+              <a
+                href={guide.href}
+                class="group flex items-start justify-between gap-4 p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all"
+              >
+                <div>
+                  <h3 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors mb-2">
+                    {guide.name}
+                  </h3>
+                  <p class="text-ink-mute text-sm leading-relaxed">{guide.blurb}</p>
+                </div>
+                <ChevronRight class="w-5 h-5 text-ink-faint group-hover:text-mint-ink transition-colors shrink-0 mt-1" />
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- For clubs -->
+    <section class="pb-16">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-2">For boards, treasurers and coaches</h2>
+        <p class="text-ink-soft mb-6 max-w-2xl">
+          Running a club is mostly admin nobody trained you for. These cover the governing body,
+          the money, and the tools.
+        </p>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {
+            committeeGuides.map((guide) => (
+              <a
+                href={guide.href}
+                class="group flex items-start justify-between gap-4 p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all"
+              >
+                <div>
+                  <h3 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors mb-2">
+                    {guide.name}
+                  </h3>
+                  <p class="text-ink-mute text-sm leading-relaxed">{guide.blurb}</p>
+                </div>
+                <ChevronRight class="w-5 h-5 text-ink-faint group-hover:text-mint-ink transition-colors shrink-0 mt-1" />
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Elsewhere on the site -->
+    <section class="py-16 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-6">Elsewhere on Swimly</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <a
+            href="/ca/clubs/"
+            class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all"
+          >
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Find a swim club</h3>
+            <p class="text-ink-mute text-sm">Browse clubs and swim schools by province</p>
+          </a>
+          <a
+            href="/ca/features/"
+            class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all"
+          >
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">What Swimly does</h3>
+            <p class="text-ink-mute text-sm">Registration, billing, attendance and messaging</p>
+          </a>
+          <a
+            href="/ca/pricing/"
+            class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all"
+          >
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Swimly pricing</h3>
+            <p class="text-ink-mute text-sm">Transparent monthly plans in CAD</p>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

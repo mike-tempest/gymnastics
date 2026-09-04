@@ -1,0 +1,89 @@
+---
+import { Users, CreditCard, Calendar, BarChart3, Bell, Shield, Trophy, Activity, Smartphone, ArrowRight } from "@lucide/astro";
+
+const features = [
+  {
+    icon: Users,
+    title: "Membership management",
+    description: "Online registration, renewals, and member records. Parents update their own details. No more chasing paper forms.",
+    link: "/features/membership/",
+  },
+  {
+    icon: CreditCard,
+    title: "Automated payments",
+    description: "Direct Debit collection via GoCardless. Set it up once, get paid on time every month. Failed payments are retried automatically.",
+    link: "/swimming-club-billing-software/",
+  },
+  {
+    icon: Calendar,
+    title: "Session scheduling",
+    description: "Manage pool time, lane assignments, and coaching rotas. Members see their schedule, coaches see their groups.",
+    link: "/features/attendance/",
+  },
+  {
+    icon: BarChart3,
+    title: "Financial overview",
+    description: "See your club's income and expenses at a glance. Export reports for your AGM without digging through bank statements.",
+    link: "/swimming-club-billing-software/",
+  },
+  {
+    icon: Bell,
+    title: "Smart notifications",
+    description: "Session changes, payment reminders, and club announcements delivered by email. No more relying on WhatsApp group chats.",
+    link: "/features/parent-portal/",
+  },
+  {
+    icon: Shield,
+    title: "Safeguarding ready",
+    description: "Track DBS checks, qualifications, and consent forms. Get alerts before certificates expire. Keep your duty of care records tidy.",
+    link: "/features/compliance/",
+  },
+  {
+    icon: Trophy,
+    title: "Competition entries",
+    description: "Manage gala entries, track qualifying times, and handle entry fees. Import results from Hy-Tek and SportSystems formats.",
+    link: "/features/competitions/",
+  },
+  {
+    icon: Activity,
+    title: "Parent portal",
+    description: "Parents view schedules, pay invoices, and update their details. Coaches and committees stop fielding the same questions.",
+    link: "/features/parent-portal/",
+  },
+  {
+    icon: Smartphone,
+    title: "Works on any device",
+    description: "Coaches mark attendance poolside on their phone. Treasurers reconcile payments on a laptop. Everyone sees the same data.",
+    link: "/features/mobile/",
+  },
+];
+---
+
+<section id="features" class="py-20 sm:py-28">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <p class="eyebrow reveal">Everything in one place</p>
+      <h2 class="reveal font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5">
+        Everything your club needs
+      </h2>
+      <p class="reveal mt-4 text-ink-soft text-lg max-w-2xl mx-auto">
+        Built specifically for swimming clubs, not a generic tool forced to fit.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+      {features.map(feature => (
+        <a href={feature.link} class="reveal group block p-6 lg:p-7 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all">
+          <div class="w-11 h-11 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <feature.icon class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">{feature.title}</h3>
+          <p class="text-ink-mute leading-relaxed text-sm">{feature.description}</p>
+          <span class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-mint-ink opacity-0 group-hover:opacity-100 transition-opacity">
+            Learn more <ArrowRight class="w-3.5 h-3.5" />
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

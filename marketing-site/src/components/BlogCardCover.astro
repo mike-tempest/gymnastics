@@ -1,0 +1,102 @@
+---
+// Deterministic branded cover for blog posts without a hero image.
+// Derives a stable composition from the post slug: the same slug always
+// produces the same accent tones and wave pattern, so builds are
+// reproducible while every post gets a visually distinct card.
+interface Props {
+  title: string;
+  slug: string;
+  tag?: string;
+}
+
+const { title, slug, tag } = Astro.props;
+
+// djb2 string hash, kept unsigned so derived values are stable.
+function hash(str: string): number {
+  let h = 5381;
+  for (let i = 0; i < str.length; i++) {
+    h = ((h << 5) + h + str.charCodeAt(i)) >>> 0;
+  }
+  return h;
+}
+
+const h = hash(slug);
+
+// Accent variants drawn from the Swimly palette (mint and teal families
+// only; see DESIGN-SYSTEM.md). Eyebrow classes are literal so Tailwind
+// picks them up.
+const VARIANTS = [
+  { stroke: "#1F7A52", soft: "#85FFC7", eyebrow: "text-[#1F7A52]" },
+  { stroke: "#297373", soft: "#85FFC7", eyebrow: "text-[#297373]" },
+  { stroke: "#3DA878", soft: "#B2FFE0", eyebrow: "text-[#1F7A52]" },
+  { stroke: "#205E5E", soft: "#A3FFD1", eyebrow: "text-[#205E5E]" },
+  { stroke: "#0F2D2D", soft: "#85FFC7", eyebrow: "text-[#0F2D2D]" },
+  { stroke: "#347F7F", soft: "#C2FFE0", eyebrow: "text-[#297373]" },
+];
+
+const variant = VARIANTS[h % VARIANTS.length];
+
+// Pattern parameters, all seeded from the slug hash.
+const waveCount = 3 + ((h >>> 3) % 3); // 3 to 5 lines
+const amplitude = 7 + ((h >>> 5) % 9); // 7 to 15
+const phase = (h >>> 7) % 160; // horizontal shift
+const spacing = 22 + ((h >>> 9) % 12); // vertical gap between lines
+const laneRope = ((h >>> 11) % 2) === 0; // dotted lane-rope style vs solid
+const circleX = 420 + ((h >>> 13) % 180);
+const circleY = 20 + ((h >>> 15) % 70);
+const circleR = 70 + ((h >>> 17) % 50);
+
+// Build one smooth wave path per line.
+function wavePath(index: number): string {
+  // Waves sit in the band between the eyebrow (top) and the title
+  // (bottom-anchored), so text stays on calm canvas.
+  const baseY = 118 + index * spacing;
+  const segment = 160;
+  const rise = index % 2 === 0 ? amplitude : -amplitude;
+  let d = `M ${-segment + (phase % segment)} ${baseY}`;
+  for (let x = -segment + (phase % segment); x < 700; x += segment) {
+    d += ` c ${segment / 3} ${rise}, ${(2 * segment) / 3} ${rise}, ${segment} 0`;
+    d += ` c ${segment / 3} ${-rise}, ${(2 * segment) / 3} ${-rise}, ${segment} 0`;
+  }
+  return d;
+}
+
+const waves = Array.from({ length: waveCount }, (_, i) => ({
+  d: wavePath(i),
+  opacity: Math.max(0.14, 0.5 - i * 0.09).toFixed(2),
+}));
+
+// Category label from the first tag: sentence case, hyphens to spaces.
+const rawTag = (tag || "club life").replace(/-/g, " ");
+const category = rawTag.charAt(0).toUpperCase() + rawTag.slice(1);
+---
+
+<div class="aspect-video w-full relative overflow-hidden bg-[#F4F8F5] border-b border-[#39393A]/10">
+  <svg
+    class="absolute inset-0 w-full h-full"
+    viewBox="0 0 640 360"
+    preserveAspectRatio="xMidYMid slice"
+    aria-hidden="true"
+  >
+    <circle cx={circleX} cy={circleY} r={circleR} fill={variant.soft} fill-opacity="0.16" />
+    {waves.map((wave) => (
+      <path
+        d={wave.d}
+        fill="none"
+        stroke={variant.stroke}
+        stroke-opacity={wave.opacity}
+        stroke-width={laneRope ? 3.5 : 2}
+        stroke-linecap="round"
+        stroke-dasharray={laneRope ? "0.1 14" : undefined}
+      />
+    ))}
+  </svg>
+  <div class="relative h-full flex flex-col justify-between p-5">
+    <p class={`text-[11px] font-semibold uppercase tracking-[0.14em] ${variant.eyebrow}`}>
+      {category}
+    </p>
+    <h2 class="font-display text-lg sm:text-xl leading-snug text-[#0F2D2D] group-hover:text-mint-ink transition-colors line-clamp-3 max-w-[26ch]">
+      {title}
+    </h2>
+  </div>
+</div>

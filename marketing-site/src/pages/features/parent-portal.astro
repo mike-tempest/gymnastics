@@ -1,0 +1,409 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { User, Calendar, CreditCard, Bell, CheckCircle, ArrowRight } from '@lucide/astro';
+
+const title = 'Swim Club Parent Portal | Self-Service Access';
+const description = 'Let parents update details, view schedules, and check payments 24/7. Reduce admin emails for your UK swimming club. Try Swimly free.';
+
+const parentPortalSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Swimly Parent Portal",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": description,
+  "url": "https://swimly.uk/features/parent-portal/",
+  "featureList": [
+    "Self-service account management",
+    "Session schedule viewing",
+    "Payment and invoice access",
+    "Family account linking",
+    "Contact and medical detail updates"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "29",
+    "priceCurrency": "GBP",
+    "priceValidUntil": "2027-12-31",
+    "availability": "https://schema.org/PreOrder"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Swimly",
+    "url": "https://swimly.uk"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Swimly",
+    "url": "https://swimly.uk"
+  }
+};
+
+const faqItems = [
+  {
+    question: "What can parents see in the parent portal?",
+    answer: "Parents see a complete family dashboard showing all their swimmers in one view. This includes upcoming session schedules, attendance history, payment status, outstanding invoices, club announcements, and gala entries. They can also update contact details, medical information, and emergency contacts for each swimmer."
+  },
+  {
+    question: "Can parents manage multiple children in one account?",
+    answer: "Yes. Swimly automatically links siblings into family accounts. Parents log in once and see all their swimmers in one dashboard. They can switch between children to view individual schedules, attendance records, and payment history without creating separate logins."
+  },
+  {
+    question: "How do parents access the portal?",
+    answer: "When you add a family to Swimly, parents automatically receive an email invitation with a secure link to create their password. They can then access the portal from any device (phone, tablet, or computer) by visiting swimly.uk and logging in."
+  },
+  {
+    question: "What information can parents update themselves?",
+    answer: "Parents can update contact details (phone numbers, email addresses, home address), add or change emergency contacts, update medical information and allergies, set communication preferences, and renew memberships. This reduces admin burden on your committee by letting families keep their own records accurate."
+  },
+  {
+    question: "Can parents set up Direct Debit through the portal?",
+    answer: "Yes. Parents can set up Direct Debit mandates directly through the parent portal using GoCardless. They enter their bank details securely, authorise the mandate, and Swimly handles the rest. They can also view upcoming payment schedules and download receipts for completed payments."
+  }
+];
+---
+
+<Layout title={title} description={description} faqItems={faqItems}>
+  <script type="application/ld+json" set:html={JSON.stringify(parentPortalSchema, null, 2)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <section class="relative pt-16 pb-20 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none" aria-hidden="true"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 text-mint-ink text-sm font-medium mb-6">
+          <User class="w-4 h-4" />
+          Parent Portal
+        </div>
+
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl text-[#0F2D2D] leading-tight mb-6">
+          Empower parents with 24/7 self-service access
+        </h1>
+
+        <p class="text-lg sm:text-xl text-ink-soft max-w-2xl mx-auto leading-relaxed mb-10">
+          Stop chasing parents for updated contact details. Give families their own portal to manage memberships, view schedules, check attendance, and handle payments themselves.
+        </p>
+
+        <a
+          href="https://app.swimly.uk/create-club"
+          class="inline-flex items-center gap-2.5 px-8 py-4 min-h-12 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-lg shadow-[#FF8552]/20 hover:shadow-[#FF8552]/30 hover:scale-[1.02]"
+        >
+          Start your club, free
+          <ArrowRight class="w-5 h-5" />
+        </a>
+      </div>
+    </section>
+
+    <!-- App Screenshots -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="rounded-2xl overflow-hidden bg-surface-raised border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+        <picture>
+          <source srcset="/images/app-screenshots/dashboard-mobile.png" media="(max-width: 639px)" />
+          <source srcset="/images/app-screenshots/dashboard-tablet.png" media="(max-width: 1023px)" />
+          <img src="/images/app-screenshots/dashboard-desktop.png" alt="Swimly parent portal showing family dashboard with swimmer schedules and payment status" class="w-full h-auto" loading="lazy" />
+        </picture>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <User class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Family Account Management</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Parents manage multiple swimmers in one account</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Update contact details, phone numbers, and email addresses</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Add or update emergency contacts</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>View and update medical information and allergies</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <Calendar class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Schedules and Attendance</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>View upcoming session schedules for each swimmer</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Check attendance history and patterns</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Receive notifications of session cancellations</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Export calendars to Google Calendar or Outlook</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <CreditCard class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Payment and Billing</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>View invoices and payment history</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Set up or manage Direct Debit mandates</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Download receipts and statements</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Check outstanding balances and upcoming payments</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <Bell class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Communications and Updates</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Receive club announcements and newsletters</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Squad-specific notifications from coaches</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Gala entries and competition information</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Archive of all communications sent to your family</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] text-center mb-12">How the parent portal works</h2>
+      <div class="space-y-8">
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-lg">1</div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Parents receive their login details</h3>
+            <p class="text-ink-soft">When you add a family to Swimly, parents automatically receive an email with a secure link to create their portal password.</p>
+          </div>
+        </div>
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-lg">2</div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Log in and see their family dashboard</h3>
+            <p class="text-ink-soft">Parents see all their swimmers in one view with upcoming sessions, recent attendance, payment status, and any club announcements.</p>
+          </div>
+        </div>
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-lg">3</div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Update details and manage memberships</h3>
+            <p class="text-ink-soft">Parents update contact details, medical info, and emergency contacts themselves. No more emailing the membership secretary for simple changes.</p>
+          </div>
+        </div>
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-lg">4</div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Handle payments and renewals online</h3>
+            <p class="text-ink-soft">Parents set up Direct Debit, view invoices, download receipts, and renew memberships with a single click. Fully self-service.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Self-Service Matters -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="p-8 rounded-2xl bg-[#85FFC7]/15 border border-[#1F7A52]/20">
+        <h3 class="font-display text-2xl text-[#0F2D2D] mb-6 text-center">Why self-service matters for volunteer committees</h3>
+        <div class="grid sm:grid-cols-3 gap-6 text-center">
+          <div>
+            <div class="font-display text-4xl text-[#0F2D2D] mb-2">5+ hrs</div>
+            <div class="text-ink-soft text-sm">saved per week when parents update their own details instead of emailing the committee</div>
+          </div>
+          <div>
+            <div class="font-display text-4xl text-[#0F2D2D] mb-2">24/7</div>
+            <div class="text-ink-soft text-sm">access for parents to check schedules, payments, and attendance from any device</div>
+          </div>
+          <div>
+            <div class="font-display text-4xl text-[#0F2D2D] mb-2">0</div>
+            <div class="text-ink-soft text-sm">chasing emails needed when Direct Debit handles subscription payments automatically</div>
+          </div>
+        </div>
+        <p class="text-sm text-ink-mute mt-6 text-center">
+          Based on typical volunteer committee workloads at clubs with 100+ members using spreadsheets.
+        </p>
+      </div>
+    </section>
+
+    <!-- Before vs After -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center mb-12">
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D]">What changes for parents</h2>
+        <p class="text-ink-soft mt-4 max-w-2xl mx-auto">No more group emails, paper forms, or wondering if your payment went through.</p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="p-8 rounded-2xl bg-surface border border-[#39393A]/10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#B91C1C]/10 text-[#B91C1C] text-xs font-semibold uppercase tracking-wider mb-6">Without Swimly</div>
+          <ul class="space-y-4 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-[#B91C1C]/70 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              <span>Email the Membership Secretary to update your phone number</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-[#B91C1C]/70 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              <span>Text the coach to ask what time Saturday training starts</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-[#B91C1C]/70 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              <span>Chase the Treasurer to check if your standing order went through</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-[#B91C1C]/70 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              <span>Fill in a paper form to renew your child's membership</span>
+            </li>
+          </ul>
+        </div>
+        <div class="p-8 rounded-2xl bg-[#85FFC7]/15 border border-[#1F7A52]/20">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#85FFC7]/30 text-mint-ink text-xs font-semibold uppercase tracking-wider mb-6">With Swimly</div>
+          <ul class="space-y-4 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Update your details yourself, any time, from your phone</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Check schedules and lane assignments in the parent portal</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>See payment status, invoices, and receipts instantly</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Renew memberships online with a single click</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Poolside Scenarios -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 text-mint-ink text-sm font-medium mb-6">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+          Designed for real life
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D]">Built for the poolside, not the office</h2>
+        <p class="text-ink-soft mt-4 max-w-2xl mx-auto">Parents check Swimly at 6am before training, between sessions on their phone, and in the car park after galas. Every screen works on mobile, in bright light, with wet hands.</p>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-6">
+        <div class="relative p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] overflow-hidden group hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-[#85FFC7]/20 to-transparent rounded-bl-full"></div>
+          <div class="relative">
+            <div class="inline-flex items-center gap-2 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center">
+                <svg class="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707" /></svg>
+              </div>
+              <span class="font-display text-2xl text-amber-600">06:00</span>
+            </div>
+            <h3 class="font-semibold text-[#0F2D2D] mb-2">Before early training</h3>
+            <p class="text-sm text-ink-soft">Check today's session times, see which pool lane your swimmer is in, confirm the coach on duty. All from your phone in bed.</p>
+          </div>
+        </div>
+        <div class="relative p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] overflow-hidden group hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-[#85FFC7]/20 to-transparent rounded-bl-full"></div>
+          <div class="relative">
+            <div class="inline-flex items-center gap-2 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-blue-500/15 flex items-center justify-center">
+                <svg class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              </div>
+              <span class="font-display text-2xl text-blue-600">18:30</span>
+            </div>
+            <h3 class="font-semibold text-[#0F2D2D] mb-2">Poolside during training</h3>
+            <p class="text-sm text-ink-soft">Update emergency contact details you have been meaning to fix. Check if this month's Direct Debit has gone through. Two minutes, done.</p>
+          </div>
+        </div>
+        <div class="relative p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] overflow-hidden group hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-[#85FFC7]/20 to-transparent rounded-bl-full"></div>
+          <div class="relative">
+            <div class="inline-flex items-center gap-2 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-purple-500/15 flex items-center justify-center">
+                <svg class="w-5 h-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+              </div>
+              <span class="font-display text-2xl text-purple-600">20:00</span>
+            </div>
+            <h3 class="font-semibold text-[#0F2D2D] mb-2">After the gala</h3>
+            <p class="text-sm text-ink-soft">Check attendance records, view upcoming sessions for the week ahead, and see any club announcements you missed during the meet.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-2xl text-[#0F2D2D] mb-8">Related features</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a href="/features/membership/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Membership Management</h3>
+          <p class="text-ink-mute text-sm">Parents manage their family membership online</p>
+        </a>
+        <a href="/features/billing/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Billing and Payments</h3>
+          <p class="text-ink-mute text-sm">Self-service payment setup and invoice access</p>
+        </a>
+        <a href="/features/attendance/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Attendance Tracking</h3>
+          <p class="text-ink-mute text-sm">Parents view attendance records online</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Give parents self-service access</h2>
+      <p class="text-xl text-ink-soft mb-8">Create your club today. Free for clubs under 50 members, no card required.</p>
+      <a
+        href="https://app.swimly.uk/create-club"
+        class="inline-flex items-center gap-2.5 px-8 py-4 min-h-12 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-lg shadow-[#FF8552]/20 hover:shadow-[#FF8552]/30 hover:scale-[1.02]"
+      >
+          Start your club, free
+        <ArrowRight class="w-5 h-5" />
+      </a>
+      <p class="mt-6 text-sm text-ink-mute">Free for clubs with fewer than 50 members. No credit card required.</p>
+    </section>
+  </main>
+  <Footer />
+</Layout>

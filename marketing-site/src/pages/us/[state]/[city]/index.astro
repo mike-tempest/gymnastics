@@ -1,0 +1,283 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import states from '../../../../data/us-states.json';
+import cities from '../../../../data/us-cities.json';
+import directoryClubs from '../../../../data/us-clubs.json';
+
+export async function getStaticPaths() {
+  return cities.map((city) => ({
+    params: { state: city.stateSlug, city: city.slug },
+    props: { city },
+  }));
+}
+
+const { city } = Astro.props;
+const { state, city: citySlug } = Astro.params;
+const stateData = states[state];
+const stateName = stateData.name;
+const abbr = city.stateAbbr;
+
+// Directory cross-links: real teams and swim schools listed in this city and
+// state, from the club-finder data.
+const cityDirectoryClubs = directoryClubs
+  .filter((c) => c.stateSlug === state && c.citySlug === citySlug)
+  .sort((a, b) => a.name.localeCompare(b.name));
+const stateHasDirectoryClubs = directoryClubs.some((c) => c.stateSlug === state);
+
+// A few other cities in the same state to link to, for internal linking.
+const siblingCities = cities
+  .filter((c) => c.stateSlug === state && c.slug !== citySlug)
+  .sort((a, b) => a.name.localeCompare(b.name))
+  .slice(0, 6);
+
+const pageTitle = `Swim Team Management Software in ${city.name}, ${stateName} | Swimly`;
+const metaDescription = `Swim team management software for clubs and teams in ${city.name}, ${stateName}. Swimly handles registration, billing, attendance and meet planning so ${city.name} coaches can focus on the pool.`;
+
+// Deterministic variant so each city page reads differently without random
+// build-to-build changes. Hash the slug to a small bucket.
+const hash = citySlug.split('').reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+const variant = hash % 3;
+
+const introVariants = [
+  `Running a swim team in ${city.name} means juggling rosters, dues, practice attendance and meet entries on top of actual coaching. Swimly brings all of it into one place so the people who run your ${city.name} team can spend more time on deck and less time in spreadsheets.`,
+  `Swim teams in ${city.name} put in long hours, from early-morning practices to weekend meets. The admin behind the scenes should not add to that load. Swimly handles registration, billing and attendance for ${city.name} teams in a single, straightforward system.`,
+  `Whether your ${city.name} program is a year-round competitive club or a seasonal summer-league team, the back-office work is the same: sign-ups, payments, attendance and meet planning. Swimly pulls it together so coaches and volunteers in ${city.name} can keep their focus on the swimmers.`,
+];
+
+const secondVariants = [
+  `Family records, dues and attendance all stay in sync, so when entry deadlines arrive your ${city.name} roster is accurate and your payments are reconciled. No chasing checks, no digging through email threads.`,
+  `From a swimmer's first sign-up through every invoice and practice check-in, Swimly keeps ${city.name} team data in one trusted place that your board and coaches can rely on all season.`,
+  `Swimly automates the repetitive tasks that eat up volunteer evenings in ${city.name}, from sending invoices to tracking who showed up to practice, so your committee can spend its energy growing the team.`,
+];
+
+const introCopy = introVariants[variant];
+const secondCopy = secondVariants[variant];
+
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Swimly',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  url: 'https://swimly.club',
+  areaServed: {
+    '@type': 'City',
+    name: city.name,
+    containedInPlace: {
+      '@type': 'State',
+      name: stateName,
+    },
+  },
+  description: `Swim team management software for clubs and teams in ${city.name}, ${stateName}. Registration, billing, attendance and meet planning.`,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+    description: 'Free to get started',
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://swimly.club/us/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: stateName,
+      item: `https://swimly.club/us/${state}/`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: city.name,
+      item: `https://swimly.club/us/${state}/${citySlug}/`,
+    },
+  ],
+};
+---
+
+<Layout title={pageTitle} description={metaDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <Nav />
+
+  <main class="pt-24">
+    <!-- Hero Section -->
+    <section class="relative py-20 px-4 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[500px] pointer-events-none"></div>
+      <div class="relative max-w-4xl mx-auto text-center">
+        <nav aria-label="Breadcrumb" class="mb-6">
+          <ol class="flex items-center justify-center gap-2 text-sm text-ink-mute">
+            <li><a href="/us/" class="hover:text-mint-ink transition-colors">United States</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href={`/us/${state}/`} class="hover:text-mint-ink transition-colors">{stateName}</a></li>
+            <li aria-hidden="true">/</li>
+            <li class="text-[#0F2D2D]">{city.name}</li>
+          </ol>
+        </nav>
+        <h1 class="font-display text-4xl md:text-5xl text-[#0F2D2D] mb-6">
+          Swim Team Management Software in <em class="text-mint-ink">{city.name}</em>
+        </h1>
+        <p class="text-xl text-ink-soft mb-8 max-w-2xl mx-auto">
+          Modern team management for swim clubs in {city.name}, {stateName} ({abbr}). Registration,
+          billing, attendance and meets in one place.
+        </p>
+        <div class="flex gap-4 justify-center flex-wrap">
+          <a href="https://app.swimly.uk/create-team" class="px-6 py-3 min-h-12 inline-flex items-center bg-lime-cta text-[#0F2D2D] rounded-lg font-semibold hover:bg-lime-cta-hover transition-colors">
+            Add your team, free
+          </a>
+          <a href="/#features" class="px-6 py-3 min-h-12 inline-flex items-center border border-[#297373]/40 text-ink rounded-lg font-semibold hover:bg-surface transition-colors">
+            See features
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Local Swimming Section -->
+    <section class="py-16 px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Swim team software for {city.name}</h2>
+        <div class="space-y-4">
+          <p class="text-ink-soft leading-relaxed">{introCopy}</p>
+          <p class="text-ink-soft leading-relaxed">{secondCopy}</p>
+          <p class="text-ink-soft leading-relaxed">
+            Many teams in {city.name} compete under USA Swimming or a regional summer league, where
+            registration windows and meet entry deadlines have to be met exactly. Swimly keeps your
+            roster, payments and attendance aligned so deadlines in {stateName} are easier to hit.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 px-4 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="font-display text-3xl text-[#0F2D2D] text-center mb-12">Why {city.name} teams choose Swimly</h2>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4" aria-hidden="true">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Member management</h3>
+            <p class="text-ink-soft text-sm">Swimmers, parents and coaches in one organized roster.</p>
+          </div>
+
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4" aria-hidden="true">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Automated billing</h3>
+            <p class="text-ink-soft text-sm">Collect dues in USD with online payments and clear reporting.</p>
+          </div>
+
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4" aria-hidden="true">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Attendance tracking</h3>
+            <p class="text-ink-soft text-sm">Deck-side check-in. Know who is at practice and who is out.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Directory: teams and swim schools here -->
+    {cityDirectoryClubs.length > 0 ? (
+      <section class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="font-display text-3xl text-[#0F2D2D] text-center mb-4">
+            Swim teams and swim schools in {city.name}
+          </h2>
+          <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">
+            Real programs in {city.name} from the Swimly directory.
+          </p>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {cityDirectoryClubs.map((club) => (
+              <a
+                href={`/us/clubs/${club.stateSlug}/${club.slug}/`}
+                class="group p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all hover:-translate-y-1"
+              >
+                <h3 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors mb-2">
+                  {club.name}
+                </h3>
+                <p class="text-ink-mute text-sm mb-3">
+                  {club.type === 'competitive' ? 'Competitive swim team' : 'Swim school'}
+                </p>
+                <p class="text-sm text-ink-soft leading-relaxed line-clamp-2">{club.description}</p>
+              </a>
+            ))}
+          </div>
+          <p class="text-center text-ink-mute mt-8">
+            <a href={`/us/clubs/${state}/`} class="text-mint-ink hover:underline">
+              Browse all {stateName} teams and swim schools
+            </a>
+          </p>
+        </div>
+      </section>
+    ) : (
+      <section class="py-8 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <p class="text-ink-soft">
+            Looking for a team to join in {city.name}? Browse the
+            <a
+              href={stateHasDirectoryClubs ? `/us/clubs/${state}/` : '/us/clubs/'}
+              class="text-mint-ink font-semibold hover:underline"
+            >
+              directory of swim teams and swim schools{stateHasDirectoryClubs ? ` in ${stateName}` : ' across the US'}</a
+            >.
+          </p>
+        </div>
+      </section>
+    )}
+
+    <!-- Other cities in state -->
+    {siblingCities.length > 0 && (
+      <section class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="font-display text-3xl text-[#0F2D2D] text-center mb-4">More of {stateName}</h2>
+          <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">
+            Swimly supports swim teams in other cities across {stateName} too.
+          </p>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {siblingCities.map((c) => (
+              <a href={`/us/${state}/${c.slug}/`} class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-lg p-4 hover:border-[#297373]/30 transition-colors group">
+                <h3 class="text-[#0F2D2D] font-medium group-hover:text-mint-ink transition-colors">{c.name}</h3>
+                <p class="text-ink-mute text-sm">{c.name}, {abbr}</p>
+              </a>
+            ))}
+          </div>
+          <p class="text-center text-ink-mute mt-8">
+            <a href={`/us/${state}/`} class="text-mint-ink hover:underline">See all of {stateName}</a>
+          </p>
+        </div>
+      </section>
+    )}
+
+    <!-- CTA Section -->
+    <section class="py-20 px-4">
+      <div class="max-w-3xl mx-auto text-center bg-[#85FFC7]/15 border border-[#1F7A52]/20 rounded-2xl p-12">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Ready to run your {city.name} team on Swimly?</h2>
+        <p class="text-ink-soft mb-8">
+          Set up your roster, dues and practice schedule in one place. Add your team and see how
+          much time you get back each week.
+        </p>
+        <a href="https://app.swimly.uk/create-team" class="inline-flex items-center px-8 py-4 min-h-12 bg-lime-cta text-[#0F2D2D] rounded-lg font-semibold hover:bg-lime-cta-hover transition-colors">
+          Add your team, free
+        </a>
+        <p class="text-ink-mute text-sm mt-4">Free to get started. No credit card required.</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

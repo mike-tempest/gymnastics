@@ -1,0 +1,475 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import ProductTour from "../../components/ProductTour.astro";
+import { REGIONS } from "../../config/regions";
+import {
+  ArrowRight,
+  Check,
+  X,
+  CircleCheck,
+  CreditCard,
+  CalendarCheck,
+  Users,
+  ShieldCheck,
+  BarChart3,
+  Bell,
+} from "@lucide/astro";
+
+const SITE = "https://swimly.club";
+const appUrl = REGIONS.ca.appUrl;
+const title = "Swim Club Management Software for Canada | Swimly";
+const description =
+  "Swim club management software built for Canadian swimming clubs. Membership, billing in CAD, attendance and safeguarding in one calm, organised place. Free plan for small clubs.";
+const canonical = `${SITE}/ca/`;
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/ca/` },
+  ],
+};
+
+const pains = [
+  {
+    n: "01",
+    title: "Spreadsheets that never quite agree",
+    desc: "Members in one file, payments in another, attendance on paper. Nobody is sure which copy is current.",
+  },
+  {
+    n: "02",
+    title: "Evenings lost to chasing fees",
+    desc: "E-transfers trickle in late and unlabelled. The treasurer ends up sending awkward reminders after the kids are in bed.",
+  },
+  {
+    n: "03",
+    title: "Safeguarding records nobody can reach",
+    desc: "Screening and certificate records you cannot find quickly are records you cannot rely on when it matters.",
+  },
+  {
+    n: "04",
+    title: "Handover means starting again",
+    desc: "When the registrar steps down, the club's knowledge walks out of the door with them.",
+  },
+];
+
+const before = [
+  "Membership records scattered across spreadsheets",
+  "Chasing parents for fees every month by e-transfer",
+  "Registers printed, filled in by hand, then mislaid",
+  "Screening and certificate files nobody can access",
+];
+const after = [
+  "Every member, payment and session in one place",
+  "Recurring card and bank payments collect on schedule",
+  "Live registers on the phone the coach already carries",
+  "Screening and certificate records with expiry reminders",
+];
+
+const roles = [
+  {
+    from: "10h",
+    to: "2h",
+    unit: "per week",
+    role: "Registrar",
+    desc: "Parents keep their own details current in the portal. Welcome emails and renewal reminders send themselves.",
+  },
+  {
+    from: "6h",
+    to: "30m",
+    unit: "per week",
+    role: "Treasurer",
+    desc: "Fees arrive on schedule, failed payments retry on their own, and the AGM report generates in one click.",
+  },
+  {
+    from: "Paper",
+    to: "Phone",
+    unit: "registers",
+    role: "Head coach",
+    desc: "Attendance taken poolside in seconds, even at six in the morning with wet hands and poor lighting.",
+  },
+];
+
+const reasons = [
+  {
+    title: "Built for how Canadian clubs work",
+    desc: "Swimming in Canada is organised through Swimming Canada nationally and through provincial and territorial sections such as Swim Ontario, Swim BC, Swim Alberta and the Quebec section. Swimly handles membership categories and renewal cycles that fit a club working within that structure.",
+  },
+  {
+    title: "Safeguarding records as standard",
+    desc: "Track screening checks, coaching certifications and consent forms with automated expiry reminders. Keep the records your club's safe-sport obligations depend on, without a separate spreadsheet of renewal dates.",
+  },
+  {
+    title: "Recurring payments in CAD",
+    desc: "Collect monthly, term or seasonal fees by recurring card or pre-authorised bank payment, priced in Canadian dollars. No more chasing e-transfers or reconciling them by hand.",
+  },
+  {
+    title: "Transparent flat-rate pricing",
+    desc: "No per-member fees that climb as your club grows. Predictable monthly pricing in CAD, with a free plan for small clubs. Pricing you can budget for, not bills that escalate.",
+  },
+  {
+    title: "Privacy and data protection built in",
+    desc: "Family contact details, medical notes and consent records held securely with access controls and clear data handling, so your committee can meet its privacy obligations with confidence.",
+  },
+  {
+    title: "Built by people who run clubs",
+    desc: "Swimly was created by swim parents and committee members who have sat through the same meetings. We understand volunteer capacity, committee handovers, and the evening-and-weekend reality.",
+  },
+];
+
+const features = [
+  {
+    icon: Users,
+    title: "Membership",
+    desc: "A modern member database parents update themselves. Family grouping, squads and custom fields.",
+  },
+  {
+    icon: CreditCard,
+    title: "Billing in CAD",
+    desc: "Recurring card and bank payments, automatic retries on failure, and clear payment status at a glance.",
+  },
+  {
+    icon: CalendarCheck,
+    title: "Attendance",
+    desc: "Digital poolside registers that work on the phone the coach already carries, even with patchy WiFi.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Safeguarding",
+    desc: "Screening checks, certifications and consent forms tracked with automated expiry reminders.",
+  },
+  {
+    icon: Bell,
+    title: "Communication",
+    desc: "Targeted announcements and automatic reminders by email, without relying on group chats.",
+  },
+  {
+    icon: BarChart3,
+    title: "Reporting",
+    desc: "A real-time financial overview and exportable reports for your treasurer, auditor or AGM.",
+  },
+];
+
+const steps = [
+  {
+    tag: "Day 0",
+    title: "Get in touch",
+    desc: "Tell us about your club, how many members you have, and what you currently use. No hard sell, just a conversation about whether Swimly fits.",
+  },
+  {
+    tag: "Days 1-3",
+    title: "We migrate your data",
+    desc: "Send us your spreadsheets or exports. We import members, set up squads, configure fee schedules, and build your session timetable. You review it, we adjust.",
+  },
+  {
+    tag: "Day 5",
+    title: "Your committee logs in",
+    desc: "We walk your treasurer, registrar and coaches through the platform. Each person sees exactly the features their role needs.",
+  },
+  {
+    tag: "Week 2+",
+    title: "You are live",
+    desc: "Payments collect automatically. Coaches take digital attendance. Parents self-serve. We stay on hand through the first month to fine-tune anything.",
+  },
+];
+
+const compares = [
+  {
+    label: "Swimly vs TeamUnify",
+    href: "/ca/compare/teamunify/",
+    desc: "A modern, focused platform compared with an enterprise incumbent.",
+  },
+  {
+    label: "Swimly vs SwimTopia",
+    href: "/ca/compare/swimtopia/",
+    desc: "Year-round club administration compared with a meet-and-season platform.",
+  },
+];
+
+---
+
+<Layout title={title} description={description} canonical={canonical}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+
+  <Nav />
+
+  <main>
+    <!-- Hero -->
+    <header class="relative pt-28 sm:pt-36 pb-10 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[640px] pointer-events-none" aria-hidden="true"></div>
+      <div class="hero-wash absolute left-1/2 top-[-160px] -translate-x-1/2 w-[900px] h-[520px] pointer-events-none" aria-hidden="true"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="eyebrow reveal">Club management software for Canada</p>
+        <h1 class="reveal font-display text-[44px] leading-[1.06] sm:text-6xl lg:text-[72px] sm:leading-[1.04] text-[#0F2D2D] mt-6 tracking-[-0.01em]">
+          Give your committee back
+          <br class="hidden sm:block" />
+          <em class="text-mint-ink">hours</em> every week
+        </h1>
+        <p class="reveal mt-7 text-[17px] sm:text-xl text-ink-soft max-w-2xl mx-auto leading-relaxed">
+          Membership, billing, attendance and safeguarding in one calm, organised
+          place, priced in Canadian dollars. Built by swim parents who have chased
+          the fees and printed the registers.
+        </p>
+
+        <div class="reveal mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={`${appUrl}/create-club`}
+            class="group inline-flex items-center justify-center gap-2.5 px-8 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg min-h-14 shadow-[0_8px_24px_-8px_rgba(255,133,82,0.7)] hover:-translate-y-px w-full sm:w-auto"
+          >
+            Start your club, free
+            <ArrowRight class="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
+          </a>
+          <a
+            href="/ca/features/"
+            class="inline-flex items-center justify-center gap-2 px-7 rounded-xl border border-[#39393A]/20 bg-surface/60 text-ink hover:border-[#297373]/50 hover:bg-surface transition-colors text-lg min-h-14 w-full sm:w-auto"
+          >
+            See the features
+          </a>
+        </div>
+
+        <p class="reveal mt-6 text-sm text-ink-mute">
+          Free for small clubs. No card required to start.
+        </p>
+      </div>
+
+      <!-- Trust strip -->
+      <div class="reveal max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+        <div class="flex flex-wrap items-center justify-center gap-x-9 gap-y-3">
+          <span class="inline-flex items-center gap-2 text-sm text-ink-soft">
+            <Check class="w-4 h-4 text-[#297373]" /> Priced in Canadian dollars
+          </span>
+          <span class="inline-flex items-center gap-2 text-sm text-ink-soft">
+            <Check class="w-4 h-4 text-[#297373]" /> Privacy and data protection
+          </span>
+          <span class="inline-flex items-center gap-2 text-sm text-ink-soft">
+            <Check class="w-4 h-4 text-[#297373]" /> Recurring card and bank payments
+          </span>
+          <span class="inline-flex items-center gap-2 text-sm text-ink-soft">
+            <Check class="w-4 h-4 text-[#297373]" /> Encrypted in transit and at rest
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <div class="lane-divider max-w-6xl mx-auto" aria-hidden="true"></div>
+
+    <!-- The problem -->
+    <section class="py-20 sm:py-28">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-12 gap-12 lg:gap-16">
+          <div class="lg:col-span-5">
+            <p class="eyebrow reveal">The problem</p>
+            <h2 class="reveal font-display text-4xl sm:text-5xl leading-[1.1] text-[#0F2D2D] mt-5">
+              You did not sign up for a <em class="text-mint-ink">second job</em>
+            </h2>
+            <p class="reveal mt-6 text-lg text-ink-soft leading-relaxed max-w-md">
+              But that is what running a club feels like when the tools fight you.
+              Every volunteer committee knows the pattern.
+            </p>
+          </div>
+          <div class="lg:col-span-7">
+            <ol class="divide-y divide-[#39393A]/10">
+              {pains.map((p) => (
+                <li class="reveal flex gap-6 py-6 first:pt-0 last:pb-0">
+                  <span class="font-display text-2xl text-[#297373]/60 leading-none pt-1 tabular-nums">{p.n}</span>
+                  <div>
+                    <h3 class="text-[17px] font-semibold text-[#0F2D2D]">{p.title}</h3>
+                    <p class="text-[15px] text-ink-soft leading-relaxed mt-1.5">{p.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Before / after -->
+    <section class="pb-20 sm:pb-28">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="reveal grid md:grid-cols-2 rounded-[28px] overflow-hidden border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+          <div class="bg-surface p-8 sm:p-10">
+            <p class="text-[12px] font-semibold tracking-[0.14em] uppercase text-[#B91C1C]/80 mb-7">The spreadsheet era</p>
+            <ul class="space-y-5">
+              {before.map((item) => (
+                <li class="flex items-start gap-3.5 text-[15px] text-ink-soft leading-snug">
+                  <X class="w-[18px] h-[18px] text-[#B91C1C]/70 mt-0.5 shrink-0" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="relative bg-[#0F2D2D] p-8 sm:p-10">
+            <div class="ripple absolute -top-16 -right-16 w-56 h-56" aria-hidden="true"></div>
+            <p class="text-[12px] font-semibold tracking-[0.14em] uppercase text-[#85FFC7] mb-7">With Swimly</p>
+            <ul class="relative space-y-5">
+              {after.map((item) => (
+                <li class="flex items-start gap-3.5 text-[15px] text-[#E6E6E6] leading-snug">
+                  <CircleCheck class="w-[18px] h-[18px] text-[#85FFC7] mt-0.5 shrink-0" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ProductTour region="ca" />
+
+    <!-- Why Canadian clubs choose Swimly -->
+    <section class="py-20 sm:py-28 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mb-12">
+          <p class="eyebrow reveal">Why Swimly</p>
+          <h2 class="reveal font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5">
+            Why Canadian swimming clubs choose Swimly
+          </h2>
+          <p class="reveal text-ink-soft text-lg mt-6 leading-relaxed">
+            Not a generic sports app adapted for swimming. Not software designed
+            for one market with a currency option bolted on. Built for how
+            volunteer-run Canadian swim clubs actually work, from recurring CAD
+            payments to safeguarding records.
+          </p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {reasons.map((r) => (
+            <div class="reveal p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+              <h3 class="text-lg font-semibold mb-2.5 text-mint-ink">{r.title}</h3>
+              <p class="text-ink-mute text-sm leading-relaxed">{r.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Hours back -->
+    <section class="py-20 sm:py-28">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14">
+          <p class="eyebrow reveal">Where the hours come back</p>
+          <h2 class="reveal font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5">
+            Less admin. More <em class="text-mint-ink">swimming</em>.
+          </h2>
+        </div>
+        <div class="space-y-0">
+          {roles.map((r, i) => (
+            <div class:list={["reveal grid sm:grid-cols-12 gap-3 sm:gap-10 items-start py-9", i > 0 && "border-t border-[#39393A]/10"]}>
+              <div class="sm:col-span-5 sm:text-right">
+                <div class="font-display text-[40px] sm:text-5xl leading-none text-[#0F2D2D] tabular-nums">
+                  {r.from}
+                  <span class="text-[#297373]/50 mx-1.5">&rarr;</span>
+                  <span class="result-mark">{r.to}</span>
+                </div>
+                <div class="text-sm text-ink-mute mt-2">{r.unit}</div>
+              </div>
+              <div class="sm:col-span-7">
+                <h3 class="text-lg font-semibold text-[#0F2D2D]">{r.role}</h3>
+                <p class="text-[15px] text-ink-soft leading-relaxed mt-1.5 max-w-lg">{r.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Features grid -->
+    <section class="py-20 sm:py-28 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <p class="eyebrow reveal">Everything in one place</p>
+          <h2 class="reveal font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5">One platform for the whole club</h2>
+          <p class="reveal text-ink-soft text-lg mt-5 max-w-2xl mx-auto">
+            Six core areas, designed to work together so your committee is not
+            juggling separate tools.
+          </p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {features.map((f) => (
+            <div class="reveal group block p-7 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+              <div class="w-11 h-11 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+                <f.icon class="w-5 h-5 text-mint-ink" />
+              </div>
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{f.title}</h3>
+              <p class="text-ink-mute text-sm leading-relaxed">{f.desc}</p>
+            </div>
+          ))}
+        </div>
+        <p class="reveal mt-10 text-center">
+          <a href="/ca/features/" class="inline-flex items-center gap-2 text-mint-ink hover:text-[#0F2D2D] font-medium transition-colors group">
+            Explore every feature
+            <ArrowRight class="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <!-- Compare -->
+    <section class="py-20 sm:py-28">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <p class="eyebrow reveal">Honest comparisons</p>
+          <h2 class="reveal font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5">How does Swimly compare?</h2>
+          <p class="reveal text-ink-soft text-lg mt-5 max-w-2xl mx-auto">
+            Fair, factual assessments of the platforms Canadian clubs ask about
+            most, including where each one does things well.
+          </p>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+          {compares.map((c) => (
+            <a href={c.href} class="reveal block p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 transition-all group hover:-translate-y-0.5">
+              <h3 class="text-lg font-semibold mb-2 text-[#0F2D2D] group-hover:text-mint-ink transition-colors">{c.label}</h3>
+              <p class="text-ink-mute text-sm">{c.desc}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="py-20 sm:py-28 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12 max-w-2xl">
+          <p class="eyebrow reveal">Switching is easier than you think</p>
+          <h2 class="reveal font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5">From spreadsheet to software in about two weeks</h2>
+          <p class="reveal text-ink-soft text-lg mt-6 leading-relaxed">
+            We handle the heavy lifting of migration so your committee does not
+            have to.
+          </p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {steps.map((s) => (
+            <div class="reveal p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+              <span class="eyebrow">{s.tag}</span>
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mt-3 mb-2">{s.title}</h3>
+              <p class="text-sm text-ink-mute leading-relaxed">{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <h2 class="reveal font-display text-4xl text-[#0F2D2D] mb-6">Ready to simplify club management?</h2>
+      <p class="reveal text-xl text-ink-soft mb-8">Start free with a small club. No card required.</p>
+      <a
+        href={`${appUrl}/create-club`}
+        class="reveal inline-flex items-center justify-center gap-2 text-lg font-bold px-8 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all min-h-14 shadow-[0_8px_24px_-8px_rgba(255,133,82,0.6)]"
+      >
+        Start your club, free
+        <ArrowRight class="w-5 h-5" />
+      </a>
+      <p class="reveal text-ink-soft mt-8">
+        Looking for a programme near you? Browse our
+        <a href="/ca/clubs/" class="text-mint-ink font-semibold hover:underline">directory of swim
+        clubs and swim schools across Canada</a>.
+      </p>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

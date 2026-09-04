@@ -1,0 +1,324 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+
+// Region-only page on swimly.club. Self-canonical: no cross-region hreflang.
+// Commonwealth spelling, CAD, Swimming Canada. Layout derives canonical,
+// <html lang="en-CA"> and currency from this page's path; do not hardcode them.
+const SITE = "https://swimly.club";
+const PATH = "/ca/guides/swimming-canada-provincial-sections-explained/";
+const canonical = `${SITE}${PATH}`;
+const appUrl = "https://app.swimly.uk/create-club";
+const contactEmail = "hello@swimly.club";
+
+const title =
+  "Swimming Canada and the Provincial Sections, Explained | Swimly";
+const description =
+  "A clear guide for Canadian swim club volunteers: what Swimming Canada is, how the provincial and territorial sections work, how clubs affiliate and register, and how Safe Sport applies to your club.";
+
+const faqItems = [
+  {
+    question: "What is Swimming Canada?",
+    answer:
+      "Swimming Canada (Natation Canada) is the national governing body for competitive swimming in Canada, established in 1909 as the Canadian Amateur Swimming Association. It sets the national rules, runs national-level competition and the national team programme, and oversees registration of clubs, swimmers, coaches and officials across the country.",
+  },
+  {
+    question: "What is a provincial section of Swimming Canada?",
+    answer:
+      "A provincial or territorial section is the member organisation that governs competitive swimming in its region under Swimming Canada. Examples include Swim Ontario, Swim BC, Swim Alberta and the Fédération de natation du Québec. Your section handles club affiliation, sanctions meets, sets provincial qualifying standards and runs provincial championships within its borders.",
+  },
+  {
+    question: "How does a swim club register with Swimming Canada?",
+    answer:
+      "Clubs affiliate through their provincial or territorial section, not directly with Swimming Canada. Once affiliated, the club registers its swimmers, coaches and officials in Swimming Canada's national registration system. Registrants must be entered within 14 days of starting to participate, and clubs agree to follow the rules and bylaws of both Swimming Canada and their section.",
+  },
+  {
+    question: "How does Safe Sport apply to my swim club?",
+    answer:
+      "Swimming Canada has adopted the Canadian Safe Sport Program (CSSP), administered by the Canadian Centre for Ethics in Sport (CCES), which manages reports under the Universal Code of Conduct to Prevent and Address Maltreatment in Sport (UCCMS) for designated participants. Clubs are expected to maintain their own code of conduct, complete required Safe Sport education and screening, and handle complaints involving participants who fall outside the national programme.",
+  },
+  {
+    question: "Does Swimly replace my Swimming Canada registration?",
+    answer:
+      "No. Swimly is club management software for day-to-day administration: registration intake, billing in CAD, attendance and parent communication. It does not replace your affiliation with your provincial section or your registration in Swimming Canada's national system. It sits alongside them and helps you keep the records and exports you need.",
+  },
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/ca/` },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/ca/guides/` },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Swimming Canada and the Provincial Sections Explained",
+      item: canonical,
+    },
+  ],
+};
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "Swimming Canada and the Provincial Sections, Explained",
+  description: description,
+  about: "Swimming Canada governance for swim clubs",
+  inLanguage: "en-CA",
+  url: canonical,
+  mainEntityOfPage: canonical,
+  publisher: {
+    "@type": "Organization",
+    name: "Swimly",
+    url: `${SITE}/ca/`,
+  },
+};
+
+// Confirmed provincial sections of Swimming Canada, with the official name and
+// primary source for each. Territories are described in prose rather than
+// listed, because their organising bodies could not be confirmed by name from
+// a primary source at the time of writing.
+const sections = [
+  { name: "Swim BC", region: "British Columbia", url: "https://swimbc.ca/" },
+  { name: "Swim Alberta", region: "Alberta", url: "https://swimalberta.ca/" },
+  { name: "Swim Saskatchewan", region: "Saskatchewan", url: "https://www.swimsask.ca/" },
+  { name: "Swim Manitoba", region: "Manitoba", url: "https://swimmanitoba.mb.ca/" },
+  { name: "Swim Ontario", region: "Ontario", url: "https://www.swimontario.com/" },
+  { name: "Fédération de natation du Québec", region: "Quebec", url: "https://fnq.ca/" },
+  { name: "Swimming New Brunswick", region: "New Brunswick", url: "https://www.swimnb.ca/" },
+  { name: "Swim Nova Scotia", region: "Nova Scotia", url: "https://www.swimnovascotia.com/" },
+  { name: "Swim PEI", region: "Prince Edward Island", url: "https://swimpei.com/" },
+  { name: "Swimming Newfoundland and Labrador", region: "Newfoundland and Labrador", url: "https://swimmingnl.ca/" },
+];
+
+const safeSportSteps = [
+  {
+    heading: "Adopt and share a club code of conduct",
+    body:
+      "Your section and Swimming Canada expect every club to have a code of conduct that applies to its own registered participants. Make it easy to find, and have members acknowledge it at registration.",
+  },
+  {
+    heading: "Complete required education and screening",
+    body:
+      "Coaches, officials and volunteers are generally expected to complete Safe Sport training and the screening their section requires before they work with swimmers. Keep a simple record of who has completed what and when.",
+  },
+  {
+    heading: "Know where complaints go",
+    body:
+      "Reports of maltreatment under the UCCMS that involve designated participants are handled through the Canadian Safe Sport Program. Other concerns are usually addressed first at the club or provincial level. Make sure families know both routes.",
+  },
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonical={canonical}
+  imageUrl={`${SITE}/og-image.png`}
+  faqItems={faqItems}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+
+  <header class="border-b border-hairline bg-canvas/85 backdrop-blur-xl">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-[68px]">
+        <a href="/ca/" class="font-display text-[26px] text-[#0F2D2D] tracking-tight leading-none">Swimly</a>
+        <a
+          href={appUrl}
+          class="text-[15px] font-bold px-5 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-colors min-h-12 inline-flex items-center shadow-[0_1px_3px_rgba(57,57,58,0.16)]"
+        >
+          Start your club
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pb-16">
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section class="py-12">
+        <p class="eyebrow mb-3">Canada Guide</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          Swimming Canada and the Provincial Sections, Explained
+        </h1>
+        <p class="text-xl text-ink-soft leading-relaxed">
+          Swimming Canada is the national governing body for competitive swimming in Canada, and it works through
+          provincial and territorial member sections such as Swim Ontario, Swim BC and Swim Alberta. Your club
+          affiliates with its section, registers swimmers, coaches and officials in Swimming Canada's national system,
+          and follows the rules of both. This guide explains how that structure fits together, how clubs register, and
+          how Canada's Safe Sport framework applies to your club.
+        </p>
+        <div class="mt-8">
+          <a
+            href={appUrl}
+            class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+          >
+            Start your club free
+          </a>
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">What is Swimming Canada?</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Swimming Canada, known in French as Natation Canada, is the national governing body for competitive swimming
+          in Canada. It was established in 1909 as the Canadian Amateur Swimming Association and is recognised today as
+          the national sport organisation for the sport. In plain terms, it sets the national framework that every
+          affiliated club operates within.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          At the national level, Swimming Canada looks after the rules of swimming, national-level competition and the
+          national team programme, and the registration system that records clubs, swimmers, coaches and officials
+          across the country. It also sets the bylaws, policies and Safe Sport requirements that flow down to the
+          provincial and territorial sections and, through them, to clubs.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          What Swimming Canada does not do is run your club day to day. The everyday work of registering families,
+          collecting fees, organising training groups, taking attendance and answering parent questions sits with your
+          club and its volunteers. Understanding that split is the key to understanding where everything else fits.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How the provincial and territorial sections work</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Below Swimming Canada sit its member sections: the provincial and territorial organisations that govern
+          competitive swimming in each region. Each section operates as its own governing body within its borders. It
+          handles club affiliation, sanctions meets, sets provincial qualifying standards and runs provincial
+          championships. When you have a question about competing or affiliating, your section is almost always the
+          first place to ask.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Canada's ten provinces each have a provincial section. The territories are organised differently, and
+          activity in the North is generally smaller in scale, so this guide names only the provincial sections that
+          can be confirmed by name. The provincial sections are:
+        </p>
+        <div class="grid gap-4 sm:grid-cols-2">
+          {sections.map((section) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-5">
+              <h3 class="text-lg font-semibold text-[#0F2D2D]">
+                <a href={section.url} target="_blank" rel="noopener noreferrer" class="hover:underline">{section.name}</a>
+              </h3>
+              <p class="text-ink-mute text-sm mt-1">{section.region}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-6">
+          Names and structures can change, so always confirm the current details for your region with Swimming Canada
+          and your own section before you rely on them.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How clubs affiliate and register</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Clubs do not register directly with Swimming Canada. Instead, a club affiliates with its provincial or
+          territorial section, and the section oversees the affiliation process. As part of affiliation, the club
+          agrees to abide by the policies, rules, regulations and bylaws of both its section and Swimming Canada.
+          Sections typically ask clubs to reaffiliate each season, with most seasons beginning in September.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Once affiliated, a club registers its people in Swimming Canada's national registration system. This covers
+          swimmers across every category, from learn-to-swim and recreational through to competitive, as well as
+          coaches and officials. Registrants generally need to be entered within 14 days of starting to participate, so
+          keeping accurate, up-to-date member records matters all year round, not just at the start of the season.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Swimming Canada's national registration runs on its Registration and Event Management System (REMS), built on
+          the SportLoMo platform, which replaced the older RTR system in 2024. Exact steps, deadlines and fees vary by
+          section, so your provincial section is the right place to confirm what your club needs to do and by when.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Canada's Safe Sport framework and your club</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Safe Sport is the part of Canadian swimming governance that volunteers ask about most, partly because the
+          national system has changed recently. Swimming Canada has adopted the Canadian Safe Sport Program (CSSP),
+          which is administered by the Canadian Centre for Ethics in Sport (CCES). The CSSP launched on 1 April 2025 and
+          took over from the previous Abuse-Free Sport programme.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The CSSP independently manages reports made under the Universal Code of Conduct to Prevent and Address
+          Maltreatment in Sport (UCCMS), the national standard for preventing and responding to maltreatment. For
+          designated participants in the national programme, a complaint of maltreatment under the UCCMS is handled by
+          the CSSP rather than by your club. Reports can be made online or by phone.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Clubs still have real responsibilities. Swimming Canada and the sections expect clubs to maintain their own
+          code of conduct for their registered participants, to make sure coaches, officials and volunteers complete
+          the required Safe Sport education and screening, and to handle concerns involving participants who fall
+          outside the national programme. In practice, that means having clear policies, keeping good records, and
+          knowing where to direct a concern.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-3">
+          {safeSportSteps.map((step) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{step.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{step.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-6">
+          Because Safe Sport rules are detailed and still settling, treat this as an overview rather than legal advice,
+          and confirm the current requirements with Swimming Canada, the CCES and your provincial section.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Where Swimly fits for Canadian clubs</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Swimly is club management software, not a governing body. It does not replace your affiliation with your
+          provincial section or your registration in Swimming Canada's national system. What it does is take the
+          repetitive administration off your volunteers so the people who run your club can spend more time on the pool
+          deck and less time in spreadsheets.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          In practice, Swimly handles online registration and waivers, recurring billing in CAD, attendance you can
+          record from a phone, flexible group management and parent communication, all in one calm place. Because the
+          national system still needs accurate, current records, it helps to run your day-to-day intake and member data
+          somewhere organised, and to be able to export what you need rather than having it locked away. You can see
+          what is included on our <a href="/ca/features/" class="text-mint-ink font-semibold hover:underline">features page</a>,
+          and current plans on our <a href="/ca/pricing/" class="text-mint-ink font-semibold hover:underline">pricing page</a>.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Have a question before you start? Email us at
+          <a href={`mailto:${contactEmail}`} class="text-mint-ink font-semibold hover:underline">{contactEmail}</a>.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Frequently asked questions</h2>
+        <div class="space-y-6">
+          {faqItems.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.question}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-12 text-center">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Run the club admin, not the spreadsheets</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-8 max-w-2xl mx-auto">
+          Set up your club in minutes and keep registration, billing and attendance organised alongside everything your
+          section and Swimming Canada require.
+        </p>
+        <a
+          href={appUrl}
+          class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+        >
+          Start your club free
+        </a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="border-t border-hairline">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-ink-mute">&copy; {new Date().getFullYear()} Swimly</p>
+      <a href={`mailto:${contactEmail}`} class="text-sm text-ink-mute hover:text-[#0F2D2D] transition-colors">{contactEmail}</a>
+    </div>
+  </footer>
+</Layout>

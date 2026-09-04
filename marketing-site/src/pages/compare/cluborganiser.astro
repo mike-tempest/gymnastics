@@ -1,0 +1,897 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { ArrowRight, Zap, Shield, Smartphone, Users } from '@lucide/astro';
+
+const title = 'Club Organiser vs Swimly: UK Swim Club Software Comparison 2026';
+const description = 'Comparing Club Organiser and Swimly for UK swimming clubs. Both offer swim-specific features, but Swimly delivers modern automation, transparent pricing from £29/month, and zero configuration. See which platform suits your club.';
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Compare",
+      "item": "https://swimly.uk/compare/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "ClubOrganiser",
+      "item": "https://swimly.uk/compare/cluborganiser"
+    }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does Club Organiser cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Club Organiser costs £480 per year (£40 per month), which includes club software and a hosted club website. This price covers unlimited members and most core features, with additional costs for SMS messaging (8p per message) and emails above 3,500 per month. Swimly offers transparent flat pricing from £29 per month with all features included."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Club Organiser work for swimming clubs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, Club Organiser has swimming-specific features including time conversion, Hy-Tek and SportSystems compatibility, personal best tracking, and club records storage for both short and long course. It serves swimming clubs alongside other sports clubs. Swimly is exclusively built for swimming clubs with modern features like automated billing and zero-configuration setup."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the main differences between Club Organiser and Swimly?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Club Organiser is an established platform serving multiple sports with swimming features added over time. Swimly is built exclusively for swimming clubs with modern automation and requires no configuration. Key differences: Swimly offers automated Direct Debit collection, mobile-first design, 30-minute setup, and transparent pricing from £29/month. Club Organiser costs £40/month, includes a hosted website, and serves multiple sports."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I switch from Club Organiser to Swimly?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, you can migrate from Club Organiser to Swimly. Swimly's setup process includes importing member data, and our support team can assist with the transition. Because both platforms understand swimming club structures, migrating swimmer data, squad assignments, and membership information is straightforward."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What features does Club Organiser have that Swimly doesn't?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Club Organiser includes a hosted club website as part of the package, supports multiple sports within one organisation, and has been established for many years with extensive legacy integrations. Swimly focuses exclusively on club management software with modern automation and does not currently include website hosting, instead offering superior mobile experience and automated billing workflows."
+      }
+    }
+  ]
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <!-- Hero Section -->
+    <section class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none"></div>
+      <div class="relative">
+        <p class="eyebrow mb-6">Platform comparison</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          Club Organiser vs Swimly
+        </h1>
+        <p class="text-xl text-ink-soft max-w-3xl">
+          Club Organiser has been serving UK sports clubs for years with swimming-specific features including time tracking and meet management. Swimly is the modern alternative, built exclusively for swimming clubs with automated billing, mobile-first design, and zero configuration required.
+        </p>
+
+        <!-- Platform vs Platform -->
+        <div class="flex items-center justify-center gap-4 sm:gap-8 mt-10 mb-10">
+          <div class="text-center">
+            <p class="font-display text-2xl sm:text-3xl text-mint-ink">Swimly</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">Modern platform</p>
+          </div>
+          <div class="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#FF8552]/15 border-2 border-[#FF8552]/40">
+            <span class="font-display text-xl sm:text-2xl text-[#C2410C]">vs</span>
+          </div>
+          <div class="text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">ClubOrganiser</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">Legacy platform</p>
+          </div>
+        </div>
+
+        <!-- Key stats row - enhanced visual impact -->
+        <div class="grid grid-cols-3 gap-4 sm:gap-6">
+          <div class="relative group bg-[#85FFC7]/15 border border-[#1F7A52]/20 rounded-2xl p-5 sm:p-8 text-center hover:border-[#1F7A52]/30 transition-all">
+            <p class="relative font-display text-5xl sm:text-7xl text-mint-ink tracking-tight">100%</p>
+            <p class="relative text-sm sm:text-base text-ink-soft mt-2 font-medium">swimming-focused</p>
+          </div>
+          <div class="relative group bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-2xl p-5 sm:p-8 text-center hover:border-[#297373]/30 transition-all">
+            <p class="relative font-display text-5xl sm:text-7xl text-[#0F2D2D] tracking-tight">30<span class="text-3xl sm:text-4xl text-ink-mute">min</span></p>
+            <p class="relative text-sm sm:text-base text-ink-soft mt-2 font-medium">setup time</p>
+          </div>
+          <div class="relative group bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-2xl p-5 sm:p-8 text-center hover:border-[#297373]/30 transition-all">
+            <p class="relative font-display text-5xl sm:text-7xl text-[#0F2D2D] tracking-tight">Zero</p>
+            <p class="relative text-sm sm:text-base text-ink-soft mt-2 font-medium">config needed</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Differences at a Glance -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <div class="text-center mb-10">
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-4">Key differences at a glance</h2>
+        <p class="text-lg text-ink-soft max-w-2xl mx-auto">The three things that matter most when choosing between Club Organiser and Swimly.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Pricing -->
+        <div class="relative p-8 rounded-2xl bg-[#85FFC7]/15 border border-[#1F7A52]/20">
+          <div class="w-14 h-14 rounded-2xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Transparent pricing</h3>
+          <p class="text-ink-soft text-sm leading-relaxed mb-4">Swimly is <strong class="text-mint-ink">£29/month flat</strong> with everything included. Club Organiser charges £40/month plus 8p per SMS and extra for emails over 3,500.</p>
+          <div class="flex items-center gap-3 pt-4 border-t border-[#1F7A52]/20">
+            <span class="font-display text-2xl text-mint-ink">£132</span>
+            <span class="text-sm text-ink-mute">saved per year vs Club Organiser</span>
+          </div>
+        </div>
+        <!-- Mobile-first -->
+        <div class="relative p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-all">
+          <div class="w-14 h-14 rounded-2xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Mobile-first, not mobile-adapted</h3>
+          <p class="text-ink-soft text-sm leading-relaxed mb-4">Coaches take attendance poolside on their phone. Swimly is designed for wet hands and bright sunshine, not retrofitted from a desktop interface.</p>
+          <div class="flex items-center gap-3 pt-4 border-t border-[#39393A]/10">
+            <span class="text-sm text-ink-soft">Works offline with patchy pool WiFi</span>
+          </div>
+        </div>
+        <!-- Automated billing -->
+        <div class="relative p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-all">
+          <div class="w-14 h-14 rounded-2xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Truly automated billing</h3>
+          <p class="text-ink-soft text-sm leading-relaxed mb-4">Set up Direct Debit once and fees collect themselves via GoCardless. No more chasing standing orders, no manual reconciliation, no late payment spreadsheets.</p>
+          <div class="flex items-center gap-3 pt-4 border-t border-[#39393A]/10">
+            <span class="text-sm text-ink-soft">10+ hours saved per month for Treasurers</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Table - enhanced visual indicators -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 overflow-hidden shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-[#39393A]/8 bg-surface">
+                <th class="text-left p-4 sm:p-6 text-[#0F2D2D] font-semibold text-base sm:text-lg">Feature</th>
+                <th class="text-left p-4 sm:p-6 text-mint-ink font-semibold text-base sm:text-lg bg-[#85FFC7]/10">
+                  <div class="flex items-center gap-2">
+                    <span>Swimly</span>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-[#85FFC7]/20 text-mint-ink text-xs font-semibold">Modern</span>
+                  </div>
+                </th>
+                <th class="text-left p-4 sm:p-6 text-[#0F2D2D] font-semibold text-base sm:text-lg">ClubOrganiser</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[#39393A]/8">
+              <tr>
+                <td class="p-4 sm:p-6 text-[#0F2D2D] font-semibold">Target Market</td>
+                <td class="p-4 sm:p-6 bg-[#85FFC7]/10">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-mint-ink shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span class="text-mint-ink font-medium">Swimming clubs exclusively</span>
+                  </div>
+                </td>
+                <td class="p-4 sm:p-6">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-[#B91C1C]/70 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                    <span class="text-ink-soft">Multi-sport platform (swimming, football, etc.)</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="p-4 sm:p-6 text-[#0F2D2D] font-semibold">Pricing</td>
+                <td class="p-4 sm:p-6 bg-[#85FFC7]/10">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-mint-ink shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                      <span class="text-mint-ink font-semibold">From £29/month</span>
+                      <p class="text-xs text-ink-mute mt-0.5">Transparent flat fee</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="p-4 sm:p-6">
+                  <span class="text-ink-soft">£40/month (£480/year)</span>
+                  <p class="text-xs text-ink-mute mt-0.5">Includes hosted website</p>
+                </td>
+              </tr>
+              <tr>
+                <td class="p-4 sm:p-6 text-[#0F2D2D] font-semibold">Setup Time</td>
+                <td class="p-4 sm:p-6 bg-[#85FFC7]/10">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-mint-ink shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                      <span class="text-mint-ink font-semibold">30 minutes</span>
+                      <p class="text-xs text-ink-mute mt-0.5">Swimming defaults pre-configured</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="p-4 sm:p-6">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-[#B91C1C]/70 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                    <span class="text-ink-soft">Manual configuration required for club structure</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="p-4 sm:p-6 text-[#0F2D2D] font-semibold">Payment Automation</td>
+                <td class="p-4 sm:p-6 bg-[#85FFC7]/10">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-mint-ink shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                      <span class="text-mint-ink font-semibold">Automated Direct Debit</span>
+                      <p class="text-xs text-ink-mute mt-0.5">Fully integrated via GoCardless</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="p-4 sm:p-6">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-[#B91C1C]/70 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                    <div>
+                      <span class="text-ink-soft">GoCardless and Stripe supported</span>
+                      <p class="text-xs text-ink-mute mt-0.5">Manual setup required</p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="p-4 sm:p-6 text-[#0F2D2D] font-semibold">Swimming Features</td>
+                <td class="p-4 sm:p-6 bg-[#85FFC7]/10">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-mint-ink shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span class="text-mint-ink font-medium">Squad levels, lane assignments, modern meet entry</span>
+                  </div>
+                </td>
+                <td class="p-4 sm:p-6 text-ink-soft">Time conversion, PB tracking, Hy-Tek/SportSystems import</td>
+              </tr>
+              <tr>
+                <td class="p-4 sm:p-6 text-[#0F2D2D] font-semibold">Mobile Experience</td>
+                <td class="p-4 sm:p-6 bg-[#85FFC7]/10">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-mint-ink shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                      <span class="text-mint-ink font-semibold">Mobile-first design</span>
+                      <p class="text-xs text-ink-mute mt-0.5">Works offline poolside</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="p-4 sm:p-6">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-[#B91C1C]/70 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                    <span class="text-ink-soft">Responsive platform via app icon</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="p-4 sm:p-6 text-[#0F2D2D] font-semibold">Club Website</td>
+                <td class="p-4 sm:p-6 bg-[#85FFC7]/10">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-ink-faint shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                    <span class="text-ink-soft">Not included (management platform only)</span>
+                  </div>
+                </td>
+                <td class="p-4 sm:p-6">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-mint-ink shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span class="text-mint-ink font-medium">Hosted club website included in price</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="p-4 sm:p-6 text-[#0F2D2D] font-semibold">Meet Management</td>
+                <td class="p-4 sm:p-6 bg-[#85FFC7]/10">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-mint-ink shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span class="text-mint-ink font-medium">Integrated entries, payments, and eligibility tracking</span>
+                  </div>
+                </td>
+                <td class="p-4 sm:p-6 text-ink-soft">Hy-Tek/SportSystems compatibility, eligibility lists</td>
+              </tr>
+              <tr>
+                <td class="p-4 sm:p-6 text-[#0F2D2D] font-semibold">Swim England Integration</td>
+                <td class="p-4 sm:p-6 bg-[#85FFC7]/10">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-ink-faint shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span class="text-ink-soft">Planned for 2026 roadmap</span>
+                  </div>
+                </td>
+                <td class="p-4 sm:p-6">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-mint-ink shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span class="text-mint-ink font-medium">OMS integration for member setup and updates</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="p-4 sm:p-6 text-[#0F2D2D] font-semibold">Additional Costs</td>
+                <td class="p-4 sm:p-6 bg-[#85FFC7]/10">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-mint-ink shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                      <span class="text-mint-ink font-semibold">None</span>
+                      <p class="text-xs text-ink-mute mt-0.5">All features included</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="p-4 sm:p-6">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-[#B91C1C]/70 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                    <div>
+                      <span class="text-ink-soft">SMS 8p per message</span>
+                      <p class="text-xs text-ink-mute mt-0.5">Emails over 3,500/month</p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- See Swimly in Action - enhanced visual hierarchy -->
+    <section class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div class="relative text-center mb-16">
+        <p class="eyebrow mb-4">See the difference</p>
+        <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl text-[#0F2D2D] mb-6">
+          See what a <em class="text-mint-ink">modern platform</em> looks like
+        </h2>
+        <p class="text-lg sm:text-xl text-ink-soft max-w-3xl mx-auto leading-relaxed">Built for the way committees actually work: quick glances on phones between sessions, and proper admin on laptops when you have time.</p>
+      </div>
+
+      <!-- Dashboard -->
+      <div class="mb-16">
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          <div class="lg:w-2/3">
+            <div class="rounded-2xl overflow-hidden border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+              <div class="flex items-center gap-1.5 px-4 py-3 bg-surface border-b border-[#39393A]/8">
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <span class="ml-3 text-xs text-ink-mute">app.swimly.uk</span>
+              </div>
+              <picture>
+                <source srcset="/mockups/dashboard-macbook.webp" type="image/webp" />
+                <img src="/mockups/dashboard-macbook.png" alt="Swimly club dashboard showing swimmers, sessions, and billing overview" class="w-full" loading="lazy" />
+              </picture>
+            </div>
+          </div>
+          <div class="lg:w-1/3">
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Club dashboard</h3>
+            <p class="text-ink-soft text-sm leading-relaxed mb-4">Everything your committee needs at a glance: member counts, upcoming sessions, billing status, and compliance alerts. No clicking through five menus to find what matters.</p>
+            <ul class="space-y-2">
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Real-time member and payment stats
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Upcoming sessions and attendance
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Compliance and DBS expiry warnings
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Billing -->
+      <div class="mb-16">
+        <div class="flex flex-col lg:flex-row-reverse items-center gap-8 lg:gap-12">
+          <div class="lg:w-2/3">
+            <div class="rounded-2xl overflow-hidden border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+              <div class="flex items-center gap-1.5 px-4 py-3 bg-surface border-b border-[#39393A]/8">
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <span class="ml-3 text-xs text-ink-mute">app.swimly.uk/billing</span>
+              </div>
+              <picture>
+                <source srcset="/mockups/billing-macbook.webp" type="image/webp" />
+                <img src="/mockups/billing-macbook.png" alt="Swimly billing page showing automated Direct Debit collections" class="w-full" loading="lazy" />
+              </picture>
+            </div>
+          </div>
+          <div class="lg:w-1/3">
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Automated billing</h3>
+            <p class="text-ink-soft text-sm leading-relaxed mb-4">Direct Debit via GoCardless means fees collect themselves. The Treasurer sees who has paid, who hasn't, and what failed, all without opening a spreadsheet.</p>
+            <ul class="space-y-2">
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                One-click Direct Debit setup
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Automatic retry on failed payments
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Clear payment status dashboard
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile / Poolside -->
+      <div>
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          <div class="lg:w-1/3 flex justify-center">
+            <div class="w-[220px]">
+              <picture>
+                <source srcset="/mockups/sessions-iphone.webp" type="image/webp" />
+                <img src="/mockups/sessions-iphone.png" alt="Swimly attendance register on an iPhone at poolside" class="w-full h-auto" loading="lazy" />
+              </picture>
+            </div>
+          </div>
+          <div class="lg:w-2/3">
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Works poolside on your phone</h3>
+            <p class="text-ink-soft text-sm leading-relaxed mb-4">Coaches take attendance on their phone at 6am. Parents check balances in the car park. Committee members approve things on the train. Swimly is designed for real life, not just office desks.</p>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="p-4 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+                <p class="text-sm font-semibold text-[#0F2D2D] mb-1">No app download needed</p>
+                <p class="text-xs text-ink-mute">Works in any mobile browser. Add to home screen for an app-like experience.</p>
+              </div>
+              <div class="p-4 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+                <p class="text-sm font-semibold text-[#0F2D2D] mb-1">Offline-friendly attendance</p>
+                <p class="text-xs text-ink-mute">Mark attendance even with patchy poolside WiFi. Syncs when reconnected.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Swimly - enhanced card differentiation -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div class="text-center mb-12">
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-4">Why choose Swimly over Club Organiser?</h2>
+        <p class="text-lg text-ink-soft max-w-2xl mx-auto">Four reasons clubs are choosing modern automation over legacy platforms.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-6 lg:gap-8">
+        <div class="group relative p-8 rounded-2xl bg-[#85FFC7]/15 border border-[#1F7A52]/20 hover:border-[#1F7A52]/30 transition-all">
+          <div class="relative">
+            <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <Zap class="w-6 h-6 text-mint-ink" />
+            </div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3 group-hover:text-mint-ink transition-colors">Built exclusively for swimming clubs</h3>
+            <p class="text-sm text-ink-soft leading-relaxed">Whilst Club Organiser serves multiple sports, Swimly is laser-focused on swimming. Every feature, workflow, and interface element is designed specifically for aquatics organisations, from squad management to pool session scheduling.</p>
+          </div>
+        </div>
+
+        <div class="group relative p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-all">
+          <div class="relative">
+            <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <Shield class="w-6 h-6 text-mint-ink" />
+            </div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3 group-hover:text-mint-ink transition-colors">Zero configuration required</h3>
+            <p class="text-sm text-ink-soft leading-relaxed">No setup time configuring teams, events, or payment structures. Swimly ships with <a href="/features/membership" class="text-mint-ink hover:text-[#0F2D2D] font-medium">swimming club defaults</a> pre-configured, so you can add your first members and sessions within 30 minutes.</p>
+          </div>
+        </div>
+
+        <div class="group relative p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-all">
+          <div class="relative">
+            <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <Smartphone class="w-6 h-6 text-mint-ink" />
+            </div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3 group-hover:text-mint-ink transition-colors">Fully automated Direct Debit billing</h3>
+            <p class="text-sm text-ink-soft leading-relaxed">Swimly's integrated <a href="/features/billing" class="text-mint-ink hover:text-[#0F2D2D] font-medium">GoCardless Direct Debit automation</a> collects fees automatically every month. No manual reconciliation, no chasing parents, no spreadsheet imports required.</p>
+          </div>
+        </div>
+
+        <div class="group relative p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-all">
+          <div class="relative">
+            <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <Users class="w-6 h-6 text-mint-ink" />
+            </div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3 group-hover:text-mint-ink transition-colors">Modern mobile-first design</h3>
+            <p class="text-sm text-ink-soft leading-relaxed">Built for coaches taking attendance poolside at 6am and committee members approving payments on the train. Works offline where WiFi is patchy. Check our <a href="/pricing" class="text-mint-ink hover:text-[#0F2D2D] font-medium">transparent pricing</a> from £29/month.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-4 text-center">Frequently asked questions about Club Organiser</h2>
+      <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">Common questions from swim club committee members comparing platforms.</p>
+      <div class="space-y-4">
+        <details class="group bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 hover:border-[#297373]/30 transition-colors">
+          <summary class="flex items-center justify-between cursor-pointer text-lg font-semibold text-[#0F2D2D]">
+            <span>How much does Club Organiser cost?</span>
+            <svg class="w-5 h-5 text-mint-ink group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </summary>
+          <div class="mt-4 text-ink-soft leading-relaxed">
+            <p>Club Organiser costs £480 per year (£40 per month), which includes club management software and a hosted club website. This price covers unlimited members and most core features. Additional costs apply for SMS messaging (8p per message) and emails above 3,500 per month.</p>
+            <p class="mt-3">Swimly offers transparent flat pricing from £29 per month with all features included and no usage-based charges.</p>
+          </div>
+        </details>
+
+        <details class="group bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 hover:border-[#297373]/30 transition-colors">
+          <summary class="flex items-center justify-between cursor-pointer text-lg font-semibold text-[#0F2D2D]">
+            <span>Does Club Organiser work for swimming clubs?</span>
+            <svg class="w-5 h-5 text-mint-ink group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </summary>
+          <div class="mt-4 text-ink-soft leading-relaxed">
+            <p>Yes, Club Organiser has swimming-specific features including time conversion, Hy-Tek and SportSystems compatibility, personal best tracking, club records storage for both short and long course, and Swim England OMS integration. It has been used by swimming clubs for many years.</p>
+            <p class="mt-3">However, Club Organiser is a multi-sport platform that also serves football clubs, cricket teams, and other organisations. Swimly is built exclusively for swimming clubs with modern automation that requires zero configuration.</p>
+          </div>
+        </details>
+
+        <details class="group bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 hover:border-[#297373]/30 transition-colors">
+          <summary class="flex items-center justify-between cursor-pointer text-lg font-semibold text-[#0F2D2D]">
+            <span>What are the main differences between Club Organiser and Swimly?</span>
+            <svg class="w-5 h-5 text-mint-ink group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </summary>
+          <div class="mt-4 text-ink-soft leading-relaxed">
+            <p>The key differences are focus, automation, and modern design:</p>
+            <ul class="mt-3 space-y-2 list-disc list-inside">
+              <li><strong class="text-[#0F2D2D]">Focus:</strong> Club Organiser serves multiple sports; Swimly is swimming-only</li>
+              <li><strong class="text-[#0F2D2D]">Automation:</strong> Swimly offers fully automated Direct Debit collection; Club Organiser requires manual setup and reconciliation</li>
+              <li><strong class="text-[#0F2D2D]">Setup:</strong> Swimly ships with swimming defaults (30 minutes); Club Organiser requires configuration</li>
+              <li><strong class="text-[#0F2D2D]">Mobile:</strong> Swimly is mobile-first with offline capability; Club Organiser is responsive but not optimised for poolside use</li>
+              <li><strong class="text-[#0F2D2D]">Pricing:</strong> Swimly from £29/month; Club Organiser £40/month plus usage charges</li>
+              <li><strong class="text-[#0F2D2D]">Website:</strong> Club Organiser includes hosted website; Swimly is management software only</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="group bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 hover:border-[#297373]/30 transition-colors">
+          <summary class="flex items-center justify-between cursor-pointer text-lg font-semibold text-[#0F2D2D]">
+            <span>Can I switch from Club Organiser to Swimly?</span>
+            <svg class="w-5 h-5 text-mint-ink group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </summary>
+          <div class="mt-4 text-ink-soft leading-relaxed">
+            <p>Yes, you can migrate from Club Organiser to Swimly. Swimly's setup process includes importing member data, squad assignments, and membership information. Because both platforms understand swimming club structures, the transition is straightforward.</p>
+            <p class="mt-3">Our support team can assist with the migration process to ensure your club's data transfers smoothly. Most clubs complete the switch within a week whilst running both systems in parallel during the transition. <a href="/founding-clubs/" class="text-mint-ink hover:text-[#0F2D2D]">Join our founding clubs programme</a> to get hands-on migration support.</p>
+          </div>
+        </details>
+
+        <details class="group bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 hover:border-[#297373]/30 transition-colors">
+          <summary class="flex items-center justify-between cursor-pointer text-lg font-semibold text-[#0F2D2D]">
+            <span>What features does Club Organiser have that Swimly doesn't?</span>
+            <svg class="w-5 h-5 text-mint-ink group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </summary>
+          <div class="mt-4 text-ink-soft leading-relaxed">
+            <p>Club Organiser includes several features that Swimly does not currently offer:</p>
+            <ul class="mt-3 space-y-2 list-disc list-inside">
+              <li><strong class="text-[#0F2D2D]">Hosted club website</strong> included in the package (Swimly is management software only)</li>
+              <li><strong class="text-[#0F2D2D]">Multi-sport support</strong> if you run swimming alongside other sports in one organisation</li>
+              <li><strong class="text-[#0F2D2D]">Swim England OMS integration</strong> for direct member setup and category updates (on Swimly's 2026 roadmap)</li>
+              <li><strong class="text-[#0F2D2D]">Legacy integrations</strong> built over many years for specific regional requirements</li>
+            </ul>
+            <p class="mt-3">Swimly focuses on superior club management automation, mobile experience, and zero-configuration setup rather than bundling website hosting or supporting multiple sports.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Real Club Scenarios -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div class="text-center mb-12">
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-4">How each platform handles real club tasks</h2>
+        <p class="text-lg text-ink-soft max-w-2xl mx-auto">The features committees actually use, week in, week out.</p>
+      </div>
+      <div class="space-y-6">
+        <!-- Scenario: Monthly fee collection -->
+        <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 sm:p-8">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Collecting monthly swimming fees</h3>
+          <p class="text-sm text-ink-mute mb-4">The task every Treasurer dreads: chasing 80+ families for quarterly subs.</p>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="p-4 rounded-xl bg-[#85FFC7]/15 border border-[#1F7A52]/20">
+              <p class="text-sm font-semibold text-mint-ink mb-2">Swimly</p>
+              <p class="text-sm text-ink-soft">Set up Direct Debit once per family. Fees collect automatically on the first of each month. Failed payments retry automatically. The Treasurer logs in to see a dashboard of collected, pending, and failed payments. No spreadsheets, no WhatsApp messages, no awkward conversations at poolside.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-surface border border-[#39393A]/10">
+              <p class="text-sm font-semibold text-[#0F2D2D] mb-2">Club Organiser</p>
+              <p class="text-sm text-ink-soft">Supports GoCardless and Stripe integrations, but requires manual setup and configuration for each payment method. The platform can track who owes what, but the automation is less streamlined than a purpose-built swimming billing workflow.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario: Poolside attendance -->
+        <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 sm:p-8">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Taking attendance at 6am on a Tuesday</h3>
+          <p class="text-sm text-ink-mute mb-4">The coach is poolside, phone in one hand, whistle in the other. WiFi is patchy.</p>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="p-4 rounded-xl bg-[#85FFC7]/15 border border-[#1F7A52]/20">
+              <p class="text-sm font-semibold text-mint-ink mb-2">Swimly</p>
+              <p class="text-sm text-ink-soft">Mobile-first attendance register designed for wet hands and bright sunshine. Works offline when pool WiFi drops. Tap names, mark present or absent, add notes. Syncs automatically when the phone reconnects. Large touch targets, high contrast, no squinting at tiny text.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-surface border border-[#39393A]/10">
+              <p class="text-sm font-semibold text-[#0F2D2D] mb-2">Club Organiser</p>
+              <p class="text-sm text-ink-soft">Responsive design accessible via mobile browser or home screen icon. Functional on phones but designed as a desktop platform adapted for mobile rather than built mobile-first. Requires an internet connection to operate.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario: New season setup -->
+        <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 sm:p-8">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Setting up for a new swimming season</h3>
+          <p class="text-sm text-ink-mute mb-4">September arrives: new squads, new fees, new committee members who need access.</p>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="p-4 rounded-xl bg-[#85FFC7]/15 border border-[#1F7A52]/20">
+              <p class="text-sm font-semibold text-mint-ink mb-2">Swimly</p>
+              <p class="text-sm text-ink-soft">Swimming club defaults are pre-configured from day one. Move swimmers between squads with drag-and-drop. Update fee structures and billing starts automatically. Invite new committee members with role-based access in minutes.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-surface border border-[#39393A]/10">
+              <p class="text-sm font-semibold text-[#0F2D2D] mb-2">Club Organiser</p>
+              <p class="text-sm text-ink-soft">Flexible setup supports custom team structures, membership categories, and fee schedules. The multi-sport architecture means swimming-specific terminology and workflows require manual configuration, but the platform is highly customisable once set up.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cost Breakdown -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-4 text-center">Full cost comparison for a typical club</h2>
+      <p class="text-lg text-ink-soft text-center mb-10 max-w-2xl mx-auto">What a 120-member swimming club actually pays per year.</p>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="p-8 rounded-2xl bg-[#85FFC7]/15 border border-[#1F7A52]/20">
+          <h3 class="text-xl font-semibold text-mint-ink mb-6">Swimly</h3>
+          <div class="space-y-3 mb-6">
+            <div class="flex justify-between text-sm">
+              <span class="text-ink-soft">Software (all features)</span>
+              <span class="text-[#0F2D2D] font-semibold">£29/month</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-ink-soft">SMS and email</span>
+              <span class="text-[#0F2D2D] font-semibold">Included</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-ink-soft">Additional charges</span>
+              <span class="text-[#0F2D2D] font-semibold">None</span>
+            </div>
+          </div>
+          <div class="pt-4 border-t border-[#1F7A52]/20">
+            <div class="flex justify-between">
+              <span class="text-[#0F2D2D] font-semibold">Annual total</span>
+              <span class="font-display text-2xl text-mint-ink">£348</span>
+            </div>
+          </div>
+        </div>
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-6">Club Organiser</h3>
+          <div class="space-y-3 mb-6">
+            <div class="flex justify-between text-sm">
+              <span class="text-ink-soft">Software + website</span>
+              <span class="text-[#0F2D2D] font-semibold">£40/month</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-ink-soft">SMS (est. 50/month at 8p)</span>
+              <span class="text-[#0F2D2D] font-semibold">£4/month</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-ink-soft">Extra emails (est.)</span>
+              <span class="text-[#0F2D2D] font-semibold">Variable</span>
+            </div>
+          </div>
+          <div class="pt-4 border-t border-[#39393A]/10">
+            <div class="flex justify-between">
+              <span class="text-[#0F2D2D] font-semibold">Annual total (est.)</span>
+              <span class="font-display text-2xl text-[#0F2D2D]">£528+</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="text-center text-sm text-ink-mute mt-6">Club Organiser pricing includes hosted website. Swimly focuses on club management. SMS estimates based on typical club communication patterns. Prices as of March 2026.</p>
+    </section>
+
+    <!-- Switching Guide -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-4 text-center">How to switch from Club Organiser to Swimly</h2>
+      <p class="text-lg text-ink-soft text-center mb-10 max-w-2xl mx-auto">Most clubs complete the migration within a week whilst running both systems in parallel.</p>
+      <div class="grid sm:grid-cols-4 gap-4">
+        <div class="text-center p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <div class="w-10 h-10 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mx-auto mb-4">
+            <span class="text-mint-ink font-bold text-sm">1</span>
+          </div>
+          <h4 class="text-sm font-semibold text-[#0F2D2D] mb-2">Export your data</h4>
+          <p class="text-xs text-ink-soft">Download your member list, squad assignments, and payment records from Club Organiser as CSV.</p>
+        </div>
+        <div class="text-center p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <div class="w-10 h-10 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mx-auto mb-4">
+            <span class="text-mint-ink font-bold text-sm">2</span>
+          </div>
+          <h4 class="text-sm font-semibold text-[#0F2D2D] mb-2">Import into Swimly</h4>
+          <p class="text-xs text-ink-soft">Upload your CSV. Swimly maps swimming-specific fields automatically: squads, membership categories, contact details.</p>
+        </div>
+        <div class="text-center p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <div class="w-10 h-10 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mx-auto mb-4">
+            <span class="text-mint-ink font-bold text-sm">3</span>
+          </div>
+          <h4 class="text-sm font-semibold text-[#0F2D2D] mb-2">Set up billing</h4>
+          <p class="text-xs text-ink-soft">Connect GoCardless for automated Direct Debit. Parents receive a one-time mandate link. No more standing order chaos.</p>
+        </div>
+        <div class="text-center p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <div class="w-10 h-10 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mx-auto mb-4">
+            <span class="text-mint-ink font-bold text-sm">4</span>
+          </div>
+          <h4 class="text-sm font-semibold text-[#0F2D2D] mb-2">Go live</h4>
+          <p class="text-xs text-ink-soft">Invite your committee and coaches. Swimly's swimming defaults mean they can start immediately with no training needed.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- When ClubOrganiser Might Be Better -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">When might Club Organiser be better?</h2>
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8">
+        <p class="text-ink-soft mb-4">
+          Club Organiser is an established platform with years of development. Consider Club Organiser if:
+        </p>
+        <ul class="space-y-3 text-ink-soft">
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>You need a hosted club website included in your platform (Swimly does not offer website hosting)</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>You run a multi-sport organisation and need one system for swimming, football, and other sports</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>You require immediate Swim England OMS integration (Swimly is adding this in 2026)</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>You already use Club Organiser across your organisation and want consistency</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Compare All Platforms -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8 text-center">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-4">Comparing other platforms?</h2>
+        <p class="text-ink-soft mb-6">
+          See how Swimly compares to all the top UK swim club software options in one place.
+        </p>
+        <a
+          href="/best-swim-club-software"
+          class="inline-flex items-center gap-2 text-mint-ink hover:text-[#0F2D2D] transition-colors font-medium"
+        >
+          View full comparison guide →
+        </a>
+      </div>
+    </section>
+
+    <!-- CTA Section - more compelling design -->
+    <section class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div class="relative">
+        <div class="relative bg-[#0F2D2D] rounded-3xl p-8 sm:p-12 lg:p-16 text-center overflow-hidden">
+          <div class="ripple absolute -left-24 top-10 w-80 h-80 opacity-60" aria-hidden="true"></div>
+          <div class="relative">
+            <p class="eyebrow-light mb-6">Limited founding club places available</p>
+            <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl text-[#E6E6E6] mb-6">
+              Ready for modern swim club management?
+            </h2>
+            <p class="text-lg sm:text-xl text-[#E6E6E6]/65 mb-10 max-w-2xl mx-auto leading-relaxed">
+              Join our founding clubs programme and be amongst the first clubs to experience Swimly's automated billing and mobile-first design.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+              <a
+                href="/founding-clubs/"
+                class="group inline-flex items-center gap-3 text-lg font-bold min-h-12 px-10 py-5 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all"
+              >
+                Join the founding clubs programme
+                <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </a>
+              <a
+                href="/best-swim-club-software"
+                class="inline-flex items-center gap-2 text-base font-semibold min-h-12 px-6 py-4 rounded-xl border border-[#E6E6E6]/20 text-[#E6E6E6] hover:border-[#85FFC7]/40 hover:text-[#85FFC7] transition-all"
+              >
+                Compare all platforms
+              </a>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-[#E6E6E6]/55">
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-[#85FFC7]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span>6 months free on any plan</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-[#85FFC7]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span>Migration support included</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-[#85FFC7]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span>No credit card required</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

@@ -1,0 +1,146 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { Globe, ArrowRight } from "@lucide/astro";
+
+// This page builds at /international/ but is deployed at the swimly.club root,
+// so the public URL is https://swimly.club/. The shared Layout always uses the
+// swimly.uk origin for the canonical, so we override it with an explicit
+// swimly.club root canonical here.
+//
+// hreflang note: the shared Layout exposes no `alternates` prop and renders the
+// page slot inside <body>, so any <link rel="alternate"> emitted from here would
+// land in <body>, which is not a valid place for hreflang annotations. Rather
+// than emit invalid in-body tags, we set the explicit canonical only (an
+// acceptable fallback). The cross-region hreflang cluster is best added later in
+// the shared Layout <head> or via the sitemap, in one place for every edition.
+const SITE_CLUB = "https://swimly.club";
+const canonical = `${SITE_CLUB}/`;
+
+const regions = [
+  {
+    name: "United States",
+    href: "/us/",
+    description: "Swim team management built for clubs across the United States.",
+    external: false,
+  },
+  {
+    name: "Canada",
+    href: "/ca/",
+    description: "Membership, billing and attendance for Canadian swim clubs.",
+    external: false,
+  },
+  {
+    name: "Australia",
+    href: "/au/",
+    description: "One calm home for Australian swimming clubs and their families.",
+    external: false,
+  },
+  {
+    name: "United Kingdom",
+    href: "https://swimly.uk/",
+    description: "The original Swimly, built for British swimming clubs.",
+    external: true,
+  },
+];
+
+const cardBase =
+  "group reveal flex flex-col p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#1F7A52]/30 hover:shadow-[0_16px_40px_-12px_rgba(15,45,45,0.18)] transition-all min-h-12";
+---
+
+<Layout
+  title="Swimly | Club management software for swimming clubs worldwide"
+  description="Swimly helps swimming clubs manage membership, billing, attendance and more. Choose your region to get started."
+  canonical={canonical}
+>
+  <Nav />
+
+  <main>
+    <!-- Hero -->
+    <section class="relative pt-36 pb-16 sm:pt-48 sm:pb-20 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none" aria-hidden="true"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="reveal inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/20 text-mint-ink text-sm font-semibold mb-10">
+          <Globe class="w-4 h-4" />
+          Choose your region
+        </div>
+
+        <h1 class="reveal font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.1] tracking-tight mb-8 text-[#0F2D2D]">
+          One calm home for your
+          <em class="text-mint-ink">swimming club</em>
+        </h1>
+
+        <p class="reveal text-lg sm:text-xl text-ink-soft max-w-2xl mx-auto leading-relaxed">
+          Swimly brings membership, billing, attendance and compliance together
+          in one place, so volunteers can spend less time on admin and more time
+          poolside. Select your region to continue.
+        </p>
+      </div>
+    </section>
+
+    <!-- Product preview.
+         This page is the swimly.club root and serves all three regions, so it
+         uses the sessions screenshot: it is the one screen with no money on it,
+         and therefore the only one that does not have to pick a currency. The
+         regional pages carry the full tour in their own currency. -->
+    <section class="pb-16 sm:pb-20">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="reveal rounded-[20px] overflow-hidden border border-[#39393A]/12 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.35)] bg-[#0F2D2D]">
+          <picture>
+            <source
+              media="(max-width: 639px)"
+              srcset="/images/app-screenshots/au/sessions-mobile.png"
+              width="390"
+              height="844"
+            />
+            <img
+              src="/images/app-screenshots/au/sessions-desktop.png"
+              alt="Swimly sessions page showing upcoming training sessions grouped by week, with squad filters and totals for the season"
+              width="1440"
+              height="900"
+              class="w-full h-auto block"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+        </div>
+        <p class="reveal mt-5 text-center text-sm text-ink-mute">
+          Swimly's session timetable. Pick your region below to see billing and
+          membership in your own currency.
+        </p>
+      </div>
+    </section>
+
+    <!-- Region selector -->
+    <section class="pb-24 sm:pb-32">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="sr-only">Select your region</h2>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {regions.map((region) => (
+            <a
+              href={region.href}
+              class={cardBase}
+              {...(region.external ? { rel: "noopener" } : {})}
+            >
+              <div class="flex items-center justify-between gap-4 mb-3">
+                <span class="font-display text-2xl text-[#0F2D2D] group-hover:text-mint-ink transition-colors">
+                  {region.name}
+                </span>
+                <ArrowRight class="w-5 h-5 text-ink-faint group-hover:text-mint-ink group-hover:translate-x-1 transition-all shrink-0" />
+              </div>
+              <p class="text-ink-soft leading-relaxed">{region.description}</p>
+            </a>
+          ))}
+        </div>
+
+        <p class="reveal mt-12 text-center text-sm text-ink-mute leading-relaxed">
+          Not sure which to choose? Pick the region where your club is based.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{frameworkName}} Check Expiry Warning - {{clubName}}</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .header {
+      background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+      color: #fff;
+      padding: 35px 20px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0 0 8px 0;
+      font-size: 26px;
+      font-weight: 700;
+    }
+    .header .warning-icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+    .header p {
+      margin: 0;
+      font-size: 15px;
+      opacity: 0.95;
+    }
+    .content {
+      padding: 30px 20px;
+    }
+    .urgency-banner {
+      background: #FEF2F2;
+      border: 2px solid #FCA5A5;
+      border-radius: 6px;
+      padding: 20px;
+      margin: 25px 0;
+      text-align: center;
+    }
+    .urgency-banner h2 {
+      margin: 0 0 8px 0;
+      font-size: 20px;
+      color: #DC2626;
+    }
+    .urgency-banner p {
+      margin: 0;
+      color: #991B1B;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .dbs-details {
+      background: #F8FAFC;
+      border-left: 4px solid #EF4444;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .dbs-details h3 {
+      margin: 0 0 15px 0;
+      font-size: 16px;
+      color: #1E293B;
+      font-weight: 600;
+    }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #E2E8F0;
+    }
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+    .detail-label {
+      font-weight: 600;
+      color: #64748B;
+    }
+    .detail-value {
+      color: #1E293B;
+      font-weight: 500;
+    }
+    .expiry-date {
+      font-size: 18px;
+      color: #DC2626;
+      font-weight: 700;
+    }
+    .action-required {
+      background: #FEF3C7;
+      border-left: 4px solid #F59E0B;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .action-required h3 {
+      margin: 0 0 12px 0;
+      font-size: 18px;
+      color: #D97706;
+    }
+    .action-required ol {
+      margin: 10px 0;
+      padding-left: 20px;
+      color: #78350F;
+    }
+    .action-required li {
+      margin: 8px 0;
+    }
+    .consequences {
+      background: #FEF2F2;
+      padding: 16px;
+      margin: 20px 0;
+      border-radius: 4px;
+      border: 1px solid #FECACA;
+    }
+    .consequences p {
+      margin: 0;
+      color: #7F1D1D;
+      font-size: 14px;
+    }
+    .consequences strong {
+      color: #991B1B;
+    }
+    .button {
+      display: inline-block;
+      background: #EF4444;
+      color: #fff;
+      padding: 14px 32px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .button:hover {
+      background: #DC2626;
+    }
+    .button-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .footer {
+      background: #F8FAFC;
+      padding: 20px;
+      text-align: center;
+      color: #64748B;
+      font-size: 14px;
+    }
+    .footer p {
+      margin: 5px 0;
+    }
+    .footer a {
+      color: #EF4444;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="warning-icon">⚠️</div>
+      <h1>{{frameworkName}} Check Expiring Soon</h1>
+      <p>Urgent Action Required</p>
+    </div>
+
+    <div class="content">
+      <p>Dear {{firstName}} {{lastName}},</p>
+
+      <p>This is an important notification regarding your {{frameworkName}}{{#if showUpdateService}} (Disclosure and Barring Service){{/if}} check with {{clubName}}.</p>
+
+      <div class="urgency-banner">
+        <h2>Your {{frameworkName}} Check Expires in {{daysUntilExpiry}} Days</h2>
+        <p>Immediate action is required to maintain your clearance</p>
+      </div>
+
+      <div class="dbs-details">
+        <h3>{{frameworkName}} Check Details</h3>
+        <div class="detail-row">
+          <span class="detail-label">{{certificateNumberLabel}}:</span>
+          <span class="detail-value">{{certificateNumber}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Check Type:</span>
+          <span class="detail-value">{{checkType}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Issue Date:</span>
+          <span class="detail-value">{{issueDate}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Expiry Date:</span>
+          <span class="detail-value expiry-date">{{expiryDate}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Current Status:</span>
+          <span class="detail-value" style="color: #F59E0B; font-weight: 700;">⚠️ Expiring Soon</span>
+        </div>
+      </div>
+
+      <div class="action-required">
+        <h3>Required Actions</h3>
+        <ol>
+          {{#if showUpdateService}}
+          <li><strong>Apply for a new DBS check immediately</strong> via the DBS Update Service or through {{clubName}}</li>
+          {{else}}
+          <li><strong>Apply for a new {{frameworkName}} check immediately</strong> through {{clubName}}</li>
+          {{/if}}
+          <li><strong>Provide the new certificate number</strong> to our compliance officer as soon as it's issued</li>
+          <li><strong>Keep your current certificate</strong> accessible for verification if needed</li>
+        </ol>
+      </div>
+
+      <div class="consequences">
+        <p><strong>Important:</strong> If your {{frameworkName}} check expires without renewal, you will not be permitted to work with children or vulnerable adults until a new valid check is in place, in accordance with {{safeguardingFramework}} safeguarding requirements.</p>
+      </div>
+
+      {{#if renewalUrl}}
+      <div class="button-container">
+        <a href="{{renewalUrl}}" class="button">Renew {{frameworkName}} Check</a>
+      </div>
+      {{/if}}
+
+      <p style="margin-top: 30px;"><strong>Need Assistance?</strong></p>
+      <p>If you need help with the renewal process or have any questions, please contact our safeguarding team immediately:</p>
+      <ul style="margin-top: 10px;">
+        <li>Email: safeguarding@{{clubDomain}}</li>
+        {{#if contactNumber}}
+        <li>Phone: {{contactNumber}}</li>
+        {{/if}}
+      </ul>
+
+      <p style="margin-top: 25px;">Thank you for your prompt attention to this matter.</p>
+
+      <p style="margin-top: 20px;">
+        Best regards,<br>
+        <strong>{{clubName}} Compliance Team</strong>
+      </p>
+    </div>
+
+    <div class="footer">
+      <p>&copy; {{year}} {{clubName}}. All rights reserved.</p>
+      <p>This is a mandatory safeguarding notification. <a href="{{supportUrl}}">Contact Support</a></p>
+    </div>
+  </div>
+</body>
+</html>

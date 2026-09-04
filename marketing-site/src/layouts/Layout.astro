@@ -1,0 +1,177 @@
+---
+import "../styles/global.css";
+import CookieConsent from "../components/CookieConsent.astro";
+import {
+  REGIONS,
+  GLOBAL_ROUTES,
+  regionFromPath,
+  routeWithinRegion,
+  canonicalFor,
+  hreflangCluster,
+} from "../config/regions";
+
+interface Props {
+  title: string;
+  description?: string;
+  imageUrl?: string;
+  canonical?: string;
+  faqItems?: { question: string; answer: string }[];
+  noindex?: boolean;
+  // Optional explicit hreflang cluster. Used by pages (such as the
+  // international hub) that need to advertise alternates that cannot be
+  // derived from their own path.
+  alternates?: { hreflang: string; href: string }[];
+}
+
+// Region is derived per page from its path. UK paths resolve to swimly.uk
+// (byte-identical to before); /us, /ca and /au paths resolve to swimly.club.
+const pathname = Astro.url.pathname;
+const region = regionFromPath(pathname);
+const SITE_URL = REGIONS[region].host;
+
+// Ensure canonical always uses non-www with trailing slash
+const rawPathname = pathname;
+const normalisedPathname = rawPathname === "/" ? "/" : rawPathname.endsWith("/") ? rawPathname : `${rawPathname}/`;
+
+const {
+  title,
+  description = "UK swim club software that actually gets it. Membership, billing, attendance and compliance in one place. Built by a swim parent, not a SaaS bro.",
+  imageUrl = `${SITE_URL}/og-image.png`,
+  canonical = canonicalFor(normalisedPathname),
+  faqItems,
+  noindex,
+  alternates,
+} = Astro.props;
+
+// hreflang: global routes (home, pricing, features) advertise the full
+// cross-region cluster so the regions reciprocate each other. Region-only
+// pages stay self-canonical and emit no cross-region alternates. A page may
+// also pass an explicit cluster via the `alternates` prop.
+const routeWithin = routeWithinRegion(normalisedPathname);
+const hreflangLinks = alternates ?? (GLOBAL_ROUTES.includes(routeWithin) ? hreflangCluster(routeWithin) : []);
+
+const softwareApplicationSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Swimly",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  description: description,
+  url: SITE_URL,
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: REGIONS[region].currency,
+  },
+};
+
+const organisationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Swimly",
+  url: SITE_URL,
+  logo: `${SITE_URL}/swimly-logo.svg`,
+  description: description,
+  email: REGIONS[region].contactEmail,
+  ...(region === "uk" ? { sameAs: ["https://uk.linkedin.com/company/swimly"] } : {}),
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: REGIONS[region].contactEmail,
+    contactType: "customer service",
+    availableLanguage: "English",
+  },
+};
+
+const faqPageSchema = faqItems && faqItems.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+} : null;
+---
+
+<!doctype html>
+<html lang={REGIONS[region].locale}>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Swimly" />
+    <meta name="robots" content={noindex ? "noindex, follow" : "index, follow"} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonical} />
+    {hreflangLinks.map((alt) => (
+      <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+    ))}
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Swimly" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(softwareApplicationSchema, null, 2)} />
+    <script type="application/ld+json" set:html={JSON.stringify(organisationSchema, null, 2)} />
+    {faqPageSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema, null, 2)} />
+    )}
+
+  </head>
+  <body class="bg-canvas text-ink font-sans">
+    <slot />
+    <CookieConsent />
+    <script>
+      // Sitewide scroll reveal with stagger. Gated behind a class so no-JS
+      // and reduced-motion visitors see all content immediately.
+      if (
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
+        "IntersectionObserver" in window
+      ) {
+        document.documentElement.classList.add("js-reveal");
+        const els = Array.from(document.querySelectorAll(".reveal"));
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const el = entry.target as HTMLElement;
+                const siblings = els.filter(
+                  (s) => s.parentElement === el.parentElement && !s.classList.contains("in")
+                );
+                const delay = Math.min(Math.max(siblings.indexOf(el), 0) * 70, 280);
+                setTimeout(() => el.classList.add("in"), delay);
+                io.unobserve(el);
+              }
+            });
+          },
+          { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+        );
+        els.forEach((el) => io.observe(el));
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,796 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { Trophy, Upload, Download, Timer, CheckCircle, ArrowRight, FileText, BarChart3 } from '@lucide/astro';
+
+const title = 'Gala & Competition Management | Swim Clubs';
+const description = 'Manage gala entries, import Hy-Tek HY3 results, and track PBs. Competition management software built for UK swimming club secretaries.';
+
+const competitionSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Swimly Competition Management",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": description,
+  "url": "https://swimly.uk/features/competitions/",
+  "featureList": [
+    "Hy-Tek HY3 file import and export",
+    "SportSystems CSV file support",
+    "Automatic PB detection and tracking",
+    "Gala entry management",
+    "Results import with validation",
+    "Competition history and statistics"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "29",
+    "priceCurrency": "GBP",
+    "priceValidUntil": "2027-12-31",
+    "availability": "https://schema.org/PreOrder"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Swimly",
+    "url": "https://swimly.uk"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Swimly",
+    "url": "https://swimly.uk"
+  }
+};
+
+const faqItems = [
+  {
+    question: "What is a Hy-Tek HY3 file?",
+    answer: "HY3 is a file format created by Hy-Tek Sports Software. It's the standard way swimming clubs exchange entry and results data with meet promoters in the UK. If your county or regional meet uses Hy-Tek Meet Manager, they'll expect entries in this format."
+  },
+  {
+    question: "Do I need Hy-Tek Team Manager installed?",
+    answer: "No. Swimly generates and reads HY3 files natively. You don't need to buy or install any Hy-Tek software. Swimly replaces the need for Team Manager entirely for entry and results management."
+  },
+  {
+    question: "What about meets that use SportSystems?",
+    answer: "Swimly supports SportSystems CSV files as well. Between Hy-Tek and SportSystems, you're covered for roughly 90% of UK swimming competitions. The system auto-detects which format you're working with."
+  },
+  {
+    question: "How does PB tracking work?",
+    answer: "When you import results from a competition, Swimly automatically compares each time against the swimmer's existing personal best for that event and distance. If it's a new PB, it's flagged and recorded. Coaches and parents can see PB history in the swimmer's profile."
+  },
+  {
+    question: "Can I preview results before importing?",
+    answer: "Yes. Swimly has a preview mode that parses the file, validates the data, and shows you exactly what will be imported, including which swimmers were matched and any potential PBs, before anything is saved to your database."
+  }
+];
+---
+
+<Layout title={title} description={description} faqItems={faqItems}>
+  <script type="application/ld+json" set:html={JSON.stringify(competitionSchema, null, 2)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <!-- Hero Section with Workflow Illustration -->
+    <section class="relative pt-16 pb-20 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none" aria-hidden="true"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 text-mint-ink text-sm font-medium mb-6">
+          <Trophy class="w-4 h-4" />
+          Competitions and Galas
+        </div>
+
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl text-[#0F2D2D] leading-tight mb-6">
+          Competition Management with Hy-Tek and SportSystems Support
+        </h1>
+
+        <p class="text-lg sm:text-xl text-ink-soft max-w-2xl mx-auto leading-relaxed mb-10">
+          Export gala entries, import results, and automatically track PBs. Swimly works with the file formats UK swimming already uses, Hy-Tek HY3 and SportSystems, so your competition secretary doesn't need to learn anything new.
+        </p>
+
+        <!-- Workflow Illustration -->
+        <div class="max-w-3xl mx-auto mb-10">
+          <svg viewBox="0 0 800 180" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+            <!-- Entry File -->
+            <g>
+              <rect x="20" y="50" width="140" height="80" rx="8" fill="#0F2D2D" stroke="#85FFC7" stroke-width="2" opacity="0.8"/>
+              <text x="90" y="80" text-anchor="middle" fill="#85FFC7" font-size="14" font-weight="600">HY3 / CSV</text>
+              <text x="90" y="100" text-anchor="middle" fill="#9ca3af" font-size="12">Entry File</text>
+              <circle cx="90" cy="120" r="3" fill="#85FFC7"/>
+            </g>
+            
+            <!-- Arrow 1 -->
+            <path d="M 160 90 L 230 90" stroke="#85FFC7" stroke-width="2" fill="none" opacity="0.5"/>
+            <polygon points="230,90 220,85 220,95" fill="#85FFC7" opacity="0.5"/>
+            
+            <!-- Swimly Core -->
+            <g>
+              <rect x="230" y="30" width="160" height="120" rx="12" fill="#0F2D2D" stroke="#85FFC7" stroke-width="3"/>
+              <text x="310" y="70" text-anchor="middle" fill="#85FFC7" font-size="20" font-weight="700">Swimly</text>
+              <text x="310" y="95" text-anchor="middle" fill="#9ca3af" font-size="11">• Auto-detect format</text>
+              <text x="310" y="112" text-anchor="middle" fill="#9ca3af" font-size="11">• Match swimmers</text>
+              <text x="310" y="129" text-anchor="middle" fill="#9ca3af" font-size="11">• Calculate PBs</text>
+            </g>
+            
+            <!-- Arrow 2 -->
+            <path d="M 390 70 L 460 70" stroke="#85FFC7" stroke-width="2" fill="none" opacity="0.5"/>
+            <polygon points="460,70 450,65 450,75" fill="#85FFC7" opacity="0.5"/>
+            
+            <!-- Arrow 3 -->
+            <path d="M 390 110 L 460 110" stroke="#85FFC7" stroke-width="2" fill="none" opacity="0.5"/>
+            <polygon points="460,110 450,105 450,115" fill="#85FFC7" opacity="0.5"/>
+            
+            <!-- Results Output -->
+            <g>
+              <rect x="460" y="40" width="140" height="60" rx="8" fill="#0F2D2D" stroke="#85FFC7" stroke-width="2" opacity="0.8"/>
+              <text x="530" y="65" text-anchor="middle" fill="#85FFC7" font-size="14" font-weight="600">Results</text>
+              <text x="530" y="85" text-anchor="middle" fill="#9ca3af" font-size="12">+ Times</text>
+            </g>
+            
+            <!-- PB Detection Output -->
+            <g>
+              <rect x="460" y="115" width="140" height="60" rx="8" fill="#0F2D2D" stroke="#FF8552" stroke-width="2" opacity="0.8"/>
+              <text x="530" y="140" text-anchor="middle" fill="#FF8552" font-size="14" font-weight="600">Personal Bests</text>
+              <text x="530" y="160" text-anchor="middle" fill="#9ca3af" font-size="12">Auto-tracked</text>
+            </g>
+            
+            <!-- Decorative Data Dots -->
+            <circle cx="640" cy="70" r="4" fill="#85FFC7" opacity="0.3">
+              <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="660" cy="85" r="4" fill="#85FFC7" opacity="0.5">
+              <animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="640" cy="145" r="4" fill="#FF8552" opacity="0.3">
+              <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2.2s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="660" cy="130" r="4" fill="#FF8552" opacity="0.5">
+              <animate attributeName="opacity" values="0.5;1;0.5" dur="2.7s" repeatCount="indefinite"/>
+            </circle>
+          </svg>
+        </div>
+
+        <a
+          href="https://app.swimly.uk/create-club"
+          class="inline-flex items-center gap-2.5 px-8 py-4 min-h-12 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-lg shadow-[#FF8552]/20 hover:shadow-[#FF8552]/30 hover:scale-[1.02]"
+        >
+          Start your club, free
+          <ArrowRight class="w-5 h-5" />
+        </a>
+      </div>
+    </section>
+
+    <!-- Competition Interface Preview -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="grid lg:grid-cols-2 gap-8 items-start">
+        <!-- Desktop Interface Mockup -->
+        <div class="relative">
+          <div class="relative bg-dark-900 rounded-2xl border border-[#39393A]/10 overflow-hidden shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+            <!-- Browser Chrome -->
+            <div class="bg-dark-800 px-4 py-3 flex items-center gap-2 border-b border-light-grey/5">
+              <div class="flex gap-1.5">
+                <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+              </div>
+              <div class="flex-1 mx-4">
+                <div class="bg-dark-700 rounded-lg px-3 py-1.5 text-xs text-gray-400 flex items-center gap-2">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                  app.swimly.uk/competitions
+                </div>
+              </div>
+            </div>
+            <!-- App Interface -->
+            <div class="p-6">
+              <!-- Header -->
+              <div class="flex items-center justify-between mb-6">
+                <div>
+                  <h3 class="text-lg font-semibold text-light-grey">Kent County Championships 2026</h3>
+                  <p class="text-sm text-gray-400">15-16 March · Medway Park</p>
+                </div>
+                <div class="flex gap-2">
+                  <button class="px-3 py-1.5 bg-dark-700 rounded-lg text-sm text-gray-300 flex items-center gap-1.5">
+                    <Download class="w-4 h-4" />
+                    Export HY3
+                  </button>
+                  <button class="px-3 py-1.5 bg-mint-500 text-dark-950 rounded-lg text-sm font-medium flex items-center gap-1.5">
+                    <Upload class="w-4 h-4" />
+                    Import Results
+                  </button>
+                </div>
+              </div>
+              <!-- Stats Row -->
+              <div class="grid grid-cols-4 gap-3 mb-6">
+                <div class="bg-dark-800 rounded-lg p-3 text-center">
+                  <div class="text-2xl font-bold text-light-grey">24</div>
+                  <div class="text-xs text-gray-400">Entries</div>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-3 text-center">
+                  <div class="text-2xl font-bold text-light-grey">12</div>
+                  <div class="text-xs text-gray-400">Swimmers</div>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-3 text-center">
+                  <div class="text-2xl font-bold text-mint-400">8</div>
+                  <div class="text-xs text-gray-400">New PBs</div>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-3 text-center">
+                  <div class="text-2xl font-bold text-yellow-400">3</div>
+                  <div class="text-xs text-gray-400">Medals</div>
+                </div>
+              </div>
+              <!-- Results Table Preview -->
+              <div class="bg-dark-800 rounded-lg overflow-hidden">
+                <div class="px-4 py-2 border-b border-light-grey/5 flex items-center justify-between">
+                  <span class="text-sm font-medium text-gray-300">Results</span>
+                  <span class="text-xs text-gray-500">Imported 16 Mar 18:42</span>
+                </div>
+                <div class="divide-y divide-light-grey/5">
+                  <div class="px-4 py-3 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                      <div class="w-8 h-8 rounded-full bg-mint-500/20 flex items-center justify-center text-mint-400 text-sm font-medium">EJ</div>
+                      <div>
+                        <div class="text-sm font-medium text-light-grey">Emily Johnson</div>
+                        <div class="text-xs text-gray-400">100m Freestyle · Girls 13-14</div>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <div class="text-sm font-mono text-light-grey">1:02.34</div>
+                      <div class="flex items-center gap-1 text-xs text-mint-400">
+                        <CheckCircle class="w-3 h-3" />
+                        PB -0.8s
+                      </div>
+                    </div>
+                  </div>
+                  <div class="px-4 py-3 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                      <div class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-400 text-sm font-medium">TW</div>
+                      <div>
+                        <div class="text-sm font-medium text-light-grey">Tom Williams</div>
+                        <div class="text-xs text-gray-400">50m Backstroke · Boys 11-12</div>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <div class="text-sm font-mono text-light-grey">35.67</div>
+                      <div class="flex items-center gap-1 text-xs text-yellow-400">
+                        <Trophy class="w-3 h-3" />
+                        2nd Place
+                      </div>
+                    </div>
+                  </div>
+                  <div class="px-4 py-3 flex items-center justify-between opacity-60">
+                    <div class="flex items-center gap-3">
+                      <div class="w-8 h-8 rounded-full bg-gray-500/20 flex items-center justify-center text-gray-400 text-sm font-medium">SP</div>
+                      <div>
+                        <div class="text-sm font-medium text-light-grey">Sophie Patel</div>
+                        <div class="text-xs text-gray-400">200m IM · Girls 15-16</div>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <div class="text-sm font-mono text-light-grey">2:31.89</div>
+                      <div class="text-xs text-gray-500">+1.2s</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Mobile + Features -->
+        <div class="space-y-6">
+          <!-- Mobile Interface Mockup -->
+          <div class="relative mx-auto w-[280px]">
+            <div class="relative bg-dark-900 rounded-[2.5rem] border-4 border-dark-700 overflow-hidden shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+              <!-- Phone Notch -->
+              <div class="bg-dark-950 h-8 flex items-center justify-center">
+                <div class="w-20 h-5 bg-dark-800 rounded-full"></div>
+              </div>
+              <!-- App Content -->
+              <div class="p-4 min-h-[400px]">
+                <div class="flex items-center gap-2 mb-4">
+                  <Trophy class="w-5 h-5 text-mint-400" />
+                  <span class="text-sm font-semibold text-light-grey">Personal Bests</span>
+                </div>
+                <!-- PB Cards -->
+                <div class="space-y-3">
+                  <div class="bg-dark-800 rounded-xl p-3">
+                    <div class="flex items-center justify-between mb-2">
+                      <span class="text-xs text-gray-400">100m Freestyle</span>
+                      <span class="text-xs text-mint-400 bg-mint-500/10 px-2 py-0.5 rounded-full">New PB</span>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                      <span class="text-2xl font-bold font-mono text-light-grey">1:02.34</span>
+                      <span class="text-xs text-gray-500">prev: 1:03.12</span>
+                    </div>
+                    <div class="text-xs text-gray-400 mt-1">Kent County Champs · 16 Mar 2026</div>
+                  </div>
+                  <div class="bg-dark-800 rounded-xl p-3">
+                    <div class="flex items-center justify-between mb-2">
+                      <span class="text-xs text-gray-400">50m Butterfly</span>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                      <span class="text-2xl font-bold font-mono text-light-grey">32.45</span>
+                    </div>
+                    <div class="text-xs text-gray-400 mt-1">Club Champs · 2 Feb 2026</div>
+                  </div>
+                  <div class="bg-dark-800 rounded-xl p-3">
+                    <div class="flex items-center justify-between mb-2">
+                      <span class="text-xs text-gray-400">200m IM</span>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                      <span class="text-2xl font-bold font-mono text-light-grey">2:28.91</span>
+                    </div>
+                    <div class="text-xs text-gray-400 mt-1">SE Regionals · 14 Jan 2026</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Bottom Nav -->
+              <div class="bg-dark-800 px-4 py-3 flex justify-around border-t border-light-grey/5">
+                <div class="text-gray-500 text-xs text-center">
+                  <div class="w-6 h-6 mx-auto mb-0.5 opacity-50">📊</div>
+                  Dashboard
+                </div>
+                <div class="text-mint-400 text-xs text-center">
+                  <Trophy class="w-6 h-6 mx-auto mb-0.5" />
+                  PBs
+                </div>
+                <div class="text-gray-500 text-xs text-center">
+                  <div class="w-6 h-6 mx-auto mb-0.5 opacity-50">📅</div>
+                  Sessions
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Key Benefit Callouts -->
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-surface-raised rounded-xl p-4 border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+              <FileText class="w-5 h-5 text-mint-ink mb-2" />
+              <div class="text-sm font-medium text-[#0F2D2D] mb-1">HY3 + CSV Support</div>
+              <div class="text-xs text-ink-mute">Works with files from any UK meet</div>
+            </div>
+            <div class="bg-surface-raised rounded-xl p-4 border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+              <BarChart3 class="w-5 h-5 text-mint-ink mb-2" />
+              <div class="text-sm font-medium text-[#0F2D2D] mb-1">Auto PB Detection</div>
+              <div class="text-xs text-ink-mute">Times compared instantly on import</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Problem -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-4">Sound familiar?</h2>
+        <div class="space-y-4 text-ink-soft">
+          <p>Your competition secretary spends hours before every gala manually typing swimmer details into entry spreadsheets. After the meet, someone has to cross-reference results against the club's records to check for PBs. Times get recorded in one spreadsheet, entries in another, and half the squad's personal bests are out of date.</p>
+          <p>Meanwhile, the meet promoter sends you a Hy-Tek file and nobody's quite sure what to do with it.</p>
+          <p class="text-[#0F2D2D] font-medium">Swimly handles all of this. Import, export, and track using the file formats your county and regional meets already use.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Features -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] text-center mb-12">Everything your comp sec needs</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Feature 1: Entry Export -->
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <Download class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Gala Entry Export</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Select swimmers and events, then export a ready-to-submit entry file</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Export as <strong>Hy-Tek HY3</strong> or <strong>SportSystems CSV</strong>: whatever the meet promoter needs</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Swimmer details, SE numbers, and entry times pulled automatically from your club database</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>No more retyping names and times into spreadsheets</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Feature 2: Results Import -->
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <Upload class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Results Import</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Upload the results file from any meet | Swimly auto-detects the format</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Preview mode lets you check the data before committing</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Automatically matches results to your swimmers by SE number</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Handles splits, DQ flags, and multi-event results in one upload</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Feature 3: PB Tracking -->
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <Timer class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Automatic PB Tracking</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>PBs detected automatically when results are imported</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Every swimmer's personal best times kept up to date across all events</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>PB history so coaches can track progression over the season</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Entry times for future galas pulled from latest PBs automatically</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Feature 4: Competition Management -->
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <BarChart3 class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Competition Dashboard</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Track all upcoming galas, county championships, and open meets in one place</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>See who's entered, who's qualified, and what times they're going in on</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Competition history with results across the season</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Link competition entry fees to your club billing for transparent invoicing</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visual Stats Section -->
+    <section class="bg-surface border-y border-[#39393A]/8 py-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+          <div class="text-center">
+            <div class="font-display text-6xl md:text-7xl text-[#0F2D2D] mb-2 tabular-nums">
+              90%
+            </div>
+            <div class="text-lg md:text-xl font-medium text-[#0F2D2D] mb-2">of UK meets covered</div>
+            <p class="text-sm text-ink-mute">Hy-Tek and SportSystems support</p>
+          </div>
+
+          <div class="text-center">
+            <div class="font-display text-6xl md:text-7xl text-[#0F2D2D] mb-2 tabular-nums">
+              0
+            </div>
+            <div class="text-lg md:text-xl font-medium text-[#0F2D2D] mb-2">manual data entry</div>
+            <p class="text-sm text-ink-mute">Auto-import swimmer details and times</p>
+          </div>
+
+          <div class="text-center">
+            <div class="font-display text-6xl md:text-7xl text-[#0F2D2D] mb-2 tabular-nums">
+              Instant
+            </div>
+            <div class="text-lg md:text-xl font-medium text-[#0F2D2D] mb-2">PB detection</div>
+            <p class="text-sm text-ink-mute">Automatic comparison across all events</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- File Format Support - Visual Diagram -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] text-center mb-4">Works with the formats you already use</h2>
+      <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">No more copying data between systems. Swimly speaks the same language as UK competition software.</p>
+
+      <!-- Visual Flow Diagram -->
+      <div class="relative p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] mb-10">
+        <svg viewBox="0 0 900 280" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+          <!-- Left Side: Competition Formats -->
+          <g>
+            <!-- Hy-Tek Box -->
+            <rect x="20" y="40" width="180" height="80" rx="8" fill="#85FFC7" fill-opacity="0.18" stroke="#1F7A52" stroke-width="2"/>
+            <text x="110" y="70" text-anchor="middle" fill="#1F7A52" font-size="16" font-weight="700">Hy-Tek HY3</text>
+            <text x="110" y="92" text-anchor="middle" fill="#9ca3af" font-size="12">Team Manager</text>
+            <text x="110" y="108" text-anchor="middle" fill="#6b7280" font-size="11">~60% of UK meets</text>
+          </g>
+          
+          <g>
+            <!-- SportSystems Box -->
+            <rect x="20" y="160" width="180" height="80" rx="8" fill="#85FFC7" fill-opacity="0.18" stroke="#1F7A52" stroke-width="2"/>
+            <text x="110" y="190" text-anchor="middle" fill="#1F7A52" font-size="16" font-weight="700">SportSystems</text>
+            <text x="110" y="212" text-anchor="middle" fill="#9ca3af" font-size="12">CSV Format</text>
+            <text x="110" y="228" text-anchor="middle" fill="#6b7280" font-size="11">~30% of UK meets</text>
+          </g>
+          
+          <!-- Convergence Lines to Swimly -->
+          <path d="M 200 80 Q 300 80, 350 140" stroke="#297373" stroke-width="2" fill="none" opacity="0.5" stroke-dasharray="4 4"/>
+          <path d="M 200 200 Q 300 200, 350 140" stroke="#297373" stroke-width="2" fill="none" opacity="0.5" stroke-dasharray="4 4"/>
+          
+          <!-- Center: Swimly Hub -->
+          <g>
+            <rect x="330" y="100" width="200" height="80" rx="12" fill="#0F2D2D" stroke="#85FFC7" stroke-width="3"/>
+            <text x="430" y="133" text-anchor="middle" fill="#85FFC7" font-size="22" font-weight="700">Swimly</text>
+            <text x="430" y="158" text-anchor="middle" fill="#9ca3af" font-size="13">Universal Import/Export</text>
+          </g>
+          
+          <!-- Right Side: Your Club Data -->
+          <g>
+            <path d="M 530 110 L 650 60" stroke="#FF8552" stroke-width="2" fill="none" opacity="0.5"/>
+            <polygon points="650,60 640,58 642,68" fill="#FF8552" opacity="0.5"/>
+            
+            <path d="M 530 140 L 650 140" stroke="#FF8552" stroke-width="2" fill="none" opacity="0.5"/>
+            <polygon points="650,140 640,135 640,145" fill="#FF8552" opacity="0.5"/>
+            
+            <path d="M 530 170 L 650 220" stroke="#FF8552" stroke-width="2" fill="none" opacity="0.5"/>
+            <polygon points="650,220 642,212 640,222" fill="#FF8552" opacity="0.5"/>
+          </g>
+          
+          <g>
+            <!-- Swimmer Records -->
+            <rect x="650" y="30" width="230" height="50" rx="8" fill="#FF8552" fill-opacity="0.12" stroke="#FF8552" stroke-width="2"/>
+            <text x="765" y="58" text-anchor="middle" fill="#FF8552" font-size="14" font-weight="600">Swimmer Records + Times</text>
+          </g>
+          
+          <g>
+            <!-- Personal Bests -->
+            <rect x="650" y="115" width="230" height="50" rx="8" fill="#FF8552" fill-opacity="0.12" stroke="#FF8552" stroke-width="2"/>
+            <text x="765" y="143" text-anchor="middle" fill="#FF8552" font-size="14" font-weight="600">Personal Bests (Auto-detected)</text>
+          </g>
+          
+          <g>
+            <!-- Competition History -->
+            <rect x="650" y="200" width="230" height="50" rx="8" fill="#FF8552" fill-opacity="0.12" stroke="#FF8552" stroke-width="2"/>
+            <text x="765" y="228" text-anchor="middle" fill="#FF8552" font-size="14" font-weight="600">Competition History</text>
+          </g>
+        </svg>
+        
+        <div class="text-center mt-8 text-sm text-ink-mute">
+          Automatic format detection • Bidirectional sync • Zero data loss
+        </div>
+      </div>
+
+      <!-- Format Details Grid -->
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-lg bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center">
+              <FileText class="w-5 h-5 text-mint-ink" />
+            </div>
+            <h3 class="text-lg font-bold text-[#0F2D2D]">Hy-Tek HY3</h3>
+          </div>
+          <ul class="space-y-2 text-sm text-ink-soft">
+            <li class="flex items-center gap-2">
+              <CheckCircle class="w-4 h-4 text-mint-ink shrink-0" />
+              Import results from Meet Manager
+            </li>
+            <li class="flex items-center gap-2">
+              <CheckCircle class="w-4 h-4 text-mint-ink shrink-0" />
+              Export entries for Team Manager
+            </li>
+            <li class="flex items-center gap-2">
+              <CheckCircle class="w-4 h-4 text-mint-ink shrink-0" />
+              Supports splits, DQ flags, and relay events
+            </li>
+          </ul>
+        </div>
+
+        <div class="p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-lg bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center">
+              <FileText class="w-5 h-5 text-mint-ink" />
+            </div>
+            <h3 class="text-lg font-bold text-[#0F2D2D]">SportSystems</h3>
+          </div>
+          <ul class="space-y-2 text-sm text-ink-soft">
+            <li class="flex items-center gap-2">
+              <CheckCircle class="w-4 h-4 text-mint-ink shrink-0" />
+              CSV format import and export
+            </li>
+            <li class="flex items-center gap-2">
+              <CheckCircle class="w-4 h-4 text-mint-ink shrink-0" />
+              UK date format handling (DD/MM/YYYY)
+            </li>
+            <li class="flex items-center gap-2">
+              <CheckCircle class="w-4 h-4 text-mint-ink shrink-0" />
+              Split times and DQ tracking
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] text-center mb-12">How it works</h2>
+      <div class="space-y-8">
+        <div class="flex gap-6">
+          <div class="flex-shrink-0">
+            <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" class="text-mint-ink">
+              <circle cx="28" cy="28" r="27" fill="currentColor" opacity="0.1" stroke="currentColor" stroke-width="2"/>
+              <path d="M 28 15 L 32 20 L 28 25 L 24 20 Z" fill="currentColor" opacity="0.8"/>
+              <rect x="20" y="26" width="16" height="8" rx="1" fill="currentColor" opacity="0.8"/>
+              <path d="M 24 34 L 20 41 L 28 41 Z" fill="currentColor" opacity="0.6"/>
+              <path d="M 32 34 L 36 41 L 28 41 Z" fill="currentColor" opacity="0.6"/>
+              <text x="28" y="24" text-anchor="middle" fill="#0F2D2D" font-size="12" font-weight="700">1</text>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Create the competition</h3>
+            <p class="text-ink-soft">Add the gala details: name, date, venue, and type (open meet, county champs, club gala). Set entry deadlines and qualifying standards if needed.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-6">
+          <div class="flex-shrink-0">
+            <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" class="text-mint-ink">
+              <circle cx="28" cy="28" r="27" fill="currentColor" opacity="0.1" stroke="currentColor" stroke-width="2"/>
+              <circle cx="22" cy="22" r="4" fill="currentColor" opacity="0.8"/>
+              <path d="M 22 26 L 22 36 M 18 30 L 26 30" stroke="currentColor" stroke-width="2" opacity="0.8"/>
+              <circle cx="34" cy="22" r="4" fill="currentColor" opacity="0.6"/>
+              <path d="M 34 26 L 34 36 M 30 30 L 38 30" stroke="currentColor" stroke-width="2" opacity="0.6"/>
+              <rect x="16" y="37" width="24" height="3" rx="1" fill="currentColor" opacity="0.5"/>
+              <text x="28" y="24" text-anchor="middle" fill="#0F2D2D" font-size="12" font-weight="700">2</text>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Select swimmers and events</h3>
+            <p class="text-ink-soft">Pick which swimmers are entering which events. Entry times are pulled automatically from their latest PBs. Coaches can review and adjust before submission.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-6">
+          <div class="flex-shrink-0">
+            <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" class="text-mint-ink">
+              <circle cx="28" cy="28" r="27" fill="currentColor" opacity="0.1" stroke="currentColor" stroke-width="2"/>
+              <rect x="18" y="18" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="2" opacity="0.8"/>
+              <path d="M 23 24 L 26 27 L 33 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.8"/>
+              <path d="M 35 30 L 40 28 L 40 35 L 35 33 Z" fill="currentColor" opacity="0.7"/>
+              <text x="28" y="24" text-anchor="middle" fill="#0F2D2D" font-size="12" font-weight="700">3</text>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Export and submit</h3>
+            <p class="text-ink-soft">Export a Hy-Tek HY3 or SportSystems file and send it to the meet promoter. No retyping, no copy-pasting from spreadsheets, no formatting errors.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-6">
+          <div class="flex-shrink-0">
+            <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" class="text-mint-ink">
+              <circle cx="28" cy="28" r="27" fill="currentColor" opacity="0.1" stroke="currentColor" stroke-width="2"/>
+              <path d="M 28 16 L 28 28 L 20 28" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+              <circle cx="28" cy="28" r="11" fill="none" stroke="currentColor" stroke-width="2" opacity="0.8"/>
+              <path d="M 36 22 L 40 18 M 36 34 L 40 38" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+              <circle cx="38" cy="20" r="2" fill="#FF8552" opacity="0.9"/>
+              <circle cx="38" cy="36" r="2" fill="#FF8552" opacity="0.9"/>
+              <text x="28" y="24" text-anchor="middle" fill="#0F2D2D" font-size="12" font-weight="700">4</text>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Import results after the meet</h3>
+            <p class="text-ink-soft">Upload the results file. Swimly auto-detects the format, matches swimmers, flags PBs, and updates your club records. Preview everything before committing.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- For Competition Secretaries -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="p-8 rounded-2xl bg-[#85FFC7]/15 border border-[#1F7A52]/20">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-4">Built for volunteer competition secretaries</h2>
+        <div class="space-y-4 text-ink-soft">
+          <p>Being a comp sec is one of the most time-consuming volunteer roles in a swimming club. Between tracking qualifying times, managing entries, chasing parents for confirmations, and updating PBs after every meet, it can eat up entire evenings.</p>
+          <p>Swimly automates the mechanical parts so you can focus on the decisions that actually need a human: which swimmers should enter, which events to prioritise, and how to develop your squad's competition programme.</p>
+          <p class="font-medium text-[#0F2D2D]">You don't need to be technical. If you can attach a file to an email, you can use Swimly's competition tools.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-3xl text-[#0F2D2D] text-center mb-12">Frequently asked questions</h2>
+      <div class="space-y-6">
+        <div class="p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">What is a Hy-Tek HY3 file?</h3>
+          <p class="text-ink-soft">HY3 is a file format created by Hy-Tek Sports Software. It's the standard way swimming clubs exchange entry and results data with meet promoters in the UK. If your county or regional meet uses Hy-Tek Meet Manager, they'll expect entries in this format.</p>
+        </div>
+
+        <div class="p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Do I need Hy-Tek Team Manager installed?</h3>
+          <p class="text-ink-soft">No. Swimly generates and reads HY3 files natively. You don't need to buy or install any Hy-Tek software. Swimly replaces the need for Team Manager entirely for entry and results management.</p>
+        </div>
+
+        <div class="p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">What about meets that use SportSystems?</h3>
+          <p class="text-ink-soft">Swimly supports SportSystems CSV files as well. Between Hy-Tek and SportSystems, you're covered for roughly 90% of UK swimming competitions. The system auto-detects which format you're working with.</p>
+        </div>
+
+        <div class="p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">How does PB tracking work?</h3>
+          <p class="text-ink-soft">When you import results from a competition, Swimly automatically compares each time against the swimmer's existing personal best for that event and distance. If it's a new PB, it's flagged and recorded. Coaches and parents can see PB history in the swimmer's profile.</p>
+        </div>
+
+        <div class="p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Can I preview results before importing?</h3>
+          <p class="text-ink-soft">Yes. Swimly has a preview mode that parses the file, validates the data, and shows you exactly what will be imported, including which swimmers were matched and any potential PBs, before anything is saved to your database.</p>
+        </div>
+
+        <div class="p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Does Swimly integrate with Swim England rankings?</h3>
+          <p class="text-ink-soft">We're working towards Swim England API integration. In the meantime, you can import times and rankings from Swim England's Club Personnel Report (CSV export) or from competition result files. Your swimmers' SE numbers are stored and used for matching across all imports.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Features -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-2xl text-[#0F2D2D] mb-8">Related features</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a href="/features/membership/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Membership Management</h3>
+          <p class="text-ink-mute text-sm">Centralised swimmer database with SE numbers</p>
+        </a>
+        <a href="/features/billing/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Billing and Payments</h3>
+          <p class="text-ink-mute text-sm">Automate gala entry fee invoicing</p>
+        </a>
+        <a href="/features/attendance/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Attendance Tracking</h3>
+          <p class="text-ink-mute text-sm">Track training sessions and squad attendance</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Stop wrestling with spreadsheets on gala night</h2>
+      <p class="text-xl text-ink-soft mb-8">Create your club today, free. The competition module arrives in Q2 2026.</p>
+      <a
+        href="https://app.swimly.uk/create-club"
+        class="inline-flex items-center gap-2.5 px-8 py-4 min-h-12 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-lg shadow-[#FF8552]/20 hover:shadow-[#FF8552]/30 hover:scale-[1.02]"
+      >
+          Start your club, free
+        <ArrowRight class="w-5 h-5" />
+      </a>
+      <p class="mt-6 text-sm text-ink-mute">
+        Free for clubs with fewer than 50 members. No credit card required.
+      </p>
+    </section>
+  </main>
+  <Footer />
+</Layout>

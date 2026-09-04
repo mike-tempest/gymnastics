@@ -1,0 +1,129 @@
+version: '3.9'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: swim-nexus-db
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: swim_nexus_dev
+      POSTGRES_INITDB_ARGS: '-E UTF8'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - swim-nexus
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: swim-nexus-redis
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    networks:
+      - swim-nexus
+
+  # Kong API Gateway
+  kong:
+    image: kong:3.8
+    container_name: swim-nexus-gateway
+    restart: unless-stopped
+    ports:
+      - '8000:8000' # HTTP
+      - '8443:8443' # HTTPS
+      - '8001:8001' # Admin API
+    environment:
+      KONG_DATABASE: 'off'
+      KONG_DECLARATIVE_CONFIG: /kong/kong.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: '0.0.0.0:8001'
+    volumes:
+      - ../kong/kong.yml:/kong/kong.yml:ro
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - swim-nexus
+
+  # MinIO (S3-compatible storage)
+  minio:
+    image: minio/minio:latest
+    container_name: swim-nexus-s3
+    restart: unless-stopped
+    ports:
+      - '9000:9000' # API
+      - '9001:9001' # Console
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ':9001'
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - swim-nexus
+
+  # MailHog (Email testing)
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: swim-nexus-mailhog
+    restart: unless-stopped
+    ports:
+      - '1025:1025' # SMTP
+      - '8025:8025' # Web UI
+    networks:
+      - swim-nexus
+
+  # pgAdmin (Database UI)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: swim-nexus-pgadmin
+    restart: unless-stopped
+    ports:
+      - '5050:80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@swimnexus.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - swim-nexus
+
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:
+  pgadmin_data:
+
+networks:
+  swim-nexus:
+    driver: bridge

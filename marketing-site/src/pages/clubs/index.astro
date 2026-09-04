@@ -1,0 +1,254 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { MapPin, Search, ChevronRight } from "@lucide/astro";
+import clubsData from "../../data/clubs.json";
+
+const clubs = clubsData;
+const regions = [...new Set(clubs.map(club => club.region))].sort();
+
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Swimming Clubs in the UK",
+  description: "Directory of swimming clubs across the UK. Find your local swimming club and discover training opportunities.",
+  numberOfItems: clubs.length,
+  itemListElement: clubs.map((club, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    item: {
+      "@type": "SportsOrganization",
+      name: club.name,
+      sport: "Swimming",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: club.location,
+        addressRegion: club.region,
+        addressCountry: "GB",
+      },
+      url: `/clubs/${club.region.toLowerCase().replace(/ /g, '-')}/${club.slug}`,
+    },
+  })),
+};
+---
+
+<Layout
+  title="Swimming Clubs in the UK | Swimly"
+  description="Find swimming clubs across the UK. Search by location, region, and club name to discover training opportunities for swimmers of all ages and abilities. Connect with your local swimming club today."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(itemListSchema, null, 2)} />
+  
+  <Nav />
+  
+  <main>
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="eyebrow inline-flex items-center gap-2 mb-6">
+          <MapPin class="w-4 h-4" />
+          Club Directory
+        </p>
+
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.1] text-[#0F2D2D]">
+          Find Your Local
+          <em class="text-mint-ink">Swimming Club</em>
+        </h1>
+
+        <p class="mt-6 text-lg sm:text-xl text-ink-soft max-w-2xl mx-auto leading-relaxed">
+          Discover swimming clubs across the UK. From beginners to competitive swimmers, find the right club for your journey.
+        </p>
+      </div>
+    </section>
+
+    <!-- Search and Filter Section -->
+    <section class="pb-12 relative">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-2xl p-6 lg:p-8">
+          <div class="grid md:grid-cols-2 gap-4">
+            <!-- Search Box -->
+            <div class="relative">
+              <Search class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-ink-faint" />
+              <input
+                type="text"
+                id="clubSearch"
+                placeholder="Search by club name or location..."
+                class="w-full pl-12 pr-4 py-3 bg-surface border border-[#39393A]/10 rounded-lg text-ink placeholder-ink-faint focus:outline-none focus:border-[#297373]/50 transition-colors"
+              />
+            </div>
+
+            <!-- Region Filter -->
+            <select
+              id="regionFilter"
+              class="w-full px-4 py-3 bg-surface border border-[#39393A]/10 rounded-lg text-ink focus:outline-none focus:border-[#297373]/50 transition-colors appearance-none"
+            >
+              <option value="">All Regions</option>
+              {regions.map(region => (
+                <option value={region}>{region}</option>
+              ))}
+            </select>
+          </div>
+
+          <div class="mt-4 flex items-center justify-between">
+            <span class="text-sm text-ink-mute">
+              <span id="resultCount">{clubs.length}</span> clubs found
+            </span>
+            <div class="flex items-center gap-4">
+              <a href="/clubs/map/" class="inline-flex items-center gap-2 text-sm text-mint-ink hover:text-[#0F2D2D] transition-colors font-medium">
+                <MapPin class="w-4 h-4" />
+                View on map
+              </a>
+              <a href="/clubs/add/" class="text-sm text-ink-mute hover:text-ink transition-colors">
+                Add your club
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Regional Links -->
+    <section class="pb-12 relative">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-6">Browse by Region</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {regions.map(region => {
+            const regionClubs = clubs.filter(c => c.region === region);
+            const regionSlug = region.toLowerCase().replace(/ /g, '-');
+            return (
+              <a
+                href={`/clubs/${regionSlug}`}
+                class="group p-4 rounded-lg bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors"
+              >
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h3 class="font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors">
+                      {region}
+                    </h3>
+                    <p class="text-sm text-ink-mute mt-1">
+                      {regionClubs.length} {regionClubs.length === 1 ? 'club' : 'clubs'}
+                    </p>
+                  </div>
+                  <ChevronRight class="w-5 h-5 text-ink-faint group-hover:text-mint-ink transition-colors" />
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    <!-- Clubs Grid -->
+    <section class="pb-20 sm:pb-28 relative">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-6">All Swimming Clubs</h2>
+        <div id="clubsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {clubs.map(club => {
+            const regionSlug = club.region.toLowerCase().replace(/ /g, '-');
+            return (
+              <a
+                href={`/clubs/${regionSlug}/${club.slug}`}
+                class="group p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all hover:-translate-y-1"
+                data-club-name={club.name.toLowerCase()}
+                data-club-location={club.location.toLowerCase()}
+                data-club-region={club.region}
+              >
+                <h3 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors mb-2">
+                  {club.name}
+                </h3>
+
+                <div class="flex items-center gap-2 text-sm text-ink-mute mb-3">
+                  <MapPin class="w-4 h-4" />
+                  <span>{club.location}</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 text-mint-ink text-xs font-medium">{club.region}</span>
+                </div>
+
+                <p class="text-sm text-ink-soft leading-relaxed line-clamp-3">
+                  {club.description}
+                </p>
+
+                <div class="mt-4 text-mint-ink text-sm font-medium flex items-center gap-1">
+                  View details
+                  <ChevronRight class="w-4 h-4" />
+                </div>
+              </a>
+            );
+          })}
+        </div>
+
+        <div id="noResults" class="hidden text-center py-12">
+          <p class="text-ink-soft text-lg">No clubs found matching your search.</p>
+          <button
+            onclick="document.getElementById('clubSearch').value = ''; document.getElementById('regionFilter').value = ''; filterClubs();"
+            class="mt-4 px-6 py-2 rounded-lg bg-lime-cta text-[#0F2D2D] font-semibold hover:bg-lime-cta-hover transition-colors"
+          >
+            Clear filters
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 sm:py-28 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-4">
+          Is Your Club Missing?
+        </h2>
+        <p class="text-lg text-ink-soft mb-8 max-w-xl mx-auto">
+          Get your swimming club listed and start managing it with Swimly. Modern club management software built for UK swimming clubs.
+        </p>
+        <a
+          href="/clubs/add/"
+          class="inline-flex items-center gap-2 px-6 py-3 min-h-12 rounded-lg bg-lime-cta text-[#0F2D2D] font-semibold hover:bg-lime-cta-hover transition-colors text-lg"
+        >
+          Add your club
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script is:inline>
+    function filterClubs() {
+      const searchTerm = document.getElementById('clubSearch').value.toLowerCase();
+      const regionFilter = document.getElementById('regionFilter').value;
+      const clubCards = document.querySelectorAll('[data-club-name]');
+      let visibleCount = 0;
+
+      clubCards.forEach(card => {
+        const name = card.dataset.clubName;
+        const location = card.dataset.clubLocation;
+        const region = card.dataset.clubRegion;
+        const regionLower = region.toLowerCase();
+
+        const matchesSearch = !searchTerm || name.includes(searchTerm) || location.includes(searchTerm) || regionLower.includes(searchTerm);
+        const matchesRegion = !regionFilter || region === regionFilter;
+
+        if (matchesSearch && matchesRegion) {
+          card.style.display = '';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      document.getElementById('resultCount').textContent = visibleCount;
+      
+      const noResults = document.getElementById('noResults');
+      const clubsGrid = document.getElementById('clubsGrid');
+      if (visibleCount === 0) {
+        clubsGrid.style.display = 'none';
+        noResults.style.display = 'block';
+      } else {
+        clubsGrid.style.display = 'grid';
+        noResults.style.display = 'none';
+      }
+    }
+
+    document.getElementById('clubSearch').addEventListener('input', filterClubs);
+    document.getElementById('regionFilter').addEventListener('change', filterClubs);
+  </script>
+</Layout>

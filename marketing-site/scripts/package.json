@@ -1,0 +1,13 @@
+{
+  "name": "swimly-gsc-tools",
+  "version": "1.0.0",
+  "description": "Google Search Console integration tools for swimly.uk",
+  "scripts": {
+    "submit": "node gsc-submit.js",
+    "audit": "node gsc-audit.js"
+  },
+  "dependencies": {
+    "googleapis": "^137.0.0"
+  },
+  "type": "module"
+}

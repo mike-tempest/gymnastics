@@ -1,0 +1,366 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+
+// Region-only page on swimly.club. Self-canonical: no cross-region hreflang.
+// US English, USD, USA Swimming, "swim team". Canonical, host and lang are
+// derived from the path by the Layout via src/config/regions.ts. Do not
+// hardcode them here.
+const SITE = "https://swimly.club";
+const PATH = "/us/guides/usa-swimming-safe-sport-explained/";
+const canonical = `${SITE}${PATH}`;
+const appUrl = "https://app.swimly.uk/create-club";
+const contactEmail = "hello@swimly.club";
+
+const title = "USA Swimming & Safe Sport Explained: A Guide for US Swim Teams | Swimly";
+const description =
+  "What USA Swimming is, how teams affiliate through their LSC, membership basics, and how the Safe Sport program and MAAPP work. A plain-English guide for US swim team admins and parents.";
+
+const faqItems = [
+  {
+    question: "What is USA Swimming?",
+    answer:
+      "USA Swimming is the national governing body for the sport of competitive swimming in the United States. Founded in 1981 and with more than 400,000 members, it sets the rules for the sport, sanctions meets, registers athletes, coaches, officials and clubs, and runs the national team program. Most competitive swim teams in the US are member clubs of USA Swimming.",
+  },
+  {
+    question: "What is a Local Swimming Committee (LSC)?",
+    answer:
+      "A Local Swimming Committee, or LSC, is a regional body to which USA Swimming delegates governing and supervisory responsibility within a defined geographic area. There are dozens of LSCs across the country. Your swim team joins USA Swimming through its LSC, and the LSC registrar administers individual and club memberships and sanctions local meets.",
+  },
+  {
+    question: "What is the Safe Sport program?",
+    answer:
+      "Safe Sport is USA Swimming's abuse prevention program. It uses a multi-layered approach: required policies and best practice guidelines, mandatory screening including criminal background checks, training and education such as the annual Athlete Protection Training, and monitoring, supervision and mandatory reporting. The U.S. Center for SafeSport, a separate non-profit, holds exclusive jurisdiction over sexual misconduct and child abuse cases in the Olympic and Paralympic movement.",
+  },
+  {
+    question: "What is MAAPP?",
+    answer:
+      "MAAPP is the Minor Athlete Abuse Prevention Policy. It sets rules for one-on-one interactions, social media and electronic communications, travel, locker rooms and changing areas, and massages, rubdowns and athletic training. USA Swimming requires every club, Zone and LSC to implement the MAAPP in full, and applicable adults who have contact with minor athletes must follow it.",
+  },
+  {
+    question: "What does Safe Sport mean for a swim team's admin workload?",
+    answer:
+      "It means tracking compliance for every adult member: confirming background checks are current, that Athlete Protection Training has been completed and renewed, and that your team's MAAPP-related policies are in place and acknowledged. For a volunteer-run team this is real, recurring work. Software that keeps member records and compliance tasks organized in one place makes it easier to see who is current and what is due.",
+  },
+  {
+    question: "Does Swimly replace USA Swimming registration?",
+    answer:
+      "No. Swimly does not replace your USA Swimming or LSC membership, and it is not affiliated with USA Swimming. Swimly is swim team management software that handles the surrounding administration: member records, online registration, dues, attendance, and tracking the compliance tasks your team needs to stay on top of. You still register with USA Swimming through your LSC.",
+  },
+];
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "USA Swimming & Safe Sport Explained: A Guide for US Swim Teams",
+  description: description,
+  url: canonical,
+  author: { "@type": "Organization", name: "Swimly" },
+  publisher: {
+    "@type": "Organization",
+    name: "Swimly",
+    logo: { "@type": "ImageObject", url: `${SITE}/swimly-logo.svg` },
+  },
+  mainEntityOfPage: canonical,
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/us/` },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/us/guides/` },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "USA Swimming & Safe Sport Explained",
+      item: canonical,
+    },
+  ],
+};
+
+const safeSportLayers = [
+  {
+    heading: "Required policies and guidelines",
+    body:
+      "USA Swimming requires member clubs to adopt its safeguarding policies and best practice guidelines, including the Minor Athlete Abuse Prevention Policy. Your team is responsible for putting these in place and making sure members know them.",
+  },
+  {
+    heading: "Mandatory screening",
+    body:
+      "Screening includes criminal background checks for adult members such as coaches and chaperones, alongside employment screening. Keeping track of who has a current check, and when each one expires, is an ongoing job for the team.",
+  },
+  {
+    heading: "Training and education",
+    body:
+      "Adult members complete Athlete Protection Training, delivered through the U.S. Center for SafeSport, and renew it each year. The core course takes around 90 minutes. Your team needs to know who has completed it and who is due to renew.",
+  },
+  {
+    heading: "Monitoring, supervision and reporting",
+    body:
+      "Safe Sport sets expectations for how adults supervise athletes and includes mandatory reporting. Anyone who learns of a violation has a duty to report it through the proper channels.",
+  },
+];
+
+const maappAreas = [
+  "One-on-one interactions between adults and minor athletes",
+  "Social media and electronic communications",
+  "Travel, both local and team travel",
+  "Locker rooms and changing areas",
+  "Massages, rubdowns and athletic training modalities",
+];
+
+const adminTasks = [
+  {
+    heading: "Keep member records current",
+    body:
+      "Maintain accurate records for every athlete and non-athlete member, including the details you need for USA Swimming registration through your LSC. Swimly keeps these in one place rather than across spreadsheets.",
+  },
+  {
+    heading: "Track compliance tasks",
+    body:
+      "Background checks and Athlete Protection Training both expire and need renewing. Swimly lets you record and organize these tasks so it is easier to see who is current and what is coming due.",
+  },
+  {
+    heading: "Run registration and dues",
+    body:
+      "Collect registrations online and bill dues automatically in USD. That frees up volunteer time for the safeguarding work that genuinely needs a person.",
+  },
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonical={canonical}
+  imageUrl={`${SITE}/og-image.png`}
+  faqItems={faqItems}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+
+  <header class="border-b border-hairline bg-canvas/85 backdrop-blur-xl">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-[68px]">
+        <a href="/us/" class="font-display text-[26px] text-[#0F2D2D] tracking-tight leading-none">Swimly</a>
+        <a
+          href={appUrl}
+          class="text-[15px] font-bold px-5 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-colors min-h-12 inline-flex items-center shadow-[0_1px_3px_rgba(57,57,58,0.16)]"
+        >
+          Start your team
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pb-16">
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section class="py-12">
+        <p class="eyebrow mb-3">US Guide</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          USA Swimming and Safe Sport explained
+        </h1>
+        <p class="text-xl text-ink-soft leading-relaxed">
+          If you run or are joining a competitive swim team in the United States, two names come up
+          constantly: USA Swimming and Safe Sport. In short, USA Swimming is the national governing body
+          for the sport, your team joins it through a regional Local Swimming Committee, and Safe Sport is
+          the athlete protection program every member club has to follow. This guide explains what each
+          one is, how membership works, and what the compliance side means for the people who keep a team
+          running.
+        </p>
+        <div class="mt-8">
+          <a
+            href={appUrl}
+            class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+          >
+            Start your team free
+          </a>
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">What is USA Swimming?</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          USA Swimming is the national governing body for the sport of competitive swimming in the United
+          States. Founded in 1981, it has more than 400,000 members. As the national governing body it
+          sets the rules of the sport, sanctions competitions, registers athletes, coaches, officials and
+          clubs, and runs the national team program that feeds the US Olympic and Paralympic teams.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          For a swim team, the practical takeaway is simple. If your team competes in sanctioned meets,
+          it is almost certainly a USA Swimming member club, and your athletes, coaches and key
+          volunteers hold individual USA Swimming memberships. That membership comes with rules to follow,
+          and the most prominent of those is Safe Sport, covered further down.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How teams affiliate: Local Swimming Committees (LSCs)</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          You do not join USA Swimming directly at the national level. Instead, the country is divided into
+          regional bodies called Local Swimming Committees, or LSCs. USA Swimming delegates governing and
+          supervisory responsibility to each LSC within a defined geographic area. There are dozens of LSCs
+          across the United States, and your team belongs to the one that covers its location.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The LSC is where a lot of the day-to-day membership work happens. Each LSC has a registrar who
+          administers individual and club memberships for athletes, non-athlete members and clubs, and the
+          LSC sanctions and oversees local meets. When people talk about registering your swimmers for the
+          season, they usually mean registering them with USA Swimming through your LSC.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Membership basics for most teams look like this: the club itself registers as a member
+          organization, coaches and officials register as non-athlete members, and swimmers register as
+          athlete members. Each membership type has its own requirements, and adult members in particular
+          carry the Safe Sport obligations described below.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">What is the Safe Sport program?</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          Safe Sport is USA Swimming's abuse prevention program. USA Swimming describes it as a
+          comprehensive program built on a multi-layered approach to keeping athletes safe. Rather than a
+          single rule, it is a set of policies, checks and habits that member clubs are expected to follow.
+          The four layers are below.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {safeSportLayers.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-6">
+          It helps to know how Safe Sport relates to the U.S. Center for SafeSport. The Center is a
+          separate non-profit organization that holds exclusive jurisdiction over sexual misconduct and
+          child abuse cases across the Olympic and Paralympic movement, including swimming. USA Swimming
+          runs its own Safe Sport policies and education, while serious abuse complaints fall to the
+          Center.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">The Minor Athlete Abuse Prevention Policy (MAAPP)</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The centerpiece of the policy side is the Minor Athlete Abuse Prevention Policy, almost always
+          shortened to MAAPP. It sets concrete rules for the situations where minors are most at risk,
+          so that interactions between adults and young athletes are observable and interruptible. MAAPP
+          addresses these areas:
+        </p>
+        <ul class="space-y-3 text-lg text-ink-soft leading-relaxed list-disc pl-6 mb-4">
+          {maappAreas.map((area) => (
+            <li>{area}</li>
+          ))}
+        </ul>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          MAAPP is not optional. USA Swimming requires every club, Zone and LSC to implement the policy in
+          full, and the applicable adults who have contact with minor athletes are required to follow it.
+          For a team, that means having the current version of the policy in place, making sure coaches and
+          volunteers understand it, and collecting the acknowledgements your LSC expects.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">What it all means for a team's admin workload</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Put the pieces together and a clear picture of the recurring admin emerges. For every adult
+          member, someone on the team has to confirm a current background check, confirm that Athlete
+          Protection Training has been completed and renewed, and keep the team's MAAPP-related policies in
+          place and acknowledged. The training renews annually, and USA Swimming has required non-athlete
+          members to renew their background checks on a regular cycle, so this is never a one-time task.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          On a small, volunteer-run team this work usually lands on one or two people, and the hardest part
+          is visibility: knowing at a glance who is current, who has lapsed, and what is due before the next
+          season. That is exactly the kind of tracking that benefits from being in one organized system
+          rather than a folder of screenshots and a spreadsheet.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Where Swimly fits</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          Swimly is swim team management software built for US teams. It does not replace your USA Swimming
+          or LSC membership, and it is not affiliated with USA Swimming. What it does is take the
+          administration around membership and compliance and keep it organized in one place, so the
+          volunteers running your team spend less time chasing paperwork.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-3">
+          {adminTasks.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-6">
+          You can see what is included and how plans are priced on the
+          <a href="/us/pricing/" class="text-mint-ink font-semibold hover:underline">pricing page</a>, or
+          explore what the platform does on the
+          <a href="/us/features/" class="text-mint-ink font-semibold hover:underline">features page</a>.
+          Questions before you start? Email us at
+          <a href={`mailto:${contactEmail}`} class="text-mint-ink font-semibold hover:underline">{contactEmail}</a>.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Frequently asked questions</h2>
+        <div class="space-y-6">
+          {faqItems.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.question}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Primary sources</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The facts on this page are drawn from USA Swimming and the U.S. Center for SafeSport. Always
+          check the official sources for the current rules, because policies are updated over time.
+        </p>
+        <ul class="space-y-3 text-lg text-ink-soft leading-relaxed list-disc pl-6">
+          <li>
+            <a href="https://www.usaswimming.org/about/lsc-governance" rel="nofollow noopener" target="_blank" class="text-mint-ink font-semibold hover:underline">USA Swimming: LSC Governance</a>
+          </li>
+          <li>
+            <a href="https://www.usaswimming.org/safe-sport" rel="nofollow noopener" target="_blank" class="text-mint-ink font-semibold hover:underline">USA Swimming: Safe Sport</a>
+          </li>
+          <li>
+            <a href="https://www.usaswimming.org/safe-sport/minor-athlete-abuse-prevention-policy" rel="nofollow noopener" target="_blank" class="text-mint-ink font-semibold hover:underline">USA Swimming: Minor Athlete Abuse Prevention Policy (MAAPP)</a>
+          </li>
+          <li>
+            <a href="https://www.usaswimming.org/resource-center/athlete-protection-training" rel="nofollow noopener" target="_blank" class="text-mint-ink font-semibold hover:underline">USA Swimming: Athlete Protection Training</a>
+          </li>
+          <li>
+            <a href="https://uscenterforsafesport.org/" rel="nofollow noopener" target="_blank" class="text-mint-ink font-semibold hover:underline">U.S. Center for SafeSport</a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="py-12 text-center">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Spend less time on admin, more on swimming</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-8 max-w-2xl mx-auto">
+          Keep your member records, registrations, dues and compliance tasks organized in one place.
+          Set up your team in minutes.
+        </p>
+        <a
+          href={appUrl}
+          class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+        >
+          Start your team free
+        </a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="border-t border-hairline">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-ink-mute">&copy; {new Date().getFullYear()} Swimly</p>
+      <a href={`mailto:${contactEmail}`} class="text-sm text-ink-mute hover:text-[#0F2D2D] transition-colors">{contactEmail}</a>
+    </div>
+  </footer>
+</Layout>

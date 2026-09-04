@@ -1,0 +1,459 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { Heart, MapPin, Shield, Code, Waves, ExternalLink, Users, CheckCircle, Sparkles } from "@lucide/astro";
+
+const values = [
+  {
+    icon: Heart,
+    title: "Built by volunteers, for volunteers",
+    description: "We know the reality of committee life: late nights reconciling spreadsheets, chasing subs, and juggling safeguarding paperwork. Swimly exists because we lived it.",
+  },
+  {
+    icon: MapPin,
+    title: "UK clubs first, always",
+    description: "Every feature is designed around how British swimming clubs actually operate. Swim England membership categories, UK bank integrations, and GDPR compliance are built in from the start.",
+  },
+  {
+    icon: Shield,
+    title: "Safeguarding as standard",
+    description: "Wavepower compliance, DBS tracking, and role-based access controls are not optional extras. They are core to the platform because they are core to your club.",
+  },
+  {
+    icon: Code,
+    title: "Modern technology, simple experience",
+    description: "Under the hood, Swimly is built on modern infrastructure hosted in the UK. On the surface, it is straightforward enough for any volunteer to pick up in minutes.",
+  },
+];
+
+const milestones = [
+  {
+    year: "Early 2025",
+    title: "Swim parent frustration",
+    description: "Volunteering on a club committee, late nights reconciling spreadsheets, manually chasing subs, and juggling safeguarding paperwork in filing cabinets. The frustration was real.",
+  },
+  {
+    year: "Spring 2025",
+    title: "Building Swimly",
+    description: "Started building the platform swim clubs actually deserve. Researched with 20+ committees across England to understand the real pain points.",
+  },
+  {
+    year: "Autumn 2025",
+    title: "Pilot programme launches",
+    description: "Working with founding clubs to test, refine, and validate the platform in real-world conditions. Learning what volunteers truly need.",
+  },
+  {
+    year: "2026",
+    title: "Founding clubs onboarding",
+    description: "Rolling out to the first wave of clubs across England, Scotland, and Wales based on founding club learnings.",
+  },
+  {
+    year: "2027",
+    title: "Public launch nationwide",
+    description: "Opening Swimly to swimming clubs nationwide with full Swim England integration.",
+  },
+];
+
+const trustSignals = [
+  {
+    icon: MapPin,
+    title: "UK-built and hosted",
+    description: "All infrastructure hosted in the United Kingdom. Your club data stays in the UK.",
+  },
+  {
+    icon: Shield,
+    title: "GDPR compliant",
+    description: "Built with data protection regulations at the core. Full GDPR compliance for member data.",
+  },
+  {
+    icon: CheckCircle,
+    title: "Wavepower aligned",
+    description: "Safeguarding workflows designed around current Wavepower guidance and Swim England requirements.",
+  },
+  {
+    icon: Users,
+    title: "Volunteer-first design",
+    description: "Every feature tested with real committee volunteers. No training required to get started.",
+  },
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "About",
+      "item": "https://swimly.uk/about"
+    }
+  ]
+};
+---
+
+<Layout
+  title="About Swimly | Built by swim club volunteers, for swim club volunteers"
+  description="Swimly was born from the frustrations of running a volunteer swim club in the UK. We are building modern club management software designed around how British swimming clubs actually work."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <Nav />
+  <main>
+    <!-- Hero -->
+    <section class="relative pt-36 pb-24 sm:pt-48 sm:pb-32 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none" aria-hidden="true"></div>
+
+      <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="reveal inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/20 text-mint-ink text-sm font-semibold mb-10">
+          <Waves class="w-4 h-4" />
+          Our story
+        </div>
+
+        <h1 class="reveal font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] tracking-tight mb-8 text-[#0F2D2D]">
+          Born on the
+          <em class="text-mint-ink">poolside,</em>
+          <br />
+          built for the committee room.
+        </h1>
+
+        <p class="reveal text-lg sm:text-xl lg:text-2xl text-ink-soft max-w-3xl mx-auto leading-relaxed">
+          Swimly started with a simple question: why is running a grassroots swim
+          club still so painful? We are building the answer.
+        </p>
+      </div>
+    </section>
+
+    <!-- Origin Story -->
+    <section class="py-24 sm:py-32 relative">
+      <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+          <div>
+            <p class="eyebrow reveal">Our story</p>
+            <h2 class="reveal font-display text-3xl sm:text-4xl lg:text-5xl mb-8 mt-5 leading-tight text-[#0F2D2D]">
+              We have been
+              <em class="text-mint-ink">where you are</em>
+            </h2>
+            <div class="space-y-5 text-ink-soft text-base sm:text-lg leading-relaxed">
+              <p>
+                Swimly was started by a swim parent who volunteered on the committee of a
+                grassroots club. The kind of club held together by a handful of
+                dedicated people giving up their evenings and weekends so that
+                children could train and compete.
+              </p>
+              <p>
+                The reality of running that club looked like this: membership records
+                scattered across multiple spreadsheets, monthly subscription
+                reminders sent by hand, session registers printed and photocopied,
+                and safeguarding paperwork stored in a filing cabinet nobody could
+                find the key for.
+              </p>
+              <p>
+                The software options were no better. Most were designed for American
+                swim teams, built in the early 2000s, and required a training course
+                just to navigate the interface. Nothing was designed for how
+                UK clubs actually operate.
+              </p>
+              <p class="font-medium text-[#0F2D2D]">
+                So we started building something better. Not a generic sports
+                platform with swimming bolted on, but purpose-built software for
+                British swimming clubs, designed by people who understand the
+                volunteer burden because they have carried it.
+              </p>
+            </div>
+          </div>
+
+          <div class="relative">
+            <div class="reveal relative p-8 lg:p-10 rounded-3xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+              <p class="text-[12px] font-semibold tracking-[0.14em] uppercase text-[#B91C1C]/80 mb-6">The spreadsheet era</p>
+              <ul class="space-y-4 text-ink-soft leading-relaxed">
+                <li class="flex items-start gap-4">
+                  <span class="w-2 h-2 rounded-full bg-[#B91C1C]/70 mt-2.5 shrink-0"></span>
+                  <span>Membership records in one spreadsheet, payments in another, attendance in a third</span>
+                </li>
+                <li class="flex items-start gap-4">
+                  <span class="w-2 h-2 rounded-full bg-[#B91C1C]/70 mt-2.5 shrink-0"></span>
+                  <span>Committee members spending 10+ hours a week on admin instead of poolside</span>
+                </li>
+                <li class="flex items-start gap-4">
+                  <span class="w-2 h-2 rounded-full bg-[#B91C1C]/70 mt-2.5 shrink-0"></span>
+                  <span>Safeguarding records stored in formats that do not meet current guidance</span>
+                </li>
+                <li class="flex items-start gap-4">
+                  <span class="w-2 h-2 rounded-full bg-[#B91C1C]/70 mt-2.5 shrink-0"></span>
+                  <span>Parents confused about what they owe, coaches unsure who is enrolled</span>
+                </li>
+                <li class="flex items-start gap-4">
+                  <span class="w-2 h-2 rounded-full bg-[#B91C1C]/70 mt-2.5 shrink-0"></span>
+                  <span>Handover between committee years means lost data and starting from scratch</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="py-24 sm:py-32 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+          <div class="reveal text-center p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] transition-colors">
+            <div class="font-display text-5xl sm:text-6xl text-mint-ink mb-3 tabular-nums">1,500+</div>
+            <p class="text-sm text-ink-soft leading-relaxed font-medium">Swimming clubs in <a href="/clubs/" class="text-mint-ink hover:text-[#0F2D2D] underline decoration-[#1F7A52]/30 underline-offset-2 transition-colors">our UK directory</a></p>
+          </div>
+          <div class="reveal text-center p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] transition-colors">
+            <div class="font-display text-5xl sm:text-6xl text-mint-ink mb-3 tabular-nums">50k+</div>
+            <p class="text-sm text-ink-soft leading-relaxed font-medium">Volunteer hours wasted on admin each year*</p>
+          </div>
+          <div class="reveal text-center p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] transition-colors">
+            <div class="font-display text-5xl sm:text-6xl text-mint-ink mb-3 tabular-nums">15+</div>
+            <p class="text-sm text-ink-soft leading-relaxed font-medium">Years tech leadership</p>
+          </div>
+          <div class="reveal text-center p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] transition-colors">
+            <div class="font-display text-5xl sm:text-6xl text-mint-ink mb-3 tabular-nums">1</div>
+            <p class="text-sm text-ink-soft leading-relaxed font-medium">Frustrated swim parent</p>
+          </div>
+        </div>
+        <p class="mt-6 text-xs text-ink-mute text-center">* Estimate based on committee survey responses. Actual figure may vary.</p>
+      </div>
+    </section>
+
+    <!-- Values -->
+    <section class="py-24 sm:py-32">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+          <p class="eyebrow reveal">What drives us</p>
+          <h2 class="reveal font-display text-3xl sm:text-4xl lg:text-5xl mb-6 mt-5 text-[#0F2D2D]">
+            What drives us
+          </h2>
+          <p class="reveal text-lg sm:text-xl text-ink-soft max-w-3xl mx-auto leading-relaxed">
+            Every decision we make comes back to one thing: making life easier for
+            the volunteers who keep grassroots swimming alive.
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-8 lg:gap-10">
+          {values.map(value => (
+            <div class="reveal group p-8 lg:p-10 rounded-3xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all duration-300">
+              <div class="w-14 h-14 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-6">
+                <value.icon class="w-7 h-7 text-mint-ink" />
+              </div>
+              <h3 class="text-xl font-semibold mb-3 text-[#0F2D2D]">{value.title}</h3>
+              <p class="text-ink-soft leading-relaxed">{value.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- UK-First Approach -->
+    <section class="py-24 sm:py-32 relative overflow-hidden bg-surface border-y border-[#39393A]/8">
+      <!-- Wave SVG pattern -->
+      <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-[0.04]" preserveAspectRatio="none" viewBox="0 0 1440 560">
+        <path d="M0,160 C320,280 440,80 720,160 C1000,240 1120,40 1440,160 L1440,560 L0,560 Z" fill="currentColor" class="text-[#297373]"></path>
+        <path d="M0,320 C360,400 480,200 720,320 C960,440 1080,240 1440,320 L1440,560 L0,560 Z" fill="currentColor" class="text-[#297373]"></path>
+      </svg>
+      <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="eyebrow reveal">UK-first</p>
+        <h2 class="reveal font-display text-3xl sm:text-4xl lg:text-5xl mb-8 mt-5 text-[#0F2D2D]">
+          Designed for <em class="text-mint-ink">British swimming</em>
+        </h2>
+        <p class="reveal text-lg sm:text-xl text-ink-soft leading-relaxed max-w-3xl mx-auto mb-16">
+          Most club management software is designed for American swim teams and then
+          awkwardly adapted for the UK market. Swimly is different.
+        </p>
+
+        <div class="grid sm:grid-cols-3 gap-8">
+          <div class="reveal relative rounded-3xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+            <div class="p-8 rounded-3xl h-full">
+              <div class="font-display text-2xl sm:text-3xl text-mint-ink mb-4">Swim England</div>
+              <p class="text-ink-soft leading-relaxed">Membership categories, county affiliations, and competition structures built around how Swim England operates.</p>
+            </div>
+          </div>
+          <div class="reveal relative rounded-3xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+            <div class="p-8 rounded-3xl h-full">
+              <div class="font-display text-2xl sm:text-3xl text-mint-ink mb-4">Wavepower</div>
+              <p class="text-ink-soft leading-relaxed">Safeguarding workflows aligned with current Wavepower guidance. DBS tracking, welfare officer tools, and audit trails as standard.</p>
+            </div>
+          </div>
+          <div class="reveal relative rounded-3xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+            <div class="p-8 rounded-3xl h-full">
+              <div class="font-display text-2xl sm:text-3xl text-mint-ink mb-4">UK payments</div>
+              <p class="text-ink-soft leading-relaxed">Direct Debit collection through UK payment processors. No international transfer fees, no currency conversion headaches.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="py-24 sm:py-32 relative">
+      <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+          <p class="eyebrow reveal">Our journey</p>
+          <h2 class="reveal font-display text-3xl sm:text-4xl lg:text-5xl mb-6 mt-5 text-[#0F2D2D]">
+            From frustration to solution
+          </h2>
+          <p class="reveal text-lg sm:text-xl text-ink-soft max-w-3xl mx-auto leading-relaxed">
+            Swimly started with a simple realisation: the people keeping grassroots swimming alive deserved better than spreadsheets and outdated software.
+          </p>
+        </div>
+
+        <div class="relative">
+          <!-- Timeline line: left on mobile, centre on desktop -->
+          <div class="absolute left-8 lg:left-1/2 lg:-translate-x-0.5 top-0 bottom-0 w-px bg-gradient-to-b from-[#297373]/40 via-[#297373]/20 to-[#297373]/40"></div>
+
+          <div class="space-y-12 lg:space-y-16">
+            {milestones.map((milestone, index) => (
+              <div class:list={[
+                "reveal relative pl-20 lg:pl-0 lg:w-1/2",
+                index % 2 === 0 ? "lg:pr-16 lg:ml-0 lg:text-right" : "lg:pl-16 lg:ml-auto"
+              ]}>
+                {/* Mobile dot (left) */}
+                <div class="absolute left-[26px] top-3 w-6 h-6 rounded-full bg-mint-ink border-[5px] border-canvas lg:hidden shadow-sm"></div>
+                {/* Desktop dot (centre) */}
+                <div class:list={[
+                  "hidden lg:block absolute top-3 w-6 h-6 rounded-full bg-mint-ink border-[5px] border-canvas shadow-sm",
+                  index % 2 === 0 ? "right-0 translate-x-[calc(50%+2rem)]" : "left-0 -translate-x-[calc(50%+2rem)]"
+                ]}></div>
+
+                <div class="group p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all duration-300">
+                  <div class="text-sm font-semibold text-mint-ink mb-3 tracking-wide uppercase">{milestone.year}</div>
+                  <h3 class="text-xl sm:text-2xl font-semibold mb-3 text-[#0F2D2D] group-hover:text-mint-ink transition-colors">{milestone.title}</h3>
+                  <p class:list={["text-ink-soft leading-relaxed text-base", index % 2 === 0 ? "lg:text-right" : ""]}>
+                    {milestone.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="py-24 sm:py-32 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+          <p class="eyebrow reveal">Why trust us</p>
+          <h2 class="reveal font-display text-3xl sm:text-4xl lg:text-5xl mb-6 mt-5 text-[#0F2D2D]">
+            Built for British swimming clubs
+          </h2>
+          <p class="reveal text-ink-soft text-lg sm:text-xl max-w-3xl mx-auto leading-relaxed">
+            Every decision is made with UK clubs, volunteer committees, and member safety in mind.
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {trustSignals.map(signal => (
+            <div class="reveal group p-8 rounded-3xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all duration-300 text-center">
+              <div class="w-14 h-14 mx-auto rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-6">
+                <signal.icon class="w-7 h-7 text-mint-ink" />
+              </div>
+              <h3 class="text-lg font-semibold mb-3 text-[#0F2D2D]">{signal.title}</h3>
+              <p class="text-sm text-ink-soft leading-relaxed">{signal.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Founder -->
+    <section class="py-24 sm:py-32">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <div class="reveal inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/20 text-mint-ink text-sm font-medium mb-6">
+            <Sparkles class="w-4 h-4" />
+            Built by a swim parent
+          </div>
+          <h2 class="reveal font-display text-3xl sm:text-4xl mb-4 text-[#0F2D2D]">
+            From the poolside to the codebase
+          </h2>
+          <p class="reveal text-ink-soft text-lg max-w-2xl mx-auto">
+            Swimly was built by someone who knows the volunteer burden because they carried it.
+          </p>
+        </div>
+
+        <div class="relative">
+          <div class="reveal relative p-8 lg:p-12 rounded-3xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+            <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
+              <div class="flex-shrink-0">
+                <div class="w-28 h-28 rounded-2xl bg-[#0F2D2D] flex items-center justify-center">
+                  <span class="text-4xl font-bold text-[#85FFC7] select-none">MT</span>
+                </div>
+              </div>
+
+              <div class="flex-1">
+                <h3 class="text-2xl font-semibold mb-1 text-[#0F2D2D]">Mike Tempest</h3>
+                <p class="text-mint-ink font-medium mb-3">Founder</p>
+                <a
+                  href="https://uk.linkedin.com/in/miketempest"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1.5 text-sm text-ink-mute hover:text-mint-ink transition-colors mb-6"
+                >
+                  <ExternalLink class="w-3.5 h-3.5" />
+                  LinkedIn
+                </a>
+
+                <div class="space-y-4 text-ink-soft leading-relaxed">
+                  <p>
+                    Mike is a swim parent at RTW Monson swimming club in Kent. He has also spent over 15 years building technology products at companies including Google and Apple.
+                  </p>
+                  <p>
+                    As CTO, he scaled RefME from zero to 2 million users, building systems that needed to handle real scale and real complexity. Currently, he is CTO at Risika, a Danish fintech company, where he leads engineering and infrastructure.
+                  </p>
+                  <p>
+                    Swimly emerged from volunteering on a club committee and experiencing first-hand the administrative burden volunteers carry. Late nights reconciling spreadsheets, manually tracking subs, and wrestling with outdated software that was not built for how British clubs operate.
+                  </p>
+                  <p>
+                    The conviction that drove Swimly was simple: the people who give up their evenings and weekends to keep grassroots swimming alive deserve better tools. Not enterprise software with a manual, not American platforms that do not understand Swim England categories. Just straightforward, modern software built for the reality of volunteer-run clubs.
+                  </p>
+                </div>
+
+                <div class="flex flex-wrap gap-2 mt-6">
+                  <span class="px-3 py-1.5 rounded-lg bg-surface border border-[#39393A]/10 text-sm text-ink-soft">15+ years tech leadership</span>
+                  <span class="px-3 py-1.5 rounded-lg bg-surface border border-[#39393A]/10 text-sm text-ink-soft">Google</span>
+                  <span class="px-3 py-1.5 rounded-lg bg-surface border border-[#39393A]/10 text-sm text-ink-soft">Apple</span>
+                  <span class="px-3 py-1.5 rounded-lg bg-surface border border-[#39393A]/10 text-sm text-ink-soft">RefME CTO (0→2M users)</span>
+                  <span class="px-3 py-1.5 rounded-lg bg-surface border border-[#39393A]/10 text-sm text-ink-soft">CTO at Risika</span>
+                  <span class="px-3 py-1.5 rounded-lg bg-[#85FFC7]/20 border border-[#1F7A52]/30 text-sm text-mint-ink font-medium">Swim parent, RTW Monson</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-24 sm:py-32 relative bg-surface border-y border-[#39393A]/8">
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="eyebrow reveal">Get started</p>
+        <h2 class="reveal font-display text-3xl sm:text-4xl lg:text-5xl mb-6 mt-5 text-[#0F2D2D]">
+          Ready to leave the spreadsheets behind?
+        </h2>
+        <p class="reveal text-lg sm:text-xl text-ink-soft mb-10 max-w-2xl mx-auto leading-relaxed">
+          Create your club in minutes and run it on modern swim club
+          management software built for the UK.
+        </p>
+        <a
+          href="https://app.swimly.uk/create-club"
+          class="reveal inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all duration-300 text-lg shadow-lg shadow-lime-cta/20 hover:shadow-lime-cta/30 hover:scale-[1.02] min-h-12"
+        >
+          Start your club, free
+        </a>
+        <p class="mt-6 text-sm text-ink-mute">
+          Free for clubs with fewer than 50 members.
+        </p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

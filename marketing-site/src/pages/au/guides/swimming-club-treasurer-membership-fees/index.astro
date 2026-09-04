@@ -1,0 +1,364 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+
+// Region-only page on swimly.club. Self-canonical: no cross-region hreflang.
+// Commonwealth spelling, AUD, Swimming Australia, "swimming club".
+const SITE = "https://swimly.club";
+const PATH = "/au/guides/swimming-club-treasurer-membership-fees/";
+const canonical = `${SITE}${PATH}`;
+const appUrl = "https://app.swimly.uk/create-club";
+const contactEmail = "hello@swimly.club";
+
+const title =
+  "Swimming Club Membership Fees: A Treasurer's Guide for Australian Clubs | Swimly";
+const description =
+  "How Australian swimming club treasurers set membership fees: club fees, state association and Swimming Australia registration, AUD pricing, billing cadence, payment methods and record-keeping.";
+
+const faqItems = [
+  {
+    question: "How do Australian swimming clubs structure membership fees?",
+    answer:
+      "Most Australian swimming clubs build a member's fee from three parts. There is a club fee that the club keeps to run its programme, a state or territory association registration, and a Swimming Australia national registration. The association and national components are set by those bodies each season and are passed through by the club rather than kept. The total a family pays is the club fee plus these registration components, usually collected as a single annual or term amount.",
+  },
+  {
+    question: "What is the difference between the club fee and the registration fees?",
+    answer:
+      "The club fee covers what it costs your club to operate: pool hire, coaching, equipment, meet entries, trophies and administration. The registration fees are amounts the club passes through to your state or territory association and to Swimming Australia so that each swimmer is registered and covered by the national insurance scheme for the season. Treasurers should show these separately so families understand that part of the fee is not money the club keeps.",
+  },
+  {
+    question: "When does the Australian swimming membership year run?",
+    answer:
+      "For most states and territories the registration season runs from 1 July to 30 June, so clubs typically open registrations and set fees ahead of 1 July. Western Australia has historically used a different season window, so confirm your own dates with your state or territory association before you set your billing schedule.",
+  },
+  {
+    question: "What payment methods do Australian swimming clubs use to collect fees?",
+    answer:
+      "Australian clubs commonly accept debit and credit cards and bank account direct debit through the BECS system, sometimes alongside plain bank transfer. Card payments are quick to set up for families, while BECS direct debit usually carries lower fees and does not fail when a card expires, which makes it well suited to recurring or instalment billing.",
+  },
+  {
+    question: "What financial records should a swimming club treasurer keep?",
+    answer:
+      "Keep records of every fee charged and payment received, bank statements, invoices and receipts, your direct debit authorisations, and the annual financial statements presented to members. How long you must keep them depends on your structure and state, commonly five to seven years, so check the requirements for your incorporated association or charity registration. Good software keeps a clear, exportable record of who paid what and when.",
+  },
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/au/` },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/au/guides/` },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Swimming Club Treasurer: Membership Fees",
+      item: canonical,
+    },
+  ],
+};
+
+const feeComponents = [
+  {
+    heading: "The club fee",
+    body:
+      "This is the part your club keeps. It funds pool hire, coaching, equipment, meet entries, ribbons and trophies, and the day-to-day running of the club. Each club sets its own club fee, so this is the figure you have the most control over and the one your committee should review against a realistic budget each season.",
+  },
+  {
+    heading: "State or territory association registration",
+    body:
+      "Your club affiliates with its state or territory swimming association each season. A registration amount applies to each member and is set by the association. The club collects it as part of the fee and passes it through, so it should be shown as a separate line rather than mixed into the club fee.",
+  },
+  {
+    heading: "Swimming Australia national registration",
+    body:
+      "A national registration component applies on top of the association registration. Together with the association affiliation, this is what keeps each swimmer registered for the season and covered by the national insurance scheme. Like the association component, it is a pass-through, not club income.",
+  },
+];
+
+const cadenceOptions = [
+  {
+    heading: "Annual, aligned to the season",
+    body:
+      "Charging one annual fee ahead of 1 July keeps the registration year and your billing in step. It is simple to reconcile and means the association and national registrations are collected in a single pass. The trade-off is a larger one-off amount for families.",
+  },
+  {
+    heading: "Per term",
+    body:
+      "Splitting the club fee across school terms spreads the cost and suits families who pay as they go. The registration components are usually collected once for the season, so a common pattern is to take registration up front and bill the club fee by term.",
+  },
+  {
+    heading: "Monthly instalments",
+    body:
+      "Monthly billing is the gentlest on household budgets and pairs naturally with direct debit. It does mean more transactions to manage, so it works best when collection is automated rather than chased by hand.",
+  },
+];
+
+const paymentMethods = [
+  {
+    heading: "Debit and credit cards",
+    body:
+      "Cards are familiar and fast for families to set up at registration. They carry processing fees per transaction and can fail when a card expires or is replaced, which is worth planning for if you bill in instalments.",
+  },
+  {
+    heading: "BECS direct debit",
+    body:
+      "Bank account direct debit through Australia's BECS system lets the club collect from a member's account on a schedule once they authorise it with a Direct Debit Request. It typically costs less than cards and does not fail on card expiry, so it suits recurring and instalment billing. You must keep each authorisation on file.",
+  },
+  {
+    heading: "Bank transfer",
+    body:
+      "A plain transfer to the club account has almost no fees but relies on families to pay on time and on the treasurer to match each payment to a member by hand. It can work as a fallback, but it is the most manual option to reconcile.",
+  },
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonical={canonical}
+  imageUrl={`${SITE}/og-image.png`}
+  faqItems={faqItems}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+
+  <header class="border-b border-hairline bg-canvas/85 backdrop-blur-xl">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-[68px]">
+        <a href="/au/" class="font-display text-[26px] text-[#0F2D2D] tracking-tight leading-none">Swimly</a>
+        <a
+          href={appUrl}
+          class="text-[15px] font-bold px-5 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-colors min-h-12 inline-flex items-center shadow-[0_1px_3px_rgba(57,57,58,0.16)]"
+        >
+          Start your club
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pb-16">
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section class="py-12">
+        <p class="eyebrow mb-3">Australia Guide</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          Swimming Club Membership Fees: A Treasurer's Guide for Australian Clubs
+        </h1>
+        <p class="text-xl text-ink-soft leading-relaxed">
+          A swimming club membership fee in Australia is usually made of three parts: a club fee your club keeps to run
+          its programme, a state or territory association registration, and a Swimming Australia national registration.
+          The association and national amounts are set each season and passed through by the club, not kept. This guide
+          is for treasurers and committees who want to set fair fees in AUD, choose a sensible billing cadence and
+          payment method, and keep clean records.
+        </p>
+        <div class="mt-8">
+          <a
+            href={appUrl}
+            class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+          >
+            Start your club free
+          </a>
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">What goes into a membership fee</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The single most useful thing a treasurer can do is separate the fee into its parts. Families often assume the
+          whole amount is club income, when in practice a meaningful share is registration that the club simply
+          collects and forwards. Being clear about this builds trust and makes your budgeting honest, because you are
+          planning against the money the club actually keeps.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          Across Australian swimming, registration is generally built from a national component and a state or
+          territory component, with the club fee added on top. The national and association bodies set their own
+          figures and update them each season, and registration is managed nationally through Swim Central. Because
+          those amounts change and differ by state, set them from your association's current published figures rather
+          than from memory or last year's notes.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-3">
+          {feeComponents.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Membership categories and what they affect</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Many associations offer more than one membership category. A common pattern is a club-level membership for
+          swimmers who only train and race at club nights, and a competitive category for swimmers who want to enter
+          state and national meets. The competitive category usually carries a higher registration component, so the
+          category a family chooses changes the registration part of their fee, not just the club part.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          As treasurer, make sure your fee table maps cleanly onto the categories your association offers. If a swimmer
+          moves up to competitive part-way through the season, decide in advance how you will handle the difference in
+          registration so the change is easy to bill and easy to explain.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Setting your club fee in AUD</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The club fee is the figure you control, so set it from a budget rather than by copying another club. Add up
+          your real costs for the season: pool or lane hire, coaching, insurance not covered by registration, equipment
+          and pool deck gear, meet entries and officials, awards, and a modest buffer for the unexpected. Divide by a
+          realistic number of paying members and you have a defensible club fee.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Two choices are worth thinking through early. First, family discounts: many clubs reduce the club portion for
+          second and third swimmers from one household, which keeps larger families involved. The registration
+          components still apply per swimmer, so a family discount should come off the club fee only. Second, how you
+          treat processing fees: you can absorb them into the club fee or pass them on at checkout, but whichever you
+          choose, state it plainly so there are no surprises.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Avoid setting fees so low that the club cannot cover its season. A fee that quietly runs the club into deficit
+          is harder to fix mid-year than a fee that is set honestly from the start. You can see how Swimly presents
+          plans and pricing in AUD on the
+          <a href="/au/pricing/" class="text-mint-ink font-semibold hover:underline">Swimly pricing page</a>.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Choosing a billing cadence</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          For most states and territories the registration season runs from 1 July to 30 June, so it is common to open
+          registrations ahead of 1 July and align billing with that window. Western Australia has historically used a
+          different season, so confirm your own dates before you lock in a schedule. Within the season, you have a few
+          sensible ways to collect.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-3">
+          {cadenceOptions.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Payment methods used in Australia</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          The payment method you offer shapes how much admin lands on the treasurer. The three families used most by
+          Australian clubs are cards, bank account direct debit through BECS, and plain bank transfer. Many clubs offer
+          more than one so families can choose.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-3">
+          {paymentMethods.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-6">
+          For recurring or instalment billing, BECS direct debit is usually the calmest option: once a family
+          authorises it, collection happens on schedule, fees are typically lower than cards, and payments do not fail
+          when a card expires. Keep each Direct Debit Request authorisation on file, since you may need to evidence that
+          a member agreed to the debit.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Record-keeping for treasurers</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Clean records protect the club and the treasurer. At a minimum, keep a record of every fee charged and
+          payment received, your bank statements, invoices and receipts, the direct debit authorisations you hold, and
+          the annual financial statements you present to members. Being able to answer "who has paid, and who has not"
+          at any point in the season saves hours of reconciliation later.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          How long you must keep records depends on how your club is set up. Many community swimming clubs are
+          incorporated associations, and some are also registered charities, each with its own retention rules. As a
+          general guide the requirement is commonly in the range of five to seven years, but the exact period is set by
+          your state or territory and by any charity registration, so confirm what applies to your club. Direct debit
+          authorisations in particular should be retained well after the final payment is taken.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          This is where software earns its place. A platform that records each charge and payment against the member,
+          stores authorisations, and lets you export a clean financial history makes handover to the next treasurer
+          straightforward and keeps you ready for your annual reporting.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">A simple checklist before the season</h2>
+        <ol class="space-y-4 text-lg text-ink-soft leading-relaxed list-decimal pl-6">
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Confirm the registration figures.</span> Take the current state or
+            territory and Swimming Australia components from your association rather than reusing last year's.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Budget the club fee.</span> Add up real season costs, divide by a
+            realistic membership, and decide on family discounts and how you treat processing fees.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Pick a cadence.</span> Align with the 1 July to 30 June season for
+            most states, and choose annual, per term, or monthly to suit your families.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Offer the right payment methods.</span> Cards for convenience and
+            BECS direct debit for low-fee, reliable recurring collection.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Set up your records.</span> Make sure every charge, payment and
+            authorisation is captured and exportable from day one.
+          </li>
+        </ol>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Where Swimly fits</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Swimly is built to take the repetitive fee admin off a volunteer treasurer's plate. You can present fees in
+          AUD with the club and registration parts shown clearly, bill annually, per term or monthly, and collect by
+          card or bank account direct debit. Every charge and payment is recorded against the member and is yours to
+          export whenever you need it. You can see what each plan includes on the
+          <a href="/au/features/" class="text-mint-ink font-semibold hover:underline">Swimly features page</a> and
+          compare plans on the
+          <a href="/au/pricing/" class="text-mint-ink font-semibold hover:underline">pricing page</a>.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Questions before you start? Email us at
+          <a href={`mailto:${contactEmail}`} class="text-mint-ink font-semibold hover:underline">{contactEmail}</a>.
+        </p>
+      </section>
+
+      <section class="py-10">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Frequently asked questions</h2>
+        <div class="space-y-6">
+          {faqItems.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.question}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-12 text-center">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Take the fee admin off your plate</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-8 max-w-2xl mx-auto">
+          Set up your club in minutes and run your next registration and billing cycle in one place.
+        </p>
+        <a
+          href={appUrl}
+          class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+        >
+          Start your club free
+        </a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="border-t border-hairline">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-ink-mute">&copy; {new Date().getFullYear()} Swimly</p>
+      <a href={`mailto:${contactEmail}`} class="text-sm text-ink-mute hover:text-[#0F2D2D] transition-colors">{contactEmail}</a>
+    </div>
+  </footer>
+</Layout>

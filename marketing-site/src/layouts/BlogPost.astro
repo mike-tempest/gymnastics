@@ -1,0 +1,266 @@
+---
+import Layout from "./Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { ArrowLeft, Calendar, User, Clock } from "@lucide/astro";
+import { REGIONS, regionFromPath, canonicalFor, type RegionKey } from "../config/regions";
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  author: string;
+  image?: string;
+  tags: string[];
+  seoTitle?: string;
+  seoDescription?: string;
+  slug: string;
+  faqItems?: { question: string; answer: string }[];
+  canonical?: string;
+  noindex?: boolean;
+  // Optional explicit region override. A post's region field (if present)
+  // can be threaded through here; otherwise it is derived from the path.
+  region?: RegionKey;
+}
+
+const {
+  title,
+  description,
+  pubDate,
+  author,
+  image,
+  tags,
+  seoTitle,
+  seoDescription,
+  slug,
+  faqItems,
+  canonical,
+  noindex,
+  region: regionProp,
+} = Astro.props;
+
+// Derive the region from the page path (e.g. /us/blog/... -> us). Falls back
+// to an explicit prop, then to the UK default. Read defensively: a post's
+// region field may not exist yet.
+const region: RegionKey = regionProp ?? regionFromPath(Astro.url.pathname) ?? "uk";
+const SITE_URL = REGIONS[region].host;
+const pageTitle = seoTitle || `${title} | Swimly Blog`;
+const metaDescription = seoDescription || description;
+// canonicalFor adds the region path prefix (e.g. /us) to the blog route, so a
+// post in region 'us' self-canonicalises to swimly.club/us/blog/<slug>/. For the
+// UK region the prefix is empty, making this byte-identical to the previous
+// swimly.uk/blog/<slug>/ value. Images and logos live at the domain root, so
+// they use the bare host without a prefix.
+const canonicalUrl = canonical || canonicalFor(`${REGIONS[region].pathPrefix}/blog/${slug}/`);
+const ogImage = image ? `${SITE_URL}${image}` : `${SITE_URL}/og-image.png`;
+
+function formatDate(date: Date): string {
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(date);
+}
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  description: metaDescription,
+  datePublished: pubDate.toISOString(),
+  dateModified: pubDate.toISOString(),
+  author: {
+    "@type": "Person",
+    name: "Mike Tempest",
+    jobTitle: "CTO & Founder",
+    url: "https://uk.linkedin.com/in/miketempest",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Swimly",
+    url: SITE_URL,
+    logo: {
+      "@type": "ImageObject",
+      url: `${SITE_URL}/swimly-logo.svg`,
+    },
+  },
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": canonicalUrl,
+  },
+  image: ogImage,
+  keywords: tags.join(", "),
+};
+
+const faqSchema = faqItems && faqItems.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+} : null;
+---
+
+<Layout
+  title={pageTitle}
+  description={metaDescription}
+  imageUrl={ogImage}
+  canonical={canonicalUrl}
+  noindex={noindex}
+>
+  <Nav />
+  <main>
+    <article class="relative pt-32 pb-20 sm:pt-40 sm:pb-28">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none" aria-hidden="true"></div>
+
+      <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <a
+          href="/blog/"
+          class="inline-flex items-center gap-2 text-sm text-ink-mute hover:text-mint-ink transition-colors mb-8"
+        >
+          <ArrowLeft class="w-4 h-4" />
+          Back to blog
+        </a>
+
+        <header class="mb-12">
+          <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl leading-tight text-[#0F2D2D] mb-6">
+            {title}
+          </h1>
+          <div class="flex flex-wrap items-center gap-4 text-sm text-ink-mute">
+            <div class="flex items-center gap-2">
+              <Calendar class="w-4 h-4" />
+              <time datetime={pubDate.toISOString()}>
+                {formatDate(pubDate)}
+              </time>
+            </div>
+            <div class="flex items-center gap-2">
+              <User class="w-4 h-4" />
+              <span>{author}</span>
+            </div>
+            <div class="flex items-center gap-2" id="reading-time">
+              <Clock class="w-4 h-4" />
+              <span id="read-time-text"></span>
+            </div>
+          </div>
+          {tags.length > 0 && (
+            <div class="flex flex-wrap gap-2 mt-4">
+              {tags.map((tag: string) => (
+                <span class="px-2.5 py-0.5 rounded-md bg-[#85FFC7]/15 text-mint-ink text-xs font-medium">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </header>
+
+        <div class="prose prose-lg max-w-none" id="article-body">
+          <slot />
+        </div>
+
+        <div class="mt-16 p-6 lg:p-8 rounded-2xl bg-[#0F2D2D] text-center">
+          <h3 class="text-xl font-semibold text-[#E6E6E6] mb-2">Simplify your club admin</h3>
+          <p class="text-[#E6E6E6]/65 mb-6">
+            Swimly is modern club management software built for volunteer-run
+            swimming clubs in the UK. See how it can help your club.
+          </p>
+          <a
+            href="/"
+            class="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-lg bg-lime-cta text-[#0F2D2D] font-semibold hover:bg-lime-cta-hover transition-colors"
+          >
+            See how Swimly works
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</Layout>
+
+<script type="application/ld+json" set:html={JSON.stringify(articleSchema, null, 2)} />
+{faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema, null, 2)} />}
+
+<script>
+  const article = document.getElementById("article-body");
+  const readTimeEl = document.getElementById("read-time-text");
+  if (article && readTimeEl) {
+    const text = article.innerText || article.textContent || "";
+    const words = text.trim().split(/\s+/).length;
+    const minutes = Math.max(1, Math.round(words / 230));
+    readTimeEl.textContent = `${minutes} min read`;
+  }
+</script>
+
+<style is:global>
+  .prose {
+    color: #4D4D4D;
+    line-height: 1.8;
+  }
+  .prose h2 {
+    color: #0F2D2D;
+    font-family: "DM Serif Display", Georgia, "Times New Roman", serif;
+    font-weight: 400;
+    font-size: 1.75rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .prose h3 {
+    color: #0F2D2D;
+    font-family: "DM Serif Display", Georgia, "Times New Roman", serif;
+    font-weight: 400;
+    font-size: 1.375rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose p {
+    margin-bottom: 1.25rem;
+  }
+  .prose strong {
+    color: #0F2D2D;
+    font-weight: 600;
+  }
+  .prose a {
+    color: #1F7A52;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .prose a:hover {
+    color: #0F2D2D;
+  }
+  .prose ul,
+  .prose ol {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+  .prose ul {
+    list-style-type: disc;
+  }
+  .prose ol {
+    list-style-type: decimal;
+  }
+  .prose li {
+    margin-bottom: 0.5rem;
+  }
+  .prose blockquote {
+    border-left: 3px solid rgba(57, 57, 58, 0.15);
+    padding-left: 1rem;
+    color: #666666;
+    font-style: italic;
+    margin: 1.5rem 0;
+  }
+  .prose code {
+    color: #1F7A52;
+    background: #F0F0F0;
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+  }
+  .prose hr {
+    border-color: rgba(57, 57, 58, 0.15);
+    margin: 2rem 0;
+  }
+</style>

@@ -1,0 +1,373 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+
+// Region-only page on swimly.club. Self-canonical: no cross-region hreflang.
+// Commonwealth spelling, CAD, Swimming Canada. Layout derives canonical,
+// lang en-CA and currency from the path, so nothing here is hardcoded.
+const SITE = "https://swimly.club";
+const PATH = "/ca/guides/swim-club-treasurer-membership-fees/";
+const canonical = `${SITE}${PATH}`;
+const appUrl = "https://app.swimly.uk/create-club";
+const contactEmail = "hello@swimly.club";
+
+const title =
+  "Swim Club Treasurer's Guide to Membership Fees in Canada | Swimly";
+const description =
+  "A practical guide for Canadian swim club treasurers: how to build membership fees, handle Swimming Canada and provincial registration pass-through, set CAD pricing and billing cadence, take pre-authorized debit and card payments, and keep clean records.";
+
+const faqItems = [
+  {
+    question: "What goes into a Canadian swim club's membership fee?",
+    answer:
+      "A typical membership fee has three parts: your club's own operating fee (coaching, pool rental, equipment, and administration), a provincial or territorial section fee, and a Swimming Canada registration fee that your club passes through. Most clubs combine these into one figure for families, then track the registration portions separately so they can be remitted to the right bodies.",
+  },
+  {
+    question: "Are Swimming Canada registration fees paid by the club or the family?",
+    answer:
+      "Clubs register swimmers, coaches, and officials through the Swimming Canada registration system, usually via their provincial or territorial section. The registration fee is set by those bodies, not by the club. Most clubs recover it by building it into the membership fee families pay, then remitting the registration portion onward. Confirm current amounts and deadlines with swimming.ca and your provincial section before you set your fees.",
+  },
+  {
+    question: "What billing cadence works best for swim club fees?",
+    answer:
+      "There is no single right answer. Annual or per-season billing is simplest to reconcile and matches registration deadlines. Monthly or per-term instalments spread the cost for families and can reduce drop-off, but they create more transactions to track. Many clubs charge a one-time registration fee at sign-up and then bill training fees monthly or by term.",
+  },
+  {
+    question: "What payment methods do Canadian swim clubs use?",
+    answer:
+      "The two most common are credit or debit cards and pre-authorized debit, where the club withdraws fees directly from a family's bank account on a set date after they sign an authorization. Cards are instant and convenient; pre-authorized debit usually carries lower processing costs, which matters for recurring fees. Some clubs also accept e-transfer or cheque, though these are harder to reconcile.",
+  },
+  {
+    question: "What records should a swim club treasurer keep for fees?",
+    answer:
+      "Keep a record of what each family was charged and paid, the registration amounts remitted to your provincial section and Swimming Canada, refunds and credits, and any fee-assistance arrangements. Good records make your annual financial report straightforward, support your charitable or non-profit reporting obligations, and let any new treasurer pick up the role without guesswork.",
+  },
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/ca/` },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/ca/guides/` },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Swim Club Treasurer's Guide to Membership Fees",
+      item: canonical,
+    },
+  ],
+};
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "Swim Club Treasurer's Guide to Membership Fees in Canada",
+  description: description,
+  inLanguage: "en-CA",
+  about: "Swim club membership fees in Canada",
+  mainEntityOfPage: canonical,
+  author: { "@type": "Organization", name: "Swimly" },
+  publisher: {
+    "@type": "Organization",
+    name: "Swimly",
+    logo: { "@type": "ImageObject", url: `${SITE}/swimly-logo.svg` },
+  },
+};
+
+const feeComponents = [
+  {
+    heading: "Your club's operating fee",
+    body:
+      "This is the part you control. It covers coaching salaries and honoraria, pool or lane rental, equipment, meet hosting, insurance, software, and general administration. Build it from your annual budget divided across your expected membership, with a sensible contingency, rather than copying last year's number.",
+  },
+  {
+    heading: "Provincial or territorial section fee",
+    body:
+      "Your provincial or territorial section, such as Swim BC or Swim Ontario, sets a registration fee for each swimmer, coach, and official. This is a pass-through cost: you collect it from families and remit it onward. Check the current schedule with your section each season, as amounts and categories can change.",
+  },
+  {
+    heading: "Swimming Canada registration",
+    body:
+      "Clubs register swimmers, coaches, and officials through the Swimming Canada registration system, generally via their provincial or territorial section. The national registration fee is another pass-through. Full registration is what gives your swimmers access to sanctioned competition, so getting it right matters for more than just the books.",
+  },
+];
+
+const cadenceOptions = [
+  {
+    heading: "Annual or per-season",
+    body:
+      "One charge per swimmer for the whole year or season. Easiest to reconcile, aligns neatly with registration deadlines, and means fewer transactions. The downside is a larger up-front cost for families, which can be a barrier for some households.",
+  },
+  {
+    heading: "Per term",
+    body:
+      "Billing in two or three blocks across the year. A middle ground that spreads cost while keeping the number of charges manageable. Works well for clubs whose training calendar already runs in terms or sessions.",
+  },
+  {
+    heading: "Monthly instalments",
+    body:
+      "Smaller, predictable monthly amounts. Gentlest on family budgets and often improves retention, but it creates the most transactions to track and the most opportunities for a payment to fail, so automation matters.",
+  },
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonical={canonical}
+  imageUrl={`${SITE}/og-image.png`}
+  faqItems={faqItems}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+
+  <header class="border-b border-hairline bg-canvas/85 backdrop-blur-xl">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-[68px]">
+        <a href="/ca/" class="font-display text-[26px] text-[#0F2D2D] tracking-tight leading-none">Swimly</a>
+        <a
+          href={appUrl}
+          class="text-[15px] font-bold px-5 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-colors min-h-12 inline-flex items-center shadow-[0_1px_3px_rgba(57,57,58,0.16)]"
+        >
+          Start your club
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pb-16">
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section class="py-12">
+        <p class="eyebrow mb-3">Canada Guide</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          Swim Club Treasurer's Guide to Membership Fees in Canada
+        </h1>
+        <p class="text-xl text-ink-soft leading-relaxed">
+          A Canadian swim club membership fee is built from three parts: your club's own operating fee, a provincial or
+          territorial section fee, and a Swimming Canada registration fee that the club passes through. As treasurer,
+          your job is to set a fair total in Canadian dollars, choose a billing cadence that suits your families,
+          collect payment reliably, and keep records clean enough that the registration portions reach the right bodies
+          and your annual report writes itself. This guide walks through each step.
+        </p>
+        <div class="mt-8">
+          <a
+            href={appUrl}
+            class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+          >
+            Set up billing for your club
+          </a>
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">The three parts of a membership fee</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          Families usually see one number, but that number is doing three jobs. Separating them in your own records is
+          the single most useful habit a treasurer can build, because it tells you what you actually keep to run the
+          club versus what you are simply collecting on behalf of someone else.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-3">
+          {feeComponents.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-base text-ink-mute leading-relaxed mt-6">
+          Registration fees and categories are set by Swimming Canada and the provincial and territorial sections, and
+          they change from season to season. Always confirm the current figures with
+          <a href="https://www.swimming.ca/registration/" class="text-mint-ink font-semibold hover:underline" rel="noopener" target="_blank">swimming.ca</a>
+          and your own provincial section, for example
+          <a href="https://www.swimontario.com/clubs/affiliationregistration/" class="text-mint-ink font-semibold hover:underline" rel="noopener" target="_blank">Swim Ontario</a>
+          or
+          <a href="https://swimbc.ca/clubs/registration/" class="text-mint-ink font-semibold hover:underline" rel="noopener" target="_blank">Swim BC</a>,
+          before you publish your fees.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Setting your club fee in Canadian dollars</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Your club fee should come from your budget, not from a guess. Start with your expected costs for the year:
+          coaching, pool time, equipment, insurance, meet entries you host or subsidise, software, and a contingency
+          for the surprises every club meets. Divide the total across the number of swimmers you realistically expect,
+          and you have a baseline per-swimmer fee before registration pass-through is added.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          From there, refine it. Many clubs charge different amounts by training group, because a senior competitive
+          squad uses far more pool time and coaching than a learn-to-swim or development group. Some offer a sibling
+          discount or a family cap so that signing up two or three children stays affordable. Whatever structure you
+          choose, write down the reasoning so the next treasurer, and your board, can see how the numbers were built.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Decide early how you will present the registration pass-through. Some clubs fold it into a single headline
+          fee; others show it as a separate line at sign-up so families understand part of what they pay leaves the
+          club. Both are reasonable. The important thing is that your records always keep the pass-through portion
+          distinct from money the club retains.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Choosing a billing cadence</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          Cadence is how often you charge. The right choice balances simplicity for you against affordability for
+          families. Many Canadian clubs combine a one-time registration fee at sign-up with training fees billed
+          monthly or by term.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-3">
+          {cadenceOptions.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-6">
+          Whichever cadence you pick, line it up with your registration deadlines. If swimmers must be registered with
+          your section by a certain date to compete, make sure your billing collects the registration portion in time
+          to remit it.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Payment methods used in Canada</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          How families pay matters as much as how much they pay, because it affects both your processing costs and how
+          much chasing you do. Two methods cover most Canadian swim clubs.
+        </p>
+        <div class="space-y-5">
+          <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Credit and debit cards</h3>
+            <p class="text-ink-soft leading-relaxed">
+              Fast, familiar, and easy for families to set up. Cards suit one-off charges such as a registration fee or
+              a meet entry. The trade-off is processing fees on every transaction, which add up on recurring billing.
+            </p>
+          </div>
+          <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Pre-authorized debit and bank transfer</h3>
+            <p class="text-ink-soft leading-relaxed">
+              With pre-authorized debit, a family signs an authorization once and the club withdraws fees from their
+              bank account on a set date, often with a void cheque or bank details to set it up. Processing costs are
+              usually lower than cards, which makes it well suited to recurring training fees. The set-up takes a little
+              more effort up front, but it reduces month-to-month admin afterwards.
+            </p>
+          </div>
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-5">
+          Some clubs also accept e-transfer or cheque. These can work for a small club, but they are harder to
+          reconcile because nothing links the payment to a swimmer automatically, and they put the follow-up for missed
+          or late payments back on the treasurer.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Record-keeping that saves you at year end</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Most of a treasurer's stress comes not from setting fees but from reconstructing what happened months later.
+          Good records prevent that. At a minimum, keep a clear trail of what each family was charged and what they
+          paid, the registration amounts you remitted to your provincial section and Swimming Canada, any refunds or
+          credits, and any fee-assistance or instalment arrangements you agreed.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Keep the club's retained income separate from the pass-through registration money in your bookkeeping. When a
+          board member asks how the club is doing financially, you want to answer with what the club actually keeps,
+          not a figure inflated by money that was always destined for your section and the national body.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          If your club is a registered non-profit or charity, tidy records also make your reporting obligations far
+          easier. And because club roles turn over, records that a new volunteer can read without a handover meeting
+          are worth their weight in pool time.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">A treasurer's checklist for the season</h2>
+        <ol class="space-y-4 text-lg text-ink-soft leading-relaxed list-decimal pl-6">
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Confirm registration fees.</span> Check the current Swimming
+            Canada and provincial section figures and deadlines before you set anything.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Build the club fee from your budget.</span> Cost out the year,
+            divide across expected swimmers, and add a contingency.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Choose a cadence.</span> Match billing to your training calendar
+            and registration deadlines.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Set up payment methods.</span> Offer cards and pre-authorized
+            debit so families have a low-friction option and the club keeps costs down.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Keep the pass-through separate.</span> Track registration money
+            apart from retained income from day one.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Reconcile regularly.</span> A short monthly check beats a
+            frantic reconstruction at year end.
+          </li>
+        </ol>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Where Swimly helps the treasurer</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Swimly handles the parts of this that eat volunteer evenings. Fees are billed automatically in Canadian
+          dollars, families can pay by card or pre-authorized debit, and failed payments are followed up for you, so
+          you are not sending reminders by hand. Because every charge is tied to a swimmer and a group, reconciling who
+          paid what is a matter of reading a report rather than cross-checking a spreadsheet against a bank statement.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          You can see current plans on the
+          <a href="/ca/pricing/" class="text-mint-ink font-semibold hover:underline">Swimly pricing page</a>
+          and what the platform covers on the
+          <a href="/ca/features/" class="text-mint-ink font-semibold hover:underline">features page</a>.
+          Swimly handles your club's day-to-day billing and administration; it does not replace your Swimming Canada or
+          provincial registration, and your member data stays yours to export.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Questions before you start? Email us at
+          <a href={`mailto:${contactEmail}`} class="text-mint-ink font-semibold hover:underline">{contactEmail}</a>.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Frequently asked questions</h2>
+        <div class="space-y-4">
+          {faqItems.map((item) => (
+            <details class="group bg-surface-raised border border-hairline rounded-xl p-6">
+              <summary class="flex cursor-pointer items-center justify-between gap-4 text-lg font-semibold text-[#0F2D2D] list-none">
+                <span>{item.question}</span>
+                <span class="text-ink-mute transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+              </summary>
+              <p class="text-ink-soft leading-relaxed mt-4">{item.answer}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-12 text-center">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Take fee admin off the treasurer's plate</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-8 max-w-2xl mx-auto">
+          Set up automatic billing in Canadian dollars and let Swimly chase the payments, so you can get back to
+          running the club.
+        </p>
+        <a
+          href={appUrl}
+          class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+        >
+          Start your club free
+        </a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="border-t border-hairline">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-ink-mute">&copy; {new Date().getFullYear()} Swimly</p>
+      <a href={`mailto:${contactEmail}`} class="text-sm text-ink-mute hover:text-[#0F2D2D] transition-colors">{contactEmail}</a>
+    </div>
+  </footer>
+</Layout>

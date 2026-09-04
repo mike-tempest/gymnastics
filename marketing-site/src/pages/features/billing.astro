@@ -1,0 +1,358 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { CreditCard, Receipt, Repeat, TrendingUp, CheckCircle, ArrowRight } from '@lucide/astro';
+
+const title = 'Swim Club Billing Software | Direct Debit';
+const description = 'Automate swim club fee collection with Direct Debit via GoCardless. Stop chasing late payments. Built for UK swimming clubs. Try free.';
+
+const billingSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Swimly Automated Billing",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": description,
+  "url": "https://swimly.uk/features/billing/",
+  "featureList": [
+    "Direct Debit via GoCardless",
+    "Automated invoicing",
+    "Payment tracking dashboard",
+    "Flexible fee schedules",
+    "Automatic retry on failures"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "29",
+    "priceCurrency": "GBP",
+    "priceValidUntil": "2027-12-31",
+    "availability": "https://schema.org/PreOrder"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Swimly",
+    "url": "https://swimly.uk"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Swimly",
+    "url": "https://swimly.uk"
+  }
+};
+
+const faqItems = [
+  {
+    question: "How does automated Direct Debit work for swim clubs?",
+    answer: "Swimly integrates with GoCardless to collect monthly training fees automatically via Direct Debit. You set up fee schedules per squad, parents sign a one-time online mandate, and payments are collected each month without chasing. Failed payments are automatically retried."
+  },
+  {
+    question: "What happens when a Direct Debit payment fails?",
+    answer: "Swimly automatically retries failed payments and notifies the Treasurer. You get a clear dashboard showing successful, pending, and failed payments. No more guessing who has paid. Parents are also notified so they can update bank details if needed."
+  },
+  {
+    question: "Can we still accept standing orders or bank transfers?",
+    answer: "Yes. Swimly supports manual payment recording alongside automated Direct Debit. If some families prefer standing orders or bank transfers, you can track those payments manually while collecting the rest via Direct Debit. Most clubs find 80%+ of families switch to Direct Debit within the first month."
+  },
+  {
+    question: "How much does GoCardless cost for swim clubs?",
+    answer: "GoCardless charges 1% + 20p per transaction (capped at £4). For a typical £45/month training fee, that is 65p per collection. Swimly itself charges a flat monthly fee with no per-transaction markup. The total cost is significantly less than the Treasurer time spent chasing late standing orders."
+  },
+  {
+    question: "Is Direct Debit safe for our club and parents?",
+    answer: "Yes. Direct Debit is protected by the Direct Debit Guarantee, meaning parents can claim a full refund for any incorrect payment. GoCardless is FCA-regulated and used by over 85,000 businesses. It is the safest and most established payment method for recurring UK charges."
+  }
+];
+---
+
+<Layout title={title} description={description} faqItems={faqItems}>
+  <script type="application/ld+json" set:html={JSON.stringify(billingSchema, null, 2)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <!-- Hero Section -->
+    <section class="relative pt-16 pb-20 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none" aria-hidden="true"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 text-mint-ink text-sm font-medium mb-6">
+          <CreditCard class="w-4 h-4" />
+          Billing and Payments
+        </div>
+
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl text-[#0F2D2D] leading-tight mb-6">
+          Swimming Club Payment Software: Automate Fee Collection
+        </h1>
+
+        <p class="text-lg sm:text-xl text-ink-soft max-w-2xl mx-auto leading-relaxed mb-10">
+          Swimly is swimming club payment software built for UK volunteer treasurers. Automate billing with Direct Debit collection via GoCardless. No more spreadsheets, bank reconciliation headaches, or awkward payment conversations. <a href="/swimming-club-payment-software/" class="text-mint-ink hover:text-[#0F2D2D] underline">Learn more about our payment features</a>.
+        </p>
+
+        <a
+          href="https://app.swimly.uk/create-club"
+          class="inline-flex items-center gap-2.5 px-8 py-4 min-h-12 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-lg shadow-[#FF8552]/20 hover:shadow-[#FF8552]/30 hover:scale-[1.02]"
+        >
+          Start your club, free
+          <ArrowRight class="w-5 h-5" />
+        </a>
+      </div>
+    </section>
+
+    <!-- App Screenshots -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="rounded-2xl overflow-hidden bg-surface-raised border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+        <picture>
+          <source srcset="/images/app-screenshots/billing-mobile.png" media="(max-width: 639px)" />
+          <source srcset="/images/app-screenshots/billing-tablet.png" media="(max-width: 1023px)" />
+          <img src="/images/app-screenshots/billing-desktop.png" alt="Swimly billing dashboard showing invoices and payment status" class="w-full h-auto" loading="lazy" />
+        </picture>
+      </div>
+    </section>
+
+    <!-- Key Features -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Feature 1 -->
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <CreditCard class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Direct Debit via GoCardless</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Collect fees automatically with Direct Debit integration</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Members set up their mandate online in under two minutes</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Protected by the Direct Debit Guarantee for peace of mind</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Low transaction fees compared to card payments or PayPal</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <Receipt class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Automated Invoicing</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Generate invoices automatically for all members</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Email invoices directly to families with payment links</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Track paid, pending, and overdue invoices in your dashboard</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Automatic receipts sent when payments are collected</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <Repeat class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Smart Payment Handling</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Failed payments automatically retried after 3 days</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Parents notified immediately if a payment fails</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Process refunds and credits directly from Swimly</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Pro-rata calculations for mid-season joiners</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <TrendingUp class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Financial Reporting</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Real-time view of club income and payment status</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Export reports for committee meetings and AGMs</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Automatic bank reconciliation with GoCardless</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Historical payment data and trends</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Billing Dashboard Screenshots -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center mb-10">
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-4">See your financial health at a glance</h2>
+        <p class="text-ink-soft text-lg max-w-2xl mx-auto">
+          Clear dashboards, automated invoicing, and real-time payment tracking. Built for volunteer treasurers who need answers, not spreadsheets.
+        </p>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="rounded-xl overflow-hidden bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <picture>
+            <source srcset="/images/app-screenshots/billing-mobile.png" media="(max-width: 639px)" />
+            <img src="/images/app-screenshots/billing-desktop.png" alt="Billing dashboard showing income overview and payment collection rates" class="w-full h-auto" loading="lazy" />
+          </picture>
+          <div class="bg-surface px-5 py-4 border-t border-[#39393A]/8">
+            <p class="text-sm font-medium text-[#0F2D2D]">Financial dashboard</p>
+            <p class="text-xs text-ink-mute mt-1">At-a-glance view of club income, collection rates, and outstanding balances.</p>
+          </div>
+        </div>
+        <div class="rounded-xl overflow-hidden bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <picture>
+            <source srcset="/images/app-screenshots/billing-mobile.png" media="(max-width: 639px)" />
+            <img src="/images/app-screenshots/billing-desktop.png" alt="Invoice list showing paid, pending, and overdue payment statuses" class="w-full h-auto" loading="lazy" />
+          </picture>
+          <div class="bg-surface px-5 py-4 border-t border-[#39393A]/8">
+            <p class="text-sm font-medium text-[#0F2D2D]">Invoice management</p>
+            <p class="text-xs text-ink-mute mt-1">Track every invoice with clear status indicators. Export for AGMs and committee meetings.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] text-center mb-12">How automated billing works</h2>
+      <div class="space-y-8">
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-lg">
+            1
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Connect your GoCardless account</h3>
+            <p class="text-ink-soft">Link your existing GoCardless account or sign up for a new one. Swimly guides you through the setup in minutes.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-lg">
+            2
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Members set up Direct Debit mandates</h3>
+            <p class="text-ink-soft">Parents receive an email with a secure link to set up their Direct Debit. Takes less than 2 minutes and is protected by the Direct Debit Guarantee.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-lg">
+            3
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Set your collection schedule</h3>
+            <p class="text-ink-soft">Choose monthly, quarterly, or annual collections. Swimly automatically generates invoices and collects payments on your chosen dates.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-lg">
+            4
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Money lands in your bank automatically</h3>
+            <p class="text-ink-soft">Payments are collected on schedule, receipts are sent automatically, and funds arrive in your club's bank account within 3 working days.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="p-8 rounded-2xl bg-[#85FFC7]/15 border border-[#1F7A52]/20">
+        <h3 class="font-display text-2xl text-[#0F2D2D] mb-6 text-center">Why clubs switch from standing orders to Direct Debit</h3>
+        <div class="grid sm:grid-cols-3 gap-6 text-center">
+          <div>
+            <div class="font-display text-4xl text-[#0F2D2D] mb-2">98%</div>
+            <div class="text-ink-soft text-sm">typical Direct Debit collection rate vs 70-80% for standing orders</div>
+          </div>
+          <div>
+            <div class="font-display text-4xl text-[#0F2D2D] mb-2">10+ hrs</div>
+            <div class="text-ink-soft text-sm">saved per month on payment chasing, reconciliation, and failed payment follow-ups</div>
+          </div>
+          <div>
+            <div class="font-display text-4xl text-[#0F2D2D] mb-2">1 click</div>
+            <div class="text-ink-soft text-sm">to generate invoices, collect payments, and reconcile against your membership records</div>
+          </div>
+        </div>
+        <p class="text-sm text-ink-mute mt-6 text-center">
+          Direct Debit collection rates based on GoCardless industry data for subscription businesses.
+        </p>
+      </div>
+    </section>
+
+    <!-- Related Features -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-2xl text-[#0F2D2D] mb-8">Related features</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a href="/features/membership/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Membership Management</h3>
+          <p class="text-ink-mute text-sm">Centralised member database and renewals</p>
+        </a>
+        <a href="/features/parent-portal/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Parent Portal</h3>
+          <p class="text-ink-mute text-sm">Self-service payment and invoice access</p>
+        </a>
+        <a href="/features/attendance/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Attendance Tracking</h3>
+          <p class="text-ink-mute text-sm">Track sessions for accurate billing</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Automate your club billing</h2>
+      <p class="text-xl text-ink-soft mb-8">Create your club today. Free for clubs under 50 members, no card required.</p>
+      <a
+        href="https://app.swimly.uk/create-club"
+        class="inline-flex items-center gap-2.5 px-8 py-4 min-h-12 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-lg shadow-[#FF8552]/20 hover:shadow-[#FF8552]/30 hover:scale-[1.02]"
+      >
+          Start your club, free
+        <ArrowRight class="w-5 h-5" />
+      </a>
+      <p class="mt-6 text-sm text-ink-mute">
+        Free for clubs with fewer than 50 members. No credit card required.
+      </p>
+    </section>
+  </main>
+  <Footer />
+</Layout>

@@ -1,0 +1,80 @@
+{
+  "ontario": {
+    "name": "Ontario",
+    "abbr": "ON",
+    "slug": "ontario",
+    "largestCities": ["Toronto", "Ottawa", "Mississauga", "Brampton", "Hamilton", "London", "Markham", "Vaughan", "Kitchener", "Windsor"]
+  },
+  "quebec": {
+    "name": "Quebec",
+    "abbr": "QC",
+    "slug": "quebec",
+    "largestCities": ["Montreal", "Quebec City", "Laval", "Gatineau", "Longueuil", "Sherbrooke", "Levis", "Trois-Rivieres"]
+  },
+  "british-columbia": {
+    "name": "British Columbia",
+    "abbr": "BC",
+    "slug": "british-columbia",
+    "largestCities": ["Vancouver", "Surrey", "Burnaby", "Richmond", "Victoria", "Kelowna", "Abbotsford", "Nanaimo"]
+  },
+  "alberta": {
+    "name": "Alberta",
+    "abbr": "AB",
+    "slug": "alberta",
+    "largestCities": ["Calgary", "Edmonton", "Red Deer", "Lethbridge", "St. Albert", "Medicine Hat", "Grande Prairie", "Airdrie"]
+  },
+  "manitoba": {
+    "name": "Manitoba",
+    "abbr": "MB",
+    "slug": "manitoba",
+    "largestCities": ["Winnipeg", "Brandon", "Steinbach", "Thompson", "Portage la Prairie"]
+  },
+  "saskatchewan": {
+    "name": "Saskatchewan",
+    "abbr": "SK",
+    "slug": "saskatchewan",
+    "largestCities": ["Saskatoon", "Regina", "Prince Albert", "Moose Jaw", "Swift Current"]
+  },
+  "nova-scotia": {
+    "name": "Nova Scotia",
+    "abbr": "NS",
+    "slug": "nova-scotia",
+    "largestCities": ["Halifax", "Sydney", "Dartmouth", "Truro", "New Glasgow"]
+  },
+  "new-brunswick": {
+    "name": "New Brunswick",
+    "abbr": "NB",
+    "slug": "new-brunswick",
+    "largestCities": ["Moncton", "Saint John", "Fredericton", "Dieppe", "Miramichi"]
+  },
+  "newfoundland-and-labrador": {
+    "name": "Newfoundland and Labrador",
+    "abbr": "NL",
+    "slug": "newfoundland-and-labrador",
+    "largestCities": ["St. John's", "Mount Pearl", "Corner Brook", "Conception Bay South"]
+  },
+  "prince-edward-island": {
+    "name": "Prince Edward Island",
+    "abbr": "PE",
+    "slug": "prince-edward-island",
+    "largestCities": ["Charlottetown", "Summerside"]
+  },
+  "northwest-territories": {
+    "name": "Northwest Territories",
+    "abbr": "NT",
+    "slug": "northwest-territories",
+    "largestCities": ["Yellowknife", "Hay River", "Inuvik"]
+  },
+  "yukon": {
+    "name": "Yukon",
+    "abbr": "YT",
+    "slug": "yukon",
+    "largestCities": ["Whitehorse", "Dawson City"]
+  },
+  "nunavut": {
+    "name": "Nunavut",
+    "abbr": "NU",
+    "slug": "nunavut",
+    "largestCities": ["Iqaluit", "Rankin Inlet"]
+  }
+}

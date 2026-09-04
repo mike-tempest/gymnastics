@@ -1,0 +1,371 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { ArrowRight, PoundSterling, Zap, Shield, Users } from '@lucide/astro';
+
+const title = 'Swimly vs Coacha | UK Swim Club Alternative';
+const description = 'Compare Swimly and Coacha for UK swim clubs. No transaction fees, swim-specific features, and Direct Debit billing. See why clubs are switching.';
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Compare",
+      "item": "https://swimly.uk/compare/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Coacha",
+      "item": "https://swimly.uk/compare/coacha"
+    }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does Swimly compare to Coacha?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Swimly is purpose-built exclusively for UK competitive swimming clubs with features aligned to Swim England workflows, squad management, and gala entries. Coacha is a multi-sport platform serving martial arts, gymnastics, yoga, and swimming clubs. Whilst Coacha offers flexibility across sports, Swimly provides swimming-specific tools with no transaction fees, compared to Coacha's 2.5% + 20p on cards and 2.2% + 24p on Direct Debits."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Swimly cheaper than Coacha?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, Swimly is typically cheaper for swimming clubs. Swimly charges £29-79/month flat rate with no transaction fees. Coacha charges £36/month (Premium) or £60/month (Custom) plus 2.5% + 20p on card payments and 2.2% + 24p on Direct Debits. For a club collecting £5,000/month in subscriptions, Coacha's transaction fees add over £1,300 per year on top of the monthly subscription, whilst Swimly has zero transaction fees."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I migrate from Coacha to Swimly?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, you can migrate from Coacha to Swimly. Swimly's setup process includes importing your member database, and because Swimly is purpose-built for swimming clubs, you'll find features designed specifically for competitive swimming rather than generic multi-sport workflows. Our support team can help ensure a smooth migration and show you how swimming-specific features can simplify your club operations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Coacha work well for swimming clubs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Coacha can be used by swimming clubs as a multi-sport platform with solid membership management, payment processing, and attendance tracking. However, its design serves many sports from martial arts to yoga, so swimming clubs must adapt generic workflows. Swimming-specific needs like Swim England alignment, squad structures, gala entries, and competition tracking require customisation in Coacha, whereas purpose-built platforms like Swimly include these features by default."
+      }
+    }
+  ]
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <!-- Hero Section -->
+    <section class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none"></div>
+      <div class="relative">
+        <p class="eyebrow mb-6">Platform comparison</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          Swimly vs Coacha
+        </h1>
+        <p class="text-xl text-ink-soft max-w-3xl">
+          Coacha is a solid multi-sport platform used by clubs across everything from martial arts to yoga. But if you run a competitive swimming club in the UK, a purpose-built swimming platform means less compromise and more time on poolside. Here's how Swimly compares as a Coacha alternative for swim clubs. For a broader view, see our <a href="/best-swim-club-software-uk/" class="text-mint-ink hover:text-[#0F2D2D] transition-colors underline">best swim club software UK comparison</a>.
+        </p>
+
+        <!-- Key stats row -->
+        <div class="grid grid-cols-3 gap-4 mt-10">
+          <div class="bg-[#85FFC7]/10 border border-[#1F7A52]/20 rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">£0</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">transaction fees</p>
+          </div>
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">100%</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">swimming-focused</p>
+          </div>
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">Flat</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">monthly pricing</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-[#39393A]/8 bg-surface">
+              <th class="text-left p-3 sm:p-6 text-[#0F2D2D] font-semibold">Feature</th>
+              <th class="text-left p-3 sm:p-6 text-mint-ink font-semibold bg-[#85FFC7]/10">Swimly</th>
+              <th class="text-left p-3 sm:p-6 text-[#0F2D2D] font-medium">Coacha</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#39393A]/8">
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Sports Focus</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">Purpose-built for UK competitive swimming</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Generic multi-sport (martial arts, gymnastics, yoga, swimming, etc.)</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Swim England Alignment</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">Built around Swim England categories and workflows</td>
+              <td class="p-3 sm:p-6 text-ink-soft">No swimming-specific body integration</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Pricing</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">£29–79/mo flat rate, no hidden costs</td>
+              <td class="p-3 sm:p-6 text-ink-soft">£36/mo Premium or £60/mo Custom, plus transaction fees</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Transaction Fees</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">No transaction fees on any payment</td>
+              <td class="p-3 sm:p-6 text-ink-soft">2.5% + 20p (cards) or 2.2% + 24p (Direct Debit)</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Direct Debit</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">GoCardless integration, fully automated</td>
+              <td class="p-3 sm:p-6 text-ink-soft">GoCardless integration with transaction fees</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Member Portal</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">Mobile-optimised parent and swimmer portal</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Member app and online portal</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Attendance Tracking</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">Quick check-in with lane assignments</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Register and attendance tracking</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Competitive Swimming Workflows</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">Gala entries, squad management, competition tracking</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Generic class and session management</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">eCommerce</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">Not yet available</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium">Built-in online store for kit and merchandise</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Skills Tracking</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">Swimming-focused progression tracking</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium">Flexible skills and grading across any sport</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- See Swimly in Action -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-4 text-center">See what a <em class="text-mint-ink">modern platform</em> looks like</h2>
+      <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">Built for the way committees actually work: quick glances on phones between sessions, and proper admin on laptops when you have time.</p>
+
+      <!-- Dashboard -->
+      <div class="mb-16">
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          <div class="lg:w-2/3">
+            <div class="rounded-2xl overflow-hidden border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+              <div class="flex items-center gap-1.5 px-4 py-3 bg-surface border-b border-[#39393A]/8">
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <span class="ml-3 text-xs text-ink-mute">app.swimly.uk</span>
+              </div>
+              <picture>
+                <source srcset="/mockups/dashboard-macbook.webp" type="image/webp" />
+                <img src="/mockups/dashboard-macbook.png" alt="Swimly club dashboard showing swimmers, sessions, and billing overview" class="w-full" loading="lazy" />
+              </picture>
+            </div>
+          </div>
+          <div class="lg:w-1/3">
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Club dashboard</h3>
+            <p class="text-ink-soft text-sm leading-relaxed mb-4">Everything your committee needs at a glance: member counts, upcoming sessions, billing status, and compliance alerts. No clicking through five menus to find what matters.</p>
+            <ul class="space-y-2">
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Real-time member and payment stats
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Upcoming sessions and attendance
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Compliance and DBS expiry warnings
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Billing -->
+      <div class="mb-16">
+        <div class="flex flex-col lg:flex-row-reverse items-center gap-8 lg:gap-12">
+          <div class="lg:w-2/3">
+            <div class="rounded-2xl overflow-hidden border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+              <div class="flex items-center gap-1.5 px-4 py-3 bg-surface border-b border-[#39393A]/8">
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <span class="ml-3 text-xs text-ink-mute">app.swimly.uk/billing</span>
+              </div>
+              <picture>
+                <source srcset="/mockups/billing-macbook.webp" type="image/webp" />
+                <img src="/mockups/billing-macbook.png" alt="Swimly billing page showing automated Direct Debit collections" class="w-full" loading="lazy" />
+              </picture>
+            </div>
+          </div>
+          <div class="lg:w-1/3">
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Automated billing</h3>
+            <p class="text-ink-soft text-sm leading-relaxed mb-4">Direct Debit via GoCardless means fees collect themselves. The Treasurer sees who has paid, who hasn't, and what failed, all without opening a spreadsheet.</p>
+            <ul class="space-y-2">
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                One-click Direct Debit setup
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Automatic retry on failed payments
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Clear payment status dashboard
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile / Poolside -->
+      <div>
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          <div class="lg:w-1/3 flex justify-center">
+            <div class="w-[220px]">
+              <picture>
+                <source srcset="/mockups/sessions-iphone.webp" type="image/webp" />
+                <img src="/mockups/sessions-iphone.png" alt="Swimly attendance register on an iPhone at poolside" class="w-full h-auto" loading="lazy" />
+              </picture>
+            </div>
+          </div>
+          <div class="lg:w-2/3">
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Works poolside on your phone</h3>
+            <p class="text-ink-soft text-sm leading-relaxed mb-4">Coaches take attendance on their phone at 6am. Parents check balances in the car park. Committee members approve things on the train. Swimly is designed for real life, not just office desks.</p>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="p-4 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+                <p class="text-sm font-semibold text-[#0F2D2D] mb-1">No app download needed</p>
+                <p class="text-xs text-ink-mute">Works in any mobile browser. Add to home screen for an app-like experience.</p>
+              </div>
+              <div class="p-4 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+                <p class="text-sm font-semibold text-[#0F2D2D] mb-1">Offline-friendly attendance</p>
+                <p class="text-xs text-ink-mute">Mark attendance even with patchy poolside WiFi. Syncs when reconnected.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Swimly -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-4 text-center">Why choose Swimly over Coacha?</h2>
+      <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">Four reasons clubs are making the switch.</p>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Zap class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Built for swimming, not adapted for it</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">Coacha is designed to work across dozens of sports, which means swimming clubs get a generic experience. Swimly is built specifically for UK competitive swimming clubs, with Swim England alignment, squad structures, gala management, and competition workflows baked in from the start.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <PoundSterling class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">No transaction fees eating into club funds</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">Coacha charges 2.5% + 20p on card payments and 2.2% + 24p on Direct Debits. For a club collecting £5,000 a month in subscriptions, that's over £1,300 a year in fees on top of your subscription. Swimly charges a flat monthly rate with no transaction fees, so every pound collected goes to your club.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Shield class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Transparent, predictable pricing</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">With Swimly, you pay £29–79 per month and that's it. No percentage taken from payments, no surprise costs as your membership grows, and no need to calculate whether your payment volume makes the platform cost-effective.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Users class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Understands how swimming clubs actually work</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">From county championships to club nights, squad promotions to Swim England registrations, Swimly speaks the language of swimming. Your volunteers won't need to bend a generic tool to fit swimming-specific processes.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- When Coacha Might Be Better -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">When might Coacha be better?</h2>
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8">
+        <p class="text-ink-soft mb-4">
+          Coacha is a well-regarded platform with a strong reputation across many sports. It may be the better fit if:
+        </p>
+        <ul class="space-y-3 text-ink-soft">
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>Your organisation runs multiple sports (not just swimming) and needs one platform for everything</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>You need a built-in eCommerce store to sell kit, merchandise, or equipment online</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>You rely heavily on flexible skills and grading tracking that spans multiple disciplines</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>Your payment volume is low enough that Coacha's transaction fees don't significantly impact your budget</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <div class="relative">
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-6">Ready for swim club software built for swimming?</h2>
+        <p class="text-xl text-ink-soft mb-8 max-w-xl mx-auto">Create your club today. Free for clubs under 50 members, no card required. Learn more about our <a href="/swim-club-management-software/" class="text-mint-ink hover:text-[#0F2D2D] transition-colors underline">swim club management software</a>.</p>
+        <a
+          href="https://app.swimly.uk/create-club"
+          class="inline-flex items-center gap-2 text-lg font-semibold min-h-12 px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all"
+        >
+          Start your club, free
+          <ArrowRight class="w-5 h-5" />
+        </a>
+        <p class="mt-4 text-sm text-ink-mute">Free to join. No payment details required.</p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

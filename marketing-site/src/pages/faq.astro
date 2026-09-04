@@ -1,0 +1,248 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const faqItems = [
+  {
+    question: "What is Swimly?",
+    answer:
+      "Swimly is <a href='/swim-club-software/' class='text-mint-ink hover:text-[#0F2D2D] underline'>club management software</a> built specifically for volunteer-run swimming clubs in the UK. It brings membership records, fee collection, attendance tracking, and session planning into a single platform, replacing the patchwork of spreadsheets, bank transfers, and outdated systems that most clubs rely on today.",
+  },
+  {
+    question: "How much does Swimly cost?",
+    answer:
+      "Swimly pricing is simple and transparent: Starter (free for up to 50 members), Club (£29/month for 50-200 members), Performance (£49/month for 200-500 members), and Enterprise (custom pricing for 500+ members). No per-member fees, no hidden charges, and no lock-in contracts. See our <a href='/#pricing' class='text-mint-ink hover:text-[#0F2D2D] underline'>full pricing details</a> for what's included in each tier.",
+  },
+  {
+    question: "Is there a free trial?",
+    answer:
+      "Yes. The Starter plan is free for clubs with up to 50 members, with no time limit and no card required, so you can run Swimly with real members and real swimmers before paying anything. Paid plans are monthly with no lock-in, and founding clubs get 6 months free on any plan.",
+  },
+  {
+    question: "How do I migrate from GoMotion/TeamUnify?",
+    answer:
+      "We know migration is the biggest hurdle when switching platforms. Swimly includes a guided import tool that accepts CSV exports from GoMotion, TeamUnify, and other common systems. We will map your swimmer records, membership categories, and contact details automatically. If you run into any issues, our support team will help you through the process step by step.",
+  },
+  {
+    question: "Does Swimly handle Direct Debit payments?",
+    answer:
+      "Yes. Swimly integrates with GoCardless to offer automated Direct Debit collection, which is the preferred payment method for most UK swimming clubs. You can set up recurring monthly fees, one-off charges for galas or kit, and track payment status in real time. Failed payments are retried automatically and parents receive clear notifications throughout. Learn more about our <a href='/swimming-club-billing-software' class='text-mint-ink hover:text-[#0F2D2D] underline'>automated billing features</a>.",
+  },
+  {
+    question: "How does Swimly compare to SwimClubManager or ClubOrganiser?",
+    answer:
+      "Swimly offers modern, mobile-first design with flat monthly pricing that doesn't increase as your club grows. Unlike SwimClubManager's dated interface or ClubOrganiser's general sports approach, Swimly is built exclusively for swimming clubs with automated Direct Debit billing and 30-minute setup. See detailed comparisons: <a href='/compare/swimclubmanager' class='text-mint-ink hover:text-[#0F2D2D] underline'>Swimly vs SwimClubManager</a> and <a href='/compare/cluborganiser' class='text-mint-ink hover:text-[#0F2D2D] underline'>Swimly vs ClubOrganiser</a>.",
+  },
+  {
+    question: "Is Swimly compliant with Swim England requirements?",
+    answer:
+      "Absolutely. Swimly is designed with Swim England membership categories, session structures, and safeguarding requirements in mind. You can record membership numbers, track DBS check expiry dates for coaches and volunteers, and generate reports that align with Swim England's expectations for club affiliation. See our <a href='/features/compliance/' class='text-mint-ink hover:text-[#0F2D2D] underline'>Wavepower compliance features</a>.",
+  },
+  {
+    question: "Can parents access swimmer information?",
+    answer:
+      "Yes. Each parent or guardian gets their own login to a dedicated <a href='/features/parent-portal/' class='text-mint-ink hover:text-[#0F2D2D] underline'>parent portal</a>. From there they can view their children's attendance history, check upcoming sessions, see and pay outstanding invoices, and update contact or medical details. This reduces admin burden on volunteers and gives families direct visibility into their swimmer's progress.",
+  },
+  {
+    question: "How does attendance tracking work?",
+    answer:
+      "Coaches and poolside helpers can mark attendance from any device using the Swimly web app, including <a href='/features/mobile/' class='text-mint-ink hover:text-[#0F2D2D] underline'>offline on mobile</a>. Registers are pre-populated based on session groups, so it takes just a few taps to record who is present. Attendance data feeds into reports so committee members can spot trends, identify inactive swimmers, and make informed decisions about session capacity. Learn more about <a href='/features/attendance/' class='text-mint-ink hover:text-[#0F2D2D] underline'>digital attendance tracking</a>.",
+  },
+  {
+    question: "What support do you offer?",
+    answer:
+      "We provide email support with a target response time of one working day. During onboarding we offer guided setup calls to help your committee get up and running quickly. We also maintain a knowledge base with step-by-step guides covering every feature. We understand that volunteers have limited time, so we aim to make every interaction as efficient as possible.",
+  },
+  {
+    question: "Is my data secure?",
+    answer:
+      "Yes. Swimly is hosted on infrastructure within the UK and EU, with data encrypted both in transit and at rest. We follow GDPR best practices for data handling, retention, and subject access requests. Access controls ensure that only authorised committee members can view sensitive information, and all actions are logged for accountability.",
+  },
+];
+
+// Strip HTML tags for schema.org plain text
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, '');
+}
+
+const faqPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": stripHtml(item.answer)
+    }
+  }))
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "FAQ",
+      "item": "https://swimly.uk/faq/"
+    }
+  ]
+};
+---
+
+<Layout
+  title="FAQ | Swimly | Swimming Club Management Software"
+  description="Frequently asked questions about Swimly, the swimming club management software built for volunteer-run UK clubs. Learn about pricing, migration from GoMotion and TeamUnify, Direct Debit payments, and more."
+  faqItems={faqItems}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <Nav />
+
+  <main class="pt-28 pb-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="text-center mb-16">
+        <p class="eyebrow">Questions and answers</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5 mb-4">
+          Frequently Asked <em>Questions</em>
+        </h1>
+        <p class="text-lg text-ink-soft max-w-2xl mx-auto leading-relaxed">
+          Everything you need to know about switching your club to Swimly.
+          Can't find what you're looking for?
+          <a href="https://app.swimly.uk/create-club" class="text-mint-ink hover:text-[#0F2D2D] transition-colors underline underline-offset-2">Get in touch</a>.
+        </p>
+      </div>
+
+      <!-- Accordion -->
+      <div class="space-y-3" id="faq-accordion">
+        {faqItems.map((item, index) => (
+          <div class="faq-item rounded-xl border border-[#39393A]/10 bg-surface-raised shadow-[0_1px_3px_rgba(57,57,58,0.08)] overflow-hidden transition-colors hover:border-[#297373]/30">
+            <button
+              type="button"
+              class="faq-toggle w-full flex items-center justify-between gap-4 px-6 py-5 text-left cursor-pointer"
+              aria-expanded="false"
+              aria-controls={`faq-answer-${index}`}
+              data-index={index}
+            >
+              <span class="text-base sm:text-lg font-medium text-[#0F2D2D]">{item.question}</span>
+              <svg
+                class="faq-chevron w-5 h-5 text-mint-ink shrink-0 transition-transform duration-200"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div
+              id={`faq-answer-${index}`}
+              class="faq-answer"
+              role="region"
+              aria-labelledby={`faq-question-${index}`}
+            >
+              <div class="px-6 pb-5 text-ink-soft leading-relaxed">
+                {item.answer}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Related Pages -->
+      <div class="mt-16">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-6">Learn More</h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <a href="/features/" class="group block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 hover:-translate-y-0.5 transition-all">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors mb-2">All Features</h3>
+            <p class="text-ink-mute text-sm">Explore every feature in detail</p>
+          </a>
+          <a href="/swimming-club-billing-software/" class="group block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 hover:-translate-y-0.5 transition-all">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors mb-2">Billing Software</h3>
+            <p class="text-ink-mute text-sm">How automated payments work</p>
+          </a>
+          <a href="/swim-club-software/" class="group block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 hover:-translate-y-0.5 transition-all">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors mb-2">Swim Club Software</h3>
+            <p class="text-ink-mute text-sm">All-in-one platform for UK swimming clubs</p>
+          </a>
+          <a href="/swim-school-management/" class="group block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 hover:-translate-y-0.5 transition-all">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors mb-2">Swim School Management</h3>
+            <p class="text-ink-mute text-sm">Features for learn-to-swim programmes</p>
+          </a>
+          <a href="/features/membership/" class="group block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 hover:-translate-y-0.5 transition-all">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors mb-2">Membership Management</h3>
+            <p class="text-ink-mute text-sm">Member database, renewals, and family accounts</p>
+          </a>
+          <a href="/compare/swimclubmanager/" class="group block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 hover:-translate-y-0.5 transition-all">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors mb-2">Compare with Competitors</h3>
+            <p class="text-ink-mute text-sm">See how Swimly stacks up</p>
+          </a>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="mt-16 text-center">
+        <p class="text-ink-soft mb-6">Ready to simplify your club management?</p>
+        <a
+          href="https://app.swimly.uk/create-club"
+          class="inline-flex items-center justify-center min-h-12 text-sm font-semibold px-6 py-3 rounded-lg bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-colors"
+        >
+          Start your club, free
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .faq-answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.2s ease-out;
+  }
+
+  .faq-answer > div {
+    overflow: hidden;
+  }
+
+  .faq-item.open .faq-answer {
+    grid-template-rows: 1fr;
+  }
+
+  .faq-item.open .faq-chevron {
+    transform: rotate(180deg);
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".faq-toggle").forEach((button) => {
+    button.addEventListener("click", () => {
+      const item = button.closest(".faq-item")!;
+      const isOpen = item.classList.contains("open");
+
+      // Close all items
+      document.querySelectorAll(".faq-item").forEach((el) => {
+        el.classList.remove("open");
+        el.querySelector(".faq-toggle")?.setAttribute("aria-expanded", "false");
+      });
+
+      // Open clicked item if it was closed
+      if (!isOpen) {
+        item.classList.add("open");
+        button.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+</script>

@@ -1,0 +1,337 @@
+---
+import Layout from '../../../../../layouts/Layout.astro';
+import Nav from '../../../../../components/Nav.astro';
+import Footer from '../../../../../components/Footer.astro';
+import { MapPin, Globe, ChevronRight, Home, Users, HelpCircle } from '@lucide/astro';
+import clubs from '../../../../../data/ca-clubs.json';
+import provinces from '../../../../../data/ca-provinces.json';
+
+// Region-only directory club page on swimly.club. Commonwealth spelling.
+// Facts come from the verified directory data only; nothing is invented.
+export async function getStaticPaths() {
+  return clubs.map((club) => {
+    const provinceClubs = clubs.filter(
+      (c) => c.provinceSlug === club.provinceSlug && c.slug !== club.slug
+    );
+    return {
+      params: { province: club.provinceSlug, slug: club.slug },
+      props: {
+        club,
+        nearbyClubs: provinceClubs.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 5),
+        provinceClubCount: provinceClubs.length + 1,
+      },
+    };
+  });
+}
+
+const { club, nearbyClubs, provinceClubCount } = Astro.props;
+const provinceData = provinces[club.provinceSlug];
+const provinceName = provinceData.name;
+const isClub = club.type === 'competitive';
+const typeLabel = isClub ? 'competitive swim club' : 'swim school';
+
+const title = `${club.name} | ${isClub ? 'Swim Club' : 'Swim School'} in ${club.city}, ${provinceData.abbr} | Swimly`;
+const description = `${club.name} is a ${typeLabel} in ${club.city}, ${provinceName}. ${club.description} Find contact details and nearby programmes.`;
+
+const faqItems = [
+  {
+    question: `Where is ${club.name} based?`,
+    answer: `${club.name} is based in ${club.city}, ${provinceName}.`,
+  },
+  {
+    question: `How do I join ${club.name}?`,
+    answer: `Visit the ${club.name} website for current registration information. Most ${
+      isClub ? 'competitive clubs offer a trial or assessment before placing swimmers in a squad' : 'swim schools enrol new swimmers year-round, with classes grouped by age and ability'
+    }.`,
+  },
+  {
+    question: `Are there other swim programmes near ${club.city}?`,
+    answer: `The Swimly directory lists ${provinceClubCount} swim club${
+      provinceClubCount === 1 ? '' : 's'
+    } and swim school${provinceClubCount === 1 ? '' : 's'} in ${provinceName}, and it is growing. Browse the ${provinceName} page to see them all.`,
+  },
+];
+
+const sportsOrgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SportsOrganization',
+  name: club.name,
+  sport: 'Swimming',
+  url: club.website,
+  description: club.description,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: club.city,
+    addressRegion: provinceName,
+    addressCountry: 'CA',
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://swimly.club/ca/' },
+    { '@type': 'ListItem', position: 2, name: 'Directory', item: 'https://swimly.club/ca/clubs/' },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: provinceName,
+      item: `https://swimly.club/ca/clubs/${club.provinceSlug}/`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 4,
+      name: club.name,
+      item: `https://swimly.club/ca/clubs/${club.provinceSlug}/${club.slug}/`,
+    },
+  ],
+};
+---
+
+<Layout title={title} description={description} faqItems={faqItems}>
+  <script type="application/ld+json" set:html={JSON.stringify(sportsOrgSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+
+  <Nav />
+
+  <main>
+    <!-- Breadcrumbs -->
+    <section class="pt-24 pb-8">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex items-center gap-2 text-sm text-ink-mute flex-wrap">
+          <a href="/ca/" class="hover:text-mint-ink transition-colors flex items-center gap-1">
+            <Home class="w-4 h-4" />
+            Home
+          </a>
+          <ChevronRight class="w-4 h-4" />
+          <a href="/ca/clubs/" class="hover:text-mint-ink transition-colors">Directory</a>
+          <ChevronRight class="w-4 h-4" />
+          <a
+            href={`/ca/clubs/${club.provinceSlug}/`}
+            class="hover:text-mint-ink transition-colors"
+          >
+            {provinceName}
+          </a>
+          <ChevronRight class="w-4 h-4" />
+          <span class="text-[#0F2D2D]">{club.name}</span>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Club header -->
+    <section class="pb-16 sm:pb-20 relative overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[500px] pointer-events-none"></div>
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p class="eyebrow inline-flex items-center gap-2 mb-6">
+          <MapPin class="w-4 h-4" />
+          {club.city}, {provinceName}
+        </p>
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.1] text-[#0F2D2D] mb-6">
+          {club.name}
+        </h1>
+        <p class="text-lg sm:text-xl text-ink-soft leading-relaxed mb-8">
+          {club.description}
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="flex items-start gap-3 p-4 rounded-lg bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+            <MapPin class="w-5 h-5 text-mint-ink mt-0.5" />
+            <div>
+              <div class="text-sm text-ink-mute mb-1">Location</div>
+              <div class="text-[#0F2D2D]">{club.city}, {provinceData.abbr}</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 p-4 rounded-lg bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+            <Users class="w-5 h-5 text-mint-ink mt-0.5" />
+            <div>
+              <div class="text-sm text-ink-mute mb-1">Type</div>
+              <div class="text-[#0F2D2D]">{isClub ? 'Competitive swim club' : 'Swim school'}</div>
+            </div>
+          </div>
+          {
+            club.website && (
+              <div class="flex items-start gap-3 p-4 rounded-lg bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] sm:col-span-2">
+                <Globe class="w-5 h-5 text-mint-ink mt-0.5" />
+                <div class="flex-1">
+                  <div class="text-sm text-ink-mute mb-1">Website</div>
+                  <a
+                    href={club.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-mint-ink hover:text-[#0F2D2D] transition-colors break-all"
+                  >
+                    {club.website}
+                  </a>
+                </div>
+              </div>
+            )
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Swimming in province -->
+    <section class="py-16 sm:py-20 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-2xl p-8 lg:p-12">
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">
+            Swimming in {provinceName}
+          </h2>
+          <div class="space-y-4 text-ink-soft leading-relaxed">
+            <p>
+              {club.name} is one of {provinceClubCount} swim programme{
+                provinceClubCount === 1 ? '' : 's'
+              } listed in {provinceName} in the Swimly directory, covering competitive clubs and
+              learn-to-swim schools. Whether your swimmer is starting lessons or chasing
+              qualifying times, there is a programme in {provinceName} to match.
+            </p>
+            <p>
+              Competitive clubs in Canada are typically affiliated with Swimming Canada through
+              their provincial section, while swim schools focus on water safety and stroke
+              development for beginners.
+            </p>
+          </div>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a
+              href={`/ca/clubs/${club.provinceSlug}/`}
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface border border-[#297373]/40 hover:bg-[#85FFC7]/15 text-ink hover:text-[#0F2D2D] text-sm font-medium transition-colors"
+            >
+              All {provinceName} programmes
+              <ChevronRight class="w-4 h-4" />
+            </a>
+            {
+              club.citySlug && (
+                <a
+                  href={`/ca/${club.provinceSlug}/${club.citySlug}/`}
+                  class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface border border-[#297373]/40 hover:bg-[#85FFC7]/15 text-ink hover:text-[#0F2D2D] text-sm font-medium transition-colors"
+                >
+                  Swim club software in {club.city}
+                  <ChevronRight class="w-4 h-4" />
+                </a>
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Is this your club CTA -->
+    <section class="py-20 sm:py-28">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-[#85FFC7]/15 border border-[#1F7A52]/20 rounded-2xl p-8 lg:p-12">
+          <div class="flex items-start gap-4 mb-6">
+            <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center shrink-0">
+              <Users class="w-6 h-6 text-mint-ink" />
+            </div>
+            <div>
+              <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-2">
+                Is this your {isClub ? 'club' : 'swim school'}?
+              </h2>
+              <p class="text-lg text-ink-soft">
+                Run {club.name} on Swimly
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-4 text-ink-soft leading-relaxed mb-8">
+            <p>
+              If you help run {club.name}, Swimly brings your registration, billing, attendance,
+              and parent communication into one calm platform, so volunteers and coaches spend
+              less time on admin and more time on deck.
+            </p>
+            <ul class="space-y-2 pl-6">
+              <li class="flex items-start gap-2">
+                <span class="text-mint-ink mt-1">&bull;</span>
+                <span>Online registration with digital forms</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-mint-ink mt-1">&bull;</span>
+                <span>Automated fee collection in CAD</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-mint-ink mt-1">&bull;</span>
+                <span>Attendance you can take from a phone on the pool deck</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-mint-ink mt-1">&bull;</span>
+                <span>Announcements and schedules parents actually see</span>
+              </li>
+            </ul>
+          </div>
+
+          <a
+            href="https://app.swimly.uk/create-club"
+            class="inline-flex items-center gap-2 px-6 py-3 min-h-12 rounded-lg bg-lime-cta text-[#0F2D2D] font-semibold hover:bg-lime-cta-hover transition-colors text-lg"
+          >
+            Get started with Swimly
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-16 sm:py-20">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center gap-3 mb-8">
+          <HelpCircle class="w-6 h-6 text-mint-ink" />
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">Frequently asked questions</h2>
+        </div>
+        <div class="space-y-4">
+          {
+            faqItems.map((item) => (
+              <details class="group bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl overflow-hidden">
+                <summary class="flex items-center justify-between gap-4 p-6 cursor-pointer text-[#0F2D2D] font-medium hover:text-mint-ink transition-colors">
+                  <span>{item.question}</span>
+                  <ChevronRight class="w-5 h-5 text-ink-faint group-open:rotate-90 transition-transform shrink-0" />
+                </summary>
+                <div class="px-6 pb-6 text-ink-soft leading-relaxed">{item.answer}</div>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Nearby programmes -->
+    {
+      nearbyClubs.length > 0 && (
+        <section class="pb-20 sm:pb-28 relative">
+          <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-2">
+              More swim programmes in {provinceName}
+            </h2>
+            <p class="text-ink-soft mb-6">
+              Other clubs and swim schools in {provinceName} from the directory.
+            </p>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {nearbyClubs.map((nearby) => (
+                <a
+                  href={`/ca/clubs/${club.provinceSlug}/${nearby.slug}/`}
+                  class="group p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all hover:-translate-y-1"
+                >
+                  <h3 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors mb-2">
+                    {nearby.name}
+                  </h3>
+                  <div class="flex items-center gap-2 text-sm text-ink-mute mb-3">
+                    <MapPin class="w-4 h-4" />
+                    <span>{nearby.city}</span>
+                  </div>
+                  <p class="text-sm text-ink-soft leading-relaxed line-clamp-2 mb-4">
+                    {nearby.description}
+                  </p>
+                  <div class="text-mint-ink text-sm font-medium flex items-center gap-1">
+                    View {nearby.type === 'competitive' ? 'club' : 'swim school'}
+                    <ChevronRight class="w-4 h-4" />
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+  </main>
+
+  <Footer />
+</Layout>

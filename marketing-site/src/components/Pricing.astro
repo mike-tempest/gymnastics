@@ -1,0 +1,219 @@
+---
+import { Check } from "@lucide/astro";
+import {
+  regionFromPath,
+  formatPrice,
+  REGIONS,
+  type RegionKey,
+} from "../config/regions";
+
+interface Props {
+  region?: RegionKey;
+}
+
+// Region is derived from the page path (so the homepage on swimly.uk is 'uk',
+// and a future /us page is 'us'), but callers may override it with a prop.
+const { region = regionFromPath(Astro.url.pathname) } = Astro.props;
+const cfg = REGIONS[region];
+const isUK = region === "uk";
+
+// Per-region monthly prices come from config. Non-UK figures are PROVISIONAL
+// until confirmed. Annual figures are derived (monthly x 12).
+const clubPrice = formatPrice(region, cfg.pricePrimary);
+const performancePrice = formatPrice(region, cfg.pricePerformance);
+const clubAnnual = formatPrice(region, cfg.pricePrimary * 12);
+const performanceAnnual = formatPrice(region, cfg.pricePerformance * 12);
+
+// UK keeps its verified competitor comparison; other regions omit it rather
+// than quote a figure we cannot verify.
+const clubAnnualNote = isUK
+  ? `${clubAnnual}/yr, 46% less than SwimClub Manager`
+  : `${clubAnnual}/yr`;
+
+// UK collects by Direct Debit via GoCardless. Other regions use generic card
+// and bank payment wording until the regional processor is confirmed.
+const automatedPaymentFeature = isUK
+  ? "Automated Direct Debit"
+  : "Automated card and bank payments";
+
+// Governing-body integration is region-specific (Swim England for the UK,
+// USA Swimming for the US, and so on).
+const governingBodyFeature = `${cfg.governingBody} integration`;
+
+const tiers = [
+  {
+    name: "Starter",
+    price: "Free",
+    period: "",
+    description: "For small clubs finding their feet",
+    members: "Up to 50 members",
+    highlight: false,
+    annualNote: "",
+    cta: "Start free",
+    ctaHref: cfg.appUrl + "/create-club",
+    features: [
+      "Basic membership management",
+      "Attendance tracking",
+      "Email notifications",
+      "Session scheduling",
+      "Financial summary",
+    ],
+  },
+  {
+    name: "Club",
+    price: clubPrice,
+    period: "/mo",
+    description: "The full toolkit for growing clubs",
+    members: "50–200 members",
+    highlight: true,
+    annualNote: clubAnnualNote,
+    cta: "Start free",
+    ctaHref: cfg.appUrl + "/create-club",
+    features: [
+      "Everything in Starter",
+      "Billing and invoicing",
+      "Parent portal",
+      "Squad management",
+      automatedPaymentFeature,
+      "Custom reports and exports",
+      "Priority email support",
+    ],
+  },
+  {
+    name: "Performance",
+    price: performancePrice,
+    period: "/mo",
+    description: "For ambitious, competitive clubs",
+    members: "200–500 members",
+    highlight: false,
+    annualNote: `${performanceAnnual}/yr`,
+    cta: "Start free",
+    ctaHref: cfg.appUrl + "/create-club",
+    features: [
+      "Everything in Club",
+      "Performance analytics",
+      governingBodyFeature,
+      "API access",
+      "Competition fee tracking",
+      "Safeguarding dashboard",
+      "Priority phone support",
+    ],
+  },
+  {
+    name: "Enterprise",
+    price: "Custom",
+    period: "",
+    description: "Bespoke pricing for large organisations",
+    members: "500+ members",
+    highlight: false,
+    annualNote: "",
+    cta: "Get in touch",
+    ctaHref: "/contact/",
+    features: [
+      "Everything in Performance",
+      "Dedicated support",
+      "Custom integrations",
+      "SLA and onboarding support",
+      "Multi-site management",
+      "Dedicated account manager",
+    ],
+  },
+];
+---
+
+<section id="pricing" class="py-20 sm:py-28">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <p class="eyebrow reveal">Pricing</p>
+      <h2 class="reveal font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5">
+        Simple, honest pricing
+      </h2>
+      <p class="reveal mt-4 text-ink-soft text-lg max-w-2xl mx-auto">
+        No per-member fees. No hidden charges. Just a flat monthly rate that
+        scales with your club.
+      </p>
+      {isUK ? (
+        <p class="reveal mt-3 text-sm text-ink-mute">
+          All plans include unlimited coaches, sessions, and UK-based support.
+        </p>
+      ) : (
+        <p class="reveal mt-3 text-sm text-ink-mute">All plans include unlimited coaches, sessions, and dedicated support.</p>
+      )}
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 items-start">
+      {tiers.map(tier => (
+        <div
+          class:list={[
+            "reveal relative flex flex-col p-6 lg:p-7 rounded-[20px] transition-all duration-200",
+            tier.highlight
+              ? "bg-surface-raised border-2 border-[#297373]/35 shadow-[0_16px_40px_-16px_rgba(15,45,45,0.3)] lg:-translate-y-3"
+              : "bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)]",
+          ]}
+        >
+          {tier.highlight && (
+            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full bg-[#0F2D2D] text-[#85FFC7] text-xs font-semibold tracking-wide whitespace-nowrap">
+              Most popular
+            </div>
+          )}
+
+          <div class="mb-5">
+            <h3 class="text-[13px] font-semibold tracking-[0.12em] uppercase text-ink-mute">{tier.name}</h3>
+            <p class="text-sm text-ink-mute mt-2">{tier.description}</p>
+          </div>
+
+          <div class="flex items-baseline gap-1">
+            <span class="font-display text-[44px] leading-none text-[#0F2D2D]">{tier.price}</span>
+            {tier.period && (
+              <span class="text-ink-mute text-lg">{tier.period}</span>
+            )}
+          </div>
+          <p class="text-sm text-mint-ink mt-2 font-medium">{tier.members}</p>
+
+          {tier.annualNote ? (
+            <p class="text-xs text-ink-faint mt-2 mb-5 pb-5 border-b border-[#39393A]/8">{tier.annualNote}</p>
+          ) : (
+            <div class="mt-2 mb-5 pb-5 border-b border-[#39393A]/8"></div>
+          )}
+
+          <ul class="space-y-3 mb-8 flex-1">
+            {tier.features.map(feature => (
+              <li class="flex items-start gap-2.5 text-sm text-ink-soft">
+                <Check class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" />
+                {feature}
+              </li>
+            ))}
+          </ul>
+
+          <a
+            href={tier.ctaHref}
+            class:list={[
+              "block text-center rounded-xl text-base font-bold transition-all duration-200 min-h-12 leading-[3rem]",
+              tier.highlight || tier.price === "Free"
+                ? "bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+                : "border border-[#297373]/40 text-ink hover:border-[#297373]/70 hover:bg-surface",
+            ]}
+          >
+            {tier.cta}
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <!-- Trust signals -->
+    <div class="reveal mt-12 flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 text-sm text-ink-mute">
+      <span class="flex items-center gap-2">
+        <Check class="w-4 h-4 text-mint-ink" />
+        No contract, cancel any time
+      </span>
+      <span class="flex items-center gap-2">
+        <Check class="w-4 h-4 text-mint-ink" />
+        No setup fees
+      </span>
+      <span class="flex items-center gap-2">
+        <Check class="w-4 h-4 text-mint-ink" />
+        Free data migration
+      </span>
+    </div>
+  </div>
+</section>

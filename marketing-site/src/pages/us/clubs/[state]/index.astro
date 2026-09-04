@@ -1,0 +1,234 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import { MapPin, ChevronRight } from '@lucide/astro';
+import clubs from '../../../../data/us-clubs.json';
+import states from '../../../../data/us-states.json';
+
+// Region-only directory state page on swimly.club. US English, "swim team",
+// "swim school". Only states with at least one listed club get a page.
+export async function getStaticPaths() {
+  const stateSlugs = [...new Set(clubs.map((c) => c.stateSlug))];
+  return stateSlugs.map((slug) => ({
+    params: { state: slug },
+    props: {
+      stateClubs: clubs.filter((c) => c.stateSlug === slug),
+      otherStates: stateSlugs.filter((s) => s !== slug).sort(),
+    },
+  }));
+}
+
+const { stateClubs, otherStates } = Astro.props;
+const { state } = Astro.params;
+const stateData = states[state];
+const stateName = stateData.name;
+
+const teams = stateClubs
+  .filter((c) => c.type === 'competitive')
+  .sort((a, b) => a.name.localeCompare(b.name));
+const schools = stateClubs
+  .filter((c) => c.type === 'academy')
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+// City software pages to cross-link, where the club's city has one.
+const citySlugsSeen = [...new Set(stateClubs.filter((c) => c.citySlug).map((c) => c.citySlug))];
+
+const title = `Swim Teams and Swim Schools in ${stateName} | Swimly`;
+const description = `Find real swim teams and swim schools in ${stateName}. Browse competitive teams and learn-to-swim programs by city, or add your own ${stateName} program free.`;
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: `Swim Teams and Swim Schools in ${stateName}`,
+  numberOfItems: stateClubs.length,
+  itemListElement: stateClubs.map((club, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: {
+      '@type': 'SportsOrganization',
+      name: club.name,
+      sport: 'Swimming',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: club.city,
+        addressRegion: stateName,
+        addressCountry: 'US',
+      },
+      url: `https://swimly.club/us/clubs/${state}/${club.slug}/`,
+    },
+  })),
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://swimly.club/us/' },
+    { '@type': 'ListItem', position: 2, name: 'Directory', item: 'https://swimly.club/us/clubs/' },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: stateName,
+      item: `https://swimly.club/us/clubs/${state}/`,
+    },
+  ],
+};
+
+const sections = [
+  { heading: 'Competitive swim teams', items: teams, label: 'Competitive team' },
+  { heading: 'Swim schools and academies', items: schools, label: 'Swim school' },
+].filter((s) => s.items.length > 0);
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(itemListSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+
+  <Nav />
+
+  <main class="pt-24">
+    <!-- Hero -->
+    <section class="relative py-16 px-4 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[500px] pointer-events-none"></div>
+      <div class="relative max-w-4xl mx-auto text-center">
+        <nav aria-label="Breadcrumb" class="mb-6">
+          <ol class="flex items-center justify-center gap-2 text-sm text-ink-mute">
+            <li><a href="/us/" class="hover:text-mint-ink transition-colors">United States</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href="/us/clubs/" class="hover:text-mint-ink transition-colors">Directory</a></li>
+            <li aria-hidden="true">/</li>
+            <li class="text-[#0F2D2D]">{stateName}</li>
+          </ol>
+        </nav>
+        <h1 class="font-display text-4xl md:text-5xl text-[#0F2D2D] mb-6">
+          Swim Teams and Swim Schools in <em class="text-mint-ink">{stateName}</em>
+        </h1>
+        <p class="text-xl text-ink-soft max-w-2xl mx-auto">
+          {stateClubs.length} listed program{stateClubs.length === 1 ? '' : 's'} in {stateName} ({
+            stateData.abbr
+          }), from competitive teams to learn-to-swim schools. The directory is growing, so more
+          are added regularly.
+        </p>
+      </div>
+    </section>
+
+    <!-- Club listings -->
+    {
+      sections.map((section) => (
+        <section class="py-8 px-4">
+          <div class="max-w-6xl mx-auto">
+            <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">{section.heading}</h2>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {section.items.map((club) => (
+                <a
+                  href={`/us/clubs/${state}/${club.slug}/`}
+                  class="group p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all hover:-translate-y-1"
+                >
+                  <h3 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors mb-2">
+                    {club.name}
+                  </h3>
+                  <div class="flex items-center gap-2 text-sm text-ink-mute mb-3">
+                    <MapPin class="w-4 h-4" />
+                    <span>
+                      {club.city}, {stateData.abbr}
+                    </span>
+                  </div>
+                  <p class="text-sm text-ink-soft leading-relaxed line-clamp-2 mb-4">
+                    {club.description}
+                  </p>
+                  <div class="text-mint-ink text-sm font-medium flex items-center gap-1">
+                    View {section.label === 'Swim school' ? 'swim school' : 'team'}
+                    <ChevronRight class="w-4 h-4" />
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      ))
+    }
+
+    <!-- City software pages -->
+    {
+      citySlugsSeen.length > 0 && (
+        <section class="py-8 px-4">
+          <div class="max-w-6xl mx-auto">
+            <h2 class="font-display text-2xl text-[#0F2D2D] mb-4">
+              Swim team software in {stateName}
+            </h2>
+            <div class="flex flex-wrap gap-3">
+              {citySlugsSeen.map((citySlug) => {
+                const club = stateClubs.find((c) => c.citySlug === citySlug);
+                return (
+                  <a
+                    href={`/us/${state}/${citySlug}/`}
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-raised border border-[#297373]/40 hover:bg-[#85FFC7]/15 text-ink hover:text-[#0F2D2D] text-sm font-medium transition-colors"
+                  >
+                    Swim team software in {club.city}
+                    <ChevronRight class="w-4 h-4" />
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    <!-- Get listed CTA -->
+    <section class="py-16 px-4">
+      <div class="max-w-3xl mx-auto text-center bg-[#85FFC7]/15 border border-[#1F7A52]/20 rounded-2xl p-12">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">
+          Run a team or swim school in {stateName}?
+        </h2>
+        <p class="text-ink-soft mb-8">
+          Get listed in the directory free, and see how Swimly handles registration, billing, and
+          attendance so your season runs itself.
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a
+            href="https://app.swimly.uk/create-team"
+            class="inline-flex items-center px-8 py-4 min-h-12 bg-lime-cta text-[#0F2D2D] rounded-lg font-semibold hover:bg-lime-cta-hover transition-colors"
+          >
+            Add your team, free
+          </a>
+          <a
+            href="mailto:hello@swimly.club"
+            class="inline-flex items-center px-8 py-4 min-h-12 border border-[#297373]/40 text-ink rounded-lg font-semibold hover:bg-surface transition-colors"
+          >
+            Get listed in the directory
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Other states -->
+    {
+      otherStates.length > 0 && (
+        <section class="pb-16 px-4">
+          <div class="max-w-6xl mx-auto">
+            <h2 class="font-display text-2xl text-[#0F2D2D] mb-6">Other states</h2>
+            <div class="flex flex-wrap gap-3">
+              {otherStates.map((slug) => (
+                <a
+                  href={`/us/clubs/${slug}/`}
+                  class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-raised border border-[#39393A]/10 hover:border-[#297373]/30 text-ink text-sm font-medium transition-colors"
+                >
+                  {states[slug].name}
+                </a>
+              ))}
+            </div>
+            <p class="text-ink-mute mt-6">
+              <a href="/us/clubs/" class="text-mint-ink hover:underline">
+                Back to the full US directory
+              </a>
+            </p>
+          </div>
+        </section>
+      )
+    }
+  </main>
+
+  <Footer />
+</Layout>

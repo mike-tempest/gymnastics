@@ -1,0 +1,509 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { ArrowRight, Smartphone, CreditCard, PoundSterling, Users, Zap, Shield } from '@lucide/astro';
+
+const title = 'Swimly vs SwimClub Manager | 46% Less Per Year';
+const description = 'Compare Swimly and SwimClub Manager for UK clubs in 2026. Modern features, automated Direct Debit, and flat pricing at 46% less per year. Updated March 2026.';
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Compare",
+      "item": "https://swimly.uk/compare/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "SwimClub Manager",
+      "item": "https://swimly.uk/compare/swimclubmanager"
+    }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does Swimly compare to SwimClub Manager?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Swimly offers a modern, mobile-first platform with automated Direct Debit billing through GoCardless, while SwimClub Manager provides a more established desktop-focused system. Swimly costs £348/year compared to SwimClub Manager's £649/year, making it 46% cheaper annually. Both platforms offer comprehensive membership management, but Swimly emphasises ease of use and modern web technology."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Swimly cheaper than SwimClub Manager?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, Swimly is significantly cheaper. At £29/month (£348/year), Swimly costs 46% less than SwimClub Manager's £649 annual fee. This saves clubs over £300 per year whilst providing modern features, automated billing, and a mobile-first design."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I migrate from SwimClub Manager to Swimly?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, you can migrate from SwimClub Manager to Swimly. Swimly's setup takes approximately 30 minutes and includes importing your member database. There are no lock-in contracts, so you can switch platforms easily. Our support team can assist with the migration process to ensure a smooth transition for your club."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Swimly work on mobile devices like SwimClub Manager?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, and Swimly is actually built mobile-first. Whilst SwimClub Manager offers separate iOS and Android apps, Swimly delivers a fully responsive web experience that works seamlessly on any device from a single URL, with no separate apps needed. This makes it easier for committee members and parents to access the system anywhere."
+      }
+    }
+  ]
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <!-- Hero Section -->
+    <section class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none"></div>
+      <div class="relative">
+        <p class="eyebrow mb-6">Platform comparison</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          Swimly vs SwimClubManager
+        </h1>
+        <p class="text-xl text-ink-soft max-w-3xl">
+          SwimClubManager has been serving UK clubs since 2009 and continues to ship regular updates. Swimly is the modern alternative, built from scratch with automated payments, mobile-first design, and transparent pricing at nearly half the cost.
+        </p>
+
+        <!-- Key stats row -->
+        <div class="grid grid-cols-3 gap-4 mt-10">
+          <div class="bg-[#85FFC7]/10 border border-[#1F7A52]/20 rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">46%</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">cheaper per year</p>
+          </div>
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">30 min</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">setup time</p>
+          </div>
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">No</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">lock-in contract</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visual Feature Comparison -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-3 text-center">Feature-by-feature comparison</h2>
+      <p class="text-ink-soft text-center mb-10 max-w-2xl mx-auto">A honest, side-by-side look at what each platform offers your club.</p>
+
+      <!-- Comparison header -->
+      <div class="bg-surface-raised rounded-t-2xl border border-[#39393A]/10 border-b-0">
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-4 sm:p-6"></div>
+          <div class="p-4 sm:p-6 text-center border-l border-[#39393A]/8 bg-[#85FFC7]/10">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 mb-1">
+              <span class="text-mint-ink font-bold text-sm">Swimly</span>
+            </div>
+            <p class="text-xs text-ink-mute mt-1">From £29/mo</p>
+          </div>
+          <div class="p-4 sm:p-6 text-center border-l border-[#39393A]/8">
+            <span class="text-[#0F2D2D] font-semibold text-sm">SwimClub Manager</span>
+            <p class="text-xs text-ink-mute mt-1">£649/yr</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category: Core Features -->
+      <div class="bg-surface border-x border-[#39393A]/10 px-4 sm:px-6 py-3">
+        <span class="text-xs font-bold uppercase tracking-wider text-ink-mute">Core Features</span>
+      </div>
+      <div class="bg-surface-raised border-x border-[#39393A]/10 divide-y divide-[#39393A]/8">
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">Membership management</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+        </div>
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">Session scheduling</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+        </div>
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">Attendance tracking</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+        </div>
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">Squad management</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+        </div>
+      </div>
+
+      <!-- Category: Billing & Payments -->
+      <div class="bg-surface border-x border-[#39393A]/10 px-4 sm:px-6 py-3 border-t border-[#39393A]/8">
+        <span class="text-xs font-bold uppercase tracking-wider text-ink-mute">Billing & Payments</span>
+      </div>
+      <div class="bg-surface-raised border-x border-[#39393A]/10 divide-y divide-[#39393A]/8">
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">Automated Direct Debit</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#39393A]/8"><svg class="w-3.5 h-3.5 text-ink-faint" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6"/></svg></span></div>
+        </div>
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">Invoicing</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+        </div>
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">Invoice write-off</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center gap-1 text-xs text-ink-mute">Planned</span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+        </div>
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">Failed payment retries</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#39393A]/8"><svg class="w-3.5 h-3.5 text-ink-faint" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6"/></svg></span></div>
+        </div>
+      </div>
+
+      <!-- Category: User Experience -->
+      <div class="bg-surface border-x border-[#39393A]/10 px-4 sm:px-6 py-3 border-t border-[#39393A]/8">
+        <span class="text-xs font-bold uppercase tracking-wider text-ink-mute">User Experience</span>
+      </div>
+      <div class="bg-surface-raised border-x border-[#39393A]/10 divide-y divide-[#39393A]/8">
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">Mobile-first design</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#39393A]/8"><svg class="w-3.5 h-3.5 text-ink-faint" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6"/></svg></span></div>
+        </div>
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">Parent portal</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+        </div>
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">30-minute setup</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#39393A]/8"><svg class="w-3.5 h-3.5 text-ink-faint" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6"/></svg></span></div>
+        </div>
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">No separate apps needed</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#39393A]/8"><svg class="w-3.5 h-3.5 text-ink-faint" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6"/></svg></span></div>
+        </div>
+      </div>
+
+      <!-- Category: Compliance & Safety -->
+      <div class="bg-surface border-x border-[#39393A]/10 px-4 sm:px-6 py-3 border-t border-[#39393A]/8">
+        <span class="text-xs font-bold uppercase tracking-wider text-ink-mute">Compliance & Safety</span>
+      </div>
+      <div class="bg-surface-raised border-x border-[#39393A]/10 divide-y divide-[#39393A]/8">
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">Wavepower compliance tools</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+        </div>
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">DBS tracking</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+        </div>
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">UK-hosted data</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+        </div>
+      </div>
+
+      <!-- Category: Competition & Performance -->
+      <div class="bg-surface border-x border-[#39393A]/10 px-4 sm:px-6 py-3 border-t border-[#39393A]/8">
+        <span class="text-xs font-bold uppercase tracking-wider text-ink-mute">Competition & Performance</span>
+      </div>
+      <div class="bg-surface-raised border-x border-[#39393A]/10 divide-y divide-[#39393A]/8">
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">Gala entry management</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center gap-1 text-xs text-ink-mute">Q2 2026</span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+        </div>
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">Hy-Tek / SportSystems import</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+        </div>
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">British Swimming Rankings</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center gap-1 text-xs text-ink-mute">Roadmap</span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+        </div>
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">Swim England API</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center gap-1 text-xs text-ink-mute">Applied</span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+        </div>
+      </div>
+
+      <!-- Category: Development & Ecosystem -->
+      <div class="bg-surface border-x border-[#39393A]/10 px-4 sm:px-6 py-3 border-t border-[#39393A]/8">
+        <span class="text-xs font-bold uppercase tracking-wider text-ink-mute">Development & Ecosystem</span>
+      </div>
+      <div class="bg-surface-raised border-x border-[#39393A]/10 rounded-b-2xl divide-y divide-[#39393A]/8 border-b border-[#39393A]/10">
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">Open API for integrations</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center gap-1 text-xs text-ink-mute">Roadmap</span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+        </div>
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">Regular feature releases</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+        </div>
+        <div class="grid grid-cols-[1fr_120px_120px] sm:grid-cols-[1fr_160px_160px] items-center">
+          <div class="p-3 sm:p-4 text-sm text-ink-soft">Community feature voting</div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center gap-1 text-xs text-ink-mute">Planned</span></div>
+          <div class="p-3 sm:p-4 text-center border-l border-[#39393A]/8"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#85FFC7]/20"><svg class="w-3.5 h-3.5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span></div>
+        </div>
+      </div>
+
+      <!-- Pricing callout -->
+      <div class="mt-8 p-6 rounded-2xl bg-[#85FFC7]/15 border border-[#1F7A52]/20">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <p class="text-lg font-semibold text-[#0F2D2D]">Save over £300 per year</p>
+            <p class="text-sm text-ink-soft">Swimly: £348/yr vs SwimClub Manager: £649/yr. That is 46% less for a modern platform.</p>
+          </div>
+          <a href="https://app.swimly.uk/create-club" class="shrink-0 inline-flex items-center gap-2 min-h-12 px-6 py-3 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-sm">
+            Try Swimly free
+            <ArrowRight class="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- See Swimly in Action -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-4 text-center">See what a <em class="text-mint-ink">modern platform</em> looks like</h2>
+      <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">Built for the way committees actually work: quick glances on phones between sessions, and proper admin on laptops when you have time.</p>
+
+      <!-- Dashboard -->
+      <div class="mb-16">
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          <div class="lg:w-2/3">
+            <div class="rounded-2xl overflow-hidden border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+              <div class="flex items-center gap-1.5 px-4 py-3 bg-surface border-b border-[#39393A]/8">
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <span class="ml-3 text-xs text-ink-mute">app.swimly.uk</span>
+              </div>
+              <picture>
+                <source srcset="/mockups/dashboard-macbook.webp" type="image/webp" />
+                <img src="/mockups/dashboard-macbook.png" alt="Swimly club dashboard showing swimmers, sessions, and billing overview" class="w-full" loading="lazy" />
+              </picture>
+            </div>
+          </div>
+          <div class="lg:w-1/3">
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Club dashboard</h3>
+            <p class="text-ink-soft text-sm leading-relaxed mb-4">Everything your committee needs at a glance: member counts, upcoming sessions, billing status, and compliance alerts. No clicking through five menus to find what matters.</p>
+            <ul class="space-y-2">
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Real-time member and payment stats
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Upcoming sessions and attendance
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Compliance and DBS expiry warnings
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Billing -->
+      <div class="mb-16">
+        <div class="flex flex-col lg:flex-row-reverse items-center gap-8 lg:gap-12">
+          <div class="lg:w-2/3">
+            <div class="rounded-2xl overflow-hidden border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+              <div class="flex items-center gap-1.5 px-4 py-3 bg-surface border-b border-[#39393A]/8">
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <span class="ml-3 text-xs text-ink-mute">app.swimly.uk/billing</span>
+              </div>
+              <picture>
+                <source srcset="/mockups/billing-macbook.webp" type="image/webp" />
+                <img src="/mockups/billing-macbook.png" alt="Swimly billing page showing automated Direct Debit collections" class="w-full" loading="lazy" />
+              </picture>
+            </div>
+          </div>
+          <div class="lg:w-1/3">
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Automated billing</h3>
+            <p class="text-ink-soft text-sm leading-relaxed mb-4">Direct Debit via GoCardless means fees collect themselves. The Treasurer sees who has paid, who hasn't, and what failed, all without opening a spreadsheet.</p>
+            <ul class="space-y-2">
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                One-click Direct Debit setup
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Automatic retry on failed payments
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Clear payment status dashboard
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile / Poolside -->
+      <div>
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          <div class="lg:w-1/3 flex justify-center">
+            <div class="w-[220px]">
+              <picture>
+                <source srcset="/mockups/sessions-iphone.webp" type="image/webp" />
+                <img src="/mockups/sessions-iphone.png" alt="Swimly attendance register on an iPhone at poolside" class="w-full h-auto" loading="lazy" />
+              </picture>
+            </div>
+          </div>
+          <div class="lg:w-2/3">
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Works poolside on your phone</h3>
+            <p class="text-ink-soft text-sm leading-relaxed mb-4">Coaches take attendance on their phone at 6am. Parents check balances in the car park. Committee members approve things on the train. Swimly is designed for real life, not just office desks.</p>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="p-4 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+                <p class="text-sm font-semibold text-[#0F2D2D] mb-1">No app download needed</p>
+                <p class="text-xs text-ink-mute">Works in any mobile browser. Add to home screen for an app-like experience.</p>
+              </div>
+              <div class="p-4 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+                <p class="text-sm font-semibold text-[#0F2D2D] mb-1">Offline-friendly attendance</p>
+                <p class="text-xs text-ink-mute">Mark attendance even with patchy poolside WiFi. Syncs when reconnected.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Swimly -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-4 text-center">Why choose Swimly over SwimClubManager?</h2>
+      <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">Four reasons clubs are making the switch.</p>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Smartphone class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Modern technology that works everywhere</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">SwimClubManager has served clubs well since 2009, but its desktop-first approach means you need separate mobile apps. Swimly is built with modern web standards, delivering a fast, responsive experience on any device from a single URL.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <CreditCard class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">True payment automation with Direct Debit</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">Set up Direct Debit collections once through GoCardless and get paid automatically every month. No more chasing parents, processing card payments manually, or dealing with failed transactions.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <PoundSterling class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Better value for growing clubs</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">At £29/month (£348/year), Swimly is 46% cheaper than SwimClubManager's £649 annual fee. Save over £300 per year while getting modern technology and automated billing built in.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Users class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Designed for volunteers, not administrators</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">Your committee members don't have time for complex software. Swimly is designed to be intuitive from day one, with a 30-minute setup process and no training manual required.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- When SwimClubManager Might Be Better -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">When might SwimClubManager be better?</h2>
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8">
+        <p class="text-ink-soft mb-4">
+          SwimClubManager has been around since 2009 and is a proven solution. Consider staying with SwimClubManager if:
+        </p>
+        <ul class="space-y-3 text-ink-soft">
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>You're already heavily invested in their system and don't want to migrate data</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>Your club has fewer than 50 members and the per-member pricing works out cheaper</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>You need gala entry management right now (Swimly's competition module launches Q2 2026)</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>You rely on their API integrations or third-party tools built on their platform</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Compare All Platforms -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8 text-center">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-4">Comparing other platforms?</h2>
+        <p class="text-ink-soft mb-6">
+          See how Swimly compares to all the top UK swim club software options in one place.
+        </p>
+        <a
+          href="/best-swim-club-software"
+          class="inline-flex items-center gap-2 text-mint-ink hover:text-[#0F2D2D] transition-colors font-medium"
+        >
+          View full comparison guide →
+        </a>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <div class="relative">
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-6">Ready to modernise your swim club management?</h2>
+        <p class="text-xl text-ink-soft mb-8 max-w-xl mx-auto">Create your club today. Free for clubs under 50 members, no card required.</p>
+        <a
+          href="https://app.swimly.uk/create-club"
+          class="inline-flex items-center gap-2 text-lg font-semibold min-h-12 px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all"
+        >
+          Start your club, free
+          <ArrowRight class="w-5 h-5" />
+        </a>
+        <p class="mt-4 text-sm text-ink-mute">Free to join. No payment details required.</p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

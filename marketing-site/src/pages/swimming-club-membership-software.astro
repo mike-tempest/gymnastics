@@ -1,0 +1,320 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const title = 'Swimming Club Membership Software UK | Swimly';
+const description = 'UK swimming club membership software with automated renewals, Direct Debit collection, Swim England sync, and parent portal. Stop chasing subscriptions. Start managing them.';
+
+// Mirrors the visible "Frequently Asked Questions" section below word for word.
+// Keep the two in step: the FAQPage schema is emitted from this array, and
+// Google requires the same answers to be visible on the page.
+const faqItems = [
+  {
+    question: "How do membership renewals work in Swimly?",
+    answer: "Swimly sends renewal reminders automatically before a membership expires, by email or SMS, so nobody has to chase parents by hand. Parents renew in one click through the parent portal, and you can see at a glance who has renewed and who has not."
+  },
+  {
+    question: "Does Swimly integrate with Swim England?",
+    answer: "Swimly is built around Swim England membership data. It stores each member's Swim England registration number and category, tracks renewal and expiry dates, and exports member data in a compatible format. Direct integration with Swim England's membership API is pending approval."
+  },
+  {
+    question: "How does Direct Debit collection work?",
+    answer: "Swimly uses GoCardless for Bacs Direct Debit collection. Parents set up a Direct Debit mandate once. Fees are then collected automatically each month or term, failed payments retry automatically, and you see payment status in real time."
+  },
+  {
+    question: "Can we migrate from our existing spreadsheet?",
+    answer: "Yes. Swimly imports your existing membership data from spreadsheets, including Excel, Google Sheets and CSV files. We provide migration support to get you set up."
+  },
+  {
+    question: "How much does Swimly cost?",
+    answer: "Swimly is free for clubs with up to 50 members on the Starter plan. The Club plan is £29 a month for 50 to 200 members, and the Performance plan is £49 a month for 200 to 500 members. Clubs of 500 or more members get custom Enterprise pricing. There are no per-member fees on any plan."
+  },
+  {
+    question: "Is Swimly GDPR compliant?",
+    answer: "Yes. Swimly is UK GDPR compliant. Data is stored securely in the UK. We provide data processing agreements for clubs."
+  }
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Swimming Club Membership Software",
+      "item": "https://swimly.uk/swimming-club-membership-software/"
+    }
+  ]
+};
+
+const softwareAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Swimly Membership Management",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": description,
+  "url": "https://swimly.uk/swimming-club-membership-software/",
+  "offers": {
+    "@type": "Offer",
+    "price": "29",
+    "priceCurrency": "GBP",
+    "priceValidUntil": "2027-12-31",
+    "availability": "https://schema.org/InStock"
+  },
+  "featureList": "Membership database, Automated renewals, Direct Debit collection, Swim England integration, Squad management, Parent portal, Payment tracking, Compliance tracking"
+};
+---
+
+<Layout title={title} description={description} faqItems={faqItems}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppSchema, null, 2)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <!-- Hero Section -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+        Stop Chasing Membership Renewals. Start Managing Them.
+      </h1>
+      <p class="text-xl text-ink-soft mb-8">
+        Swimming club membership software built for UK volunteer committees. Automate renewals, collect fees reliably via Direct Debit, and sync with Swim England, all in one platform.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a href="https://app.swimly.uk/create-club" class="px-8 py-3 bg-lime-cta hover:bg-lime-cta-hover text-[#0F2D2D] rounded-xl font-bold text-center transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]">
+          Start your club, free
+        </a>
+        <a href="#features" class="px-8 py-3 border border-[#297373]/40 text-ink hover:bg-surface rounded-xl font-medium text-center transition-all">
+          See Features
+        </a>
+      </div>
+    </section>
+
+    <!-- Pain Points -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-[#39393A]/10">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">The Membership Secretary's Reality</h2>
+      <div class="space-y-6 text-ink-soft">
+        <p>
+          If you're managing membership for a UK swimming club, you know these frustrations:
+        </p>
+        <ul class="space-y-4">
+          <li class="flex gap-3">
+            <span class="text-[#B91C1C]/70">✗</span>
+            <span><strong class="text-[#0F2D2D]">Chasing late renewals every September.</strong> Emails ignored. WhatsApp messages unanswered. The same families forgetting every year.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-[#B91C1C]/70">✗</span>
+            <span><strong class="text-[#0F2D2D]">Reconciling payments manually.</strong> Bank transfers with no reference. Standing orders that stopped months ago. Hours spent matching names to transactions.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-[#B91C1C]/70">✗</span>
+            <span><strong class="text-[#0F2D2D]">Duplicate Swim England registrations.</strong> Manually submitting 150 swimmers to Swim England, realising you've missed someone, then doing it again.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-[#B91C1C]/70">✗</span>
+            <span><strong class="text-[#0F2D2D]">No single source of truth.</strong> Membership data in one spreadsheet. Payment status in another. Squad lists in a third. Nobody knows who's actually current.</span>
+          </li>
+        </ul>
+        <p class="text-lg text-[#0F2D2D] pt-4">
+          You didn't volunteer to be a data entry clerk. Swimly automates the tedious parts so you can focus on what matters.
+        </p>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-[#39393A]/10">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Membership Management Features Built for UK Swimming Clubs</h2>
+
+      <div class="space-y-8">
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Centralised Membership Database</h3>
+          <p class="text-ink-soft">
+One place for all member information. Names, emergency contacts, medical notes, squad assignments, payment status, and Swim England registration numbers. No more hunting through spreadsheets or asking "who has the current list?"
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Automated Renewal Reminders</h3>
+          <p class="text-ink-soft">
+Swimly sends renewal reminders automatically before membership expires. Email or SMS. Parents can renew with one click via the parent portal. No more September spreadsheet panic.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Direct Debit via GoCardless</h3>
+          <p class="text-ink-soft">
+Collect monthly or termly fees automatically via Bacs Direct Debit. Failed payments retry automatically. You get real-time payment status without checking your bank account manually. <a href="/features/billing/" class="text-mint-ink hover:text-[#0F2D2D] underline">See billing features →</a>
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Swim England API Integration</h3>
+          <p class="text-ink-soft">
+Sync member registrations with Swim England automatically. No more manual CSV uploads or duplicate data entry. Swimly handles categories (Swimmer, Swim21, Coach, Official) and tracks expiry dates. <a href="/features/compliance/" class="text-mint-ink hover:text-[#0F2D2D] underline">See compliance features →</a>
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Squad Management</h3>
+          <p class="text-ink-soft">
+Assign swimmers to squads. Move them between groups as they progress. Filter membership lists by squad, age group, or payment status. Coaches see their squad rosters in real time.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Parent Portal</h3>
+          <p class="text-ink-soft">
+Parents log in to update their own details, view payment history, and see their child's attendance. Less admin work for you. <a href="/features/parent-portal/" class="text-mint-ink hover:text-[#0F2D2D] underline">See parent portal →</a>
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Compliance Tracking</h3>
+          <p class="text-ink-soft">
+Track DBS checks, coaching qualifications, first aid certificates, and safeguarding training. Automated reminders before things expire. Wavepower compliance made easier.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-[#39393A]/10">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Spreadsheets vs Swimly</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left bg-surface-raised rounded-2xl border border-[#39393A]/10 overflow-hidden">
+          <thead class="bg-surface border-b border-[#39393A]/8">
+            <tr>
+              <th class="p-4 text-[#0F2D2D]"></th>
+              <th class="p-4 text-ink-mute text-center">Spreadsheets</th>
+              <th class="p-4 text-mint-ink text-center">Swimly</th>
+            </tr>
+          </thead>
+          <tbody class="text-ink-soft">
+            <tr class="border-b border-[#39393A]/8">
+              <td class="p-4 text-[#0F2D2D] font-medium">Automated renewal reminders</td>
+              <td class="p-4 text-center text-[#B91C1C]/60">✗</td>
+              <td class="p-4 text-center text-mint-ink bg-[#85FFC7]/10">✓</td>
+            </tr>
+            <tr class="border-b border-[#39393A]/8">
+              <td class="p-4 text-[#0F2D2D] font-medium">Direct Debit collection</td>
+              <td class="p-4 text-center text-[#B91C1C]/60">✗</td>
+              <td class="p-4 text-center text-mint-ink bg-[#85FFC7]/10">✓</td>
+            </tr>
+            <tr class="border-b border-[#39393A]/8">
+              <td class="p-4 text-[#0F2D2D] font-medium">Swim England sync</td>
+              <td class="p-4 text-center text-[#B91C1C]/60">Manual CSV</td>
+              <td class="p-4 text-center text-mint-ink bg-[#85FFC7]/10">Automatic</td>
+            </tr>
+            <tr class="border-b border-[#39393A]/8">
+              <td class="p-4 text-[#0F2D2D] font-medium">Payment reconciliation</td>
+              <td class="p-4 text-center text-[#B91C1C]/60">Hours/month</td>
+              <td class="p-4 text-center text-mint-ink bg-[#85FFC7]/10">Automatic</td>
+            </tr>
+            <tr class="border-b border-[#39393A]/8">
+              <td class="p-4 text-[#0F2D2D] font-medium">Parent self-service</td>
+              <td class="p-4 text-center text-[#B91C1C]/60">✗</td>
+              <td class="p-4 text-center text-mint-ink bg-[#85FFC7]/10">✓</td>
+            </tr>
+            <tr class="border-b border-[#39393A]/8">
+              <td class="p-4 text-[#0F2D2D] font-medium">Real-time membership status</td>
+              <td class="p-4 text-center text-[#B91C1C]/60">✗</td>
+              <td class="p-4 text-center text-mint-ink bg-[#85FFC7]/10">✓</td>
+            </tr>
+            <tr class="border-b border-[#39393A]/8">
+              <td class="p-4 text-[#0F2D2D] font-medium">Mobile access</td>
+              <td class="p-4 text-center text-[#B91C1C]/60">✗</td>
+              <td class="p-4 text-center text-mint-ink bg-[#85FFC7]/10">✓</td>
+            </tr>
+            <tr>
+              <td class="p-4 text-[#0F2D2D] font-medium">Time spent on admin</td>
+              <td class="p-4 text-center text-[#B91C1C]/60">10+ hrs/month</td>
+              <td class="p-4 text-center text-mint-ink bg-[#85FFC7]/10">&lt;2 hrs/month</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Built for UK Swimming -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-[#39393A]/10">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Built for UK Swimming Clubs, Not Generic Sports Teams</h2>
+      <p class="text-ink-soft mb-6">
+        Generic membership software doesn't understand UK swimming. Swimly does.
+      </p>
+      <ul class="space-y-3 text-ink-soft">
+        <li class="flex gap-3">
+          <span class="text-mint-ink">✓</span>
+          <span>Swim England membership categories (Swimmer, Swim21, Coach, Official, Volunteer)</span>
+        </li>
+        <li class="flex gap-3">
+          <span class="text-mint-ink">✓</span>
+          <span>Wavepower safeguarding compliance tracking</span>
+        </li>
+        <li class="flex gap-3">
+          <span class="text-mint-ink">✓</span>
+          <span>Bacs Direct Debit via GoCardless (UK payment provider)</span>
+        </li>
+        <li class="flex gap-3">
+          <span class="text-mint-ink">✓</span>
+          <span>Squad structures typical of UK amateur swimming clubs</span>
+        </li>
+        <li class="flex gap-3">
+          <span class="text-mint-ink">✓</span>
+          <span>Built by a UK swim parent who understands volunteer committee life</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-[#39393A]/10">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Used by UK Swimming Clubs</h2>
+      <p class="text-ink-soft mb-6">
+        Swimly is in active development with founding clubs testing the platform. Integration with Swim England's membership API is pending approval.
+      </p>
+      <p class="text-ink-soft">
+        Clubs under 50 members are free. You can create your club and start today.
+      </p>
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-[#39393A]/10">
+      <div class="relative bg-[#0F2D2D] rounded-2xl p-8 text-center overflow-hidden">
+        <div class="ripple absolute -left-16 top-6 w-56 h-56 opacity-60" aria-hidden="true"></div>
+        <h2 class="relative font-display text-3xl text-[#E6E6E6] mb-4">
+          Stop Chasing Renewals. Automate Membership.
+        </h2>
+        <p class="relative text-xl text-[#E6E6E6]/65 mb-6">
+          Create your club today and automate membership renewals, fees, and Swim England records, built for volunteer committees.
+        </p>
+        <a href="https://app.swimly.uk/create-club" class="relative inline-block px-8 py-3 bg-lime-cta hover:bg-lime-cta-hover text-[#0F2D2D] rounded-xl font-bold transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]">
+          Start your club, free
+        </a>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-[#39393A]/10">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-6">
+        {faqItems.map((item) => (
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">{item.question}</h3>
+            <p class="text-ink-soft">{item.answer}</p>
+          </div>
+        ))}
+      </div>
+      <p class="text-ink-soft mt-8">
+        See <a href="/pricing/" class="text-mint-ink hover:text-[#0F2D2D] underline">full pricing</a> for what every plan includes.
+      </p>
+    </section>
+
+  </main>
+  <Footer />
+</Layout>

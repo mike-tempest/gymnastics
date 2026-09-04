@@ -1,0 +1,490 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { ClipboardCheck, Users, MapPin, BarChart, CheckCircle, ArrowRight, Smartphone, Wifi, WifiOff, Clock, Eye, ShieldCheck, X, Droplets, Zap, UserCheck } from '@lucide/astro';
+
+const title = 'Swim Club Attendance Software | Digital Registers';
+const description = 'Replace poolside clipboards with digital registers. Real-time attendance tracking and session reports for UK swimming clubs. Try Swimly free.';
+
+const attendanceSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Swimly Attendance Tracking",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": description,
+  "url": "https://swimly.uk/features/attendance/",
+  "featureList": [
+    "Digital poolside registers",
+    "Real-time attendance tracking",
+    "Session reporting and analytics",
+    "Coach and volunteer check-in",
+    "Attendance history per swimmer"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "29",
+    "priceCurrency": "GBP",
+    "priceValidUntil": "2027-12-31",
+    "availability": "https://schema.org/PreOrder"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Swimly",
+    "url": "https://swimly.uk"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Swimly",
+    "url": "https://swimly.uk"
+  }
+};
+
+const faqItems = [
+  {
+    question: "How does digital attendance tracking work poolside?",
+    answer: "Swimly runs on any phone or tablet browser. Coaches open the session, see their squad list, and tap to mark swimmers present or absent. It works on wet screens and in bright sunlight. No app download needed, just bookmark the page."
+  },
+  {
+    question: "Does Swimly work offline at the pool?",
+    answer: "Yes. Swimly is designed for poolside use where Wi-Fi can be unreliable. Attendance data syncs automatically when connectivity returns. Coaches can mark attendance without worrying about signal drops."
+  },
+  {
+    question: "Can parents see attendance records?",
+    answer: "Yes. Parents can view their child's attendance history through the parent portal, including which sessions they attended and any absences. This transparency reduces queries to coaches and helps parents track training commitment."
+  },
+  {
+    question: "What reports can I generate from attendance data?",
+    answer: "Swimly provides session-by-session attendance reports, individual swimmer attendance rates, squad averages, and trend analysis. Committee members can use this data for AGM reports, funding applications, and understanding which sessions are over- or under-subscribed."
+  },
+  {
+    question: "Why replace paper registers with digital attendance?",
+    answer: "Paper registers get lost, damaged by pool water, and cannot be searched or analysed. Digital attendance creates a permanent, searchable record that feeds into reporting, helps coaches spot patterns (irregular attendance may indicate a safeguarding concern), and saves time on AGM admin."
+  }
+];
+---
+
+<Layout title={title} description={description} faqItems={faqItems}>
+  <script type="application/ld+json" set:html={JSON.stringify(attendanceSchema, null, 2)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+
+    <!-- Hero Section with Device Mockups -->
+    <section class="relative pt-16 pb-12 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none" aria-hidden="true"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 text-mint-ink text-sm font-medium mb-6">
+          <ClipboardCheck class="w-4 h-4" />
+          Attendance Tracking
+        </div>
+
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl text-[#0F2D2D] leading-tight mb-6">
+          Paperless poolside registers that actually work
+        </h1>
+
+        <p class="text-lg sm:text-xl text-ink-soft max-w-2xl mx-auto leading-relaxed mb-10">
+          Ditch the soggy clipboards and lost paper registers. Track attendance digitally with real-time registers that coaches can access on any device, even offline.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="https://app.swimly.uk/create-club"
+            class="inline-flex items-center gap-2.5 px-8 py-4 min-h-12 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-lg shadow-[#FF8552]/20 hover:shadow-[#FF8552]/30 hover:scale-[1.02]"
+          >
+          Start your club, free
+            <ArrowRight class="w-5 h-5" />
+          </a>
+          <span class="text-sm text-ink-mute">Works on any device, no app download needed</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- App Screenshots -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-16">
+      <div class="rounded-2xl overflow-hidden bg-surface-raised border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+        <picture>
+          <source srcset="/images/app-screenshots/sessions-mobile.png" media="(max-width: 639px)" />
+          <source srcset="/images/app-screenshots/sessions-tablet.png" media="(max-width: 1023px)" />
+          <img src="/images/app-screenshots/sessions-desktop.png" alt="Swimly session management dashboard showing weekly schedule and squad assignments" class="w-full h-auto" loading="eager" />
+        </picture>
+      </div>
+      <p class="text-center text-sm text-ink-mute mt-6">Session management on desktop, one-tap attendance on mobile poolside</p>
+    </section>
+
+    <!-- Quick Benefits Strip -->
+    <section class="bg-surface border-y border-[#39393A]/8 py-12">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mx-auto mb-3">
+              <Smartphone class="w-6 h-6 text-mint-ink" />
+            </div>
+            <div class="text-lg font-semibold text-[#0F2D2D]">Any Device</div>
+            <p class="text-sm text-ink-soft mt-1">Phone, tablet, or laptop poolside</p>
+          </div>
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mx-auto mb-3">
+              <WifiOff class="w-6 h-6 text-mint-ink" />
+            </div>
+            <div class="text-lg font-semibold text-[#0F2D2D]">Works Offline</div>
+            <p class="text-sm text-ink-soft mt-1">Syncs when connectivity returns</p>
+          </div>
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mx-auto mb-3">
+              <Zap class="w-6 h-6 text-mint-ink" />
+            </div>
+            <div class="text-lg font-semibold text-[#0F2D2D]">One-Tap Check-in</div>
+            <p class="text-sm text-ink-soft mt-1">Mark present, absent, or late instantly</p>
+          </div>
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mx-auto mb-3">
+              <Droplets class="w-6 h-6 text-mint-ink" />
+            </div>
+            <div class="text-lg font-semibold text-[#0F2D2D]">Poolside Proof</div>
+            <p class="text-sm text-ink-soft mt-1">Handles wet screens and bright sunlight</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Before/After Comparison -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] text-center mb-4">Paper registers vs Swimly</h2>
+      <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">See why clubs are ditching clipboards for digital attendance tracking.</p>
+
+      <div class="overflow-x-auto bg-surface-raised border border-[#39393A]/10 rounded-2xl">
+        <table class="w-full text-left">
+          <thead>
+            <tr class="bg-surface border-b border-[#39393A]/8">
+              <th class="py-4 px-6 text-[#0F2D2D] font-medium text-sm uppercase tracking-wider"></th>
+              <th class="py-4 px-6 text-[#0F2D2D] font-medium text-sm uppercase tracking-wider">Paper Registers</th>
+              <th class="py-4 px-6 text-mint-ink font-medium text-sm uppercase tracking-wider">Swimly Digital</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#39393A]/8">
+            <tr>
+              <td class="py-4 px-6 font-medium text-[#0F2D2D]">Poolside use</td>
+              <td class="py-4 px-6 text-ink-soft">Gets wet, ink smudges</td>
+              <td class="py-4 px-6 text-ink-soft bg-[#85FFC7]/10">Works on wet screens</td>
+            </tr>
+            <tr>
+              <td class="py-4 px-6 font-medium text-[#0F2D2D]">Data entry</td>
+              <td class="py-4 px-6 text-ink-soft">Manual, re-keyed later</td>
+              <td class="py-4 px-6 text-ink-soft bg-[#85FFC7]/10">One tap, saved instantly</td>
+            </tr>
+            <tr>
+              <td class="py-4 px-6 font-medium text-[#0F2D2D]">Reporting</td>
+              <td class="py-4 px-6 text-ink-soft">Hours in spreadsheets</td>
+              <td class="py-4 px-6 text-ink-soft bg-[#85FFC7]/10">Automatic, real-time</td>
+            </tr>
+            <tr>
+              <td class="py-4 px-6 font-medium text-[#0F2D2D]">Lost records</td>
+              <td class="py-4 px-6 text-ink-soft">Common, not recoverable</td>
+              <td class="py-4 px-6 text-ink-soft bg-[#85FFC7]/10">Cloud-backed, permanent</td>
+            </tr>
+            <tr>
+              <td class="py-4 px-6 font-medium text-[#0F2D2D]">Parent visibility</td>
+              <td class="py-4 px-6 text-ink-soft">None, have to ask coach</td>
+              <td class="py-4 px-6 text-ink-soft bg-[#85FFC7]/10">Self-service via parent portal</td>
+            </tr>
+            <tr>
+              <td class="py-4 px-6 font-medium text-[#0F2D2D]">Safeguarding</td>
+              <td class="py-4 px-6 text-ink-soft">Hard to spot patterns</td>
+              <td class="py-4 px-6 text-ink-soft bg-[#85FFC7]/10">Flags irregular attendance</td>
+            </tr>
+            <tr>
+              <td class="py-4 px-6 font-medium text-[#0F2D2D]">AGM preparation</td>
+              <td class="py-4 px-6 text-ink-soft">Days of admin</td>
+              <td class="py-4 px-6 text-ink-soft bg-[#85FFC7]/10">Export in one click</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Feature Deep Dive: Digital Registers with Screenshot -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 text-mint-ink text-xs font-medium mb-4">
+            Core Feature
+          </div>
+          <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-6">Digital poolside registers</h2>
+          <p class="text-ink-soft text-lg mb-6">
+            Pre-populated with expected swimmers for each session. Coaches simply tap to mark attendance. No typing names, no deciphering handwriting, no entering data later.
+          </p>
+          <ul class="space-y-4 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Squad lists auto-populated from your session schedule</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Mark present, absent, or late with one tap</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Works offline and syncs when back online</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Add notes for individual swimmers (injury, trial, etc.)</span>
+            </li>
+          </ul>
+        </div>
+        <div class="relative">
+          <div class="rounded-2xl overflow-hidden bg-surface-raised border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+            <picture>
+              <source srcset="/screenshots/attendance.png" type="image/png" />
+              <img
+                src="/screenshots/attendance.png"
+                alt="Swimly attendance register showing swimmer check-in with present, absent, and late status options"
+                class="w-full h-auto"
+                loading="lazy"
+              />
+            </picture>
+          </div>
+          <div class="absolute -bottom-4 -right-4 px-4 py-2 rounded-lg bg-surface-raised border border-[#297373]/30 text-sm text-mint-ink font-medium shadow-[0_8px_24px_-8px_rgba(15,45,45,0.25)] hidden sm:block">
+            One tap to mark attendance
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature Deep Dive: Session Management with Screenshot -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="order-2 lg:order-1 relative">
+          <div class="rounded-2xl overflow-hidden bg-surface-raised border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+            <picture>
+              <source srcset="/screenshots/sessions.png" type="image/png" />
+              <img
+                src="/screenshots/sessions.png"
+                alt="Swimly session management showing weekly calendar view with squad assignments and recurring session setup"
+                class="w-full h-auto"
+                loading="lazy"
+              />
+            </picture>
+          </div>
+          <div class="absolute -top-4 -left-4 px-4 py-2 rounded-lg bg-surface-raised border border-[#297373]/30 text-sm text-mint-ink font-medium shadow-[0_8px_24px_-8px_rgba(15,45,45,0.25)] hidden sm:block">
+            Weekly session overview
+          </div>
+        </div>
+        <div class="order-1 lg:order-2">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 text-mint-ink text-xs font-medium mb-4">
+            Session Management
+          </div>
+          <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-6">Organise sessions and squads</h2>
+          <p class="text-ink-soft text-lg mb-6">
+            Set up your weekly schedule once and Swimly handles the rest. Recurring sessions, squad assignments, coach allocation, and cancellation notifications all in one place.
+          </p>
+          <ul class="space-y-4 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Create recurring sessions with squad assignments</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Assign coaches to sessions automatically</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Track pool time usage across all sessions</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Notify squads of cancellations instantly</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Two-Column Feature Cards -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <Eye class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Real-Time Visibility</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Parents see attendance records in their portal</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Admins view attendance across all sessions in real-time</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Automatic absence notifications sent to parents</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Flag patterns of non-attendance for follow-up</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <BarChart class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Attendance Reporting</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>View attendance rates by squad, session, or individual</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Export attendance data for committee reports</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Historical trends showing attendance patterns</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Link attendance to billing for pay-as-you-swim models</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works - Visual Flow -->
+    <section class="bg-surface border-y border-[#39393A]/8 py-20">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] text-center mb-4">How attendance tracking works</h2>
+        <p class="text-ink-soft text-center mb-14 max-w-2xl mx-auto">From session setup to AGM-ready reports in four simple steps.</p>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div class="relative text-center">
+            <div class="w-14 h-14 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-xl mx-auto mb-4">1</div>
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Set up sessions</h3>
+            <p class="text-ink-soft text-sm">Define recurring sessions and assign squads. Registers auto-populate with expected swimmers.</p>
+            <div class="hidden lg:block absolute top-7 left-[calc(50%+28px)] w-[calc(100%-56px)] h-[2px] bg-gradient-to-r from-[#297373]/30 to-[#297373]/10"></div>
+          </div>
+          <div class="relative text-center">
+            <div class="w-14 h-14 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-xl mx-auto mb-4">2</div>
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Take attendance</h3>
+            <p class="text-ink-soft text-sm">Coaches open the register poolside and tap to mark who is present. Works offline.</p>
+            <div class="hidden lg:block absolute top-7 left-[calc(50%+28px)] w-[calc(100%-56px)] h-[2px] bg-gradient-to-r from-[#297373]/30 to-[#297373]/10"></div>
+          </div>
+          <div class="relative text-center">
+            <div class="w-14 h-14 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-xl mx-auto mb-4">3</div>
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Parents notified</h3>
+            <p class="text-ink-soft text-sm">Parents see attendance in real-time via their portal. Automatic alerts for absences.</p>
+            <div class="hidden lg:block absolute top-7 left-[calc(50%+28px)] w-[calc(100%-56px)] h-[2px] bg-gradient-to-r from-[#297373]/30 to-[#297373]/10"></div>
+          </div>
+          <div class="text-center">
+            <div class="w-14 h-14 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-xl mx-auto mb-4">4</div>
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Track trends</h3>
+            <p class="text-ink-soft text-sm">Spot at-risk swimmers, celebrate high attendance, and optimise your schedule.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Coach/Volunteer CTA Banner -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="p-8 sm:p-10 rounded-2xl bg-[#85FFC7]/15 border border-[#1F7A52]/20">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">Built for coaches and volunteers</h2>
+            <p class="text-ink-soft mb-6">
+              Swimly is designed for the people who actually stand poolside. Large tap targets for wet fingers, high-contrast interface for bright pool halls, and offline support for patchy Wi-Fi. No training needed, coaches pick it up in seconds.
+            </p>
+            <a
+              href="https://app.swimly.uk/create-club"
+              class="inline-flex items-center gap-2.5 px-6 py-3 min-h-12 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all shadow-lg shadow-[#FF8552]/20 hover:shadow-[#FF8552]/30 hover:scale-[1.02]"
+            >
+              Try it poolside
+              <ArrowRight class="w-5 h-5" />
+            </a>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="p-4 rounded-xl bg-surface-raised border border-[#39393A]/10 text-center">
+              <UserCheck class="w-7 h-7 text-mint-ink mx-auto mb-2" />
+              <div class="text-sm font-medium text-[#0F2D2D]">Coach-friendly</div>
+              <p class="text-xs text-ink-mute mt-1">Large buttons, simple interface</p>
+            </div>
+            <div class="p-4 rounded-xl bg-surface-raised border border-[#39393A]/10 text-center">
+              <WifiOff class="w-7 h-7 text-mint-ink mx-auto mb-2" />
+              <div class="text-sm font-medium text-[#0F2D2D]">Offline ready</div>
+              <p class="text-xs text-ink-mute mt-1">No Wi-Fi? No problem</p>
+            </div>
+            <div class="p-4 rounded-xl bg-surface-raised border border-[#39393A]/10 text-center">
+              <Droplets class="w-7 h-7 text-mint-ink mx-auto mb-2" />
+              <div class="text-sm font-medium text-[#0F2D2D]">Splash proof</div>
+              <p class="text-xs text-ink-mute mt-1">Works with wet hands</p>
+            </div>
+            <div class="p-4 rounded-xl bg-surface-raised border border-[#39393A]/10 text-center">
+              <Clock class="w-7 h-7 text-mint-ink mx-auto mb-2" />
+              <div class="text-sm font-medium text-[#0F2D2D]">30-second setup</div>
+              <p class="text-xs text-ink-mute mt-1">Open, tap, done</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-16 h-16 rounded-full bg-[#85FFC7]/30 flex items-center justify-center">
+            <ClipboardCheck class="w-8 h-8 text-mint-ink" />
+          </div>
+          <div>
+            <div class="font-display text-3xl text-[#0F2D2D]">Zero</div>
+            <div class="text-ink-soft">lost paper registers</div>
+          </div>
+        </div>
+        <p class="text-lg text-ink-soft italic">
+          "We used to lose registers constantly. Now attendance is tracked digitally, coaches can access it poolside on their phones, and parents can see it in real-time. Game changer."
+        </p>
+        <p class="text-sm text-ink-mute mt-3">Head Coach, Bristol Dolphins</p>
+      </div>
+    </section>
+
+    <!-- Related Features -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-2xl text-[#0F2D2D] mb-8">Related features</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a href="/features/membership/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Membership Management</h3>
+          <p class="text-ink-mute text-sm">Manage swimmer records and squad assignments</p>
+        </a>
+        <a href="/features/parent-portal/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Parent Portal</h3>
+          <p class="text-ink-mute text-sm">Parents view attendance history</p>
+        </a>
+        <a href="/features/mobile/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Mobile Access</h3>
+          <p class="text-ink-mute text-sm">Take registers on any device, works offline</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Go paperless poolside</h2>
+      <p class="text-xl text-ink-soft mb-8">Create your club today. Free for clubs under 50 members, no card required.</p>
+      <a
+        href="https://app.swimly.uk/create-club"
+        class="inline-flex items-center gap-2.5 px-8 py-4 min-h-12 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-lg shadow-[#FF8552]/20 hover:shadow-[#FF8552]/30 hover:scale-[1.02]"
+      >
+          Start your club, free
+        <ArrowRight class="w-5 h-5" />
+      </a>
+      <p class="mt-6 text-sm text-ink-mute">Free for clubs with fewer than 50 members. No credit card required.</p>
+    </section>
+  </main>
+  <Footer />
+</Layout>

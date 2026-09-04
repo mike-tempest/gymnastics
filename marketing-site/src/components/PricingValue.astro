@@ -1,0 +1,133 @@
+---
+// Treasurer value proposition section
+//
+// Region-aware: the UK keeps its verified, specific examples (minimum wage,
+// GoCardless fees, UK hosting) rendered as the original literal copy so the
+// live swimly.uk page is byte-for-byte unchanged. International regions show
+// neutral equivalents because we cannot yet verify foreign wage rates or
+// processor fees. Non-UK prices are PROVISIONAL and come from
+// src/config/regions.ts.
+import {
+  regionFromPath,
+  formatPrice,
+  REGIONS,
+  type RegionKey,
+} from "../config/regions";
+
+interface Props {
+  region?: RegionKey;
+}
+
+const { region = regionFromPath(Astro.url.pathname) } = Astro.props;
+const cfg = REGIONS[region];
+const isUK = region === "uk";
+
+const monthly = formatPrice(region, cfg.pricePrimary);
+const annual = formatPrice(region, cfg.pricePrimary * 12);
+const zero = formatPrice(region, 0);
+---
+
+<section class="py-16 sm:py-24 bg-surface border-y border-[#39393A]/8">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <p class="eyebrow reveal">For the treasurer</p>
+      {isUK ? (
+        <h2 class="reveal font-display text-3xl sm:text-4xl text-[#0F2D2D] mt-5 mb-4">
+          £29 a month, hours back every week
+        </h2>
+      ) : (
+        <h2 class="reveal font-display text-3xl sm:text-4xl text-[#0F2D2D] mt-5 mb-4">{monthly} a month, hours back every week</h2>
+      )}
+      <p class="reveal text-ink-soft text-lg max-w-2xl mx-auto">
+        Less than the cost of one swim cap per member per year, but it gives your treasurer back around 8 hours a month.
+      </p>
+    </div>
+
+    <div class="reveal grid sm:grid-cols-3 gap-8 mb-12">
+      <div class="text-center">
+        <div class="font-display text-4xl text-[#0F2D2D] mb-2">8 hours</div>
+        <div class="text-sm text-ink-mute">saved monthly on payment chasing and reconciliation</div>
+      </div>
+      <div class="text-center">
+        {isUK ? (
+          <div class="font-display text-4xl text-[#0F2D2D] mb-2">£0</div>
+        ) : (
+          <div class="font-display text-4xl text-[#0F2D2D] mb-2">{zero}</div>
+        )}
+        <div class="text-sm text-ink-mute">hidden charges, just a flat monthly fee regardless of member count</div>
+      </div>
+      <div class="text-center">
+        <div class="font-display text-4xl text-[#0F2D2D] mb-2">95%</div>
+        {isUK ? (
+          <div class="text-sm text-ink-mute">automated collection rate with Direct Debit via GoCardless</div>
+        ) : (
+          <div class="text-sm text-ink-mute">automated collection rate with card and bank payments</div>
+        )}
+      </div>
+    </div>
+
+    <div class="reveal bg-surface-raised border border-[#39393A]/10 rounded-[20px] p-8 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+      <h3 class="font-display text-2xl text-[#0F2D2D] mb-6">Common questions from treasurers</h3>
+
+      <div class="space-y-6">
+        <div>
+          <h4 class="font-semibold text-mint-ink mb-2">Can we afford this on our committee budget?</h4>
+          {isUK ? (
+            <p class="text-ink-mute text-sm leading-relaxed">
+              £29/month (£348/year) works out to less than one swim cap per member annually for a 50-member club. If it saves your treasurer 8 hours a month at minimum wage (£11.44/hr), that's £91.52 worth of volunteer time saved, every month. The return on investment is clear.
+            </p>
+          ) : (
+            <p class="text-ink-mute text-sm leading-relaxed">{monthly}/month ({annual}/year) works out to less than one swim cap per member annually for a 50-member club. If it saves your treasurer around 8 hours a month, that is a clear return on the volunteer time it gives back, every month.</p>
+          )}
+        </div>
+
+        <div>
+          {isUK ? (
+            <h4 class="font-semibold text-mint-ink mb-2">What about GoCardless fees?</h4>
+          ) : (
+            <h4 class="font-semibold text-mint-ink mb-2">What about payment fees?</h4>
+          )}
+          {isUK ? (
+            <p class="text-ink-mute text-sm leading-relaxed">
+              GoCardless charges 1% + 20p per transaction (capped at £2). For a £50 monthly subscription, that's 70p. No monthly fees, no setup costs, no minimums. Significantly cheaper than card payments (2-3%) and far more reliable than standing orders.
+            </p>
+          ) : (
+            <p class="text-ink-mute text-sm leading-relaxed">We support card and bank payments through trusted, regulated providers. There are no monthly fees, no setup costs and no minimums from Swimly. Per-transaction processing fees depend on your local payment provider.</p>
+          )}
+        </div>
+
+        <div>
+          <h4 class="font-semibold text-mint-ink mb-2">What if we need to cancel?</h4>
+          <p class="text-ink-mute text-sm leading-relaxed">
+            No lock-in contracts. Cancel any time with one month's notice. Your data remains accessible for 90 days after cancellation, giving you plenty of time to export everything if needed. No exit fees.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-semibold text-mint-ink mb-2">What about committee handovers?</h4>
+          <p class="text-ink-mute text-sm leading-relaxed">
+            Role-based access means new treasurers can be productive from day one. Complete audit trail of all financial activity. No spreadsheets to hand over, no knowledge lost. Everything documented and accessible.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-semibold text-mint-ink mb-2">Is our club data secure?</h4>
+          {isUK ? (
+            <p class="text-ink-mute text-sm leading-relaxed">
+              UK-hosted, GDPR-compliant, encrypted at rest and in transit. Regular backups. SOC 2 Type II certified infrastructure (Railway). Bank-level security for payment data via GoCardless (FCA regulated).
+            </p>
+          ) : (
+            <p class="text-ink-mute text-sm leading-relaxed">GDPR-compliant, encrypted at rest and in transit. Regular backups. SOC 2 Type II certified infrastructure (Railway). Bank-level security for payment data via regulated payment providers.</p>
+          )}
+        </div>
+      </div>
+    </div>
+
+    <p class="reveal mt-8 text-center text-ink-soft">
+      Taking this to your committee?
+      <a href="/downloads/treasurer-one-pager.html" class="text-mint-ink hover:text-[#0F2D2D] font-medium underline underline-offset-2 transition-colors">
+        Print the one-page treasurer summary
+      </a>
+    </p>
+  </div>
+</section>

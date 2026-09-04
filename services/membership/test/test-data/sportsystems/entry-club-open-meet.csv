@@ -1,0 +1,7 @@
+ClubCode,ClubName,SwimmerSENumber,LastName,FirstName,Gender,DOB,Event,Distance,Stroke,EntryTime
+RTWM,RTW Monson SC,1234567,Tempest,Kassidy,F,15/09/2015,50 Free,50,Free,1:05.23
+RTWM,RTW Monson SC,1234567,Tempest,Kassidy,F,15/09/2015,100 Free,100,Free,1:14.50
+RTWM,RTW Monson SC,1234568,Johnson,Emma,F,10/02/2014,50 Free,50,Free,1:02.30
+RTWM,RTW Monson SC,1234568,Johnson,Emma,F,10/02/2014,100 Back,100,Backstroke,1:04.50
+RTWM,RTW Monson SC,1234569,Williams,Oliver,M,25/06/2013,50 Free,50,Free,0:45.80
+RTWM,RTW Monson SC,1234569,Williams,Oliver,M,25/06/2013,200 Breast,200,Breaststroke,1:23.40

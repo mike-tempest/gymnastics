@@ -1,0 +1,310 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { Mail, Send, Shield, Clock, Users, MessageSquare, CheckCircle, Phone, MapPin } from "@lucide/astro";
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Contact",
+      "item": "https://swimly.uk/contact/"
+    }
+  ]
+};
+---
+
+<Layout
+  title="Contact Us | Swimly"
+  description="Get in touch with the Swimly team. Whether you are interested in the founding clubs programme or just want to learn more about swim club management software, we would love to hear from you."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <Nav />
+  <main>
+    <!-- Hero -->
+    <section class="relative pt-32 pb-16 sm:pt-40 sm:pb-20 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none" aria-hidden="true"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 text-mint-ink text-sm font-medium mb-8">
+          <MessageSquare class="w-4 h-4" />
+          Get in touch
+        </div>
+
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl leading-tight text-[#0F2D2D]">
+          Let's talk about <em>your club</em>
+        </h1>
+
+        <p class="mt-6 text-lg sm:text-xl text-ink-soft max-w-2xl mx-auto leading-relaxed">
+          No hard sell. No lengthy demos unless you want one. Just a conversation
+          about whether Swimly is right for your club.
+        </p>
+      </div>
+    </section>
+
+    <!-- Main Content: Form + Sidebar -->
+    <section class="py-12 sm:py-16">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-5 gap-10 lg:gap-14">
+
+          <!-- Contact Form (3 cols) -->
+          <div class="lg:col-span-3">
+            <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 sm:p-8">
+              <h2 class="font-display text-xl text-[#0F2D2D] mb-6">Send us a message</h2>
+              <form
+                action="https://formsubmit.co/e09188e892049038dc7e7707b9c96b2f"
+                method="POST"
+                class="space-y-5"
+              >
+                <!-- FormSubmit config -->
+                <input type="hidden" name="_subject" value="New Swimly contact form enquiry" />
+                <input type="hidden" name="_captcha" value="true" />
+                <input type="hidden" name="_next" value="https://swimly.uk/contact/?sent=true" />
+                <input type="text" name="_honey" style="display:none" />
+
+                <div class="grid sm:grid-cols-2 gap-5">
+                  <div>
+                    <label for="name" class="block text-sm font-medium text-ink mb-2">
+                      Name <span class="text-mint-ink">*</span>
+                    </label>
+                    <input
+                      id="name"
+                      name="name"
+                      type="text"
+                      required
+                      autocomplete="name"
+                      placeholder="Your name"
+                      class="w-full px-4 py-3.5 rounded-lg bg-surface-raised border border-[#39393A]/15 text-ink placeholder-ink-faint focus:outline-none focus:border-[#297373] focus:ring-1 focus:ring-[#297373] transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label for="email" class="block text-sm font-medium text-ink mb-2">
+                      Email <span class="text-mint-ink">*</span>
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      autocomplete="email"
+                      placeholder="you@yourclub.org.uk"
+                      class="w-full px-4 py-3.5 rounded-lg bg-surface-raised border border-[#39393A]/15 text-ink placeholder-ink-faint focus:outline-none focus:border-[#297373] focus:ring-1 focus:ring-[#297373] transition-colors"
+                    />
+                  </div>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-5">
+                  <div>
+                    <label for="club" class="block text-sm font-medium text-ink mb-2">
+                      Club name <span class="text-ink-faint text-xs font-normal">(optional)</span>
+                    </label>
+                    <input
+                      id="club"
+                      name="club"
+                      type="text"
+                      placeholder="Your swimming club"
+                      class="w-full px-4 py-3.5 rounded-lg bg-surface-raised border border-[#39393A]/15 text-ink placeholder-ink-faint focus:outline-none focus:border-[#297373] focus:ring-1 focus:ring-[#297373] transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label for="role" class="block text-sm font-medium text-ink mb-2">
+                      Your role <span class="text-ink-faint text-xs font-normal">(optional)</span>
+                    </label>
+                    <select
+                      id="role"
+                      name="role"
+                      class="w-full px-4 py-3.5 rounded-lg bg-surface-raised border border-[#39393A]/15 text-ink focus:outline-none focus:border-[#297373] focus:ring-1 focus:ring-[#297373] transition-colors appearance-none"
+                      style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23999999' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E&quot;); background-repeat: no-repeat; background-position: right 1rem center;"
+                    >
+                      <option value="">Select your role</option>
+                      <option value="treasurer">Treasurer</option>
+                      <option value="membership-secretary">Membership Secretary</option>
+                      <option value="chair">Chair / Chairperson</option>
+                      <option value="coach">Head Coach</option>
+                      <option value="committee-member">Committee Member</option>
+                      <option value="parent">Parent / Guardian</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label for="interest" class="block text-sm font-medium text-ink mb-2">
+                    What are you interested in?
+                  </label>
+                  <select
+                    id="interest"
+                    name="interest"
+                    class="w-full px-4 py-3.5 rounded-lg bg-surface-raised border border-[#39393A]/15 text-ink focus:outline-none focus:border-[#297373] focus:ring-1 focus:ring-[#297373] transition-colors appearance-none"
+                    style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23999999' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E&quot;); background-repeat: no-repeat; background-position: right 1rem center;"
+                  >
+                    <option value="pilot">Joining the founding clubs programme</option>
+                    <option value="demo">Seeing a demo</option>
+                    <option value="pricing">Pricing question</option>
+                    <option value="general">General enquiry</option>
+                    <option value="partnership">Partnership opportunity</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="message" class="block text-sm font-medium text-ink mb-2">
+                    Message <span class="text-mint-ink">*</span>
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows="4"
+                    placeholder="Tell us about your club, how you currently manage things, or what questions you have..."
+                    class="w-full px-4 py-3.5 rounded-lg bg-surface-raised border border-[#39393A]/15 text-ink placeholder-ink-faint focus:outline-none focus:border-[#297373] focus:ring-1 focus:ring-[#297373] transition-colors resize-y"
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  class="inline-flex items-center justify-center gap-2 min-h-12 px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] font-semibold hover:bg-lime-cta-hover transition-all text-lg shadow-[0_8px_24px_-8px_rgba(255,133,82,0.5)] hover:scale-[1.02] w-full sm:w-auto"
+                >
+                  <Send class="w-5 h-5" />
+                  Send Message
+                </button>
+
+                <p class="text-xs text-ink-mute">
+                  We respond to every message within two working days. Usually sooner.
+                </p>
+                <p class="text-xs text-ink-mute">
+                  We use your details only to reply to your enquiry. See our <a href="/privacy/" class="text-mint-ink hover:text-[#0F2D2D] underline underline-offset-2">privacy policy</a>.
+                </p>
+              </form>
+            </div>
+          </div>
+
+          <!-- Sidebar (2 cols) -->
+          <div class="lg:col-span-2 space-y-6">
+
+            <!-- Direct contact card -->
+            <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-4">Prefer email?</h3>
+              <a
+                href="mailto:hello@swimly.uk"
+                class="inline-flex items-center gap-2.5 text-mint-ink hover:text-[#0F2D2D] transition-colors font-medium"
+              >
+                <Mail class="w-5 h-5" />
+                hello@swimly.uk
+              </a>
+            </div>
+
+            <!-- What to expect card -->
+            <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-4">What happens next</h3>
+              <ul class="space-y-4">
+                <li class="flex items-start gap-3">
+                  <div class="flex items-center justify-center w-7 h-7 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 shrink-0 mt-0.5">
+                    <span class="text-xs font-bold text-mint-ink">1</span>
+                  </div>
+                  <div>
+                    <p class="text-sm text-ink font-medium">We reply within 2 days</p>
+                    <p class="text-xs text-ink-mute mt-0.5">Usually much sooner. No bots, no templates.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-3">
+                  <div class="flex items-center justify-center w-7 h-7 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 shrink-0 mt-0.5">
+                    <span class="text-xs font-bold text-mint-ink">2</span>
+                  </div>
+                  <div>
+                    <p class="text-sm text-ink font-medium">Quick chat about your club</p>
+                    <p class="text-xs text-ink-mute mt-0.5">15 minutes over Zoom or phone. We listen first.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-3">
+                  <div class="flex items-center justify-center w-7 h-7 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 shrink-0 mt-0.5">
+                    <span class="text-xs font-bold text-mint-ink">3</span>
+                  </div>
+                  <div>
+                    <p class="text-sm text-ink font-medium">See Swimly in action</p>
+                    <p class="text-xs text-ink-mute mt-0.5">A walkthrough tailored to your club's setup.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Trust signals card -->
+            <div class="bg-surface-raised rounded-2xl border border-[#297373]/30 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-4">Why clubs trust Swimly</h3>
+              <ul class="space-y-3">
+                <li class="flex items-start gap-2.5 text-sm text-ink-soft">
+                  <Shield class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" />
+                  <span>UK-hosted, GDPR compliant, Wavepower-aligned</span>
+                </li>
+                <li class="flex items-start gap-2.5 text-sm text-ink-soft">
+                  <Users class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" />
+                  <span>Built by a swim parent and club volunteer</span>
+                </li>
+                <li class="flex items-start gap-2.5 text-sm text-ink-soft">
+                  <Clock class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" />
+                  <span>6 months free on any plan for founding clubs, no strings</span>
+                </li>
+                <li class="flex items-start gap-2.5 text-sm text-ink-soft">
+                  <CheckCircle class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" />
+                  <span>No lock-in contracts, cancel any time</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Pilot programme nudge -->
+            <div class="bg-[#85FFC7]/15 rounded-2xl border border-[#1F7A52]/20 p-6">
+              <p class="text-[#0F2D2D] font-semibold mb-2">Looking for the founding clubs programme?</p>
+              <p class="text-sm text-ink-soft mb-4">
+                Learn more about what founding clubs receive, including 6 months free on any plan
+                and white-glove data migration.
+              </p>
+              <a
+                href="/founding-clubs/"
+                class="inline-flex items-center gap-1.5 text-sm font-medium text-mint-ink hover:text-[#0F2D2D] transition-colors"
+              >
+                View founding club details
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Success message (shown via URL param) -->
+    <section id="success-message" class="hidden py-12">
+      <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-[#85FFC7]/15 border border-[#1F7A52]/20 rounded-2xl p-8 text-center">
+          <CheckCircle class="w-12 h-12 text-mint-ink mx-auto mb-4" />
+          <h2 class="font-display text-2xl text-[#0F2D2D] mb-2">Message sent</h2>
+          <p class="text-ink-soft">
+            Thank you for getting in touch. We will reply within two working days.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+
+  <script>
+    // Show success message if redirected from form submission
+    if (window.location.search.includes('sent=true')) {
+      const msg = document.getElementById('success-message');
+      if (msg) {
+        msg.classList.remove('hidden');
+        msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  </script>
+</Layout>

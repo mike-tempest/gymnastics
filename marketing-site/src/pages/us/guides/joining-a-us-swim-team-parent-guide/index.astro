@@ -1,0 +1,342 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+
+// Region-only page on swimly.club. Self-canonical: no cross-region hreflang.
+// US English, USD, USA Swimming, "swim team".
+const SITE = "https://swimly.club";
+const PATH = "/us/guides/joining-a-us-swim-team-parent-guide/";
+const canonical = `${SITE}${PATH}`;
+const appUrl = "https://app.swimly.uk/create-club";
+const contactEmail = "hello@swimly.club";
+
+const title = "Joining a US Swim Team: A Parent's Guide | Swimly";
+const description =
+  "New to swimming? A practical, reassuring guide for parents on how US swim teams work: finding a team, tryouts and practice groups, USA Swimming registration, the season and meets, costs to budget for, and gear basics.";
+
+const faqItems = [
+  {
+    question: "How does my child join a US swim team?",
+    answer:
+      "Find a local team, attend a tryout or evaluation so coaches can place your child in the right practice group, then complete the team's registration. Most competitive teams are members of USA Swimming, so part of joining is registering your child as a USA Swimming athlete member through the link your club provides. From there your child trains with their group and, when ready, starts entering meets.",
+  },
+  {
+    question: "What age can kids start competitive swimming?",
+    answer:
+      "Many teams welcome swimmers from around age five or six once a child can safely swim a length on their own, though the exact starting age varies by team. USA Swimming groups competition by age, so younger swimmers race against children their own age. The best first step is to ask local teams what their youngest practice group looks like and whether your child is ready.",
+  },
+  {
+    question: "Do you have to register with USA Swimming to compete?",
+    answer:
+      "To swim in most sanctioned competitions, yes. When your child joins, they become a member of USA Swimming, your Local Swimming Committee, and your club at the same time. Your team sends a unique registration link to complete this online. USA Swimming offers an introductory membership option for swimmers 12 and under that includes a limited number of sanctioned competitions. Check current details on the USA Swimming website.",
+  },
+  {
+    question: "How much does it cost to join a swim team?",
+    answer:
+      "Costs vary widely by team and region. Plan to budget for monthly or seasonal team dues, an annual USA Swimming membership fee, meet entry fees per event, and basic gear such as a suit, cap, and goggles. Ask each team for a clear breakdown before you commit, and ask whether financial assistance is available, as many teams offer it.",
+  },
+  {
+    question: "What gear does a beginner swimmer need?",
+    answer:
+      "To start, your child needs a practice swimsuit, a swim cap, and a pair of goggles that fit well. A mesh bag, a towel, and a water bottle round out the basics. Equipment such as fins, kickboards, and pull buoys is often provided at practice or added later, so there is no need to buy everything on day one.",
+  },
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/us/` },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/us/guides/` },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Joining a US Swim Team: A Parent's Guide",
+      item: canonical,
+    },
+  ],
+};
+
+const steps = [
+  {
+    heading: "1. Find a team near you",
+    body:
+      "Start by looking for teams within a reasonable drive of home, since you will be making the trip several times a week. USA Swimming offers a Find a Team tool on its website, and a quick search for your town plus swim team usually surfaces the local options. Look for a team whose schedule, location, and group structure fit your family.",
+  },
+  {
+    heading: "2. Go to a tryout or evaluation",
+    body:
+      "Most teams ask new swimmers to attend a short tryout or evaluation. This is not pass or fail in the way it sounds. Coaches simply watch your child swim so they can place them in a practice group with swimmers of similar age and ability. It is also your chance to meet the coaches and see how practice feels.",
+  },
+  {
+    heading: "3. Get placed in a practice group",
+    body:
+      "Teams organize swimmers into practice groups, often by age and skill, from beginner or developmental groups up to senior groups. Each group has its own practice times, coaches, and goals. Your child can move up as they progress, so the first placement is a starting point, not a ceiling.",
+  },
+  {
+    heading: "4. Register, including with USA Swimming",
+    body:
+      "Once your child has a spot, you complete the team's registration. For most competitive teams this includes registering your child as a USA Swimming athlete member through a unique link the club provides. This single step makes your child a member of USA Swimming, your Local Swimming Committee, and your club.",
+  },
+  {
+    heading: "5. Start training and, when ready, racing",
+    body:
+      "After registration your child trains with their group on the team's schedule. When the coach feels they are ready, they will start entering meets. There is no rush. Early racing is about learning how meets work and building confidence, not chasing fast times.",
+  },
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonical={canonical}
+  imageUrl={`${SITE}/og-image.png`}
+  faqItems={faqItems}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+
+  <header class="border-b border-hairline bg-canvas/85 backdrop-blur-xl">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-[68px]">
+        <a href="/us/" class="font-display text-[26px] text-[#0F2D2D] tracking-tight leading-none">Swimly</a>
+        <a
+          href={appUrl}
+          class="text-[15px] font-bold px-5 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-colors min-h-12 inline-flex items-center shadow-[0_1px_3px_rgba(57,57,58,0.16)]"
+        >
+          Start your team
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pb-16">
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section class="py-12">
+        <p class="eyebrow mb-3">US Guide</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          Joining a US Swim Team: A Parent's Guide
+        </h1>
+        <p class="text-xl text-ink-soft leading-relaxed">
+          To join a US swim team, find a local team, attend a tryout or evaluation so coaches can place your
+          child in the right practice group, and complete registration, which for most competitive teams
+          includes signing your child up as a USA Swimming athlete member through a link your club provides.
+          From there your child trains with their group and, when the coach feels they are ready, starts
+          entering meets. If you are completely new to the sport, this guide walks through how it all works,
+          step by step, so you know what to expect and what to budget for.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How US swim teams work</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Most year-round competitive swimming in the United States happens through club teams that are members
+          of USA Swimming, the national governing body for the sport. A club team trains together through the
+          year and competes at meets, which are the swimming equivalent of a game day. This is different from
+          a summer recreation league or a high school season, though many swimmers do all three at different
+          times of year.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Swimming is organized by age. USA Swimming groups athletes into age brackets so that, for example, a
+          nine year old races other nine and ten year olds rather than teenagers. This age-group structure is
+          one of the things that makes the sport welcoming for beginners: your child competes against peers,
+          and progress is measured against their own times as much as against the field.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Within a club, swimmers are sorted into practice groups, usually by age and ability. A young beginner
+          might join a developmental group that focuses on stroke technique and having fun in the water, while
+          older or more experienced swimmers train in groups with longer, more demanding practices. Coaches move
+          swimmers between groups as they grow and improve.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Joining a team, step by step</h2>
+        <div class="space-y-6">
+          {steps.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-ink-soft leading-relaxed mt-6">
+          You can also browse the
+          <a href="/us/clubs/" class="text-mint-ink font-semibold hover:underline">Swimly directory
+          of swim teams and swim schools across the US</a>, including a
+          <a href="/us/clubs/map/" class="text-mint-ink font-semibold hover:underline">map view</a>
+          to see what is near you.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Tryouts, evaluations, and practice groups</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The word tryout can sound intimidating, but for most teams it is really an evaluation. A coach watches
+          your child swim a length or two, looks at their comfort in the water and their stroke basics, and uses
+          that to recommend a practice group. Very few teams turn away a beginner who can swim safely; the goal
+          is placement, not rejection.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Once placed, your child practices with their group on a set schedule. Beginner groups often train a
+          couple of times a week for shorter sessions, while senior groups may practice most days, sometimes
+          including mornings. Ask each team how often each group trains so you can picture the week realistically
+          before committing.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Practice groups are not permanent. As your child builds endurance and technique, the coach will move
+          them into a more advanced group. This steady, age-appropriate progression is a core part of how the
+          sport develops swimmers over the long term.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">USA Swimming registration</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          To compete in most sanctioned meets, your child needs to be a registered USA Swimming athlete member.
+          You usually do not register directly with the national body. Instead, your club sends you a unique
+          registration link, and completing it makes your child a member of three organizations at once: USA
+          Swimming, your Local Swimming Committee, and your club. The Local Swimming Committee, often shortened
+          to LSC, is the regional body that runs swimming in your area.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          USA Swimming offers more than one type of athlete membership. There is an introductory option aimed at
+          swimmers 12 and under that is geared toward practice and participation and includes a limited number of
+          sanctioned competitions per membership year, which can be a good fit for a child just starting out. Fees
+          and membership types can change from year to year, so confirm the current options and pricing on the
+          official site and ask your team's registrar if anything is unclear.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          For the authoritative details on athlete membership and registration, see the
+          <a
+            href="https://www.usaswimming.org/home/membership/athlete-membership"
+            class="text-mint-ink font-semibold hover:underline"
+            rel="noopener"
+            target="_blank"
+          >USA Swimming athlete membership page</a>.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">The season and how meets work</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          A swim season is the stretch of the year your child trains toward a set of goal meets. Many club teams
+          run a short course season in the fall and winter, raced in a 25 yard pool, and a long course season in
+          the spring and summer, raced in a 50 meter pool. Your team will share its own calendar with practice
+          schedules and the meets it plans to attend.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          A meet is a competition where swimmers race individual events by stroke and distance, plus relays. At
+          your child's first meets, expect a full but friendly day: swimmers check in, warm up together, then
+          race their events, which may be spread across several hours. Times are recorded, and over a season your
+          child can watch their own times improve, which is one of the most motivating parts of the sport.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Not every swimmer attends every meet, especially early on. Coaches guide families on which meets suit a
+          swimmer's level. For a beginner, the first meets are about learning the routine, understanding the
+          events, and building confidence, not about results. For a full walkthrough of a meet day, from reading
+          the heat sheet to what to pack, see our
+          <a href="/us/guides/how-swim-meets-work-parent-guide/" class="text-mint-ink font-semibold hover:underline">guide to how swim meets work</a>.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Costs to budget for</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Costs vary a lot between teams and regions, so treat the items below as a checklist to ask about rather
+          than fixed numbers. The main things to plan for are:
+        </p>
+        <ul class="space-y-3 text-lg text-ink-soft leading-relaxed list-disc pl-6 mb-4">
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Team dues.</span> Most teams charge monthly or seasonal dues
+            that cover coaching and pool time. The amount usually depends on which practice group your child is in.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">USA Swimming membership.</span> An annual membership fee, paid
+            when you register, which combines national and Local Swimming Committee fees.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Meet entry fees.</span> Most meets charge a fee per event
+            entered, so the cost depends on how many races your child swims.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Gear.</span> A practice suit, cap, and goggles to start, with
+            occasional replacements as your child grows or wears them out.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Travel.</span> Fuel, and sometimes meals or a hotel, for meets
+            that are farther from home.
+          </li>
+        </ul>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Ask each team for a written breakdown of dues and typical extra costs before you sign up. It is also worth
+          asking whether the team offers financial assistance, since many teams have programs to help families take
+          part.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Gear basics for beginners</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          You do not need much to start. A well-fitting practice swimsuit, a swim cap, and a pair of goggles that
+          seal comfortably will get your child through their first practices. Bring a towel, a water bottle, and a
+          bag to carry it all, and a pair of flip-flops for the pool deck.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Training equipment such as kickboards, pull buoys, and fins is often provided at the pool or added later
+          once your child settles in. There is no need to buy specialist racing suits or extra gear on day one. Your
+          team or coach can tell you if anything specific is expected for their group.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Settling in: what to expect</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The first few weeks are an adjustment for the whole family. New routines, early mornings for some groups,
+          and the rhythm of practices and meets all take a little getting used to. Lean on your team. Coaches and
+          other parents have been through it and are usually glad to help a newcomer find their feet.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Above all, keep it positive and let your child set the pace. Swimming rewards consistency over time, and
+          the children who stay in the sport are usually the ones who enjoy it. Celebrate small wins, trust the
+          coaches to handle technique and training, and let your child grow into the team.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Frequently asked questions</h2>
+        <div class="space-y-6">
+          {faqItems.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.question}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">For team organizers</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          If you help run a swim team, the same registration, dues, and communication that parents experience are
+          yours to manage behind the scenes. Swimly brings online registration, billing in USD, attendance, group
+          management, and parent communication into one calm platform, so the people who run the team can spend less
+          time on admin and more time on the swimmers.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          See what Swimly can do on the
+          <a href="/us/features/" class="text-mint-ink font-semibold hover:underline">features page</a>, or compare
+          plans on the
+          <a href="/us/pricing/" class="text-mint-ink font-semibold hover:underline">pricing page</a>. Questions? Email
+          us at
+          <a href={`mailto:${contactEmail}`} class="text-mint-ink font-semibold hover:underline">{contactEmail}</a>.
+        </p>
+      </section>
+    </article>
+  </main>
+
+  <footer class="border-t border-hairline">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-ink-mute">&copy; {new Date().getFullYear()} Swimly</p>
+      <a href={`mailto:${contactEmail}`} class="text-sm text-ink-mute hover:text-[#0F2D2D] transition-colors">{contactEmail}</a>
+    </div>
+  </footer>
+</Layout>

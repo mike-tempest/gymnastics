@@ -1,0 +1,447 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+
+// Region-only page on swimly.club. Self-canonical: no cross-region hreflang.
+// US English, USD, USA Swimming, "swim team", "swim meet". Canonical, host and
+// lang are derived from the path by the Layout via src/config/regions.ts. Do
+// not hardcode them here.
+const SITE = "https://swimly.club";
+const PATH = "/us/guides/how-swim-meets-work-parent-guide/";
+const canonical = `${SITE}${PATH}`;
+const appUrl = "https://app.swimly.uk/create-club";
+const contactEmail = "hello@swimly.club";
+
+const title = "How Swim Meets Work: A Parent's Guide for US Teams | Swimly";
+const description =
+  "How a US swim meet works, from events, heats and lanes to heat sheets, seeding, officials and timing. A plain-English guide to your child's first meet.";
+
+const faqItems = [
+  {
+    question: "How does a swim meet work?",
+    answer:
+      "A swim meet is a competition made up of individual events and relays, each defined by a stroke, distance and age group. Every event is split into heats, and each heat sends a group of swimmers racing at the same time, one per lane. Swimmers are placed in heats and lanes by their seed time, their fastest recorded time for that event. Officials start each race and judge that the strokes and turns are legal, times are recorded, and results are posted event by event.",
+  },
+  {
+    question: "What is a heat sheet?",
+    answer:
+      "A heat sheet, sometimes called the meet program, lists every event at the meet in order, broken down into heats and lanes, with each swimmer's name and seed time. You use it to find when and where your child swims: their event number, heat number and lane. A psych sheet is a related document that ranks all entered swimmers in each event by seed time before they are assigned to heats.",
+  },
+  {
+    question: "How long does a swim meet last?",
+    answer:
+      "It varies a lot. A small dual meet between two teams may run two to three hours, while a weekend invitational is often split into multiple sessions across two or three days, with each session lasting around four hours. Your team publishes a schedule, but start and end times are estimates, so plan for a long day and bring plenty to keep your child comfortable between races.",
+  },
+  {
+    question: "What should my child bring to their first swim meet?",
+    answer:
+      "Pack two swimsuits, two caps and two pairs of goggles in case one breaks, plus several towels, warm clothes for between races, water and healthy snacks, flip-flops for the pool deck, and something quiet to do during the long gaps. A permanent marker to write event, heat and lane numbers on their arm is a common trick. Check whether your team sits together in a designated area so you know where to set up.",
+  },
+  {
+    question: "What does a disqualification (DQ) mean at a swim meet?",
+    answer:
+      "A disqualification, or DQ, means an official judged that a swimmer broke a stroke, turn, start or relay rule, such as an illegal kick in breaststroke or leaving the block early. The swim does not count toward results or times for that race. DQs are a normal part of learning the sport, especially for beginners, and coaches use them to help swimmers correct technique. USA Swimming publishes the stroke rules officials apply.",
+  },
+  {
+    question: "How can parents help at a swim meet?",
+    answer:
+      "Most meets run on volunteers, and the most common job for parents is timing: sitting behind a lane with a stopwatch to record each swimmer's time as a backup to the automatic system. Teams also need volunteers for the clerk of course, runners, hospitality and setup. Timing is a great first role because you get a front-row view of the racing and full training on the day, and it usually only takes one session of your time.",
+  },
+];
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "How Swim Meets Work: A Parent's Guide for US Teams",
+  description: description,
+  url: canonical,
+  author: { "@type": "Organization", name: "Swimly" },
+  publisher: {
+    "@type": "Organization",
+    name: "Swimly",
+    logo: { "@type": "ImageObject", url: `${SITE}/swimly-logo.svg` },
+  },
+  mainEntityOfPage: canonical,
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/us/` },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/us/guides/` },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "How Swim Meets Work",
+      item: canonical,
+    },
+  ],
+};
+
+const timeline = [
+  {
+    heading: "Before the meet: entries and the heat sheet",
+    body:
+      "Your coach decides which events suit your swimmer and submits entries through the team, usually a few weeks ahead. Close to the meet, a heat sheet is published listing every event, heat and lane. Find your child's events and note the event number, heat and lane for each.",
+  },
+  {
+    heading: "Warm-up",
+    body:
+      "Every session opens with a warm-up, where teams share the pool on a published schedule. There are strict safety rules: swimmers enter feet first, swim in one direction, and only dive from the blocks in designated sprint lanes. Get there in time for your team's warm-up slot.",
+  },
+  {
+    heading: "The events begin",
+    body:
+      "Racing runs in event order, event 1, event 2 and so on, each split into heats. Younger and slower heats often swim first. Between the warm-up ending and the first race, your child checks in with their coach and waits with the team until their event is called.",
+  },
+  {
+    heading: "Getting to the blocks",
+    body:
+      "At many meets for younger swimmers, a clerk of course or bullpen gathers children a few events early and walks them to the blocks in the right heat and lane. At others, swimmers are trusted to get themselves there. This is why writing events on an arm helps.",
+  },
+  {
+    heading: "The race",
+    body:
+      "Swimmers step up when the previous heat clears, the starter calls them to take their mark, and the race begins with a horn or beep. A single event can take anywhere from under a minute to several minutes depending on the distance.",
+  },
+  {
+    heading: "Results and the rest of the day",
+    body:
+      "Times and places are posted after each event, often on a wall or screen. Your child then rejoins the team and waits for their next event. Expect long gaps between races, which is why the day feels long even though each swim is short.",
+  },
+];
+
+const officials = [
+  {
+    heading: "Referee",
+    body:
+      "The referee oversees the whole meet, has final authority on the deck, and makes sure it runs safely and to the rules. Other officials report to the referee.",
+  },
+  {
+    heading: "Starter",
+    body:
+      "The starter brings each heat to the blocks, calls swimmers to take their mark, and starts the race with a consistent signal so every heat begins fairly.",
+  },
+  {
+    heading: "Stroke and turn judges",
+    body:
+      "These officials walk the deck watching that strokes, turns, starts and finishes are legal. If they see an infraction they raise it, which can lead to a disqualification for that swim.",
+  },
+  {
+    heading: "Timers",
+    body:
+      "Timers sit behind each lane with a stopwatch and a button, recording a backup time for their swimmer. This is almost always a volunteer role, and it is the easiest way for a parent to help.",
+  },
+];
+
+const packingList = [
+  "Two swimsuits, two caps and two pairs of goggles, in case one breaks",
+  "Several towels, more than you think you need",
+  "Warm, dry clothes to wear between races, plus flip-flops for the deck",
+  "Water and healthy snacks to keep energy up across a long day",
+  "A permanent marker to write event, heat and lane numbers on an arm",
+  "Something quiet to do during the gaps, such as a book, cards or a game",
+];
+
+const adminTasks = [
+  {
+    heading: "Collect meet entries online",
+    body:
+      "Gather which swimmers are racing which events without chasing paper forms, so your coach can build the entry file cleanly and on time.",
+  },
+  {
+    heading: "Coordinate volunteers",
+    body:
+      "Meets need timers and helpers for every session. Swimly helps you communicate with families and keep everyone informed about what is needed and when.",
+  },
+  {
+    heading: "Bill dues and fees in USD",
+    body:
+      "Meet entry fees and team dues add up across a season. Swimly bills them automatically so the treasurer is not reconciling checks by hand.",
+  },
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonical={canonical}
+  imageUrl={`${SITE}/og-image.png`}
+  faqItems={faqItems}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+
+  <header class="border-b border-hairline bg-canvas/85 backdrop-blur-xl">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-[68px]">
+        <a href="/us/" class="font-display text-[26px] text-[#0F2D2D] tracking-tight leading-none">Swimly</a>
+        <a
+          href={appUrl}
+          class="text-[15px] font-bold px-5 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-colors min-h-12 inline-flex items-center shadow-[0_1px_3px_rgba(57,57,58,0.16)]"
+        >
+          Start your team
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pb-16">
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section class="py-12">
+        <p class="eyebrow mb-3">US Guide</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          How swim meets work: a parent's guide
+        </h1>
+        <p class="text-xl text-ink-soft leading-relaxed">
+          Your child's first swim meet can feel bewildering from the stands: dozens of events, kids racing
+          in waves, papers full of numbers, and hours that seem to pass with only a minute of actual
+          swimming. In short, a swim meet is a competition of individual events and relays, each split into
+          heats of swimmers racing one per lane, ordered by how fast they have gone before. This guide
+          explains how a US swim meet is put together, how to read the heat sheet, who all the officials are,
+          and what to pack so your first meet feels calm instead of chaotic.
+        </p>
+        <div class="mt-8">
+          <a
+            href={appUrl}
+            class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+          >
+            Start your team free
+          </a>
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How a swim meet is organized: events, heats and lanes</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Everything at a meet is built from three units: events, heats and lanes. An <span class="font-semibold text-[#0F2D2D]">event</span>
+          is a single race defined by a stroke, a distance and usually an age group and gender, for example
+          the girls 10 and under 50 yard freestyle. Events are numbered, and the meet works through them in
+          order, from event 1 to the last event of the session.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Because far more children enter an event than a pool has lanes, each event is divided into
+          <span class="font-semibold text-[#0F2D2D]">heats</span>. A heat is one group of swimmers racing at the
+          same time, and most competition pools have six or eight <span class="font-semibold text-[#0F2D2D]">lanes</span>,
+          so a heat holds up to six or eight swimmers. A popular event might run ten or more heats back to
+          back, with the results combined afterward to rank everyone who swam.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Most club meets are short course in the fall and winter, raced in a 25 yard pool, and long course
+          in the spring and summer, raced in a 50 meter pool. That is why the same event, say the 100
+          freestyle, will have different times at different points in the year. For the full list of
+          which distances and strokes each age group actually races, see our guide to
+          <a href="/us/guides/swim-meet-events-and-age-groups-explained/" class="text-mint-ink font-semibold hover:underline">swim meet events and age groups</a>.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How to read a heat sheet, and what seeding means</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          To find your child in all of that, you use two documents. Swimmers are placed into heats and lanes
+          by their <span class="font-semibold text-[#0F2D2D]">seed time</span>, which is their fastest recorded
+          time for that event. Faster swimmers are grouped together and placed in the center lanes, so the
+          seeding is simply a fair way of matching children of similar speed in the same heat.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Psych sheet</h3>
+            <p class="text-ink-soft leading-relaxed">
+              Published before heats are assigned, the psych sheet lists every swimmer entered in each event,
+              ranked from fastest to slowest seed time. It tells you who is entered and roughly where your
+              child sits, but not their heat or lane yet.
+            </p>
+          </div>
+          <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Heat sheet</h3>
+            <p class="text-ink-soft leading-relaxed">
+              Also called the meet program, the heat sheet is the seeded version: every event broken into
+              numbered heats and lanes with each swimmer's name and seed time. This is what you use on the
+              day to find your child's event, heat and lane.
+            </p>
+          </div>
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-6">
+          A swimmer with no previous time for an event is entered as <span class="font-semibold text-[#0F2D2D]">NT</span>,
+          for no time, and is seeded in the earlier heats. That is completely normal at a first meet, and it
+          simply means the day sets a baseline your child can improve on. Once you find each event number,
+          jot the event, heat and lane on their arm in marker so nobody misses a race.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">How the day runs, start to finish</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          Meets vary, but almost all follow the same shape. Here is a typical session from arrival to the
+          final event.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {timeline.map((item, i) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <div class="flex items-baseline gap-3 mb-2">
+                <span class="font-display text-2xl text-mint-ink">{i + 1}</span>
+                <h3 class="text-lg font-semibold text-[#0F2D2D]">{item.heading}</h3>
+              </div>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Who's who on the pool deck</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          The officials in matching shirts keep the meet safe, fair and moving. You do not need to know them
+          all, but it helps to recognize the main roles.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {officials.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-6">
+          Most meets are sanctioned by USA Swimming through the club's Local Swimming Committee, which means
+          they follow USA Swimming's rules and the times count officially. Those recorded times can also be
+          compared against USA Swimming's published motivational time standards, a national scale that helps
+          swimmers and coaches see how a swim measures up and set goals for the season.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How races are timed and scored</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Larger meets use an automatic timing system, where a touchpad at the end of each lane stops the
+          clock the instant a swimmer touches. This is backed up by volunteer timers behind each lane holding
+          a stopwatch and a button, so there is always a human record if the pad misses a touch. Between them,
+          the systems produce the official time for each swim.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          A swim can end in a <span class="font-semibold text-[#0F2D2D]">disqualification</span>, or DQ, if a
+          stroke and turn judge sees an illegal movement, such as a one-handed touch in butterfly or leaving
+          the block early in a relay. A DQ means that swim does not count, but it is a normal part of learning,
+          and coaches use it to help swimmers fix a technique point before the next meet. Do not let a first
+          DQ discourage your child; almost every swimmer collects a few.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">What to pack for a first meet</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          A meet is a long day with short bursts of racing, so the goal is a comfortable, self-contained base
+          for your swimmer. Pack:
+        </p>
+        <ul class="space-y-3 text-lg text-ink-soft leading-relaxed list-disc pl-6 mb-4">
+          {packingList.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Find out ahead of time whether your team sits together in a designated area, often called the team
+          camp, so you can set up in the right place. Arrive in time for your team's warm-up, not the first
+          event, because warm-up is when your child gets in the water and settles their nerves.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How you can help as a parent</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Meets run on volunteers, and teams always need help to put one on. The most common role is
+          <span class="font-semibold text-[#0F2D2D]">timing</span>: you sit behind a lane and record each
+          swimmer's time as a backup to the automatic system. It is the best first job because you get full
+          training on the day, a front-row view of the racing, and it usually only asks for one session of
+          your time. Teams also need help with the clerk of course, runners who carry results, hospitality
+          for officials, and setup and cleanup.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          If you are new and unsure, tell your team's meet coordinator you are willing to time. It is the
+          quickest way to feel part of the team, and it makes the long day pass faster. For a fuller picture
+          of team life beyond meets, our
+          <a href="/us/guides/joining-a-us-swim-team-parent-guide/" class="text-mint-ink font-semibold hover:underline">guide to joining a US swim team</a>
+          walks through tryouts, practice groups, registration and costs.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Where Swimly fits</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          Behind every smooth meet is a team that collected entries, lined up volunteers and kept families
+          informed. Swimly is swim team management software built for US teams that takes that administration
+          off a volunteer's plate. It does not replace your USA Swimming or Local Swimming Committee
+          membership, and it is not affiliated with USA Swimming; you can read how that membership works in our
+          <a href="/us/guides/usa-swimming-safe-sport-explained/" class="text-mint-ink font-semibold hover:underline">USA Swimming and Safe Sport guide</a>.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-3">
+          {adminTasks.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-6">
+          See what is included and how plans are priced on the
+          <a href="/us/pricing/" class="text-mint-ink font-semibold hover:underline">pricing page</a>, or
+          explore what the platform does on the
+          <a href="/us/features/" class="text-mint-ink font-semibold hover:underline">features page</a>.
+          Questions before you start? Email us at
+          <a href={`mailto:${contactEmail}`} class="text-mint-ink font-semibold hover:underline">{contactEmail}</a>.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Frequently asked questions</h2>
+        <div class="space-y-6">
+          {faqItems.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.question}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Primary sources</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The facts on this page are drawn from USA Swimming. Rules and time standards are updated over time,
+          so always check the official sources for the current details.
+        </p>
+        <ul class="space-y-3 text-lg text-ink-soft leading-relaxed list-disc pl-6">
+          <li>
+            <a href="https://www.usaswimming.org/officials" rel="nofollow noopener" target="_blank" class="text-mint-ink font-semibold hover:underline">USA Swimming: Officials</a>
+          </li>
+          <li>
+            <a href="https://www.usaswimming.org/times/popular-resources/time-standards" rel="nofollow noopener" target="_blank" class="text-mint-ink font-semibold hover:underline">USA Swimming: Time Standards</a>
+          </li>
+          <li>
+            <a href="https://www.usaswimming.org/times" rel="nofollow noopener" target="_blank" class="text-mint-ink font-semibold hover:underline">USA Swimming: Times</a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="py-12 text-center">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Spend less time on admin, more on swimming</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-8 max-w-2xl mx-auto">
+          Collect meet entries, line up volunteers, and keep families informed in one place. Set up your team
+          in minutes.
+        </p>
+        <a
+          href={appUrl}
+          class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+        >
+          Start your team free
+        </a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="border-t border-hairline">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-ink-mute">&copy; {new Date().getFullYear()} Swimly</p>
+      <a href={`mailto:${contactEmail}`} class="text-sm text-ink-mute hover:text-[#0F2D2D] transition-colors">{contactEmail}</a>
+    </div>
+  </footer>
+</Layout>

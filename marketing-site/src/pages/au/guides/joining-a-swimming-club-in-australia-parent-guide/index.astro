@@ -1,0 +1,402 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+
+// Region-only page on swimly.club. The Layout derives the canonical
+// (https://swimly.club/au/guides/.../), <html lang="en-AU"> and AUD from this
+// page's path, so none of those are hardcoded here.
+// Commonwealth spelling, real Australian terminology ("carnival"),
+// Swimming Australia and the state/territory associations, "swimming club".
+const SITE = "https://swimly.club";
+const PATH = "/au/guides/joining-a-swimming-club-in-australia-parent-guide/";
+const appUrl = "https://app.swimly.uk/create-club";
+const contactEmail = "hello@swimly.club";
+
+// Official governing-body references. Verified to exist; linked rather than
+// paraphrased so families always reach the current, authoritative source.
+const swimAustraliaUrl = "https://www.swimming.org.au/";
+const swimCentralInfoUrl = "https://www.swimming.org.au/get-involved/get-swimming/swim-central";
+const stateBodiesUrl = "https://www.swimming.org.au/state-bodies-and-associations";
+
+const title =
+  "Joining a Swimming Club in Australia: A Parent's Guide | Swimly";
+const description =
+  "A reassuring, practical guide for parents to joining a swimming club in Australia: how club swimming is structured, finding a club, registering through Swim Central, the season and carnivals, costs to budget for, and gear basics.";
+
+const faqItems = [
+  {
+    question: "How do I join a swimming club in Australia?",
+    answer:
+      "You join a swimming club by finding a club near you, then purchasing a membership through Swim Central, the national online portal run by Swimming Australia. You first create your own parent or guardian account, set up a family group, add your child, and then buy the club membership. That single membership links your swimmer to the club, the region, your state or territory association, and Swimming Australia.",
+  },
+  {
+    question: "What age can children start club swimming in Australia?",
+    answer:
+      "There is no single national age, because clubs set their own entry points and most ask that a child can already swim a short distance confidently and unassisted before joining a squad. Many clubs run learn-to-swim or junior development groups for younger children and move them into competitive squads as their skills and stamina grow. Ask the club you are interested in what they expect of a new swimmer.",
+  },
+  {
+    question: "What is a swimming carnival?",
+    answer:
+      "In Australia a swimming carnival is a swimming competition, the same thing other countries call a swim meet or gala. Carnivals range from friendly club nights and local development meets through to qualifying meets and state championships. Younger and newer swimmers usually start at club nights and development carnivals, which are relaxed and focused on racing practice and personal-best times.",
+  },
+  {
+    question: "When does the swimming season run in Australia?",
+    answer:
+      "The competitive swimming year runs roughly from October to September and is usually split into two parts: a summer long-course season raced mainly in 50-metre pools, and a winter short-course season raced in 25-metre pools. Many clubs train year round, while some families choose to focus on one season. Your club will publish its own calendar of training and carnivals.",
+  },
+  {
+    question: "How much does it cost to join a swimming club in Australia?",
+    answer:
+      "Costs vary widely by club, location, and how much your child trains, so treat any figure as a guide rather than a fixed rate. Typical costs include the annual Swim Central membership, the club's own training or squad fees, entry fees for each carnival you choose to enter, and gear such as bathers, goggles, and a cap. Ask your shortlisted clubs for a clear breakdown before you commit.",
+  },
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/au/` },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/au/guides/` },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Joining a Swimming Club in Australia: A Parent's Guide",
+      item: `${SITE}${PATH}`,
+    },
+  ],
+};
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How to join a swimming club in Australia",
+  description:
+    "The steps a parent follows to enrol a child in an Australian swimming club, from finding a club to registering through Swim Central.",
+  step: [
+    {
+      "@type": "HowToStep",
+      name: "Find a club",
+      text: "Look for swimming clubs near you and consider the pool location, training times, and the groups they offer for your child's age and ability.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Visit or trial",
+      text: "Contact the club, ask about a come-and-try session, and meet the coaches so your child can see whether the squad feels right.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Create a Swim Central account",
+      text: "Register your own parent or guardian account on Swim Central, then create a family group and add your child.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Purchase the club membership",
+      text: "Buy the club membership through Swim Central, which links your swimmer to the club, region, state or territory association, and Swimming Australia.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Pay club fees and get geared up",
+      text: "Pay the club's training fees, organise basic gear, and add the season's carnivals you want to enter to your calendar.",
+    },
+  ],
+};
+
+const steps = [
+  {
+    heading: "1. Find a club that suits your family",
+    body:
+      "Start with location and timing. A pool you can reach easily, with training at times that fit school and work, matters more in the first season than a club's reputation for producing champions. Look at which groups a club runs, from junior development through to senior squads, and whether there is a group that matches your child's current ability.",
+  },
+  {
+    heading: "2. Visit, watch, and ask for a trial",
+    body:
+      "Most clubs welcome new families to watch a session or arrange a come-and-try. Use it to meet the coaches, see how the squad is run, and let your child get a feel for the pool. Good clubs are happy to answer questions about training expectations, fees, and what a typical week looks like.",
+  },
+  {
+    heading: "3. Register through Swim Central",
+    body:
+      "Once you have chosen a club, you join through Swim Central, the national online portal. Create your own parent or guardian account first, set up a family group, add your child, and then purchase the club membership. That membership connects your swimmer to the club, the region, your state or territory association, and Swimming Australia in one place.",
+  },
+  {
+    heading: "4. Settle in and plan the season",
+    body:
+      "After joining, pay the club's training fees, sort out basic gear, and look at the season calendar. You do not have to enter every carnival. Many families begin with a club night or a local development carnival so a new swimmer can race in a relaxed setting before anything bigger.",
+  },
+];
+
+const budgetItems = [
+  {
+    heading: "Swim Central membership",
+    body:
+      "An annual membership purchased through Swim Central. This is what registers your swimmer with the club, the state or territory association, and Swimming Australia, and it usually includes insurance cover while training and competing.",
+  },
+  {
+    heading: "Club training fees",
+    body:
+      "Each club sets its own squad or training fees to cover pool hire and coaching. These vary with how many sessions a week your child attends, so ask for the structure that applies to the group your child will join.",
+  },
+  {
+    heading: "Carnival entry fees",
+    body:
+      "You pay a small entry fee for each event your child swims at a carnival. Because you choose which carnivals to enter, this cost is largely in your control, especially in the first season.",
+  },
+  {
+    heading: "Gear and travel",
+    body:
+      "Budget for bathers, goggles, and a cap to begin with, plus the occasional travel and entry cost for carnivals held further afield as your swimmer progresses.",
+  },
+];
+
+const gearItems = [
+  {
+    heading: "Bathers (togs)",
+    body:
+      "A comfortable, chlorine-resistant training suit your child can move freely in. Race suits can come much later; for training and early carnivals, a sensible everyday training suit is all that is needed.",
+  },
+  {
+    heading: "Goggles",
+    body:
+      "A well-fitting pair that seals without being painfully tight. It is worth having a spare, because goggles are the one item that always seems to go missing on carnival day.",
+  },
+  {
+    heading: "Swim cap",
+    body:
+      "A silicone or latex cap keeps hair out of the way and reduces drag. Some clubs have their own club cap, so check before buying.",
+  },
+  {
+    heading: "Towel, drink bottle, and a bag",
+    body:
+      "Pool sessions and carnivals are long, so a large towel, a full drink bottle, and a roomy bag round out the basics. A kickboard and fins may be useful later, but ask the coach before buying anything beyond the essentials.",
+  },
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  imageUrl={`${SITE}/og-image.png`}
+  faqItems={faqItems}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(howToSchema, null, 2)} />
+
+  <header class="border-b border-hairline bg-canvas/85 backdrop-blur-xl">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-[68px]">
+        <a href="/au/" class="font-display text-[26px] text-[#0F2D2D] tracking-tight leading-none">Swimly</a>
+        <a
+          href={appUrl}
+          class="text-[15px] font-bold px-5 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-colors min-h-12 inline-flex items-center shadow-[0_1px_3px_rgba(57,57,58,0.16)]"
+        >
+          Start your club
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pb-16">
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section class="py-12">
+        <p class="eyebrow mb-3">Australia Guide</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          Joining a Swimming Club in Australia: A Parent's Guide
+        </h1>
+        <p class="text-xl text-ink-soft leading-relaxed">
+          To join a swimming club in Australia you find a club near you, then buy a membership through Swim Central, the
+          national online portal run by Swimming Australia. You create your own parent or guardian account first, set up
+          a family group, add your child, and purchase the club membership, which links your swimmer to the club, the
+          region, your state or territory association, and Swimming Australia. This guide walks you through the rest:
+          how club swimming is structured, how to choose a club, the season and carnivals, what to budget for, and the
+          gear your child actually needs to start.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How club swimming is structured</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Competitive swimming in Australia sits under
+          <a href={swimAustraliaUrl} class="text-mint-ink font-semibold hover:underline" rel="noopener" target="_blank">Swimming Australia</a>,
+          the national governing body. Beneath it sit the state and territory associations, such as Swimming New South
+          Wales, Swimming Queensland, Swimming Victoria, and their counterparts in every state and territory. Local
+          clubs affiliate with their state or territory association, and that is the club your child actually trains and
+          races with week to week.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Within a club, swimmers are usually organised into squads or groups by age, ability, and stamina, from junior
+          development through to senior performance squads. Coaches move swimmers between groups as their skills grow, so
+          a child who starts in a beginner squad has a clear path forward without changing clubs.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          When swimmers compete, they generally race in the age group they turn during that year. So a child turning
+          nine in a given year races as a nine-year-old, even if their birthday falls late in the year. This keeps age
+          groups simple and means your child races peers of a similar age across the season.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Finding the right club</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The best first club is usually the one that fits your family's week. A pool you can get to easily, with
+          training at workable times, will keep your child swimming far longer than a distant club with a big name. Many
+          state and territory associations publish a club finder, and you can see the full list of associations on the
+          <a href={stateBodiesUrl} class="text-mint-ink font-semibold hover:underline" rel="noopener" target="_blank">Swimming Australia state bodies page</a>.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {steps.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-ink-soft leading-relaxed mt-6">
+          You can also browse the
+          <a href="/au/clubs/" class="text-mint-ink font-semibold hover:underline">Swimly directory
+          of swimming clubs and swim schools across Australia</a>, including a
+          <a href="/au/clubs/map/" class="text-mint-ink font-semibold hover:underline">map view</a>
+          to see what is near you.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Registering through Swim Central</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          In Australia, club memberships are managed through
+          <a href={swimCentralInfoUrl} class="text-mint-ink font-semibold hover:underline" rel="noopener" target="_blank">Swim Central</a>,
+          the national online portal. It is the single place that connects your interactions with swimming: your club,
+          your region, your state or territory association, and Swimming Australia.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          For a child under 18, the order matters. You register your own parent or guardian account first, then create a
+          family group, then add your child into that group. From there you purchase the club membership on your child's
+          behalf. The membership is what formally registers your swimmer and usually carries insurance cover for
+          training and competing.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          If you get stuck during registration, your club is the best first port of call, and Swimming Australia and the
+          state and territory associations publish their own help guides and contact details. You do not need to work it
+          out alone.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">The season and carnivals</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The competitive swimming year runs roughly from October to September. It is commonly split into a summer
+          long-course season, raced mainly in 50-metre pools, and a winter short-course season, raced in 25-metre pools.
+          Many clubs train through the whole year, while some families choose to focus on one season at a time,
+          especially when a child is young.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          A swimming competition in Australia is usually called a carnival, the same thing other countries call a swim
+          meet or gala. Carnivals come in a range of levels. Club nights and local development carnivals are relaxed and
+          aimed at racing practice and personal-best times, and they are where most new swimmers begin. From there,
+          swimmers can progress to qualifying meets and, in time, regional and state championships as they meet the
+          required times.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          You are not obliged to enter every carnival. Especially in the first season, it is perfectly normal to pick a
+          couple of friendly club events, see how your child enjoys racing, and build up from there. Your club will
+          publish its own calendar of training sessions and carnivals so you can plan ahead. When your child's first
+          carnival does come around, our
+          <a href="/au/guides/how-swimming-carnivals-work-parent-guide/" class="text-mint-ink font-semibold hover:underline">guide to how swimming carnivals work</a>
+          walks through nominating, marshalling, the officials, and what to pack.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Costs to budget for</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          Costs vary a great deal by club, location, and how often your child trains, so treat the items below as a
+          checklist of what to ask about rather than a price list. A good club will give you a clear breakdown before
+          you commit.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {budgetItems.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Gear basics</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          Resist the urge to buy everything at once. To start training and racing at club level, your child needs only a
+          few things, and the coach will tell you when anything more is worth adding.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {gearItems.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Settling in as a swimming family</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The early weeks are mostly about routine. Help your child get to training on time, keep the gear bag packed and
+          ready, and let them find their feet with the squad. Friendships form quickly on the pool deck, and that sense
+          of belonging is often what keeps children coming back, far more than results.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Clubs are run largely by volunteers, so a little help goes a long way, whether that is timekeeping at a
+          carnival or lending a hand at club events. You do not need any swimming background to pitch in, and it is one
+          of the best ways to understand how the sport works and to feel part of the club.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Frequently asked questions</h2>
+        <div class="space-y-6">
+          {faqItems.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.question}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Running a club rather than joining one?</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          If you help run a swimming club, Swimly brings registration, billing, attendance, group management, and parent
+          communication into one calm, easy-to-use platform, so volunteers spend less time on admin and more time on
+          swimming. You can explore what it does on the
+          <a href="/au/features/" class="text-mint-ink font-semibold hover:underline">features page</a>
+          and see plans on the
+          <a href="/au/pricing/" class="text-mint-ink font-semibold hover:underline">pricing page</a>.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Questions before you start? Email us at
+          <a href={`mailto:${contactEmail}`} class="text-mint-ink font-semibold hover:underline">{contactEmail}</a>.
+        </p>
+      </section>
+
+      <section class="py-12 text-center">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Helping run your club's admin?</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-8 max-w-2xl mx-auto">
+          Set up your club in minutes and keep registration, fees, and attendance in one organised place.
+        </p>
+        <a
+          href={appUrl}
+          class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+        >
+          Start your club free
+        </a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="border-t border-hairline">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-ink-mute">&copy; {new Date().getFullYear()} Swimly</p>
+      <a href={`mailto:${contactEmail}`} class="text-sm text-ink-mute hover:text-[#0F2D2D] transition-colors">{contactEmail}</a>
+    </div>
+  </footer>
+</Layout>

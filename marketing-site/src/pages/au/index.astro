@@ -1,0 +1,365 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import ProductTour from "../../components/ProductTour.astro";
+import { CreditCard, Trophy, Settings, Users, GraduationCap, BarChart3, ArrowRight, X, CircleCheck } from "@lucide/astro";
+
+const canonical = "https://swimly.club/au/";
+const title = "Swimming Club Management Software Australia | Free Plan | Swimly";
+const description =
+  "Swimming club management software built for Australian clubs. Automate fee collection, membership, attendance and compliance in one place. Free starter plan for clubs under 50 members.";
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://swimly.club/au/" }
+  ]
+};
+
+const pains = [
+  { n: "01", title: "Five spreadsheets, and none of them agree", desc: "Members in one, payments in another, attendance on paper. Nobody knows which version is current." },
+  { n: "02", title: "Evenings lost to chasing fees", desc: "Payments slip through quietly. The Treasurer ends up sending awkward reminders at ten o'clock at night." },
+  { n: "03", title: "Safeguarding records nobody can reach", desc: "Compliance you cannot evidence quickly is compliance you cannot evidence at all." },
+  { n: "04", title: "Handover means starting again", desc: "When the Membership Secretary steps down, the club's knowledge walks out of the door with them." },
+];
+
+const before = [
+  "Membership records scattered across spreadsheets",
+  "Chasing parents for fees every month over messaging apps",
+  "Registers printed, filled in by hand, then lost",
+  "Safeguarding files in a folder nobody can access",
+];
+const after = [
+  "Every member, payment and session in one place",
+  "Fees collected automatically, failures retried on their own",
+  "Live registers on the phone the coach already carries",
+  "Compliance records with qualification expiry alerts",
+];
+
+const roles = [
+  { from: "10h", to: "2h", unit: "per week", role: "Membership Secretary", desc: "Parents keep their own details current in the portal. Welcome emails and renewal reminders send themselves." },
+  { from: "6h", to: "30m", unit: "per week", role: "Treasurer", desc: "Fees arrive on schedule, failed payments retry on their own, and the AGM report generates in one click." },
+  { from: "Paper", to: "Phone", unit: "registers", role: "Head Coach", desc: "Attendance taken poolside in seconds, even at six in the morning with wet hands and bad lighting." },
+];
+
+const reasons = [
+  { title: "Built for how Australian clubs work", desc: "Handle membership categories, registration requirements and renewal cycles that match the way community swimming clubs in Australia actually run. Import your member data and keep coach details in one system." },
+  { title: "Safeguarding compliance as standard", desc: "Track Working with Children Checks, coaching accreditations and first aid certificates with automated expiry alerts. Generate compliance reports for your committee. No more spreadsheets tracking renewal dates." },
+  { title: "Automatic fee collection", desc: "Collect monthly, quarterly or seasonal fees automatically by card or bank payment. No more chasing transfers, reconciling deposits or dealing with failed payments by hand." },
+  { title: "Transparent flat-rate pricing", desc: "No per-member fees that increase as your club grows. Provisional pricing of A$55/month for 50 to 200 members and A$95/month for 200 to 500. Free for clubs under 50. Pricing you can predict, not bills that escalate." },
+  { title: "Privacy built in", desc: "Full control over your members' data, with subject access handling, data portability and the right to erasure built in. Your club stays in charge of its own records." },
+  { title: "Built by people who run clubs", desc: "Swimly was created by swim parents and committee members who have sat through the same frustrating meetings. We understand volunteer capacity, committee handovers and evening-and-weekend reality." },
+];
+
+const steps = [
+  { tag: "Day 0", title: "Get in touch", desc: "Tell us about your club, how many members you have and what you currently use. No hard sell, just a conversation about whether Swimly fits." },
+  { tag: "Days 1-3", title: "We migrate your data", desc: "Send us your spreadsheets or exports. We import members, set up squads, configure billing schedules and build your session timetable. You review it, we adjust." },
+  { tag: "Day 5", title: "Your committee logs in", desc: "We walk your Treasurer, Membership Secretary and coaches through the platform. Each person sees exactly the features their role needs." },
+  { tag: "Week 2+", title: "You're live", desc: "Payments collect automatically. Coaches take digital attendance. Parents self-serve. We stay on hand through the first month to fine-tune anything." },
+];
+
+const compares = [
+  { label: "Swimly vs Swim Central", href: "/au/compare/swim-central/", desc: "How Swimly fits alongside the Swimming Australia platform" },
+  { label: "Swimly vs TeamUnify", href: "/au/compare/teamunify/", desc: "Why Australian clubs look beyond US platforms" },
+  { label: "See the features", href: "/au/features/", desc: "Membership, billing, attendance and compliance", featured: true },
+];
+
+const solutions = [
+  { icon: CreditCard, title: "Billing & Payments", desc: "Automate fee collection by card or bank payment. No more chasing parents or manual reconciliation.", href: "/au/features/" },
+  { icon: Trophy, title: "Swimming Club Software", desc: "All-in-one management platform for Australian competitive swimming clubs. Membership, billing and compliance.", href: "/au/features/" },
+  { icon: Settings, title: "Management Software", desc: "Membership, billing, attendance and safeguarding compliance in one platform for volunteer-run clubs.", href: "/au/features/" },
+  { icon: Users, title: "Squad Management", desc: "Purpose-built for competitive and recreational swimming clubs. Squad organisation, billing and poolside attendance.", href: "/au/features/" },
+  { icon: GraduationCap, title: "Learn-to-Swim", desc: "Lesson scheduling, progression tracking and parent communication for learn-to-swim programmes.", href: "/au/features/" },
+  { icon: BarChart3, title: "Pricing", desc: "Transparent, flat-rate pricing in Australian dollars. Free for clubs under 50 members.", href: "/au/pricing/" },
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonical={canonical}
+  faqItems={[
+    { question: "What is swimming club management software?", answer: "Swimming club management software is a platform that helps swimming clubs manage membership, billing, attendance and compliance in one place. Swimly is built for community swimming clubs to handle automatic fee collection, session registers and safeguarding records such as Working with Children Checks." },
+    { question: "How much does Swimly cost in Australia?", answer: "Swimly has a free Starter plan for clubs under 50 members. Provisional pricing for the Club plan is A$55 per month for 50 to 200 members and includes automated billing. The Performance plan is provisionally A$95 per month for larger clubs with 200 to 500 members. All plans include unlimited coaches and sessions. Australian pricing is provisional while we finalise our local launch." },
+    { question: "What features do I need in swimming club management software?", answer: "Useful features include automated fee collection by card or bank payment, digital attendance tracking, membership management, safeguarding compliance tools such as Working with Children Check tracking, parent communication and session scheduling. Swimly includes all of these in every plan." },
+    { question: "Does Swimly work for learn-to-swim programmes as well as competitive clubs?", answer: "Yes. Swimly supports both competitive swimming clubs and learn-to-swim programmes. You can manage different squads, lesson schedules and fee structures all in one platform." },
+    { question: "How does Swimly relate to Swim Central and Swimming Australia?", answer: "Swim Central is the official membership and registration platform operated by Swimming Australia. Swimly is a separate club management tool focused on day-to-day administration such as billing, attendance and squad organisation. Clubs affiliated with Swimming Australia continue to use Swim Central for registration alongside Swimly for running the club." },
+    { question: "Can parents access their own information and payment history?", answer: "Yes. Every family gets access to a parent portal where they can view payment history, upcoming sessions, attendance records and outstanding balances. Parents can also update contact details and emergency information themselves." },
+    { question: "How hard is it to migrate from spreadsheets or another system?", answer: "Swimly provides hands-on migration for founding clubs. We handle importing your membership data, setting up billing schedules and training your committee. Most clubs are up and running within two weeks. No technical knowledge required." },
+    { question: "Is Swimly available in Australia now?", answer: "Swimly is expanding to Australia. You can register your interest and start setting up your club today. Clubs under 50 members are free with no card required. Australian pricing is provisional while we finalise our local launch." }
+  ]}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <Nav />
+  <main class="pt-28 pb-16">
+    <!-- Hero -->
+    <section class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[500px] pointer-events-none" aria-hidden="true"></div>
+      <div class="relative text-center">
+        <p class="eyebrow reveal mb-6">Built for Australian swimming clubs</p>
+        <h1 class="reveal font-display text-4xl sm:text-5xl lg:text-6xl text-[#0F2D2D] mb-6 leading-tight">
+          The operating system for<br class="hidden sm:block" />
+          <em class="text-mint-ink">Australian swimming clubs</em>
+        </h1>
+        <p class="reveal text-xl text-ink-soft max-w-2xl mx-auto leading-relaxed">
+          Membership, billing, attendance and safeguarding in one calm, modern platform.
+          Built by swim parents who got tired of the spreadsheet chaos.
+        </p>
+        <div class="reveal mt-9 flex flex-col sm:flex-row gap-3 justify-center">
+          <a
+            href="https://app.swimly.uk/create-club"
+            class="inline-flex items-center justify-center text-base font-bold px-7 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-colors min-h-12 shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+          >
+            Start free
+          </a>
+          <a
+            href="/au/features/"
+            class="inline-flex items-center justify-center gap-2 text-base font-semibold px-7 rounded-xl border border-[#297373]/40 text-ink hover:border-[#297373]/70 hover:bg-surface transition-colors min-h-12"
+          >
+            See the features
+            <ArrowRight class="w-4 h-4" />
+          </a>
+        </div>
+        <p class="reveal mt-4 text-sm text-ink-mute">Free for clubs under 50 members. No card required to start.</p>
+      </div>
+    </section>
+
+    <div class="lane-divider max-w-6xl mx-auto" aria-hidden="true"></div>
+
+    <!-- The problem -->
+    <section class="py-20 sm:py-28">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-12 gap-12 lg:gap-16">
+          <div class="lg:col-span-5">
+            <p class="eyebrow reveal">The problem</p>
+            <h2 class="reveal font-display text-4xl sm:text-5xl leading-[1.1] text-[#0F2D2D] mt-5">
+              You did not sign up for a <em class="text-mint-ink">second job</em>
+            </h2>
+            <p class="reveal mt-6 text-lg text-ink-soft leading-relaxed max-w-md">
+              But that is what running a club feels like when the tools fight you.
+              Every volunteer committee knows the pattern.
+            </p>
+          </div>
+          <div class="lg:col-span-7">
+            <ol class="divide-y divide-[#39393A]/10">
+              {pains.map(p => (
+                <li class="reveal flex gap-6 py-6 first:pt-0 last:pb-0">
+                  <span class="font-display text-2xl text-[#297373]/60 leading-none pt-1 tabular-nums">{p.n}</span>
+                  <div>
+                    <h3 class="text-[17px] font-semibold text-[#0F2D2D]">{p.title}</h3>
+                    <p class="text-[15px] text-ink-soft leading-relaxed mt-1.5">{p.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Before / after -->
+    <section class="pb-20 sm:pb-28">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="reveal grid md:grid-cols-2 rounded-[28px] overflow-hidden border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+          <div class="bg-surface p-8 sm:p-10">
+            <p class="text-[12px] font-semibold tracking-[0.14em] uppercase text-[#B91C1C]/80 mb-7">The spreadsheet era</p>
+            <ul class="space-y-5">
+              {before.map(item => (
+                <li class="flex items-start gap-3.5 text-[15px] text-ink-soft leading-snug">
+                  <X class="w-[18px] h-[18px] text-[#B91C1C]/70 mt-0.5 shrink-0" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="relative bg-[#0F2D2D] p-8 sm:p-10">
+            <div class="ripple absolute -top-16 -right-16 w-56 h-56" aria-hidden="true"></div>
+            <p class="text-[12px] font-semibold tracking-[0.14em] uppercase text-[#85FFC7] mb-7">With Swimly</p>
+            <ul class="relative space-y-5">
+              {after.map(item => (
+                <li class="flex items-start gap-3.5 text-[15px] text-[#E6E6E6] leading-snug">
+                  <CircleCheck class="w-[18px] h-[18px] text-[#85FFC7] mt-0.5 shrink-0" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ProductTour region="au" />
+
+    <!-- Why Australian clubs choose Swimly -->
+    <section class="py-20 sm:py-28 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mb-12">
+          <p class="eyebrow reveal">Why Swimly</p>
+          <h2 class="reveal font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5">Why Australian swimming clubs choose Swimly</h2>
+          <p class="reveal text-ink-soft text-lg mt-6 leading-relaxed">
+            Not a generic sports app adapted for swimming. Not US software with an Australian dollar option bolted on.
+            Built for how community swimming clubs actually work, from automatic fee collection to safeguarding compliance.
+          </p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {reasons.map(r => (
+            <div class="reveal p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+              <h3 class="text-lg font-semibold mb-2.5 text-mint-ink">{r.title}</h3>
+              <p class="text-ink-mute text-sm leading-relaxed">{r.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Hours back -->
+    <section class="py-20 sm:py-28">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14">
+          <p class="eyebrow reveal">Where the hours come back</p>
+          <h2 class="reveal font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5">
+            Less admin. More <em class="text-mint-ink">swimming</em>.
+          </h2>
+        </div>
+        <div class="space-y-0">
+          {roles.map((r, i) => (
+            <div class:list={["reveal grid sm:grid-cols-12 gap-3 sm:gap-10 items-start py-9", i > 0 && "border-t border-[#39393A]/10"]}>
+              <div class="sm:col-span-5 sm:text-right">
+                <div class="font-display text-[40px] sm:text-5xl leading-none text-[#0F2D2D] tabular-nums">
+                  {r.from}
+                  <span class="text-[#297373]/50 mx-1.5" aria-hidden="true">&rarr;</span>
+                  <span class="result-mark">{r.to}</span>
+                </div>
+                <div class="text-sm text-ink-mute mt-2">{r.unit}</div>
+              </div>
+              <div class="sm:col-span-7">
+                <h3 class="text-lg font-semibold text-[#0F2D2D]">{r.role}</h3>
+                <p class="text-[15px] text-ink-soft leading-relaxed mt-1.5 max-w-lg">{r.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Compare -->
+    <section class="py-20 sm:py-28 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <p class="eyebrow reveal">Honest comparisons</p>
+          <h2 class="reveal font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5">How does Swimly compare?</h2>
+          <p class="reveal text-ink-soft text-lg mt-5 max-w-2xl mx-auto">
+            We have written fair, factual assessments of the platforms Australian clubs ask us about, including where they do things well.
+          </p>
+        </div>
+        <div class="grid sm:grid-cols-3 gap-4">
+          {compares.map(c => (
+            <a href={c.href} class:list={["reveal block p-6 rounded-2xl bg-surface-raised border transition-all group hover:-translate-y-0.5", c.featured ? "border-[#297373]/40" : "border-[#39393A]/10"]}>
+              <h3 class="text-lg font-semibold mb-2 text-[#0F2D2D] group-hover:text-mint-ink transition-colors">{c.label}</h3>
+              <p class="text-ink-mute text-sm">{c.desc}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="py-20 sm:py-28">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12 max-w-2xl">
+          <p class="eyebrow reveal">Switching is easier than you think</p>
+          <h2 class="reveal font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5">From spreadsheet to software in about two weeks</h2>
+          <p class="reveal text-ink-soft text-lg mt-6 leading-relaxed">
+            Our founding club programme includes hands-on migration. We do the heavy lifting so you do not have to.
+          </p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {steps.map(s => (
+            <div class="reveal p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+              <span class="eyebrow">{s.tag}</span>
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mt-3 mb-2">{s.title}</h3>
+              <p class="text-sm text-ink-mute leading-relaxed">{s.desc}</p>
+            </div>
+          ))}
+        </div>
+        <div class="reveal mt-8 p-6 rounded-2xl bg-[#85FFC7]/15 border border-[#1F7A52]/20">
+          <p class="text-ink-soft leading-relaxed">
+            <strong class="text-mint-ink">Founding clubs get their first months free</strong> plus priority migration support.
+            We are limiting the early programme so we can deliver exceptional onboarding.
+            No contract, no payment details required to start.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Solutions grid -->
+    <section class="py-20 sm:py-28 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <p class="eyebrow reveal">Built for your needs</p>
+          <h2 class="reveal font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5">Whatever kind of club you run</h2>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {solutions.map(s => (
+            <a href={s.href} class="reveal group block p-7 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all">
+              <div class="w-11 h-11 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+                <s.icon class="w-5 h-5 text-mint-ink" />
+              </div>
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">{s.title}</h3>
+              <p class="text-ink-mute text-sm leading-relaxed mb-3">{s.desc}</p>
+              <span class="text-mint-ink text-sm font-medium inline-flex items-center gap-1">Learn more <ArrowRight class="w-3.5 h-3.5" /></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Swimming Australia context -->
+    <section class="py-20 sm:py-28">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="reveal rounded-2xl border border-[#39393A]/10 bg-surface-raised p-8 sm:p-10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <p class="eyebrow">Works alongside your governing body</p>
+          <h2 class="font-display text-3xl text-[#0F2D2D] mt-4 mb-4">Built to sit beside Swimming Australia, not replace it</h2>
+          <p class="text-ink-soft leading-relaxed mb-4">
+            Swimming Australia is the national governing body for the sport, and clubs affiliated through it
+            register members in Swim Central, the official membership platform. Swimly does not replace that.
+          </p>
+          <p class="text-ink-soft leading-relaxed">
+            Instead, Swimly handles the day-to-day running of your club: collecting fees, taking attendance,
+            organising squads and keeping safeguarding records in order. You keep using Swim Central for
+            registration and use Swimly for everything else.
+          </p>
+          <a href="/au/compare/swim-central/" class="inline-flex items-center gap-2 mt-6 text-mint-ink hover:text-[#0F2D2D] text-sm font-medium transition-colors">
+            See how Swimly and Swim Central fit together
+            <ArrowRight class="w-4 h-4" />
+          </a>
+          <div>
+            <a href="/au/clubs/" class="inline-flex items-center gap-2 mt-3 text-mint-ink hover:text-[#0F2D2D] text-sm font-medium transition-colors">
+              Browse swimming clubs and swim schools across Australia
+              <ArrowRight class="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+      <h2 class="reveal font-display text-4xl text-[#0F2D2D] mb-6">
+        Ready to simplify club management?
+      </h2>
+      <p class="reveal text-xl text-ink-soft mb-8">
+        Start free with up to 50 members. No card required.
+      </p>
+      <a
+        href="https://app.swimly.uk/create-club"
+        class="reveal inline-flex items-center justify-center text-lg font-bold px-8 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all min-h-14 shadow-[0_8px_24px_-8px_rgba(255,133,82,0.6)]"
+      >
+        Start free
+      </a>
+    </section>
+  </main>
+  <Footer />
+</Layout>

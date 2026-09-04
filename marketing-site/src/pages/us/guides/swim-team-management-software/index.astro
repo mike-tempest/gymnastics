@@ -1,0 +1,256 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+
+// Region-only page on swimly.club. Self-canonical: no cross-region hreflang.
+// US English, USD, USA Swimming, "swim team".
+const SITE = "https://swimly.club";
+const PATH = "/us/guides/swim-team-management-software/";
+const canonical = `${SITE}${PATH}`;
+const appUrl = "https://app.swimly.uk/create-club";
+const contactEmail = "hello@swimly.club";
+
+const title = "Swim Team Management Software: A Practical Guide for US Clubs | Swimly";
+const description =
+  "How US swim teams choose management software for registration, billing, attendance, and parent communication. A practical, jargon-free guide for board members and coaches.";
+
+const faqItems = [
+  {
+    question: "What is swim team management software?",
+    answer:
+      "Swim team management software is an online platform that handles the administration behind running a team: member registration, billing and payments, meet and practice attendance, squad or group organization, and parent communication. It replaces the spreadsheets, email threads, and paper forms many volunteer-run teams rely on today.",
+  },
+  {
+    question: "What should a US swim team look for in management software?",
+    answer:
+      "Look for online registration with waivers, recurring billing in USD with card and ACH options, attendance tracking you can take from a phone on the pool deck, group and squad management, and clear parent communication. It also helps if the platform can export the member data your team needs for USA Swimming registration rather than locking it away.",
+  },
+  {
+    question: "Does Swimly work for USA Swimming teams?",
+    answer:
+      "Yes. Swimly is built to run alongside the systems your team already uses. You can keep the member records you need for USA Swimming registration, export data in standard formats, and manage groups, billing, and attendance in one place. Swimly does not replace your USA Swimming membership; it handles the day-to-day club administration around it.",
+  },
+  {
+    question: "How much does swim team software cost?",
+    answer:
+      "Costs vary by platform and team size. Swimly offers a free Starter plan for small teams, with paid plans billed in USD as your team grows. You can see current plans and pricing on the Swimly pricing page and start without a contract.",
+  },
+];
+
+const softwareAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Swimly",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  description: description,
+  url: canonical,
+  featureList: [
+    "Online registration",
+    "Recurring billing and payments",
+    "Practice and meet attendance",
+    "Group and squad management",
+    "Parent communication",
+    "Financial reporting",
+  ],
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/us/` },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/us/guides/` },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Swim Team Management Software",
+      item: canonical,
+    },
+  ],
+};
+
+const checklist = [
+  {
+    heading: "Online registration and waivers",
+    body:
+      "Families should be able to sign up online, pick a group, and complete waivers in one sitting. Look for digital forms that collect the swimmer and emergency details your team needs, with no paper to chase.",
+  },
+  {
+    heading: "Billing and payments in USD",
+    body:
+      "Recurring dues are where most volunteer time disappears. Choose software that bills automatically in USD, accepts cards and ACH bank transfers, and chases failed payments for you so the treasurer is not sending reminder emails by hand.",
+  },
+  {
+    heading: "Attendance you can take on the pool deck",
+    body:
+      "Coaches need to mark attendance in seconds from a phone, including offline when pool wifi is unreliable. Practice and meet attendance records also help you understand participation and plan groups.",
+  },
+  {
+    heading: "Group and squad management",
+    body:
+      "A team that runs everything from learn-to-swim through senior groups needs flexible structure. Each group should have its own schedule, coaches, and dues, all visible in one place.",
+  },
+  {
+    heading: "Parent communication",
+    body:
+      "Email and messaging built into the platform keeps announcements, schedule changes, and meet information in one place, rather than scattered across personal inboxes and group chats.",
+  },
+  {
+    heading: "Your data stays yours",
+    body:
+      "You should be able to export your member list and records whenever you want, including the fields you need for USA Swimming registration. Avoid platforms that make leaving difficult.",
+  },
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonical={canonical}
+  imageUrl={`${SITE}/og-image.png`}
+  faqItems={faqItems}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+
+  <header class="border-b border-hairline bg-canvas/85 backdrop-blur-xl">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-[68px]">
+        <a href="/us/" class="font-display text-[26px] text-[#0F2D2D] tracking-tight leading-none">Swimly</a>
+        <a
+          href={appUrl}
+          class="text-[15px] font-bold px-5 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-colors min-h-12 inline-flex items-center shadow-[0_1px_3px_rgba(57,57,58,0.16)]"
+        >
+          Start your team
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pb-16">
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section class="py-12">
+        <p class="eyebrow mb-3">US Guide</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          Swim Team Management Software: A Practical Guide for US Clubs
+        </h1>
+        <p class="text-xl text-ink-soft leading-relaxed">
+          Running a swim team in the United States means juggling registration, dues, attendance, meet logistics,
+          and a steady stream of parent questions, usually with volunteers doing the work. The right software takes
+          the repetitive admin off your plate so coaches can coach and your board can focus on the season ahead.
+          This guide explains what swim team management software does, what to look for, and how to choose well.
+        </p>
+        <div class="mt-8">
+          <a
+            href={appUrl}
+            class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+          >
+            Start your team free
+          </a>
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">What is swim team management software?</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Swim team management software is an online platform that handles the administration behind running a team.
+          Instead of a stack of spreadsheets for the member list, a separate tool for payments, paper waivers in a
+          binder, and meet details buried in email, everything lives in one system that families and coaches can
+          reach from a phone or laptop.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Most platforms cover the same core jobs: online registration, billing and payments, attendance, group and
+          squad organization, and communication with parents. The differences show up in how easy each one is to use
+          on the pool deck, how well it fits a US team, and how much it costs as you grow.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">What to look for: a six-point checklist</h2>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {checklist.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Fitting in with USA Swimming</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Most competitive teams in the United States are members of USA Swimming through their Local Swimming
+          Committee. Your management software does not replace that membership. What it should do is make the
+          surrounding admin easier: keeping accurate swimmer records, collecting the details you need at
+          registration, and letting you export member data in standard formats when you need it.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          When you evaluate a platform, check that you can get your data out as easily as you put it in. A good system
+          treats your member list as your property, not as a lock-in.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">A simple way to choose</h2>
+        <ol class="space-y-4 text-lg text-ink-soft leading-relaxed list-decimal pl-6">
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">List your real jobs.</span> Write down the handful of tasks that
+            eat the most volunteer time today. For most teams that is dues, registration, and attendance.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Trial it with one group.</span> Pick a single training group and
+            run a full registration and billing cycle before rolling out team-wide.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Test it on the pool deck.</span> If coaches cannot take
+            attendance quickly on a phone, adoption will stall no matter how good the rest looks.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Check the exit.</span> Confirm you can export your members and
+            financial records before you commit.
+          </li>
+        </ol>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Where Swimly fits</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Swimly brings registration, billing, attendance, group management, and parent communication into one
+          calm, easy-to-use platform. Dues are billed automatically in USD, coaches can take attendance from the pool
+          deck, and your member data is always yours to export. There is a free Starter plan for small teams, with
+          paid plans as you grow, and no contract to sign.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Questions before you start? Email us at
+          <a href={`mailto:${contactEmail}`} class="text-mint-ink font-semibold hover:underline">{contactEmail}</a>.
+        </p>
+      </section>
+
+      <section class="py-12 text-center">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Ready to take the admin off your plate?</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-8 max-w-2xl mx-auto">
+          Set up your team in minutes and run your next registration and billing cycle in one place.
+        </p>
+        <a
+          href={appUrl}
+          class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+        >
+          Start your team free
+        </a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="border-t border-hairline">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-ink-mute">&copy; {new Date().getFullYear()} Swimly</p>
+      <a href={`mailto:${contactEmail}`} class="text-sm text-ink-mute hover:text-[#0F2D2D] transition-colors">{contactEmail}</a>
+    </div>
+  </footer>
+</Layout>

@@ -1,0 +1,345 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { Smartphone, Wifi, Cloud, Zap, CheckCircle, ArrowRight } from '@lucide/astro';
+
+const title = 'Swim Club App | Poolside Access, Offline Mode';
+const description = 'Take registers poolside, check schedules, and manage your swim club from any device. Works offline. Try Swimly free for UK swimming clubs.';
+
+const mobileSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Swimly Mobile Access",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": description,
+  "url": "https://swimly.uk/features/mobile/",
+  "featureList": [
+    "Mobile-responsive web app",
+    "Offline mode for poolside use",
+    "Real-time data sync",
+    "Works on any device",
+    "Quick attendance marking"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "29",
+    "priceCurrency": "GBP",
+    "priceValidUntil": "2027-12-31",
+    "availability": "https://schema.org/PreOrder"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Swimly",
+    "url": "https://swimly.uk"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Swimly",
+    "url": "https://swimly.uk"
+  }
+};
+
+const faqItems = [
+  {
+    question: "Do I need to install a mobile app?",
+    answer: "No. Swimly is a web-based application that works in any modern browser on your phone, tablet, or laptop. You can optionally install it as a progressive web app for an app-like experience with offline support, but there's no app store download required."
+  },
+  {
+    question: "Does offline mode work on all devices?",
+    answer: "Yes. Offline mode is supported on iOS, Android, Windows, and macOS devices. As long as you're using a modern browser (Safari, Chrome, Firefox, or Edge), you can access Swimly poolside without internet and your data will sync automatically when you reconnect."
+  },
+  {
+    question: "What happens if I lose internet connection whilst taking the register?",
+    answer: "Nothing is lost. Swimly saves attendance data locally on your device when offline. As soon as your device reconnects to Wi-Fi or mobile data, all your changes sync automatically to the cloud. You can continue working without interruption."
+  },
+  {
+    question: "Can multiple coaches use Swimly on their phones at the same time?",
+    answer: "Yes. Multiple users can access Swimly simultaneously from different devices. Changes sync in real-time when online, so if one coach marks attendance whilst another views schedules, both see the latest data. Offline changes merge intelligently when devices reconnect."
+  },
+  {
+    question: "How much mobile data does Swimly use?",
+    answer: "Very little. Swimly is optimised for mobile connections with minimal data usage. A typical poolside session (loading the register, marking attendance, and syncing results) uses less than 1 MB of data. Offline mode reduces usage even further by caching data locally."
+  }
+];
+---
+
+<Layout title={title} description={description} faqItems={faqItems}>
+  <script type="application/ld+json" set:html={JSON.stringify(mobileSchema, null, 2)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <section class="relative pt-16 pb-20 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none" aria-hidden="true"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 text-mint-ink text-sm font-medium mb-6">
+          <Smartphone class="w-4 h-4" />
+          Mobile Access
+        </div>
+
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl text-[#0F2D2D] leading-tight mb-6">
+          Run your club from anywhere, even offline
+        </h1>
+
+        <p class="text-lg sm:text-xl text-ink-soft max-w-2xl mx-auto leading-relaxed mb-10">
+          Swimly works seamlessly on phones, tablets, and laptops. Take registers poolside with offline mode, check schedules on the go, and manage your club from anywhere.
+        </p>
+
+        <a
+          href="https://app.swimly.uk/create-club"
+          class="inline-flex items-center gap-2.5 px-8 py-4 min-h-12 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-lg shadow-[#FF8552]/20 hover:shadow-[#FF8552]/30 hover:scale-[1.02]"
+        >
+          Start your club, free
+          <ArrowRight class="w-5 h-5" />
+        </a>
+      </div>
+    </section>
+
+    <!-- Device Mockups Hero Visual -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
+        <div class="w-full max-w-2xl">
+          <div class="rounded-xl overflow-hidden bg-surface-raised border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+            <picture>
+              <source srcset="/mockups/sessions-macbook.webp" type="image/webp" />
+              <img
+                src="/mockups/sessions-macbook.png"
+                alt="Swimly session scheduling on a MacBook showing the weekly timetable view"
+                class="w-full h-auto"
+                loading="eager"
+              />
+            </picture>
+          </div>
+        </div>
+        <div class="w-full max-w-[200px] sm:max-w-[240px]">
+          <picture>
+            <source srcset="/mockups/swimmers-iphone.webp" type="image/webp" />
+            <img
+              src="/mockups/swimmers-iphone.png"
+              alt="Swimly swimmers list on an iPhone for poolside use"
+              class="w-full h-auto"
+              loading="eager"
+            />
+          </picture>
+        </div>
+      </div>
+      <p class="text-center text-sm text-ink-mute mt-6">Same interface, same data, every device. Desktop, tablet, or poolside on your phone.</p>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <Wifi class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Offline Mode</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Take attendance poolside without internet connection</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>View member details and session schedules offline</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Data syncs automatically when connection returns</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Never lose data due to poor pool Wi-Fi</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <Smartphone class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Works on Any Device</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Responsive web app works on phones, tablets, and laptops</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>iOS, Android, Windows, and Mac supported</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Install as a progressive web app for app-like experience</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Same interface across all devices for consistency</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <Cloud class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Cloud Syncing</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Start on your phone, finish on your laptop seamlessly</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Multiple admins can work simultaneously</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Real-time updates across all devices</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Automatic backups to secure cloud storage</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <Zap class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Fast and Lightweight</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Loads quickly even on slower connections</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Minimal data usage for mobile connections</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Optimised for touch and small screens</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Battery-efficient design for all-day poolside use</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Poolside Screenshots -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center mb-10">
+        <p class="eyebrow mb-4">Designed for real life</p>
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-4">Built for the poolside</h2>
+        <p class="text-ink-soft text-lg max-w-2xl mx-auto">
+          Large touch targets, high-contrast text, and a clean layout designed for wet hands, bright lighting, and quick glances between sets.
+        </p>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="rounded-xl overflow-hidden bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <img src="/screenshots/attendance.png" alt="Digital attendance register showing swimmers checked in for a poolside session" class="w-full h-auto" loading="lazy" />
+          <div class="bg-surface px-5 py-4 border-t border-[#39393A]/8">
+            <p class="text-sm font-medium text-[#0F2D2D]">Attendance register</p>
+            <p class="text-xs text-ink-mute mt-1">Tap to mark present. Works offline. Syncs when you leave the pool.</p>
+          </div>
+        </div>
+        <div class="rounded-xl overflow-hidden bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <img src="/screenshots/sessions.png" alt="Session scheduling view showing weekly squad timetable" class="w-full h-auto" loading="lazy" />
+          <div class="bg-surface px-5 py-4 border-t border-[#39393A]/8">
+            <p class="text-sm font-medium text-[#0F2D2D]">Session schedule</p>
+            <p class="text-xs text-ink-mute mt-1">Check which squads are in the water. Parents and coaches see the same view.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] text-center mb-12">How mobile access works</h2>
+      <div class="space-y-8">
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-lg">1</div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Access Swimly from any web browser</h3>
+            <p class="text-ink-soft">No app store downloads needed. Just visit swimly.uk from any device and log in. Works on Safari, Chrome, Firefox, and Edge.</p>
+          </div>
+        </div>
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-lg">2</div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Install as a progressive web app</h3>
+            <p class="text-ink-soft">For an app-like experience, install Swimly to your home screen. Looks and feels like a native app with push notifications and offline support.</p>
+          </div>
+        </div>
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-lg">3</div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Use offline mode at the pool</h3>
+            <p class="text-ink-soft">When poolside Wi-Fi is unreliable, Swimly works offline. Take registers, view member details, and check schedules without connection.</p>
+          </div>
+        </div>
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-lg">4</div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Auto-sync when online</h3>
+            <p class="text-ink-soft">As soon as your device reconnects, Swimly syncs all your offline changes to the cloud. Seamless and automatic.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="p-8 rounded-2xl bg-[#85FFC7]/15 border border-[#1F7A52]/20">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-16 h-16 rounded-full bg-[#85FFC7]/30 flex items-center justify-center">
+            <Smartphone class="w-8 h-8 text-mint-ink" />
+          </div>
+          <div>
+            <div class="font-display text-3xl text-[#0F2D2D]">100%</div>
+            <div class="text-ink-soft">mobile friendly</div>
+          </div>
+        </div>
+        <p class="text-lg text-ink-soft italic">
+          "I take registers on my phone poolside every session. Offline mode means dodgy pool Wi-Fi isn't a problem. It syncs automatically when I leave the pool."
+        </p>
+        <p class="text-sm text-ink-mute mt-3">Coach, Surrey Sharks</p>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-2xl text-[#0F2D2D] mb-8">Related features</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a href="/features/attendance/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Attendance Tracking</h3>
+          <p class="text-ink-mute text-sm">Take registers poolside with offline mode</p>
+        </a>
+        <a href="/features/parent-portal/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Parent Portal</h3>
+          <p class="text-ink-mute text-sm">Parents access from any device</p>
+        </a>
+        <a href="/features/membership/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Membership Management</h3>
+          <p class="text-ink-mute text-sm">Manage members on the go</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Access your club from anywhere</h2>
+      <p class="text-xl text-ink-soft mb-8">Create your club today. Free for clubs under 50 members, no card required.</p>
+      <a
+        href="https://app.swimly.uk/create-club"
+        class="inline-flex items-center gap-2.5 px-8 py-4 min-h-12 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-lg shadow-[#FF8552]/20 hover:shadow-[#FF8552]/30 hover:scale-[1.02]"
+      >
+          Start your club, free
+        <ArrowRight class="w-5 h-5" />
+      </a>
+      <p class="mt-6 text-sm text-ink-mute">Free for clubs with fewer than 50 members. No credit card required.</p>
+    </section>
+  </main>
+  <Footer />
+</Layout>

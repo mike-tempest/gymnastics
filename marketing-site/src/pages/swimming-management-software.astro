@@ -1,0 +1,353 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const title = 'Swimming Management Software UK | Swimly';
+const description = 'Swimming management software for UK swim clubs, schools, and teams. Manage members, automate billing, track attendance, and stay compliant with Wavepower. Purpose-built for British swimming organisations.';
+
+const faqItems = [
+  {
+    question: "What is swimming management software?",
+    answer: "Swimming management software is a platform that helps swimming organisations manage their operations digitally. Swimly centralises member records, automated billing, attendance tracking, squad management, and Wavepower compliance in one system, replacing spreadsheets and manual processes."
+  },
+  {
+    question: "Who uses swimming management software?",
+    answer: "Swimming clubs (competitive and recreational), learn-to-swim programmes, masters teams, school swimming programmes, and multi-site swim organisations all use swimming management software. Any swimming organisation that manages members, collects fees, and tracks attendance benefits from dedicated software."
+  },
+  {
+    question: "What problems does swimming management software solve?",
+    answer: "It eliminates spreadsheet chaos, automates manual billing and payment chasing, provides real-time attendance tracking, ensures compliance with Wavepower and Swim England requirements, and gives committee members secure access to up-to-date information from anywhere."
+  },
+  {
+    question: "How is swimming management software different from generic membership platforms?",
+    answer: "Generic platforms require extensive customisation and don't understand UK swimming's specific needs: Swim England registrations, Wavepower safeguarding, swimming-specific compliance, tiered squad structures, and Direct Debit billing through GoCardless. Swimly is built specifically for UK swimming organisations."
+  },
+  {
+    question: "How much does swimming management software cost?",
+    answer: "Swimly offers a free Starter plan for organisations under 50 members. The Club plan is £29/month for 50-200 members with automated billing. The Performance plan costs £49/month for larger organisations (200-500 members) with advanced features and priority support."
+  },
+  {
+    question: "Can I try swimming management software before committing?",
+    answer: "Yes. Swimly offers a founding organisations pilot with 6 months free on any plan and hands-on data migration support. There's no contract, no commitment, and no penalty if you decide to stop using it."
+  }
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Swimming Management Software",
+      "item": "https://swimly.uk/swimming-management-software/"
+    }
+  ]
+};
+
+const softwareAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Swimly",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": description,
+  "url": "https://swimly.uk/swimming-management-software/",
+  "featureList": [
+    "Member management",
+    "Automated Direct Debit billing",
+    "Digital attendance tracking",
+    "Wavepower compliance",
+    "Squad management",
+    "Parent self-service portal",
+    "Financial reporting and analytics"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "GBP"
+  }
+};
+---
+
+<Layout title={title} description={description} faqItems={faqItems}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppSchema, null, 2)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <!-- Hero Section -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+        Swimming Management Software UK
+      </h1>
+      <p class="text-xl text-ink-soft mb-8">
+        Complete swimming management software built for UK swim organisations. Manage members, automate fee collection, track attendance, and maintain Wavepower compliance in one platform. Designed for volunteer committees, not technical teams.
+      </p>
+      <a
+        href="/founding-clubs/"
+        class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+      >
+        Become a founding club
+      </a>
+    </section>
+
+    <!-- The Problem -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Why swimming organisations need proper management software</h2>
+      <div class="space-y-6 text-ink-soft">
+        <p>
+          Swimming clubs, schools, and teams in the UK face the same operational challenges: managing hundreds of members, collecting fees reliably, tracking attendance, and maintaining regulatory compliance. Most rely on fragmented tools that create more work instead of reducing it:
+        </p>
+        <div class="grid sm:grid-cols-3 gap-6 mt-8">
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Data scattered everywhere</h3>
+            <p class="text-sm">Membership records in one spreadsheet, fee tracking in another, attendance on paper registers, DBS certificates in email. Nothing connects. Multiple people hold different versions of the same data.</p>
+          </div>
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Manual processes</h3>
+            <p class="text-sm">Chasing late payments, reconciling bank statements against member lists, printing registers every week, emailing parents individually. Admin takes up evenings and weekends when volunteers should be focusing on swimming.</p>
+          </div>
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Compliance headaches</h3>
+            <p class="text-sm">DBS renewals forgotten until an inspection, coaching qualifications tracked inconsistently, Swim England registration data out of sync. Wavepower compliance becomes an annual panic instead of ongoing management.</p>
+          </div>
+        </div>
+        <p>
+          Swimming management software solves these problems by bringing members, billing, attendance, squads, and compliance into one centralised system that committee members and coaches can access securely from anywhere.
+        </p>
+      </div>
+    </section>
+
+    <!-- The Solution -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">How swimming management software works</h2>
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8 lg:p-12 space-y-8">
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Centralised member database</h3>
+          <p class="text-ink-soft">
+Every member record in one place with swimmer profiles, family accounts, emergency contacts, medical information, and Swim England registration details. Parents update their own information through a self-service portal, reducing admin burden on your committee.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Automated billing and payments</h3>
+          <p class="text-ink-soft">
+Collect monthly fees automatically via Direct Debit through GoCardless. Set different fee structures per squad or class, handle sibling discounts, and generate invoices automatically. Failed payments retry automatically and parents are notified, eliminating manual payment chasing.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Digital attendance tracking</h3>
+          <p class="text-ink-soft">
+Coaches take attendance on their phone in seconds at poolside. No paper, no clipboards, no wet registers. Session history is saved automatically for safeguarding records, attendance reporting, and squad progression tracking.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Squad and programme management</h3>
+          <p class="text-ink-soft">
+Create unlimited squads or classes with different schedules, coaching teams, and fee structures. Move swimmers between squads as they progress. Track capacity, manage waiting lists, and see squad attendance trends over time.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Wavepower and compliance</h3>
+          <p class="text-ink-soft">
+Track DBS certificates, coaching qualifications, safeguarding training, and first aid certifications with automatic renewal alerts. Compliance dashboard shows your organisation's status at a glance for Swim England inspections and SwimMark accreditation.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Communication and notifications</h3>
+          <p class="text-ink-soft">
+Send announcements to specific squads, classes, or your entire organisation. Automated alerts for session cancellations, payment reminders, membership renewals, and important deadlines. One communication channel replaces multiple WhatsApp groups and email threads.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Reporting and analytics</h3>
+          <p class="text-ink-soft">
+Financial reports, attendance trends, membership growth, squad capacity, and compliance status all in one dashboard. Export data for AGMs, committee meetings, and Swim England reporting requirements.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Benefits of swim management software</h2>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">For treasurers</h3>
+          <ul class="text-ink-soft space-y-3">
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2 mt-1">✓</span>
+              <span>Automated fee collection via Direct Debit, no more chasing payments</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2 mt-1">✓</span>
+              <span>Real-time financial reporting and reconciliation</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2 mt-1">✓</span>
+              <span>Automated invoices and receipts sent to parents</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2 mt-1">✓</span>
+              <span>Failed payment alerts and automatic retry</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">For membership secretaries</h3>
+          <ul class="text-ink-soft space-y-3">
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2 mt-1">✓</span>
+              <span>Centralised member database with no version conflicts</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2 mt-1">✓</span>
+              <span>Parents update their own information via self-service portal</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2 mt-1">✓</span>
+              <span>Automated membership renewal reminders</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2 mt-1">✓</span>
+              <span>Waiting list management and squad capacity tracking</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">For coaches</h3>
+          <ul class="text-ink-soft space-y-3">
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2 mt-1">✓</span>
+              <span>Poolside attendance on phone, no paper registers</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2 mt-1">✓</span>
+              <span>See squad lists and swimmer information instantly</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2 mt-1">✓</span>
+              <span>Attendance history and patterns for each swimmer</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2 mt-1">✓</span>
+              <span>Focus on coaching, not admin</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">For safeguarding officers</h3>
+          <ul class="text-ink-soft space-y-3">
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2 mt-1">✓</span>
+              <span>Track DBS certificates with automatic expiry alerts</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2 mt-1">✓</span>
+              <span>Monitor safeguarding training and first aid qualifications</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2 mt-1">✓</span>
+              <span>Session attendance records stored securely</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2 mt-1">✓</span>
+              <span>Wavepower compliance dashboard for inspections</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Purpose-built for UK swimming</h2>
+      <div class="space-y-6 text-ink-soft">
+        <p>
+          Swimly was built by a swim parent and CTO who saw volunteer committees drowning in admin work every evening. We're not a generic membership platform adapted for swimming. We're swimming management software built from the ground up for UK organisations.
+        </p>
+        <div class="grid sm:grid-cols-3 gap-6">
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 text-center">
+            <div class="font-display text-3xl text-mint-ink mb-2">UK-hosted</div>
+            <p class="text-sm text-ink-mute">Data stored in the UK. GDPR compliant. No transatlantic data transfers.</p>
+          </div>
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 text-center">
+            <div class="font-display text-3xl text-mint-ink mb-2">GoCardless</div>
+            <p class="text-sm text-ink-mute">Direct Debit billing powered by the UK's leading payment provider. FCA regulated.</p>
+          </div>
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 text-center">
+            <div class="font-display text-3xl text-mint-ink mb-2">Swim England</div>
+            <p class="text-sm text-ink-mute">Built around Wavepower, SwimMark, and Swim England membership categories.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Frequently asked questions</h2>
+      <div class="space-y-6">
+        {faqItems.map((item) => (
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">{item.question}</h3>
+            <p class="text-ink-soft">{item.answer}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Related Pages -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-2xl text-[#0F2D2D] mb-6">Learn more</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <a href="/swim-club-management-software/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Swim Club Management Software</h3>
+          <p class="text-ink-mute text-sm">Complete platform overview for volunteer-run swimming clubs</p>
+        </a>
+        <a href="/swim-team-management-software/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Swim Team Management Software</h3>
+          <p class="text-ink-mute text-sm">Purpose-built software for competitive and recreational swim teams</p>
+        </a>
+        <a href="/swimming-club-billing-software/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Billing Software</h3>
+          <p class="text-ink-mute text-sm">Automated Direct Debit fee collection for swimming organisations</p>
+        </a>
+        <a href="/pricing/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Pricing</h3>
+          <p class="text-ink-mute text-sm">Transparent monthly pricing from free to £49/month</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Ready to modernise your swimming admin?</h2>
+      <p class="text-xl text-ink-soft mb-8">Join our founding organisations pilot with 6 months free on any plan and hands-on data migration support.</p>
+      <a
+        href="/founding-clubs/"
+        class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+      >
+        Become a founding club
+      </a>
+      <p class="mt-6 text-sm text-ink-mute">
+        No contract. No per-member fees. Cancel any time.
+      </p>
+    </section>
+  </main>
+  <Footer />
+</Layout>

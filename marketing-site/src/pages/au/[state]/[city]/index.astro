@@ -1,0 +1,288 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import states from '../../../../data/au-states.json';
+import cities from '../../../../data/au-cities.json';
+import directoryClubs from '../../../../data/au-clubs.json';
+import { REGIONS } from '../../../../config/regions';
+
+export async function getStaticPaths() {
+  return Object.entries(cities).map(([slug, city]) => {
+    const stateData = states[city.stateSlug];
+    return {
+      params: { state: city.stateSlug, city: slug },
+      props: { city, stateName: stateData.name, stateAbbr: stateData.abbr },
+    };
+  });
+}
+
+const { city, stateName, stateAbbr } = Astro.props;
+const { state } = Astro.params;
+const { name } = city;
+
+// Directory cross-links: real clubs and swim schools listed in this city and
+// state, from the club-finder data.
+const cityDirectoryClubs = directoryClubs
+  .filter((c) => c.stateSlug === state && c.citySlug === city.slug)
+  .sort((a, b) => a.name.localeCompare(b.name));
+const stateHasDirectoryClubs = directoryClubs.some((c) => c.stateSlug === state);
+
+const SITE_URL = 'https://swimly.club';
+const appUrl = REGIONS.au.appUrl;
+
+const pageTitle = `Swimming Club Management Software in ${name}, ${stateName} | Swimly`;
+const metaDescription = `Swimly is swimming club management software for clubs in ${name}, ${stateName}. Handle membership, payments, attendance, and compliance in one place. Free to start.`;
+
+// Use a stable, content-derived variant so neighbouring city pages do not all
+// share the same prose. This keeps copy varied without inventing any local facts.
+const variant = (name.replace(/[^a-z]/gi, '').length + name.length) % 3;
+
+const softwareApplicationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Swimly',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  url: SITE_URL,
+  areaServed: {
+    '@type': 'City',
+    name: name,
+    containedInPlace: {
+      '@type': 'AdministrativeArea',
+      name: `${stateName}, Australia`,
+    },
+  },
+  description: `Swimming club management software for clubs in ${name}, ${stateName}. Membership, billing, attendance, and compliance.`,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'AUD',
+    description: 'Free for clubs under 50 members',
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: `${SITE_URL}/`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Australia',
+      item: `${SITE_URL}/au/`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: stateName,
+      item: `${SITE_URL}/au/${state}/`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 4,
+      name: name,
+      item: `${SITE_URL}/au/${state}/${city.slug}/`,
+    },
+  ],
+};
+---
+
+<Layout title={pageTitle} description={metaDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(softwareApplicationSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <Nav />
+
+  <main class="pt-24">
+    <!-- Hero Section -->
+    <section class="relative py-20 px-4 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[500px] pointer-events-none"></div>
+      <div class="relative max-w-4xl mx-auto text-center">
+        <nav aria-label="Breadcrumb" class="mb-6">
+          <ol class="flex items-center justify-center gap-2 text-sm text-ink-mute">
+            <li><a href="/au/" class="hover:text-mint-ink transition-colors">Australia</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href={`/au/${state}/`} class="hover:text-mint-ink transition-colors">{stateName}</a></li>
+            <li aria-hidden="true">/</li>
+            <li class="text-[#0F2D2D]" aria-current="page">{name}</li>
+          </ol>
+        </nav>
+        <h1 class="font-display text-4xl md:text-5xl text-[#0F2D2D] mb-6">
+          Swimming Club Management Software in <em class="text-mint-ink">{name}</em>
+        </h1>
+        <p class="text-xl text-ink-soft mb-8 max-w-2xl mx-auto">
+          Swimly helps swimming clubs in {name}, {stateName} run membership, payments, attendance,
+          and compliance from one calm, organised place.
+        </p>
+        <div class="flex gap-4 justify-center flex-wrap">
+          <a href={`${appUrl}/create-club`} class="px-6 py-3 min-h-12 inline-flex items-center bg-lime-cta text-[#0F2D2D] rounded-lg font-semibold hover:bg-lime-cta-hover transition-colors">
+            Start your club, free
+          </a>
+          <a href="/#features" class="px-6 py-3 min-h-12 inline-flex items-center border border-[#297373]/40 text-ink rounded-lg font-semibold hover:bg-surface transition-colors">
+            See features
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Local Context Section -->
+    <section class="py-16 px-4 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Swimming clubs in {name}</h2>
+        {variant === 0 && (
+          <div class="space-y-4">
+            <p class="text-ink-soft leading-relaxed">
+              Running a swimming club in {name} means looking after far more than what happens in
+              the water. Registrations, fees, squad lists, and family communication all need to be
+              kept in order, and most of that work falls to volunteers giving up their evenings and
+              weekends in {stateName}.
+            </p>
+            <p class="text-ink-soft leading-relaxed">
+              Swimly pulls those tasks into one place. Membership records, automated billing in
+              Australian dollars, and poolside attendance all live together, so the committee in
+              {name} can see what is happening at a glance and spend more of its time on coaching
+              and club life.
+            </p>
+          </div>
+        )}
+        {variant === 1 && (
+          <div class="space-y-4">
+            <p class="text-ink-soft leading-relaxed">
+              Swimming clubs in {name} bring together swimmers of every age and ability, from
+              learn-to-swim beginners to competitive squads chasing personal bests. Behind each
+              session sits a steady stream of admin that can easily overwhelm a small volunteer
+              committee in {stateName}.
+            </p>
+            <p class="text-ink-soft leading-relaxed">
+              Swimly is built to take that weight off. It keeps membership, payments, and attendance
+              organised and up to date, and it is quick to hand over when committee roles change, so
+              clubs in {name} keep running smoothly season after season.
+            </p>
+          </div>
+        )}
+        {variant === 2 && (
+          <div class="space-y-4">
+            <p class="text-ink-soft leading-relaxed">
+              For a swimming club in {name}, the hardest part is often not the training, it is
+              keeping everything else organised. Chasing fees through bank transfers, tracking who
+              turned up, and answering the same questions from parents can eat up the hours that
+              volunteers in {stateName} would rather spend on the pool deck.
+            </p>
+            <p class="text-ink-soft leading-relaxed">
+              Swimly gives clubs in {name} a single, tidy home for all of it. Members, invoices,
+              squads, and attendance sit side by side, and a parent portal means families can find
+              schedules and payments themselves rather than waiting on a reply.
+            </p>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="font-display text-3xl text-[#0F2D2D] text-center mb-12">What Swimly does for {name} clubs</h2>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Member management</h3>
+            <p class="text-ink-soft text-sm">Keep swimmers, parents, and coaches in one organised, centralised system.</p>
+          </div>
+
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Automated billing</h3>
+            <p class="text-ink-soft text-sm">Collect fees in Australian dollars with clear reporting and reconciliation.</p>
+          </div>
+
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Attendance tracking</h3>
+            <p class="text-ink-soft text-sm">Poolside check-in for coaches. Know who is here, who is late, and who is away.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Directory: clubs and swim schools here -->
+    {cityDirectoryClubs.length > 0 ? (
+      <section class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="font-display text-3xl text-[#0F2D2D] text-center mb-4">
+            Swimming clubs and swim schools in {name}
+          </h2>
+          <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">
+            Real programmes in {name} from the Swimly directory.
+          </p>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {cityDirectoryClubs.map((club) => (
+              <a
+                href={`/au/clubs/${club.stateSlug}/${club.slug}/`}
+                class="group p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all hover:-translate-y-1"
+              >
+                <h3 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors mb-2">
+                  {club.name}
+                </h3>
+                <p class="text-ink-mute text-sm mb-3">
+                  {club.type === 'competitive' ? 'Competitive swimming club' : 'Swim school'}
+                </p>
+                <p class="text-sm text-ink-soft leading-relaxed line-clamp-2">{club.description}</p>
+              </a>
+            ))}
+          </div>
+          <p class="text-center text-ink-mute mt-8">
+            <a href={`/au/clubs/${state}/`} class="text-mint-ink hover:underline">
+              Browse all {stateName} clubs and swim schools
+            </a>
+          </p>
+        </div>
+      </section>
+    ) : (
+      <section class="py-8 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <p class="text-ink-soft">
+            Looking for a club to join in {name}? Browse the
+            <a
+              href={stateHasDirectoryClubs ? `/au/clubs/${state}/` : '/au/clubs/'}
+              class="text-mint-ink font-semibold hover:underline"
+            >
+              directory of swimming clubs and swim schools{stateHasDirectoryClubs ? ` in ${stateName}` : ' across Australia'}</a
+            >.
+          </p>
+        </div>
+      </section>
+    )}
+
+    <!-- CTA Section -->
+    <section class="py-20 px-4 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-3xl mx-auto text-center bg-[#85FFC7]/15 border border-[#1F7A52]/20 rounded-2xl p-12">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Ready to organise your {name} club?</h2>
+        <p class="text-ink-soft mb-8">
+          Set up your club in minutes and give members in {name} a better experience from day one.
+        </p>
+        <a href={`${appUrl}/create-club`} class="inline-flex items-center px-8 py-4 min-h-12 bg-lime-cta text-[#0F2D2D] rounded-lg font-semibold hover:bg-lime-cta-hover transition-colors">
+          Start your club, free
+        </a>
+        <p class="text-ink-mute text-sm mt-4">Free for clubs under 50 members</p>
+        <p class="text-ink-mute text-sm mt-2">
+          <a href={`/au/${state}/`} class="text-mint-ink hover:underline">Back to swimming club software in {stateName}</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

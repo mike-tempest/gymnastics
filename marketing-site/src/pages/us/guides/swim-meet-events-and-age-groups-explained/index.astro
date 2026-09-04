@@ -1,0 +1,600 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+
+// Region-only page on swimly.club. Self-canonical: no cross-region hreflang.
+// US English, USD, USA Swimming, "swim team", "swim meet". Canonical, host and
+// lang are derived from the path by the Layout via src/config/regions.ts. Do
+// not hardcode them here.
+//
+// Every event list, age group rule, stroke order and event-per-day limit on
+// this page is taken from the USA Swimming Rules and Regulations (Article
+// 101.6, 101.7, 102.1, 102.2 and Article 205) and the published 2024-2028
+// Motivational Standards. Nothing here is estimated or invented.
+const SITE = "https://swimly.club";
+const PATH = "/us/guides/swim-meet-events-and-age-groups-explained/";
+const canonical = `${SITE}${PATH}`;
+const appUrl = "https://app.swimly.uk/create-club";
+const contactEmail = "hello@swimly.club";
+
+const title = "Swim Meet Events and Age Groups Explained | Swimly";
+const description =
+  "What events swimmers race at each age, how USA Swimming age groups work, IM and relay order, short course vs long course, and what B to AAAA times mean.";
+
+const faqItems = [
+  {
+    question: "What are the age groups in USA Swimming?",
+    answer:
+      "USA Swimming's Age Group program is for registered swimmers 18 years and younger, and its recognized event list is written in four bands: 10 years and younger, 11-12, 13-14, and 15-18. Local Swimming Committees tailor meets to local conditions, so you will also see 8 and under events, single-year age groups, and 15-16 and 17-18 split apart, which is how the national motivational time standards are published. Your team's meet announcement always states the exact age groups being offered.",
+  },
+  {
+    question: "How is my child's age group decided at a meet?",
+    answer:
+      "Eligibility is determined by the swimmer's date of birth, and their age on the first day of the meet sets their age group for the whole meet. If your child has a birthday partway through a three-day meet, they stay in the age group they started in. A swimmer competes in the age group events matching their age, with narrow exceptions for consolidated events, mixed classification meets, and events the referee combines.",
+  },
+  {
+    question: "What events can a 10 and under swimmer enter?",
+    answer:
+      "USA Swimming's recognized events for 10 years and younger are the 50, 100, 200 and 400 meter or 500 yard freestyle, the 50 and 100 backstroke, breaststroke and butterfly, the 100 and 200 individual medley, and the 200 freestyle and 200 medley relays. Development meets for 12 and younger also offer 25 yard or meter races in each stroke and a 100 individual medley, which is where most new swimmers start.",
+  },
+  {
+    question: "What order are the strokes in the individual medley?",
+    answer:
+      "In an individual medley one swimmer swims all four strokes in this order: butterfly, backstroke, breaststroke, then freestyle. A medley relay uses a different order because four different swimmers each take one leg: backstroke, breaststroke, butterfly, then freestyle. The backstroke leg is first in the relay so that swimmer can start in the water.",
+  },
+  {
+    question: "What is the difference between short course and long course?",
+    answer:
+      "Short course means a 25 yard or 25 meter pool and long course means a 50 meter pool. US club seasons are usually short course yards in the fall and winter and long course meters in the spring and summer. The distances change with the course, which is why the recognized event list pairs them: a 500 yard freestyle short course is the equivalent event to a 400 meter freestyle long course, as are the 1000 yard and 800 meter, and the 1650 yard and 1500 meter.",
+  },
+  {
+    question: "How many events can my child swim in one day?",
+    answer:
+      "USA Swimming limits a swimmer to three individual events per day at a meet with preliminaries and finals, and six individual events per day at a timed finals meet. Meet announcements often set a lower limit. Separately, sessions for swimmers 12 and younger must be planned to finish in four hours or less, and those swimmers race in only one session per day except at prelim and final meets.",
+  },
+  {
+    question: "What do B, BB, A, AA, AAA and AAAA times mean?",
+    answer:
+      "They are USA Swimming's national motivational time standards, published for each recognized event by age group and gender, with B the entry level and AAAA the fastest. They exist so a swimmer can measure progress against a national scale instead of only against the swimmers in their own team. The current set is the 2024-2028 standards. Your Local Swimming Committee may also set its own time standards for entry into its meets, or sanction meets with no entry time requirement at all.",
+  },
+];
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "Swim Meet Events and Age Groups Explained",
+  description: description,
+  url: canonical,
+  author: { "@type": "Organization", name: "Swimly" },
+  publisher: {
+    "@type": "Organization",
+    name: "Swimly",
+    logo: { "@type": "ImageObject", url: `${SITE}/swimly-logo.svg` },
+  },
+  mainEntityOfPage: canonical,
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/us/` },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/us/guides/` },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Swim Meet Events and Age Groups Explained",
+      item: canonical,
+    },
+  ],
+};
+
+// USA Swimming Rules and Regulations, 102.1.2 (age group events). The paired
+// notation, for example "400m/500y", is the rulebook's own: the first figure is
+// the long course meters event, the second the short course yards equivalent.
+const eventsByAgeGroup = [
+  {
+    ageGroup: "10 years and younger",
+    freestyle: "50, 100, 200, 400m/500y",
+    backstroke: "50, 100",
+    breaststroke: "50, 100",
+    butterfly: "50, 100",
+    im: "100, 200",
+    relays: "200 freestyle, 200 medley",
+  },
+  {
+    ageGroup: "11-12",
+    freestyle: "50, 100, 200, 400m/500y, 800m/1000y, 1500m/1650y",
+    backstroke: "50, 100, 200",
+    breaststroke: "50, 100, 200",
+    butterfly: "50, 100, 200",
+    im: "100, 200, 400",
+    relays: "200 and 400 freestyle, 200 and 400 medley",
+  },
+  {
+    ageGroup: "13-14",
+    freestyle: "50, 100, 200, 400m/500y, 800m/1000y, 1500m/1650y",
+    backstroke: "50, 100, 200",
+    breaststroke: "50, 100, 200",
+    butterfly: "50, 100, 200",
+    im: "200, 400",
+    relays: "200, 400 and 800 freestyle, 200 and 400 medley",
+  },
+  {
+    ageGroup: "15-18",
+    freestyle: "50, 100, 200, 400m/500y, 800m/1000y, 1500m/1650y",
+    backstroke: "100, 200",
+    breaststroke: "100, 200",
+    butterfly: "100, 200",
+    im: "200, 400",
+    relays: "200, 400 and 800 freestyle, 200 and 400 medley",
+  },
+];
+
+const strokes = [
+  {
+    heading: "Freestyle",
+    body:
+      "Any stroke the swimmer chooses, which in practice means front crawl. The one exception is inside an individual medley or a medley relay, where the freestyle leg must be a stroke other than backstroke, breaststroke or butterfly, because those have already been swum.",
+  },
+  {
+    heading: "Backstroke",
+    body:
+      "Swum on the back, and the only individual race that starts in the water with the swimmer holding the wall rather than from the blocks. Short races are 50 and 100, and 200 backstroke appears from 11-12 upward.",
+  },
+  {
+    heading: "Breaststroke",
+    body:
+      "The most technical stroke to swim legally, and the one where new swimmers most often pick up a disqualification for a kick or a one-handed touch. Officials judge the pullout, the kick and the two-hand touch at every wall.",
+  },
+  {
+    heading: "Butterfly",
+    body:
+      "Physically the hardest stroke, which is why the recognized list keeps it short for younger swimmers: 50 and 100 for 10 and unders, with the 200 butterfly not appearing until 11-12.",
+  },
+  {
+    heading: "Individual medley",
+    body:
+      "One swimmer, all four strokes, in a fixed order: butterfly, backstroke, breaststroke, freestyle. The 100 IM is the classic first-meet event for a young swimmer, and the 200 and 400 IM follow as they age up.",
+  },
+];
+
+const developmentEvents = [
+  "25 yard or meter freestyle, backstroke, breaststroke and butterfly",
+  "50 and 100 freestyle, and 50 backstroke, breaststroke and butterfly",
+  "100 individual medley",
+  "100 and 200 freestyle and medley relays",
+];
+
+const timeStandards = [
+  {
+    heading: "What the letters mean",
+    body:
+      "USA Swimming publishes national motivational time standards for each recognized event, by age group and gender, on a scale that runs B, BB, A, AA, AAA, AAAA. B is the entry rung and AAAA is the fastest. The current set is the 2024-2028 standards.",
+  },
+  {
+    heading: "Where they come from",
+    body:
+      "The rules require USA Swimming to establish and publish national motivational times for the recognized events. They are national benchmarks, so a swimmer in Ohio and a swimmer in Oregon are measuring themselves against the same scale.",
+  },
+  {
+    heading: "Why the age bands differ",
+    body:
+      "The event list groups 15-18 together, but the motivational standards are published in 10 and under, 11-12, 13-14, 15-16 and 17-18 bands. That is why a meet can offer a 15-18 event while your swimmer's time standard is a 15-16 one.",
+  },
+  {
+    heading: "What your LSC can do",
+    body:
+      "A Local Swimming Committee may set its own age group time standards for meets in its jurisdiction, or sanction meets with no entry time requirement at all. Where an event does carry a standard, only swimmers whose best time meets it for their age can enter.",
+  },
+];
+
+const adminTasks = [
+  {
+    heading: "Collect meet entries cleanly",
+    body:
+      "Gather which swimmers want which events, in one place, so your coach can build the entry file without chasing a spreadsheet or a group chat.",
+  },
+  {
+    heading: "Keep swimmer records straight",
+    body:
+      "Dates of birth decide age groups, so they have to be right. Swimly keeps swimmer and family records current instead of scattered across old forms.",
+  },
+  {
+    heading: "Bill dues and meet fees in USD",
+    body:
+      "Entry fees stack up across a season. Swimly bills them automatically so your treasurer is not reconciling checks by hand every month.",
+  },
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonical={canonical}
+  imageUrl={`${SITE}/og-image.png`}
+  faqItems={faqItems}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+
+  <header class="border-b border-hairline bg-canvas/85 backdrop-blur-xl">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-[68px]">
+        <a href="/us/" class="font-display text-[26px] text-[#0F2D2D] tracking-tight leading-none">Swimly</a>
+        <a
+          href={appUrl}
+          class="text-[15px] font-bold px-5 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-colors min-h-12 inline-flex items-center shadow-[0_1px_3px_rgba(57,57,58,0.16)]"
+        >
+          Start your team
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pb-16">
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section class="py-12">
+        <p class="eyebrow mb-3">US Guide</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          Swim meet events and age groups explained
+        </h1>
+        <p class="text-xl text-ink-soft leading-relaxed">
+          A swim meet event is one race defined by three things: a stroke, a distance and an age
+          group. USA Swimming's Age Group program covers registered swimmers 18 years and younger,
+          and its recognized event list is written in four bands, 10 years and younger, 11-12, 13-14
+          and 15-18, with a different menu of distances in each. Your child's age on the first day of
+          the meet decides which band they race in for the whole meet. This guide sets out exactly
+          which events each age group swims, what the strokes and the medley order are, how short
+          course and long course change the distances, and what the B to AAAA time standards mean.
+        </p>
+        <div class="mt-8">
+          <a
+            href={appUrl}
+            class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+          >
+            Start your team free
+          </a>
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">What counts as an event at a swim meet</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Read a meet program and you will see lines like "Event 14, Girls 11-12 100 Yard
+          Backstroke". That single line carries everything an event is: the gender, the age group,
+          the distance, the course and the stroke. Every event is numbered, and the meet works
+          through them in order. Because more swimmers enter an event than a pool has lanes, each
+          one is split into heats, which our
+          <a href="/us/guides/how-swim-meets-work-parent-guide/" class="text-mint-ink font-semibold hover:underline">guide to how swim meets work</a>
+          covers alongside seeding, heat sheets and officials.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          What this guide covers is the menu those events are chosen from. Teams do not invent
+          events. USA Swimming publishes a list of recognized events for each age group, and meets
+          are built by selecting from that list, or from other event types their Local Swimming
+          Committee sanctions.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">The four strokes, plus the individual medley</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          Every individual event is one of five things. Four are single strokes and the fifth mixes
+          all of them.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {strokes.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How USA Swimming age groups work</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Age Group swimming is the program through which USA Swimming provides competition for its
+          registered swimmers aged 18 and younger. Three rules decide where your child fits.
+        </p>
+        <ol class="space-y-3 text-lg text-ink-soft leading-relaxed list-decimal pl-6 mb-4">
+          <li>
+            Eligibility for an age group is set by the swimmer's <span class="font-semibold text-[#0F2D2D]">date of birth</span>,
+            not by school year or grade.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Age on the first day of the meet</span> is the
+            swimmer's age for the entire meet. A birthday on day two of a three-day meet does not
+            move them up.
+          </li>
+          <li>
+            A swimmer races the events for their own age group, with narrow exceptions for
+            consolidated events, mixed classification meets, and events a referee combines to keep
+            the session moving.
+          </li>
+        </ol>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          You will still see age groups that are not on the four-band list, and that is normal.
+          Programs for age group meets may be tailored to local requirements, so an LSC or a host
+          team can run 8 and under events, single-year age groups at a developmental meet, or split
+          15-18 into 15-16 and 17-18. The meet announcement is always the authority for a given
+          meet. If the terms in it are new to you, our
+          <a href="/us/guides/joining-a-us-swim-team-parent-guide/" class="text-mint-ink font-semibold hover:underline">guide to joining a US swim team</a>
+          explains registration, practice groups and the shape of a season.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">What events does each age group swim?</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          Here is USA Swimming's recognized event list, by age group. Distances written as a pair,
+          such as 400m/500y, are the same event in the two courses: the first figure is the long
+          course meters version, the second is the short course yards version.
+        </p>
+        <div class="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+          <table class="w-full min-w-[46rem] text-left border-collapse">
+            <thead>
+              <tr class="border-b border-hairline">
+                <th class="py-3 pr-4 text-sm font-semibold text-[#0F2D2D] align-bottom">Age group</th>
+                <th class="py-3 pr-4 text-sm font-semibold text-[#0F2D2D] align-bottom">Freestyle</th>
+                <th class="py-3 pr-4 text-sm font-semibold text-[#0F2D2D] align-bottom">Backstroke</th>
+                <th class="py-3 pr-4 text-sm font-semibold text-[#0F2D2D] align-bottom">Breaststroke</th>
+                <th class="py-3 pr-4 text-sm font-semibold text-[#0F2D2D] align-bottom">Butterfly</th>
+                <th class="py-3 pr-4 text-sm font-semibold text-[#0F2D2D] align-bottom">Individual medley</th>
+                <th class="py-3 text-sm font-semibold text-[#0F2D2D] align-bottom">Relays</th>
+              </tr>
+            </thead>
+            <tbody>
+              {eventsByAgeGroup.map((row) => (
+                <tr class="border-b border-hairline align-top">
+                  <th scope="row" class="py-4 pr-4 text-base font-semibold text-[#0F2D2D] whitespace-nowrap">{row.ageGroup}</th>
+                  <td class="py-4 pr-4 text-base text-ink-soft">{row.freestyle}</td>
+                  <td class="py-4 pr-4 text-base text-ink-soft">{row.backstroke}</td>
+                  <td class="py-4 pr-4 text-base text-ink-soft">{row.breaststroke}</td>
+                  <td class="py-4 pr-4 text-base text-ink-soft">{row.butterfly}</td>
+                  <td class="py-4 pr-4 text-base text-ink-soft">{row.im}</td>
+                  <td class="py-4 text-base text-ink-soft">{row.relays}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-6">
+          Two patterns are worth noticing. Distance events arrive with age: the 800 and 1500
+          freestyle are on the list from 11-12, and the 400 individual medley from 11-12 as well.
+          And the sprint 50s in backstroke, breaststroke and butterfly drop off at 15-18, because
+          that age group's list matches the senior program, where those strokes start at 100.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Where a brand new swimmer starts: development events</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          If your child is seven and the shortest event on the list above is a 50, that is not the
+          meet they will be entered in first. USA Swimming recognizes a separate development
+          competition list for swimmers <span class="font-semibold text-[#0F2D2D]">12 years and younger</span>,
+          built around shorter races:
+        </p>
+        <ul class="space-y-3 text-lg text-ink-soft leading-relaxed list-disc pl-6 mb-4">
+          {developmentEvents.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          A 25 is one length of a short course pool, which for a first-time racer is the whole point:
+          the child can see the wall they are aiming for from the block. Most swimmers do a season or
+          two of 25s and 50s before the 100s and the individual medley become routine.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Short course and long course: why the distances change</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          In USA Swimming's rules, <span class="font-semibold text-[#0F2D2D]">long course</span> means a
+          50 meter pool and <span class="font-semibold text-[#0F2D2D]">short course</span> means a 25
+          yard or 25 meter pool. US club seasons are typically short course yards in the fall and
+          winter and long course meters in the spring and summer, so the same swimmer races the same
+          stroke over slightly different distances at different points in the year.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The 50, 100 and 200 keep their names in both courses. The longer freestyle events do not,
+          which is why the recognized list pairs them:
+        </p>
+        <ul class="space-y-3 text-lg text-ink-soft leading-relaxed list-disc pl-6 mb-4">
+          <li>400 meter freestyle long course, 500 yard freestyle short course</li>
+          <li>800 meter freestyle long course, 1000 yard freestyle short course</li>
+          <li>1500 meter freestyle long course, 1650 yard freestyle short course</li>
+        </ul>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Times from the two courses are not interchangeable, and neither are the time standards. A
+          long course 100 freestyle has one turn where a short course yards 100 has three, so the
+          long course time will be slower. Nothing has gone wrong when your child's summer times look
+          worse than their winter ones.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Relays, and the order the strokes come in</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          A relay is four swimmers from the same team, each swimming a quarter of the distance. There
+          are two kinds, and the stroke order is the thing parents most often mix up:
+        </p>
+        <ul class="space-y-3 text-lg text-ink-soft leading-relaxed list-disc pl-6 mb-4">
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Freestyle relay:</span> four swimmers, any
+            stroke, which in practice is four front crawl legs.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Medley relay:</span> backstroke first, then
+            breaststroke, then butterfly, then freestyle. The backstroke leg leads off because that
+            swimmer starts in the water.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Individual medley:</span> a different order
+            again, because it is one swimmer, not four. Butterfly, backstroke, breaststroke,
+            freestyle.
+          </li>
+        </ul>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          You will also see mixed relays, which at LSC championship level and above must be two male
+          and two female swimmers. No swimmer may swim more than one leg of the same relay.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How many events can one swimmer enter?</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          There are national limits, and your meet announcement may set tighter ones:
+        </p>
+        <ul class="space-y-3 text-lg text-ink-soft leading-relaxed list-disc pl-6 mb-4">
+          <li>
+            At a meet with preliminaries and finals, a maximum of
+            <span class="font-semibold text-[#0F2D2D]">three individual events per day</span>.
+          </li>
+          <li>
+            At a timed finals meet, where a swim counts on the spot with no final to come back for, a
+            maximum of <span class="font-semibold text-[#0F2D2D]">six individual events per day</span>.
+          </li>
+          <li>
+            For swimmers <span class="font-semibold text-[#0F2D2D]">12 and younger</span>, outside
+            championship and open water meets, sessions must be planned to run in four hours or less,
+            and those swimmers race in one session per day, except at prelim and final meets.
+          </li>
+        </ul>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          That last rule is the one to remember when you are planning a weekend. It exists so a
+          ten-year-old is not sitting on a pool deck for eight hours, and it is a reasonable thing to
+          ask about if a meet schedule looks longer than it should.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">What B, BB, A, AA, AAA and AAAA mean</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          Once your child has raced an event, their time gets compared to a national scale. Those
+          letters are the scale.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {timeStandards.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-6">
+          A standard is specific to one event, one course, one age group and one gender, so a
+          swimmer can hold a BB in the 50 freestyle and a B in the 100 breaststroke at the same time.
+          They also reset when a swimmer ages up, which is why a birthday can feel like a step
+          backward on paper while nothing about the swimming has changed.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How coaches choose which events your child swims</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Entries are the coach's call, and they are usually made a few weeks before the meet. A
+          coach is working within the same constraints this guide describes: the events offered in
+          that age group at that meet, any entry time standard on them, and the per-day limits above.
+          Within those, they are balancing what a swimmer is training for against what will give them
+          a good day.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Two things follow from that, and both save a lot of frustration. First, an event your child
+          did not get entered in is almost never a judgment on them; it is often an entry standard or
+          a session limit. Second, the individual medley shows up early and often for younger
+          swimmers because it makes them practice all four strokes legally, not because anyone thinks
+          a nine-year-old is a future medley specialist. If you want to ask about entries, ask the
+          coach directly and well before the entry deadline, not on the pool deck on the day.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Where Swimly fits</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          Behind every entry file is a volunteer collecting who wants to swim what, checking dates of
+          birth, and billing the fees. Swimly is swim team management software built for US teams
+          that takes that administration off a volunteer's plate. It does not replace your USA
+          Swimming or Local Swimming Committee membership, and it is not affiliated with USA
+          Swimming; our
+          <a href="/us/guides/usa-swimming-safe-sport-explained/" class="text-mint-ink font-semibold hover:underline">USA Swimming and Safe Sport guide</a>
+          explains how that membership works.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-3">
+          {adminTasks.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-6">
+          See what is included and how plans are priced on the
+          <a href="/us/pricing/" class="text-mint-ink font-semibold hover:underline">pricing page</a>,
+          explore the platform on the
+          <a href="/us/features/" class="text-mint-ink font-semibold hover:underline">features page</a>,
+          or browse the rest of our
+          <a href="/us/guides/" class="text-mint-ink font-semibold hover:underline">US guides</a>.
+          Questions before you start? Email us at
+          <a href={`mailto:${contactEmail}`} class="text-mint-ink font-semibold hover:underline">{contactEmail}</a>.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Frequently asked questions</h2>
+        <div class="space-y-6">
+          {faqItems.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.question}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Primary sources</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The event lists, age group rules, stroke orders and per-day limits on this page come from
+          the USA Swimming Rules and Regulations, and the time standard levels from USA Swimming's
+          published motivational standards. Both are updated over time, so check the official
+          documents and your meet announcement for the current detail.
+        </p>
+        <ul class="space-y-3 text-lg text-ink-soft leading-relaxed list-disc pl-6">
+          <li>
+            <a href="https://www.usaswimming.org/docs/default-source/governance/governance-lsc-website/rules_policies/rulebooks/2024-rulebook.pdf" rel="nofollow noopener" target="_blank" class="text-mint-ink font-semibold hover:underline">USA Swimming: Rules and Regulations</a>
+            (Article 101 strokes and relays, Article 102 events and entry limits, Article 205 the Age Group program)
+          </li>
+          <li>
+            <a href="https://www.usaswimming.org/times/time-standards" rel="nofollow noopener" target="_blank" class="text-mint-ink font-semibold hover:underline">USA Swimming: Time Standards</a>
+          </li>
+          <li>
+            <a href="https://www.usaswimming.org/times" rel="nofollow noopener" target="_blank" class="text-mint-ink font-semibold hover:underline">USA Swimming: Times</a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="py-12 text-center">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Spend less time on admin, more on swimming</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-8 max-w-2xl mx-auto">
+          Collect meet entries, keep swimmer records accurate, and bill dues in one place. Set up
+          your team in minutes.
+        </p>
+        <a
+          href={appUrl}
+          class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+        >
+          Start your team free
+        </a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="border-t border-hairline">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-ink-mute">&copy; {new Date().getFullYear()} Swimly</p>
+      <a href={`mailto:${contactEmail}`} class="text-sm text-ink-mute hover:text-[#0F2D2D] transition-colors">{contactEmail}</a>
+    </div>
+  </footer>
+</Layout>

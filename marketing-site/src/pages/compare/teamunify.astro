@@ -1,0 +1,433 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { ArrowRight, PoundSterling, Zap, Smartphone, Users } from '@lucide/astro';
+
+const title = 'Swimly vs TeamUnify | UK Swim Club Software';
+const description = 'Compare Swimly and TeamUnify for UK clubs. GoCardless Direct Debit, transparent pricing, and no US-centric overhead. Built for British swimming.';
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Compare",
+      "item": "https://swimly.uk/compare/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "TeamUnify",
+      "item": "https://swimly.uk/compare/teamunify"
+    }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does Swimly compare to TeamUnify?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Swimly is purpose-built for volunteer-run UK swim clubs with a 30-minute setup, transparent pricing from £29/month, and automated GoCardless Direct Debit billing. TeamUnify (part of SportsEngine) is an enterprise platform partnered with Swim England and Scottish Swimming, offering advanced meet management and comprehensive CRM with enterprise onboarding. Swimly focuses on UK-specific workflows without enterprise overhead, whilst TeamUnify offers extensive features designed for larger organisations and official governing body integration."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Swimly cheaper than TeamUnify?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Swimly offers transparent pricing from £29/month with no enterprise fees. TeamUnify uses enterprise pricing that requires contacting their sales team for a quote. For volunteer-run UK swim clubs without enterprise budgets, Swimly provides straightforward pricing designed for smaller clubs. TeamUnify's pricing structure is better suited to larger organisations with dedicated administrative resources."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I migrate from TeamUnify to Swimly?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, you can migrate from TeamUnify to Swimly. Swimly's setup process includes importing member databases, and because Swimly is designed specifically for UK volunteer-run clubs, you'll find a simpler experience without enterprise complexity. However, if you rely heavily on TeamUnify's advanced meet management features, note that Swimly's gala management is still in development (Q2 2026). Our support team can help assess if the migration timing is right for your club."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Swimly work with Swim England like TeamUnify?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "TeamUnify is an official Swim England partner with integrated membership features. Swimly is building Swim England integration for automated membership registration and renewal sync (coming soon). Whilst TeamUnify offers official partnership integration now, Swimly focuses on delivering UK-first workflows with features like GoCardless Direct Debit and UK age-at-date rules that work naturally for British swim clubs."
+      }
+    }
+  ]
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <!-- Hero Section -->
+    <section class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none"></div>
+      <div class="relative">
+        <p class="eyebrow mb-6">Platform comparison</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          Swimly vs TeamUnify
+        </h1>
+        <p class="text-xl text-ink-soft max-w-3xl">
+          TeamUnify (now part of SportsEngine) is a powerful enterprise platform that partners with Swim England and Scottish Swimming. But enterprise power comes with enterprise complexity, and a price tag to match. Swimly takes a different approach entirely.
+        </p>
+
+        <!-- Key stats row -->
+        <div class="grid grid-cols-3 gap-4 mt-10">
+          <div class="bg-[#85FFC7]/10 border border-[#1F7A52]/20 rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">30 min</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">setup time</p>
+          </div>
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">UK</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">first design</p>
+          </div>
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">No</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">enterprise overhead</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vision Statement -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="bg-[#85FFC7]/15 rounded-2xl border border-[#1F7A52]/20 p-8 sm:p-10">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-4">Why we're building Swimly</h2>
+        <p class="text-ink-soft mb-4">
+          Most UK swim clubs aren't enterprises. They're volunteer-run organisations where a parent juggles membership admin between the school run and work. They don't need software designed for national governing bodies and professional sports organisations.
+        </p>
+        <p class="text-ink-soft">
+          We're developers who volunteer at our local swim clubs. We've lived the pain of enterprise platforms that require dedicated onboarding teams, US-centric systems where age handling breaks for UK meets, and "contact us for pricing" that blows a volunteer club's budget. Swimly is the modern, UK-first alternative, built to ship fast, iterate quickly, and stay laser-focused on what volunteer-run clubs actually need.
+        </p>
+      </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Feature comparison</h2>
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-[#39393A]/8 bg-surface">
+              <th class="text-left p-3 sm:p-6 text-[#0F2D2D] font-semibold">Feature</th>
+              <th class="text-left p-3 sm:p-6 text-mint-ink font-semibold bg-[#85FFC7]/10">Swimly</th>
+              <th class="text-left p-3 sm:p-6 text-[#0F2D2D] font-medium">TeamUnify</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#39393A]/8">
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Membership Management</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">Member database with family grouping & squads</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Comprehensive member database & CRM</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Payment Automation</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">GoCardless Direct Debit, fully automated</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Automated payment requests via email</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Attendance Tracking</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">Quick check-in/out system</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Attendance with makeup credit system</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Parent Portal</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">Mobile-first web portal, works poolside</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Dashboard and mobile app</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Swim England Integration</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">Membership sync <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-700 ml-1">Coming soon</span></td>
+              <td class="p-3 sm:p-6 text-ink-soft">Official Swim England partner</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">British Swimming Rankings</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">Rankings integration <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-700 ml-1">Coming Q2 2026</span></td>
+              <td class="p-3 sm:p-6 text-ink-soft">Limited UK rankings support</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Meet Management</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">Gala entries & results <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-700 ml-1">Coming Q2 2026</span></td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium">Advanced meet entry & management</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">UK Age Handling</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">Built for UK age-at-date rules</td>
+              <td class="p-3 sm:p-6 text-ink-soft">US-centric age group system</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Pricing</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">Transparent from £29/mo</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Enterprise pricing (contact required)</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Setup Time</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">30 minutes, self-service</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Enterprise onboarding required</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- See Swimly in Action -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-4 text-center">See what a <em class="text-mint-ink">modern platform</em> looks like</h2>
+      <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">Built for the way committees actually work: quick glances on phones between sessions, and proper admin on laptops when you have time.</p>
+
+      <!-- Dashboard -->
+      <div class="mb-16">
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          <div class="lg:w-2/3">
+            <div class="rounded-2xl overflow-hidden border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+              <div class="flex items-center gap-1.5 px-4 py-3 bg-surface border-b border-[#39393A]/8">
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <span class="ml-3 text-xs text-ink-mute">app.swimly.uk</span>
+              </div>
+              <picture>
+                <source srcset="/mockups/dashboard-macbook.webp" type="image/webp" />
+                <img src="/mockups/dashboard-macbook.png" alt="Swimly club dashboard showing swimmers, sessions, and billing overview" class="w-full" loading="lazy" />
+              </picture>
+            </div>
+          </div>
+          <div class="lg:w-1/3">
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Club dashboard</h3>
+            <p class="text-ink-soft text-sm leading-relaxed mb-4">Everything your committee needs at a glance: member counts, upcoming sessions, billing status, and compliance alerts. No clicking through five menus to find what matters.</p>
+            <ul class="space-y-2">
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Real-time member and payment stats
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Upcoming sessions and attendance
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Compliance and DBS expiry warnings
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Billing -->
+      <div class="mb-16">
+        <div class="flex flex-col lg:flex-row-reverse items-center gap-8 lg:gap-12">
+          <div class="lg:w-2/3">
+            <div class="rounded-2xl overflow-hidden border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+              <div class="flex items-center gap-1.5 px-4 py-3 bg-surface border-b border-[#39393A]/8">
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <span class="ml-3 text-xs text-ink-mute">app.swimly.uk/billing</span>
+              </div>
+              <picture>
+                <source srcset="/mockups/billing-macbook.webp" type="image/webp" />
+                <img src="/mockups/billing-macbook.png" alt="Swimly billing page showing automated Direct Debit collections" class="w-full" loading="lazy" />
+              </picture>
+            </div>
+          </div>
+          <div class="lg:w-1/3">
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Automated billing</h3>
+            <p class="text-ink-soft text-sm leading-relaxed mb-4">Direct Debit via GoCardless means fees collect themselves. The Treasurer sees who has paid, who hasn't, and what failed, all without opening a spreadsheet.</p>
+            <ul class="space-y-2">
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                One-click Direct Debit setup
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Automatic retry on failed payments
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Clear payment status dashboard
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile / Poolside -->
+      <div>
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          <div class="lg:w-1/3 flex justify-center">
+            <div class="w-[220px]">
+              <picture>
+                <source srcset="/mockups/sessions-iphone.webp" type="image/webp" />
+                <img src="/mockups/sessions-iphone.png" alt="Swimly attendance register on an iPhone at poolside" class="w-full h-auto" loading="lazy" />
+              </picture>
+            </div>
+          </div>
+          <div class="lg:w-2/3">
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Works poolside on your phone</h3>
+            <p class="text-ink-soft text-sm leading-relaxed mb-4">Coaches take attendance on their phone at 6am. Parents check balances in the car park. Committee members approve things on the train. Swimly is designed for real life, not just office desks.</p>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="p-4 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+                <p class="text-sm font-semibold text-[#0F2D2D] mb-1">No app download needed</p>
+                <p class="text-xs text-ink-mute">Works in any mobile browser. Add to home screen for an app-like experience.</p>
+              </div>
+              <div class="p-4 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+                <p class="text-sm font-semibold text-[#0F2D2D] mb-1">Offline-friendly attendance</p>
+                <p class="text-xs text-ink-mute">Mark attendance even with patchy poolside WiFi. Syncs when reconnected.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Swimly -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-4 text-center">Why choose Swimly over TeamUnify?</h2>
+      <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">Four reasons clubs are making the switch.</p>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Users class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">No enterprise overhead for volunteer clubs</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">TeamUnify is built for national governing bodies and professional organisations. Your 120-member club in Guildford doesn't need enterprise onboarding, a dedicated account manager, or "contact us for pricing". You need software that just works.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Smartphone class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Built for the UK, not retrofitted</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">TeamUnify was built for American swimming. UK clubs hit friction with US-centric age group handling that doesn't match how British meets work, terminology that doesn't translate, and features designed around the American swim season structure.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <PoundSterling class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">GoCardless Direct Debit, not payment requests</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">TeamUnify sends payment requests that parents can ignore. Swimly uses GoCardless Direct Debit. Set it up once and subscriptions are collected automatically. No more chasing payments.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Zap class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">We ship faster than legacy incumbents</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">Swimly is built on a modern tech stack by developers who move fast. While enterprise platforms take months to roll out features, we iterate weekly based on what UK clubs actually tell us they need.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- What We're Building -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">What we're building</h2>
+      <p class="text-ink-soft mb-8">We ship fast. Here's what's on the roadmap.</p>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#85FFC7]/20 text-mint-ink">Live now</span>
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Core platform</h3>
+          <p class="text-ink-soft text-sm">Member management, squad organisation, GoCardless Direct Debit billing, session scheduling, attendance tracking, and mobile-first parent portal.</p>
+        </div>
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-700">Coming soon</span>
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Swim England integration</h3>
+          <p class="text-ink-soft text-sm">Automated membership registration and renewal sync. No more manual data entry across two systems.</p>
+        </div>
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-700">Coming Q2 2026</span>
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Meet management</h3>
+          <p class="text-ink-soft text-sm">Gala entries, event management, and results tracking, built around how UK meets actually work, not the American system.</p>
+        </div>
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-500/15 text-blue-700">On roadmap</span>
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">British Swimming rankings</h3>
+          <p class="text-ink-soft text-sm">Pull in rankings data automatically so coaches and parents can track progression without leaving Swimly.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- When TeamUnify Might Be Better -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">When might TeamUnify be better?</h2>
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8">
+        <p class="text-ink-soft mb-4">
+          We believe in being honest. TeamUnify may be the better choice if:
+        </p>
+        <ul class="space-y-3 text-ink-soft">
+          <li class="flex gap-3">
+            <span class="text-ink-faint">&bull;</span>
+            <span>You need advanced meet management right now, as our gala features are still in development</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">&bull;</span>
+            <span>Your club is large enough to justify enterprise onboarding and you want an official Swim England technology partner</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">&bull;</span>
+            <span>You compete internationally and need multi-country support beyond the UK</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Compare All Platforms -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8 text-center">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-4">Comparing other platforms?</h2>
+        <p class="text-ink-soft mb-6">
+          See how Swimly compares to all the top UK swim club software options in one place.
+        </p>
+        <a
+          href="/best-swim-club-software"
+          class="inline-flex items-center gap-2 text-mint-ink hover:text-[#0F2D2D] transition-colors font-medium"
+        >
+          View full comparison guide →
+        </a>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <div class="relative">
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-6">Ready for swim club software that respects your time?</h2>
+        <p class="text-xl text-ink-soft mb-8 max-w-xl mx-auto">Create your club today. Free for clubs under 50 members, no card required.</p>
+        <a
+          href="https://app.swimly.uk/create-club"
+          class="inline-flex items-center gap-2 text-lg font-semibold min-h-12 px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all"
+        >
+          Start your club, free
+          <ArrowRight class="w-5 h-5" />
+        </a>
+        <p class="mt-4 text-sm text-ink-mute">Free to join. No payment details required.</p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

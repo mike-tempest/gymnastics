@@ -1,0 +1,135 @@
+---
+import { Shield, Clock, Users, ArrowRight } from "@lucide/astro";
+---
+
+<section id="waitlist" class="py-20 sm:py-28">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="reveal relative rounded-[28px] bg-[#0F2D2D] overflow-hidden shadow-[0_32px_72px_-28px_rgba(15,45,45,0.55)]">
+      <div class="ripple absolute -right-20 -top-24 w-72 h-72" aria-hidden="true"></div>
+      <div class="ripple absolute -left-28 -bottom-28 w-80 h-80 opacity-70" aria-hidden="true"></div>
+
+      <div class="relative px-6 py-14 sm:px-12 sm:py-16">
+        <div class="text-center">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#85FFC7]/12 border border-[#85FFC7]/25 text-[#85FFC7] text-[13px] font-medium mb-6">
+            Founding clubs get 6 months free on any plan
+          </div>
+          <h2 class="font-display text-4xl sm:text-5xl text-[#E6E6E6]">
+            Set your club up <em class="text-[#85FFC7]">today</em>
+          </h2>
+          <p class="mt-5 text-[#E6E6E6]/65 text-lg max-w-xl mx-auto leading-relaxed">
+            Create your club in a few minutes. Free for clubs under 50 members,
+            no card required. Add your squads, import members, and start taking
+            payments whenever you are ready.
+          </p>
+
+          <!-- Primary action: create club -->
+          <div class="mt-9">
+            <a
+              href="https://app.swimly.uk/create-club"
+              class="group inline-flex items-center justify-center gap-2.5 px-9 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg min-h-14 shadow-[0_8px_24px_-8px_rgba(255,133,82,0.55)] hover:-translate-y-px"
+            >
+              Start your club, free
+              <ArrowRight class="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
+            </a>
+          </div>
+
+          <!-- Trust signals -->
+          <div class="mt-9 grid grid-cols-3 gap-4 max-w-md mx-auto">
+            <div class="flex flex-col items-center gap-1.5">
+              <Shield class="w-5 h-5 text-[#85FFC7]/70" />
+              <span class="text-xs text-[#E6E6E6]/55 leading-tight">GDPR compliant<br/>UK-hosted</span>
+            </div>
+            <div class="flex flex-col items-center gap-1.5">
+              <Clock class="w-5 h-5 text-[#85FFC7]/70" />
+              <span class="text-xs text-[#E6E6E6]/55 leading-tight">Set up in<br/>minutes</span>
+            </div>
+            <div class="flex flex-col items-center gap-1.5">
+              <Users class="w-5 h-5 text-[#85FFC7]/70" />
+              <span class="text-xs text-[#E6E6E6]/55 leading-tight">Free white-glove<br/>migration</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary: not ready yet, capture email -->
+        <div class="mt-10 pt-8 border-t border-[#E6E6E6]/10 max-w-lg mx-auto text-center">
+          <p class="text-sm text-[#E6E6E6]/55 mb-4">
+            Not ready to set up today? Leave your email and we will send a
+            short getting-started guide plus the occasional product update.
+          </p>
+          <form id="waitlist-form" class="flex flex-col sm:flex-row gap-3">
+            <label for="email" class="sr-only">Email address</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              placeholder="you@yourclub.org.uk"
+              class="flex-1 px-5 rounded-xl bg-[#163F3F] border border-[#E6E6E6]/15 text-[#E6E6E6] placeholder-[#E6E6E6]/35 focus:outline-none focus:border-[#85FFC7]/60 focus:ring-2 focus:ring-[#85FFC7]/20 transition-all text-base min-h-12"
+            />
+            <button
+              type="submit"
+              id="waitlist-btn"
+              class="px-6 rounded-xl border border-[#85FFC7]/40 text-[#85FFC7] font-semibold hover:bg-[#85FFC7]/10 transition-colors text-base min-h-12 whitespace-nowrap"
+            >
+              <span id="waitlist-btn-text">Send it over</span>
+            </button>
+          </form>
+          <p id="waitlist-message" class="mt-3 text-xs text-[#E6E6E6]/40">
+            No spam, unsubscribe any time. See our <a href="/privacy/" class="text-[#E6E6E6]/60 hover:text-[#85FFC7] underline underline-offset-2 transition-colors">privacy policy</a>.
+          </p>
+        </div>
+
+        <p class="text-center mt-8 text-sm text-[#E6E6E6]/55">
+          Want white-glove migration and 6 months free on any plan?
+          <a href="/founding-clubs/" class="text-[#85FFC7] hover:text-[#B2FFE0] font-medium transition-colors">
+            Join the founding clubs programme
+          </a>
+          or email
+          <a href="mailto:mike@swimly.uk" class="text-[#85FFC7] hover:text-[#B2FFE0] font-medium transition-colors">
+            mike@swimly.uk
+          </a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const API_URL = 'https://membership-api-production-3628.up.railway.app';
+
+  const form = document.getElementById('waitlist-form') as HTMLFormElement;
+  const btn = document.getElementById('waitlist-btn') as HTMLButtonElement;
+  const btnText = document.getElementById('waitlist-btn-text') as HTMLSpanElement;
+  const msg = document.getElementById('waitlist-message') as HTMLParagraphElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = (form.querySelector('#email') as HTMLInputElement)?.value;
+    if (!email) return;
+
+    btn.disabled = true;
+    btnText.textContent = 'Sending...';
+
+    try {
+      const res = await fetch(`${API_URL}/api/waitlist`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source: 'website' }),
+      });
+
+      if (res.ok) {
+        msg.textContent = "Thanks! Check your inbox for the getting-started guide.";
+        msg.style.color = '#85FFC7';
+        form.reset();
+        btnText.textContent = 'Done';
+      } else {
+        throw new Error('Request failed');
+      }
+    } catch {
+      msg.textContent = 'Something went wrong. Please try again or email hello@swimly.uk.';
+      msg.style.color = '#FF9B73';
+      btn.disabled = false;
+      btnText.textContent = 'Send it over';
+    }
+  });
+</script>

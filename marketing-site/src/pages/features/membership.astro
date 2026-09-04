@@ -1,0 +1,440 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { Users, UserPlus, Calendar, Mail, CheckCircle, ArrowRight } from '@lucide/astro';
+
+const title = 'Swim Club Membership Software | Swimly UK';
+const description = 'Manage 200+ swimmers, automate renewals, link family accounts, and track waiting lists. Membership software built for UK swimming clubs.';
+
+const membershipFeatureSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Swimly Membership Management",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": description,
+  "url": "https://swimly.uk/features/membership/",
+  "featureList": [
+    "Centralised member database",
+    "Automated membership renewals",
+    "Waiting list management",
+    "Family account linking",
+    "Swim England registration tracking",
+    "DBS and qualification tracking",
+    "Member communications"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "29",
+    "priceCurrency": "GBP",
+    "priceValidUntil": "2027-12-31",
+    "availability": "https://schema.org/PreOrder"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Swimly",
+    "url": "https://swimly.uk"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Swimly",
+    "url": "https://swimly.uk"
+  }
+};
+
+const faqItems = [
+  {
+    question: "What is swim club membership management software?",
+    answer: "Swim club membership management software is a digital system that replaces spreadsheets and paper records for tracking club members, families, squads, and registrations. It centralises member data, automates renewals, manages waiting lists, and links parent and swimmer accounts, saving volunteer committees hours of admin each week."
+  },
+  {
+    question: "Can I import existing member data into Swimly?",
+    answer: "Yes. Swimly supports CSV import for member data, so you can migrate from spreadsheets, SwimClub Manager exports, or other systems. Founding clubs receive white-glove migration support at no extra cost, including data validation and family account linking."
+  },
+  {
+    question: "How does Swimly handle family accounts?",
+    answer: "Swimly automatically links parents and swimmers into family accounts. Parents get a self-service portal to update contact details, view schedules, check payments, and manage multiple children, all from one login. This reduces admin queries and keeps data accurate."
+  },
+  {
+    question: "Does Swimly track Swim England registrations?",
+    answer: "Yes. Swimly tracks Swim England membership categories (Category 1, 2, and 3), registration status, and renewal dates for every member. This helps Membership Secretaries ensure all swimmers are properly registered before entering competitions."
+  },
+  {
+    question: "How much does swim club membership software cost?",
+    answer: "Swimly is free for clubs with fewer than 50 members. Paid plans start from £29 per month with flat-rate pricing: no per-member fees, no hidden charges. This is typically 46% cheaper than SwimClub Manager's annual licence. Budget options like Club Organiser cost £24.95/month but lack automated billing and modern member portals. See our detailed comparison at /compare/cluborganiser/ or /best-swim-club-software-uk/."
+  }
+];
+---
+
+<Layout title={title} description={description} faqItems={faqItems}>
+  <script type="application/ld+json" set:html={JSON.stringify(membershipFeatureSchema, null, 2)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <!-- Hero Section -->
+    <section class="relative pt-16 pb-20 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none" aria-hidden="true"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 text-mint-ink text-sm font-medium mb-6">
+          <Users class="w-4 h-4" />
+          Membership Management
+        </div>
+
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl text-[#0F2D2D] leading-tight mb-6">
+          Swim Club Membership Management System: Database, Renewals & More
+        </h1>
+
+        <p class="text-lg sm:text-xl text-ink-soft max-w-2xl mx-auto leading-relaxed mb-10">
+          Stop juggling spreadsheets and paper forms. Swimly gives you a centralised membership system with automated renewals, waiting lists, and family accounts built for UK swimming clubs.
+        </p>
+
+        <a
+          href="https://app.swimly.uk/create-club"
+          class="inline-flex items-center gap-2.5 px-8 py-4 min-h-12 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-lg shadow-[#FF8552]/20 hover:shadow-[#FF8552]/30 hover:scale-[1.02]"
+        >
+          Start your club, free
+          <ArrowRight class="w-5 h-5" />
+        </a>
+      </div>
+    </section>
+
+    <!-- App Screenshots -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="rounded-2xl overflow-hidden bg-surface-raised border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+        <picture>
+          <source srcset="/images/app-screenshots/swimmers-mobile.png" media="(max-width: 639px)" />
+          <source srcset="/images/app-screenshots/swimmers-tablet.png" media="(max-width: 1023px)" />
+          <img src="/images/app-screenshots/swimmers-desktop.png" alt="Swimly membership database showing swimmer profiles and squad assignments" class="w-full h-auto" loading="lazy" />
+        </picture>
+      </div>
+    </section>
+
+    <!-- Key Features -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] text-center mb-12">Complete Database Management for Swimming Clubs</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Feature 1 -->
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <Users class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Centralised Member Database</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Track 200+ members across multiple squads in one searchable database</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Automated category management for Swim England and ASA memberships</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Family linking with sibling discounts and multi-swimmer accounts</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>DBS and qualification tracking for coaches and volunteers</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Medical conditions, allergies, and emergency contact records</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <Calendar class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Automated Renewals</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Set annual renewal dates and automate reminder emails</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Email sequences at 30, 14, and 7 days before expiry</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Members renew online with a single click</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Dashboard showing renewal rates and lapsed members</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <UserPlus class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Waiting List Management</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Online waiting list form that captures all required information</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Automatic position tracking with transparent ordering</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Email updates as places become available</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Convert waiting list prospects to members instantly</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <Mail class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Member Communications</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Send bulk emails or SMS to all members or specific squads</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Template library for welcome emails, renewals, and gala invites</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Communication history stored against each member record</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Full audit trail of all messages sent</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Before vs After -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center mb-12">
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D]">What changes for your committee</h2>
+        <p class="text-ink-soft mt-4 max-w-2xl mx-auto">Replace hours of spreadsheet admin with a system that does the work for you.</p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="p-8 rounded-2xl bg-surface border border-[#39393A]/10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#B91C1C]/10 text-[#B91C1C] text-xs font-semibold uppercase tracking-wider mb-6">Spreadsheet life</div>
+          <ul class="space-y-4 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-[#B91C1C]/70 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              <span>Membership Secretary manually types new member details from paper forms</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-[#B91C1C]/70 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              <span>Renewal reminders sent one by one from personal email</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-[#B91C1C]/70 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              <span>Waiting list tracked in a separate document nobody can find</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-[#B91C1C]/70 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              <span>DBS expiry dates discovered too late at a Wavepower audit</span>
+            </li>
+          </ul>
+        </div>
+        <div class="p-8 rounded-2xl bg-[#85FFC7]/15 border border-[#1F7A52]/20">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#85FFC7]/30 text-mint-ink text-xs font-semibold uppercase tracking-wider mb-6">With Swimly</div>
+          <ul class="space-y-4 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Parents register online and data flows straight into your database</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Automated renewal emails at 30, 14, and 7 days before expiry</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Waiting list with automatic position tracking and notifications</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>DBS dashboard flags expiring checks 60 days in advance</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] text-center mb-12">How membership management works</h2>
+      <div class="space-y-8">
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-lg">
+            1
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Import your existing members</h3>
+            <p class="text-ink-soft">Upload your current membership list from a spreadsheet. Swimly maps the fields automatically and creates member records in seconds.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-lg">
+            2
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Set up membership categories and renewal dates</h3>
+            <p class="text-ink-soft">Define your membership types (junior, senior, masters, family) with their fees and renewal schedules. Swimly handles the rest.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-lg">
+            3
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Members manage their own details</h3>
+            <p class="text-ink-soft">Parents and members can update contact details, add emergency contacts, and renew memberships through their portal. No more chasing updates.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border-2 border-[#1F7A52]/30 flex items-center justify-center text-mint-ink font-bold text-lg">
+            4
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Track renewals and grow your club</h3>
+            <p class="text-ink-soft">Your dashboard shows who's renewed, who's lapsed, and who's on the waiting list. Report membership numbers to Swim England with one click.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Poolside Context -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center mb-12">
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D]">Membership management that works where you do</h2>
+        <p class="text-ink-soft mt-4 max-w-2xl mx-auto">Committee volunteers manage membership from the pool gallery, the kitchen table, and the car park. Swimly works on every device, everywhere.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="relative p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] overflow-hidden hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-blue-500/10 to-transparent rounded-bl-full"></div>
+          <div class="relative">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-blue-500/15 flex items-center justify-center">
+                <svg class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+              </div>
+              <h3 class="font-semibold text-[#0F2D2D]">Poolside check-in</h3>
+            </div>
+            <p class="text-sm text-ink-soft">A parent asks if their child is registered for next term. Pull up their record on your phone in seconds. No laptop, no spreadsheet, no "I'll check when I get home".</p>
+          </div>
+        </div>
+        <div class="relative p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] overflow-hidden hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-amber-500/10 to-transparent rounded-bl-full"></div>
+          <div class="relative">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center">
+                <svg class="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+              </div>
+              <h3 class="font-semibold text-[#0F2D2D]">AGM ready in minutes</h3>
+            </div>
+            <p class="text-sm text-ink-soft">Committee needs a membership report for the AGM? Export current numbers, renewal rates, and category breakdowns. No more stitching together three different spreadsheets.</p>
+          </div>
+        </div>
+        <div class="relative p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] overflow-hidden hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-[#85FFC7]/20 to-transparent rounded-bl-full"></div>
+          <div class="relative">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center">
+                <svg class="w-5 h-5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
+              </div>
+              <h3 class="font-semibold text-[#0F2D2D]">Seamless handover</h3>
+            </div>
+            <p class="text-sm text-ink-soft">When the Membership Secretary steps down, the new person logs in and everything is there. No lost USB sticks, no "ask Karen, she had the spreadsheet".</p>
+          </div>
+        </div>
+        <div class="relative p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] overflow-hidden hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-purple-500/10 to-transparent rounded-bl-full"></div>
+          <div class="relative">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-purple-500/15 flex items-center justify-center">
+                <svg class="w-5 h-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+              </div>
+              <h3 class="font-semibold text-[#0F2D2D]">Wavepower compliant</h3>
+            </div>
+            <p class="text-sm text-ink-soft">DBS checks, qualifications, and safeguarding records tracked against every coach and volunteer. Know at a glance who is due for renewal.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pilot CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="p-8 rounded-2xl bg-[#85FFC7]/15 border border-[#1F7A52]/20 text-center">
+        <div class="w-14 h-14 rounded-full bg-[#85FFC7]/30 flex items-center justify-center mx-auto mb-4">
+          <Users class="w-7 h-7 text-mint-ink" />
+        </div>
+        <h3 class="font-display text-2xl text-[#0F2D2D] mb-3">Built for British swimming clubs</h3>
+        <p class="text-lg text-ink-soft max-w-xl mx-auto">
+          We're building Swimly with input from real club volunteers. If your membership
+          admin still runs on spreadsheets and email chains, we'd love to talk.
+        </p>
+        <a
+          href="https://app.swimly.uk/create-club"
+          class="mt-6 inline-flex items-center gap-2.5 px-6 py-3 min-h-12 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all shadow-lg shadow-[#FF8552]/20 hover:shadow-[#FF8552]/30 hover:scale-[1.02]"
+        >
+          Join the founding clubs programme
+          <ArrowRight class="w-5 h-5" />
+        </a>
+      </div>
+    </section>
+
+    <!-- Related Features -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-2xl text-[#0F2D2D] mb-8">Related features</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a href="/features/billing/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Billing and Payments</h3>
+          <p class="text-ink-mute text-sm">Automated Direct Debit collection for membership fees</p>
+        </a>
+        <a href="/features/parent-portal/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Parent Portal</h3>
+          <p class="text-ink-mute text-sm">Self-service access for parents and guardians</p>
+        </a>
+        <a href="/features/compliance/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Wavepower Compliance</h3>
+          <p class="text-ink-mute text-sm">DBS tracking and safeguarding management</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Replace your membership spreadsheets</h2>
+      <p class="text-xl text-ink-soft mb-8">Create your club today. Free for clubs under 50 members, no card required.</p>
+      <a
+        href="https://app.swimly.uk/create-club"
+        class="inline-flex items-center gap-2.5 px-8 py-4 min-h-12 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-lg shadow-[#FF8552]/20 hover:shadow-[#FF8552]/30 hover:scale-[1.02]"
+      >
+          Start your club, free
+        <ArrowRight class="w-5 h-5" />
+      </a>
+      <p class="mt-6 text-sm text-ink-mute">
+        Free for clubs with fewer than 50 members. No credit card required.
+      </p>
+    </section>
+  </main>
+  <Footer />
+</Layout>

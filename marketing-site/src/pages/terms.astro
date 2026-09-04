@@ -1,0 +1,104 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const lastUpdated = "10 June 2026";
+---
+
+<Layout
+  title="Terms of Use | Swimly"
+  description="The terms that apply when you use swimly.uk, join the waitlist, or apply to the founding clubs programme."
+>
+  <Nav />
+  <main>
+    <section class="relative pt-32 pb-16 sm:pt-40 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[480px] pointer-events-none" aria-hidden="true"></div>
+      <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p class="eyebrow">Terms</p>
+        <h1 class="font-display text-4xl sm:text-5xl leading-tight text-[#0F2D2D] mt-5">Terms of use</h1>
+        <p class="mt-4 text-ink-mute">Last updated: {lastUpdated}</p>
+        <p class="mt-6 text-lg text-ink-soft leading-relaxed">
+          These terms cover your use of swimly.uk. They are short because this is an informational
+          website, not a contract for the Swimly platform itself.
+        </p>
+      </div>
+    </section>
+
+    <section class="pb-20 sm:pb-28">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+
+        <div>
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">About this site</h2>
+          <p class="text-ink-soft leading-relaxed">
+            swimly.uk is the marketing and information site for Swimly, club management software
+            for UK swimming clubs, operated from the United Kingdom. You can contact us at
+            <a href="mailto:hello@swimly.uk" class="text-mint-ink hover:text-[#0F2D2D] underline underline-offset-2">hello@swimly.uk</a>.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">Using our content</h2>
+          <p class="text-ink-soft leading-relaxed">
+            The content on this site, including guides, articles, and downloadable resources, is
+            ours unless stated otherwise. You are welcome to share and quote it for your club's
+            non-commercial use with a link back to the source. Please do not republish whole
+            articles or pass our content off as your own.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">The waitlist and founding clubs programme</h2>
+          <p class="text-ink-soft leading-relaxed">
+            Joining the waitlist or applying to the founding clubs programme creates no obligation
+            on either side. Offers described on this site, such as the founding clubs free period,
+            are subject to availability and to a conversation where we both agree Swimly is a good
+            fit for your club. Details of how we handle your data are in our
+            <a href="/privacy/" class="text-mint-ink hover:text-[#0F2D2D] underline underline-offset-2">privacy policy</a>.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">The club directory</h2>
+          <p class="text-ink-soft leading-relaxed">
+            Our <a href="/clubs/" class="text-mint-ink hover:text-[#0F2D2D] underline underline-offset-2">club directory</a>
+            is compiled from publicly available information to help families find swimming clubs.
+            We do our best to keep it accurate, but clubs change training times, venues, and
+            contact details without telling us. Always confirm details with the club directly.
+            If you represent a listed club and want your entry corrected or removed, email us.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">Accuracy and liability</h2>
+          <p class="text-ink-soft leading-relaxed">
+            We work hard to keep the information on this site accurate, including comparisons with
+            other products, which we review periodically and date where possible. Competitor
+            pricing and features change, so check with the vendor before making decisions.
+            Articles on this site are general guidance for club volunteers, not legal, financial,
+            or safeguarding advice. To the extent permitted by law, we are not liable for losses
+            arising from reliance on the content of this site.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">Links to other sites</h2>
+          <p class="text-ink-soft leading-relaxed">
+            Where we link to other websites, including club websites and governing body resources,
+            we are not responsible for their content or their privacy practices.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">Changes and governing law</h2>
+          <p class="text-ink-soft leading-relaxed">
+            We may update these terms from time to time, and will update the date at the top when
+            we do. These terms are governed by the law of England and Wales.
+          </p>
+        </div>
+
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

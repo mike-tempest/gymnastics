@@ -1,0 +1,334 @@
+---
+import RegionSwitcher from "./RegionSwitcher.astro";
+import { REGIONS, regionFromPath, regionHomeUrl } from "../config/regions";
+
+const path = Astro.url.pathname;
+const isHub = path === "/international/" || path.startsWith("/international/");
+const region = regionFromPath(path);
+const prefix = REGIONS[region].pathPrefix;
+const appUrl = REGIONS[region].appUrl;
+const contactEmail = REGIONS[region].contactEmail;
+const isUK = region === "uk" && !isHub;
+const isIntl = region !== "uk"; // us/ca/au
+
+const year = new Date().getFullYear();
+
+// Shared legal home (UK root) used by every region.
+const UK_HOST = REGIONS.uk.host;
+
+const product = [
+  { label: "Features", href: "/features" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "Founding Clubs", href: "/founding-clubs" },
+  { label: "Swim School Management", href: "/swim-school-management" },
+  { label: "Billing & Payments", href: "/swimming-club-billing-software" },
+  { label: "Start your club", href: `${appUrl}/create-club` },
+  { label: "Log in", href: `${appUrl}/login` },
+];
+
+const legal = [
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+  { label: "Cookie preferences", href: "/privacy/#cookies" },
+];
+
+const compare = [
+  { label: "vs Swim Club Manager", href: "/compare/swimclubmanager" },
+  { label: "vs TeamUnify", href: "/compare/teamunify" },
+  { label: "vs Club Organiser", href: "/compare/cluborganiser" },
+  { label: "vs GoMotion", href: "/compare/gomotion" },
+  { label: "vs ClubSpark", href: "/compare/clubspark" },
+];
+
+const locations = [
+  { label: "London", href: "/swimming-club-software/london" },
+  { label: "Manchester", href: "/swimming-club-software/manchester" },
+  { label: "Birmingham", href: "/swimming-club-software/birmingham" },
+  { label: "Edinburgh", href: "/swimming-club-software/edinburgh" },
+  { label: "Glasgow", href: "/swimming-club-software/glasgow" },
+  { label: "Leeds", href: "/swimming-club-software/leeds" },
+  { label: "Bristol", href: "/swimming-club-software/bristol" },
+  { label: "Liverpool", href: "/swimming-club-software/liverpool" },
+  { label: "Sheffield", href: "/swimming-club-software/sheffield" },
+  { label: "Newcastle", href: "/swimming-club-software/newcastle" },
+  { label: "Kent", href: "/swimming-club-software/kent" },
+  { label: "Cardiff", href: "/swimming-club-software/cardiff" },
+  { label: "Nottingham", href: "/swimming-club-software/nottingham" },
+  { label: "Southampton", href: "/swimming-club-software/southampton" },
+  { label: "Leicester", href: "/swimming-club-software/leicester" },
+  { label: "Brighton", href: "/swimming-club-software/brighton" },
+  { label: "Plymouth", href: "/swimming-club-software/plymouth" },
+  { label: "Derby", href: "/swimming-club-software/derby" },
+  { label: "Exeter", href: "/swimming-club-software/exeter" },
+  { label: "York", href: "/swimming-club-software/york" },
+  { label: "Oxford", href: "/swimming-club-software/oxford" },
+  { label: "Cambridge", href: "/swimming-club-software/cambridge" },
+  { label: "Coventry", href: "/swimming-club-software/coventry" },
+  { label: "Swindon", href: "/swimming-club-software/swindon" },
+  { label: "Reading", href: "/swimming-club-software/reading" },
+];
+
+const resources = [
+  { label: "FAQ", href: "/faq" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
+];
+
+// Reduced product links for the international editions (us/ca/au), all correctly
+// prefixed. Legal links point to the shared UK origin (absolute).
+const intlProduct = [
+  { label: `${REGIONS[region].label} home`, href: `${prefix}/` },
+  { label: "Features", href: `${prefix}/features/` },
+  { label: "Pricing", href: `${prefix}/pricing/` },
+  { label: "Find a club", href: `${prefix}/clubs/` },
+  { label: "Club map", href: `${prefix}/clubs/map/` },
+  { label: "Guides", href: `${prefix}/guides/` },
+];
+
+// Region links shown on the international hub footer.
+const hubRegions = [
+  { label: "United States", href: "/us/" },
+  { label: "Canada", href: "/ca/" },
+  { label: "Australia", href: "/au/" },
+  { label: "United Kingdom", href: `${UK_HOST}/` },
+];
+
+// Legal links for intl/hub editions: absolute, pointing at the shared UK origin.
+const sharedLegal = [
+  { label: "Privacy", href: `${UK_HOST}/privacy/` },
+  { label: "Terms", href: `${UK_HOST}/terms/` },
+];
+
+const social = [
+  {
+    label: "LinkedIn",
+    href: "https://uk.linkedin.com/in/miketempest",
+    icon: `<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />`,
+  },
+];
+
+const colLink = "text-sm text-[#E6E6E6]/55 hover:text-[#85FFC7] transition-colors";
+const barLink = "text-sm text-[#E6E6E6]/40 hover:text-[#85FFC7] transition-colors";
+---
+
+{isUK && (
+  <footer class="relative bg-[#0F2D2D] overflow-hidden">
+    <div class="lane-divider-mint" aria-hidden="true"></div>
+    <div class="absolute left-1/2 top-[-220px] -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#85FFC7]/7 blur-[100px] pointer-events-none" aria-hidden="true"></div>
+
+    <!-- Main footer content -->
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+      <div class="grid grid-cols-2 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        <!-- Brand -->
+        <div class="col-span-2 md:col-span-3 lg:col-span-1">
+          <a href="/" class="font-display text-2xl text-[#E6E6E6]">Swimly</a>
+          <p class="text-sm text-[#E6E6E6]/45 mt-2 leading-relaxed">Built for the poolside,<br />not the boardroom.</p>
+        </div>
+
+        <!-- Product -->
+        <div>
+          <h4 class="text-[#E6E6E6]/80 font-semibold text-sm mb-4">Product</h4>
+          <ul class="space-y-2.5">
+            {product.map(link => (
+              <li><a href={link.href} class={colLink}>{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Compare -->
+        <div>
+          <h4 class="text-[#E6E6E6]/80 font-semibold text-sm mb-4">Compare</h4>
+          <ul class="space-y-2.5">
+            {compare.map(link => (
+              <li><a href={link.href} class={colLink}>{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Resources -->
+        <div>
+          <h4 class="text-[#E6E6E6]/80 font-semibold text-sm mb-4">Resources</h4>
+          <ul class="space-y-2.5">
+            {resources.map(link => (
+              <li><a href={link.href} class={colLink}>{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Locations -->
+        <div>
+          <h4 class="text-[#E6E6E6]/80 font-semibold text-sm mb-4">Locations</h4>
+          <ul class="space-y-2.5">
+            {locations.slice(0, 12).map(link => (
+              <li><a href={link.href} class={colLink}>{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="relative border-t border-[#E6E6E6]/10">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-6">
+            <p class="text-sm text-[#E6E6E6]/40">
+              &copy; {year} Swimly
+            </p>
+            <a href={`mailto:${contactEmail}`} class={barLink}>{contactEmail}</a>
+            <div class="flex items-center gap-4">
+              {legal.map(link => (
+                <a href={link.href} class={barLink}>{link.label}</a>
+              ))}
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <RegionSwitcher variant="light" />
+            {social.map(item => (
+              <a
+                href={item.href}
+                class="text-[#E6E6E6]/40 hover:text-[#85FFC7] transition-colors"
+                aria-label={item.label}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" set:html={item.icon} />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+)}
+
+{isIntl && (
+  <footer class="relative bg-[#0F2D2D] overflow-hidden">
+    <div class="lane-divider-mint" aria-hidden="true"></div>
+    <div class="absolute left-1/2 top-[-220px] -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#85FFC7]/7 blur-[100px] pointer-events-none" aria-hidden="true"></div>
+
+    <!-- Main footer content -->
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+      <div class="grid grid-cols-2 gap-8 sm:grid-cols-3">
+        <!-- Brand -->
+        <div class="col-span-2 sm:col-span-1">
+          <a href={`${prefix}/`} class="font-display text-2xl text-[#E6E6E6]">Swimly</a>
+          <p class="text-sm text-[#E6E6E6]/45 mt-2 leading-relaxed">Built for the poolside,<br />not the boardroom.</p>
+        </div>
+
+        <!-- Product -->
+        <div>
+          <h4 class="text-[#E6E6E6]/80 font-semibold text-sm mb-4">Product</h4>
+          <ul class="space-y-2.5">
+            {intlProduct.map(link => (
+              <li><a href={link.href} class={colLink}>{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Legal -->
+        <div>
+          <h4 class="text-[#E6E6E6]/80 font-semibold text-sm mb-4">Legal</h4>
+          <ul class="space-y-2.5">
+            {sharedLegal.map(link => (
+              <li><a href={link.href} class={colLink}>{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="relative border-t border-[#E6E6E6]/10">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-6">
+            <p class="text-sm text-[#E6E6E6]/40">&copy; {year} Swimly</p>
+            <a href={`mailto:${contactEmail}`} class={barLink}>{contactEmail}</a>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <RegionSwitcher variant="light" />
+            {social.map(item => (
+              <a
+                href={item.href}
+                class="text-[#E6E6E6]/40 hover:text-[#85FFC7] transition-colors"
+                aria-label={item.label}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" set:html={item.icon} />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+)}
+
+{isHub && (
+  <footer class="relative bg-[#0F2D2D] overflow-hidden">
+    <div class="lane-divider-mint" aria-hidden="true"></div>
+    <div class="absolute left-1/2 top-[-220px] -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#85FFC7]/7 blur-[100px] pointer-events-none" aria-hidden="true"></div>
+
+    <!-- Main footer content -->
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+      <div class="grid grid-cols-2 gap-8 sm:grid-cols-3">
+        <!-- Brand -->
+        <div class="col-span-2 sm:col-span-1">
+          <a href="/" class="font-display text-2xl text-[#E6E6E6]">Swimly</a>
+          <p class="text-sm text-[#E6E6E6]/45 mt-2 leading-relaxed">Built for the poolside,<br />not the boardroom.</p>
+        </div>
+
+        <!-- Regions -->
+        <div>
+          <h4 class="text-[#E6E6E6]/80 font-semibold text-sm mb-4">Regions</h4>
+          <ul class="space-y-2.5">
+            {hubRegions.map(link => (
+              <li><a href={link.href} class={colLink}>{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Legal -->
+        <div>
+          <h4 class="text-[#E6E6E6]/80 font-semibold text-sm mb-4">Legal</h4>
+          <ul class="space-y-2.5">
+            {sharedLegal.map(link => (
+              <li><a href={link.href} class={colLink}>{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="relative border-t border-[#E6E6E6]/10">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-6">
+            <p class="text-sm text-[#E6E6E6]/40">&copy; {year} Swimly</p>
+            <a href={`mailto:${contactEmail}`} class={barLink}>{contactEmail}</a>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <RegionSwitcher variant="light" />
+            {social.map(item => (
+              <a
+                href={item.href}
+                class="text-[#E6E6E6]/40 hover:text-[#85FFC7] transition-colors"
+                aria-label={item.label}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" set:html={item.icon} />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+)}

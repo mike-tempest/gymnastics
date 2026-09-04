@@ -1,0 +1,52 @@
+# UK Gymnastics Clubs — Founding-Customer Shortlist
+
+*Prepared 4 September 2026. All information is from publicly available club websites and registers, cited below. No emails or personal names have been invented; where a club email appears it is a generic address the club itself publishes. Confirm every contact route on the live page before outreach.*
+
+## Strongest outreach angle
+
+Across almost every club below, the same operational pain shows up: **long recreational waiting lists managed with tools that don't convert or automate them.** Clubs are sitting on months of latent demand (Horsham quotes ~6 months; Be… Gymnastics calls its list "long… a few months minimum"), yet the waiting list is often held in a *separate, manual layer* — Google Forms, Cognito, Jotform, Wufoo, or a standalone "register your interest" page — bolted onto whatever handles payments. That gap between "parent joins waiting list" and "parent is enrolled and paying" is the wedge.
+
+The single strongest pitch is **waiting-list-to-enrolment automation**: capture the waiting list natively, auto-offer places as they open by age/class/priority (many clubs give existing members priority), and pull the child straight into billing, register and safeguarding records without re-keying. It's a concrete, quantifiable revenue-recovery story (every unfilled slot in a full class is lost recurring income), and it directly attacks the seam where their current stack is weakest.
+
+A secondary angle for the charity/CIC/committee-run clubs: **consolidating a patchwork of free tools** (forms + spreadsheets + a payment app + a separate badge tracker) into one compliant system, which matters more to volunteer treasurers than to commercial chains.
+
+## Primary shortlist
+
+| # | Club · Location | Size / discipline focus | Fit signal | Current tool (if visible) | Public contact route |
+|---|---|---|---|---|---|
+| 1 | **Be… Gymnastics** · Eastbourne, East Sussex | Large rec base (preschool 2.5–4, rec 4+, adults) + Tumble/Men's Artistic competitive squads | **Explicitly states "our waiting list is long… a few months wait minimum."** BG-registered; DBS/safeguarding trained | **ClassForKids** (invoicing/payments) + ClassDojo for updates — waiting list appears handled off-platform via email | Website contact form: begymnastics.co.uk/contact/ |
+| 2 | **Horsham Gymnastics Centre (HGC)** · Horsham, West Sussex | Est. 2001; parent-toddler, preschool, rec (boys & girls), artistic; runs own **HGC badge/awards scheme** + club championships | Recreational classes "get booked up extremely quickly"; **waiting list ~6 months** | A "customer portal" for class info/invoices/payments (vendor not named) | Contact form on hgc.org.uk; phone published |
+| 3 | **Tyneside Gymnastics Club** · Seaton Delaval, Northumberland | Rec/beginners, preschool & Stay-and-Play, Artistic, TeamGym, Boys, Cheer | **Active waiting lists** for beginners/rec and cheer; GymMark + ClubMark; **CASC** (community amateur sports club) | **Class4Kids** | Website contact form; FB @TyneSideGymnasticsClub |
+| 4 | **City of Aberdeen Gymnastics Club** · Aberdeen | Rec across 6 days, ASN/disability classes, Women's Artistic competitive | Runs a **waiting list** (cleared annually 30 Jun) via a **Google Form**; **registered Scottish charity (SC054759)** | **Google Forms + Cognito Forms** (DIY — strong switching signal; no unified platform) | Online messaging on coag.org.uk; Facebook page |
+| 5 | **Booker Gym Club** · High Wycombe, Bucks | Broad rec (toddlers→10), squad, tumbling, TeamGym, trampoline, parkour; **BAGA award scheme** | **Explicit "waiting lists for our recreational after-school and weekend sessions"** | **Jotform** (forms/waitlist — DIY) | Contact page on bookergymclub.co.uk; published club email/phone |
+| 6 | **Wickers Gymnastics Club** · Worthing, West Sussex | Est. 1988; preschool (Stay-and-Play, Gloworms, Butterflies, sensory), junior rec, artistic squads, adults | **"Register your child… we'll get back to you as soon as we have a space"** (waiting-list model); **registered charity (1139993)**; BG-certified | **Happity** (preschool booking) — likely partial coverage only | wickersgymnastics.co.uk; published phone/email; FB/IG/TikTok |
+| 7 | **Scarborough Gymnastics Academy** · Scarborough, N. Yorks | Gym Stars rec, development & competitive squads, trampoline, adults, holiday camps | **Waiting list** with member-priority re-enrolment (classic automation use-case); BG membership mandatory; **fundraising committee** | **ClassForKids** | Generic club email + phone published; scarboroughgymnastics.co.uk; FB/IG |
+| 8 | **Bedwas Gymnastics Club** · Bedwas, Caerphilly (Wales) | Preschool, recreational, competitive | Runs a **dedicated waiting-list registration page**; **Community Interest Company, "mainly run on a volunteer basis"**; BG + Welsh Gymnastics affiliated, GymMark | **None visible** (greenfield — manual/volunteer admin) | Contact form on bedwasgymnastics.co.uk *(their contact & waiting-list pages returned 403 to the fetcher — routes exist but details couldn't be loaded)* |
+| 9 | **Dronfield Gymnastics Academy (DGA)** · Dronfield, Derbyshire | Gymnastics-for-All, preschool, ASN, adults + WAG/MAG competitive & general squad; uses **BG Rise badge/proficiency awards** | Booking flow offers **"book a class or join a waiting list"**; badge-scheme + squad pathway | **Wufoo** forms + a basic book/pay-online section (DIY, fragmented) | Wufoo contact form; published phone/email; IG @DronfieldGymnasts |
+| 10 | **Marriotts Gymnastics Club** · Stevenage / Letchworth, Herts | Preschool, rec, trampoline, adults, holiday classes, competitive squads; serves North Herts | Operates a **waiting list**; **non-profit (company limited by guarantee)**; BG **GymMark**-accredited | Squarespace site + a members' portal only for BG registration (no evident purpose-built class-management platform) | marriottsgymnastics.com/contact; IG/FB @marriottsgc |
+
+## Secondary candidates (fit the profile; no *public* waiting-list signal verified)
+- **Bristol Hawks Gymnastics** · Bristol — GymMark-approved, award-scheme rec classes + competitive programme, uses **Class4Kids**. No waiting list published.
+- **Easton Gymnastics Club** · Bristol — **registered charity (1161894)**, preschool→rec→squads, uses **A2B Manager**. Strong structural fit; no waiting-list mention found.
+- **Synergy Gymnastics London** (formerly Southwark GC) · London — **CIC / not-for-profit**, rec + preschool + aerial, has a parent portal. No waiting-list signal found.
+
+## Excluded / couldn't verify
+- **West Hull Gymnastics Club** — fetch returned generic session/pricing content without a confirmable club name, affiliation or contact route; excluded rather than guessed.
+- **Peterborough Gymnastics Academy** and **Dynamic Gymnastics Academy** — surfaced as ClassForKids-hosted clubs but pages weren't opened/verified.
+- Local-authority leisure-trust gymnastics programmes (Fife, Leeds, Camden, Chelmsford, Redbridge) — **council/trust-run**, not the independent volunteer/charity clubs this product targets; deliberately excluded.
+
+## Sources
+- https://begymnastics.co.uk/faqs/ · https://begymnastics.co.uk/
+- https://www.hgc.org.uk/6/Recreational-Gymnastics-Classes
+- https://www.tynesidegymnasticsclub.co.uk/
+- https://www.coag.org.uk/
+- https://www.bookergymclub.co.uk/
+- https://www.wickersgymnastics.co.uk/
+- https://scarborough-gymnastics.classforkids.io/terms-and-conditions
+- https://www.bedwasgymnastics.co.uk/ · https://www.bedwasgymnastics.co.uk/copy-of-waiting-list-registration
+- https://dronfieldgymnasticsacademy.co.uk/ · https://dronfieldgymnasticsacademy.co.uk/bg-proficiency-awards/
+- https://marriottsgymnastics.com/membership
+- https://bristolhawksgymnastics.org/
+- https://www.eastongymnasticsclub.com/ · https://register-of-charities.charitycommission.gov.uk/en/charity-search/-/charity-details/5060184/full-print
+- https://www.synergygymnastics.co.uk/
+- https://www.british-gymnastics.org/clubfinder/

@@ -1,0 +1,239 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import ProductTour from '../../../components/ProductTour.astro';
+import { ArrowRight } from '@lucide/astro';
+
+const canonical = "https://swimly.club/au/features/";
+const title = 'Swimming Club Software Features | Swimly Australia';
+const description = 'Membership database, automatic billing, attendance registers and safeguarding compliance. See every feature Swimly offers Australian swimming clubs.';
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://swimly.club/au/" },
+    { "@type": "ListItem", "position": 2, "name": "Features", "item": "https://swimly.club/au/features/" }
+  ]
+};
+
+const membership = [
+  { t: "Online registration", d: "Parents sign up through a web form. No printable PDFs or scanning." },
+  { t: "Family grouping", d: "Link siblings together for billing and communication. One invoice per family." },
+  { t: "Self-service portal", d: "Parents update contact details, emergency contacts and medical information without emailing the secretary." },
+  { t: "Squad assignments", d: "Organise members into training groups. Move swimmers between squads as they progress." },
+  { t: "Custom fields", d: "Track swimming levels, medical conditions or any club-specific data." },
+];
+
+const billing = [
+  { t: "Automatic fee collection", d: "Collect monthly, quarterly or seasonal fees automatically by card or bank payment." },
+  { t: "Flexible payment schedules", d: "Set different fee amounts for different squads or membership types." },
+  { t: "Automatic retry on failures", d: "Failed payments are retried automatically. Parents are notified if action is needed." },
+  { t: "Invoice generation", d: "Invoices are sent to parents and stored in their portal for download." },
+  { t: "Payment tracking", d: "See which members are paid up and who has an outstanding balance at a glance." },
+];
+
+const sessions = [
+  { t: "Visual lane planner", d: "Assign squads to lanes and see your pool layout at a glance." },
+  { t: "Recurring session templates", d: "Set up your weekly schedule once, then repeat it automatically." },
+  { t: "Quick check-in and check-out", d: "Mark attendance with a tap. See who is present at each session." },
+  { t: "Coaching rosters", d: "Assign coaches to sessions. Track who is covering which group each week." },
+  { t: "Session changes", d: "Cancel or reschedule a session and automatically notify affected members." },
+];
+
+const reporting = [
+  { t: "Income dashboard", d: "See total membership revenue, outstanding payments and collection rates." },
+  { t: "Payment reconciliation", d: "Collected fees are reconciled automatically with member accounts." },
+  { t: "Exportable reports", d: "Generate CSV or PDF reports for your treasurer, auditor or AGM presentation." },
+  { t: "Competition fee tracking", d: "Link meet entry fees to member accounts for transparent billing." },
+  { t: "Historical data", d: "View income trends month by month or year by year for planning." },
+];
+
+const communication = [
+  { t: "Session change notifications", d: "Cancel or move a session and affected members are emailed automatically." },
+  { t: "Payment reminders", d: "Automatic reminders for outstanding balances or upcoming renewals." },
+  { t: "Club announcements", d: "Send targeted messages to specific squads or the whole club." },
+  { t: "Certificate expiry alerts", d: "Notify coaches and committee when accreditations or checks are about to expire." },
+  { t: "Email templates", d: "Pre-written messages for common scenarios: payment failed, session cancelled, renewal due." },
+];
+
+const safeguarding = [
+  { t: "Working with Children Check tracking", d: "Record Working with Children Check details and expiry dates for coaches and volunteers, in line with the requirements in your state or territory." },
+  { t: "Qualification records", d: "Track coaching accreditations, first aid certificates and pool lifeguard credentials." },
+  { t: "Expiry alerts", d: "Automatic reminders 60 and 30 days before checks and certificates expire." },
+  { t: "Parental consent forms", d: "Digital consent for photography, medical treatment and data handling." },
+  { t: "Compliance dashboard", d: "See at a glance which coaches need renewals or which members lack consent." },
+];
+
+const sections = [
+  { id: "membership-management", title: "Membership Management", lead: "Simple, modern member database that parents can update themselves. No more chasing paper forms or maintaining spreadsheets.", items: membership },
+  { id: "automated-billing", title: "Automatic Billing & Payments", lead: "Card and bank payment means membership fees arrive automatically every cycle. No more chasing parents or reconciling bank statements.", items: billing },
+  { id: "session-scheduling", title: "Session Scheduling & Attendance", lead: "Manage your pool time, assign swimmers to lanes and track who is attending. Members see their upcoming sessions; coaches see their rosters.", items: sessions },
+  { id: "financial-reporting", title: "Financial Overview & Reporting", lead: "Real-time financial dashboard showing club income and expenses. Export detailed reports for your AGM without digging through bank statements.", items: reporting },
+  { id: "communication", title: "Smart Notifications & Communication", lead: "Keep members informed without relying on group chats. Automated reminders and targeted announcements delivered by email.", items: communication },
+  { id: "safeguarding", title: "Safeguarding & Compliance", lead: "Track Working with Children Checks, coaching accreditations and consent forms so your club stays on top of its safeguarding obligations.", items: safeguarding },
+];
+---
+
+<Layout title={title} description={description} canonical={canonical}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <!-- Hero Section -->
+    <section class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[500px] pointer-events-none" aria-hidden="true"></div>
+      <div class="relative text-center">
+        <p class="eyebrow mb-6">Purpose-built for Australian swimming clubs</p>
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl text-[#0F2D2D] mb-6 leading-tight">
+          Everything your<br class="hidden sm:block" />
+          <em class="text-mint-ink">swimming club needs</em>
+        </h1>
+        <p class="text-xl text-ink-soft max-w-2xl mx-auto leading-relaxed">
+          Membership, billing, attendance, safeguarding and communication in one platform. Built by a swim parent who got tired of the spreadsheet chaos.
+        </p>
+      </div>
+
+      <!-- Quick nav pills -->
+      <div class="relative flex flex-wrap justify-center gap-3 mt-10">
+        <a href="#membership-management" class="inline-flex items-center min-h-12 px-4 py-2 rounded-full bg-surface-raised border border-[#39393A]/10 text-sm text-ink-soft hover:border-[#297373]/40 hover:text-[#0F2D2D] transition-colors">Membership</a>
+        <a href="#automated-billing" class="inline-flex items-center min-h-12 px-4 py-2 rounded-full bg-surface-raised border border-[#39393A]/10 text-sm text-ink-soft hover:border-[#297373]/40 hover:text-[#0F2D2D] transition-colors">Billing</a>
+        <a href="#session-scheduling" class="inline-flex items-center min-h-12 px-4 py-2 rounded-full bg-surface-raised border border-[#39393A]/10 text-sm text-ink-soft hover:border-[#297373]/40 hover:text-[#0F2D2D] transition-colors">Sessions</a>
+        <a href="#financial-reporting" class="inline-flex items-center min-h-12 px-4 py-2 rounded-full bg-surface-raised border border-[#39393A]/10 text-sm text-ink-soft hover:border-[#297373]/40 hover:text-[#0F2D2D] transition-colors">Reporting</a>
+        <a href="#communication" class="inline-flex items-center min-h-12 px-4 py-2 rounded-full bg-surface-raised border border-[#39393A]/10 text-sm text-ink-soft hover:border-[#297373]/40 hover:text-[#0F2D2D] transition-colors">Communication</a>
+        <a href="#safeguarding" class="inline-flex items-center min-h-12 px-4 py-2 rounded-full bg-surface-raised border border-[#39393A]/10 text-sm text-ink-soft hover:border-[#297373]/40 hover:text-[#0F2D2D] transition-colors">Safeguarding</a>
+      </div>
+    </section>
+
+    <!-- Stats bar -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 text-center">
+          <p class="font-display text-4xl sm:text-5xl text-[#0F2D2D]">6</p>
+          <p class="text-sm text-ink-mute mt-1">Core modules</p>
+        </div>
+        <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 text-center">
+          <p class="font-display text-4xl sm:text-5xl text-[#0F2D2D]">Free</p>
+          <p class="text-sm text-ink-mute mt-1">Under 50 members</p>
+        </div>
+        <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 text-center">
+          <p class="font-display text-4xl sm:text-5xl text-[#0F2D2D]">Mobile</p>
+          <p class="text-sm text-ink-mute mt-1">Works poolside</p>
+        </div>
+        <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 text-center">
+          <p class="font-display text-4xl sm:text-5xl text-[#0F2D2D]">A$55</p>
+          <p class="text-sm text-ink-mute mt-1">Flat rate per month</p>
+        </div>
+      </div>
+      <p class="text-xs text-ink-faint mt-4 text-center">Australian pricing is provisional while we finalise our local launch.</p>
+    </section>
+
+    <!-- Feature sections -->
+    {sections.map((s) => (
+      <section id={s.id} class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8 lg:p-12">
+          <div class="mb-6">
+            <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">{s.title}</h2>
+            <p class="text-ink-soft text-lg">{s.lead}</p>
+          </div>
+          <div class="space-y-4 text-ink-soft">
+            {s.items.map((item) => (
+              <div class="flex gap-3">
+                <span class="text-mint-ink flex-shrink-0" aria-hidden="true">&#10003;</span>
+                <span><strong class="text-[#0F2D2D]">{item.t}</strong>: {item.d}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <ProductTour region="au" />
+
+    <!-- Role highlights -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="text-center mb-10">
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-4">Built for every role</h2>
+        <p class="text-ink-soft text-lg max-w-2xl mx-auto">
+          Each person in your club sees exactly what they need. No clutter, no confusion.
+        </p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="p-6 rounded-2xl bg-gradient-to-b from-[#85FFC7]/20 to-transparent border border-[#1F7A52]/20">
+          <p class="text-lg font-semibold text-[#0F2D2D] mb-2">Treasurer</p>
+          <p class="text-sm text-ink-soft">Revenue overview, outstanding payments, export reports for AGM, reconciliation dashboard.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-gradient-to-b from-blue-500/10 to-transparent border border-blue-500/20">
+          <p class="text-lg font-semibold text-[#0F2D2D] mb-2">Membership Secretary</p>
+          <p class="text-sm text-ink-soft">Member database, family grouping, squad assignments, registration approvals.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-gradient-to-b from-amber-500/10 to-transparent border border-amber-500/20">
+          <p class="text-lg font-semibold text-[#0F2D2D] mb-2">Coach</p>
+          <p class="text-sm text-ink-soft">Poolside attendance, session registers, swimmer profiles, squad rosters on mobile.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-gradient-to-b from-purple-500/10 to-transparent border border-purple-500/20">
+          <p class="text-lg font-semibold text-[#0F2D2D] mb-2">Parent</p>
+          <p class="text-sm text-ink-soft">Payment history, upcoming sessions, update contact details, view balances.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roadmap note -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 text-mint-ink text-sm font-medium mb-6">
+          Transparent development
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-4">On our roadmap</h2>
+        <p class="text-ink-soft text-lg max-w-2xl mx-auto">
+          We build in the open and are honest about what is live and what is coming.
+        </p>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#85FFC7]/20 text-mint-ink mb-3">Live now</span>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Core platform</h3>
+          <p class="text-ink-soft text-sm">Membership, squads, automatic billing, session scheduling, attendance and the mobile-first parent portal.</p>
+        </div>
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-700 mb-3">In development</span>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Meet entry management</h3>
+          <p class="text-ink-soft text-sm">Select swimmers for meets, manage entry deadlines and export entry files. Currently in development.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Pages -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-2xl text-[#0F2D2D] mb-6">Explore more</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <a href="/au/pricing/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Pricing</h3>
+          <p class="text-ink-mute text-sm">Transparent, flat-rate pricing in Australian dollars</p>
+        </a>
+        <a href="/au/compare/swim-central/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Compare vs Swim Central</h3>
+          <p class="text-ink-mute text-sm">How Swimly fits alongside the Swimming Australia platform</p>
+        </a>
+        <a href="/au/compare/teamunify/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Compare vs TeamUnify</h3>
+          <p class="text-ink-mute text-sm">Why Australian clubs look beyond US platforms</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Ready to simplify club management?</h2>
+      <p class="text-xl text-ink-soft mb-8">Create your club today. Free for clubs under 50 members, no card required.</p>
+      <a
+        href="https://app.swimly.uk/create-club"
+        class="inline-flex items-center justify-center gap-2 text-lg font-bold px-8 min-h-12 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-colors"
+      >
+        Start your club, free
+        <ArrowRight class="w-5 h-5" />
+      </a>
+    </section>
+  </main>
+  <Footer />
+</Layout>

@@ -1,0 +1,399 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { CreditCard, Receipt, Clock, TrendingUp, CheckCircle, ArrowRight, AlertCircle } from '@lucide/astro';
+
+const title = 'Swimming Club Payment Software | Automate Fee Collection | Swimly';
+const description = 'Swimming club payment software with Direct Debit collection. Stop chasing fees. Automated billing for UK swim clubs via GoCardless. Free for clubs under 50 members.';
+
+const paymentSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Swimly Swimming Club Payment Software",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": description,
+  "url": "https://swimly.uk/swimming-club-payment-software/",
+  "featureList": [
+    "Direct Debit via GoCardless",
+    "Automated fee collection",
+    "Payment tracking dashboard",
+    "Failed payment retry",
+    "Automatic invoicing",
+    "Financial reporting"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "29",
+    "priceCurrency": "GBP",
+    "priceValidUntil": "2027-12-31",
+    "availability": "https://schema.org/PreOrder"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Swimly",
+    "url": "https://swimly.uk"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Swimly",
+    "url": "https://swimly.uk"
+  }
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(paymentSchema, null, 2)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <!-- Hero Section -->
+    <section class="relative pt-16 pb-20 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[500px] pointer-events-none" aria-hidden="true"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 text-mint-ink text-sm font-medium mb-6">
+          <CreditCard class="w-4 h-4" />
+          Swimming Club Payment Software
+        </div>
+
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl text-[#0F2D2D] leading-tight tracking-tight mb-6">
+          Swimming Club Payment Software That Actually Works
+        </h1>
+
+        <p class="text-lg sm:text-xl text-ink-soft max-w-2xl mx-auto leading-relaxed mb-10">
+          Automate fee collection with Direct Debit. Built for volunteer treasurers who are tired of chasing payments.
+        </p>
+
+        <a
+          href="https://app.swimly.uk/create-club"
+          class="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)] hover:scale-[1.02]"
+        >
+          Start your club, free
+          <ArrowRight class="w-5 h-5" />
+        </a>
+      </div>
+    </section>
+
+    <!-- What Treasurers Tell Us -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] text-center mb-12">What treasurers tell us</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <div class="w-12 h-12 rounded-xl bg-[#B91C1C]/10 flex items-center justify-center mb-4">
+            <Clock class="w-6 h-6 text-[#B91C1C]/70" />
+          </div>
+          <p class="text-ink-soft italic">
+            "I spend 10 hours a month chasing late payments. I'm a volunteer, not a debt collector."
+          </p>
+        </div>
+        <div class="p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <div class="w-12 h-12 rounded-xl bg-[#B91C1C]/10 flex items-center justify-center mb-4">
+            <Receipt class="w-6 h-6 text-[#B91C1C]/70" />
+          </div>
+          <p class="text-ink-soft italic">
+            "Bank reconciliation is a nightmare. Failed standing orders, manual transfers, it's chaos."
+          </p>
+        </div>
+        <div class="p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <div class="w-12 h-12 rounded-xl bg-[#B91C1C]/10 flex items-center justify-center mb-4">
+            <AlertCircle class="w-6 h-6 text-[#B91C1C]/70" />
+          </div>
+          <p class="text-ink-soft italic">
+            "Awkward conversations about overdue fees. I hate it. They hate it. There must be a better way."
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] text-center mb-12">How Swimly payment software works</h2>
+      <div class="space-y-8">
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center text-mint-ink font-semibold text-lg">
+            1
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Connect GoCardless</h3>
+            <p class="text-ink-soft">Link your GoCardless account (or create one in minutes). Swimly integrates seamlessly with GoCardless for UK Direct Debit collection.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center text-mint-ink font-semibold text-lg">
+            2
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Parents set up Direct Debit mandates</h3>
+            <p class="text-ink-soft">Families receive a secure link to authorise Direct Debit. Takes under 2 minutes. Protected by the Direct Debit Guarantee.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center text-mint-ink font-semibold text-lg">
+            3
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Set your collection schedule</h3>
+            <p class="text-ink-soft">Monthly, quarterly, or annual. Swimly generates invoices and collects payments automatically on your chosen dates.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center text-mint-ink font-semibold text-lg">
+            4
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-2">Money lands in your bank automatically</h3>
+            <p class="text-ink-soft">Payments collected on schedule, receipts sent automatically, funds in your account within 3 working days. No manual work required.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Device Mockups -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
+        <div class="w-full max-w-2xl">
+          <picture>
+            <source srcset="/mockups/billing-macbook.webp" type="image/webp" />
+            <img
+              src="/mockups/billing-macbook.png"
+              alt="Swimly swimming club payment software dashboard showing invoices and payment status"
+              class="w-full h-auto rounded-xl shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)] border border-[#39393A]/10"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+        <div class="w-full max-w-[200px] sm:max-w-[240px]">
+          <picture>
+            <source srcset="/mockups/billing-iphone.webp" type="image/webp" />
+            <img
+              src="/mockups/billing-iphone.png"
+              alt="Swimly payment collection view on mobile"
+              class="w-full h-auto"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Features -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] text-center mb-12">Everything you need to collect fees</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Feature 1 -->
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <CreditCard class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Direct Debit via GoCardless</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Collect fees automatically with Direct Debit</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Lower fees than card payments or PayPal</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Protected by the Direct Debit Guarantee</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>98% collection success rate</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <Receipt class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Automated Invoicing</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Generate invoices automatically for all members</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Email invoices directly to families</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Track paid, pending, and overdue status</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Automatic receipts when payments collected</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <Clock class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Smart Payment Handling</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Failed payments automatically retried</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Parents notified if payment fails</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Process refunds and credits directly</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Pro-rata calculations for mid-season joiners</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-5">
+            <TrendingUp class="w-6 h-6 text-mint-ink" />
+          </div>
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Financial Reporting</h3>
+          <ul class="space-y-3 text-ink-soft">
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Real-time view of club income</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Export reports for AGMs and committee meetings</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Automatic bank reconciliation</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle class="w-5 h-5 text-mint-ink shrink-0 mt-0.5" />
+              <span>Historical payment data and trends</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Transparency -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="p-8 rounded-2xl bg-[#85FFC7]/15 border border-[#1F7A52]/20">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-4">Transparent pricing. No surprises.</h2>
+        <p class="text-ink-soft mb-6">
+          £29 per month for unlimited members. That is less than the cost of one swim cap per member per year for most clubs. Free for clubs under 50 members. No per-member fees. No hidden charges.
+        </p>
+        <a href="/pricing/" class="inline-flex items-center gap-2 text-mint-ink hover:text-[#0F2D2D] font-semibold">
+          View full pricing
+          <ArrowRight class="w-4 h-4" />
+        </a>
+      </div>
+    </section>
+
+    <!-- Why Direct Debit -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Why Direct Debit beats card payments and PayPal</h2>
+      <div class="space-y-4 text-ink-soft">
+        <div class="flex items-start gap-3">
+          <CheckCircle class="w-6 h-6 text-mint-ink shrink-0 mt-1" />
+          <div>
+            <p class="font-semibold text-[#0F2D2D] mb-1">Lower transaction fees</p>
+            <p class="text-ink-soft">Direct Debit costs 1% capped at £2. Card payments cost 2-3% with no cap. On a £500 annual subscription, that is £5 vs £15.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <CheckCircle class="w-6 h-6 text-mint-ink shrink-0 mt-1" />
+          <div>
+            <p class="font-semibold text-[#0F2D2D] mb-1">Higher success rates</p>
+            <p class="text-ink-soft">Card payments fail when cards expire. Direct Debit mandates stay active until cancelled. 98% collection rate vs 85-90% for cards.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <CheckCircle class="w-6 h-6 text-mint-ink shrink-0 mt-1" />
+          <div>
+            <p class="font-semibold text-[#0F2D2D] mb-1">Automatic retry on failure</p>
+            <p class="text-ink-soft">If a Direct Debit fails (insufficient funds), Swimly automatically retries after 3 days. No chasing required.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <CheckCircle class="w-6 h-6 text-mint-ink shrink-0 mt-1" />
+          <div>
+            <p class="font-semibold text-[#0F2D2D] mb-1">Protected by the Direct Debit Guarantee</p>
+            <p class="text-ink-soft">Full refund if a payment is taken in error. Trust signal for parents concerned about automated payments.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-16 h-16 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center">
+            <CreditCard class="w-8 h-8 text-mint-ink" />
+          </div>
+          <div>
+            <div class="font-display text-3xl text-mint-ink">10 hours</div>
+            <div class="text-ink-mute">saved per month</div>
+          </div>
+        </div>
+        <p class="text-lg text-ink-soft italic">
+          "Direct Debit through Swimly saved us 10 hours a month. No more chasing payments, no more bank reconciliation nightmares. It just works."
+        </p>
+        <p class="text-sm text-ink-mute mt-3">
+          Treasurer, Manchester Aquatics
+        </p>
+      </div>
+    </section>
+
+    <!-- Related Features -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-display text-2xl text-[#0F2D2D] mb-8">Related features</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a href="/features/billing/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Automated Billing</h3>
+          <p class="text-ink-mute text-sm">Complete billing feature overview</p>
+        </a>
+        <a href="/features/membership/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Membership Management</h3>
+          <p class="text-ink-mute text-sm">Centralised member database</p>
+        </a>
+        <a href="/features/parent-portal/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all group">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2 group-hover:text-mint-ink transition-colors">Parent Portal</h3>
+          <p class="text-ink-mute text-sm">Self-service payment and invoice access</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Stop chasing payments. Start swimming.</h2>
+      <p class="text-xl text-ink-soft mb-8">Create your club today. Free for clubs under 50 members, no card required.</p>
+      <a
+        href="https://app.swimly.uk/create-club"
+        class="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)] hover:scale-[1.02]"
+      >
+          Start your club, free
+        <ArrowRight class="w-5 h-5" />
+      </a>
+      <p class="mt-6 text-sm text-ink-mute">
+        Free for clubs with fewer than 50 members. No credit card required.
+      </p>
+    </section>
+  </main>
+  <Footer />
+</Layout>

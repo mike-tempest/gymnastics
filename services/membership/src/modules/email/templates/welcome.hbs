@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to {{clubName}}</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .header {
+      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      color: #fff;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0 0 10px 0;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .header p {
+      margin: 0;
+      font-size: 16px;
+      opacity: 0.95;
+    }
+    .content {
+      padding: 30px 20px;
+    }
+    .highlight-box {
+      background: #F0FDF4;
+      border-left: 4px solid #10B981;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .highlight-box h2 {
+      margin: 0 0 12px 0;
+      font-size: 18px;
+      color: #059669;
+    }
+    .highlight-box p {
+      margin: 0;
+      color: #166534;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin: 25px 0;
+    }
+    .info-card {
+      background: #F8FAFC;
+      padding: 16px;
+      border-radius: 6px;
+      border: 1px solid #E2E8F0;
+    }
+    .info-card h3 {
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      color: #64748B;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .info-card p {
+      margin: 0;
+      font-size: 16px;
+      color: #1E293B;
+      font-weight: 600;
+    }
+    .steps {
+      margin: 25px 0;
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .step-number {
+      background: #10B981;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-right: 15px;
+    }
+    .step-content h3 {
+      margin: 0 0 5px 0;
+      font-size: 16px;
+      color: #1E293B;
+    }
+    .step-content p {
+      margin: 0;
+      color: #64748B;
+      font-size: 14px;
+    }
+    .button {
+      display: inline-block;
+      background: #10B981;
+      color: #fff;
+      padding: 14px 32px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .button:hover {
+      background: #059669;
+    }
+    .button-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .footer {
+      background: #F8FAFC;
+      padding: 20px;
+      text-align: center;
+      color: #64748B;
+      font-size: 14px;
+    }
+    .footer p {
+      margin: 5px 0;
+    }
+    .footer a {
+      color: #10B981;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Welcome to {{clubName}}!</h1>
+      <p>We're thrilled to have you join our swimming community</p>
+    </div>
+
+    <div class="content">
+      <p>Dear {{firstName}} {{lastName}},</p>
+
+      <p>Thank you for registering with {{clubName}}! We're excited to welcome you to our swimming family.</p>
+
+      <div class="highlight-box">
+        <h2>Your Account is Ready</h2>
+        <p>You can now log in to your parent portal to manage your family's swimming activities, view schedules, and track progress.</p>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-card">
+          <h3>Your Email</h3>
+          <p>{{email}}</p>
+        </div>
+        <div class="info-card">
+          <h3>Account Role</h3>
+          <p>{{role}}</p>
+        </div>
+      </div>
+
+      <h2 style="color: #1E293B; margin-top: 35px;">Next Steps</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Log In to Your Portal</h3>
+            <p>Access your family dashboard to view schedules, sessions, and important updates.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Add Your Swimmers</h3>
+            <p>Register your children and assign them to appropriate squads based on their skill level.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Set Up Direct Debit</h3>
+            <p>Complete your payment setup to ensure uninterrupted access to sessions and facilities.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Complete Consent Forms</h3>
+            <p>Review and provide necessary consents for photography, medical treatment, and other activities.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-container">
+        <a href="{{loginUrl}}" class="button">Go to Parent Portal</a>
+      </div>
+
+      <div class="highlight-box" style="margin-top: 35px; background: #FEF3C7; border-left-color: #F59E0B;">
+        <h2 style="color: #D97706;">Need Help?</h2>
+        <p style="color: #92400E;">If you have any questions or need assistance getting started, please don't hesitate to reach out to our team. We're here to help!</p>
+      </div>
+
+      <p style="margin-top: 30px;">We look forward to seeing you and your swimmers at the pool!</p>
+
+      <p style="margin-top: 20px;">
+        Best regards,<br>
+        <strong>{{clubName}} Team</strong>
+      </p>
+    </div>
+
+    <div class="footer">
+      <p>&copy; {{year}} {{clubName}}. All rights reserved.</p>
+      <p>Need help? <a href="{{supportUrl}}">Contact Support</a></p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,209 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import { MapPin, ChevronRight, Users } from '@lucide/astro';
+import clubs from '../../../data/au-clubs.json';
+import states from '../../../data/au-states.json';
+
+// Region-only directory hub on swimly.club. Commonwealth spelling,
+// "swimming club", "swim school". Canonical derives from the path via the layout.
+const stateSlugs = [...new Set(clubs.map((c) => c.stateSlug))].sort();
+const competitiveCount = clubs.filter((c) => c.type === 'competitive').length;
+const academyCount = clubs.filter((c) => c.type === 'academy').length;
+
+const title = 'Find a Swimming Club or Swim School in Australia | Swimly';
+const description =
+  'Browse real swimming clubs and swim schools across Australia by state. Find a competitive club or learn-to-swim programme near you, or add your own.';
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Swimming Clubs and Swim Schools in Australia',
+  description:
+    'Directory of competitive swimming clubs and learn-to-swim schools across Australia.',
+  numberOfItems: clubs.length,
+  itemListElement: clubs.map((club, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: {
+      '@type': 'SportsOrganization',
+      name: club.name,
+      sport: 'Swimming',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: club.city,
+        addressRegion: club.state,
+        addressCountry: 'AU',
+      },
+      url: `https://swimly.club/au/clubs/${club.stateSlug}/${club.slug}/`,
+    },
+  })),
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(itemListSchema, null, 2)} />
+
+  <Nav />
+
+  <main>
+    <!-- Hero -->
+    <section class="relative pt-32 pb-16 sm:pt-40 sm:pb-20 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none"></div>
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="eyebrow inline-flex items-center gap-2 mb-6">
+          <MapPin class="w-4 h-4" />
+          Australia Directory
+        </p>
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.1] text-[#0F2D2D]">
+          Swimming Clubs and <em class="text-mint-ink">Swim Schools</em> in Australia
+        </h1>
+        <p class="mt-6 text-lg sm:text-xl text-ink-soft max-w-2xl mx-auto leading-relaxed">
+          A growing directory of real competitive swimming clubs and learn-to-swim schools across
+          Australia. Browse by state to find a programme near you, whether your swimmer is
+          chasing qualifying times or learning to float.
+        </p>
+      </div>
+    </section>
+
+    <!-- Segment explainer -->
+    <section class="pb-12">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid sm:grid-cols-2 gap-6">
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-2xl p-8">
+            <h2 class="font-display text-2xl text-[#0F2D2D] mb-3">Competitive swimming clubs</h2>
+            <p class="text-ink-soft leading-relaxed">
+              Clubs that train swimmers for competition, most affiliated with Swimming Australia
+              through their state association, with structured squads from junior development to
+              national level. The directory currently lists {competitiveCount} competitive clubs.
+            </p>
+          </div>
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-2xl p-8">
+            <h2 class="font-display text-2xl text-[#0F2D2D] mb-3">Swim schools and academies</h2>
+            <p class="text-ink-soft leading-relaxed">
+              Learn-to-swim programmes teaching water safety and stroke development, from infant
+              classes through squad preparation. Many swimmers start at a swim school before
+              joining a competitive club. The directory currently lists {academyCount} swim
+              schools.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Browse by state -->
+    <section class="pb-16">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="font-display text-2xl text-[#0F2D2D]">Browse by state and territory</h2>
+          <a href="/au/clubs/map/" class="inline-flex items-center gap-2 text-sm text-mint-ink hover:text-[#0F2D2D] font-medium transition-colors">
+            <MapPin class="w-4 h-4" />
+            View on map
+          </a>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {stateSlugs.map((slug) => {
+            const stateData = states[slug];
+            const stateClubs = clubs.filter((c) => c.stateSlug === slug);
+            const comp = stateClubs.filter((c) => c.type === 'competitive').length;
+            const schools = stateClubs.filter((c) => c.type === 'academy').length;
+            return (
+              <a
+                href={`/au/clubs/${slug}/`}
+                class="group flex items-center justify-between p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all"
+              >
+                <div>
+                  <h3 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors">
+                    {stateData.name}
+                  </h3>
+                  <p class="text-ink-mute text-sm">
+                    {comp > 0 && `${comp} club${comp === 1 ? '' : 's'}`}
+                    {comp > 0 && schools > 0 && ' · '}
+                    {schools > 0 && `${schools} swim school${schools === 1 ? '' : 's'}`}
+                  </p>
+                </div>
+                <ChevronRight class="w-5 h-5 text-ink-faint group-hover:text-mint-ink transition-colors" />
+              </a>
+            );
+          })}
+        </div>
+        <p class="text-ink-mute text-sm mt-6">
+          The directory is growing state by state. If your state is not listed yet, your club can
+          still be first:
+          <a href="mailto:hello@swimly.club" class="text-mint-ink hover:underline">
+            email us to get listed free</a
+          >.
+        </p>
+      </div>
+    </section>
+
+    <!-- Run your club CTA -->
+    <section class="py-16 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-[#85FFC7]/15 border border-[#1F7A52]/20 rounded-2xl p-8 lg:p-12">
+          <div class="flex items-start gap-4 mb-6">
+            <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center shrink-0">
+              <Users class="w-6 h-6 text-mint-ink" />
+            </div>
+            <div>
+              <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-2">
+                Run a club or swim school?
+              </h2>
+              <p class="text-lg text-ink-soft">
+                Swimly handles registration, billing, attendance, and parent communication in one
+                place, so your volunteers and coaches get their evenings back.
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-4">
+            <a
+              href="https://app.swimly.uk/create-club"
+              class="inline-flex items-center px-6 py-3 min-h-12 rounded-lg bg-lime-cta text-[#0F2D2D] font-semibold hover:bg-lime-cta-hover transition-colors"
+            >
+              Add your club, free
+            </a>
+            <a
+              href="/au/features/"
+              class="inline-flex items-center px-6 py-3 min-h-12 border border-[#297373]/40 text-ink rounded-lg font-semibold hover:bg-surface transition-colors"
+            >
+              See features
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related pages -->
+    <section class="py-16">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-6">Useful guides</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <a
+            href="/au/guides/swimming-club-management-software/"
+            class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all"
+          >
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Choosing club software</h3>
+            <p class="text-ink-mute text-sm">A practical guide for Australian club committees</p>
+          </a>
+          <a
+            href="/au/guides/joining-a-swimming-club-in-australia-parent-guide/"
+            class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all"
+          >
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Joining a swimming club</h3>
+            <p class="text-ink-mute text-sm">What parents should know before signing up</p>
+          </a>
+          <a
+            href="/au/pricing/"
+            class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all"
+          >
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Swimly pricing</h3>
+            <p class="text-ink-mute text-sm">Transparent monthly plans in AUD</p>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

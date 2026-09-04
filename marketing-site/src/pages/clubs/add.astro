@@ -1,0 +1,359 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { PlusCircle, Home, ChevronRight, Check } from "@lucide/astro";
+---
+
+<Layout
+  title="Add Your Club | Swimly"
+  description="Submit your swimming club to the Swimly directory for free. Get listed, help families find your club."
+>
+  <Nav />
+
+  <main>
+    <!-- Breadcrumbs -->
+    <section class="pt-24 pb-8">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex items-center gap-2 text-sm text-ink-mute">
+          <a href="/" class="hover:text-mint-ink transition-colors flex items-center gap-1">
+            <Home class="w-4 h-4" />
+            Home
+          </a>
+          <ChevronRight class="w-4 h-4" />
+          <a href="/clubs/" class="hover:text-mint-ink transition-colors">Clubs</a>
+          <ChevronRight class="w-4 h-4" />
+          <span class="text-[#0F2D2D]">Add Your Club</span>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="pb-16 sm:pb-20 relative overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[500px] pointer-events-none"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p class="eyebrow inline-flex items-center gap-2 mb-6">
+          <PlusCircle class="w-4 h-4" />
+          Add Your Club
+        </p>
+
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.1] text-[#0F2D2D]">
+          Add Your Club to the <em class="text-mint-ink">Swimly Directory</em>
+        </h1>
+
+        <p class="mt-6 text-lg sm:text-xl text-ink-soft max-w-2xl leading-relaxed">
+          Get your club listed for free.
+        </p>
+      </div>
+    </section>
+
+    <!-- Form + Benefits Section -->
+    <section class="pb-20 sm:pb-28 relative">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-3 gap-8 lg:gap-12">
+
+          <!-- Form (left column, 2/3 width) -->
+          <div class="lg:col-span-2">
+            <form id="addClubForm" class="space-y-10">
+
+              <!-- Your Details -->
+              <div>
+                <h2 class="font-display text-xl text-[#0F2D2D] mb-6">Your Details</h2>
+                <div class="space-y-4">
+                  <div>
+                    <label for="contactName" class="block text-sm font-medium text-ink-soft mb-1.5">
+                      Your name <span class="text-mint-ink">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="contactName"
+                      name="contactName"
+                      required
+                      class="w-full px-4 py-3 rounded-lg bg-surface border border-[#39393A]/10 text-ink placeholder-ink-faint focus:outline-none focus:border-[#297373] focus:ring-1 focus:ring-[#297373] transition-colors"
+                      placeholder="e.g. Sarah Thompson"
+                    />
+                  </div>
+
+                  <div>
+                    <label for="email" class="block text-sm font-medium text-ink-soft mb-1.5">
+                      Email address <span class="text-mint-ink">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      class="w-full px-4 py-3 rounded-lg bg-surface border border-[#39393A]/10 text-ink placeholder-ink-faint focus:outline-none focus:border-[#297373] focus:ring-1 focus:ring-[#297373] transition-colors"
+                      placeholder="e.g. sarah@example.com"
+                    />
+                  </div>
+
+                  <div>
+                    <label for="role" class="block text-sm font-medium text-ink-soft mb-1.5">
+                      Your role at the club
+                    </label>
+                    <select
+                      id="role"
+                      name="role"
+                      class="w-full px-4 py-3 rounded-lg bg-surface border border-[#39393A]/10 text-ink focus:outline-none focus:border-[#297373] focus:ring-1 focus:ring-[#297373] transition-colors appearance-none"
+                    >
+                      <option value="">Select a role</option>
+                      <option value="Chair">Chair</option>
+                      <option value="Secretary">Secretary</option>
+                      <option value="Treasurer">Treasurer</option>
+                      <option value="Head Coach">Head Coach</option>
+                      <option value="Committee Member">Committee Member</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Club Details -->
+              <div>
+                <h2 class="font-display text-xl text-[#0F2D2D] mb-6">Club Details</h2>
+                <div class="space-y-4">
+                  <div>
+                    <label for="clubName" class="block text-sm font-medium text-ink-soft mb-1.5">
+                      Club name <span class="text-mint-ink">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="clubName"
+                      name="clubName"
+                      required
+                      class="w-full px-4 py-3 rounded-lg bg-surface border border-[#39393A]/10 text-ink placeholder-ink-faint focus:outline-none focus:border-[#297373] focus:ring-1 focus:ring-[#297373] transition-colors"
+                      placeholder="e.g. Riverside Swimming Club"
+                    />
+                  </div>
+
+                  <div class="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label for="town" class="block text-sm font-medium text-ink-soft mb-1.5">
+                        Town/City <span class="text-mint-ink">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="town"
+                        name="town"
+                        required
+                        class="w-full px-4 py-3 rounded-lg bg-surface border border-[#39393A]/10 text-ink placeholder-ink-faint focus:outline-none focus:border-[#297373] focus:ring-1 focus:ring-[#297373] transition-colors"
+                        placeholder="e.g. Bristol"
+                      />
+                    </div>
+
+                    <div>
+                      <label for="county" class="block text-sm font-medium text-ink-soft mb-1.5">
+                        County <span class="text-mint-ink">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="county"
+                        name="county"
+                        required
+                        class="w-full px-4 py-3 rounded-lg bg-surface border border-[#39393A]/10 text-ink placeholder-ink-faint focus:outline-none focus:border-[#297373] focus:ring-1 focus:ring-[#297373] transition-colors"
+                        placeholder="e.g. Somerset"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label for="venue" class="block text-sm font-medium text-ink-soft mb-1.5">
+                      Pool/Venue name
+                    </label>
+                    <input
+                      type="text"
+                      id="venue"
+                      name="venue"
+                      class="w-full px-4 py-3 rounded-lg bg-surface border border-[#39393A]/10 text-ink placeholder-ink-faint focus:outline-none focus:border-[#297373] focus:ring-1 focus:ring-[#297373] transition-colors"
+                      placeholder="e.g. Hengrove Park Leisure Centre"
+                    />
+                  </div>
+
+                  <div>
+                    <label for="website" class="block text-sm font-medium text-ink-soft mb-1.5">
+                      Club website URL
+                    </label>
+                    <input
+                      type="url"
+                      id="website"
+                      name="website"
+                      class="w-full px-4 py-3 rounded-lg bg-surface border border-[#39393A]/10 text-ink placeholder-ink-faint focus:outline-none focus:border-[#297373] focus:ring-1 focus:ring-[#297373] transition-colors"
+                      placeholder="e.g. https://www.riversideswimming.co.uk"
+                    />
+                  </div>
+
+                  <div>
+                    <label for="affiliation" class="block text-sm font-medium text-ink-soft mb-1.5">
+                      Swim England affiliation number
+                    </label>
+                    <input
+                      type="text"
+                      id="affiliation"
+                      name="affiliation"
+                      class="w-full px-4 py-3 rounded-lg bg-surface border border-[#39393A]/10 text-ink placeholder-ink-faint focus:outline-none focus:border-[#297373] focus:ring-1 focus:ring-[#297373] transition-colors"
+                      placeholder="e.g. 1234"
+                    />
+                  </div>
+
+                  <div>
+                    <label for="memberCount" class="block text-sm font-medium text-ink-soft mb-1.5">
+                      Approximate number of members
+                    </label>
+                    <select
+                      id="memberCount"
+                      name="memberCount"
+                      class="w-full px-4 py-3 rounded-lg bg-surface border border-[#39393A]/10 text-ink focus:outline-none focus:border-[#297373] focus:ring-1 focus:ring-[#297373] transition-colors appearance-none"
+                    >
+                      <option value="">Select a range</option>
+                      <option value="Under 50">Under 50</option>
+                      <option value="50-100">50-100</option>
+                      <option value="100-200">100-200</option>
+                      <option value="200-500">200-500</option>
+                      <option value="500+">500+</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label for="currentSoftware" class="block text-sm font-medium text-ink-soft mb-1.5">
+                      What software do you currently use to manage your club?
+                    </label>
+                    <input
+                      type="text"
+                      id="currentSoftware"
+                      name="currentSoftware"
+                      class="w-full px-4 py-3 rounded-lg bg-surface border border-[#39393A]/10 text-ink placeholder-ink-faint focus:outline-none focus:border-[#297373] focus:ring-1 focus:ring-[#297373] transition-colors"
+                      placeholder="e.g. Spreadsheets, TeamUnify, custom system"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div>
+                <button
+                  type="submit"
+                  class="w-full sm:w-auto px-8 py-3 min-h-12 rounded-lg bg-lime-cta text-[#0F2D2D] font-semibold hover:bg-lime-cta-hover transition-colors text-lg"
+                >
+                  Add My Club
+                </button>
+              </div>
+            </form>
+
+            <!-- Success Message (hidden by default) -->
+            <div id="successMessage" class="hidden">
+              <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-2xl p-8 lg:p-12 text-center">
+                <div class="w-16 h-16 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mx-auto mb-6">
+                  <svg class="w-8 h-8 text-mint-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">
+                  Thank you for adding your club!
+                </h2>
+                <p class="text-ink-soft text-lg mb-4 max-w-lg mx-auto">
+                  We have received your submission. Your club will be reviewed and added to the directory shortly.
+                </p>
+                <p class="text-ink-soft mb-8 max-w-lg mx-auto">
+                  Your club has been submitted to the Swimly directory. We will review it shortly.
+                </p>
+                <a
+                  href="/clubs/"
+                  class="inline-flex items-center gap-2 px-6 py-3 min-h-12 rounded-lg bg-lime-cta text-[#0F2D2D] font-semibold hover:bg-lime-cta-hover transition-colors"
+                >
+                  Browse the club directory
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Benefits Sidebar (right column, 1/3 width) -->
+          <div class="lg:col-span-1">
+            <div class="lg:sticky lg:top-28">
+              <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-2xl p-6 lg:p-8">
+                <h3 class="text-lg font-semibold text-[#0F2D2D] mb-6">Why add your club?</h3>
+                <ul class="space-y-5">
+                  <li class="flex items-start gap-3">
+                    <div class="mt-0.5 w-6 h-6 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center shrink-0">
+                      <Check class="w-4 h-4 text-mint-ink" />
+                    </div>
+                    <div>
+                      <p class="font-medium text-[#0F2D2D]">Free directory listing</p>
+                      <p class="text-sm text-ink-soft mt-1">
+                        Your club will appear in our searchable directory, making it easy for families to find you.
+                      </p>
+                    </div>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <div class="mt-0.5 w-6 h-6 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center shrink-0">
+                      <Check class="w-4 h-4 text-mint-ink" />
+                    </div>
+                    <div>
+                      <p class="font-medium text-[#0F2D2D]">Run your club on Swimly</p>
+                      <p class="text-sm text-ink-soft mt-1">
+                        Run your club on our modern management platform, free for clubs under 50 members.
+                      </p>
+                    </div>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <div class="mt-0.5 w-6 h-6 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center shrink-0">
+                      <Check class="w-4 h-4 text-mint-ink" />
+                    </div>
+                    <div>
+                      <p class="font-medium text-[#0F2D2D]">No commitment required</p>
+                      <p class="text-sm text-ink-soft mt-1">
+                        Simply add your club to the directory. No payment, no obligation, no strings attached.
+                      </p>
+                    </div>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <div class="mt-0.5 w-6 h-6 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center shrink-0">
+                      <Check class="w-4 h-4 text-mint-ink" />
+                    </div>
+                    <div>
+                      <p class="font-medium text-[#0F2D2D]">Help other families find your club</p>
+                      <p class="text-sm text-ink-soft mt-1">
+                        Many families struggle to find local swimming clubs. Your listing helps connect them to your programme.
+                      </p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script is:inline>
+    const form = document.getElementById('addClubForm');
+    const successMessage = document.getElementById('successMessage');
+
+    // Check if already submitted
+    if (localStorage.getItem('swimly_club_submitted')) {
+      form.style.display = 'none';
+      successMessage.classList.remove('hidden');
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Store submission in localStorage
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      data.submittedAt = new Date().toISOString();
+      localStorage.setItem('swimly_club_submitted', JSON.stringify(data));
+
+      // Hide form, show success
+      form.style.display = 'none';
+      successMessage.classList.remove('hidden');
+
+      // Scroll to top of success message
+      successMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  </script>
+</Layout>

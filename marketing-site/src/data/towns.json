@@ -1,0 +1,7183 @@
+{
+  "ampthill": {
+    "name": "Ampthill",
+    "slug": "ampthill",
+    "region": "Bedfordshire",
+    "clubs": [
+      {
+        "name": "Ampthill & District Swimming Club",
+        "slug": "ampthill-district-swimming-club",
+        "venue": "Redborne Upper School Pool",
+        "website": "http://www.ampthillswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bedford": {
+    "name": "Bedford",
+    "slug": "bedford",
+    "region": "Bedfordshire",
+    "clubs": [
+      {
+        "name": "Bedford Swimming Club",
+        "slug": "bedford-swimming-club",
+        "venue": "John Bunyan Sports Centre",
+        "website": "https://www.bedfordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "biggleswade": {
+    "name": "Biggleswade",
+    "slug": "biggleswade",
+    "region": "Bedfordshire",
+    "clubs": [
+      {
+        "name": "Biggleswade Swimming Club",
+        "slug": "biggleswade-swimming-club",
+        "venue": "Biggleswade Pool",
+        "website": "https://www.biggleswadeswimmingclub.co.uk"
+      }
+    ]
+  },
+  "dunstable": {
+    "name": "Dunstable",
+    "slug": "dunstable",
+    "region": "Bedfordshire",
+    "clubs": [
+      {
+        "name": "Dunstable Swimming Club",
+        "slug": "dunstable-swimming-club",
+        "venue": "Dunstable Leisure Centre",
+        "website": "https://www.dunstableswimmingclub.co.uk"
+      }
+    ]
+  },
+  "flitwick": {
+    "name": "Flitwick",
+    "slug": "flitwick",
+    "region": "Bedfordshire",
+    "clubs": [
+      {
+        "name": "Flitwick Dolphins Swimming Club",
+        "slug": "flitwick-dolphins-swimming-club",
+        "venue": "Flitwick Leisure Centre",
+        "website": "http://www.flitwickdolphins.co.uk"
+      }
+    ]
+  },
+  "leighton-buzzard": {
+    "name": "Leighton Buzzard",
+    "slug": "leighton-buzzard",
+    "region": "Bedfordshire",
+    "clubs": [
+      {
+        "name": "Leighton Buzzard Swimming Club",
+        "slug": "leighton-buzzard-swimming-club",
+        "venue": "Tiddenfoot Leisure Centre",
+        "website": "http://www.leightonbuzzardswimmingclub.co.uk"
+      }
+    ]
+  },
+  "luton": {
+    "name": "Luton",
+    "slug": "luton",
+    "region": "Bedfordshire",
+    "clubs": [
+      {
+        "name": "Luton Swimming Club",
+        "slug": "luton-swimming-club",
+        "venue": "Inspire Luton Sports Village",
+        "website": "https://www.lutonswimmingclub.co.uk"
+      },
+      {
+        "name": "Stopsley Swimming Club",
+        "slug": "stopsley-swimming-club",
+        "venue": "Stopsley Swimming Pool",
+        "website": "http://www.stopsleyswimmingclub.co.uk"
+      },
+      {
+        "name": "Team Luton Swimming Club",
+        "slug": "team-luton-swimming-club",
+        "venue": "Inspire Luton Sports Village",
+        "website": "https://teamluton.com/"
+      }
+    ]
+  },
+  "sandy": {
+    "name": "Sandy",
+    "slug": "sandy",
+    "region": "Bedfordshire",
+    "clubs": [
+      {
+        "name": "Sandy Swimming Club",
+        "slug": "sandy-swimming-club",
+        "venue": "Sandy Upper School Pool",
+        "website": "http://www.sandyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "shefford": {
+    "name": "Shefford",
+    "slug": "shefford",
+    "region": "Bedfordshire",
+    "clubs": [
+      {
+        "name": "Shefford Swimming Club",
+        "slug": "shefford-swimming-club",
+        "venue": "Robert Bloomfield Academy Pool",
+        "website": "http://www.sheffordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bracknell": {
+    "name": "Bracknell",
+    "slug": "bracknell",
+    "region": "Berkshire",
+    "clubs": [
+      {
+        "name": "Bracknell Swimming Club",
+        "slug": "bracknell-swimming-club",
+        "venue": "Bracknell Leisure Centre",
+        "website": "https://www.bracknellswimmingclub.co.uk"
+      }
+    ]
+  },
+  "maidenhead": {
+    "name": "Maidenhead",
+    "slug": "maidenhead",
+    "region": "Berkshire",
+    "clubs": [
+      {
+        "name": "Maidenhead Swimming Club",
+        "slug": "maidenhead-swimming-club",
+        "venue": "Magnet Leisure Centre",
+        "website": "https://www.maidenheadswimmingclub.co.uk"
+      }
+    ]
+  },
+  "newbury": {
+    "name": "Newbury",
+    "slug": "newbury",
+    "region": "Berkshire",
+    "clubs": [
+      {
+        "name": "Newbury Swimming Club",
+        "slug": "newbury-swimming-club",
+        "venue": "Northcroft Leisure Centre",
+        "website": "https://www.newburyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "reading": {
+    "name": "Reading",
+    "slug": "reading",
+    "region": "Berkshire",
+    "clubs": [
+      {
+        "name": "Reading SC",
+        "slug": "reading-sc",
+        "venue": "",
+        "website": "https://www.readingswimmingclub.org"
+      },
+      {
+        "name": "Reading Swimming Club",
+        "slug": "reading-swimming-club",
+        "venue": "",
+        "website": "http://www.readingswimmingclub.org"
+      }
+    ]
+  },
+  "slough": {
+    "name": "Slough",
+    "slug": "slough",
+    "region": "Berkshire",
+    "clubs": [
+      {
+        "name": "Slough Swimming Club",
+        "slug": "slough-swimming-club",
+        "venue": "Slough Ice Arena and Leisure",
+        "website": "https://www.sloughswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bristol": {
+    "name": "Bristol",
+    "slug": "bristol",
+    "region": "Bristol",
+    "clubs": [
+      {
+        "name": "Bristol Henleaze SC",
+        "slug": "bristol-henleaze-sc",
+        "venue": "",
+        "website": "https://www.henleazeswimmingclub.co.uk"
+      },
+      {
+        "name": "City of Bristol SC",
+        "slug": "city-of-bristol-sc",
+        "venue": "",
+        "website": "https://www.bristolswimming.org"
+      },
+      {
+        "name": "Soundwell SC",
+        "slug": "soundwell-sc",
+        "venue": "",
+        "website": "https://www.soundwellswimmingclub.co.uk"
+      },
+      {
+        "name": "Bristol Henleaze Swimming Club",
+        "slug": "bristol-henleaze-swimming-club",
+        "venue": "",
+        "website": "http://www.henleazeswimmingclub.co.uk"
+      },
+      {
+        "name": "City of Bristol Swimming Club",
+        "slug": "city-of-bristol-swimming-club",
+        "venue": "",
+        "website": "http://www.bristolswimming.org"
+      },
+      {
+        "name": "Soundwell Swimming Club",
+        "slug": "soundwell-swimming-club",
+        "venue": "",
+        "website": "http://www.soundwellswimmingclub.co.uk"
+      }
+    ]
+  },
+  "amersham": {
+    "name": "Amersham",
+    "slug": "amersham",
+    "region": "Buckinghamshire",
+    "clubs": [
+      {
+        "name": "Amersham Swimming Club",
+        "slug": "amersham-swimming-club",
+        "venue": "Chiltern Pools",
+        "website": "https://www.amershamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "aylesbury": {
+    "name": "Aylesbury",
+    "slug": "aylesbury",
+    "region": "Buckinghamshire",
+    "clubs": [
+      {
+        "name": "Aylesbury Swimming Club",
+        "slug": "aylesbury-swimming-club",
+        "venue": "Aqua Vale Swimming and Fitness Centre",
+        "website": "https://www.aylesburyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "beaconsfield": {
+    "name": "Beaconsfield",
+    "slug": "beaconsfield",
+    "region": "Buckinghamshire",
+    "clubs": [
+      {
+        "name": "Beaconsfield Swimming Club",
+        "slug": "beaconsfield-swimming-club",
+        "venue": "Beaconsfield Outdoor Pool",
+        "website": "http://www.beaconsfieldswimmingclub.co.uk"
+      }
+    ]
+  },
+  "buckingham": {
+    "name": "Buckingham",
+    "slug": "buckingham",
+    "region": "Buckinghamshire",
+    "clubs": [
+      {
+        "name": "Buckingham Swimming Club",
+        "slug": "buckingham-swimming-club",
+        "venue": "Swan Pool and Leisure Centre",
+        "website": "https://www.buckinghamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "chesham": {
+    "name": "Chesham",
+    "slug": "chesham",
+    "region": "Buckinghamshire",
+    "clubs": [
+      {
+        "name": "Chesham Swimming Club",
+        "slug": "chesham-swimming-club",
+        "venue": "Chesham Leisure Centre",
+        "website": "https://www.cheshamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "high-wycombe": {
+    "name": "High Wycombe",
+    "slug": "high-wycombe",
+    "region": "Buckinghamshire",
+    "clubs": [
+      {
+        "name": "High Wycombe Swimming Club",
+        "slug": "high-wycombe-swimming-club",
+        "venue": "Wycombe Leisure Centre",
+        "website": "https://www.highwycombeswimmingclub.co.uk"
+      },
+      {
+        "name": "Wycombe District Swimming Club",
+        "slug": "wycombe-district-swimming-club",
+        "venue": "Handy Cross Hub",
+        "website": "https://www.wycombedistrictsc.co.uk"
+      }
+    ]
+  },
+  "marlow": {
+    "name": "Marlow",
+    "slug": "marlow",
+    "region": "Buckinghamshire",
+    "clubs": [
+      {
+        "name": "Marlow Swimming Club",
+        "slug": "marlow-swimming-club",
+        "venue": "Marlow Sports Club",
+        "website": "https://www.marlowswimmingclub.co.uk"
+      }
+    ]
+  },
+  "milton-keynes": {
+    "name": "Milton Keynes",
+    "slug": "milton-keynes",
+    "region": "Buckinghamshire",
+    "clubs": [
+      {
+        "name": "Milton Keynes Swimming Club",
+        "slug": "milton-keynes-swimming-club",
+        "venue": "Bletchley Leisure Centre",
+        "website": "https://www.miltonkeynessc.co.uk"
+      }
+    ]
+  },
+  "princes-risborough": {
+    "name": "Princes Risborough",
+    "slug": "princes-risborough",
+    "region": "Buckinghamshire",
+    "clubs": [
+      {
+        "name": "Princes Risborough Swimming Club",
+        "slug": "princes-risborough-swimming-club",
+        "venue": "Princes Centre",
+        "website": "https://www.princesrisboroughsc.co.uk"
+      }
+    ]
+  },
+  "cambridge": {
+    "name": "Cambridge",
+    "slug": "cambridge",
+    "region": "Cambridgeshire",
+    "clubs": [
+      {
+        "name": "City of Cambridge SC",
+        "slug": "city-of-cambridge-sc",
+        "venue": "",
+        "website": "https://www.cityofcambridgeswimmingclub.co.uk"
+      },
+      {
+        "name": "City of Cambridge Swimming Club",
+        "slug": "city-of-cambridge-swimming-club",
+        "venue": "",
+        "website": "http://www.cityofcambridgeswimmingclub.co.uk"
+      }
+    ]
+  },
+  "ely": {
+    "name": "Ely",
+    "slug": "ely",
+    "region": "Cambridgeshire",
+    "clubs": [
+      {
+        "name": "Ely Swimming Club",
+        "slug": "ely-swimming-club",
+        "venue": "The Hive Leisure Centre",
+        "website": "https://www.elyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "huntingdon": {
+    "name": "Huntingdon",
+    "slug": "huntingdon",
+    "region": "Cambridgeshire",
+    "clubs": [
+      {
+        "name": "Huntingdon Swimming Club",
+        "slug": "huntingdon-swimming-club",
+        "venue": "One Leisure Huntingdon",
+        "website": "https://www.huntingdonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "peterborough": {
+    "name": "Peterborough",
+    "slug": "peterborough",
+    "region": "Cambridgeshire",
+    "clubs": [
+      {
+        "name": "Peterborough Swimming Club",
+        "slug": "peterborough-swimming-club",
+        "venue": "Regional Pool",
+        "website": "https://www.peterboroughswimmingclub.co.uk"
+      }
+    ]
+  },
+  "wisbech": {
+    "name": "Wisbech",
+    "slug": "wisbech",
+    "region": "Cambridgeshire",
+    "clubs": [
+      {
+        "name": "Wisbech Swimming Club",
+        "slug": "wisbech-swimming-club",
+        "venue": "Hudson Leisure Centre",
+        "website": "https://www.wisbechswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bodmin": {
+    "name": "Bodmin",
+    "slug": "bodmin",
+    "region": "Cornwall",
+    "clubs": [
+      {
+        "name": "Bodmin Swimming Club",
+        "slug": "bodmin-swimming-club",
+        "venue": "Bodmin Leisure Centre",
+        "website": "https://www.bodminswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bude": {
+    "name": "Bude",
+    "slug": "bude",
+    "region": "Cornwall",
+    "clubs": [
+      {
+        "name": "Bude Swimming Club",
+        "slug": "bude-swimming-club",
+        "venue": "Bude Sea Pool",
+        "website": "http://www.budeswimmingclub.co.uk"
+      }
+    ]
+  },
+  "camborne": {
+    "name": "Camborne",
+    "slug": "camborne",
+    "region": "Cornwall",
+    "clubs": [
+      {
+        "name": "Camborne Swimming Club",
+        "slug": "camborne-swimming-club",
+        "venue": "Carn Brea Leisure Centre",
+        "website": "https://www.camborneswimmingclub.co.uk"
+      }
+    ]
+  },
+  "liskeard": {
+    "name": "Liskeard",
+    "slug": "liskeard",
+    "region": "Cornwall",
+    "clubs": [
+      {
+        "name": "Caradon Swimming Club",
+        "slug": "caradon-swimming-club",
+        "venue": "Liskeard Sports Centre",
+        "website": "https://www.caradonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "falmouth": {
+    "name": "Falmouth",
+    "slug": "falmouth",
+    "region": "Cornwall",
+    "clubs": [
+      {
+        "name": "Falmouth Swimming Club",
+        "slug": "falmouth-swimming-club",
+        "venue": "Falmouth Sports Centre",
+        "website": "https://www.falmouthswimmingclub.co.uk"
+      }
+    ]
+  },
+  "helston": {
+    "name": "Helston",
+    "slug": "helston",
+    "region": "Cornwall",
+    "clubs": [
+      {
+        "name": "Helston Swimming Club",
+        "slug": "helston-swimming-club",
+        "venue": "Helston Leisure Centre",
+        "website": "https://www.helstonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "launceston": {
+    "name": "Launceston",
+    "slug": "launceston",
+    "region": "Cornwall",
+    "clubs": [
+      {
+        "name": "Launceston Swimming Club",
+        "slug": "launceston-swimming-club",
+        "venue": "Launceston Leisure Centre",
+        "website": "https://www.launcestonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "looe": {
+    "name": "Looe",
+    "slug": "looe",
+    "region": "Cornwall",
+    "clubs": [
+      {
+        "name": "Looe Swimming Club",
+        "slug": "looe-swimming-club",
+        "venue": "Liskeard School & Community College Pool",
+        "website": "http://www.looeswimmingclub.co.uk"
+      }
+    ]
+  },
+  "newquay": {
+    "name": "Newquay",
+    "slug": "newquay",
+    "region": "Cornwall",
+    "clubs": [
+      {
+        "name": "Newquay Cormorants Swimming Club",
+        "slug": "newquay-cormorants-swimming-club",
+        "venue": "Newquay Tretherras Pool",
+        "website": "http://www.newquaycormorants.co.uk"
+      },
+      {
+        "name": "Newquay Seagulls Swimming Club",
+        "slug": "newquay-seagulls-swimming-club",
+        "venue": "Newquay Leisure World",
+        "website": "https://www.newquayseagulls.co.uk"
+      }
+    ]
+  },
+  "penzance": {
+    "name": "Penzance",
+    "slug": "penzance",
+    "region": "Cornwall",
+    "clubs": [
+      {
+        "name": "Penzance Swimming Club",
+        "slug": "penzance-swimming-club",
+        "venue": "Penzance Leisure Centre",
+        "website": "https://www.penzanceswimmingclub.co.uk"
+      }
+    ]
+  },
+  "saltash": {
+    "name": "Saltash",
+    "slug": "saltash",
+    "region": "Cornwall",
+    "clubs": [
+      {
+        "name": "Saltash Swimming Club",
+        "slug": "saltash-swimming-club",
+        "venue": "Saltash Leisure Centre",
+        "website": "http://www.saltashswimmingclub.co.uk"
+      }
+    ]
+  },
+  "st-austell": {
+    "name": "St Austell",
+    "slug": "st-austell",
+    "region": "Cornwall",
+    "clubs": [
+      {
+        "name": "St Austell Swimming Club",
+        "slug": "st-austell-swimming-club",
+        "venue": "Cornwall College Pool",
+        "website": "https://www.staustell-sc.co.uk"
+      }
+    ]
+  },
+  "truro": {
+    "name": "Truro",
+    "slug": "truro",
+    "region": "Cornwall",
+    "clubs": [
+      {
+        "name": "Truro City Swimming Club",
+        "slug": "truro-city-swimming-club",
+        "venue": "Truro High School",
+        "website": "https://www.trurocityswimmingclub.co.uk"
+      }
+    ]
+  },
+  "barrow-in-furness": {
+    "name": "Barrow-in-Furness",
+    "slug": "barrow-in-furness",
+    "region": "Cumbria",
+    "clubs": [
+      {
+        "name": "Barrow Swimming Club",
+        "slug": "barrow-swimming-club",
+        "venue": "Barrow Park Leisure Centre",
+        "website": "https://www.barrowswimmingclub.co.uk"
+      }
+    ]
+  },
+  "carlisle": {
+    "name": "Carlisle",
+    "slug": "carlisle",
+    "region": "Cumbria",
+    "clubs": [
+      {
+        "name": "Carlisle Aquatics",
+        "slug": "carlisle-aquatics",
+        "venue": "Carlisle Swimming Pool",
+        "website": "https://www.carlisleaquatics.co.uk"
+      }
+    ]
+  },
+  "cockermouth": {
+    "name": "Cockermouth",
+    "slug": "cockermouth",
+    "region": "Cumbria",
+    "clubs": [
+      {
+        "name": "Cockermouth Swimming Club",
+        "slug": "cockermouth-swimming-club",
+        "venue": "Cockermouth Leisure Centre",
+        "website": "https://www.cockermouthswimmingclub.co.uk"
+      }
+    ]
+  },
+  "kendal": {
+    "name": "Kendal",
+    "slug": "kendal",
+    "region": "Cumbria",
+    "clubs": [
+      {
+        "name": "Kendal Swimming Club",
+        "slug": "kendal-swimming-club",
+        "venue": "Kendal Leisure Centre",
+        "website": "https://www.kendalswimmingclub.co.uk"
+      }
+    ]
+  },
+  "penrith": {
+    "name": "Penrith",
+    "slug": "penrith",
+    "region": "Cumbria",
+    "clubs": [
+      {
+        "name": "Penrith Swimming Club",
+        "slug": "penrith-swimming-club",
+        "venue": "Penrith Leisure Centre",
+        "website": "https://www.penrithswimmingclub.co.uk"
+      }
+    ]
+  },
+  "ulverston": {
+    "name": "Ulverston",
+    "slug": "ulverston",
+    "region": "Cumbria",
+    "clubs": [
+      {
+        "name": "Ulverston Swimming Club",
+        "slug": "ulverston-swimming-club",
+        "venue": "Ulverston Leisure Centre",
+        "website": "https://www.ulverstonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "whitehaven": {
+    "name": "Whitehaven",
+    "slug": "whitehaven",
+    "region": "Cumbria",
+    "clubs": [
+      {
+        "name": "Whitehaven Swimming Club",
+        "slug": "whitehaven-swimming-club",
+        "venue": "Whitehaven Sports Centre",
+        "website": "https://www.whitehavenswimmingclub.co.uk"
+      }
+    ]
+  },
+  "windermere": {
+    "name": "Windermere",
+    "slug": "windermere",
+    "region": "Cumbria",
+    "clubs": [
+      {
+        "name": "Windermere Swimming Club",
+        "slug": "windermere-swimming-club",
+        "venue": "Lakes Leisure Pool",
+        "website": "http://www.windermereswimmingclub.co.uk"
+      }
+    ]
+  },
+  "workington": {
+    "name": "Workington",
+    "slug": "workington",
+    "region": "Cumbria",
+    "clubs": [
+      {
+        "name": "Workington Swimming Club",
+        "slug": "workington-swimming-club",
+        "venue": "Workington Leisure Centre",
+        "website": "https://www.workingtonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "belper": {
+    "name": "Belper",
+    "slug": "belper",
+    "region": "Derbyshire",
+    "clubs": [
+      {
+        "name": "Belper Swimming Club",
+        "slug": "belper-swimming-club",
+        "venue": "Belper Leisure Centre",
+        "website": "http://www.belperswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bolsover": {
+    "name": "Bolsover",
+    "slug": "bolsover",
+    "region": "Derbyshire",
+    "clubs": [
+      {
+        "name": "Bolsover Swimming Club",
+        "slug": "bolsover-swimming-club",
+        "venue": "The Arc",
+        "website": "https://www.bolsoverswimmingclub.co.uk"
+      }
+    ]
+  },
+  "buxton": {
+    "name": "Buxton",
+    "slug": "buxton",
+    "region": "Derbyshire",
+    "clubs": [
+      {
+        "name": "Buxton Swimming Club",
+        "slug": "buxton-swimming-club",
+        "venue": "Buxton Pool and Fitness Centre",
+        "website": "https://www.buxtonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "chesterfield": {
+    "name": "Chesterfield",
+    "slug": "chesterfield",
+    "region": "Derbyshire",
+    "clubs": [
+      {
+        "name": "Chesterfield Swimming Club",
+        "slug": "chesterfield-swimming-club",
+        "venue": "Queen's Park Sports Centre",
+        "website": "https://www.chesterfieldswimmingclub.co.uk"
+      }
+    ]
+  },
+  "glossop": {
+    "name": "Glossop",
+    "slug": "glossop",
+    "region": "Derbyshire",
+    "clubs": [
+      {
+        "name": "Glossop Swimming Club",
+        "slug": "glossop-swimming-club",
+        "venue": "Glossopdale Pool",
+        "website": "https://www.glossopswimmingclub.co.uk"
+      }
+    ]
+  },
+  "heanor": {
+    "name": "Heanor",
+    "slug": "heanor",
+    "region": "Derbyshire",
+    "clubs": [
+      {
+        "name": "Heanor Swimming Club",
+        "slug": "heanor-swimming-club",
+        "venue": "Heanor Leisure Centre",
+        "website": "http://www.heanorswimmingclub.co.uk"
+      }
+    ]
+  },
+  "ilkeston": {
+    "name": "Ilkeston",
+    "slug": "ilkeston",
+    "region": "Derbyshire",
+    "clubs": [
+      {
+        "name": "Ilkeston Swimming Club",
+        "slug": "ilkeston-swimming-club",
+        "venue": "Victoria Park Centre",
+        "website": "https://www.ilkestonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "long-eaton": {
+    "name": "Long Eaton",
+    "slug": "long-eaton",
+    "region": "Derbyshire",
+    "clubs": [
+      {
+        "name": "Long Eaton Swimming Club",
+        "slug": "long-eaton-swimming-club",
+        "venue": "Long Eaton School",
+        "website": "https://www.longeatonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "matlock": {
+    "name": "Matlock",
+    "slug": "matlock",
+    "region": "Derbyshire",
+    "clubs": [
+      {
+        "name": "Matlock Swimming Club",
+        "slug": "matlock-swimming-club",
+        "venue": "Arc Leisure Centre",
+        "website": "https://www.matlockswimmingclub.co.uk"
+      }
+    ]
+  },
+  "ripley": {
+    "name": "Ripley",
+    "slug": "ripley",
+    "region": "Derbyshire",
+    "clubs": [
+      {
+        "name": "Ripley Swimming Club",
+        "slug": "ripley-swimming-club",
+        "venue": "Ripley Leisure Centre",
+        "website": "https://www.ripleyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "swadlincote": {
+    "name": "Swadlincote",
+    "slug": "swadlincote",
+    "region": "Derbyshire",
+    "clubs": [
+      {
+        "name": "Swadlincote Swimming Club",
+        "slug": "swadlincote-swimming-club",
+        "venue": "Green Bank Leisure Centre",
+        "website": "http://www.swadlincoteswimmingclub.co.uk"
+      }
+    ]
+  },
+  "barnstaple": {
+    "name": "Barnstaple",
+    "slug": "barnstaple",
+    "region": "Devon",
+    "clubs": [
+      {
+        "name": "Barnstaple Swimming Club",
+        "slug": "barnstaple-swimming-club",
+        "venue": "Tarka Leisure Centre",
+        "website": "https://www.barnstapleswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bideford": {
+    "name": "Bideford",
+    "slug": "bideford",
+    "region": "Devon",
+    "clubs": [
+      {
+        "name": "Bideford Swimming Club",
+        "slug": "bideford-swimming-club",
+        "venue": "Bideford Pool",
+        "website": "https://www.bidefordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "exeter": {
+    "name": "Exeter",
+    "slug": "exeter",
+    "region": "Devon",
+    "clubs": [
+      {
+        "name": "Exeter SC",
+        "slug": "exeter-sc",
+        "venue": "",
+        "website": "https://www.exeterswimmingclub.org"
+      },
+      {
+        "name": "Exeter Swimming Club",
+        "slug": "exeter-swimming-club",
+        "venue": "",
+        "website": "http://www.exeterswimmingclub.org"
+      }
+    ]
+  },
+  "exmouth": {
+    "name": "Exmouth",
+    "slug": "exmouth",
+    "region": "Devon",
+    "clubs": [
+      {
+        "name": "Exmouth Swimming Club",
+        "slug": "exmouth-swimming-club",
+        "venue": "Exmouth Leisure Centre",
+        "website": "https://www.exmouthswimmingclub.co.uk"
+      }
+    ]
+  },
+  "newton-abbot": {
+    "name": "Newton Abbot",
+    "slug": "newton-abbot",
+    "region": "Devon",
+    "clubs": [
+      {
+        "name": "Newton Abbot Swimming Club",
+        "slug": "newton-abbot-swimming-club",
+        "venue": "Dyrons Leisure Centre",
+        "website": "https://www.newtonabbotswimmingclub.co.uk"
+      }
+    ]
+  },
+  "okehampton": {
+    "name": "Okehampton",
+    "slug": "okehampton",
+    "region": "Devon",
+    "clubs": [
+      {
+        "name": "Okehampton Swimming Club",
+        "slug": "okehampton-swimming-club",
+        "venue": "Parklands Leisure Centre",
+        "website": "https://www.okehamptonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "sidmouth": {
+    "name": "Sidmouth",
+    "slug": "sidmouth",
+    "region": "Devon",
+    "clubs": [
+      {
+        "name": "Sidmouth Swimming Club",
+        "slug": "sidmouth-swimming-club",
+        "venue": "Sidmouth Swimming Pool",
+        "website": "https://www.sidmouthswimmingclub.co.uk"
+      }
+    ]
+  },
+  "tavistock": {
+    "name": "Tavistock",
+    "slug": "tavistock",
+    "region": "Devon",
+    "clubs": [
+      {
+        "name": "Tavistock Swimming Club",
+        "slug": "tavistock-swimming-club",
+        "venue": "Meadowlands",
+        "website": "https://www.tavistockswimmingclub.co.uk"
+      }
+    ]
+  },
+  "tiverton": {
+    "name": "Tiverton",
+    "slug": "tiverton",
+    "region": "Devon",
+    "clubs": [
+      {
+        "name": "Tiverton Swimming Club",
+        "slug": "tiverton-swimming-club",
+        "venue": "Tiverton Swimming Pool",
+        "website": "https://www.tivertonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "torquay": {
+    "name": "Torquay",
+    "slug": "torquay",
+    "region": "Devon",
+    "clubs": [
+      {
+        "name": "Torquay Swimming Club",
+        "slug": "torquay-swimming-club",
+        "venue": "Torquay Leisure Centre",
+        "website": "https://www.torquayswimmingclub.co.uk"
+      }
+    ]
+  },
+  "totnes": {
+    "name": "Totnes",
+    "slug": "totnes",
+    "region": "Devon",
+    "clubs": [
+      {
+        "name": "Totnes Swimming Club",
+        "slug": "totnes-swimming-club",
+        "venue": "Totnes Leisure Centre",
+        "website": "https://www.totnesswimmingclub.co.uk"
+      }
+    ]
+  },
+  "blandford-forum": {
+    "name": "Blandford Forum",
+    "slug": "blandford-forum",
+    "region": "Dorset",
+    "clubs": [
+      {
+        "name": "Blandford Forum Swimming Club",
+        "slug": "blandford-forum-swimming-club",
+        "venue": "Blandford Leisure Centre",
+        "website": "http://www.blandfordswimmingclub.co.uk"
+      },
+      {
+        "name": "Blandford Swimming Club",
+        "slug": "blandford-swimming-club",
+        "venue": "Blandford Leisure Centre",
+        "website": "https://www.blandfordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bournemouth": {
+    "name": "Bournemouth",
+    "slug": "bournemouth",
+    "region": "Dorset",
+    "clubs": [
+      {
+        "name": "Bournemouth Dolphin Swimming Club",
+        "slug": "bournemouth-dolphin-swimming-club",
+        "venue": "Littledown Centre",
+        "website": "https://www.bournemouthdolphin.co.uk"
+      }
+    ]
+  },
+  "bridport": {
+    "name": "Bridport",
+    "slug": "bridport",
+    "region": "Dorset",
+    "clubs": [
+      {
+        "name": "Bridport Swimming Club",
+        "slug": "bridport-swimming-club",
+        "venue": "Bridport Leisure Centre",
+        "website": "https://www.bridportswimmingclub.co.uk"
+      }
+    ]
+  },
+  "dorchester": {
+    "name": "Dorchester",
+    "slug": "dorchester",
+    "region": "Dorset",
+    "clubs": [
+      {
+        "name": "Dorchester Swimming Club",
+        "slug": "dorchester-swimming-club",
+        "venue": "The Leisure Centre Dorchester",
+        "website": "https://www.dorchesterswimmingclub.co.uk"
+      }
+    ]
+  },
+  "ferndown": {
+    "name": "Ferndown",
+    "slug": "ferndown",
+    "region": "Dorset",
+    "clubs": [
+      {
+        "name": "Ferndown Otters Swimming Club",
+        "slug": "ferndown-otters-swimming-club",
+        "venue": "QE Leisure Centre",
+        "website": "https://www.ferndownotters.co.uk"
+      }
+    ]
+  },
+  "lyme-regis": {
+    "name": "Lyme Regis",
+    "slug": "lyme-regis",
+    "region": "Dorset",
+    "clubs": [
+      {
+        "name": "Lyme Regis Swimming Club",
+        "slug": "lyme-regis-swimming-club",
+        "venue": "Lyme Regis Marine Pool",
+        "website": "http://www.lymeregisswimmingclub.co.uk"
+      }
+    ]
+  },
+  "poole": {
+    "name": "Poole",
+    "slug": "poole",
+    "region": "Dorset",
+    "clubs": [
+      {
+        "name": "Poole Swimming Club",
+        "slug": "poole-swimming-club",
+        "venue": "Poole Swimming Pool",
+        "website": "https://www.pooleswimmingclub.co.uk"
+      }
+    ]
+  },
+  "sherborne": {
+    "name": "Sherborne",
+    "slug": "sherborne",
+    "region": "Dorset",
+    "clubs": [
+      {
+        "name": "Sherborne Swimming Club",
+        "slug": "sherborne-swimming-club",
+        "venue": "The Gryphon School",
+        "website": "https://www.sherborneswimmingclub.co.uk"
+      }
+    ]
+  },
+  "swanage": {
+    "name": "Swanage",
+    "slug": "swanage",
+    "region": "Dorset",
+    "clubs": [
+      {
+        "name": "Swanage Swimming Club",
+        "slug": "swanage-swimming-club",
+        "venue": "Swanage Pool",
+        "website": "http://www.swanageswimmingclub.co.uk"
+      }
+    ]
+  },
+  "wareham": {
+    "name": "Wareham",
+    "slug": "wareham",
+    "region": "Dorset",
+    "clubs": [
+      {
+        "name": "Wareham Swimming Club",
+        "slug": "wareham-swimming-club",
+        "venue": "Wareham Leisure Centre",
+        "website": "http://www.warehamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "weymouth": {
+    "name": "Weymouth",
+    "slug": "weymouth",
+    "region": "Dorset",
+    "clubs": [
+      {
+        "name": "Weymouth Swimming Club",
+        "slug": "weymouth-swimming-club",
+        "venue": "Weymouth Leisure Centre",
+        "website": "https://www.weymouthswimmingclub.co.uk"
+      }
+    ]
+  },
+  "wimborne": {
+    "name": "Wimborne",
+    "slug": "wimborne",
+    "region": "Dorset",
+    "clubs": [
+      {
+        "name": "Wimborne Swimming Club",
+        "slug": "wimborne-swimming-club",
+        "venue": "Wimborne Pool",
+        "website": "https://www.wimborneswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bishop-auckland": {
+    "name": "Bishop Auckland",
+    "slug": "bishop-auckland",
+    "region": "Durham",
+    "clubs": [
+      {
+        "name": "Bishop Auckland Swimming Club",
+        "slug": "bishop-auckland-swimming-club",
+        "venue": "Woodhouse Close Leisure Complex",
+        "website": "https://www.bishopaucklandswimmingclub.co.uk"
+      }
+    ]
+  },
+  "chester-le-street": {
+    "name": "Chester-le-Street",
+    "slug": "chester-le-street",
+    "region": "Durham",
+    "clubs": [
+      {
+        "name": "Chester-le-Street Swimming Club",
+        "slug": "chester-le-street-swimming-club",
+        "venue": "Chester-le-Street Leisure Centre",
+        "website": "https://www.chesterlestreetsc.co.uk"
+      }
+    ]
+  },
+  "consett": {
+    "name": "Consett",
+    "slug": "consett",
+    "region": "Durham",
+    "clubs": [
+      {
+        "name": "Consett Swimming Club",
+        "slug": "consett-swimming-club",
+        "venue": "Consett Leisure Centre",
+        "website": "https://www.consettswimmingclub.co.uk"
+      }
+    ]
+  },
+  "crook": {
+    "name": "Crook",
+    "slug": "crook",
+    "region": "Durham",
+    "clubs": [
+      {
+        "name": "Crook Swimming Club",
+        "slug": "crook-swimming-club",
+        "venue": "Crook Leisure Centre",
+        "website": "http://www.crookswimmingclub.co.uk"
+      }
+    ]
+  },
+  "darlington": {
+    "name": "Darlington",
+    "slug": "darlington",
+    "region": "Durham",
+    "clubs": [
+      {
+        "name": "Darlington Swimming Club",
+        "slug": "darlington-swimming-club",
+        "venue": "Dolphin Centre",
+        "website": "https://www.darlingtonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "durham": {
+    "name": "Durham",
+    "slug": "durham",
+    "region": "Durham",
+    "clubs": [
+      {
+        "name": "Durham City Swimming Club",
+        "slug": "durham-city-swimming-club",
+        "venue": "Freeman's Quay Leisure Centre",
+        "website": "https://www.durhamcityswimmingclub.co.uk"
+      }
+    ]
+  },
+  "peterlee": {
+    "name": "Peterlee",
+    "slug": "peterlee",
+    "region": "Durham",
+    "clubs": [
+      {
+        "name": "Peterlee Swimming Club",
+        "slug": "peterlee-swimming-club",
+        "venue": "Peterlee Leisure Centre",
+        "website": "https://www.peterleeswimmingclub.co.uk"
+      }
+    ]
+  },
+  "sedgefield": {
+    "name": "Sedgefield",
+    "slug": "sedgefield",
+    "region": "Durham",
+    "clubs": [
+      {
+        "name": "Sedgefield Swimming Club",
+        "slug": "sedgefield-swimming-club",
+        "venue": "Sedgefield Community College Pool",
+        "website": "http://www.sedgefieldswimmingclub.co.uk"
+      }
+    ]
+  },
+  "spennymoor": {
+    "name": "Spennymoor",
+    "slug": "spennymoor",
+    "region": "Durham",
+    "clubs": [
+      {
+        "name": "Spennymoor Swimming Club",
+        "slug": "spennymoor-swimming-club",
+        "venue": "Spennymoor Leisure Centre",
+        "website": "http://www.spennymoorswimmingclub.co.uk"
+      }
+    ]
+  },
+  "stanley": {
+    "name": "Stanley",
+    "slug": "stanley",
+    "region": "Durham",
+    "clubs": [
+      {
+        "name": "Stanley Swimming Club",
+        "slug": "stanley-swimming-club",
+        "venue": "Louisa Centre",
+        "website": "https://www.stanleyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "stockton-on-tees": {
+    "name": "Stockton-on-Tees",
+    "slug": "stockton-on-tees",
+    "region": "Durham",
+    "clubs": [
+      {
+        "name": "Stockton Swimming Club",
+        "slug": "stockton-swimming-club",
+        "venue": "Thornaby Pavilion",
+        "website": "https://www.stocktonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "ipswich": {
+    "name": "Ipswich",
+    "slug": "ipswich",
+    "region": "East",
+    "clubs": [
+      {
+        "name": "Ipswich Swimming Club",
+        "slug": "ipswich-swimming-club",
+        "venue": "",
+        "website": ""
+      },
+      {
+        "name": "Ipswich Swimming Club",
+        "slug": "ipswich-sc",
+        "venue": "Crown Pools",
+        "website": "https://www.ipswichswimmingclub.com"
+      }
+    ]
+  },
+  "norwich": {
+    "name": "Norwich",
+    "slug": "norwich",
+    "region": "East",
+    "clubs": [
+      {
+        "name": "Norwich Swan Swimming Club",
+        "slug": "norwich-swan-swimming-club",
+        "venue": "",
+        "website": "http://www.norwichswan.co.uk"
+      },
+      {
+        "name": "Norwich Swan SC",
+        "slug": "norwich-swan-sc",
+        "venue": "",
+        "website": "https://www.norwichswan.co.uk"
+      }
+    ]
+  },
+  "derby": {
+    "name": "Derby",
+    "slug": "derby",
+    "region": "East Midlands",
+    "clubs": [
+      {
+        "name": "Derby Phoenix SC",
+        "slug": "derby-phoenix-sc",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "leicester": {
+    "name": "Leicester",
+    "slug": "leicester",
+    "region": "East Midlands",
+    "clubs": [
+      {
+        "name": "Leicester Penguins SC",
+        "slug": "leicester-penguins-sc",
+        "venue": "",
+        "website": "http://www.leicesterpenguins.co.uk"
+      },
+      {
+        "name": "Leicester Penguins Swimming Club",
+        "slug": "leicester-penguins-sc",
+        "venue": "Riverside Leisure Centre",
+        "website": "https://www.leicesterpenguins.co.uk"
+      }
+    ]
+  },
+  "nottingham": {
+    "name": "Nottingham",
+    "slug": "nottingham",
+    "region": "East Midlands",
+    "clubs": [
+      {
+        "name": "Nottingham Leander SC",
+        "slug": "nottingham-leander-sc",
+        "venue": "",
+        "website": ""
+      },
+      {
+        "name": "Nova Centurion Swimming Club",
+        "slug": "nova-centurion-swimming-club",
+        "venue": "",
+        "website": "http://www.novacenturion.co.uk"
+      },
+      {
+        "name": "Nova Centurion SC",
+        "slug": "nova-centurion-sc",
+        "venue": "",
+        "website": "https://www.novacenturion.co.uk"
+      }
+    ]
+  },
+  "battle": {
+    "name": "Battle",
+    "slug": "battle",
+    "region": "East Sussex",
+    "clubs": [
+      {
+        "name": "Battle and Bexhill Swimming Club",
+        "slug": "battle-bexhill-swimming-club",
+        "venue": "Battle Sports Centre",
+        "website": "https://www.battlebexhillsc.co.uk"
+      }
+    ]
+  },
+  "bexhill-on-sea": {
+    "name": "Bexhill-on-Sea",
+    "slug": "bexhill-on-sea",
+    "region": "East Sussex",
+    "clubs": [
+      {
+        "name": "Bexhill Swimming Club",
+        "slug": "bexhill-swimming-club",
+        "venue": "Bexhill Leisure Pool",
+        "website": "https://www.bexhillsc.org.uk"
+      }
+    ]
+  },
+  "brighton": {
+    "name": "Brighton",
+    "slug": "brighton",
+    "region": "East Sussex",
+    "clubs": [
+      {
+        "name": "Brighton Swimming Club",
+        "slug": "brighton-swimming-club",
+        "venue": "Prince Regent Swimming Complex",
+        "website": "https://www.brightonsc.co.uk"
+      }
+    ]
+  },
+  "crowborough": {
+    "name": "Crowborough",
+    "slug": "crowborough",
+    "region": "East Sussex",
+    "clubs": [
+      {
+        "name": "Crowborough Swimming Club",
+        "slug": "crowborough-swimming-club",
+        "venue": "Crowborough Leisure Centre",
+        "website": "https://www.crowboroughsc.org.uk"
+      }
+    ]
+  },
+  "eastbourne": {
+    "name": "Eastbourne",
+    "slug": "eastbourne",
+    "region": "East Sussex",
+    "clubs": [
+      {
+        "name": "Eastbourne Dolphins Swimming Club",
+        "slug": "eastbourne-dolphins-swimming-club",
+        "venue": "The Sovereign Centre",
+        "website": "https://www.eastbournedolphins.co.uk"
+      },
+      {
+        "name": "Eastbourne Swimming Club",
+        "slug": "eastbourne-swimming-club",
+        "venue": "Sovereign Centre",
+        "website": "https://www.eastbournesc.co.uk"
+      }
+    ]
+  },
+  "forest-row": {
+    "name": "Forest Row",
+    "slug": "forest-row",
+    "region": "East Sussex",
+    "clubs": [
+      {
+        "name": "Forest Row Swimming Club",
+        "slug": "forest-row-swimming-club",
+        "venue": "Ashdown Forest Centre",
+        "website": "https://www.forestrowswimmingclub.co.uk"
+      }
+    ]
+  },
+  "hastings": {
+    "name": "Hastings",
+    "slug": "hastings",
+    "region": "East Sussex",
+    "clubs": [
+      {
+        "name": "Hastings Swimming Club",
+        "slug": "hastings-swimming-club",
+        "venue": "Summerfields Leisure Centre",
+        "website": "https://www.hastingssc.org.uk"
+      },
+      {
+        "name": "Ore Valley Swimming Club",
+        "slug": "ore-valley-swimming-club",
+        "venue": "Ore Valley Swimming Pool",
+        "website": "https://www.orevalleysc.co.uk"
+      }
+    ]
+  },
+  "heathfield": {
+    "name": "Heathfield",
+    "slug": "heathfield",
+    "region": "East Sussex",
+    "clubs": [
+      {
+        "name": "Heathfield Swimming Club",
+        "slug": "heathfield-swimming-club",
+        "venue": "Heathfield Sports Centre",
+        "website": "https://www.heathfieldswimmingclub.co.uk"
+      }
+    ]
+  },
+  "hove": {
+    "name": "Hove",
+    "slug": "hove",
+    "region": "East Sussex",
+    "clubs": [
+      {
+        "name": "Hove Swimming Club",
+        "slug": "hove-swimming-club",
+        "venue": "Hove Lagoon",
+        "website": "https://www.hoveswimmingclub.co.uk"
+      }
+    ]
+  },
+  "lewes": {
+    "name": "Lewes",
+    "slug": "lewes",
+    "region": "East Sussex",
+    "clubs": [
+      {
+        "name": "Lewes Swimming Club",
+        "slug": "lewes-swimming-club",
+        "venue": "Lewes Leisure Centre",
+        "website": "https://www.lewessc.org.uk"
+      }
+    ]
+  },
+  "newhaven": {
+    "name": "Newhaven",
+    "slug": "newhaven",
+    "region": "East Sussex",
+    "clubs": [
+      {
+        "name": "Newhaven Swimming Club",
+        "slug": "newhaven-swimming-club",
+        "venue": "Valley Sports Centre",
+        "website": "https://www.newhavenswimmingclub.co.uk"
+      }
+    ]
+  },
+  "peacehaven": {
+    "name": "Peacehaven",
+    "slug": "peacehaven",
+    "region": "East Sussex",
+    "clubs": [
+      {
+        "name": "Peacehaven Swimming Club",
+        "slug": "peacehaven-swimming-club",
+        "venue": "Meridian Leisure Centre",
+        "website": "https://www.peacehavenswimmingclub.co.uk"
+      }
+    ]
+  },
+  "rye": {
+    "name": "Rye",
+    "slug": "rye",
+    "region": "East Sussex",
+    "clubs": [
+      {
+        "name": "Rye Swimming Club",
+        "slug": "rye-swimming-club",
+        "venue": "Rye Sports Centre",
+        "website": "https://www.ryeswimmingclub.co.uk"
+      }
+    ]
+  },
+  "uckfield": {
+    "name": "Uckfield",
+    "slug": "uckfield",
+    "region": "East Sussex",
+    "clubs": [
+      {
+        "name": "Uckfield Swimming Club",
+        "slug": "uckfield-swimming-club",
+        "venue": "Uckfield Leisure Centre",
+        "website": "https://www.uckfieldsc.org.uk"
+      }
+    ]
+  },
+  "beverley": {
+    "name": "Beverley",
+    "slug": "beverley",
+    "region": "East Yorkshire",
+    "clubs": [
+      {
+        "name": "Beverley Swimming Club",
+        "slug": "beverley-swimming-club",
+        "venue": "Beverley Leisure Centre",
+        "website": "http://www.beverleyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bridlington": {
+    "name": "Bridlington",
+    "slug": "bridlington",
+    "region": "East Yorkshire",
+    "clubs": [
+      {
+        "name": "Bridlington Swimming Club",
+        "slug": "bridlington-swimming-club",
+        "venue": "Bridlington Leisure World",
+        "website": "http://www.bridlingtonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "driffield": {
+    "name": "Driffield",
+    "slug": "driffield",
+    "region": "East Yorkshire",
+    "clubs": [
+      {
+        "name": "Driffield Swimming Club",
+        "slug": "driffield-swimming-club",
+        "venue": "Driffield Leisure Centre",
+        "website": "http://www.driffieldswimmingclub.co.uk"
+      }
+    ]
+  },
+  "goole": {
+    "name": "Goole",
+    "slug": "goole",
+    "region": "East Yorkshire",
+    "clubs": [
+      {
+        "name": "Goole Swimming Club",
+        "slug": "goole-swimming-club",
+        "venue": "Goole Leisure Centre",
+        "website": "http://www.gooleswimmingclub.co.uk"
+      }
+    ]
+  },
+  "cottingham": {
+    "name": "Cottingham",
+    "slug": "cottingham",
+    "region": "East Yorkshire",
+    "clubs": [
+      {
+        "name": "Haltemprice Swimming Club",
+        "slug": "haltemprice-swimming-club",
+        "venue": "Ennerdale Leisure Centre",
+        "website": "http://www.haltempriceswimmingclub.co.uk"
+      }
+    ]
+  },
+  "hornsea": {
+    "name": "Hornsea",
+    "slug": "hornsea",
+    "region": "East Yorkshire",
+    "clubs": [
+      {
+        "name": "Hornsea Swimming Club",
+        "slug": "hornsea-swimming-club",
+        "venue": "Hornsea Leisure Centre",
+        "website": "http://www.hornseaswimmingclub.co.uk"
+      }
+    ]
+  },
+  "hull": {
+    "name": "Hull",
+    "slug": "hull",
+    "region": "East Yorkshire",
+    "clubs": [
+      {
+        "name": "Hull & East Riding Swimming Club",
+        "slug": "hull-east-riding-swimming-club",
+        "venue": "Woodford Leisure Centre",
+        "website": "http://www.hullandeastridingsc.co.uk"
+      },
+      {
+        "name": "Hull Olympic SC",
+        "slug": "hull-olympic-sc",
+        "venue": "",
+        "website": "https://www.hullolympicswimmingclub.co.uk"
+      },
+      {
+        "name": "Hull Olympic Swimming Club",
+        "slug": "hull-olympic-swimming-club",
+        "venue": "",
+        "website": "http://www.hullolympicswimmingclub.co.uk"
+      }
+    ]
+  },
+  "withernsea": {
+    "name": "Withernsea",
+    "slug": "withernsea",
+    "region": "East Yorkshire",
+    "clubs": [
+      {
+        "name": "Withernsea Swimming Club",
+        "slug": "withernsea-swimming-club",
+        "venue": "Withernsea Leisure Centre",
+        "website": "http://www.withernseaswimmingclub.co.uk"
+      }
+    ]
+  },
+  "basildon": {
+    "name": "Basildon",
+    "slug": "basildon",
+    "region": "Essex",
+    "clubs": [
+      {
+        "name": "Basildon Phoenix Swimming Club",
+        "slug": "basildon-phoenix-swimming-club",
+        "venue": "Basildon Sporting Village",
+        "website": "https://www.basildonphoenix.co.uk"
+      }
+    ]
+  },
+  "braintree": {
+    "name": "Braintree",
+    "slug": "braintree",
+    "region": "Essex",
+    "clubs": [
+      {
+        "name": "Braintree Swimming Club",
+        "slug": "braintree-swimming-club",
+        "venue": "Braintree Swimming and Fitness Centre",
+        "website": "https://www.braintreeswimmingclub.co.uk"
+      }
+    ]
+  },
+  "brentwood": {
+    "name": "Brentwood",
+    "slug": "brentwood",
+    "region": "Essex",
+    "clubs": [
+      {
+        "name": "Brentwood Swimming Club",
+        "slug": "brentwood-swimming-club",
+        "venue": "Brentwood Centre",
+        "website": "https://www.brentwoodswimmingclub.co.uk"
+      }
+    ]
+  },
+  "canvey-island": {
+    "name": "Canvey Island",
+    "slug": "canvey-island",
+    "region": "Essex",
+    "clubs": [
+      {
+        "name": "Canvey Island Swimming Club",
+        "slug": "canvey-island-swimming-club",
+        "venue": "Castle Point Swimming Pool",
+        "website": "https://www.canveyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "chelmsford": {
+    "name": "Chelmsford",
+    "slug": "chelmsford",
+    "region": "Essex",
+    "clubs": [
+      {
+        "name": "Chelmsford Swimming Club",
+        "slug": "chelmsford-swimming-club",
+        "venue": "Riverside Ice and Leisure Centre",
+        "website": "https://www.chelmsfordsc.co.uk"
+      }
+    ]
+  },
+  "clacton-on-sea": {
+    "name": "Clacton-on-Sea",
+    "slug": "clacton-on-sea",
+    "region": "Essex",
+    "clubs": [
+      {
+        "name": "Clacton Swimming Club",
+        "slug": "clacton-swimming-club",
+        "venue": "Clacton Leisure Centre",
+        "website": "https://www.clactonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "colchester": {
+    "name": "Colchester",
+    "slug": "colchester",
+    "region": "Essex",
+    "clubs": [
+      {
+        "name": "Colchester Swimming Club",
+        "slug": "colchester-swimming-club",
+        "venue": "Colchester Leisure World",
+        "website": "https://www.colchestersc.org.uk"
+      }
+    ]
+  },
+  "harlow": {
+    "name": "Harlow",
+    "slug": "harlow",
+    "region": "Essex",
+    "clubs": [
+      {
+        "name": "Harlow Penguins Swimming Club",
+        "slug": "harlow-penguins-swimming-club",
+        "venue": "Harlow Leisurezone",
+        "website": "https://www.harlowpenguins.co.uk"
+      }
+    ]
+  },
+  "maldon": {
+    "name": "Maldon",
+    "slug": "maldon",
+    "region": "Essex",
+    "clubs": [
+      {
+        "name": "Maldon Swimming Club",
+        "slug": "maldon-swimming-club",
+        "venue": "Blackwater Leisure Centre",
+        "website": "https://www.maldonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "rayleigh": {
+    "name": "Rayleigh",
+    "slug": "rayleigh",
+    "region": "Essex",
+    "clubs": [
+      {
+        "name": "Rayleigh Town Swimming Club",
+        "slug": "rayleigh-town-swimming-club",
+        "venue": "The Rawreth Lane Centre",
+        "website": "https://www.rayleightownsc.co.uk"
+      }
+    ]
+  },
+  "rochford": {
+    "name": "Rochford",
+    "slug": "rochford",
+    "region": "Essex",
+    "clubs": [
+      {
+        "name": "Rochford Swimming Club",
+        "slug": "rochford-swimming-club",
+        "venue": "Clements Hall Leisure Centre",
+        "website": "https://www.rochfordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "saffron-walden": {
+    "name": "Saffron Walden",
+    "slug": "saffron-walden",
+    "region": "Essex",
+    "clubs": [
+      {
+        "name": "Saffron Walden Swimming Club",
+        "slug": "saffron-walden-swimming-club",
+        "venue": "Lord Butler Leisure Centre",
+        "website": "https://www.saffronwaldenswimmingclub.co.uk"
+      }
+    ]
+  },
+  "southend-on-sea": {
+    "name": "Southend-on-Sea",
+    "slug": "southend-on-sea",
+    "region": "Essex",
+    "clubs": [
+      {
+        "name": "Southend Swimming Club",
+        "slug": "southend-swimming-club",
+        "venue": "Garon Park Swimming Pool",
+        "website": "https://www.southendsc.co.uk"
+      }
+    ]
+  },
+  "witham": {
+    "name": "Witham",
+    "slug": "witham",
+    "region": "Essex",
+    "clubs": [
+      {
+        "name": "Witham Dolphins Swimming Club",
+        "slug": "witham-dolphins-swimming-club",
+        "venue": "Witham Leisure Centre",
+        "website": "https://www.withamdolphins.co.uk"
+      }
+    ]
+  },
+  "cheltenham": {
+    "name": "Cheltenham",
+    "slug": "cheltenham",
+    "region": "Gloucestershire",
+    "clubs": [
+      {
+        "name": "Cheltenham Swimming Club",
+        "slug": "cheltenham-swimming-club",
+        "venue": "Leisure@Cheltenham",
+        "website": "https://www.cheltenhamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "cinderford": {
+    "name": "Cinderford",
+    "slug": "cinderford",
+    "region": "Gloucestershire",
+    "clubs": [
+      {
+        "name": "Cinderford Swimming Club",
+        "slug": "cinderford-swimming-club",
+        "venue": "Five Acres Leisure Centre",
+        "website": "http://www.cinderfordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "cirencester": {
+    "name": "Cirencester",
+    "slug": "cirencester",
+    "region": "Gloucestershire",
+    "clubs": [
+      {
+        "name": "Cirencester Swimming Club",
+        "slug": "cirencester-swimming-club",
+        "venue": "Cotswold Leisure",
+        "website": "https://www.cirencesterswimmingclub.co.uk"
+      }
+    ]
+  },
+  "coleford": {
+    "name": "Coleford",
+    "slug": "coleford",
+    "region": "Gloucestershire",
+    "clubs": [
+      {
+        "name": "Coleford Swimming Club",
+        "slug": "coleford-swimming-club",
+        "venue": "Five Acres High School Pool",
+        "website": "http://www.colefordswimmingclub.co.uk"
+      },
+      {
+        "name": "Forest of Dean Swimming Club",
+        "slug": "forest-of-dean-swimming-club",
+        "venue": "Five Acres School",
+        "website": "https://www.forestofdeanswimmingclub.co.uk"
+      }
+    ]
+  },
+  "dursley": {
+    "name": "Dursley",
+    "slug": "dursley",
+    "region": "Gloucestershire",
+    "clubs": [
+      {
+        "name": "Dursley & District Swimming Club",
+        "slug": "dursley-district-swimming-club",
+        "venue": "Kingshill School Pool",
+        "website": "http://www.dursleyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "gloucester": {
+    "name": "Gloucester",
+    "slug": "gloucester",
+    "region": "Gloucestershire",
+    "clubs": [
+      {
+        "name": "Gloucester City Swimming Club",
+        "slug": "gloucester-city-sc",
+        "venue": "GL1 Leisure Centre",
+        "website": "https://www.gloucestercityswimmingclub.co.uk"
+      },
+      {
+        "name": "Gloucester City Swimming Club",
+        "slug": "gloucester-city-swimming-club",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "nailsworth": {
+    "name": "Nailsworth",
+    "slug": "nailsworth",
+    "region": "Gloucestershire",
+    "clubs": [
+      {
+        "name": "Nailsworth Swimming Club",
+        "slug": "nailsworth-swimming-club",
+        "venue": "Nailsworth Pool",
+        "website": "https://www.nailsworthswimmingclub.co.uk"
+      }
+    ]
+  },
+  "stroud": {
+    "name": "Stroud",
+    "slug": "stroud",
+    "region": "Gloucestershire",
+    "clubs": [
+      {
+        "name": "Stroud Swimming Club",
+        "slug": "stroud-swimming-club",
+        "venue": "Stratford Park Leisure Centre",
+        "website": "https://www.stroudswimmingclub.co.uk"
+      },
+      {
+        "name": "Stroud and Swindon Swimming Club",
+        "slug": "stroud-swindon-swimming-club",
+        "venue": "Stratford Park",
+        "website": "https://www.stroudswindonsc.co.uk"
+      }
+    ]
+  },
+  "tewkesbury": {
+    "name": "Tewkesbury",
+    "slug": "tewkesbury",
+    "region": "Gloucestershire",
+    "clubs": [
+      {
+        "name": "Tewkesbury Swimming Club",
+        "slug": "tewkesbury-swimming-club",
+        "venue": "Tewkesbury School",
+        "website": "https://www.tewkesburyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "altrincham": {
+    "name": "Altrincham",
+    "slug": "altrincham",
+    "region": "Greater Manchester",
+    "clubs": [
+      {
+        "name": "Altrincham Swimming Club",
+        "slug": "altrincham-swimming-club",
+        "venue": "Altrincham Leisure Centre",
+        "website": "https://www.altrinchamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "ashton-under-lyne": {
+    "name": "Ashton-under-Lyne",
+    "slug": "ashton-under-lyne",
+    "region": "Greater Manchester",
+    "clubs": [
+      {
+        "name": "Ashton Swimming Club",
+        "slug": "ashton-swimming-club",
+        "venue": "Active Medlock",
+        "website": "https://www.ashtonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bolton": {
+    "name": "Bolton",
+    "slug": "bolton",
+    "region": "Greater Manchester",
+    "clubs": [
+      {
+        "name": "Bolton Metro",
+        "slug": "bolton-metro",
+        "venue": "",
+        "website": "https://www.boltonmetro.co.uk"
+      },
+      {
+        "name": "Bolton Metro Swimming Club",
+        "slug": "bolton-metro-swimming-club",
+        "venue": "",
+        "website": "http://www.boltonmetro.co.uk"
+      }
+    ]
+  },
+  "radcliffe": {
+    "name": "Radcliffe",
+    "slug": "radcliffe",
+    "region": "Greater Manchester",
+    "clubs": [
+      {
+        "name": "Radcliffe Swimming Club",
+        "slug": "radcliffe-swimming-club",
+        "venue": "Radcliffe Pool",
+        "website": "https://www.radcliffeswimmingclub.co.uk"
+      }
+    ]
+  },
+  "stockport": {
+    "name": "Stockport",
+    "slug": "stockport",
+    "region": "Greater Manchester",
+    "clubs": [
+      {
+        "name": "Stockport Metro",
+        "slug": "stockport-metro",
+        "venue": "",
+        "website": "https://www.stockportmetro.co.uk"
+      },
+      {
+        "name": "Stockport Metro Swimming Club",
+        "slug": "stockport-metro-swimming-club",
+        "venue": "",
+        "website": "http://www.stockportmetro.co.uk"
+      }
+    ]
+  },
+  "stretford": {
+    "name": "Stretford",
+    "slug": "stretford",
+    "region": "Greater Manchester",
+    "clubs": [
+      {
+        "name": "Stretford SC",
+        "slug": "stretford-sc",
+        "venue": "",
+        "website": "https://www.stretfordswimmingclub.co.uk"
+      },
+      {
+        "name": "Stretford Swimming Club",
+        "slug": "stretford-swimming-club",
+        "venue": "",
+        "website": "http://www.stretfordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "trafford": {
+    "name": "Trafford",
+    "slug": "trafford",
+    "region": "Greater Manchester",
+    "clubs": [
+      {
+        "name": "Trafford Swimming Club",
+        "slug": "trafford-swimming-club",
+        "venue": "Stretford Sports Village",
+        "website": "https://www.traffordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "tyldesley": {
+    "name": "Tyldesley",
+    "slug": "tyldesley",
+    "region": "Greater Manchester",
+    "clubs": [
+      {
+        "name": "Tyldesley Swimming Club",
+        "slug": "tyldesley-swimming-club",
+        "venue": "Tyldesley Swimming Pool",
+        "website": "https://www.tyldesleyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "aldershot": {
+    "name": "Aldershot",
+    "slug": "aldershot",
+    "region": "Hampshire",
+    "clubs": [
+      {
+        "name": "Aldershot Swimming Club",
+        "slug": "aldershot-swimming-club",
+        "venue": "Aldershot Pools",
+        "website": "https://www.aldershotswimmingclub.co.uk"
+      }
+    ]
+  },
+  "andover": {
+    "name": "Andover",
+    "slug": "andover",
+    "region": "Hampshire",
+    "clubs": [
+      {
+        "name": "Andover Swimming Club",
+        "slug": "andover-swimming-club",
+        "venue": "Andover Leisure Centre",
+        "website": "https://www.andoverswimmingclub.co.uk"
+      }
+    ]
+  },
+  "eastleigh": {
+    "name": "Eastleigh",
+    "slug": "eastleigh",
+    "region": "Hampshire",
+    "clubs": [
+      {
+        "name": "Eastleigh Swimming Club",
+        "slug": "eastleigh-swimming-club",
+        "venue": "Fleming Park Leisure Centre",
+        "website": "https://www.eastleighswimmingclub.co.uk"
+      }
+    ]
+  },
+  "fareham": {
+    "name": "Fareham",
+    "slug": "fareham",
+    "region": "Hampshire",
+    "clubs": [
+      {
+        "name": "Fareham Nomads Swimming Club",
+        "slug": "fareham-nomads-swimming-club",
+        "venue": "Fareham Leisure Centre",
+        "website": "https://www.fareh amnomads.co.uk"
+      }
+    ]
+  },
+  "farnborough": {
+    "name": "Farnborough",
+    "slug": "farnborough",
+    "region": "Hampshire",
+    "clubs": [
+      {
+        "name": "Farnborough Swimming Club",
+        "slug": "farnborough-swimming-club",
+        "venue": "Farnborough Leisure Centre",
+        "website": "https://www.farnboroughswimmingclub.co.uk"
+      }
+    ]
+  },
+  "gosport": {
+    "name": "Gosport",
+    "slug": "gosport",
+    "region": "Hampshire",
+    "clubs": [
+      {
+        "name": "Gosport Dolphins Swimming Club",
+        "slug": "gosport-dolphins-swimming-club",
+        "venue": "Gosport Leisure Centre",
+        "website": "https://www.gosportdolphins.co.uk"
+      }
+    ]
+  },
+  "waterlooville": {
+    "name": "Waterlooville",
+    "slug": "waterlooville",
+    "region": "Hampshire",
+    "clubs": [
+      {
+        "name": "Havant and Waterlooville Swimming Club",
+        "slug": "havant-waterlooville-swimming-club",
+        "venue": "Havant Leisure Centre",
+        "website": "https://www.hwswimmingclub.co.uk"
+      }
+    ]
+  },
+  "hayling-island": {
+    "name": "Hayling Island",
+    "slug": "hayling-island",
+    "region": "Hampshire",
+    "clubs": [
+      {
+        "name": "Hayling Island Swimming Club",
+        "slug": "hayling-island-swimming-club",
+        "venue": "Hayling Leisure Centre",
+        "website": "https://www.haylingislandswimmingclub.co.uk"
+      }
+    ]
+  },
+  "liss": {
+    "name": "Liss",
+    "slug": "liss",
+    "region": "Hampshire",
+    "clubs": [
+      {
+        "name": "Liss Swimming Club",
+        "slug": "liss-swimming-club",
+        "venue": "Bohunt School",
+        "website": "https://www.lissswimmingclub.co.uk"
+      }
+    ]
+  },
+  "petersfield": {
+    "name": "Petersfield",
+    "slug": "petersfield",
+    "region": "Hampshire",
+    "clubs": [
+      {
+        "name": "Petersfield Swimming Club",
+        "slug": "petersfield-swimming-club",
+        "venue": "Taro Leisure Centre",
+        "website": "https://www.petersfieldswimmingclub.co.uk"
+      }
+    ]
+  },
+  "ringwood": {
+    "name": "Ringwood",
+    "slug": "ringwood",
+    "region": "Hampshire",
+    "clubs": [
+      {
+        "name": "Ringwood Swimming Club",
+        "slug": "ringwood-swimming-club",
+        "venue": "Ringwood Recreation Centre",
+        "website": "https://www.ringwoodswimmingclub.co.uk"
+      }
+    ]
+  },
+  "romsey": {
+    "name": "Romsey",
+    "slug": "romsey",
+    "region": "Hampshire",
+    "clubs": [
+      {
+        "name": "Romsey Rapids Swimming Club",
+        "slug": "romsey-rapids-swimming-club",
+        "venue": "Romsey Rapids",
+        "website": "https://www.romseyrapidssc.co.uk"
+      }
+    ]
+  },
+  "southampton": {
+    "name": "Southampton",
+    "slug": "southampton",
+    "region": "Hampshire",
+    "clubs": [
+      {
+        "name": "Southampton SC",
+        "slug": "southampton-sc",
+        "venue": "",
+        "website": "https://www.southamptonswimmingclub.org"
+      },
+      {
+        "name": "Southampton Swimming Club",
+        "slug": "southampton-swimming-club",
+        "venue": "",
+        "website": "http://www.southamptonswimmingclub.org"
+      }
+    ]
+  },
+  "totton": {
+    "name": "Totton",
+    "slug": "totton",
+    "region": "Hampshire",
+    "clubs": [
+      {
+        "name": "Totton Swimming Club",
+        "slug": "totton-swimming-club",
+        "venue": "Totton College",
+        "website": "https://www.tottonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "berkhamsted": {
+    "name": "Berkhamsted",
+    "slug": "berkhamsted",
+    "region": "Hertfordshire",
+    "clubs": [
+      {
+        "name": "Berkhamsted Swimming Club",
+        "slug": "berkhamsted-swimming-club",
+        "venue": "Berkhamsted Sports Centre",
+        "website": "https://www.berkhamstedswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bishops-stortford": {
+    "name": "Bishop's Stortford",
+    "slug": "bishops-stortford",
+    "region": "Hertfordshire",
+    "clubs": [
+      {
+        "name": "Bishops Stortford Swimming Club",
+        "slug": "bishops-stortford-swimming-club",
+        "venue": "Grange Paddocks Leisure Centre",
+        "website": "https://www.bishopsstortfordsc.co.uk"
+      }
+    ]
+  },
+  "borehamwood": {
+    "name": "Borehamwood",
+    "slug": "borehamwood",
+    "region": "Hertfordshire",
+    "clubs": [
+      {
+        "name": "Borehamwood Swimming Club",
+        "slug": "borehamwood-swimming-club",
+        "venue": "Venue 360",
+        "website": "https://www.borehamwoodswimmingclub.co.uk"
+      }
+    ]
+  },
+  "cheshunt": {
+    "name": "Cheshunt",
+    "slug": "cheshunt",
+    "region": "Hertfordshire",
+    "clubs": [
+      {
+        "name": "Cheshunt Swimming Club",
+        "slug": "cheshunt-swimming-club",
+        "venue": "Cheshunt Swimming Pool",
+        "website": "http://www.cheshuntswimmingclub.co.uk"
+      }
+    ]
+  },
+  "hatfield": {
+    "name": "Hatfield",
+    "slug": "hatfield",
+    "region": "Hertfordshire",
+    "clubs": [
+      {
+        "name": "Hatfield Swimming Club",
+        "slug": "hatfield-swimming-club",
+        "venue": "University of Hertfordshire Sports Village",
+        "website": "https://www.hatfieldswimmingclub.co.uk"
+      }
+    ]
+  },
+  "hemel-hempstead": {
+    "name": "Hemel Hempstead",
+    "slug": "hemel-hempstead",
+    "region": "Hertfordshire",
+    "clubs": [
+      {
+        "name": "Hemel Hempstead Swimming Club",
+        "slug": "hemel-hempstead-swimming-club",
+        "venue": "Hemel Hempstead Sports Centre",
+        "website": "https://www.hemelhempsteadsc.co.uk"
+      }
+    ]
+  },
+  "hertford": {
+    "name": "Hertford",
+    "slug": "hertford",
+    "region": "Hertfordshire",
+    "clubs": [
+      {
+        "name": "Hertford Swimming Club",
+        "slug": "hertford-swimming-club",
+        "venue": "Hartham Leisure Centre",
+        "website": "https://www.hertfordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "hitchin": {
+    "name": "Hitchin",
+    "slug": "hitchin",
+    "region": "Hertfordshire",
+    "clubs": [
+      {
+        "name": "Hitchin Swimming Club",
+        "slug": "hitchin-swimming-club",
+        "venue": "Hitchin Swimming Centre",
+        "website": "https://www.hitchinswimmingclub.co.uk"
+      }
+    ]
+  },
+  "letchworth": {
+    "name": "Letchworth",
+    "slug": "letchworth",
+    "region": "Hertfordshire",
+    "clubs": [
+      {
+        "name": "Letchworth Swimming Club",
+        "slug": "letchworth-swimming-club",
+        "venue": "North Hertfordshire Leisure Centre",
+        "website": "https://www.letchworthswimmingclub.co.uk"
+      }
+    ]
+  },
+  "potters-bar": {
+    "name": "Potters Bar",
+    "slug": "potters-bar",
+    "region": "Hertfordshire",
+    "clubs": [
+      {
+        "name": "Potters Bar Swimming Club",
+        "slug": "potters-bar-swimming-club",
+        "venue": "Wyllyotts Centre",
+        "website": "http://www.pottersbarswimmingclub.co.uk"
+      }
+    ]
+  },
+  "royston": {
+    "name": "Royston",
+    "slug": "royston",
+    "region": "Hertfordshire",
+    "clubs": [
+      {
+        "name": "Royston Swimming Club",
+        "slug": "royston-swimming-club",
+        "venue": "Royston Leisure Centre",
+        "website": "http://www.roystonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "st-albans": {
+    "name": "St Albans",
+    "slug": "st-albans",
+    "region": "Hertfordshire",
+    "clubs": [
+      {
+        "name": "St Albans Swimming Club",
+        "slug": "st-albans-swimming-club",
+        "venue": "Westminster Lodge Leisure Centre",
+        "website": "https://www.stalbansswimmingclub.co.uk"
+      },
+      {
+        "name": "Verulam Swimming Club",
+        "slug": "verulam-swimming-club",
+        "venue": "Batchwood Golf Course Pool",
+        "website": "https://www.verulamsc.co.uk"
+      }
+    ]
+  },
+  "stevenage": {
+    "name": "Stevenage",
+    "slug": "stevenage",
+    "region": "Hertfordshire",
+    "clubs": [
+      {
+        "name": "Stevenage Swimming Club",
+        "slug": "stevenage-swimming-club",
+        "venue": "Stevenage Swimming Centre",
+        "website": "https://www.stevenageswimmingclub.org.uk"
+      }
+    ]
+  },
+  "ware": {
+    "name": "Ware",
+    "slug": "ware",
+    "region": "Hertfordshire",
+    "clubs": [
+      {
+        "name": "Ware Swimming Club",
+        "slug": "ware-swimming-club",
+        "venue": "Wodson Park Sports Centre",
+        "website": "https://www.wareswimmingclub.co.uk"
+      }
+    ]
+  },
+  "watford": {
+    "name": "Watford",
+    "slug": "watford",
+    "region": "Hertfordshire",
+    "clubs": [
+      {
+        "name": "Watford Swimming Club",
+        "slug": "watford-swimming-club",
+        "venue": "Woodside Leisure Centre",
+        "website": "https://www.watfordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "welwyn-garden-city": {
+    "name": "Welwyn Garden City",
+    "slug": "welwyn-garden-city",
+    "region": "Hertfordshire",
+    "clubs": [
+      {
+        "name": "Welwyn Garden City Swimming Club",
+        "slug": "welwyn-garden-city-swimming-club",
+        "venue": "Gosling Sports Park",
+        "website": "http://www.wgcswimmingclub.co.uk"
+      }
+    ]
+  },
+  "ashford": {
+    "name": "Ashford",
+    "slug": "ashford",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Ashford Swimming Club",
+        "slug": "ashford-swimming-club",
+        "venue": "Ashford Leisure Centre",
+        "website": "https://www.ashfordsc.org.uk"
+      }
+    ]
+  },
+  "broadstairs": {
+    "name": "Broadstairs",
+    "slug": "broadstairs",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Broadstairs Swimming Club",
+        "slug": "broadstairs-swimming-club",
+        "venue": "Broadstairs Bay Pavilion",
+        "website": "https://www.broadstairsswimmingclub.co.uk"
+      }
+    ]
+  },
+  "canterbury": {
+    "name": "Canterbury",
+    "slug": "canterbury",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Canterbury Swimming Club",
+        "slug": "canterbury-swimming-club",
+        "venue": "Kingsmead Leisure Centre",
+        "website": "https://www.canterburysc.org.uk"
+      }
+    ]
+  },
+  "cranbrook": {
+    "name": "Cranbrook",
+    "slug": "cranbrook",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Cranbrook Swimming Club",
+        "slug": "cranbrook-swimming-club",
+        "venue": "Cranbrook School",
+        "website": "https://www.cranbrookswimmingclub.co.uk"
+      }
+    ]
+  },
+  "dover": {
+    "name": "Dover",
+    "slug": "dover",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Dover Lifeguard Swimming Club",
+        "slug": "dover-lifeguard-swimming-club",
+        "venue": "Dover District Leisure Centre",
+        "website": "https://www.doverlifeguard.org.uk"
+      },
+      {
+        "name": "Dover Life Guard Club",
+        "slug": "dover-life-guard-club",
+        "venue": "",
+        "website": "http://www.doverlifeguard.co.uk"
+      }
+    ]
+  },
+  "edenbridge": {
+    "name": "Edenbridge",
+    "slug": "edenbridge",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Edenbridge Swimming Club",
+        "slug": "edenbridge-swimming-club",
+        "venue": "Edenbridge Leisure Centre",
+        "website": "https://www.edenbridgeswimmingclub.co.uk"
+      }
+    ]
+  },
+  "folkestone": {
+    "name": "Folkestone",
+    "slug": "folkestone",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Folkestone Swimming Club",
+        "slug": "folkestone-swimming-club",
+        "venue": "Folkestone Sports Centre",
+        "website": "https://www.folkestonesc.org.uk"
+      }
+    ]
+  },
+  "gillingham": {
+    "name": "Gillingham",
+    "slug": "gillingham",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Gillingham Swimming Club",
+        "slug": "gillingham-swimming-club",
+        "venue": "Splashes",
+        "website": "https://www.gillinghamswimmingclub.co.uk"
+      },
+      {
+        "name": "Medway Swimming Club",
+        "slug": "medway-swimming-club",
+        "venue": "Medway Park",
+        "website": "https://www.medwaysc.org.uk"
+      }
+    ]
+  },
+  "gravesend": {
+    "name": "Gravesend",
+    "slug": "gravesend",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Gravesend Swimming Club",
+        "slug": "gravesend-swimming-club",
+        "venue": "Cascades Leisure Centre",
+        "website": "https://www.gravesendsc.org.uk"
+      },
+      {
+        "name": "Gravesend & Northfleet SC",
+        "slug": "gravesend-northfleet-sc",
+        "venue": "",
+        "website": "http://www.gnsc.org.uk"
+      }
+    ]
+  },
+  "herne-bay": {
+    "name": "Herne Bay",
+    "slug": "herne-bay",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Herne Bay Swimming Club",
+        "slug": "herne-bay-swimming-club",
+        "venue": "Herne Bay High School",
+        "website": "https://www.hernebayswimmingclub.co.uk"
+      }
+    ]
+  },
+  "maidstone": {
+    "name": "Maidstone",
+    "slug": "maidstone",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Maidstone Swimming Club",
+        "slug": "maidstone-swimming-club",
+        "venue": "Maidstone Leisure Centre",
+        "website": "https://www.maidstonesc.co.uk"
+      }
+    ]
+  },
+  "margate": {
+    "name": "Margate",
+    "slug": "margate",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Margate Swimming Club",
+        "slug": "margate-sc",
+        "venue": "Margate Swimming Pool",
+        "website": "https://www.margateswimmingclub.co.uk"
+      },
+      {
+        "name": "Thanet Swimming Club",
+        "slug": "thanet-swimming-club",
+        "venue": "Margate Swimming Pool",
+        "website": "https://www.thanetsc.org.uk"
+      }
+    ]
+  },
+  "tunbridge-wells": {
+    "name": "Tunbridge Wells",
+    "slug": "tunbridge-wells",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "RTW Monson Swimming Club",
+        "slug": "rtw-monson-swimming-club",
+        "venue": "Tunbridge Wells Sports Centre",
+        "website": "https://www.rtwmonson.org/"
+      }
+    ]
+  },
+  "ramsgate": {
+    "name": "Ramsgate",
+    "slug": "ramsgate",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Ramsgate Swimming Club",
+        "slug": "ramsgate-swimming-club",
+        "venue": "Ramsgate Swimming Pool",
+        "website": "https://www.ramsgateswimmingclub.co.uk"
+      }
+    ]
+  },
+  "rochester": {
+    "name": "Rochester",
+    "slug": "rochester",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Rochester Swimming Club",
+        "slug": "rochester-swimming-club",
+        "venue": "Medway Park",
+        "website": "https://www.rochesterswimmingclub.co.uk"
+      }
+    ]
+  },
+  "sandwich": {
+    "name": "Sandwich",
+    "slug": "sandwich",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Sandwich Swimming Club",
+        "slug": "sandwich-swimming-club",
+        "venue": "Sir Roger Manwood's School",
+        "website": "https://www.sandwichswimmingclub.co.uk"
+      }
+    ]
+  },
+  "sevenoaks": {
+    "name": "Sevenoaks",
+    "slug": "sevenoaks",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Sevenoaks Swimming Club",
+        "slug": "sevenoaks-swimming-club",
+        "venue": "Sevenoaks Leisure Centre",
+        "website": "https://www.sevenoakssc.co.uk"
+      }
+    ]
+  },
+  "sittingbourne": {
+    "name": "Sittingbourne",
+    "slug": "sittingbourne",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Sittingbourne and Milton Swimming Club",
+        "slug": "sittingbourne-milton-sc",
+        "venue": "Swallows Leisure Centre",
+        "website": "https://www.sittingbournesc.co.uk"
+      },
+      {
+        "name": "Sittingbourne & Milton SC",
+        "slug": "sittingbourne-milton-sc",
+        "venue": "",
+        "website": "http://www.sittingbournesc.co.uk"
+      }
+    ]
+  },
+  "swanley": {
+    "name": "Swanley",
+    "slug": "swanley",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Swanley Swimming Club",
+        "slug": "swanley-swimming-club",
+        "venue": "White Oak Leisure Centre",
+        "website": "https://www.swanleyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "tonbridge": {
+    "name": "Tonbridge",
+    "slug": "tonbridge",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Tonbridge Swimming Club",
+        "slug": "tonbridge-swimming-club",
+        "venue": "Tonbridge Swimming Pool",
+        "website": "https://www.tonbridgesc.co.uk"
+      }
+    ]
+  },
+  "whitstable": {
+    "name": "Whitstable",
+    "slug": "whitstable",
+    "region": "Kent",
+    "clubs": [
+      {
+        "name": "Whitstable Swimming Club",
+        "slug": "whitstable-swimming-club",
+        "venue": "Whitstable Community Pool",
+        "website": "https://www.whitstableswimmingclub.co.uk"
+      }
+    ]
+  },
+  "accrington": {
+    "name": "Accrington",
+    "slug": "accrington",
+    "region": "Lancashire",
+    "clubs": [
+      {
+        "name": "Accrington Swimming Club",
+        "slug": "accrington-swimming-club",
+        "venue": "Hyndburn Sports Centre",
+        "website": "https://www.accringtonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "blackburn": {
+    "name": "Blackburn",
+    "slug": "blackburn",
+    "region": "Lancashire",
+    "clubs": [
+      {
+        "name": "Blackburn Aquatics Club",
+        "slug": "blackburn-aquatics-club",
+        "venue": "Waves Water Fun Centre",
+        "website": "https://www.blackburnaquatics.co.uk"
+      },
+      {
+        "name": "Blackburn Meteors Swimming Club",
+        "slug": "blackburn-meteors-swimming-club",
+        "venue": "Witton Park Arena",
+        "website": "https://www.blackburnmeteors.co.uk"
+      }
+    ]
+  },
+  "blackpool": {
+    "name": "Blackpool",
+    "slug": "blackpool",
+    "region": "Lancashire",
+    "clubs": [
+      {
+        "name": "Blackpool Aquatics Swimming Club",
+        "slug": "blackpool-aquatics-swimming-club",
+        "venue": "Palatine Leisure Centre",
+        "website": "https://www.blackpoolaquatics.co.uk"
+      }
+    ]
+  },
+  "burnley": {
+    "name": "Burnley",
+    "slug": "burnley",
+    "region": "Lancashire",
+    "clubs": [
+      {
+        "name": "Burnley Bobcat Swimming Club",
+        "slug": "burnley-bobcat-swimming-club",
+        "venue": "Prairie Sports Village",
+        "website": "https://www.burnleybobcats.co.uk"
+      }
+    ]
+  },
+  "chorley": {
+    "name": "Chorley",
+    "slug": "chorley",
+    "region": "Lancashire",
+    "clubs": [
+      {
+        "name": "Chorley Marlins Swimming Club",
+        "slug": "chorley-marlins-swimming-club",
+        "venue": "Chorley Leisure Centre",
+        "website": "https://www.chorleymarlins.co.uk"
+      }
+    ]
+  },
+  "clitheroe": {
+    "name": "Clitheroe",
+    "slug": "clitheroe",
+    "region": "Lancashire",
+    "clubs": [
+      {
+        "name": "Clitheroe Swimming Club",
+        "slug": "clitheroe-swimming-club",
+        "venue": "Ribblesdale Pool",
+        "website": "https://www.clitheroeswimmingclub.co.uk"
+      }
+    ]
+  },
+  "fleetwood": {
+    "name": "Fleetwood",
+    "slug": "fleetwood",
+    "region": "Lancashire",
+    "clubs": [
+      {
+        "name": "Fleetwood Swimming Club",
+        "slug": "fleetwood-swimming-club",
+        "venue": "Fleetwood Pool",
+        "website": "https://www.fleetwoodswimmingclub.co.uk"
+      }
+    ]
+  },
+  "lancaster": {
+    "name": "Lancaster",
+    "slug": "lancaster",
+    "region": "Lancashire",
+    "clubs": [
+      {
+        "name": "Lancaster Swimming Club",
+        "slug": "lancaster-swimming-club",
+        "venue": "Salt Ayre Leisure Centre",
+        "website": "https://www.lancasterswimmingclub.co.uk"
+      }
+    ]
+  },
+  "leyland": {
+    "name": "Leyland",
+    "slug": "leyland",
+    "region": "Lancashire",
+    "clubs": [
+      {
+        "name": "Leyland Swimming Club",
+        "slug": "leyland-swimming-club",
+        "venue": "Leyland Leisure Centre",
+        "website": "https://www.leylandswimmingclub.co.uk"
+      }
+    ]
+  },
+  "morecambe": {
+    "name": "Morecambe",
+    "slug": "morecambe",
+    "region": "Lancashire",
+    "clubs": [
+      {
+        "name": "Morecambe Swimming Club",
+        "slug": "morecambe-swimming-club",
+        "venue": "Morecambe Pool",
+        "website": "https://www.morecambeswimmingclub.co.uk"
+      }
+    ]
+  },
+  "nelson": {
+    "name": "Nelson",
+    "slug": "nelson",
+    "region": "Lancashire",
+    "clubs": [
+      {
+        "name": "Nelson Swimming Club",
+        "slug": "nelson-swimming-club",
+        "venue": "Pendle Wavelengths",
+        "website": "https://www.nelsonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "ormskirk": {
+    "name": "Ormskirk",
+    "slug": "ormskirk",
+    "region": "Lancashire",
+    "clubs": [
+      {
+        "name": "Ormskirk Swimming Club",
+        "slug": "ormskirk-swimming-club",
+        "venue": "Ormskirk Pool",
+        "website": "https://www.ormskirkswimmingclub.co.uk"
+      }
+    ]
+  },
+  "preston": {
+    "name": "Preston",
+    "slug": "preston",
+    "region": "Lancashire",
+    "clubs": [
+      {
+        "name": "Preston Swimming Club",
+        "slug": "preston-swimming-club",
+        "venue": "Preston Swimming Pool",
+        "website": "https://www.prestonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "ashby-de-la-zouch": {
+    "name": "Ashby-de-la-Zouch",
+    "slug": "ashby-de-la-zouch",
+    "region": "Leicestershire",
+    "clubs": [
+      {
+        "name": "Ashby Swimming Club",
+        "slug": "ashby-swimming-club",
+        "venue": "Ashby Leisure Centre",
+        "website": "http://www.ashbyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "coalville": {
+    "name": "Coalville",
+    "slug": "coalville",
+    "region": "Leicestershire",
+    "clubs": [
+      {
+        "name": "Coalville Swimming Club",
+        "slug": "coalville-swimming-club",
+        "venue": "Hood Park Leisure Centre",
+        "website": "https://www.coalvilleswimmingclub.co.uk"
+      }
+    ]
+  },
+  "hinckley": {
+    "name": "Hinckley",
+    "slug": "hinckley",
+    "region": "Leicestershire",
+    "clubs": [
+      {
+        "name": "Hinckley Swimming Club",
+        "slug": "hinckley-swimming-club",
+        "venue": "Hinckley Leisure Centre",
+        "website": "https://www.hinckleyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "loughborough": {
+    "name": "Loughborough",
+    "slug": "loughborough",
+    "region": "Leicestershire",
+    "clubs": [
+      {
+        "name": "Loughborough Town Swimming Club",
+        "slug": "loughborough-town-swimming-club",
+        "venue": "Loughborough Leisure Centre",
+        "website": "https://www.loughboroughtownsc.co.uk"
+      }
+    ]
+  },
+  "market-harborough": {
+    "name": "Market Harborough",
+    "slug": "market-harborough",
+    "region": "Leicestershire",
+    "clubs": [
+      {
+        "name": "Market Harborough Swimming Club",
+        "slug": "market-harborough-swimming-club",
+        "venue": "Harborough Leisure Centre",
+        "website": "https://www.marketharboroughswimmingclub.co.uk"
+      }
+    ]
+  },
+  "melton-mowbray": {
+    "name": "Melton Mowbray",
+    "slug": "melton-mowbray",
+    "region": "Leicestershire",
+    "clubs": [
+      {
+        "name": "Melton Mowbray Swimming Club",
+        "slug": "melton-mowbray-swimming-club",
+        "venue": "Melton Sports Village",
+        "website": "https://www.meltonmowbrayswimmingclub.co.uk"
+      }
+    ]
+  },
+  "wigston": {
+    "name": "Wigston",
+    "slug": "wigston",
+    "region": "Leicestershire",
+    "clubs": [
+      {
+        "name": "Oadby & Wigston Swimming Club",
+        "slug": "oadby-wigston-swimming-club",
+        "venue": "Wigston Pool & Fitness Centre",
+        "website": "http://www.oadbywigston-sc.co.uk"
+      },
+      {
+        "name": "Oadby and Wigston Swimming Club",
+        "slug": "oadby-wigston-swimming-club",
+        "venue": "Wigston Pool",
+        "website": "https://www.oadbywigstonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "boston": {
+    "name": "Boston",
+    "slug": "boston",
+    "region": "Lincolnshire",
+    "clubs": [
+      {
+        "name": "Boston Swimming Club",
+        "slug": "boston-swimming-club",
+        "venue": "Geoff Moulder Leisure Complex",
+        "website": "https://www.bostonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "gainsborough": {
+    "name": "Gainsborough",
+    "slug": "gainsborough",
+    "region": "Lincolnshire",
+    "clubs": [
+      {
+        "name": "Gainsborough Swimming Club",
+        "slug": "gainsborough-swimming-club",
+        "venue": "Gainsborough Leisure Centre",
+        "website": "https://www.gainsboroughswimmingclub.co.uk"
+      }
+    ]
+  },
+  "grantham": {
+    "name": "Grantham",
+    "slug": "grantham",
+    "region": "Lincolnshire",
+    "clubs": [
+      {
+        "name": "Grantham Swimming Club",
+        "slug": "grantham-swimming-club",
+        "venue": "Meres Leisure Centre",
+        "website": "https://www.granthamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "horncastle": {
+    "name": "Horncastle",
+    "slug": "horncastle",
+    "region": "Lincolnshire",
+    "clubs": [
+      {
+        "name": "Horncastle Swimming Club",
+        "slug": "horncastle-swimming-club",
+        "venue": "Horncastle Pool",
+        "website": "https://www.horncastleswimmingclub.co.uk"
+      }
+    ]
+  },
+  "lincoln": {
+    "name": "Lincoln",
+    "slug": "lincoln",
+    "region": "Lincolnshire",
+    "clubs": [
+      {
+        "name": "Lincoln Vulcans Swimming Club",
+        "slug": "lincoln-vulcans-swimming-club",
+        "venue": "Yarborough Leisure Centre",
+        "website": "https://www.lincolnvulcans.co.uk"
+      }
+    ]
+  },
+  "louth": {
+    "name": "Louth",
+    "slug": "louth",
+    "region": "Lincolnshire",
+    "clubs": [
+      {
+        "name": "Louth Swimming Club",
+        "slug": "louth-swimming-club",
+        "venue": "Meridian Leisure Centre",
+        "website": "http://www.louthswimmingclub.co.uk"
+      }
+    ]
+  },
+  "skegness": {
+    "name": "Skegness",
+    "slug": "skegness",
+    "region": "Lincolnshire",
+    "clubs": [
+      {
+        "name": "Skegness Swimming Club",
+        "slug": "skegness-swimming-club",
+        "venue": "Skegness Pool and Fitness Suite",
+        "website": "https://www.skegnessswimmingclub.co.uk"
+      }
+    ]
+  },
+  "sleaford": {
+    "name": "Sleaford",
+    "slug": "sleaford",
+    "region": "Lincolnshire",
+    "clubs": [
+      {
+        "name": "Sleaford Swimming Club",
+        "slug": "sleaford-swimming-club",
+        "venue": "Sleaford Leisure Centre",
+        "website": "https://www.sleafordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "spalding": {
+    "name": "Spalding",
+    "slug": "spalding",
+    "region": "Lincolnshire",
+    "clubs": [
+      {
+        "name": "Spalding Swimming Club",
+        "slug": "spalding-swimming-club",
+        "venue": "Castle Sports Complex",
+        "website": "https://www.spaldingswimmingclub.co.uk"
+      }
+    ]
+  },
+  "stamford": {
+    "name": "Stamford",
+    "slug": "stamford",
+    "region": "Lincolnshire",
+    "clubs": [
+      {
+        "name": "Stamford Swimming Club",
+        "slug": "stamford-swimming-club",
+        "venue": "Stamford Leisure Pool",
+        "website": "http://www.stamfordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "acton": {
+    "name": "Acton",
+    "slug": "acton",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Acton Swimming Club",
+        "slug": "acton-swimming-club",
+        "venue": "Acton Swimming Pool",
+        "website": "https://www.actonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "waltham-forest": {
+    "name": "Waltham Forest",
+    "slug": "waltham-forest",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Aquavision North London Swim Club",
+        "slug": "aquavision-north-london-swim-club",
+        "venue": "",
+        "website": "https://www.aquavision.org.uk"
+      }
+    ]
+  },
+  "tooting": {
+    "name": "Tooting",
+    "slug": "tooting",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "BJSC Tooting",
+        "slug": "bjsc-tooting",
+        "venue": "",
+        "website": "https://www.bjsc.org.uk"
+      }
+    ]
+  },
+  "dagenham": {
+    "name": "Dagenham",
+    "slug": "dagenham",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Barking & Dagenham Aquatics Club",
+        "slug": "barking-dagenham-aquatics-club",
+        "venue": "",
+        "website": "https://uk.teamunify.com/team/sebad/page/home"
+      },
+      {
+        "name": "Dagenham Swimming Club",
+        "slug": "dagenham-swimming-club",
+        "venue": "Dagenham Swimming Pool",
+        "website": "https://www.dagenhamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "barking": {
+    "name": "Barking",
+    "slug": "barking",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Barking Town Swimming Club",
+        "slug": "barking-town-swimming-club",
+        "venue": "Barking Sporthouse",
+        "website": "https://www.barkingtownsc.co.uk"
+      },
+      {
+        "name": "Barking and Dagenham Aquatics Club",
+        "slug": "barking-dagenham-aquatics",
+        "venue": "Becontree Heath Leisure Centre",
+        "website": "https://www.bdaquatics.co.uk"
+      }
+    ]
+  },
+  "barnet": {
+    "name": "Barnet",
+    "slug": "barnet",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Barnet Copthall SC",
+        "slug": "barnet-copthall-sc",
+        "venue": "",
+        "website": "https://www.barnetcopthallsc.org"
+      },
+      {
+        "name": "Barnet Swimming Club",
+        "slug": "barnet-swimming-club",
+        "venue": "New Barnet Leisure Centre",
+        "website": "https://www.barnetswimmingclub.co.uk"
+      }
+    ]
+  },
+  "battersea": {
+    "name": "Battersea",
+    "slug": "battersea",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Battersea Swimming Club",
+        "slug": "battersea-swimming-club",
+        "venue": "Battersea Sports Centre",
+        "website": "https://www.batterseaswimmingclub.co.uk"
+      },
+      {
+        "name": "Leander SC",
+        "slug": "leander-sc",
+        "venue": "",
+        "website": "https://www.leanderswimmingclub.org.uk"
+      }
+    ]
+  },
+  "beckenham": {
+    "name": "Beckenham",
+    "slug": "beckenham",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Beckenham SC",
+        "slug": "beckenham-sc",
+        "venue": "",
+        "website": "https://uk.teamunify.com/Home.jsp?team=reczzbhsc"
+      }
+    ]
+  },
+  "bethnal-green": {
+    "name": "Bethnal Green",
+    "slug": "bethnal-green",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Bethnal Green SC",
+        "slug": "bethnal-green-sc",
+        "venue": "",
+        "website": "https://www.bgssc.co.uk"
+      }
+    ]
+  },
+  "bexley": {
+    "name": "Bexley",
+    "slug": "bexley",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Bexley SC",
+        "slug": "bexley-sc",
+        "venue": "",
+        "website": "https://www.bexleyswimmingclub.com"
+      }
+    ]
+  },
+  "harrow": {
+    "name": "Harrow",
+    "slug": "harrow",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Borough of Harrow SC",
+        "slug": "borough-of-harrow-sc",
+        "venue": "",
+        "website": "https://www.harrowswim.info"
+      }
+    ]
+  },
+  "walthamstow": {
+    "name": "Walthamstow",
+    "slug": "walthamstow",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Borough of Waltham Forest (Gators)",
+        "slug": "borough-of-waltham-forest-gators",
+        "venue": "",
+        "website": "https://www.bwfsc-gators.org.uk"
+      },
+      {
+        "name": "Waltham Forest Bathing Club",
+        "slug": "waltham-forest-bathing-club",
+        "venue": "Walthamstow Feel Good Centre",
+        "website": "https://www.wfbathingclub.co.uk"
+      },
+      {
+        "name": "Walthamstow Tritons",
+        "slug": "walthamstow-tritons",
+        "venue": "",
+        "website": "https://www.tritons.org.uk"
+      }
+    ]
+  },
+  "wandsworth": {
+    "name": "Wandsworth",
+    "slug": "wandsworth",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Borough of Wandsworth SA",
+        "slug": "borough-of-wandsworth-sa",
+        "venue": "",
+        "website": "https://www.wandsworthsc.com"
+      },
+      {
+        "name": "Wandsworth SC",
+        "slug": "wandsworth-sc",
+        "venue": "",
+        "website": "https://www.wandsworthsc.com"
+      }
+    ]
+  },
+  "brent": {
+    "name": "Brent",
+    "slug": "brent",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Brent Dolphins SC",
+        "slug": "brent-dolphins-sc",
+        "venue": "",
+        "website": "https://www.brentdolphins.org.uk"
+      }
+    ]
+  },
+  "bromley": {
+    "name": "Bromley",
+    "slug": "bromley",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Bromley SC",
+        "slug": "bromley-sc",
+        "venue": "",
+        "website": "https://bromleysc.com"
+      }
+    ]
+  },
+  "south-kensington": {
+    "name": "South Kensington",
+    "slug": "south-kensington",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Brompton SC",
+        "slug": "brompton-sc",
+        "venue": "",
+        "website": "https://bromptonsc.com"
+      }
+    ]
+  },
+  "enfield": {
+    "name": "Enfield",
+    "slug": "enfield",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Broomfield Park SC",
+        "slug": "broomfield-park-sc",
+        "venue": "",
+        "website": "https://www.broomfieldparksc.org.uk"
+      },
+      {
+        "name": "Enfield Swim Squad",
+        "slug": "enfield-swim-squad",
+        "venue": "",
+        "website": "https://www.enfieldswimsquad.org"
+      }
+    ]
+  },
+  "camden": {
+    "name": "Camden",
+    "slug": "camden",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Camden Swimming Club",
+        "slug": "camden-swimming-club",
+        "venue": "Swiss Cottage Sports Centre",
+        "website": "https://www.camdenswimmingclub.co.uk"
+      },
+      {
+        "name": "Camden Swiss Cottage SC",
+        "slug": "camden-swiss-cottage-sc",
+        "venue": "",
+        "website": "https://uk.teamunify.com/Home.jsp?team=reccscl"
+      }
+    ]
+  },
+  "chelsea": {
+    "name": "Chelsea",
+    "slug": "chelsea",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Chelsea & Westminster SC",
+        "slug": "chelsea-westminster-sc",
+        "venue": "",
+        "website": "https://www.cwswimming.com"
+      }
+    ]
+  },
+  "chingford": {
+    "name": "Chingford",
+    "slug": "chingford",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Chingford Swimming Club",
+        "slug": "chingford-swimming-club",
+        "venue": "Larkswood Pool",
+        "website": "https://www.chingfordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "westminster": {
+    "name": "Westminster",
+    "slug": "westminster",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "City of Westminster Swimming Club",
+        "slug": "city-of-westminster-swimming-club",
+        "venue": "Queen Mother Sports Centre",
+        "website": "https://www.westminsterswimming.co.uk"
+      }
+    ]
+  },
+  "clapham": {
+    "name": "Clapham",
+    "slug": "clapham",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Clapham Swimming Club",
+        "slug": "clapham-swimming-club",
+        "venue": "Clapham Leisure Centre",
+        "website": "https://www.claphamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "croydon": {
+    "name": "Croydon",
+    "slug": "croydon",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Croydon Amphibians SC",
+        "slug": "croydon-amphibians-sc",
+        "venue": "",
+        "website": "https://www.croydonamphibians.com"
+      },
+      {
+        "name": "Croydon Swimming Club",
+        "slug": "croydon-swimming-club",
+        "venue": "Waddon Leisure Centre",
+        "website": "http://www.croydonswimmingclub.org"
+      }
+    ]
+  },
+  "dulwich": {
+    "name": "Dulwich",
+    "slug": "dulwich",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Dulwich Dolphins",
+        "slug": "dulwich-dolphins",
+        "venue": "",
+        "website": "https://www.dulwichdolphins.com"
+      }
+    ]
+  },
+  "ealing": {
+    "name": "Ealing",
+    "slug": "ealing",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Ealing SC",
+        "slug": "ealing-sc",
+        "venue": "",
+        "website": "https://uk.teamunify.com/Home.jsp?team=reczzesc"
+      }
+    ]
+  },
+  "eltham": {
+    "name": "Eltham",
+    "slug": "eltham",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Eltham Stingrays",
+        "slug": "eltham-stingrays",
+        "venue": "",
+        "website": "https://www.elthamstingraysswimmingclub.co.uk"
+      }
+    ]
+  },
+  "erith": {
+    "name": "Erith",
+    "slug": "erith",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Erith & District SC",
+        "slug": "erith-district-sc",
+        "venue": "",
+        "website": "https://www.edsc.org.uk"
+      }
+    ]
+  },
+  "feltham": {
+    "name": "Feltham",
+    "slug": "feltham",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Feltham SC",
+        "slug": "feltham-sc",
+        "venue": "",
+        "website": "https://www.felthamswimmingclub.org.uk"
+      }
+    ]
+  },
+  "finchley": {
+    "name": "Finchley",
+    "slug": "finchley",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Finchley Swimming Club",
+        "slug": "finchley-swimming-club",
+        "venue": "Finchley Lido Leisure Centre",
+        "website": "https://www.finchleyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "hillingdon": {
+    "name": "Hillingdon",
+    "slug": "hillingdon",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Forward Hillingdon Squad",
+        "slug": "forward-hillingdon-squad",
+        "venue": "",
+        "website": "https://www.forward-hillingdon.co.uk"
+      },
+      {
+        "name": "Hillingdon Swimming Club",
+        "slug": "hillingdon-swimming-club",
+        "venue": "",
+        "website": "https://www.hillingdonsc.co.uk"
+      }
+    ]
+  },
+  "greenwich": {
+    "name": "Greenwich",
+    "slug": "greenwich",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Greenwich Royals SC",
+        "slug": "greenwich-royals-sc",
+        "venue": "",
+        "website": "https://uk.gomotionapp.com/team/lrgrsc/page/home"
+      },
+      {
+        "name": "Greenwich Swimming Club",
+        "slug": "greenwich-swimming-club",
+        "venue": "Eltham Leisure Centre",
+        "website": "https://www.greenwichswimmingclub.co.uk"
+      }
+    ]
+  },
+  "hackney": {
+    "name": "Hackney",
+    "slug": "hackney",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Hackney Anaconda SC",
+        "slug": "hackney-anaconda-sc",
+        "venue": "",
+        "website": "https://www.hackneyanaconda.org"
+      }
+    ]
+  },
+  "hammersmith": {
+    "name": "Hammersmith",
+    "slug": "hammersmith",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Hammersmith & Fulham Swimming Club",
+        "slug": "hammersmith-fulham-swimming-club",
+        "venue": "Fulham Pools",
+        "website": "https://www.hfswimmingclub.co.uk"
+      }
+    ]
+  },
+  "haringey": {
+    "name": "Haringey",
+    "slug": "haringey",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Haringey Aquatics",
+        "slug": "haringey-aquatics",
+        "venue": "",
+        "website": "https://haringeyaquatics.org.uk"
+      }
+    ]
+  },
+  "havering": {
+    "name": "Havering",
+    "slug": "havering",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Havering Dolphins",
+        "slug": "havering-dolphins",
+        "venue": "",
+        "website": "https://www.haveringdolphins.co.uk"
+      }
+    ]
+  },
+  "hornchurch": {
+    "name": "Hornchurch",
+    "slug": "hornchurch",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Hornchurch SC",
+        "slug": "hornchurch-sc",
+        "venue": "",
+        "website": "https://www.hornchurchsc.org.uk"
+      },
+      {
+        "name": "Killerwhales SC",
+        "slug": "killerwhales-sc",
+        "venue": "",
+        "website": "https://www.killerwhalessc.com"
+      }
+    ]
+  },
+  "hounslow": {
+    "name": "Hounslow",
+    "slug": "hounslow",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Hounslow Jets",
+        "slug": "hounslow-jets",
+        "venue": "",
+        "website": "https://www.hounslowjets.org"
+      },
+      {
+        "name": "London Borough of Hounslow SC",
+        "slug": "london-borough-of-hounslow-sc",
+        "venue": "",
+        "website": "https://uk.teamunify.com/Home.jsp?team=LBHSC"
+      }
+    ]
+  },
+  "ilford": {
+    "name": "Ilford",
+    "slug": "ilford",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Ilford Swimming Club",
+        "slug": "ilford-swimming-club",
+        "venue": "Ilford Swimming Pool",
+        "website": "https://www.ilfordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "islington": {
+    "name": "Islington",
+    "slug": "islington",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Islington Swimming Club",
+        "slug": "islington-swimming-club",
+        "venue": "Ironmonger Row Baths",
+        "website": "https://www.islingtonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "kensington": {
+    "name": "Kensington",
+    "slug": "kensington",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Kensington & Chelsea Swimming Club",
+        "slug": "kensington-chelsea-swimming-club",
+        "venue": "Chelsea Sports Centre",
+        "website": "https://www.kcswimming.co.uk"
+      }
+    ]
+  },
+  "wimbledon": {
+    "name": "Wimbledon",
+    "slug": "wimbledon",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Kings Cormorants SC",
+        "slug": "kings-cormorants-sc",
+        "venue": "",
+        "website": "https://www.kcswimmingclub.org.uk"
+      },
+      {
+        "name": "Wimbledon Dolphins SC",
+        "slug": "wimbledon-dolphins-sc",
+        "venue": "",
+        "website": "https://wimbledondolphins.co.uk"
+      }
+    ]
+  },
+  "kingston-upon-thames": {
+    "name": "Kingston upon Thames",
+    "slug": "kingston-upon-thames",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Kingston Ladies SC",
+        "slug": "kingston-ladies-sc",
+        "venue": "",
+        "website": "https://www.klsc.org.uk"
+      },
+      {
+        "name": "Kingston Royals SC",
+        "slug": "kingston-royals-sc",
+        "venue": "",
+        "website": "https://www.kingstonroyals.co.uk"
+      }
+    ]
+  },
+  "lambeth": {
+    "name": "Lambeth",
+    "slug": "lambeth",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Lambeth Swimming Club",
+        "slug": "lambeth-swimming-club",
+        "venue": "Brixton Recreation Centre",
+        "website": "https://www.lambethswimmingclub.co.uk"
+      }
+    ]
+  },
+  "lewisham": {
+    "name": "Lewisham",
+    "slug": "lewisham",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Lewisham Swimming Club",
+        "slug": "lewisham-swimming-club",
+        "venue": "Wavelengths Leisure Centre",
+        "website": "https://www.lewishamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "leyton": {
+    "name": "Leyton",
+    "slug": "leyton",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Leyton SC",
+        "slug": "leyton-sc",
+        "venue": "",
+        "website": "https://leytonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "stratford": {
+    "name": "Stratford",
+    "slug": "stratford",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "London Aquatics Centre Performance SC",
+        "slug": "london-aquatics-centre-performance-sc",
+        "venue": "",
+        "website": "https://lacpp.co.uk"
+      }
+    ]
+  },
+  "redbridge": {
+    "name": "Redbridge",
+    "slug": "redbridge",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "London Borough of Redbridge SC",
+        "slug": "london-borough-of-redbridge-sc",
+        "venue": "",
+        "website": "https://lbrsc.org"
+      }
+    ]
+  },
+  "merton": {
+    "name": "Merton",
+    "slug": "merton",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Merton Pisces",
+        "slug": "merton-pisces",
+        "venue": "",
+        "website": "https://mertonpisces.co.uk"
+      }
+    ]
+  },
+  "newham": {
+    "name": "Newham",
+    "slug": "newham",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Newham Aquatics Club",
+        "slug": "newham-aquatics-club",
+        "venue": "Newham Leisure Centre",
+        "website": "https://www.newhamaquatics.co.uk"
+      }
+    ]
+  },
+  "northwood": {
+    "name": "Northwood",
+    "slug": "northwood",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Northwood Swimming Club",
+        "slug": "northwood-swimming-club",
+        "venue": "Northwood School",
+        "website": "https://www.northwoodswimmingclub.co.uk"
+      }
+    ]
+  },
+  "orpington": {
+    "name": "Orpington",
+    "slug": "orpington",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Orpington Ojays",
+        "slug": "orpington-ojays",
+        "venue": "",
+        "website": "https://www.orpingtonojays.com"
+      }
+    ]
+  },
+  "central-london": {
+    "name": "Central London",
+    "slug": "central-london",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Otter SC",
+        "slug": "otter-sc",
+        "venue": "",
+        "website": "https://otterswimming.com"
+      }
+    ]
+  },
+  "pinner": {
+    "name": "Pinner",
+    "slug": "pinner",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Pinner Swimming Club",
+        "slug": "pinner-swimming-club",
+        "venue": "Pinner Pool",
+        "website": "https://www.pinnerswimmingclub.co.uk"
+      }
+    ]
+  },
+  "putney": {
+    "name": "Putney",
+    "slug": "putney",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Putney Swimming Club",
+        "slug": "putney-swimming-club",
+        "venue": "Putney Leisure Centre",
+        "website": "https://www.putneyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "richmond": {
+    "name": "Richmond",
+    "slug": "richmond",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Richmond Swimming Club",
+        "slug": "richmond-swimming-club",
+        "venue": "",
+        "website": "https://www.richmondswimmingclub.org.uk"
+      },
+      {
+        "name": "Richmond Swimming Club",
+        "slug": "richmond-swimming-club-yorkshire",
+        "venue": "Richmond Pool",
+        "website": "https://www.richmondswimmingclubyorkshire.co.uk"
+      }
+    ]
+  },
+  "romford": {
+    "name": "Romford",
+    "slug": "romford",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Romford Town SC",
+        "slug": "romford-town-sc",
+        "venue": "",
+        "website": "https://romfordtownswimmingclub.co.uk"
+      }
+    ]
+  },
+  "ruislip": {
+    "name": "Ruislip",
+    "slug": "ruislip",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Ruislip Swimming Club",
+        "slug": "ruislip-swimming-club",
+        "venue": "Ruislip Lido",
+        "website": "https://www.ruislipswimmingclub.co.uk"
+      }
+    ]
+  },
+  "southwark": {
+    "name": "Southwark",
+    "slug": "southwark",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Southwark Aquatics SC",
+        "slug": "southwark-aquatics-sc",
+        "venue": "",
+        "website": "https://www.southwarkaquatics.co.uk"
+      },
+      {
+        "name": "Southwark Swimming Club",
+        "slug": "southwark-swimming-club",
+        "venue": "Seven Islands Leisure Centre",
+        "website": "https://www.southwarkswimming.co.uk"
+      }
+    ]
+  },
+  "stanmore": {
+    "name": "Stanmore",
+    "slug": "stanmore",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Stanmore Swimming Club",
+        "slug": "stanmore-swimming-club",
+        "venue": "Stanmore Swimming Club Pool",
+        "website": "https://www.stanmoreswimmingclub.co.uk"
+      }
+    ]
+  },
+  "streatham": {
+    "name": "Streatham",
+    "slug": "streatham",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Streatham SC",
+        "slug": "streatham-sc",
+        "venue": "",
+        "website": "https://streathamswimmingclub.org"
+      }
+    ]
+  },
+  "sutton": {
+    "name": "Sutton",
+    "slug": "sutton",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Sutton & Cheam SC",
+        "slug": "sutton-cheam-sc",
+        "venue": "",
+        "website": "https://www.suttonandcheam.org.uk"
+      }
+    ]
+  },
+  "teddington": {
+    "name": "Teddington",
+    "slug": "teddington",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Teddington SC",
+        "slug": "teddington-sc",
+        "venue": "",
+        "website": "https://www.teddingtonsc.co.uk"
+      }
+    ]
+  },
+  "tottenham": {
+    "name": "Tottenham",
+    "slug": "tottenham",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Tottenham Swimming Club",
+        "slug": "tottenham-swimming-club",
+        "venue": "Park Road Pools",
+        "website": "https://www.tottenhamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "tower-hamlets": {
+    "name": "Tower Hamlets",
+    "slug": "tower-hamlets",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Tower Hamlets SC",
+        "slug": "tower-hamlets-sc",
+        "venue": "",
+        "website": "https://www.facebook.com/groups/THSwimming"
+      },
+      {
+        "name": "Tower Hamlets Swimming Club",
+        "slug": "tower-hamlets-swimming-club",
+        "venue": "Mile End Park Leisure Centre",
+        "website": "https://www.towerhamletsswimming.co.uk"
+      }
+    ]
+  },
+  "upminster": {
+    "name": "Upminster",
+    "slug": "upminster",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Upminster Swimming Club",
+        "slug": "upminster-swimming-club",
+        "venue": "Chafford Sports Complex",
+        "website": "https://www.upminsterswimmingclub.co.uk"
+      }
+    ]
+  },
+  "wood-green": {
+    "name": "Wood Green",
+    "slug": "wood-green",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Wood Green Swimming Club",
+        "slug": "wood-green-swimming-club",
+        "venue": "Park Road Pools",
+        "website": "https://www.woodgreenswimmingclub.co.uk"
+      }
+    ]
+  },
+  "woodford": {
+    "name": "Woodford",
+    "slug": "woodford",
+    "region": "London",
+    "clubs": [
+      {
+        "name": "Woodford Swimming Club",
+        "slug": "woodford-swimming-club",
+        "venue": "Redbridge Sports Centre",
+        "website": "https://www.woodfordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "birkenhead": {
+    "name": "Birkenhead",
+    "slug": "birkenhead",
+    "region": "Merseyside",
+    "clubs": [
+      {
+        "name": "Birkenhead Swimming Club",
+        "slug": "birkenhead-swimming-club",
+        "venue": "Europa Pools",
+        "website": "https://www.birkenheadswimmingclub.co.uk"
+      }
+    ]
+  },
+  "crosby": {
+    "name": "Crosby",
+    "slug": "crosby",
+    "region": "Merseyside",
+    "clubs": [
+      {
+        "name": "Crosby Swimming Club",
+        "slug": "crosby-swimming-club",
+        "venue": "Crosby Leisure Centre",
+        "website": "https://www.crosbyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "liverpool": {
+    "name": "Liverpool",
+    "slug": "liverpool",
+    "region": "Merseyside",
+    "clubs": [
+      {
+        "name": "Everton SC",
+        "slug": "everton-sc",
+        "venue": "",
+        "website": "https://www.evertonswimmingclub.co.uk"
+      },
+      {
+        "name": "Liverpool Penguins Swimming Club",
+        "slug": "liverpool-penguins-swimming-club",
+        "venue": "Lifestyles Garston",
+        "website": "https://www.liverpoolpenguins.co.uk"
+      },
+      {
+        "name": "Everton Swimming Club",
+        "slug": "everton-swimming-club",
+        "venue": "",
+        "website": "http://www.evertonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "kirkby": {
+    "name": "Kirkby",
+    "slug": "kirkby",
+    "region": "Merseyside",
+    "clubs": [
+      {
+        "name": "Knowsley Swimming Club",
+        "slug": "knowsley-swimming-club",
+        "venue": "All Seasons Leisure Centre",
+        "website": "https://www.knowsleyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "st-helens": {
+    "name": "St Helens",
+    "slug": "st-helens",
+    "region": "Merseyside",
+    "clubs": [
+      {
+        "name": "St Helens Swimming Club",
+        "slug": "st-helens-swimming-club",
+        "venue": "Langtree Park",
+        "website": "https://www.sthelensswimmingclub.co.uk"
+      }
+    ]
+  },
+  "attleborough": {
+    "name": "Attleborough",
+    "slug": "attleborough",
+    "region": "Norfolk",
+    "clubs": [
+      {
+        "name": "Attleborough Swimming Club",
+        "slug": "attleborough-swimming-club",
+        "venue": "Attleborough High School Pool",
+        "website": "http://www.attleboroughswimmingclub.co.uk"
+      }
+    ]
+  },
+  "dereham": {
+    "name": "Dereham",
+    "slug": "dereham",
+    "region": "Norfolk",
+    "clubs": [
+      {
+        "name": "Dereham Swimming Club",
+        "slug": "dereham-swimming-club",
+        "venue": "Dereham Leisure Centre",
+        "website": "https://www.derehamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "fakenham": {
+    "name": "Fakenham",
+    "slug": "fakenham",
+    "region": "Norfolk",
+    "clubs": [
+      {
+        "name": "Fakenham Swimming Club",
+        "slug": "fakenham-swimming-club",
+        "venue": "Fakenham Sports & Fitness Centre",
+        "website": "http://www.fakenhamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "great-yarmouth": {
+    "name": "Great Yarmouth",
+    "slug": "great-yarmouth",
+    "region": "Norfolk",
+    "clubs": [
+      {
+        "name": "Great Yarmouth Swimming Club",
+        "slug": "great-yarmouth-swimming-club",
+        "venue": "Marina Leisure Centre",
+        "website": "https://www.gtyarmouthswimmingclub.co.uk"
+      }
+    ]
+  },
+  "kings-lynn": {
+    "name": "King's Lynn",
+    "slug": "kings-lynn",
+    "region": "Norfolk",
+    "clubs": [
+      {
+        "name": "King's Lynn Swimming Club",
+        "slug": "kings-lynn-swimming-club",
+        "venue": "Lynnsport",
+        "website": "https://www.kingslynnswimmingclub.co.uk"
+      }
+    ]
+  },
+  "north-walsham": {
+    "name": "North Walsham",
+    "slug": "north-walsham",
+    "region": "Norfolk",
+    "clubs": [
+      {
+        "name": "North Norfolk Vikings Swimming Club",
+        "slug": "north-norfolk-vikings-swimming-club",
+        "venue": "North Walsham Sports Centre",
+        "website": "http://www.northnorfolkvikings.co.uk"
+      }
+    ]
+  },
+  "thetford": {
+    "name": "Thetford",
+    "slug": "thetford",
+    "region": "Norfolk",
+    "clubs": [
+      {
+        "name": "Thetford Dolphins Swimming Club",
+        "slug": "thetford-dolphins-swimming-club",
+        "venue": "Thetford Leisure Centre",
+        "website": "http://www.thetforddolphins.co.uk"
+      }
+    ]
+  },
+  "wymondham": {
+    "name": "Wymondham",
+    "slug": "wymondham",
+    "region": "Norfolk",
+    "clubs": [
+      {
+        "name": "Wymondham Swimming Club",
+        "slug": "wymondham-swimming-club",
+        "venue": "Wymondham Leisure Centre",
+        "website": "http://www.wymondhamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "newcastle-upon-tyne": {
+    "name": "Newcastle upon Tyne",
+    "slug": "newcastle-upon-tyne",
+    "region": "North East",
+    "clubs": [
+      {
+        "name": "Newcastle Swimming Club",
+        "slug": "newcastle-swimming-club",
+        "venue": "",
+        "website": "http://www.newcastleswimmingclub.co.uk"
+      },
+      {
+        "name": "Newcastle SC",
+        "slug": "newcastle-sc",
+        "venue": "",
+        "website": "https://www.newcastleswimmingclub.co.uk"
+      },
+      {
+        "name": "Newcastle Swim Team",
+        "slug": "newcastle-swim-team",
+        "venue": "Royal Grammar School Pool",
+        "website": "http://www.newcastleswimteam.co.uk"
+      }
+    ]
+  },
+  "sunderland": {
+    "name": "Sunderland",
+    "slug": "sunderland",
+    "region": "North East",
+    "clubs": [
+      {
+        "name": "Sunderland Aquatics",
+        "slug": "sunderland-aquatics",
+        "venue": "",
+        "website": ""
+      },
+      {
+        "name": "Sunderland Aquatic Swimming Club",
+        "slug": "sunderland-aquatic-swimming-club",
+        "venue": "Silksworth Sports Complex",
+        "website": "http://www.sunderlandaquatics.co.uk"
+      }
+    ]
+  },
+  "north-shields": {
+    "name": "North Shields",
+    "slug": "north-shields",
+    "region": "North East",
+    "clubs": [
+      {
+        "name": "Tynemouth Swimming Club",
+        "slug": "tynemouth-swimming-club",
+        "venue": "",
+        "website": ""
+      },
+      {
+        "name": "North Tyneside Swimming Club",
+        "slug": "north-tyneside-swimming-club",
+        "venue": "Lakeside Centre",
+        "website": "http://www.northtynesideswimmingclub.co.uk"
+      }
+    ]
+  },
+  "cleethorpes": {
+    "name": "Cleethorpes",
+    "slug": "cleethorpes",
+    "region": "North East Lincolnshire",
+    "clubs": [
+      {
+        "name": "Cleethorpes Swimming Club",
+        "slug": "cleethorpes-swimming-club",
+        "venue": "Meridian Leisure Centre",
+        "website": "http://www.cleethorpesswimmingclub.co.uk"
+      }
+    ]
+  },
+  "grimsby": {
+    "name": "Grimsby",
+    "slug": "grimsby",
+    "region": "North East Lincolnshire",
+    "clubs": [
+      {
+        "name": "Grimsby Dolphins Swimming Club",
+        "slug": "grimsby-dolphins-swimming-club",
+        "venue": "Grimsby Leisure Centre",
+        "website": "http://www.grimsbydolphins.co.uk"
+      },
+      {
+        "name": "Grimsby Swimming Club",
+        "slug": "grimsby-swimming-club",
+        "venue": "Grimsby Leisure Centre",
+        "website": "https://www.grimsbyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "immingham": {
+    "name": "Immingham",
+    "slug": "immingham",
+    "region": "North East Lincolnshire",
+    "clubs": [
+      {
+        "name": "Immingham Swimming Club",
+        "slug": "immingham-swimming-club",
+        "venue": "Immingham Sports Centre",
+        "website": "http://www.imminghamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "barton-upon-humber": {
+    "name": "Barton-upon-Humber",
+    "slug": "barton-upon-humber",
+    "region": "North Lincolnshire",
+    "clubs": [
+      {
+        "name": "Barton Swimming Club",
+        "slug": "barton-swimming-club",
+        "venue": "Baysgarth Leisure Centre",
+        "website": "http://www.bartonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "brigg": {
+    "name": "Brigg",
+    "slug": "brigg",
+    "region": "North Lincolnshire",
+    "clubs": [
+      {
+        "name": "Brigg Swimming Club",
+        "slug": "brigg-swimming-club",
+        "venue": "Brigg Recreation Centre",
+        "website": "http://www.briggswimmingclub.co.uk"
+      }
+    ]
+  },
+  "crowle": {
+    "name": "Crowle",
+    "slug": "crowle",
+    "region": "North Lincolnshire",
+    "clubs": [
+      {
+        "name": "Crowle Swimming Club",
+        "slug": "crowle-swimming-club",
+        "venue": "Crowle Leisure Centre",
+        "website": "http://www.crowleswimmingclub.co.uk"
+      }
+    ]
+  },
+  "scunthorpe": {
+    "name": "Scunthorpe",
+    "slug": "scunthorpe",
+    "region": "North Lincolnshire",
+    "clubs": [
+      {
+        "name": "Scunthorpe Swimming Club",
+        "slug": "scunthorpe-swimming-club",
+        "venue": "The Pods Leisure Centre",
+        "website": "https://www.scunthorpeswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bury": {
+    "name": "Bury",
+    "slug": "bury",
+    "region": "North West",
+    "clubs": [
+      {
+        "name": "Bury & Elton Swimming Club",
+        "slug": "bury-elton-swimming-club",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "manchester": {
+    "name": "Manchester",
+    "slug": "manchester",
+    "region": "North West",
+    "clubs": [
+      {
+        "name": "City of Manchester Aquatics",
+        "slug": "city-of-manchester-aquatics",
+        "venue": "",
+        "website": "http://www.coma.co.uk"
+      }
+    ]
+  },
+  "oldham": {
+    "name": "Oldham",
+    "slug": "oldham",
+    "region": "North West",
+    "clubs": [
+      {
+        "name": "Oldham Aquatics SC",
+        "slug": "oldham-aquatics-sc",
+        "venue": "",
+        "website": "http://www.oldhamaquatics.co.uk"
+      }
+    ]
+  },
+  "rochdale": {
+    "name": "Rochdale",
+    "slug": "rochdale",
+    "region": "North West",
+    "clubs": [
+      {
+        "name": "Rochdale Aquabears",
+        "slug": "rochdale-aquabears",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "sale": {
+    "name": "Sale",
+    "slug": "sale",
+    "region": "North West",
+    "clubs": [
+      {
+        "name": "Sale SC",
+        "slug": "sale-sc",
+        "venue": "",
+        "website": "http://www.saleswimmingclub.co.uk"
+      }
+    ]
+  },
+  "southport": {
+    "name": "Southport",
+    "slug": "southport",
+    "region": "North West",
+    "clubs": [
+      {
+        "name": "Southport Swimming Club",
+        "slug": "southport-swimming-club",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "warrington": {
+    "name": "Warrington",
+    "slug": "warrington",
+    "region": "North West",
+    "clubs": [
+      {
+        "name": "Warrington Dolphins",
+        "slug": "warrington-dolphins",
+        "venue": "",
+        "website": "http://www.warringtondolphins.co.uk"
+      }
+    ]
+  },
+  "wigan": {
+    "name": "Wigan",
+    "slug": "wigan",
+    "region": "North West",
+    "clubs": [
+      {
+        "name": "Wigan SC",
+        "slug": "wigan-sc",
+        "venue": "",
+        "website": "http://www.wigansc.co.uk"
+      }
+    ]
+  },
+  "harrogate": {
+    "name": "Harrogate",
+    "slug": "harrogate",
+    "region": "North Yorkshire",
+    "clubs": [
+      {
+        "name": "Harrogate SC",
+        "slug": "harrogate-sc",
+        "venue": "",
+        "website": "https://www.harrogateswimmingclub.co.uk"
+      },
+      {
+        "name": "Harrogate Swimming Club",
+        "slug": "harrogate-swimming-club",
+        "venue": "",
+        "website": "http://www.harrogateswimmingclub.co.uk"
+      }
+    ]
+  },
+  "middlesbrough": {
+    "name": "Middlesbrough",
+    "slug": "middlesbrough",
+    "region": "North Yorkshire",
+    "clubs": [
+      {
+        "name": "Middlesbrough Swimming Club",
+        "slug": "middlesbrough-swimming-club",
+        "venue": "Neptune Centre",
+        "website": "https://www.middlesbroughswimmingclub.co.uk"
+      }
+    ]
+  },
+  "northallerton": {
+    "name": "Northallerton",
+    "slug": "northallerton",
+    "region": "North Yorkshire",
+    "clubs": [
+      {
+        "name": "Northallerton Swimming Club",
+        "slug": "northallerton-swimming-club",
+        "venue": "Hambleton Leisure Centre",
+        "website": "https://www.northallertonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "scarborough": {
+    "name": "Scarborough",
+    "slug": "scarborough",
+    "region": "North Yorkshire",
+    "clubs": [
+      {
+        "name": "Scarborough Swimming Club",
+        "slug": "scarborough-swimming-club",
+        "venue": "Scarborough Sports Village",
+        "website": "https://www.scarboroughswimmingclub.co.uk"
+      }
+    ]
+  },
+  "york": {
+    "name": "York",
+    "slug": "york",
+    "region": "North Yorkshire",
+    "clubs": [
+      {
+        "name": "York City SC",
+        "slug": "york-city-sc",
+        "venue": "",
+        "website": "https://www.yorkcitysc.co.uk"
+      },
+      {
+        "name": "York City Swimming Club",
+        "slug": "york-city-swimming-club",
+        "venue": "",
+        "website": "http://www.yorkcitysc.co.uk"
+      }
+    ]
+  },
+  "belfast": {
+    "name": "Belfast",
+    "slug": "belfast",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Alliance ASC",
+        "slug": "alliance-asc",
+        "venue": "Various pools in North Belfast and Newtownabbey",
+        "website": "https://www.allianceasc.org.uk"
+      },
+      {
+        "name": "Leander Amateur Swimming Club Belfast",
+        "slug": "leander-amateur-swimming-club-belfast",
+        "venue": "",
+        "website": "https://www.leanderswimming.com"
+      },
+      {
+        "name": "Olympia ASC",
+        "slug": "olympia-asc",
+        "venue": "Olympia Leisure Centre",
+        "website": ""
+      },
+      {
+        "name": "Swim Belfast",
+        "slug": "swim-belfast",
+        "venue": "Multiple Belfast pools",
+        "website": "https://uk.gomotionapp.com/team/tascni/page/home"
+      },
+      {
+        "name": "Templemore ASC",
+        "slug": "templemore-asc",
+        "venue": "Templemore Swimming Centre",
+        "website": ""
+      }
+    ]
+  },
+  "newtownards": {
+    "name": "Newtownards",
+    "slug": "newtownards",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Ards ASC",
+        "slug": "ards-asc",
+        "venue": "Ards Leisure Centre",
+        "website": "https://www.ardsasc.com"
+      }
+    ]
+  },
+  "armagh": {
+    "name": "Armagh",
+    "slug": "armagh",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Armagh City Swimming Club",
+        "slug": "armagh-city-swimming-club",
+        "venue": "Orchard Leisure Centre",
+        "website": ""
+      }
+    ]
+  },
+  "ballyclare": {
+    "name": "Ballyclare",
+    "slug": "ballyclare",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Ballyclare Swimming Club",
+        "slug": "ballyclare-swimming-club",
+        "venue": "Valley Leisure Centre",
+        "website": ""
+      }
+    ]
+  },
+  "ballymoney": {
+    "name": "Ballymoney",
+    "slug": "ballymoney",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Ballymoney ASC",
+        "slug": "ballymoney-asc",
+        "venue": "Joey Dunlop Centre",
+        "website": ""
+      }
+    ]
+  },
+  "banbridge": {
+    "name": "Banbridge",
+    "slug": "banbridge",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Banbridge ASC",
+        "slug": "banbridge-asc",
+        "venue": "Banbridge Leisure Centre",
+        "website": ""
+      }
+    ]
+  },
+  "bangor": {
+    "name": "Bangor",
+    "slug": "bangor",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Bangor Swimming Club",
+        "slug": "bangor-swimming-club-ni",
+        "venue": "Bangor Aurora Aquatic & Leisure Complex",
+        "website": ""
+      }
+    ]
+  },
+  "cavan": {
+    "name": "Cavan",
+    "slug": "cavan",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Breifne Swim Club",
+        "slug": "breifne-swim-club",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "derry": {
+    "name": "Derry",
+    "slug": "derry",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "City of Derry Swimming Club",
+        "slug": "city-of-derry-swimming-club",
+        "venue": "Templemore Sports Complex",
+        "website": ""
+      }
+    ]
+  },
+  "coleraine": {
+    "name": "Coleraine",
+    "slug": "coleraine",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Coleraine Swimming Club",
+        "slug": "coleraine-swimming-club",
+        "venue": "Coleraine Leisure Centre",
+        "website": ""
+      }
+    ]
+  },
+  "cookstown": {
+    "name": "Cookstown",
+    "slug": "cookstown",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Cookstown Swimming Club",
+        "slug": "cookstown-swimming-club-ni",
+        "venue": "Cookstown Leisure Centre",
+        "website": ""
+      }
+    ]
+  },
+  "dungannon": {
+    "name": "Dungannon",
+    "slug": "dungannon",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Dungannon ASC",
+        "slug": "dungannon-asc",
+        "venue": "Dungannon Leisure Centre",
+        "website": ""
+      }
+    ]
+  },
+  "enniskillen": {
+    "name": "Enniskillen",
+    "slug": "enniskillen",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Enniskillen ASC",
+        "slug": "enniskillen-asc",
+        "venue": "Fermanagh Lakeland Forum",
+        "website": ""
+      }
+    ]
+  },
+  "larne": {
+    "name": "Larne",
+    "slug": "larne",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Larne ASC",
+        "slug": "larne-asc",
+        "venue": "Larne Leisure Centre",
+        "website": ""
+      }
+    ]
+  },
+  "lisburn": {
+    "name": "Lisburn",
+    "slug": "lisburn",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Lisburn City Swimming Club",
+        "slug": "lisburn-city-swimming-club",
+        "venue": "Lagan Valley LeisurePlex",
+        "website": ""
+      }
+    ]
+  },
+  "lurgan": {
+    "name": "Lurgan",
+    "slug": "lurgan",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Lurgan ASC",
+        "slug": "lurgan-asc",
+        "venue": "Lurgan Leisure Centre",
+        "website": ""
+      }
+    ]
+  },
+  "newry": {
+    "name": "Newry",
+    "slug": "newry",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Newry Swimming Club",
+        "slug": "newry-swimming-club",
+        "venue": "Newry Leisure Centre",
+        "website": ""
+      }
+    ]
+  },
+  "newtownabbey": {
+    "name": "Newtownabbey",
+    "slug": "newtownabbey",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Newtownabbey ASC",
+        "slug": "newtownabbey-asc",
+        "venue": "Valley Leisure Centre",
+        "website": ""
+      }
+    ]
+  },
+  "portadown": {
+    "name": "Portadown",
+    "slug": "portadown",
+    "region": "Northern Ireland",
+    "clubs": [
+      {
+        "name": "Portadown ASC",
+        "slug": "portadown-asc",
+        "venue": "Cascades Leisure Centre",
+        "website": ""
+      }
+    ]
+  },
+  "alnwick": {
+    "name": "Alnwick",
+    "slug": "alnwick",
+    "region": "Northumberland",
+    "clubs": [
+      {
+        "name": "Alnwick Dolphins Swimming Club",
+        "slug": "alnwick-dolphins-swimming-club",
+        "venue": "Willowburn Leisure Centre",
+        "website": "https://www.alnwickdolphins.co.uk"
+      }
+    ]
+  },
+  "ashington": {
+    "name": "Ashington",
+    "slug": "ashington",
+    "region": "Northumberland",
+    "clubs": [
+      {
+        "name": "Ashington Swimming Club",
+        "slug": "ashington-swimming-club",
+        "venue": "Ashington Leisure Centre",
+        "website": "https://www.ashingtonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "berwick-upon-tweed": {
+    "name": "Berwick-upon-Tweed",
+    "slug": "berwick-upon-tweed",
+    "region": "Northumberland",
+    "clubs": [
+      {
+        "name": "Berwick Swimming Club",
+        "slug": "berwick-swimming-club",
+        "venue": "Berwick Leisure Centre",
+        "website": "http://www.berwickswimmingclub.co.uk"
+      }
+    ]
+  },
+  "blyth": {
+    "name": "Blyth",
+    "slug": "blyth",
+    "region": "Northumberland",
+    "clubs": [
+      {
+        "name": "Blyth Lifeguard & Swimming Club",
+        "slug": "blyth-lifeguard-swimming-club",
+        "venue": "Concordia Leisure Centre",
+        "website": "http://www.blythlifeguard.co.uk"
+      },
+      {
+        "name": "Blyth Swimming Club",
+        "slug": "blyth-swimming-club",
+        "venue": "Concordia Leisure Centre",
+        "website": "https://www.blythswimmingclub.co.uk"
+      },
+      {
+        "name": "Blyth Lifeguard Swimming Club",
+        "slug": "blyth-lifeguard-swimming-club",
+        "venue": "Concordia Leisure Centre",
+        "website": "http://www.blythlifeguard.co.uk"
+      }
+    ]
+  },
+  "cramlington": {
+    "name": "Cramlington",
+    "slug": "cramlington",
+    "region": "Northumberland",
+    "clubs": [
+      {
+        "name": "Cramlington Swimming Club",
+        "slug": "cramlington-swimming-club",
+        "venue": "Concordia Leisure Centre",
+        "website": "https://www.cramlingtonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "hexham": {
+    "name": "Hexham",
+    "slug": "hexham",
+    "region": "Northumberland",
+    "clubs": [
+      {
+        "name": "Hexham Swimming Club",
+        "slug": "hexham-swimming-club",
+        "venue": "Hexham Leisure Centre",
+        "website": "https://www.hexhamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "morpeth": {
+    "name": "Morpeth",
+    "slug": "morpeth",
+    "region": "Northumberland",
+    "clubs": [
+      {
+        "name": "Morpeth Swimming Club",
+        "slug": "morpeth-swimming-club",
+        "venue": "County Hall",
+        "website": "https://www.morpethswimmingclub.co.uk"
+      }
+    ]
+  },
+  "ponteland": {
+    "name": "Ponteland",
+    "slug": "ponteland",
+    "region": "Northumberland",
+    "clubs": [
+      {
+        "name": "Ponteland Swimming Club",
+        "slug": "ponteland-swimming-club",
+        "venue": "Ponteland Leisure Centre",
+        "website": "http://www.pontelandswimmingclub.co.uk"
+      }
+    ]
+  },
+  "arnold": {
+    "name": "Arnold",
+    "slug": "arnold",
+    "region": "Nottinghamshire",
+    "clubs": [
+      {
+        "name": "Arnold & District Swimming Club",
+        "slug": "arnold-district-swimming-club",
+        "venue": "Richard Herrod Centre",
+        "website": "http://www.arnoldswimmingclub.co.uk"
+      }
+    ]
+  },
+  "beeston": {
+    "name": "Beeston",
+    "slug": "beeston",
+    "region": "Nottinghamshire",
+    "clubs": [
+      {
+        "name": "Beeston Swimming Club",
+        "slug": "beeston-swimming-club",
+        "venue": "Bramcote Leisure Centre",
+        "website": "http://www.beestonswimmingclub.org.uk"
+      }
+    ]
+  },
+  "bramcote": {
+    "name": "Bramcote",
+    "slug": "bramcote",
+    "region": "Nottinghamshire",
+    "clubs": [
+      {
+        "name": "Bramcote Swimming Club",
+        "slug": "bramcote-swimming-club",
+        "venue": "Bramcote Leisure Centre",
+        "website": "https://www.bramcoteswimmingclub.com"
+      }
+    ]
+  },
+  "newark-on-trent": {
+    "name": "Newark-on-Trent",
+    "slug": "newark-on-trent",
+    "region": "Nottinghamshire",
+    "clubs": [
+      {
+        "name": "Newark Swimming Club",
+        "slug": "newark-swimming-club",
+        "venue": "Newark Sports & Fitness Centre",
+        "website": "http://www.newarkswimmingclub.co.uk"
+      }
+    ]
+  },
+  "rushcliffe": {
+    "name": "Rushcliffe",
+    "slug": "rushcliffe",
+    "region": "Nottinghamshire",
+    "clubs": [
+      {
+        "name": "Rushcliffe Swimming Club",
+        "slug": "rushcliffe-swimming-club",
+        "venue": "Rushcliffe Arena",
+        "website": "http://www.rushcliffeswimmingclub.co.uk"
+      }
+    ]
+  },
+  "mansfield": {
+    "name": "Mansfield",
+    "slug": "mansfield",
+    "region": "Nottinghamshire",
+    "clubs": [
+      {
+        "name": "Sherwood Colliery Swimming Club",
+        "slug": "sherwood-colliery-swimming-club",
+        "venue": "Water Meadows",
+        "website": "http://www.sherwoodcollierysc.co.uk"
+      }
+    ]
+  },
+  "southwell": {
+    "name": "Southwell",
+    "slug": "southwell",
+    "region": "Nottinghamshire",
+    "clubs": [
+      {
+        "name": "Southwell Swimming Club",
+        "slug": "southwell-swimming-club",
+        "venue": "Southwell Leisure Centre",
+        "website": "http://www.southwellswimmingclub.org.uk"
+      }
+    ]
+  },
+  "west-bridgford": {
+    "name": "West Bridgford",
+    "slug": "west-bridgford",
+    "region": "Nottinghamshire",
+    "clubs": [
+      {
+        "name": "West Bridgford Swimming Club",
+        "slug": "west-bridgford-swimming-club",
+        "venue": "West Bridgford Leisure Centre",
+        "website": "http://www.westbridgfordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "worksop": {
+    "name": "Worksop",
+    "slug": "worksop",
+    "region": "Nottinghamshire",
+    "clubs": [
+      {
+        "name": "Worksop Swimming Club",
+        "slug": "worksop-swimming-club",
+        "venue": "Worksop Leisure Centre",
+        "website": "http://www.worksopswimmingclub.co.uk"
+      }
+    ]
+  },
+  "abingdon": {
+    "name": "Abingdon",
+    "slug": "abingdon",
+    "region": "Oxfordshire",
+    "clubs": [
+      {
+        "name": "Abingdon Swimming Club",
+        "slug": "abingdon-swimming-club",
+        "venue": "Abingdon Leisure Centre",
+        "website": "https://www.abingdonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "banbury": {
+    "name": "Banbury",
+    "slug": "banbury",
+    "region": "Oxfordshire",
+    "clubs": [
+      {
+        "name": "Banbury Swimming Club",
+        "slug": "banbury-swimming-club",
+        "venue": "Spiceball Leisure Centre",
+        "website": "https://www.banburyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bicester": {
+    "name": "Bicester",
+    "slug": "bicester",
+    "region": "Oxfordshire",
+    "clubs": [
+      {
+        "name": "Bicester Blue Fins Swimming Club",
+        "slug": "bicester-blue-fins-swimming-club",
+        "venue": "Bicester Leisure Centre",
+        "website": "https://www.bicesterbluefins.co.uk"
+      }
+    ]
+  },
+  "carterton": {
+    "name": "Carterton",
+    "slug": "carterton",
+    "region": "Oxfordshire",
+    "clubs": [
+      {
+        "name": "Carterton Swimming Club",
+        "slug": "carterton-swimming-club",
+        "venue": "Carterton Leisure Centre",
+        "website": "http://www.cartertonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "oxford": {
+    "name": "Oxford",
+    "slug": "oxford",
+    "region": "Oxfordshire",
+    "clubs": [
+      {
+        "name": "City of Oxford Swimming Club",
+        "slug": "city-of-oxford-sc",
+        "venue": "Ferry Leisure Centre",
+        "website": "https://www.cityofoxfordsc.co.uk"
+      },
+      {
+        "name": "Oxford City Swimming Club",
+        "slug": "oxford-city-swimming-club",
+        "venue": "Temple Cowley Pools",
+        "website": "https://www.oxfordcityswimmingclub.co.uk"
+      }
+    ]
+  },
+  "didcot": {
+    "name": "Didcot",
+    "slug": "didcot",
+    "region": "Oxfordshire",
+    "clubs": [
+      {
+        "name": "Didcot Barramundi Swimming Club",
+        "slug": "didcot-barramundi-swimming-club",
+        "venue": "Didcot Wave",
+        "website": "https://www.didcotbarramundi.co.uk"
+      }
+    ]
+  },
+  "faringdon": {
+    "name": "Faringdon",
+    "slug": "faringdon",
+    "region": "Oxfordshire",
+    "clubs": [
+      {
+        "name": "Faringdon Swimming Club",
+        "slug": "faringdon-swimming-club",
+        "venue": "Faringdon Leisure Centre",
+        "website": "https://www.faringdonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "henley-on-thames": {
+    "name": "Henley-on-Thames",
+    "slug": "henley-on-thames",
+    "region": "Oxfordshire",
+    "clubs": [
+      {
+        "name": "Henley Swimming Club",
+        "slug": "henley-swimming-club",
+        "venue": "Henley Leisure Centre",
+        "website": "http://www.henleyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "thame": {
+    "name": "Thame",
+    "slug": "thame",
+    "region": "Oxfordshire",
+    "clubs": [
+      {
+        "name": "Thame Swimming Club",
+        "slug": "thame-swimming-club",
+        "venue": "Lord Williams's School",
+        "website": "https://www.thameswimmingclub.co.uk"
+      }
+    ]
+  },
+  "wallingford": {
+    "name": "Wallingford",
+    "slug": "wallingford",
+    "region": "Oxfordshire",
+    "clubs": [
+      {
+        "name": "Wallingford Swimming Club",
+        "slug": "wallingford-swimming-club",
+        "venue": "Wallingford Sports Park",
+        "website": "http://www.wallingfordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "wantage": {
+    "name": "Wantage",
+    "slug": "wantage",
+    "region": "Oxfordshire",
+    "clubs": [
+      {
+        "name": "Wantage & District Swimming Club",
+        "slug": "wantage-district-swimming-club",
+        "venue": "Wantage Leisure Centre",
+        "website": "http://www.wantageswimmingclub.co.uk"
+      }
+    ]
+  },
+  "witney": {
+    "name": "Witney",
+    "slug": "witney",
+    "region": "Oxfordshire",
+    "clubs": [
+      {
+        "name": "Witney Swimming Club",
+        "slug": "witney-swimming-club",
+        "venue": "Witney Lakes Resort",
+        "website": "https://www.witneyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bridgnorth": {
+    "name": "Bridgnorth",
+    "slug": "bridgnorth",
+    "region": "Shropshire",
+    "clubs": [
+      {
+        "name": "Bridgnorth Swimming Club",
+        "slug": "bridgnorth-swimming-club",
+        "venue": "Bridgnorth Leisure Centre",
+        "website": "http://www.bridgnorthswimmingclub.co.uk"
+      }
+    ]
+  },
+  "ludlow": {
+    "name": "Ludlow",
+    "slug": "ludlow",
+    "region": "Shropshire",
+    "clubs": [
+      {
+        "name": "Ludlow Swimming Club",
+        "slug": "ludlow-swimming-club",
+        "venue": "Ludlow Leisure Centre",
+        "website": "http://www.ludlowswimmingclub.co.uk"
+      }
+    ]
+  },
+  "market-drayton": {
+    "name": "Market Drayton",
+    "slug": "market-drayton",
+    "region": "Shropshire",
+    "clubs": [
+      {
+        "name": "Market Drayton Swimming Club",
+        "slug": "market-drayton-swimming-club",
+        "venue": "Market Drayton Swimming & Fitness Centre",
+        "website": "http://www.marketdraytonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "oswestry": {
+    "name": "Oswestry",
+    "slug": "oswestry",
+    "region": "Shropshire",
+    "clubs": [
+      {
+        "name": "Oswestry Otters Swimming Club",
+        "slug": "oswestry-otters-swimming-club",
+        "venue": "Oswestry Leisure Centre",
+        "website": "https://www.oswestryotters.co.uk"
+      }
+    ]
+  },
+  "shrewsbury": {
+    "name": "Shrewsbury",
+    "slug": "shrewsbury",
+    "region": "Shropshire",
+    "clubs": [
+      {
+        "name": "Shrewsbury Swimming Club",
+        "slug": "shrewsbury-swimming-club",
+        "venue": "The Quarry Swimming Centre",
+        "website": "https://www.shrewsburyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "telford": {
+    "name": "Telford",
+    "slug": "telford",
+    "region": "Shropshire",
+    "clubs": [
+      {
+        "name": "Telford Swimming Club",
+        "slug": "telford-swimming-club",
+        "venue": "Oakengates Leisure Centre",
+        "website": "https://www.telfordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "whitchurch": {
+    "name": "Whitchurch",
+    "slug": "whitchurch",
+    "region": "Shropshire",
+    "clubs": [
+      {
+        "name": "Whitchurch Swimming Club",
+        "slug": "whitchurch-swimming-club",
+        "venue": "Whitchurch Swimming & Fitness Centre",
+        "website": "http://www.whitchurchswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bath": {
+    "name": "Bath",
+    "slug": "bath",
+    "region": "Somerset",
+    "clubs": [
+      {
+        "name": "Bath Dolphin SC",
+        "slug": "bath-dolphin-sc",
+        "venue": "",
+        "website": "https://www.bathdolphin.co.uk"
+      },
+      {
+        "name": "Bath Dolphin Swimming Club",
+        "slug": "bath-dolphin-swimming-club",
+        "venue": "",
+        "website": "http://www.bathdolphin.co.uk"
+      },
+      {
+        "name": "Team Bath AS",
+        "slug": "team-bath-as",
+        "venue": "",
+        "website": "http://www.teambathas.com"
+      }
+    ]
+  },
+  "bridgwater": {
+    "name": "Bridgwater",
+    "slug": "bridgwater",
+    "region": "Somerset",
+    "clubs": [
+      {
+        "name": "Bridgwater Swimming Club",
+        "slug": "bridgwater-swimming-club",
+        "venue": "Bridgwater College Swimming Pool",
+        "website": "https://www.bridgwaterswimmingclub.co.uk"
+      }
+    ]
+  },
+  "taunton": {
+    "name": "Taunton",
+    "slug": "taunton",
+    "region": "Somerset",
+    "clubs": [
+      {
+        "name": "Taunton Deane Swimming Club",
+        "slug": "taunton-deane-swimming-club",
+        "venue": "Tone Leisure Centre",
+        "website": "https://www.tauntondeaneswimmingclub.co.uk"
+      }
+    ]
+  },
+  "weston-super-mare": {
+    "name": "Weston-super-Mare",
+    "slug": "weston-super-mare",
+    "region": "Somerset",
+    "clubs": [
+      {
+        "name": "Weston-super-Mare Swimming Club",
+        "slug": "weston-super-mare-swimming-club",
+        "venue": "Hutton Moor Leisure Centre",
+        "website": "https://www.wsm-sc.co.uk"
+      }
+    ]
+  },
+  "yeovil": {
+    "name": "Yeovil",
+    "slug": "yeovil",
+    "region": "Somerset",
+    "clubs": [
+      {
+        "name": "Yeovil Swimming Club",
+        "slug": "yeovil-swimming-club",
+        "venue": "Goldenstones Pool",
+        "website": "https://www.yeovilswimmingclub.co.uk"
+      }
+    ]
+  },
+  "basingstoke": {
+    "name": "Basingstoke",
+    "slug": "basingstoke",
+    "region": "South East",
+    "clubs": [
+      {
+        "name": "Basingstoke Bluefins",
+        "slug": "basingstoke-bluefins",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "chatham": {
+    "name": "Chatham",
+    "slug": "chatham",
+    "region": "South East",
+    "clubs": [
+      {
+        "name": "Beachfield Swimming Squad",
+        "slug": "beachfield-swimming-squad",
+        "venue": "",
+        "website": "http://www.beachfield.co.uk"
+      }
+    ]
+  },
+  "bognor-regis": {
+    "name": "Bognor Regis",
+    "slug": "bognor-regis",
+    "region": "South East",
+    "clubs": [
+      {
+        "name": "Bognor Regis Swimming Club",
+        "slug": "bognor-regis-swimming-club",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "chichester": {
+    "name": "Chichester",
+    "slug": "chichester",
+    "region": "South East",
+    "clubs": [
+      {
+        "name": "Chichester Cormorants SC",
+        "slug": "chichester-cormorants-sc",
+        "venue": "",
+        "website": "http://www.chichestercormorantsswimmingclub.co.uk"
+      },
+      {
+        "name": "Chichester Swimming Club",
+        "slug": "chichester-swimming-club",
+        "venue": "Westgate Leisure Centre",
+        "website": "https://www.chichestersc.org.uk"
+      }
+    ]
+  },
+  "dartford": {
+    "name": "Dartford",
+    "slug": "dartford",
+    "region": "South East",
+    "clubs": [
+      {
+        "name": "Dartford District Swimming Club",
+        "slug": "dartford-district-swimming-club",
+        "venue": "",
+        "website": "http://www.dartfordswimming.co.uk"
+      }
+    ]
+  },
+  "deal": {
+    "name": "Deal",
+    "slug": "deal",
+    "region": "South East",
+    "clubs": [
+      {
+        "name": "Deal Swimming Club",
+        "slug": "deal-swimming-club",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "faversham": {
+    "name": "Faversham",
+    "slug": "faversham",
+    "region": "South East",
+    "clubs": [
+      {
+        "name": "Faversham Swimming Club",
+        "slug": "faversham-swimming-club",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "guildford": {
+    "name": "Guildford",
+    "slug": "guildford",
+    "region": "South East",
+    "clubs": [
+      {
+        "name": "Guildford City SC",
+        "slug": "guildford-city-sc",
+        "venue": "",
+        "website": "http://www.guildfordcityswimmingclub.co.uk"
+      }
+    ]
+  },
+  "larkfield": {
+    "name": "Larkfield",
+    "slug": "larkfield",
+    "region": "South East",
+    "clubs": [
+      {
+        "name": "Larkfield Leisure Centre SC",
+        "slug": "larkfield-leisure-centre-sc",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "medway": {
+    "name": "Medway",
+    "slug": "medway",
+    "region": "South East",
+    "clubs": [
+      {
+        "name": "Medway Maidens SC",
+        "slug": "medway-maidens-sc",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "portsmouth": {
+    "name": "Portsmouth",
+    "slug": "portsmouth",
+    "region": "South East",
+    "clubs": [
+      {
+        "name": "Portsmouth Northsea SC",
+        "slug": "portsmouth-northsea-sc",
+        "venue": "",
+        "website": "http://www.portsmouthnorthsea.org.uk"
+      }
+    ]
+  },
+  "seaford": {
+    "name": "Seaford",
+    "slug": "seaford",
+    "region": "South East",
+    "clubs": [
+      {
+        "name": "Seaford Swimming Club",
+        "slug": "seaford-swimming-club",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "westerham": {
+    "name": "Westerham",
+    "slug": "westerham",
+    "region": "South East",
+    "clubs": [
+      {
+        "name": "Westerham Swimming Club",
+        "slug": "westerham-swimming-club",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "windsor": {
+    "name": "Windsor",
+    "slug": "windsor",
+    "region": "South East",
+    "clubs": [
+      {
+        "name": "Windsor Swimming Club",
+        "slug": "windsor-swimming-club",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "plymouth": {
+    "name": "Plymouth",
+    "slug": "plymouth",
+    "region": "South West",
+    "clubs": [
+      {
+        "name": "Plymouth Leander",
+        "slug": "plymouth-leander",
+        "venue": "",
+        "website": "http://www.plymouthleander.com"
+      }
+    ]
+  },
+  "swindon": {
+    "name": "Swindon",
+    "slug": "swindon",
+    "region": "South West",
+    "clubs": [
+      {
+        "name": "Swindon Dolphin SC",
+        "slug": "swindon-dolphin-sc",
+        "venue": "",
+        "website": "http://www.swindondolphin.co.uk"
+      }
+    ]
+  },
+  "sheffield": {
+    "name": "Sheffield",
+    "slug": "sheffield",
+    "region": "South Yorkshire",
+    "clubs": [
+      {
+        "name": "Chapeltown & District Swimming Club",
+        "slug": "chapeltown-district-swimming-club",
+        "venue": "Concord Sports Centre",
+        "website": "http://www.chapeltownswimmingclub.co.uk"
+      },
+      {
+        "name": "Sheffield City SC",
+        "slug": "sheffield-city-sc",
+        "venue": "",
+        "website": "https://www.sheffieldcityswimmingclub.co.uk"
+      },
+      {
+        "name": "Sheffield City Swimming Club",
+        "slug": "sheffield-city-swimming-club",
+        "venue": "",
+        "website": "http://www.sheffieldcityswimmingclub.co.uk"
+      }
+    ]
+  },
+  "wath-upon-dearne": {
+    "name": "Wath-upon-Dearne",
+    "slug": "wath-upon-dearne",
+    "region": "South Yorkshire",
+    "clubs": [
+      {
+        "name": "Dearne Valley Swimming Club",
+        "slug": "dearne-valley-swimming-club",
+        "venue": "Wath Sports Centre",
+        "website": "http://www.dearnevalleyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "doncaster": {
+    "name": "Doncaster",
+    "slug": "doncaster",
+    "region": "South Yorkshire",
+    "clubs": [
+      {
+        "name": "Doncaster Dartes Swimming Club",
+        "slug": "doncaster-dartes-swimming-club",
+        "venue": "Doncaster Dome",
+        "website": "http://www.doncasterdartes.co.uk"
+      },
+      {
+        "name": "Donc Dartes",
+        "slug": "donc-dartes",
+        "venue": "",
+        "website": "http://www.doncdartes.co.uk"
+      }
+    ]
+  },
+  "maltby": {
+    "name": "Maltby",
+    "slug": "maltby",
+    "region": "South Yorkshire",
+    "clubs": [
+      {
+        "name": "Maltby Swimming Club",
+        "slug": "maltby-swimming-club",
+        "venue": "Maltby Leisure Centre",
+        "website": "http://www.maltbyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "mexborough": {
+    "name": "Mexborough",
+    "slug": "mexborough",
+    "region": "South Yorkshire",
+    "clubs": [
+      {
+        "name": "Mexborough & District Swimming Club",
+        "slug": "mexborough-district-swimming-club",
+        "venue": "Mexborough Leisure Centre",
+        "website": "http://www.mexboroughswimmingclub.co.uk"
+      }
+    ]
+  },
+  "rotherham": {
+    "name": "Rotherham",
+    "slug": "rotherham",
+    "region": "South Yorkshire",
+    "clubs": [
+      {
+        "name": "Rotherham Metro",
+        "slug": "rotherham-metro",
+        "venue": "",
+        "website": "https://www.rotherhammetro.co.uk"
+      },
+      {
+        "name": "Rotherham Metro Swimming Club",
+        "slug": "rotherham-metro-swimming-club",
+        "venue": "",
+        "website": "http://www.rotherhammetro.co.uk"
+      }
+    ]
+  },
+  "stocksbridge": {
+    "name": "Stocksbridge",
+    "slug": "stocksbridge",
+    "region": "South Yorkshire",
+    "clubs": [
+      {
+        "name": "Stocksbridge Swimming Club",
+        "slug": "stocksbridge-swimming-club",
+        "venue": "Stocksbridge Leisure Centre",
+        "website": "http://www.stocksbridgeswimmingclub.co.uk"
+      }
+    ]
+  },
+  "burton-upon-trent": {
+    "name": "Burton upon Trent",
+    "slug": "burton-upon-trent",
+    "region": "Staffordshire",
+    "clubs": [
+      {
+        "name": "Burton Swimming Club",
+        "slug": "burton-swimming-club",
+        "venue": "Meadowside Leisure Centre",
+        "website": "https://www.burtonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "cannock": {
+    "name": "Cannock",
+    "slug": "cannock",
+    "region": "Staffordshire",
+    "clubs": [
+      {
+        "name": "Cannock Phoenix Swimming Club",
+        "slug": "cannock-phoenix-swimming-club",
+        "venue": "Cannock Chase Leisure Centre",
+        "website": "https://www.cannockphoenix.co.uk"
+      },
+      {
+        "name": "Cannock Swimming Club",
+        "slug": "cannock-swimming-club",
+        "venue": "Chase Leisure Centre",
+        "website": "http://www.cannockswimmingclub.co.uk"
+      }
+    ]
+  },
+  "leek": {
+    "name": "Leek",
+    "slug": "leek",
+    "region": "Staffordshire",
+    "clubs": [
+      {
+        "name": "Leek Swimming Club",
+        "slug": "leek-swimming-club",
+        "venue": "Brough Park Leisure Centre",
+        "website": "https://www.leekswimmingclub.co.uk"
+      }
+    ]
+  },
+  "lichfield": {
+    "name": "Lichfield",
+    "slug": "lichfield",
+    "region": "Staffordshire",
+    "clubs": [
+      {
+        "name": "Lichfield Swimming Club",
+        "slug": "lichfield-swimming-club",
+        "venue": "Friary Grange Leisure Centre",
+        "website": "https://www.lichfieldswimmingclub.co.uk"
+      }
+    ]
+  },
+  "newcastle-under-lyme": {
+    "name": "Newcastle-under-Lyme",
+    "slug": "newcastle-under-lyme",
+    "region": "Staffordshire",
+    "clubs": [
+      {
+        "name": "Newcastle Swimming Club",
+        "slug": "newcastle-swimming-club-staffs",
+        "venue": "Jubilee 2 Centre",
+        "website": "https://www.newcastleswimmingclub.com"
+      },
+      {
+        "name": "Newcastle-under-Lyme Swimming Club",
+        "slug": "newcastle-under-lyme-swimming-club",
+        "venue": "Jubilee 2 Swimming Pool",
+        "website": "http://www.newcastleunderlyme-sc.co.uk"
+      }
+    ]
+  },
+  "stafford": {
+    "name": "Stafford",
+    "slug": "stafford",
+    "region": "Staffordshire",
+    "clubs": [
+      {
+        "name": "Stafford and Stone Swimming Club",
+        "slug": "stafford-and-stone-swimming-club",
+        "venue": "Stafford Leisure Centre",
+        "website": "https://www.staffordandstone.co.uk"
+      }
+    ]
+  },
+  "stoke-on-trent": {
+    "name": "Stoke-on-Trent",
+    "slug": "stoke-on-trent",
+    "region": "Staffordshire",
+    "clubs": [
+      {
+        "name": "Stoke-on-Trent Swimming Club",
+        "slug": "stoke-on-trent-swimming-club",
+        "venue": "Fenton Manor Sports Complex",
+        "website": "http://www.stokeswimmingclub.co.uk"
+      }
+    ]
+  },
+  "tamworth": {
+    "name": "Tamworth",
+    "slug": "tamworth",
+    "region": "Staffordshire",
+    "clubs": [
+      {
+        "name": "Tamworth Swimming Club",
+        "slug": "tamworth-swimming-club",
+        "venue": "Snowdome",
+        "website": "https://www.tamworthswimmingclub.co.uk"
+      }
+    ]
+  },
+  "uttoxeter": {
+    "name": "Uttoxeter",
+    "slug": "uttoxeter",
+    "region": "Staffordshire",
+    "clubs": [
+      {
+        "name": "Uttoxeter Swimming Club",
+        "slug": "uttoxeter-swimming-club",
+        "venue": "Uttoxeter Leisure Centre",
+        "website": "https://www.uttoxeterswimmingclub.co.uk"
+      }
+    ]
+  },
+  "beccles": {
+    "name": "Beccles",
+    "slug": "beccles",
+    "region": "Suffolk",
+    "clubs": [
+      {
+        "name": "Beccles Swimming Club",
+        "slug": "beccles-swimming-club",
+        "venue": "Beccles Lido",
+        "website": "http://www.becclesswimmingclub.co.uk"
+      },
+      {
+        "name": "Team Waveney Swimming Club",
+        "slug": "team-waveney-swimming-club",
+        "venue": "Beccles Lido",
+        "website": "https://www.teamwaveney.co.uk"
+      }
+    ]
+  },
+  "bury-st-edmunds": {
+    "name": "Bury St Edmunds",
+    "slug": "bury-st-edmunds",
+    "region": "Suffolk",
+    "clubs": [
+      {
+        "name": "Bury St Edmunds Swimming Club",
+        "slug": "bury-st-edmunds-swimming-club",
+        "venue": "Bury Leisure Centre",
+        "website": "https://www.buryswimmingclub.co.uk"
+      }
+    ]
+  },
+  "woodbridge": {
+    "name": "Woodbridge",
+    "slug": "woodbridge",
+    "region": "Suffolk",
+    "clubs": [
+      {
+        "name": "Deben Swimming Club",
+        "slug": "deben-swimming-club",
+        "venue": "Deben Pool",
+        "website": "https://www.debenswimmingclub.co.uk"
+      }
+    ]
+  },
+  "felixstowe": {
+    "name": "Felixstowe",
+    "slug": "felixstowe",
+    "region": "Suffolk",
+    "clubs": [
+      {
+        "name": "Felixstowe Swimming Club",
+        "slug": "felixstowe-swimming-club",
+        "venue": "Brackenbury Sports Centre",
+        "website": "https://www.felixstoweswimmingclub.co.uk"
+      }
+    ]
+  },
+  "haverhill": {
+    "name": "Haverhill",
+    "slug": "haverhill",
+    "region": "Suffolk",
+    "clubs": [
+      {
+        "name": "Haverhill Swimming Club",
+        "slug": "haverhill-swimming-club",
+        "venue": "Haverhill Leisure Centre",
+        "website": "http://www.haverhillswimmingclub.co.uk"
+      }
+    ]
+  },
+  "leiston": {
+    "name": "Leiston",
+    "slug": "leiston",
+    "region": "Suffolk",
+    "clubs": [
+      {
+        "name": "Leiston Swimming Club",
+        "slug": "leiston-swimming-club",
+        "venue": "Leiston Leisure Centre",
+        "website": "http://www.leistonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "lowestoft": {
+    "name": "Lowestoft",
+    "slug": "lowestoft",
+    "region": "Suffolk",
+    "clubs": [
+      {
+        "name": "Lowestoft Swimming Club",
+        "slug": "lowestoft-swimming-club",
+        "venue": "Waterlane Leisure Centre",
+        "website": "https://www.lowestoftswimmingclub.co.uk"
+      }
+    ]
+  },
+  "newmarket": {
+    "name": "Newmarket",
+    "slug": "newmarket",
+    "region": "Suffolk",
+    "clubs": [
+      {
+        "name": "Newmarket Swimming Club",
+        "slug": "newmarket-swimming-club",
+        "venue": "Newmarket Leisure Centre",
+        "website": "https://www.newmarketswimmingclub.co.uk"
+      }
+    ]
+  },
+  "stowmarket": {
+    "name": "Stowmarket",
+    "slug": "stowmarket",
+    "region": "Suffolk",
+    "clubs": [
+      {
+        "name": "Stowmarket Swimming Club",
+        "slug": "stowmarket-swimming-club",
+        "venue": "Stowmarket Leisure Centre",
+        "website": "https://www.stowmarketsc.co.uk"
+      }
+    ]
+  },
+  "sudbury": {
+    "name": "Sudbury",
+    "slug": "sudbury",
+    "region": "Suffolk",
+    "clubs": [
+      {
+        "name": "Sudbury Swimming Club",
+        "slug": "sudbury-swimming-club",
+        "venue": "Kingfisher Leisure Centre",
+        "website": "http://www.sudburyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "dorking": {
+    "name": "Dorking",
+    "slug": "dorking",
+    "region": "Surrey",
+    "clubs": [
+      {
+        "name": "Dorking Swimming Club",
+        "slug": "dorking-swimming-club",
+        "venue": "Dorking Sports Centre",
+        "website": "https://www.dorkingswimmingclub.co.uk"
+      }
+    ]
+  },
+  "weybridge": {
+    "name": "Weybridge",
+    "slug": "weybridge",
+    "region": "Surrey",
+    "clubs": [
+      {
+        "name": "Elmbridge Phoenix Swimming Club",
+        "slug": "elmbridge-phoenix-swimming-club",
+        "venue": "Xcel Leisure Centre",
+        "website": "http://www.elmbridgephoenix.co.uk"
+      }
+    ]
+  },
+  "epsom": {
+    "name": "Epsom",
+    "slug": "epsom",
+    "region": "Surrey",
+    "clubs": [
+      {
+        "name": "Epsom District Swimming Club",
+        "slug": "epsom-district-swimming-club",
+        "venue": "Epsom Swimming Pool",
+        "website": "https://www.epsomdistrictsc.co.uk"
+      }
+    ]
+  },
+  "ewell": {
+    "name": "Ewell",
+    "slug": "ewell",
+    "region": "Surrey",
+    "clubs": [
+      {
+        "name": "Ewell & Epsom Swimming Club",
+        "slug": "ewell-epsom-swimming-club",
+        "venue": "Bourne Hall Pool",
+        "website": "http://www.ewellepsom-sc.co.uk"
+      }
+    ]
+  },
+  "farnham": {
+    "name": "Farnham",
+    "slug": "farnham",
+    "region": "Surrey",
+    "clubs": [
+      {
+        "name": "Farnham Swimming Club",
+        "slug": "farnham-swimming-club",
+        "venue": "Farnham Leisure Centre",
+        "website": "http://www.farnhamsc.org.uk"
+      }
+    ]
+  },
+  "godalming": {
+    "name": "Godalming",
+    "slug": "godalming",
+    "region": "Surrey",
+    "clubs": [
+      {
+        "name": "Godalming Swimming Club",
+        "slug": "godalming-swimming-club",
+        "venue": "Godalming Leisure Centre",
+        "website": "https://www.godalmingswimmingclub.co.uk"
+      }
+    ]
+  },
+  "haslemere": {
+    "name": "Haslemere",
+    "slug": "haslemere",
+    "region": "Surrey",
+    "clubs": [
+      {
+        "name": "Haslemere Swimming Club",
+        "slug": "haslemere-swimming-club",
+        "venue": "Haslemere Leisure Centre",
+        "website": "http://www.haslemereswimmingclub.org"
+      }
+    ]
+  },
+  "leatherhead": {
+    "name": "Leatherhead",
+    "slug": "leatherhead",
+    "region": "Surrey",
+    "clubs": [
+      {
+        "name": "Leatherhead Swimming Club",
+        "slug": "leatherhead-swimming-club",
+        "venue": "Leatherhead Leisure Centre",
+        "website": "http://www.leatherheadswimmingclub.co.uk"
+      },
+      {
+        "name": "Mole Valley Swimming Club",
+        "slug": "mole-valley-swimming-club",
+        "venue": "Dorking Leisure Centre",
+        "website": "http://www.molevalleyswimmingclub.org"
+      }
+    ]
+  },
+  "redhill": {
+    "name": "Redhill",
+    "slug": "redhill",
+    "region": "Surrey",
+    "clubs": [
+      {
+        "name": "Redhill & Reigate Swimming Club",
+        "slug": "redhill-reigate-swimming-club",
+        "venue": "Woodhatch Centre",
+        "website": "http://www.redhillreigate-sc.org.uk"
+      }
+    ]
+  },
+  "reigate": {
+    "name": "Reigate",
+    "slug": "reigate",
+    "region": "Surrey",
+    "clubs": [
+      {
+        "name": "Reigate Priory Swimming Club",
+        "slug": "reigate-priory-swimming-club",
+        "venue": "Reigate Priory School",
+        "website": "https://www.reigatepriorysc.co.uk"
+      }
+    ]
+  },
+  "sunbury-on-thames": {
+    "name": "Sunbury-on-Thames",
+    "slug": "sunbury-on-thames",
+    "region": "Surrey",
+    "clubs": [
+      {
+        "name": "Spelthorne Swimming Club",
+        "slug": "spelthorne-swimming-club",
+        "venue": "Sunbury Leisure Centre",
+        "website": "http://www.spelthorneswimmingclub.co.uk"
+      }
+    ]
+  },
+  "staines": {
+    "name": "Staines",
+    "slug": "staines",
+    "region": "Surrey",
+    "clubs": [
+      {
+        "name": "Staines Swimming Club",
+        "slug": "staines-swimming-club",
+        "venue": "Spelthorne Leisure Centre",
+        "website": "https://www.stainesswimmingclub.co.uk"
+      }
+    ]
+  },
+  "walton-on-thames": {
+    "name": "Walton-on-Thames",
+    "slug": "walton-on-thames",
+    "region": "Surrey",
+    "clubs": [
+      {
+        "name": "Walton Swimming Club",
+        "slug": "walton-swimming-club",
+        "venue": "Elmbridge Xcel Leisure Complex",
+        "website": "http://www.waltonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "woking": {
+    "name": "Woking",
+    "slug": "woking",
+    "region": "Surrey",
+    "clubs": [
+      {
+        "name": "Woking Swimming Club",
+        "slug": "woking-swimming-club",
+        "venue": "Woking Leisure Centre",
+        "website": "https://www.wokingswimmingclub.co.uk"
+      }
+    ]
+  },
+  "gateshead": {
+    "name": "Gateshead",
+    "slug": "gateshead",
+    "region": "Tyne and Wear",
+    "clubs": [
+      {
+        "name": "Gateshead & Whickham Swimming Club",
+        "slug": "gateshead-whickham-swimming-club",
+        "venue": "Gateshead Leisure Centre",
+        "website": "http://www.gwsc.org.uk"
+      }
+    ]
+  },
+  "south-shields": {
+    "name": "South Shields",
+    "slug": "south-shields",
+    "region": "Tyne and Wear",
+    "clubs": [
+      {
+        "name": "South Tyneside Swimming Club",
+        "slug": "south-tyneside-swimming-club",
+        "venue": "Temple Park Leisure Centre",
+        "website": "http://www.southtynesideswimmingclub.co.uk"
+      }
+    ]
+  },
+  "wallsend": {
+    "name": "Wallsend",
+    "slug": "wallsend",
+    "region": "Tyne and Wear",
+    "clubs": [
+      {
+        "name": "Wallsend Swimming Club",
+        "slug": "wallsend-swimming-club",
+        "venue": "Wallsend Sports Centre",
+        "website": "http://www.wallsendswimmingclub.co.uk"
+      }
+    ]
+  },
+  "washington": {
+    "name": "Washington",
+    "slug": "washington",
+    "region": "Tyne and Wear",
+    "clubs": [
+      {
+        "name": "Washington Swimming Club",
+        "slug": "washington-swimming-club",
+        "venue": "Washington Leisure Centre",
+        "website": "http://www.washingtonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "alcester": {
+    "name": "Alcester",
+    "slug": "alcester",
+    "region": "Warwickshire",
+    "clubs": [
+      {
+        "name": "Alcester Swimming Club",
+        "slug": "alcester-swimming-club",
+        "venue": "Alcester Leisure Centre",
+        "website": "https://www.alcesterswimmingclub.co.uk"
+      }
+    ]
+  },
+  "atherstone": {
+    "name": "Atherstone",
+    "slug": "atherstone",
+    "region": "Warwickshire",
+    "clubs": [
+      {
+        "name": "Atherstone Swimming Club",
+        "slug": "atherstone-swimming-club",
+        "venue": "Atherstone Leisure Complex",
+        "website": "https://www.atherstoneswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bedworth": {
+    "name": "Bedworth",
+    "slug": "bedworth",
+    "region": "Warwickshire",
+    "clubs": [
+      {
+        "name": "Bedworth Swimming Club",
+        "slug": "bedworth-swimming-club",
+        "venue": "Bedworth Leisure Centre",
+        "website": "http://www.bedworthswimmingclub.co.uk"
+      }
+    ]
+  },
+  "kenilworth": {
+    "name": "Kenilworth",
+    "slug": "kenilworth",
+    "region": "Warwickshire",
+    "clubs": [
+      {
+        "name": "Kenilworth Swimming Club",
+        "slug": "kenilworth-swimming-club",
+        "venue": "Abbey Fields Swimming Pool",
+        "website": "https://www.kenilworthswimmingclub.co.uk"
+      }
+    ]
+  },
+  "leamington-spa": {
+    "name": "Leamington Spa",
+    "slug": "leamington-spa",
+    "region": "Warwickshire",
+    "clubs": [
+      {
+        "name": "Leamington Spa Swimming Club",
+        "slug": "leamington-spa-swimming-club",
+        "venue": "Newbold Comyn Leisure Centre",
+        "website": "http://www.leamingtonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "royal-leamington-spa": {
+    "name": "Royal Leamington Spa",
+    "slug": "royal-leamington-spa",
+    "region": "Warwickshire",
+    "clubs": [
+      {
+        "name": "Leamington Swimming Club",
+        "slug": "leamington-swimming-club",
+        "venue": "Newbold Comyn Leisure Centre",
+        "website": "https://www.leamingtonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "nuneaton": {
+    "name": "Nuneaton",
+    "slug": "nuneaton",
+    "region": "Warwickshire",
+    "clubs": [
+      {
+        "name": "Nuneaton Swimming Club",
+        "slug": "nuneaton-swimming-club",
+        "venue": "Pingles Leisure Centre",
+        "website": "https://www.nuneatonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "rugby": {
+    "name": "Rugby",
+    "slug": "rugby",
+    "region": "Warwickshire",
+    "clubs": [
+      {
+        "name": "Rugby Swimming Club",
+        "slug": "rugby-swimming-club",
+        "venue": "Queen's Diamond Jubilee Leisure Centre",
+        "website": "https://www.rugbyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "stratford-upon-avon": {
+    "name": "Stratford-upon-Avon",
+    "slug": "stratford-upon-avon",
+    "region": "Warwickshire",
+    "clubs": [
+      {
+        "name": "Stratford upon Avon Swimming Club",
+        "slug": "stratford-upon-avon-swimming-club",
+        "venue": "Stratford Leisure Centre",
+        "website": "https://www.stratfordswimmingclub.co.uk"
+      },
+      {
+        "name": "Stratford-upon-Avon Swimming Club",
+        "slug": "stratford-upon-avon-swimming-club",
+        "venue": "Stratford Leisure & Visitor Centre",
+        "website": "http://www.stratfordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "warwick": {
+    "name": "Warwick",
+    "slug": "warwick",
+    "region": "Warwickshire",
+    "clubs": [
+      {
+        "name": "Warwick Swimming Club",
+        "slug": "warwick-swimming-club",
+        "venue": "Warwick Gates Community Centre",
+        "website": "https://www.warwickswimmingclub.co.uk"
+      }
+    ]
+  },
+  "sutton-coldfield": {
+    "name": "Sutton Coldfield",
+    "slug": "sutton-coldfield",
+    "region": "West Midlands",
+    "clubs": [
+      {
+        "name": "Boldmere SC",
+        "slug": "boldmere-sc",
+        "venue": "",
+        "website": "https://www.boldmereswimmingclub.co.uk"
+      },
+      {
+        "name": "Sutton Coldfield Swimming Club",
+        "slug": "sutton-coldfield-swimming-club",
+        "venue": "Wyndley Leisure Centre",
+        "website": "https://www.suttoncoldfieldsc.co.uk"
+      }
+    ]
+  },
+  "birmingham": {
+    "name": "Birmingham",
+    "slug": "birmingham",
+    "region": "West Midlands",
+    "clubs": [
+      {
+        "name": "Boldmere Swimming Club",
+        "slug": "boldmere-swimming-club",
+        "venue": "",
+        "website": "http://www.boldmereswimmingclub.co.uk"
+      },
+      {
+        "name": "City of Birmingham SC",
+        "slug": "city-of-birmingham-sc",
+        "venue": "",
+        "website": "https://www.cobsc.org.uk"
+      },
+      {
+        "name": "City of Birmingham Swimming Club",
+        "slug": "city-of-birmingham-swimming-club",
+        "venue": "",
+        "website": "http://www.cobsc.org.uk"
+      }
+    ]
+  },
+  "coventry": {
+    "name": "Coventry",
+    "slug": "coventry",
+    "region": "West Midlands",
+    "clubs": [
+      {
+        "name": "Coventry SC",
+        "slug": "coventry-sc",
+        "venue": "",
+        "website": "https://www.coventryswimmingclub.co.uk"
+      },
+      {
+        "name": "Coventry Swimming Club",
+        "slug": "coventry-swimming-club",
+        "venue": "",
+        "website": "http://www.coventryswimmingclub.co.uk"
+      }
+    ]
+  },
+  "halesowen": {
+    "name": "Halesowen",
+    "slug": "halesowen",
+    "region": "West Midlands",
+    "clubs": [
+      {
+        "name": "Halesowen Swimming Club",
+        "slug": "halesowen-swimming-club",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "solihull": {
+    "name": "Solihull",
+    "slug": "solihull",
+    "region": "West Midlands",
+    "clubs": [
+      {
+        "name": "Solihull SC",
+        "slug": "solihull-sc",
+        "venue": "",
+        "website": "https://www.solihullswimmingclub.com"
+      },
+      {
+        "name": "Solihull Swimming Club",
+        "slug": "solihull-swimming-club",
+        "venue": "",
+        "website": "http://www.solihullswimmingclub.com"
+      }
+    ]
+  },
+  "stourbridge": {
+    "name": "Stourbridge",
+    "slug": "stourbridge",
+    "region": "West Midlands",
+    "clubs": [
+      {
+        "name": "Stourbridge Swimming Club",
+        "slug": "stourbridge-swimming-club",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "walsall": {
+    "name": "Walsall",
+    "slug": "walsall",
+    "region": "West Midlands",
+    "clubs": [
+      {
+        "name": "Walsall SC",
+        "slug": "walsall-sc",
+        "venue": "",
+        "website": "https://www.walsallswimmingclub.co.uk"
+      },
+      {
+        "name": "Walsall Swimming Club",
+        "slug": "walsall-swimming-club",
+        "venue": "",
+        "website": "http://www.walsallswimmingclub.co.uk"
+      }
+    ]
+  },
+  "warley": {
+    "name": "Warley",
+    "slug": "warley",
+    "region": "West Midlands",
+    "clubs": [
+      {
+        "name": "Warley Swimming Club",
+        "slug": "warley-swimming-club",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "wolverhampton": {
+    "name": "Wolverhampton",
+    "slug": "wolverhampton",
+    "region": "West Midlands",
+    "clubs": [
+      {
+        "name": "Wolverhampton SC",
+        "slug": "wolverhampton-sc",
+        "venue": "",
+        "website": "https://www.wolverhamptonswimmingclub.co.uk"
+      },
+      {
+        "name": "Wolverhampton Swimming Club",
+        "slug": "wolverhampton-swimming-club",
+        "venue": "",
+        "website": "http://www.wolverhamptonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "arundel": {
+    "name": "Arundel",
+    "slug": "arundel",
+    "region": "West Sussex",
+    "clubs": [
+      {
+        "name": "Arundel Swimming Club",
+        "slug": "arundel-swimming-club",
+        "venue": "Littlehampton Wave",
+        "website": "https://www.arundelswimmingclub.co.uk"
+      }
+    ]
+  },
+  "billingshurst": {
+    "name": "Billingshurst",
+    "slug": "billingshurst",
+    "region": "West Sussex",
+    "clubs": [
+      {
+        "name": "Billingshurst Swimming Club",
+        "slug": "billingshurst-swimming-club",
+        "venue": "The Weald School",
+        "website": "https://www.billingshurstswimmingclub.co.uk"
+      }
+    ]
+  },
+  "burgess-hill": {
+    "name": "Burgess Hill",
+    "slug": "burgess-hill",
+    "region": "West Sussex",
+    "clubs": [
+      {
+        "name": "Burgess Hill Swimming Club",
+        "slug": "burgess-hill-swimming-club",
+        "venue": "The Triangle Leisure Centre",
+        "website": "https://www.burgesshillsc.org.uk"
+      }
+    ]
+  },
+  "crawley": {
+    "name": "Crawley",
+    "slug": "crawley",
+    "region": "West Sussex",
+    "clubs": [
+      {
+        "name": "Crawley Swimming Club",
+        "slug": "crawley-swimming-club",
+        "venue": "K2 Crawley",
+        "website": "https://www.crawleysc.org.uk"
+      }
+    ]
+  },
+  "haywards-heath": {
+    "name": "Haywards Heath",
+    "slug": "haywards-heath",
+    "region": "West Sussex",
+    "clubs": [
+      {
+        "name": "Haywards Heath Swimming Club",
+        "slug": "haywards-heath-swimming-club",
+        "venue": "The Triangle Leisure Centre",
+        "website": "https://www.haywardsheathsc.org.uk"
+      }
+    ]
+  },
+  "horsham": {
+    "name": "Horsham",
+    "slug": "horsham",
+    "region": "West Sussex",
+    "clubs": [
+      {
+        "name": "Horsham Swimming Club",
+        "slug": "horsham-swimming-club",
+        "venue": "The Capitol",
+        "website": "https://www.horshamsc.org.uk"
+      }
+    ]
+  },
+  "hurstpierpoint": {
+    "name": "Hurstpierpoint",
+    "slug": "hurstpierpoint",
+    "region": "West Sussex",
+    "clubs": [
+      {
+        "name": "Hurstpierpoint Swimming Club",
+        "slug": "hurstpierpoint-swimming-club",
+        "venue": "Hurstpierpoint College",
+        "website": "https://www.hurstswimmingclub.co.uk"
+      }
+    ]
+  },
+  "lancing": {
+    "name": "Lancing",
+    "slug": "lancing",
+    "region": "West Sussex",
+    "clubs": [
+      {
+        "name": "Lancing Swimming Club",
+        "slug": "lancing-swimming-club",
+        "venue": "Lancing College",
+        "website": "https://www.lancingswimmingclub.co.uk"
+      }
+    ]
+  },
+  "littlehampton": {
+    "name": "Littlehampton",
+    "slug": "littlehampton",
+    "region": "West Sussex",
+    "clubs": [
+      {
+        "name": "Littlehampton Swimming Club",
+        "slug": "littlehampton-swimming-club",
+        "venue": "Littlehampton Wave",
+        "website": "https://www.littlehamptonsc.org.uk"
+      }
+    ]
+  },
+  "midhurst": {
+    "name": "Midhurst",
+    "slug": "midhurst",
+    "region": "West Sussex",
+    "clubs": [
+      {
+        "name": "Midhurst Swimming Club",
+        "slug": "midhurst-swimming-club",
+        "venue": "Midhurst Rother College",
+        "website": "https://www.midhurstswimmingclub.co.uk"
+      }
+    ]
+  },
+  "petworth": {
+    "name": "Petworth",
+    "slug": "petworth",
+    "region": "West Sussex",
+    "clubs": [
+      {
+        "name": "Petworth Swimming Club",
+        "slug": "petworth-swimming-club",
+        "venue": "Petworth Swimming Pool",
+        "website": "https://www.petworthswimmingclub.co.uk"
+      }
+    ]
+  },
+  "shoreham-by-sea": {
+    "name": "Shoreham-by-Sea",
+    "slug": "shoreham-by-sea",
+    "region": "West Sussex",
+    "clubs": [
+      {
+        "name": "Shoreham Swimming Club",
+        "slug": "shoreham-swimming-club",
+        "venue": "Shoreham Leisure Centre",
+        "website": "https://www.shorehamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "southwick": {
+    "name": "Southwick",
+    "slug": "southwick",
+    "region": "West Sussex",
+    "clubs": [
+      {
+        "name": "Southwick Swimming Club",
+        "slug": "southwick-swimming-club",
+        "venue": "Southwick Leisure Centre",
+        "website": "https://www.southwickswimmingclub.co.uk"
+      }
+    ]
+  },
+  "steyning": {
+    "name": "Steyning",
+    "slug": "steyning",
+    "region": "West Sussex",
+    "clubs": [
+      {
+        "name": "Steyning Swimming Club",
+        "slug": "steyning-swimming-club",
+        "venue": "Steyning Leisure Centre",
+        "website": "https://www.steyningswimmingclub.co.uk"
+      }
+    ]
+  },
+  "worthing": {
+    "name": "Worthing",
+    "slug": "worthing",
+    "region": "West Sussex",
+    "clubs": [
+      {
+        "name": "Worthing Swimming Club",
+        "slug": "worthing-swimming-club",
+        "venue": "Splash Point Leisure Centre",
+        "website": "https://www.worthingsc.co.uk"
+      }
+    ]
+  },
+  "batley": {
+    "name": "Batley",
+    "slug": "batley",
+    "region": "West Yorkshire",
+    "clubs": [
+      {
+        "name": "Batley Swimming Club",
+        "slug": "batley-swimming-club",
+        "venue": "Batley Sports Centre",
+        "website": "https://www.batleyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bradford": {
+    "name": "Bradford",
+    "slug": "bradford",
+    "region": "West Yorkshire",
+    "clubs": [
+      {
+        "name": "Bradford SC",
+        "slug": "bradford-sc",
+        "venue": "",
+        "website": "https://www.bradfordswimmingclub.co.uk"
+      },
+      {
+        "name": "Bradford Swimming Club",
+        "slug": "bradford-swimming-club",
+        "venue": "",
+        "website": "http://www.bradfordswimmingclub.co.uk"
+      }
+    ]
+  },
+  "brighouse": {
+    "name": "Brighouse",
+    "slug": "brighouse",
+    "region": "West Yorkshire",
+    "clubs": [
+      {
+        "name": "Brighouse Swimming Club",
+        "slug": "brighouse-swimming-club",
+        "venue": "Brighouse Pool",
+        "website": "https://www.brighouseswimmingclub.co.uk"
+      }
+    ]
+  },
+  "halifax": {
+    "name": "Halifax",
+    "slug": "halifax",
+    "region": "West Yorkshire",
+    "clubs": [
+      {
+        "name": "Calderdale Swimming Club",
+        "slug": "calderdale-swimming-club",
+        "venue": "Halifax Swimming Pool",
+        "website": "https://www.calderdaleswimmingclub.co.uk"
+      }
+    ]
+  },
+  "leeds": {
+    "name": "Leeds",
+    "slug": "leeds",
+    "region": "West Yorkshire",
+    "clubs": [
+      {
+        "name": "City of Leeds SC",
+        "slug": "city-of-leeds-sc",
+        "venue": "",
+        "website": "https://www.cityofleedsswimming.com"
+      },
+      {
+        "name": "City of Leeds Swimming Club",
+        "slug": "city-of-leeds-swimming-club",
+        "venue": "",
+        "website": "http://www.cityofleedsswimming.com"
+      }
+    ]
+  },
+  "huddersfield": {
+    "name": "Huddersfield",
+    "slug": "huddersfield",
+    "region": "West Yorkshire",
+    "clubs": [
+      {
+        "name": "Huddersfield Swimming Club",
+        "slug": "huddersfield-swimming-club",
+        "venue": "Huddersfield Leisure Centre",
+        "website": "https://www.huddersfieldswimmingclub.co.uk"
+      }
+    ]
+  },
+  "keighley": {
+    "name": "Keighley",
+    "slug": "keighley",
+    "region": "West Yorkshire",
+    "clubs": [
+      {
+        "name": "Keighley Swimming Club",
+        "slug": "keighley-swimming-club",
+        "venue": "Keighley Leisure Centre",
+        "website": "https://www.keighleyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "bradford-on-avon": {
+    "name": "Bradford on Avon",
+    "slug": "bradford-on-avon",
+    "region": "Wiltshire",
+    "clubs": [
+      {
+        "name": "Bradford on Avon Swimming Club",
+        "slug": "bradford-on-avon-swimming-club",
+        "venue": "St Laurence School",
+        "website": "https://www.bradfordonavonswimmingclub.co.uk"
+      }
+    ]
+  },
+  "chippenham": {
+    "name": "Chippenham",
+    "slug": "chippenham",
+    "region": "Wiltshire",
+    "clubs": [
+      {
+        "name": "Chippenham Swimming Club",
+        "slug": "chippenham-swimming-club",
+        "venue": "Olympiad Sports Centre",
+        "website": "https://www.chippenhamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "corsham": {
+    "name": "Corsham",
+    "slug": "corsham",
+    "region": "Wiltshire",
+    "clubs": [
+      {
+        "name": "Corsham Swimming Club",
+        "slug": "corsham-swimming-club",
+        "venue": "Corsham Sports Centre",
+        "website": "http://www.corshamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "devizes": {
+    "name": "Devizes",
+    "slug": "devizes",
+    "region": "Wiltshire",
+    "clubs": [
+      {
+        "name": "Devizes Swimming Club",
+        "slug": "devizes-swimming-club",
+        "venue": "Devizes Leisure Centre",
+        "website": "https://www.devizesswimmingclub.co.uk"
+      }
+    ]
+  },
+  "marlborough": {
+    "name": "Marlborough",
+    "slug": "marlborough",
+    "region": "Wiltshire",
+    "clubs": [
+      {
+        "name": "Marlborough Swimming Club",
+        "slug": "marlborough-swimming-club",
+        "venue": "Marlborough Leisure Centre",
+        "website": "https://www.marlboroughswimmingclub.co.uk"
+      }
+    ]
+  },
+  "melksham": {
+    "name": "Melksham",
+    "slug": "melksham",
+    "region": "Wiltshire",
+    "clubs": [
+      {
+        "name": "Melksham Blue Fin Swimming Club",
+        "slug": "melksham-blue-fin-swimming-club",
+        "venue": "Melksham Campus",
+        "website": "http://www.melkshambluefi n.co.uk"
+      },
+      {
+        "name": "Melksham Swimming Club",
+        "slug": "melksham-swimming-club",
+        "venue": "The Blue Pool",
+        "website": "https://www.melkshamswimmingclub.co.uk"
+      }
+    ]
+  },
+  "salisbury": {
+    "name": "Salisbury",
+    "slug": "salisbury",
+    "region": "Wiltshire",
+    "clubs": [
+      {
+        "name": "Salisbury Swimming Club",
+        "slug": "salisbury-swimming-club",
+        "venue": "Five Rivers Leisure Centre",
+        "website": "https://www.salisburyswimmingclub.co.uk"
+      }
+    ]
+  },
+  "trowbridge": {
+    "name": "Trowbridge",
+    "slug": "trowbridge",
+    "region": "Wiltshire",
+    "clubs": [
+      {
+        "name": "Trowbridge Swimming Club",
+        "slug": "trowbridge-swimming-club",
+        "venue": "Trowbridge Sports Centre",
+        "website": "https://www.trowbridgeswimmingclub.co.uk"
+      }
+    ]
+  },
+  "barnsley": {
+    "name": "Barnsley",
+    "slug": "barnsley",
+    "region": "Yorkshire",
+    "clubs": [
+      {
+        "name": "Barnsley Swimming Club",
+        "slug": "barnsley-swimming-club",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  },
+  "wakefield": {
+    "name": "Wakefield",
+    "slug": "wakefield",
+    "region": "Yorkshire",
+    "clubs": [
+      {
+        "name": "Wakefield District Swimming Club",
+        "slug": "wakefield-district-swimming-club",
+        "venue": "",
+        "website": ""
+      }
+    ]
+  }
+}

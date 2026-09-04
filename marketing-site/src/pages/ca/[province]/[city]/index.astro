@@ -1,0 +1,240 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import provinces from '../../../../data/ca-provinces.json';
+import cities from '../../../../data/ca-cities.json';
+import directoryClubs from '../../../../data/ca-clubs.json';
+
+type ProvinceRecord = { name: string; abbr: string; slug: string };
+
+export async function getStaticPaths() {
+  const provinceBySlug = provinces as Record<string, ProvinceRecord>;
+  return cities.map((city) => {
+    const province = provinceBySlug[city.provinceSlug];
+    return {
+      params: { province: city.provinceSlug, city: city.slug },
+      props: {
+        city,
+        provinceName: province ? province.name : '',
+        provinceAbbr: city.provinceAbbr,
+      },
+    };
+  });
+}
+
+const { city, provinceName, provinceAbbr } = Astro.props;
+const { province } = Astro.params;
+const cityName = city.name;
+
+// Directory cross-links: real clubs and swim schools listed in this city and
+// province, from the club-finder data.
+const cityDirectoryClubs = directoryClubs
+  .filter((c) => c.provinceSlug === province && c.citySlug === city.slug)
+  .sort((a, b) => a.name.localeCompare(b.name));
+const provinceHasDirectoryClubs = directoryClubs.some((c) => c.provinceSlug === province);
+
+// Rank by position within the curated, population-ordered list for that province.
+// Earlier entries are the larger centres, so we vary the copy accordingly.
+const provinceCities = cities.filter((c) => c.provinceSlug === province);
+const rank = provinceCities.findIndex((c) => c.slug === city.slug);
+const sizeTier: 'metro' | 'city' | 'town' = rank === 0 ? 'metro' : rank <= 3 ? 'city' : 'town';
+
+const SITE = 'https://swimly.club';
+const canonical = `${SITE}/ca/${province}/${city.slug}/`;
+const appUrl = 'https://app.swimly.uk/create-club';
+
+const pageTitle = `Swimming Club Management Software in ${cityName}, ${provinceName} | Swimly`;
+const metaDescription = `Swimming club management software for clubs in ${cityName}, ${provinceName}. Swimly brings membership, fee collection, attendance, and parent updates into one organised platform.`;
+
+const swimmingCopy = {
+  metro: [
+    `${cityName} is one of ${provinceName}'s largest centres for community swimming, home to busy pools, full learn-to-swim programmes, and competitive squads training year-round. With so much activity, clubs here juggle long registration lists, multiple coaching groups, and a steady stream of parent enquiries.`,
+    `Swimly gives ${cityName} clubs the operational backbone to handle that scale calmly. Online registration, automated fee collection in Canadian dollars, and poolside attendance all live in one place, so committees spend less time on administration and more time growing the club.`,
+  ],
+  city: [
+    `Swimming clubs in ${cityName} serve families across the ${provinceName} community, from first lessons through to age-group and masters squads. Coaching teams and volunteer committees keep these programmes running, often around full-time work and packed pool schedules.`,
+    `Swimly is built to lighten that load. Membership records, session planning, and billing sit together in a single tidy system, while a parent portal cuts down on the email back-and-forth that eats into volunteers' evenings in ${cityName}.`,
+  ],
+  town: [
+    `Community swimming in ${cityName} has a close-knit feel, with clubs that rely on a dedicated core of coaches and volunteers to keep the lanes full across ${provinceName}. Smaller programmes can feel the pinch of admin most, because the same few people handle everything.`,
+    `Swimly gives clubs in ${cityName} the same organised tools the bigger centres use, sized for a smaller committee. Registrations, fees, and attendance are handled in one place, so the people who run the club can focus on the swimmers instead of the paperwork.`,
+  ],
+};
+
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Swimly',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  url: SITE,
+  areaServed: {
+    '@type': 'City',
+    name: cityName,
+    containedInPlace: {
+      '@type': 'AdministrativeArea',
+      name: provinceName,
+    },
+  },
+  description: `Swimming club management software for clubs in ${cityName}, ${provinceName}. Membership, fees, attendance, and parent communication.`,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'CAD',
+    description: 'Free for clubs under 50 members',
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/ca/` },
+    { '@type': 'ListItem', position: 2, name: provinceName, item: `${SITE}/ca/${province}/` },
+    { '@type': 'ListItem', position: 3, name: cityName, item: canonical },
+  ],
+};
+
+const features = [
+  { title: 'Member management', body: 'Swimmers, parents, and coaches in one centralised, searchable record.' },
+  { title: 'Automated billing', body: 'Membership and session fees collected in Canadian dollars, with clean reporting for your treasurer.' },
+  { title: 'Attendance tracking', body: 'Poolside check-in so coaches know who is present, late, or away every session.' },
+];
+---
+
+<Layout title={pageTitle} description={metaDescription} canonical={canonical}>
+  <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <Nav />
+
+  <main class="pt-24">
+    <!-- Hero Section -->
+    <section class="relative py-20 px-4 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[500px] pointer-events-none"></div>
+      <div class="relative max-w-4xl mx-auto text-center">
+        <nav class="mb-6" aria-label="Breadcrumb">
+          <ol class="flex items-center justify-center gap-2 text-sm text-ink-mute">
+            <li><a href="/ca/" class="hover:text-mint-ink transition-colors">Canada</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href={`/ca/${province}/`} class="hover:text-mint-ink transition-colors">{provinceName}</a></li>
+            <li aria-hidden="true">/</li>
+            <li class="text-[#0F2D2D]">{cityName}</li>
+          </ol>
+        </nav>
+        <h1 class="font-display text-4xl md:text-5xl text-[#0F2D2D] mb-6">
+          Swimming Club Management Software in <em class="text-mint-ink">{cityName}</em>, {provinceAbbr}
+        </h1>
+        <p class="text-xl text-ink-soft mb-8 max-w-2xl mx-auto">
+          Modern club management software for swimming clubs in {cityName}, {provinceName}.
+          Organise membership, fees, sessions, and attendance in one calm place.
+        </p>
+        <div class="flex gap-4 justify-center flex-wrap">
+          <a href={appUrl} class="px-6 py-3 min-h-12 inline-flex items-center bg-lime-cta text-[#0F2D2D] rounded-lg font-semibold hover:bg-lime-cta-hover transition-colors">
+            Start your club, free
+          </a>
+          <a href="/#features" class="px-6 py-3 min-h-12 inline-flex items-center border border-[#297373]/40 text-ink rounded-lg font-semibold hover:bg-surface transition-colors">
+            See features
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Local Swimming Section -->
+    <section class="py-16 px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Swimming in {cityName}</h2>
+        <div class="space-y-4">
+          {swimmingCopy[sizeTier].map((paragraph) => (
+            <p class="text-ink-soft leading-relaxed">{paragraph}</p>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 px-4 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="font-display text-3xl text-[#0F2D2D] text-center mb-12">Why {cityName} Clubs Choose Swimly</h2>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          {features.map((feature) => (
+            <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+              <h3 class="text-[#0F2D2D] font-semibold mb-2">{feature.title}</h3>
+              <p class="text-ink-soft text-sm">{feature.body}</p>
+            </div>
+          ))}
+        </div>
+
+        <p class="text-center text-ink-mute mt-10">
+          Looking further afield? <a href={`/ca/${province}/`} class="text-mint-ink hover:underline">See swimming club software across {provinceName}</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- Directory: clubs and swim schools here -->
+    {cityDirectoryClubs.length > 0 ? (
+      <section class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="font-display text-3xl text-[#0F2D2D] text-center mb-4">
+            Swim clubs and swim schools in {cityName}
+          </h2>
+          <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">
+            Real programmes in {cityName} from the Swimly directory.
+          </p>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {cityDirectoryClubs.map((club) => (
+              <a
+                href={`/ca/clubs/${club.provinceSlug}/${club.slug}/`}
+                class="group p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all hover:-translate-y-1"
+              >
+                <h3 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors mb-2">
+                  {club.name}
+                </h3>
+                <p class="text-ink-mute text-sm mb-3">
+                  {club.type === 'competitive' ? 'Competitive swim club' : 'Swim school'}
+                </p>
+                <p class="text-sm text-ink-soft leading-relaxed line-clamp-2">{club.description}</p>
+              </a>
+            ))}
+          </div>
+          <p class="text-center text-ink-mute mt-8">
+            <a href={`/ca/clubs/${province}/`} class="text-mint-ink hover:underline">
+              Browse all {provinceName} clubs and swim schools
+            </a>
+          </p>
+        </div>
+      </section>
+    ) : (
+      <section class="py-8 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <p class="text-ink-soft">
+            Looking for a club to join in {cityName}? Browse the
+            <a
+              href={provinceHasDirectoryClubs ? `/ca/clubs/${province}/` : '/ca/clubs/'}
+              class="text-mint-ink font-semibold hover:underline"
+            >
+              directory of swim clubs and swim schools{provinceHasDirectoryClubs ? ` in ${provinceName}` : ' across Canada'}</a
+            >.
+          </p>
+        </div>
+      </section>
+    )}
+
+    <!-- CTA Section -->
+    <section class="py-20 px-4">
+      <div class="max-w-3xl mx-auto text-center bg-[#85FFC7]/15 border border-[#1F7A52]/20 rounded-2xl p-12">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Ready to Organise Your {cityName} Club?</h2>
+        <p class="text-ink-soft mb-8">
+          Set up your club in minutes and give your committee, coaches, and families a calmer way to run the season.
+        </p>
+        <a href={appUrl} class="inline-flex items-center px-8 py-4 min-h-12 bg-lime-cta text-[#0F2D2D] rounded-lg font-semibold hover:bg-lime-cta-hover transition-colors">
+          Start your club, free
+        </a>
+        <p class="text-ink-mute text-sm mt-4">Free for clubs under 50 members</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

@@ -1,0 +1,497 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { CreditCard, Users, ClipboardCheck, Shield, MessageSquare, ArrowRight, CheckCircle, Smartphone, Clock, XCircle } from "@lucide/astro";
+
+const title = 'Swim Club Management Software UK | From Free';
+const description = 'All-in-one swim club management system for UK clubs. Automate billing, track attendance, and stay Wavepower compliant. Free plan or become a founding club.';
+
+const faqItems = [
+  {
+    question: "What is swim club management software?",
+    answer: "Swim club management software is a platform that centralises membership records, billing, attendance tracking, and compliance management for swimming clubs. Swimly is purpose-built for UK clubs, handling Direct Debit payments, session registers, squad management, and Wavepower safeguarding requirements in one place."
+  },
+  {
+    question: "How is Swimly different from spreadsheets?",
+    answer: "Spreadsheets require manual data entry, have no automated billing, create version-control problems when shared between committee members, and offer no compliance tracking. Swimly automates fee collection via Direct Debit, provides real-time attendance registers, tracks DBS expiry dates, and gives every committee member role-based access to up-to-date information."
+  },
+  {
+    question: "How much does swim club management software cost?",
+    answer: "Swimly offers a free Starter plan for clubs with fewer than 50 members. The Club plan is £29/month for 50–200 members with automated billing. The Performance plan costs £49/month for larger clubs with 200–500 members and includes advanced reporting and priority support."
+  },
+  {
+    question: "Can Swimly handle competitive clubs and learn-to-swim programmes?",
+    answer: "Yes. Swimly supports multiple squad types with different fee structures, training schedules, and coaching teams. Whether you run a competitive swimming club, a learn-to-swim programme, or both, Swimly adapts to your structure."
+  },
+  {
+    question: "How does Swimly compare to SwimClub Manager?",
+    answer: "SwimClub Manager is an established platform but charges per-member fees and requires annual contracts. Swimly offers flat monthly pricing, no per-member charges, and is built with modern technology for a faster, more intuitive experience. Swimly also includes automated Direct Debit billing via GoCardless at no extra cost."
+  },
+  {
+    question: "Is there a free trial or founding clubs programme?",
+    answer: "Yes. Swimly offers a founding clubs programme, including 6 months free on any plan and white-glove migration support. There is no commitment required. If it doesn't work for your club, you can leave at any time."
+  },
+  {
+    question: "Does Swimly work with Swim England?",
+    answer: "Swimly is designed to complement Swim England systems. You can export member data in compatible formats, track Wavepower compliance requirements, and maintain records aligned with Swim England's framework for SwimMark accreditation."
+  }
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Swim Club Management Software",
+      "item": "https://swimly.uk/swim-club-management-software/"
+    }
+  ]
+};
+
+const softwareAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Swimly",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": description,
+  "url": "https://swimly.uk/swim-club-management-software/",
+  "featureList": [
+    "Membership management",
+    "Automated Direct Debit billing",
+    "Attendance tracking",
+    "Wavepower compliance",
+    "Squad management",
+    "Parent portal",
+    "Financial reporting"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "GBP"
+  }
+};
+---
+
+<Layout title={title} description={description} faqItems={faqItems}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppSchema, null, 2)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <!-- Hero Section -->
+    <section class="relative pt-12 pb-20 sm:pt-16 sm:pb-28 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none" aria-hidden="true"></div>
+      <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl">
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 text-mint-ink text-sm font-medium mb-6">
+            <Shield class="w-4 h-4" />
+            Built for UK swimming clubs
+          </div>
+          <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl text-[#0F2D2D] leading-tight tracking-tight mb-6">
+            Swim Club Management
+            <span class="text-mint-ink">Software</span>
+          </h1>
+          <p class="text-xl text-ink-soft mb-8 leading-relaxed max-w-2xl">
+            Membership, automated billing, poolside attendance, and Wavepower compliance in one platform. Designed for volunteer-run committees, not IT departments.
+          </p>
+          <div class="flex flex-col sm:flex-row items-start gap-4">
+            <a
+              href="/founding-clubs/"
+              class="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)] hover:scale-[1.02]"
+            >
+              Become a founding club
+              <ArrowRight class="w-5 h-5" />
+            </a>
+            <div class="flex items-center gap-6 text-sm text-ink-mute pt-3">
+              <span class="flex items-center gap-1.5"><CheckCircle class="w-4 h-4 text-mint-ink" /> Free plan available</span>
+              <span class="flex items-center gap-1.5"><CheckCircle class="w-4 h-4 text-mint-ink" /> No contract</span>
+            </div>
+          </div>
+        </div>
+        <!-- Device Mockups -->
+        <div class="mt-16 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
+          <div class="w-full max-w-2xl">
+            <picture>
+              <source srcset="/mockups/dashboard-macbook.webp" type="image/webp" />
+              <img src="/mockups/dashboard-macbook.png" alt="Swimly dashboard on a MacBook showing club overview" class="w-full h-auto" loading="eager" />
+            </picture>
+          </div>
+          <div class="w-full max-w-[200px] sm:max-w-[240px]">
+            <picture>
+              <source srcset="/mockups/swimmers-iphone.webp" type="image/webp" />
+              <img src="/mockups/swimmers-iphone.png" alt="Swimly swimmers list on an iPhone" class="w-full h-auto" loading="eager" />
+            </picture>
+          </div>
+        </div>
+        <p class="text-center text-sm text-ink-mute mt-6">Manage your club from your laptop or your phone at poolside.</p>
+      </div>
+    </section>
+
+    <!-- The Problem -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">The admin problem killing swim clubs</h2>
+      <div class="space-y-6 text-ink-soft">
+        <p>
+          Running a swimming club in the UK is a volunteer effort. Chairs, treasurers, membership secretaries, and safeguarding officers give up their evenings and weekends to keep things running. But outdated tools make the job harder than it needs to be:
+        </p>
+        <div class="grid sm:grid-cols-3 gap-6 mt-8">
+          <div class="relative bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+            <XCircle class="w-8 h-8 text-[#B91C1C]/70 mb-4" />
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Spreadsheet chaos</h3>
+            <p class="text-sm text-ink-mute">Membership records in Excel, fee tracking in Google Sheets, attendance on paper. Nothing connects, nothing syncs, and nobody has the latest version.</p>
+          </div>
+          <div class="relative bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+            <Clock class="w-8 h-8 text-[#B91C1C]/70 mb-4" />
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Admin overload</h3>
+            <p class="text-sm text-ink-mute">Chasing late payments, reconciling bank statements, printing registers, emailing parents one at a time. Your volunteers spend more time on admin than on the club.</p>
+          </div>
+          <div class="relative bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+            <Users class="w-8 h-8 text-[#B91C1C]/70 mb-4" />
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Volunteer burnout</h3>
+            <p class="text-sm text-ink-mute">Committee members burn out within a year or two. Knowledge walks out the door with them, and the next person starts from scratch.</p>
+          </div>
+        </div>
+        <p>
+          Swim club management software solves these problems by bringing everything into one platform that any committee member can use.
+        </p>
+      </div>
+    </section>
+
+    <!-- The Solution -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">What Swimly does for your club</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <div class="w-10 h-10 rounded-lg bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Users class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Membership management</h3>
+          <p class="text-sm text-ink-mute leading-relaxed">
+            Centralised member database with swimmer profiles, family accounts, emergency contacts, and medical information. Parents update their own details through a self-service portal.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <div class="w-10 h-10 rounded-lg bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <CreditCard class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Automated billing</h3>
+          <p class="text-sm text-ink-mute leading-relaxed">
+            Collect fees automatically via Direct Debit through GoCardless. Different fee structures per squad, sibling discounts, and automatic invoice generation. Failed payments retried automatically.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <div class="w-10 h-10 rounded-lg bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <ClipboardCheck class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Attendance tracking</h3>
+          <p class="text-sm text-ink-mute leading-relaxed">
+            Digital registers on coaches' phones, right at poolside. No more paper registers that get wet, lost, or forgotten. Session history stored automatically for safeguarding and reporting.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <div class="w-10 h-10 rounded-lg bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Shield class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Wavepower compliance</h3>
+          <p class="text-sm text-ink-mute leading-relaxed">
+            Track DBS certificates, coaching qualifications, and safeguarding training with automatic renewal reminders. Compliance dashboard for Swim England inspections and SwimMark accreditation.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <div class="w-10 h-10 rounded-lg bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <MessageSquare class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Communication</h3>
+          <p class="text-sm text-ink-mute leading-relaxed">
+            Send targeted announcements to specific squads or the entire club. Automatic session cancellation alerts, payment reminders, and renewal notifications.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <div class="w-10 h-10 rounded-lg bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Smartphone class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Works poolside</h3>
+          <p class="text-sm text-ink-mute leading-relaxed">
+            Built mobile-first for 6am poolside sessions. Coaches take attendance on phones, parents check schedules on the go, and committees manage from anywhere.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">How Swimly compares</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full bg-surface-raised rounded-2xl border border-[#39393A]/10 overflow-hidden text-sm">
+          <thead>
+            <tr class="bg-surface border-b border-[#39393A]/8">
+              <th class="text-left p-4 sm:p-6 text-[#0F2D2D] font-semibold">Feature</th>
+              <th class="text-center p-4 sm:p-6 text-mint-ink font-semibold">Swimly</th>
+              <th class="text-center p-4 sm:p-6 text-[#0F2D2D] font-semibold">SwimClub Manager</th>
+              <th class="text-center p-4 sm:p-6 text-[#0F2D2D] font-semibold">TeamUnify</th>
+              <th class="text-center p-4 sm:p-6 text-[#0F2D2D] font-semibold">Spond</th>
+              <th class="text-center p-4 sm:p-6 text-[#0F2D2D] font-semibold">Spreadsheets</th>
+            </tr>
+          </thead>
+          <tbody class="text-ink-soft">
+            <tr class="border-b border-[#39393A]/8">
+              <td class="p-4 sm:p-6 text-[#0F2D2D] font-medium">Built for UK swim clubs</td>
+              <td class="p-4 sm:p-6 text-center text-mint-ink">✓</td>
+              <td class="p-4 sm:p-6 text-center text-mint-ink">✓</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">US-focused</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">Generic</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">No</td>
+            </tr>
+            <tr class="border-b border-[#39393A]/8">
+              <td class="p-4 sm:p-6 text-[#0F2D2D] font-medium">Automated Direct Debit</td>
+              <td class="p-4 sm:p-6 text-center text-mint-ink">✓</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">Limited</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">US payments</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">✗</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">✗</td>
+            </tr>
+            <tr class="border-b border-[#39393A]/8">
+              <td class="p-4 sm:p-6 text-[#0F2D2D] font-medium">Flat monthly pricing</td>
+              <td class="p-4 sm:p-6 text-center text-mint-ink">From £29/mo</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">Per-member</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">Per-member</td>
+              <td class="p-4 sm:p-6 text-center text-mint-ink">Free</td>
+              <td class="p-4 sm:p-6 text-center text-mint-ink">Free</td>
+            </tr>
+            <tr class="border-b border-[#39393A]/8">
+              <td class="p-4 sm:p-6 text-[#0F2D2D] font-medium">Wavepower compliance</td>
+              <td class="p-4 sm:p-6 text-center text-mint-ink">✓</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">Basic</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">✗</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">✗</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">Manual</td>
+            </tr>
+            <tr class="border-b border-[#39393A]/8">
+              <td class="p-4 sm:p-6 text-[#0F2D2D] font-medium">Poolside attendance</td>
+              <td class="p-4 sm:p-6 text-center text-mint-ink">✓</td>
+              <td class="p-4 sm:p-6 text-center text-mint-ink">✓</td>
+              <td class="p-4 sm:p-6 text-center text-mint-ink">✓</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">Basic</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">✗</td>
+            </tr>
+            <tr class="border-b border-[#39393A]/8">
+              <td class="p-4 sm:p-6 text-[#0F2D2D] font-medium">Parent portal</td>
+              <td class="p-4 sm:p-6 text-center text-mint-ink">✓</td>
+              <td class="p-4 sm:p-6 text-center text-mint-ink">✓</td>
+              <td class="p-4 sm:p-6 text-center text-mint-ink">✓</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">App only</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">✗</td>
+            </tr>
+            <tr>
+              <td class="p-4 sm:p-6 text-[#0F2D2D] font-medium">No annual contract</td>
+              <td class="p-4 sm:p-6 text-center text-mint-ink">✓</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">Annual</td>
+              <td class="p-4 sm:p-6 text-center text-ink-faint">Annual</td>
+              <td class="p-4 sm:p-6 text-center text-mint-ink">✓</td>
+              <td class="p-4 sm:p-6 text-center text-mint-ink">✓</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Buyer's Guide -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">How to choose swim club management software</h2>
+      <div class="space-y-6 text-ink-soft">
+        <p>
+          Not all club management platforms are built the same. Most were designed for generic sports clubs or for the American market, then awkwardly adapted for UK swimming. Here is what to look for when evaluating swim club management software for your committee:
+        </p>
+
+        <div class="space-y-8 mt-8">
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">1. UK-specific compliance support</h3>
+            <p>Your software should understand <a href="/features/compliance/" class="text-mint-ink hover:text-[#0F2D2D] underline">Wavepower safeguarding</a>, DBS tracking, and Swim England membership categories out of the box. American platforms like TeamUnify have no concept of Wavepower or SwimMark accreditation. Generic tools like Spond treat swimming the same as five-a-side football. Look for a platform that tracks DBS expiry dates, coaching qualifications, and safeguarding training automatically.</p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">2. Direct Debit billing, not just card payments</h3>
+            <p>UK swimming clubs collect monthly subscriptions, and <a href="/swimming-club-billing-software/" class="text-mint-ink hover:text-[#0F2D2D] underline">Direct Debit is the standard</a>. Standing orders require parents to set up payments manually and give your treasurer no visibility when someone cancels. Card payments mean higher fees. A proper swim club management system should collect fees via GoCardless Direct Debit automatically, retry failed payments, and give your treasurer a clear dashboard of who has paid and who has not.</p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">3. Transparent, flat-rate pricing</h3>
+            <p>Some platforms charge per member, which means your costs rise as your club grows. SwimClub Manager costs around £649 per year. Others hide pricing behind "request a quote" forms. Look for flat monthly pricing with no per-member surcharges and no annual lock-in. Swimly starts at <a href="/pricing/" class="text-mint-ink hover:text-[#0F2D2D] underline">£29 per month</a> for clubs up to 200 members, and there is a free plan for clubs under 50.</p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">4. Works on a phone at poolside</h3>
+            <p>Coaches take <a href="/features/attendance/" class="text-mint-ink hover:text-[#0F2D2D] underline">attendance at 6am poolside sessions</a>. Parents check schedules between school runs. If your software requires a laptop or a desktop browser, it will not get used where it matters most. Choose a platform that is mobile-first, works on any device, and loads quickly on a phone at the pool.</p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">5. Easy handover between committee members</h3>
+            <p>Volunteer committees change every year or two. When a treasurer steps down, can the next person pick up where they left off? Your software should have role-based access so committee members see exactly what they need, audit trails so nothing gets lost, and a setup simple enough that a new volunteer can get started without training.</p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">6. Data security and UK hosting</h3>
+            <p>You are handling children's personal data, medical information, and payment details. Your platform should be hosted in the UK, encrypted in transit and at rest, and fully GDPR compliant. Avoid platforms that store data in the US or pass it through third-country servers without adequate safeguards.</p>
+          </div>
+        </div>
+
+        <p class="mt-8">
+          Swimly was designed from the ground up with all six of these criteria in mind. It is the only swim club management platform built specifically for UK clubs by someone who actually sits on a poolside bench at 6am on a Saturday morning.
+        </p>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">How Swimly works</h2>
+      <div class="grid sm:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="w-12 h-12 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mx-auto mb-4">
+            <span class="text-mint-ink font-semibold text-lg">1</span>
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Set up your club</h3>
+          <p class="text-sm text-ink-mute">Import your members from a spreadsheet or start fresh. Configure squads, fee structures, and training sessions. We handle the migration for founding clubs.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-12 h-12 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mx-auto mb-4">
+            <span class="text-mint-ink font-semibold text-lg">2</span>
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Invite your members</h3>
+          <p class="text-sm text-ink-mute">Parents receive an invitation to join the parent portal. They confirm their details, set up Direct Debit, and manage their swimmers' profiles themselves.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-12 h-12 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mx-auto mb-4">
+            <span class="text-mint-ink font-semibold text-lg">3</span>
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Run your club</h3>
+          <p class="text-sm text-ink-mute">Fees collect automatically. Coaches take attendance on their phones. Compliance stays up to date. Your committee gets their evenings back.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Who Uses It -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Who uses swim club management software?</h2>
+      <div class="space-y-6 text-ink-soft">
+        <p>Every role on a swimming club committee benefits from having one system instead of scattered spreadsheets, email chains, and paper registers:</p>
+        <div class="grid sm:grid-cols-2 gap-6 mt-6">
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Treasurers</h3>
+            <p class="text-sm">Stop chasing subscriptions manually. See who has paid, who has not, and how much is outstanding, all in one place. <a href="/swimming-club-billing-software/" class="text-mint-ink hover:text-[#0F2D2D] underline">Automated Direct Debit</a> means fees collect themselves.</p>
+          </div>
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Membership secretaries</h3>
+            <p class="text-sm">One <a href="/features/membership/" class="text-mint-ink hover:text-[#0F2D2D] underline">centralised member database</a> that parents update themselves. No more chasing forms, re-typing details, or wondering which spreadsheet is current.</p>
+          </div>
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Coaches</h3>
+            <p class="text-sm">Take attendance on your phone at poolside. See who should be in the water, track session history, and know immediately if someone is missing who should be there.</p>
+          </div>
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Parents</h3>
+            <p class="text-sm">Update your own details, check training schedules, see your payment history, and manage multiple swimmers in one family account through the <a href="/features/parent-portal/" class="text-mint-ink hover:text-[#0F2D2D] underline">parent portal</a>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Built by someone who gets it</h2>
+      <div class="space-y-6 text-ink-soft">
+        <p>
+          Swimly was started by a swim parent and CTO who spent years watching volunteer committees drown in admin. We're not a generic SaaS tool trying to fit swimming into a template. We're building specifically for UK swimming clubs.
+        </p>
+        <div class="grid sm:grid-cols-3 gap-6">
+          <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 text-center hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+            <Shield class="w-8 h-8 text-mint-ink mx-auto mb-3" />
+            <div class="text-xl font-semibold text-[#0F2D2D] mb-2">UK-hosted</div>
+            <p class="text-sm text-ink-mute">Data stored in the UK. GDPR compliant. No transatlantic data transfers.</p>
+          </div>
+          <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 text-center hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+            <CreditCard class="w-8 h-8 text-mint-ink mx-auto mb-3" />
+            <div class="text-xl font-semibold text-[#0F2D2D] mb-2">GoCardless</div>
+            <p class="text-sm text-ink-mute">Direct Debit powered by the UK's leading payment provider. FCA regulated.</p>
+          </div>
+          <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 text-center hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+            <CheckCircle class="w-8 h-8 text-mint-ink mx-auto mb-3" />
+            <div class="text-xl font-semibold text-[#0F2D2D] mb-2">Swim England</div>
+            <p class="text-sm text-ink-mute">Designed around Wavepower, SwimMark, and Swim England membership categories.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Frequently asked questions</h2>
+      <div class="space-y-6">
+        {faqItems.map((item) => (
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">{item.question}</h3>
+            <p class="text-ink-soft">{item.answer}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Related Pages -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-2xl text-[#0F2D2D] mb-6">Learn more</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <a href="/best-swim-club-software-uk/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Best Swim Club Software: 2026 Comparison</h3>
+          <p class="text-ink-mute text-sm">Side-by-side comparison of every platform available in the UK</p>
+        </a>
+        <a href="/swimming-club-billing-software/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Billing Software</h3>
+          <p class="text-ink-mute text-sm">Deep dive into automated Direct Debit fee collection</p>
+        </a>
+        <a href="/features/membership/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Membership Management</h3>
+          <p class="text-ink-mute text-sm">Database, renewals, waiting lists, and family accounts</p>
+        </a>
+        <a href="/pricing/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Pricing</h3>
+          <p class="text-ink-mute text-sm">Transparent monthly pricing from free to £49/month</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-20 relative bg-[#0F2D2D] overflow-hidden">
+      <div class="ripple absolute -left-24 top-6 w-72 h-72 opacity-60" aria-hidden="true"></div>
+      <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="font-display text-3xl sm:text-4xl text-[#E6E6E6] mb-6">Ready to simplify your club admin?</h2>
+        <p class="text-xl text-[#E6E6E6]/65 mb-8">Join our founding club pilot -- 6 months free on any plan with white-glove migration support.</p>
+        <a
+          href="/founding-clubs/"
+          class="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)] hover:scale-[1.02]"
+        >
+          Become a founding club
+          <ArrowRight class="w-5 h-5" />
+        </a>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-[#E6E6E6]/65">
+          <span class="flex items-center gap-2"><CheckCircle class="w-4 h-4 text-[#85FFC7]" /> No contract</span>
+          <span class="flex items-center gap-2"><CheckCircle class="w-4 h-4 text-[#85FFC7]" /> No per-member fees</span>
+          <span class="flex items-center gap-2"><CheckCircle class="w-4 h-4 text-[#85FFC7]" /> Cancel any time</span>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

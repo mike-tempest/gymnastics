@@ -1,0 +1,86 @@
+# =============================================================================
+# Swimly Next.js Web Application — Fly.io Production Dockerfile
+# Multi-stage build optimised for standalone output on Fly.io.
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Stage 1: Dependencies
+# Install all workspace dependencies needed for the build.
+# ---------------------------------------------------------------------------
+FROM node:20-alpine AS deps
+
+RUN apk add --no-cache libc6-compat
+RUN corepack enable && corepack prepare pnpm@8.15.0 --activate
+
+WORKDIR /app
+
+# Copy workspace configuration (layer-cached separately from source)
+COPY pnpm-workspace.yaml pnpm-lock.yaml package.json turbo.json tsconfig.json ./
+
+# Copy shared packages
+COPY packages/ ./packages/
+
+# Copy web app package.json
+COPY apps/web/package.json ./apps/web/
+
+# Install all dependencies (dev included — needed for the build)
+RUN pnpm install --frozen-lockfile
+
+# ---------------------------------------------------------------------------
+# Stage 2: Builder
+# Build shared packages then the Next.js application via Turborepo.
+# ---------------------------------------------------------------------------
+FROM node:20-alpine AS builder
+
+RUN apk add --no-cache libc6-compat
+RUN corepack enable && corepack prepare pnpm@8.15.0 --activate
+
+WORKDIR /app
+
+# Copy installed dependencies from the deps stage
+COPY --from=deps /app ./
+
+# Copy source code
+COPY packages/ ./packages/
+COPY apps/web/ ./apps/web/
+
+# NEXT_PUBLIC_ variables must be present at build time for Next.js to inline
+# them into the client bundle. Pass via --build-arg when deploying.
+ARG NEXT_PUBLIC_API_URL=https://swimly-membership.fly.dev
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+
+# Build everything the web app depends on, then the web app itself
+RUN pnpm turbo build --filter=web
+
+# ---------------------------------------------------------------------------
+# Stage 3: Runner
+# Minimal production image using Next.js standalone output.
+# ---------------------------------------------------------------------------
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+# Create a non-root user for security
+RUN addgroup --system --gid 1001 swimly && \
+    adduser --system --uid 1001 swimly
+
+# Copy the standalone output (includes a minimal Node.js server)
+COPY --from=builder /app/apps/web/.next/standalone ./
+# Copy static assets (not included in standalone output)
+COPY --from=builder /app/apps/web/.next/static ./apps/web/.next/static
+# Copy public directory
+COPY --from=builder /app/apps/web/public ./apps/web/public
+
+USER swimly
+
+EXPOSE 3000
+
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1
+
+CMD ["node", "apps/web/server.js"]

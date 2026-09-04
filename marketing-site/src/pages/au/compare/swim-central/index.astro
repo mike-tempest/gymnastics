@@ -1,0 +1,277 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import { ArrowRight, Users, CreditCard, Smartphone, ClipboardList } from '@lucide/astro';
+
+const canonical = "https://swimly.club/au/compare/swim-central/";
+const title = 'Swimly vs Swim Central | Australian Swimming Club Software';
+const description = 'How Swimly compares to Swim Central, the Swimming Australia platform. A fair look at registration versus day-to-day club management for Australian swimming clubs.';
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://swimly.club/au/" },
+    { "@type": "ListItem", "position": 2, "name": "Swimly vs Swim Central", "item": "https://swimly.club/au/compare/swim-central/" }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is Swimly a replacement for Swim Central?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Swim Central is the official membership and registration platform operated by Swimming Australia, and affiliated clubs use it to register members. Swimly is a separate club management tool for day-to-day administration such as fee collection, attendance and squad organisation. Most clubs that use Swimly continue to register members through Swim Central."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does Swim Central do?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Swim Central is Swimming Australia's national platform for membership, registration and event entries within the affiliated swimming pathway. It is the system clubs use to register members with their state or territory association and Swimming Australia, and to handle entries for sanctioned events."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why would a club use Swimly as well as Swim Central?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Swim Central focuses on registration and the competitive pathway. Swimly focuses on running the club week to week: collecting fees by card or bank payment, taking attendance, organising squads, tracking safeguarding records and communicating with families. Clubs use both because they solve different problems."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Swimly connect to Swim Central?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Swimly does not currently integrate directly with Swim Central. You can import and export member data using spreadsheets to keep your records aligned. We will always be clear about what is and is not an automated integration."
+      }
+    }
+  ]
+};
+---
+
+<Layout title={title} description={description} canonical={canonical}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <!-- Hero Section -->
+    <section class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none" aria-hidden="true"></div>
+      <div class="relative">
+        <p class="eyebrow mb-6">Platform comparison</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          Swimly vs Swim Central
+        </h1>
+        <p class="text-xl text-ink-soft max-w-3xl">
+          Swim Central is the official membership and registration platform operated by Swimming Australia.
+          Swimly is club management software for the day-to-day running of your club. They are built for
+          different jobs, and most clubs use them side by side.
+        </p>
+
+        <!-- Key stats row -->
+        <div class="grid grid-cols-3 gap-4 mt-10">
+          <div class="bg-[#85FFC7]/10 border border-[#1F7A52]/20 rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">Both</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">used together</p>
+          </div>
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">Club</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">day-to-day admin</p>
+          </div>
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">Free</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">to start with Swimly</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Different jobs statement -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="bg-[#85FFC7]/15 rounded-2xl border border-[#1F7A52]/20 p-8 sm:p-10">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-4">Two tools, two jobs</h2>
+        <p class="text-ink-soft mb-4">
+          Swim Central is where affiliated clubs register members with their state or territory association
+          and Swimming Australia, and where entries for sanctioned events are managed. It is part of the
+          national competitive pathway, and clubs in that pathway are expected to use it.
+        </p>
+        <p class="text-ink-soft">
+          Swimly does not replace any of that. Swimly is the system your committee opens every week to
+          collect fees, take attendance, organise squads and keep safeguarding records in order. Think of
+          Swim Central as your link to the national body, and Swimly as the way you run the club itself.
+        </p>
+      </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">What each one is for</h2>
+      <p class="text-ink-soft mb-8 max-w-2xl">A fair, factual look at where each platform focuses. This is about fit, not winners.</p>
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-[#39393A]/8 bg-surface">
+              <th class="text-left p-3 sm:p-6 text-[#0F2D2D] font-semibold">Area</th>
+              <th class="text-left p-3 sm:p-6 text-mint-ink font-semibold bg-[#85FFC7]/10">Swimly</th>
+              <th class="text-left p-3 sm:p-6 text-[#0F2D2D] font-medium">Swim Central</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#39393A]/8">
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Primary purpose</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">Day-to-day club management</td>
+              <td class="p-3 sm:p-6 text-ink-soft">National membership and registration</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Operated by</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">Swimly (independent software)</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Swimming Australia</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Member registration with the national body</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">Not its role; continue using Swim Central</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium">Core function</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Automatic fee collection for the club</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">Card and bank payment, automated</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Handles registration and event payments</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Attendance and session registers</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">Quick poolside check-in and check-out</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Not its focus</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Squad organisation and rosters</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">Built in</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Not its focus</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Parent portal for club admin</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">Mobile-first, works poolside</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Member and family accounts for registration</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Sanctioned event entries</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">Meet entry tools in development</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium">Core function within the pathway</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Direct integration between the two</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10" colspan="2">Not currently available. Member data can be kept aligned with spreadsheet import and export.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-ink-faint mt-4">
+        Descriptions of Swim Central reflect its role as Swimming Australia's official membership and
+        registration platform. For the current scope of Swim Central, refer to Swimming Australia directly.
+      </p>
+    </section>
+
+    <!-- Where Swimly helps -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-4 text-center">Where Swimly helps your committee</h2>
+      <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">The everyday admin that sits outside registration, handled in one calm place.</p>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <CreditCard class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Collect club fees without chasing</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">Set up card or bank payment once and monthly, quarterly or seasonal fees collect themselves. Failed payments retry automatically.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Smartphone class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Take attendance poolside</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">Coaches mark registers on their phone at the side of the pool. No paper, no transcription later.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Users class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Organise squads and families</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">Group siblings for one invoice, move swimmers between squads as they progress, and let parents keep their own details current.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <ClipboardList class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Keep safeguarding records in order</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">Track Working with Children Checks and coaching accreditations with expiry alerts so nothing lapses unnoticed.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- When Swim Central is what you need -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">When Swim Central is what you need</h2>
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8">
+        <p class="text-ink-soft mb-4">
+          We believe in being honest. Swim Central is the right tool, and often a required one, when:
+        </p>
+        <ul class="space-y-3 text-ink-soft">
+          <li class="flex gap-3">
+            <span class="text-ink-faint">&bull;</span>
+            <span>You need to register members with Swimming Australia and your state or territory association</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">&bull;</span>
+            <span>You are entering swimmers into sanctioned events within the competitive pathway</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">&bull;</span>
+            <span>You need to meet the membership obligations that come with affiliation</span>
+          </li>
+        </ul>
+        <p class="text-ink-soft mt-6">
+          Swimly is designed to live alongside this, not to compete with it. Keep registering through Swim
+          Central, and let Swimly take the weekly admin off your committee's plate.
+        </p>
+      </div>
+    </section>
+
+    <!-- Compare other platforms -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8 text-center">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-4">Comparing other platforms?</h2>
+        <p class="text-ink-soft mb-6">
+          See how Swimly compares to other software Australian clubs consider.
+        </p>
+        <a
+          href="/au/compare/teamunify/"
+          class="inline-flex items-center gap-2 text-mint-ink hover:text-[#0F2D2D] transition-colors font-medium"
+        >
+          Swimly vs TeamUnify
+          <ArrowRight class="w-4 h-4" />
+        </a>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-6">Run your club, not a stack of spreadsheets</h2>
+      <p class="text-xl text-ink-soft mb-8 max-w-xl mx-auto">Create your club today. Free for clubs under 50 members, no card required.</p>
+      <a
+        href="https://app.swimly.uk/create-club"
+        class="inline-flex items-center gap-2 text-lg font-bold min-h-12 px-8 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all"
+      >
+        Start your club, free
+        <ArrowRight class="w-5 h-5" />
+      </a>
+      <p class="mt-4 text-sm text-ink-mute">Free to join. No payment details required.</p>
+    </section>
+  </main>
+  <Footer />
+</Layout>

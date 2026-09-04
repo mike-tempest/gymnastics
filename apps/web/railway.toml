@@ -1,0 +1,18 @@
+# Railway deployment configuration for the web application.
+# Path is relative to the repository root, as Railway mounts the full monorepo.
+
+[build]
+# Use a custom Dockerfile rather than Nixpacks or other builders.
+builder = "DOCKERFILE"
+# Path to the Dockerfile, relative to the repository root.
+dockerfilePath = "apps/web/Dockerfile"
+
+[deploy]
+# Health check endpoint used by Railway to verify the service is running.
+healthcheckPath = "/"
+# Maximum time in seconds Railway will wait for the health check to pass.
+healthcheckTimeout = 300
+# Restart the service automatically on failure, but not on clean exits.
+restartPolicyType = "ON_FAILURE"
+# Maximum number of restart attempts before Railway marks the deployment as failed.
+restartPolicyMaxRetries = 3

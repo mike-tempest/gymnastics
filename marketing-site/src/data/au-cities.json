@@ -1,0 +1,692 @@
+{
+  "sydney": {
+    "name": "Sydney",
+    "slug": "sydney",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "newcastle": {
+    "name": "Newcastle",
+    "slug": "newcastle",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "blacktown": {
+    "name": "Blacktown",
+    "slug": "blacktown",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "bankstown": {
+    "name": "Bankstown",
+    "slug": "bankstown",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "central-coast": {
+    "name": "Central Coast",
+    "slug": "central-coast",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "wollongong": {
+    "name": "Wollongong",
+    "slug": "wollongong",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "parramatta": {
+    "name": "Parramatta",
+    "slug": "parramatta",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "liverpool": {
+    "name": "Liverpool",
+    "slug": "liverpool",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "sutherland": {
+    "name": "Sutherland",
+    "slug": "sutherland",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "penrith": {
+    "name": "Penrith",
+    "slug": "penrith",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "fairfield": {
+    "name": "Fairfield",
+    "slug": "fairfield",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "campbelltown": {
+    "name": "Campbelltown",
+    "slug": "campbelltown",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "hornsby": {
+    "name": "Hornsby",
+    "slug": "hornsby",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "ryde": {
+    "name": "Ryde",
+    "slug": "ryde",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "maitland": {
+    "name": "Maitland",
+    "slug": "maitland",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "coffs-harbour": {
+    "name": "Coffs Harbour",
+    "slug": "coffs-harbour",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "tweed-heads": {
+    "name": "Tweed Heads",
+    "slug": "tweed-heads",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "wagga-wagga": {
+    "name": "Wagga Wagga",
+    "slug": "wagga-wagga",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "albury": {
+    "name": "Albury",
+    "slug": "albury",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "port-macquarie": {
+    "name": "Port Macquarie",
+    "slug": "port-macquarie",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "tamworth": {
+    "name": "Tamworth",
+    "slug": "tamworth",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "dubbo": {
+    "name": "Dubbo",
+    "slug": "dubbo",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "orange": {
+    "name": "Orange",
+    "slug": "orange",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "queanbeyan": {
+    "name": "Queanbeyan",
+    "slug": "queanbeyan",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "bowral": {
+    "name": "Bowral",
+    "slug": "bowral",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "nowra": {
+    "name": "Nowra",
+    "slug": "nowra",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "bathurst": {
+    "name": "Bathurst",
+    "slug": "bathurst",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "lismore": {
+    "name": "Lismore",
+    "slug": "lismore",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "ballina": {
+    "name": "Ballina",
+    "slug": "ballina",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "armidale": {
+    "name": "Armidale",
+    "slug": "armidale",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "goulburn": {
+    "name": "Goulburn",
+    "slug": "goulburn",
+    "stateAbbr": "NSW",
+    "stateSlug": "new-south-wales"
+  },
+  "melbourne": {
+    "name": "Melbourne",
+    "slug": "melbourne",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "geelong": {
+    "name": "Geelong",
+    "slug": "geelong",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "melton": {
+    "name": "Melton",
+    "slug": "melton",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "dandenong": {
+    "name": "Dandenong",
+    "slug": "dandenong",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "frankston": {
+    "name": "Frankston",
+    "slug": "frankston",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "ballarat": {
+    "name": "Ballarat",
+    "slug": "ballarat",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "werribee": {
+    "name": "Werribee",
+    "slug": "werribee",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "bendigo": {
+    "name": "Bendigo",
+    "slug": "bendigo",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "cranbourne": {
+    "name": "Cranbourne",
+    "slug": "cranbourne",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "craigieburn": {
+    "name": "Craigieburn",
+    "slug": "craigieburn",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "box-hill": {
+    "name": "Box Hill",
+    "slug": "box-hill",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "glen-waverley": {
+    "name": "Glen Waverley",
+    "slug": "glen-waverley",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "footscray": {
+    "name": "Footscray",
+    "slug": "footscray",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "pakenham": {
+    "name": "Pakenham",
+    "slug": "pakenham",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "sunshine": {
+    "name": "Sunshine",
+    "slug": "sunshine",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "mildura": {
+    "name": "Mildura",
+    "slug": "mildura",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "shepparton": {
+    "name": "Shepparton",
+    "slug": "shepparton",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "ringwood": {
+    "name": "Ringwood",
+    "slug": "ringwood",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "sunbury": {
+    "name": "Sunbury",
+    "slug": "sunbury",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "wodonga": {
+    "name": "Wodonga",
+    "slug": "wodonga",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "warrnambool": {
+    "name": "Warrnambool",
+    "slug": "warrnambool",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "traralgon": {
+    "name": "Traralgon",
+    "slug": "traralgon",
+    "stateAbbr": "VIC",
+    "stateSlug": "victoria"
+  },
+  "brisbane": {
+    "name": "Brisbane",
+    "slug": "brisbane",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "gold-coast": {
+    "name": "Gold Coast",
+    "slug": "gold-coast",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "sunshine-coast": {
+    "name": "Sunshine Coast",
+    "slug": "sunshine-coast",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "logan": {
+    "name": "Logan",
+    "slug": "logan",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "ipswich": {
+    "name": "Ipswich",
+    "slug": "ipswich",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "townsville": {
+    "name": "Townsville",
+    "slug": "townsville",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "cairns": {
+    "name": "Cairns",
+    "slug": "cairns",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "toowoomba": {
+    "name": "Toowoomba",
+    "slug": "toowoomba",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "mackay": {
+    "name": "Mackay",
+    "slug": "mackay",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "rockhampton": {
+    "name": "Rockhampton",
+    "slug": "rockhampton",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "bundaberg": {
+    "name": "Bundaberg",
+    "slug": "bundaberg",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "caboolture": {
+    "name": "Caboolture",
+    "slug": "caboolture",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "hervey-bay": {
+    "name": "Hervey Bay",
+    "slug": "hervey-bay",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "redcliffe": {
+    "name": "Redcliffe",
+    "slug": "redcliffe",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "springfield": {
+    "name": "Springfield",
+    "slug": "springfield",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "gladstone": {
+    "name": "Gladstone",
+    "slug": "gladstone",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "cleveland": {
+    "name": "Cleveland",
+    "slug": "cleveland",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "north-lakes": {
+    "name": "North Lakes",
+    "slug": "north-lakes",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "maryborough": {
+    "name": "Maryborough",
+    "slug": "maryborough",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "gympie": {
+    "name": "Gympie",
+    "slug": "gympie",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "mount-isa": {
+    "name": "Mount Isa",
+    "slug": "mount-isa",
+    "stateAbbr": "QLD",
+    "stateSlug": "queensland"
+  },
+  "perth": {
+    "name": "Perth",
+    "slug": "perth",
+    "stateAbbr": "WA",
+    "stateSlug": "western-australia"
+  },
+  "joondalup": {
+    "name": "Joondalup",
+    "slug": "joondalup",
+    "stateAbbr": "WA",
+    "stateSlug": "western-australia"
+  },
+  "rockingham": {
+    "name": "Rockingham",
+    "slug": "rockingham",
+    "stateAbbr": "WA",
+    "stateSlug": "western-australia"
+  },
+  "cockburn": {
+    "name": "Cockburn",
+    "slug": "cockburn",
+    "stateAbbr": "WA",
+    "stateSlug": "western-australia"
+  },
+  "armadale": {
+    "name": "Armadale",
+    "slug": "armadale",
+    "stateAbbr": "WA",
+    "stateSlug": "western-australia"
+  },
+  "mandurah": {
+    "name": "Mandurah",
+    "slug": "mandurah",
+    "stateAbbr": "WA",
+    "stateSlug": "western-australia"
+  },
+  "bunbury": {
+    "name": "Bunbury",
+    "slug": "bunbury",
+    "stateAbbr": "WA",
+    "stateSlug": "western-australia"
+  },
+  "ellenbrook": {
+    "name": "Ellenbrook",
+    "slug": "ellenbrook",
+    "stateAbbr": "WA",
+    "stateSlug": "western-australia"
+  },
+  "busselton": {
+    "name": "Busselton",
+    "slug": "busselton",
+    "stateAbbr": "WA",
+    "stateSlug": "western-australia"
+  },
+  "geraldton": {
+    "name": "Geraldton",
+    "slug": "geraldton",
+    "stateAbbr": "WA",
+    "stateSlug": "western-australia"
+  },
+  "albany": {
+    "name": "Albany",
+    "slug": "albany",
+    "stateAbbr": "WA",
+    "stateSlug": "western-australia"
+  },
+  "fremantle": {
+    "name": "Fremantle",
+    "slug": "fremantle",
+    "stateAbbr": "WA",
+    "stateSlug": "western-australia"
+  },
+  "kalgoorlie": {
+    "name": "Kalgoorlie",
+    "slug": "kalgoorlie",
+    "stateAbbr": "WA",
+    "stateSlug": "western-australia"
+  },
+  "karratha": {
+    "name": "Karratha",
+    "slug": "karratha",
+    "stateAbbr": "WA",
+    "stateSlug": "western-australia"
+  },
+  "broome": {
+    "name": "Broome",
+    "slug": "broome",
+    "stateAbbr": "WA",
+    "stateSlug": "western-australia"
+  },
+  "adelaide": {
+    "name": "Adelaide",
+    "slug": "adelaide",
+    "stateAbbr": "SA",
+    "stateSlug": "south-australia"
+  },
+  "salisbury": {
+    "name": "Salisbury",
+    "slug": "salisbury",
+    "stateAbbr": "SA",
+    "stateSlug": "south-australia"
+  },
+  "marion": {
+    "name": "Marion",
+    "slug": "marion",
+    "stateAbbr": "SA",
+    "stateSlug": "south-australia"
+  },
+  "elizabeth": {
+    "name": "Elizabeth",
+    "slug": "elizabeth",
+    "stateAbbr": "SA",
+    "stateSlug": "south-australia"
+  },
+  "gawler": {
+    "name": "Gawler",
+    "slug": "gawler",
+    "stateAbbr": "SA",
+    "stateSlug": "south-australia"
+  },
+  "mount-gambier": {
+    "name": "Mount Gambier",
+    "slug": "mount-gambier",
+    "stateAbbr": "SA",
+    "stateSlug": "south-australia"
+  },
+  "whyalla": {
+    "name": "Whyalla",
+    "slug": "whyalla",
+    "stateAbbr": "SA",
+    "stateSlug": "south-australia"
+  },
+  "murray-bridge": {
+    "name": "Murray Bridge",
+    "slug": "murray-bridge",
+    "stateAbbr": "SA",
+    "stateSlug": "south-australia"
+  },
+  "port-lincoln": {
+    "name": "Port Lincoln",
+    "slug": "port-lincoln",
+    "stateAbbr": "SA",
+    "stateSlug": "south-australia"
+  },
+  "victor-harbor": {
+    "name": "Victor Harbor",
+    "slug": "victor-harbor",
+    "stateAbbr": "SA",
+    "stateSlug": "south-australia"
+  },
+  "port-augusta": {
+    "name": "Port Augusta",
+    "slug": "port-augusta",
+    "stateAbbr": "SA",
+    "stateSlug": "south-australia"
+  },
+  "port-pirie": {
+    "name": "Port Pirie",
+    "slug": "port-pirie",
+    "stateAbbr": "SA",
+    "stateSlug": "south-australia"
+  },
+  "hobart": {
+    "name": "Hobart",
+    "slug": "hobart",
+    "stateAbbr": "TAS",
+    "stateSlug": "tasmania"
+  },
+  "launceston": {
+    "name": "Launceston",
+    "slug": "launceston",
+    "stateAbbr": "TAS",
+    "stateSlug": "tasmania"
+  },
+  "glenorchy": {
+    "name": "Glenorchy",
+    "slug": "glenorchy",
+    "stateAbbr": "TAS",
+    "stateSlug": "tasmania"
+  },
+  "devonport": {
+    "name": "Devonport",
+    "slug": "devonport",
+    "stateAbbr": "TAS",
+    "stateSlug": "tasmania"
+  },
+  "burnie": {
+    "name": "Burnie",
+    "slug": "burnie",
+    "stateAbbr": "TAS",
+    "stateSlug": "tasmania"
+  },
+  "kingston": {
+    "name": "Kingston",
+    "slug": "kingston",
+    "stateAbbr": "TAS",
+    "stateSlug": "tasmania"
+  },
+  "canberra": {
+    "name": "Canberra",
+    "slug": "canberra",
+    "stateAbbr": "ACT",
+    "stateSlug": "australian-capital-territory"
+  },
+  "belconnen": {
+    "name": "Belconnen",
+    "slug": "belconnen",
+    "stateAbbr": "ACT",
+    "stateSlug": "australian-capital-territory"
+  },
+  "tuggeranong": {
+    "name": "Tuggeranong",
+    "slug": "tuggeranong",
+    "stateAbbr": "ACT",
+    "stateSlug": "australian-capital-territory"
+  },
+  "gungahlin": {
+    "name": "Gungahlin",
+    "slug": "gungahlin",
+    "stateAbbr": "ACT",
+    "stateSlug": "australian-capital-territory"
+  },
+  "darwin": {
+    "name": "Darwin",
+    "slug": "darwin",
+    "stateAbbr": "NT",
+    "stateSlug": "northern-territory"
+  },
+  "palmerston": {
+    "name": "Palmerston",
+    "slug": "palmerston",
+    "stateAbbr": "NT",
+    "stateSlug": "northern-territory"
+  },
+  "alice-springs": {
+    "name": "Alice Springs",
+    "slug": "alice-springs",
+    "stateAbbr": "NT",
+    "stateSlug": "northern-territory"
+  },
+  "katherine": {
+    "name": "Katherine",
+    "slug": "katherine",
+    "stateAbbr": "NT",
+    "stateSlug": "northern-territory"
+  }
+}

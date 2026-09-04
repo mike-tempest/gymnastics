@@ -1,0 +1,373 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+
+// Region-only page on swimly.club. Self-canonical: no cross-region hreflang.
+// Commonwealth spelling, AUD, Swimming Australia, "swimming club".
+const SITE = "https://swimly.club";
+const PATH = "/au/guides/swimming-australia-state-associations-explained/";
+const canonical = `${SITE}${PATH}`;
+const appUrl = "https://app.swimly.uk/create-club";
+const contactEmail = "hello@swimly.club";
+
+const title =
+  "Swimming Australia and the State Associations Explained: A Guide for Clubs | Swimly";
+const description =
+  "How Swimming Australia, the state and territory associations, Swim Central, and member protection rules fit together. A plain-language guide for Australian swimming club volunteers.";
+
+// State and territory member associations of Swimming Australia. Verified
+// against Swimming Australia and the associations' own sites (June 2026).
+const associations = [
+  { name: "Swimming New South Wales", region: "New South Wales" },
+  { name: "Swimming Victoria", region: "Victoria" },
+  { name: "Swimming Queensland", region: "Queensland" },
+  { name: "Swimming South Australia", region: "South Australia" },
+  { name: "Swimming Western Australia", region: "Western Australia" },
+  { name: "Swimming Tasmania", region: "Tasmania" },
+  { name: "Swimming Northern Territory", region: "Northern Territory" },
+  { name: "Swimming ACT", region: "Australian Capital Territory" },
+];
+
+const faqItems = [
+  {
+    question: "What is Swimming Australia?",
+    answer:
+      "Swimming Australia is the national governing body for competitive swimming in Australia. It sets the rules and policies for the sport, runs national events and teams, and represents Australia internationally as a member of World Aquatics. It works through eight state and territory member associations, which in turn support the clubs in their area.",
+  },
+  {
+    question: "Who are the state and territory swimming associations?",
+    answer:
+      "There are eight member associations: Swimming New South Wales, Swimming Victoria, Swimming Queensland, Swimming South Australia, Swimming Western Australia, Swimming Tasmania, Swimming Northern Territory, and Swimming ACT. Each one affiliates the clubs in its state or territory, runs the local competition calendar, and supports volunteers, coaches, and officials.",
+  },
+  {
+    question: "How does a swimming club affiliate with Swimming Australia?",
+    answer:
+      "Clubs affiliate through their state or territory association rather than with Swimming Australia directly. When a swimmer or family joins a registered club, that membership flows up to the state association and Swimming Australia automatically. The affiliation year generally runs from 1 July to 30 June. Contact your state or territory association for the exact steps, fees, and dates that apply to your club.",
+  },
+  {
+    question: "What is Swim Central?",
+    answer:
+      "Swim Central is the national membership and event-entry platform used across Australian swimming. Members create a family group, buy memberships, and enter meets through it, and it links a member to their club, region, state association, and Swimming Australia. Payments are handled through Stripe. Swim Central is the official record of membership; club management software sits alongside it rather than replacing it.",
+  },
+  {
+    question: "Do swimming club volunteers need a Working With Children Check?",
+    answer:
+      "In most cases yes. A Working With Children Check (WWCC) is a screening process for people in child-related roles, paid or unpaid, including coaches, officials, and many committee volunteers. It involves a national criminal history check and a review of relevant workplace misconduct findings. Requirements, names, and processes differ in each state and territory, so confirm the rules for your jurisdiction with the relevant government office and your state or territory association.",
+  },
+  {
+    question: "Does Swimly replace Swimming Australia registration or Swim Central?",
+    answer:
+      "No. Swimly handles the day-to-day club administration around your governance obligations: registration, billing in AUD, attendance, group management, and parent communication. It does not replace your Swimming Australia affiliation or Swim Central membership, and your member data stays yours to export for the records your association needs.",
+  },
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/au/` },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/au/guides/` },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Swimming Australia and the State Associations Explained",
+      item: canonical,
+    },
+  ],
+};
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline:
+    "Swimming Australia and the State Associations Explained: A Guide for Clubs",
+  description: description,
+  about: "Swimming Australia governance for swimming clubs",
+  inLanguage: "en-AU",
+  url: canonical,
+  mainEntityOfPage: canonical,
+  publisher: {
+    "@type": "Organization",
+    name: "Swimly",
+    url: `${SITE}/au/`,
+  },
+};
+
+const responsibilities = [
+  {
+    heading: "Affiliating your club",
+    body:
+      "Your state or territory association is where your club affiliates each season. Affiliation is what connects your club, and the memberships you sell, to the wider structure that runs the sport.",
+  },
+  {
+    heading: "Running the competition calendar",
+    body:
+      "State and territory associations organise the local meet calendar, from club nights and regional events through to state championships, and set the qualifying pathways that feed into national competition.",
+  },
+  {
+    heading: "Supporting coaches and officials",
+    body:
+      "Associations provide accreditation pathways, development courses, and resources for the coaches, technical officials, and committee volunteers who keep clubs running.",
+  },
+  {
+    heading: "Member protection and integrity",
+    body:
+      "Associations help clubs meet their child-safe and member-protection obligations under the national rules, including guidance on screening checks and complaint handling.",
+  },
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonical={canonical}
+  imageUrl={`${SITE}/og-image.png`}
+  faqItems={faqItems}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema, null, 2)} />
+
+  <header class="border-b border-hairline bg-canvas/85 backdrop-blur-xl">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-[68px]">
+        <a href="/au/" class="font-display text-[26px] text-[#0F2D2D] tracking-tight leading-none">Swimly</a>
+        <a
+          href={appUrl}
+          class="text-[15px] font-bold px-5 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-colors min-h-12 inline-flex items-center shadow-[0_1px_3px_rgba(57,57,58,0.16)]"
+        >
+          Start your club
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pb-16">
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section class="py-12">
+        <p class="eyebrow mb-3">Australia Guide</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          Swimming Australia and the State Associations Explained
+        </h1>
+        <p class="text-xl text-ink-soft leading-relaxed">
+          Swimming in Australia is run through a clear structure. Swimming Australia is the national governing body. It
+          works through eight state and territory associations, and those associations affiliate the clubs in their
+          area. If you volunteer on a club committee, understanding how these pieces fit together makes registration,
+          affiliation, and your child-safe obligations far less daunting. This guide explains who does what, how clubs
+          affiliate, what Swim Central is, and what member protection rules mean for your club.
+        </p>
+        <div class="mt-8">
+          <a
+            href={appUrl}
+            class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+          >
+            Start your club free
+          </a>
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">The short answer</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Swimming Australia is the peak national body for competitive swimming. It sets the rules, runs national teams
+          and events, and represents the country internationally as a member of World Aquatics. Below it sit eight state
+          and territory member associations, such as Swimming New South Wales, Swimming Victoria, and Swimming
+          Queensland. Each association affiliates its local clubs, runs the regional and state competition calendar, and
+          supports coaches and officials.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Clubs join the structure through their state or territory association, not through Swimming Australia directly.
+          Member registration and meet entries happen on Swim Central, the national platform. On top of that, every club
+          carries member protection and child-safe responsibilities, including Working With Children Checks for people
+          in child-related roles. The rest of this guide walks through each of these in turn.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">What Swimming Australia does</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Swimming Australia is the national governing body for the sport. It is responsible for the rules of
+          competition, national policies, the high-performance pathway, and the Australian teams that compete overseas.
+          As the recognised national federation, it represents Australia within World Aquatics, the international body
+          for aquatic sports formerly known as FINA. The organisation traces its origins to 1909, when state swimming
+          representatives first came together to govern the sport nationally.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          For a local club, the day-to-day relationship with Swimming Australia is mostly indirect. You will feel its
+          influence through the national rules your competitions follow, the integrity and member-protection framework
+          your club must uphold, and the membership structure your swimmers register into. The body you deal with
+          directly is your state or territory association.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">The eight state and territory associations</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          Each state and territory has its own member association affiliated to Swimming Australia. These are the bodies
+          that work most closely with clubs.
+        </p>
+        <div class="grid gap-4 sm:grid-cols-2">
+          {associations.map((assoc) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-5">
+              <h3 class="text-lg font-semibold text-[#0F2D2D]">{assoc.name}</h3>
+              <p class="text-ink-mute">{assoc.region}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-base text-ink-mute leading-relaxed mt-6">
+          Larger states also organise their clubs into regions or districts. Swimming Queensland, for example, works
+          through regional associations, and Swimming Victoria divides its clubs across metropolitan and country
+          districts. Your association can point you to the region your club belongs to.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">What your state or territory association does</h2>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {responsibilities.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How clubs register and affiliate</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Affiliation is the formal process of registering your club with its state or territory association for the
+          season. Once your club is affiliated, the memberships you sell to swimmers and families flow up through the
+          structure: a swimmer who joins a registered club is, in effect, also joining the state association and
+          Swimming Australia. The membership or affiliation year generally runs from 1 July to 30 June.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The exact steps, fees, and deadlines are set by each association, so the most reliable source is your own
+          state or territory body. A typical cycle looks like this:
+        </p>
+        <ol class="space-y-4 text-lg text-ink-soft leading-relaxed list-decimal pl-6">
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Affiliate the club for the season.</span> Your committee renews
+            the club's affiliation with the state or territory association, usually before the new membership year
+            begins.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Open memberships on Swim Central.</span> Families register and
+            pay for membership through Swim Central, selecting your club.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Confirm member-protection requirements.</span> Make sure your
+            coaches, officials, and relevant volunteers hold current Working With Children Checks for your state or
+            territory.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Run your season.</span> Enter swimmers in meets, manage training
+            groups, and keep your member records up to date.
+          </li>
+        </ol>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">What Swim Central is</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Swim Central is the national membership and event-entry platform used across Australian swimming. Families
+          create an account, set up a family group, and from there can buy memberships, enter meets, and manage everyone
+          in the household. Behind the scenes it links each member to their club, their region, their state or territory
+          association, and Swimming Australia, so a single membership record carries through the whole structure.
+          Payments are processed through Stripe.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          It is worth being clear about what Swim Central is and is not. It is the official record of membership and the
+          system swimmers use to enter sanctioned meets. It is not a complete club-administration tool for the work that
+          happens between registrations: collecting training fees, recording attendance on the pool deck, organising
+          squads, and keeping parents informed. That gap is exactly where club management software fits in alongside
+          Swim Central rather than instead of it.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Member protection and child-safe obligations</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Every swimming club has a duty to keep its members, and especially children, safe. Swimming in Australia
+          follows a National Integrity Framework, a shared set of rules covering conduct, safeguarding, and how
+          complaints are handled. It was developed with Sport Integrity Australia, an independent government agency, and
+          it applies to clubs as well as to associations and Swimming Australia itself. A national Safe Sport hotline
+          (1800 161 361) is available for members to raise concerns.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          For a club committee, the most practical part of these obligations is screening. People in child-related
+          roles, paid or unpaid, generally need a Working With Children Check. A WWCC involves a national criminal
+          history check and a review of relevant workplace misconduct findings. A check is typically valid for five
+          years and can be carried between different roles and clubs. It usually applies to coaches, technical
+          officials, and many committee members who have contact with junior swimmers.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The important catch is that child-safe screening is run by each state and territory, and the schemes differ in
+          their names, processes, and exact thresholds. A check issued in one jurisdiction does not automatically cover
+          another. Because of that, you should always confirm the current requirements with the relevant government
+          office for your state or territory and with your state or territory swimming association. Many clubs appoint a
+          designated person, sometimes called a member protection or child-safety officer, to manage screening and keep
+          a register of who has been checked.
+        </p>
+        <p class="text-base text-ink-mute leading-relaxed">
+          This guide is general information for club volunteers, not legal advice. Always rely on your association and
+          the relevant government bodies for the rules that apply to your club.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Where Swimly fits for Australian clubs</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Swimly is club management software for the day-to-day running of your club. It brings registration, recurring
+          billing in AUD, training and meet attendance, group management, and parent communication into one calm,
+          easy-to-use platform. It is designed to sit alongside the systems your club already uses, not to replace them.
+          Your Swimming Australia affiliation and Swim Central membership stay exactly as they are.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Because the official member record lives in Swim Central, the most useful thing a club tool can do is keep your
+          own data clean and portable. Swimly lets you manage groups, fees, and attendance in one place and export your
+          member list whenever you need it, so the records your association asks for are always within reach. You can
+          read more on our
+          <a href="/au/features/" class="text-mint-ink font-semibold hover:underline">features</a> page, and see plans
+          and AUD pricing on our
+          <a href="/au/pricing/" class="text-mint-ink font-semibold hover:underline">pricing</a> page.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Questions before you start? Email us at
+          <a href={`mailto:${contactEmail}`} class="text-mint-ink font-semibold hover:underline">{contactEmail}</a>.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Frequently asked questions</h2>
+        <div class="space-y-6">
+          {faqItems.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.question}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-12 text-center">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Take the admin off your committee's plate</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-8 max-w-2xl mx-auto">
+          Keep your registration, fees, and attendance organised in one place, alongside the systems your association
+          already requires.
+        </p>
+        <a
+          href={appUrl}
+          class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+        >
+          Start your club free
+        </a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="border-t border-hairline">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-ink-mute">&copy; {new Date().getFullYear()} Swimly</p>
+      <a href={`mailto:${contactEmail}`} class="text-sm text-ink-mute hover:text-[#0F2D2D] transition-colors">{contactEmail}</a>
+    </div>
+  </footer>
+</Layout>

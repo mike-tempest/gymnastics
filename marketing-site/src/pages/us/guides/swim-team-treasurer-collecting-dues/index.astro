@@ -1,0 +1,375 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import { canonicalFor, regionFromPath, REGIONS } from "../../../../config/regions";
+
+// Region-only page on swimly.club. The Layout is region-aware: it derives the
+// canonical, <html lang> and currency from this page's /us/ path, so nothing
+// here hardcodes the host, language or canonical. We only read the region
+// config to build absolute URLs for the JSON-LD breadcrumb.
+const PATH = "/us/guides/swim-team-treasurer-collecting-dues/";
+const canonical = canonicalFor(PATH);
+const region = regionFromPath(PATH);
+const SITE = REGIONS[region].host;
+const appUrl = "https://app.swimly.uk/create-club";
+const contactEmail = REGIONS[region].contactEmail;
+
+const title =
+  "Swim Team Treasurer's Guide to Collecting Dues and Fees | Swimly";
+const description =
+  "A practical guide for US swim team treasurers and board members: which fees to collect, how to set a billing cadence, card and ACH payment methods, handling late payments, and keeping clean records.";
+
+const faqItems = [
+  {
+    question: "What fees does a US swim team treasurer collect?",
+    answer:
+      "Most US swim teams collect a few distinct fees: recurring team dues that cover coaching and pool time, the USA Swimming athlete membership fee that the team passes through to register each swimmer, meet entry fees for the competitions a swimmer enters, and occasional charges for team equipment, apparel, or travel. Separating these on a family's bill makes the total easier to understand and easier to reconcile at season end.",
+  },
+  {
+    question: "How often should a swim team bill dues?",
+    answer:
+      "There is no single right cadence. Many teams bill monthly so families can spread the cost across the season, while others bill once per season or per session for simplicity. Recurring monthly billing usually reduces the volume of reminder emails a treasurer sends, because the charge goes out automatically on the same date each month. Pick the cadence your families understand and that matches how your own costs fall.",
+  },
+  {
+    question: "How do US swim teams accept payment for dues?",
+    answer:
+      "The two most common methods in the United States are debit or credit cards and ACH bank transfers (an electronic transfer directly from a checking account). Cards are fast and familiar; ACH typically carries a lower processing fee per transaction, which matters on larger amounts such as a full season of dues. Many teams offer both and let families choose. Processing fees vary by payment processor, so confirm the current rates with whichever provider you use.",
+  },
+  {
+    question: "How should a treasurer handle late or failed payments?",
+    answer:
+      "Decide on a clear, written late-payment policy before the season starts and apply it consistently. Automatic retries for failed card and ACH payments resolve many issues without anyone lifting a finger. For genuinely overdue accounts, a calm reminder, a short grace period, and an offer of a payment plan usually work better than a penalty. Keeping the policy in writing protects both the family and the volunteer enforcing it.",
+  },
+  {
+    question: "Is the USA Swimming membership fee part of team dues?",
+    answer:
+      "Usually no. The USA Swimming athlete membership fee is separate from your team dues. According to USA Swimming, each membership requires a USA Swimming fee and a Local Swimming Committee (LSC) fee. Teams commonly collect this amount from families and register swimmers on their behalf, so it is best shown as its own line item rather than folded into dues. Confirm current categories and fees on usaswimming.org.",
+  },
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/us/` },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/us/guides/` },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Swim Team Treasurer's Guide to Collecting Dues",
+      item: canonical,
+    },
+  ],
+};
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How to collect swim team dues and fees as a treasurer",
+  description:
+    "A step-by-step approach for US swim team treasurers to set up and collect team dues, membership pass-through fees, and meet fees.",
+  step: [
+    {
+      "@type": "HowToStep",
+      name: "List every fee you collect",
+      text:
+        "Write down team dues, the USA Swimming membership pass-through, meet entry fees, and any equipment or travel charges so nothing is missed.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Choose a billing cadence",
+      text:
+        "Decide whether to bill monthly, per session, or per season based on how your costs fall and what families can manage.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Offer card and ACH payment",
+      text:
+        "Accept debit or credit cards and ACH bank transfers so families can pick the method that suits them, and confirm processing fees with your provider.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Set a late-payment policy",
+      text:
+        "Put a clear, consistent policy in writing before the season, with automatic retries and a sensible grace period.",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Keep clean records",
+      text:
+        "Reconcile payments against your roster regularly and keep each fee on its own line so the books are easy to close at season end.",
+    },
+  ],
+};
+
+const feeTypes = [
+  {
+    heading: "Team dues",
+    body:
+      "Your core recurring charge. Dues cover coaching salaries, pool or lane rental, insurance, and the day-to-day cost of running the team. This is the fee most suited to recurring billing, because it is predictable and repeats every month or session of the season.",
+  },
+  {
+    heading: "USA Swimming membership (pass-through)",
+    body:
+      "Competitive swimmers register with USA Swimming through their team. USA Swimming states that each membership requires a USA Swimming fee and a Local Swimming Committee fee. Teams usually collect this from families and register on their behalf, so show it as its own line item rather than burying it inside dues.",
+  },
+  {
+    heading: "Meet entry fees",
+    body:
+      "Charged per meet and often per event, these vary with how many competitions a swimmer enters. Because they are variable rather than fixed, many treasurers bill them separately from recurring dues, either ahead of each meet or as a running tab settled monthly.",
+  },
+  {
+    heading: "Equipment, apparel, and travel",
+    body:
+      "Team suits, caps, banquet tickets, and travel costs for away meets come up through the season. Keeping these as distinct one-off charges, rather than folding them into dues, makes a family's bill easy to read and your books easy to reconcile.",
+  },
+];
+
+const recordChecklist = [
+  "Keep each fee type on its own line so dues, membership, and meet fees never blur together.",
+  "Reconcile payments against your current roster on a regular schedule, not just at year end.",
+  "Record who has paid, who is on a payment plan, and who is overdue in one place everyone on the board can see.",
+  "Separate money you are holding to pass through, such as USA Swimming fees, from the team's own operating funds.",
+  "Keep a simple audit trail so the next treasurer can pick up the books without a handover headache.",
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  imageUrl={`${SITE}/og-image.png`}
+  faqItems={faqItems}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(howToSchema, null, 2)} />
+
+  <header class="border-b border-hairline bg-canvas/85 backdrop-blur-xl">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-[68px]">
+        <a href="/us/" class="font-display text-[26px] text-[#0F2D2D] tracking-tight leading-none">Swimly</a>
+        <a
+          href={appUrl}
+          class="text-[15px] font-bold px-5 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-colors min-h-12 inline-flex items-center shadow-[0_1px_3px_rgba(57,57,58,0.16)]"
+        >
+          Start your team
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pb-16">
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section class="py-12">
+        <p class="eyebrow mb-3">US Guide</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          Swim Team Treasurer's Guide to Collecting Dues and Fees
+        </h1>
+        <p class="text-xl text-ink-soft leading-relaxed">
+          Collecting swim team dues comes down to four things: name every fee you charge, pick a billing
+          cadence families can plan around, accept the payment methods Americans actually use, namely cards and
+          ACH bank transfers, and keep clean records so the books close cleanly at the end of the season. This
+          guide walks a volunteer treasurer or board member through each step, with the fee types and pitfalls
+          that are specific to a US swim team.
+        </p>
+        <div class="mt-8">
+          <a
+            href={appUrl}
+            class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+          >
+            Start your team free
+          </a>
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">The fees a swim team collects</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The single most useful thing a treasurer can do is stop thinking about one lump sum and start thinking
+          about distinct fees. A family who sees dues, a membership charge, and meet fees as separate items on
+          their bill understands what they are paying for and questions it less. You, in turn, can reconcile each
+          stream on its own and spot a problem before it compounds.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {feeTypes.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-base text-ink-mute leading-relaxed mt-4">
+          USA Swimming offers several athlete membership categories, including Premium, Flex, and Outreach, each
+          with its own validity dates and meet limits. Fees and categories change from season to season, so
+          always confirm the current figures on the
+          <a
+            href="https://www.usaswimming.org/home/membership/athlete-membership"
+            class="text-mint-ink font-semibold hover:underline"
+            rel="noopener"
+          >USA Swimming athlete membership page</a>
+          rather than quoting a number from memory.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Choosing a billing cadence</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Billing cadence is how often dues go out, and it shapes how much chasing you do. There is no single
+          correct answer, only the one that fits your team:
+        </p>
+        <ul class="space-y-4 text-lg text-ink-soft leading-relaxed list-disc pl-6">
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Monthly.</span> Spreads the cost across the season and
+            keeps each charge small. With recurring billing the charge goes out automatically on the same date,
+            so you send far fewer reminders. This is the most common choice for year-round teams.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Per session.</span> A single charge for a defined block,
+            such as a short course or summer season. Simple to explain, though it asks families for a larger
+            amount up front.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Annual.</span> One payment for the whole year. The least
+            admin for you, but the highest barrier for a new family deciding whether to commit.
+          </li>
+        </ul>
+        <p class="text-lg text-ink-soft leading-relaxed mt-4">
+          Whichever you pick, align it with how your own costs fall. If you pay coaches and rent lanes monthly,
+          monthly dues keep your cash flow steady. Publish the schedule and the charge dates before the season so
+          no family is surprised.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Payment methods used in the US</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          US swim teams almost always settle on two electronic payment methods. Knowing the trade-off between
+          them helps you keep processing costs down without making life hard for families.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Debit and credit cards</h3>
+            <p class="text-ink-soft leading-relaxed">
+              Fast, familiar, and easy for families to set up. Cards typically carry a percentage-based
+              processing fee on every transaction, which adds up on larger charges such as a full season of dues.
+            </p>
+          </div>
+          <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">ACH bank transfers</h3>
+            <p class="text-ink-soft leading-relaxed">
+              An electronic transfer straight from a family's checking account. ACH usually costs less per
+              transaction than cards, which makes it well suited to recurring dues. It can take a little longer to
+              clear.
+            </p>
+          </div>
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-4">
+          Offering both, and gently steering larger recurring payments toward ACH, is a practical way to lower the
+          fees your team absorbs. Processing rates differ by provider and change over time, so confirm the current
+          card and ACH fees with whichever payment processor you use before you set prices. Note that US swim
+          teams do not use UK-style bank debit schemes; ACH is the American equivalent for pulling recurring
+          payments from a bank account.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Handling late and failed payments</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Late payments are the part of the job most treasurers dread, because chasing money from people you see
+          on the pool deck is uncomfortable. A written policy removes the awkwardness: you are applying a rule the
+          whole team agreed to, not singling anyone out.
+        </p>
+        <ol class="space-y-4 text-lg text-ink-soft leading-relaxed list-decimal pl-6">
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Let automation catch the easy cases.</span> Many failed
+            card and ACH payments are an expired card or a timing issue. Automatic retries clear a large share of
+            these without you doing anything.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Send a calm, factual reminder.</span> A short note stating
+            the amount, what it is for, and how to pay resolves most of the rest. Skip the penalty language.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Offer a payment plan.</span> For a family genuinely
+            stretched, splitting an overdue balance keeps the swimmer in the water and the money coming in. That
+            is usually a better outcome than a late fee.
+          </li>
+          <li>
+            <span class="font-semibold text-[#0F2D2D]">Apply the policy consistently.</span> Whatever grace
+            period and consequences you set, use them the same way for everyone. Consistency is what makes the
+            policy fair and defensible.
+          </li>
+        </ol>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Keeping clean records</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Clean records are what let you answer a parent's question in seconds, close the season without a
+          scramble, and hand the role to the next volunteer without losing a week to a messy handover. A few
+          habits do most of the work:
+        </p>
+        <ul class="space-y-3 text-lg text-ink-soft leading-relaxed list-disc pl-6">
+          {recordChecklist.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+        <p class="text-lg text-ink-soft leading-relaxed mt-4">
+          The pass-through point deserves emphasis. Money you collect to register swimmers with USA Swimming is
+          not the team's to spend; keeping it visibly separate from operating funds avoids an honest mistake at a
+          busy time of year.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Where Swimly fits</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Swimly keeps your membership records and billing in one place, so the fees above stop living in a stack
+          of spreadsheets. You can track who is registered, bill recurring dues in USD by card or ACH, and see at
+          a glance who has paid and who is overdue. It does not replace your USA Swimming membership or act as your
+          accountant; it handles the day-to-day collection and record keeping around them so a volunteer treasurer
+          spends less time chasing and reconciling.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          See what is included on the
+          <a href="/us/features/" class="text-mint-ink font-semibold hover:underline">features page</a>,
+          compare plans on the
+          <a href="/us/pricing/" class="text-mint-ink font-semibold hover:underline">pricing page</a>, or email us
+          at
+          <a href={`mailto:${contactEmail}`} class="text-mint-ink font-semibold hover:underline">{contactEmail}</a>
+          with a question before you start.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Frequently asked questions</h2>
+        <div class="space-y-6">
+          {faqItems.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.question}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-12 text-center">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Spend less of your season chasing dues</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-8 max-w-2xl mx-auto">
+          Set up your team, bill dues in USD by card or ACH, and keep every fee and payment in one place.
+        </p>
+        <a
+          href={appUrl}
+          class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+        >
+          Start your team free
+        </a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="border-t border-hairline">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-ink-mute">&copy; {new Date().getFullYear()} Swimly</p>
+      <a href={`mailto:${contactEmail}`} class="text-sm text-ink-mute hover:text-[#0F2D2D] transition-colors">{contactEmail}</a>
+    </div>
+  </footer>
+</Layout>

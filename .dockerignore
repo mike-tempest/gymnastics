@@ -1,0 +1,60 @@
+# Dependencies
+node_modules
+**/node_modules
+
+# Build output (keep packages/shared-types/dist for workspace resolution)
+!packages/shared-types/dist
+services/**/dist
+apps/**/dist
+.next
+**/.next
+out
+**/out
+
+# Version control
+.git
+.gitignore
+
+# Environment files (these are injected at runtime, not baked into images)
+.env
+.env.local
+.env.*.local
+.jwt_secret
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage
+**/coverage
+**/*.spec.ts
+**/*.test.ts
+**/test
+**/__tests__
+
+# Documentation and miscellaneous
+*.md
+LICENSE
+.prettierrc
+.eslintrc*
+.editorconfig
+.husky
+
+# Docker files (prevent recursive copy)
+Dockerfile
+docker-compose*.yml
+
+# Turbo cache
+.turbo
+**/.turbo
+
+# Memory and local state
+memory

@@ -1,0 +1,165 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const lastUpdated = "10 June 2026";
+---
+
+<Layout
+  title="Privacy Policy | Swimly"
+  description="How Swimly collects, uses, and protects your personal data on swimly.uk. Plain English, no legal maze."
+>
+  <Nav />
+  <main>
+    <section class="relative pt-32 pb-16 sm:pt-40 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[480px] pointer-events-none" aria-hidden="true"></div>
+      <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p class="eyebrow">Privacy</p>
+        <h1 class="font-display text-4xl sm:text-5xl leading-tight text-[#0F2D2D] mt-5">Privacy policy</h1>
+        <p class="mt-4 text-ink-mute">Last updated: {lastUpdated}</p>
+        <p class="mt-6 text-lg text-ink-soft leading-relaxed">
+          This policy explains what personal data we collect through swimly.uk, why we collect it,
+          and what your rights are. We have written it in plain English because that is how we
+          would want it explained to us.
+        </p>
+      </div>
+    </section>
+
+    <section class="pb-20 sm:pb-28">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+
+        <div>
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">Who we are</h2>
+          <p class="text-ink-soft leading-relaxed">
+            Swimly is club management software for UK swimming clubs, operated from the United Kingdom.
+            For anything related to your personal data, contact us at
+            <a href="mailto:hello@swimly.uk" class="text-mint-ink hover:text-[#0F2D2D] underline underline-offset-2">hello@swimly.uk</a>.
+            For data collected through this website, Swimly is the data controller.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">What we collect and why</h2>
+          <div class="space-y-6 text-ink-soft leading-relaxed">
+            <div>
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Waitlist signups</h3>
+              <p>
+                If you join the waitlist, we store your email address (and your club name and role
+                if you choose to share them) so we can contact you about Swimly launch updates and
+                the founding clubs programme. That is the only thing we use it for. The lawful basis
+                is your consent, and you can withdraw it at any time by emailing us or using the
+                unsubscribe link in any email we send.
+              </p>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Contact form enquiries</h3>
+              <p>
+                If you use the contact form, we receive the details you enter: your name, email
+                address, club name, role, and message. We use them to respond to your enquiry and
+                for nothing else. The lawful basis is our legitimate interest in answering the
+                people who write to us. The form is delivered to our inbox by FormSubmit, which
+                acts as a processor for this purpose.
+              </p>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Analytics</h3>
+              <p>
+                We use Google Analytics to understand which pages are useful, and only if you
+                accept analytics cookies in the banner. If you decline, Google Analytics does not
+                load and no analytics cookies are set. The lawful basis is your consent. See the
+                cookies section below for how to change your choice.
+              </p>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Club directory</h3>
+              <p>
+                Our <a href="/clubs/" class="text-mint-ink hover:text-[#0F2D2D] underline underline-offset-2">club directory</a>
+                lists UK swimming clubs using publicly available information such as club names,
+                locations, and websites. It does not contain personal data about club members. If
+                you represent a club and want your listing corrected or removed, email us and we
+                will sort it.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">Who we share data with</h2>
+          <p class="text-ink-soft leading-relaxed">
+            We never sell your data. We share it only with the service providers that make this
+            website work: our hosting providers, FormSubmit (contact form delivery), and Google
+            Analytics (analytics, only with your consent). Each acts under terms that restrict
+            what they can do with it.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">How long we keep it</h2>
+          <p class="text-ink-soft leading-relaxed">
+            Waitlist emails are kept until you unsubscribe or until launch communications are
+            complete, after which the list is deleted. Contact enquiries are kept for as long as
+            needed to deal with your enquiry and any follow-up, then deleted.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">Your rights</h2>
+          <p class="text-ink-soft leading-relaxed mb-4">
+            Under UK GDPR you have the right to access the personal data we hold about you, to
+            correct it, to have it deleted, to restrict or object to how we use it, and to receive
+            a copy in a portable format. Email
+            <a href="mailto:hello@swimly.uk" class="text-mint-ink hover:text-[#0F2D2D] underline underline-offset-2">hello@swimly.uk</a>
+            and we will respond within one month.
+          </p>
+          <p class="text-ink-soft leading-relaxed">
+            If you are unhappy with how we have handled your data, you can complain to the
+            Information Commissioner's Office at
+            <a href="https://ico.org.uk" class="text-mint-ink hover:text-[#0F2D2D] underline underline-offset-2" rel="noopener noreferrer" target="_blank">ico.org.uk</a>.
+          </p>
+        </div>
+
+        <div id="cookies">
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">Cookies</h2>
+          <p class="text-ink-soft leading-relaxed mb-4">
+            This site sets no cookies unless you accept them. If you accept analytics in the
+            consent banner, Google Analytics sets its standard cookies to measure page visits.
+            Your choice is stored in your browser so we do not ask you on every visit.
+          </p>
+          <p class="text-ink-soft leading-relaxed mb-6">
+            You can change your mind at any time:
+          </p>
+          <button
+            id="reset-consent"
+            class="inline-flex items-center gap-2 px-6 rounded-xl border border-[#297373]/40 text-ink hover:border-[#297373]/70 hover:bg-surface transition-colors font-semibold min-h-12"
+          >
+            Reset cookie preferences
+          </button>
+          <p id="reset-consent-message" class="mt-3 text-sm text-mint-ink hidden">
+            Done. Reload any page to choose again.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">Changes to this policy</h2>
+          <p class="text-ink-soft leading-relaxed">
+            If we change this policy we will update this page and the date at the top. If a change
+            meaningfully affects how we use your data, we will tell you by email before it takes
+            effect.
+          </p>
+        </div>
+
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  const btn = document.getElementById("reset-consent");
+  const msg = document.getElementById("reset-consent-message");
+  btn?.addEventListener("click", () => {
+    localStorage.removeItem("swimly-consent");
+    msg?.classList.remove("hidden");
+  });
+</script>

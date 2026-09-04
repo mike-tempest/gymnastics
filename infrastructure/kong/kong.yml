@@ -1,0 +1,91 @@
+_format_version: '3.0'
+
+services:
+  - name: membership-service
+    url: http://host.docker.internal:3001
+    routes:
+      - name: membership-routes
+        paths:
+          - /api/v1/swimmers
+          - /api/v1/families
+          - /api/v1/squads
+          - /api/v1/dbs
+          - /api/v1/consents
+        strip_path: false
+
+  - name: finance-service
+    url: http://host.docker.internal:3002
+    routes:
+      - name: finance-routes
+        paths:
+          - /api/v1/invoices
+          - /api/v1/payments
+          - /api/v1/mandates
+          - /api/v1/reports
+        strip_path: false
+
+  - name: competition-service
+    url: http://host.docker.internal:3003
+    routes:
+      - name: competition-routes
+        paths:
+          - /api/v1/meets
+          - /api/v1/entries
+          - /api/v1/results
+          - /api/v1/pbs
+        strip_path: false
+
+  - name: performance-service
+    url: http://host.docker.internal:3004
+    routes:
+      - name: performance-routes
+        paths:
+          - /api/v1/sessions
+          - /api/v1/attendance
+          - /api/v1/workouts
+          - /api/v1/wellness
+          - /api/v1/analytics
+        strip_path: false
+
+  - name: communications-service
+    url: http://host.docker.internal:3005
+    routes:
+      - name: communications-routes
+        paths:
+          - /api/v1/messages
+          - /api/v1/notifications
+          - /api/v1/calendar
+          - /api/v1/documents
+        strip_path: false
+
+plugins:
+  - name: cors
+    config:
+      origins:
+        - http://localhost:3000
+        - http://localhost:8000
+      methods:
+        - GET
+        - POST
+        - PUT
+        - PATCH
+        - DELETE
+        - OPTIONS
+      headers:
+        - Accept
+        - Accept-Version
+        - Content-Length
+        - Content-MD5
+        - Content-Type
+        - Date
+        - Authorization
+      exposed_headers:
+        - X-Auth-Token
+      credentials: true
+      max_age: 3600
+
+  - name: request-transformer
+    config:
+      add:
+        headers:
+          - X-Gateway-Version:1.0

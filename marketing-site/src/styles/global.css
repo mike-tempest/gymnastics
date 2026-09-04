@@ -1,0 +1,231 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Brand mint ───────────────────────────────────────────── */
+  --color-mint-50: #e6fff2;
+  --color-mint-100: #c2ffe0;
+  --color-mint-200: #a3ffd1;
+  --color-mint-300: #85FFC7;
+  --color-mint-400: #6de6b0;
+  --color-mint-500: #85FFC7;
+  --color-mint-600: #5cc99a;
+  --color-mint-700: #3da878;
+  --color-mint-800: #1f7a52;
+  --color-mint-900: #0d5c3a;
+  /* Mint dark enough to read as text/icons on the light canvas */
+  --color-mint-ink: #1F7A52;
+
+  --color-coral: #FF8552;
+  --color-coral-hover: #ff9b73;
+
+  --color-teal-900: #1a4f4f;
+  --color-teal-800: #205e5e;
+  --color-teal-700: #236868;
+  --color-teal-600: #297373;
+  --color-teal-500: #3a8a8a;
+  /* Eyebrow / accent teal on light backgrounds */
+  --color-teal-accent: #297373;
+
+  --color-light-grey: #E6E6E6;
+  --color-graphite: #39393A;
+  --color-graphite-light: #4a4a4b;
+  --color-graphite-dark: #2a2a2b;
+
+  /* Deep teal surfaces (dark bands, headings) */
+  --color-dark-950: #0F2D2D;
+  --color-dark-900: #163F3F;
+  --color-dark-800: #1E5555;
+  --color-dark-700: #297373;
+  --color-dark-600: #347F7F;
+
+  /* ── Light design system (the rollout palette) ────────────── */
+  --color-canvas: #E6E6E6;          /* page background */
+  --color-surface: #F0F0F0;         /* subtle section / card background */
+  --color-surface-raised: #FAFAF8;  /* raised cards, pricing, vignettes */
+  --color-ink: #39393A;             /* primary text (graphite) */
+  --color-ink-soft: #4D4D4D;        /* body text */
+  --color-ink-mute: #666666;        /* secondary text */
+  --color-ink-faint: #999999;       /* tertiary text */
+  --color-hairline: rgba(57, 57, 58, 0.10); /* borders on light */
+
+  --color-lime-cta: #FF8552;
+  --color-lime-cta-hover: #FF6B33;
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "DM Serif Display", Georgia, "Times New Roman", serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Editorial type: display headings in DM Serif ───────────── */
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+h1.font-display,
+h2.font-display,
+.font-display em,
+h1 em,
+h2 em {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+h1 em,
+h2 em,
+.font-display em {
+  font-style: italic;
+}
+
+/* Small-caps section label */
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-teal-accent);
+}
+
+.eyebrow-light {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #85ffc7;
+}
+
+/* ── Swimming signature motifs ──────────────────────────────── */
+
+/* Pool-tile dot grid, fading downward. Apply to a positioned layer. */
+.dot-grid {
+  background-image: radial-gradient(#297373 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.07;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
+  mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
+}
+
+/* Soft mint wash behind a headline */
+.hero-wash {
+  background: radial-gradient(closest-side, rgba(133, 255, 199, 0.32), transparent 70%);
+  filter: blur(60px);
+}
+
+/* Lane-rope divider: long dashes like a swimming lane line */
+.lane-divider {
+  height: 2px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(41, 115, 115, 0.28) 0 28px,
+    transparent 28px 44px
+  );
+  border-radius: 1px;
+}
+
+.lane-divider-mint {
+  height: 2px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(133, 255, 199, 0.35) 0 28px,
+    transparent 28px 44px
+  );
+}
+
+/* Concentric ripple rings: three crisp 1px outlines */
+.ripple {
+  border-radius: 9999px;
+  border: 1px solid rgba(133, 255, 199, 0.22);
+  pointer-events: none;
+}
+.ripple::before,
+.ripple::after {
+  content: "";
+  position: absolute;
+  border-radius: 9999px;
+}
+.ripple::before {
+  inset: 34px;
+  border: 1px solid rgba(133, 255, 199, 0.15);
+}
+.ripple::after {
+  inset: 68px;
+  border: 1px solid rgba(133, 255, 199, 0.09);
+}
+
+/* Mint highlight sitting behind an "after" numeral or word */
+.result-mark {
+  color: var(--color-mint-ink);
+  background: linear-gradient(transparent 58%, rgba(133, 255, 199, 0.5) 58%);
+  padding: 0 0.08em;
+  border-radius: 2px;
+}
+
+/* ── Scroll reveal (gated behind a JS class so no-JS shows all) ─ */
+html.js-reveal .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+html.js-reveal .reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Gentle float for product vignettes */
+@keyframes float-y {
+  from { transform: translateY(-6px); }
+  to { transform: translateY(6px); }
+}
+.float-a { animation: float-y 5.5s ease-in-out infinite alternate; }
+.float-b { animation: float-y 7s ease-in-out infinite alternate-reverse; }
+.float-c { animation: float-y 6.2s ease-in-out infinite alternate; animation-delay: 0.8s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .float-a, .float-b, .float-c { animation: none; }
+  html.js-reveal .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ── Mobile spacing: more breathing room between sections ───── */
+@media (max-width: 640px) {
+  section {
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
+  }
+
+  .text-sm {
+    line-height: 1.75;
+  }
+
+  p.text-lg,
+  p.text-gray-400 {
+    line-height: 1.8;
+  }
+
+  p {
+    line-height: 1.7;
+  }
+}
+
+@media (max-width: 375px) {
+  section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  p {
+    line-height: 1.75;
+  }
+}

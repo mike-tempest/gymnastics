@@ -1,0 +1,127 @@
+---
+import { ArrowRight, Check, Shield, Lock, Server, ShieldCheck } from "@lucide/astro";
+
+const trust = [
+  { icon: Shield, label: "Swim England compatible" },
+  { icon: Lock, label: "GDPR compliant" },
+  { icon: Server, label: "UK hosted" },
+  { icon: ShieldCheck, label: "256-bit encryption" },
+];
+---
+
+<header class="relative pt-28 sm:pt-36 pb-10 overflow-hidden">
+  <div class="dot-grid absolute inset-x-0 top-0 h-[640px] pointer-events-none" aria-hidden="true"></div>
+  <div class="hero-wash absolute left-1/2 top-[-160px] -translate-x-1/2 w-[900px] h-[520px] pointer-events-none" aria-hidden="true"></div>
+
+  <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <p class="eyebrow reveal">The operating system for British swimming clubs</p>
+
+    <h1 class="reveal font-display text-[44px] leading-[1.06] sm:text-6xl lg:text-[72px] sm:leading-[1.04] text-[#0F2D2D] mt-6 tracking-[-0.01em]">
+      Give your committee back
+      <br class="hidden sm:block" />
+      <em class="text-mint-ink">hours</em> every week
+    </h1>
+
+    <p class="reveal mt-7 text-[17px] sm:text-xl text-ink-soft max-w-2xl mx-auto leading-relaxed">
+      Membership, billing, attendance and Wavepower compliance in one calm,
+      organised place. Built by a swim parent who has chased the subs and
+      printed the registers.
+    </p>
+
+    <div class="reveal mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a
+        href="https://app.swimly.uk/create-club"
+        class="group inline-flex items-center justify-center gap-2.5 px-8 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg min-h-14 shadow-[0_8px_24px_-8px_rgba(255,133,82,0.7)] hover:shadow-[0_10px_28px_-8px_rgba(255,107,51,0.8)] hover:-translate-y-px w-full sm:w-auto"
+      >
+        Start your club, free
+        <ArrowRight class="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
+      </a>
+      <a
+        href="#product"
+        class="inline-flex items-center justify-center gap-2 px-7 rounded-xl border border-[#39393A]/20 bg-surface/60 text-ink hover:border-[#297373]/50 hover:bg-surface transition-colors text-lg min-h-14 w-full sm:w-auto"
+      >
+        See the product
+      </a>
+    </div>
+
+    <p class="reveal mt-6 text-sm text-ink-mute">
+      Free for clubs under 50 members. No card required. Founding clubs get 6 months free on any plan.
+    </p>
+  </div>
+
+  <!-- Product frame with floating vignettes -->
+  <div id="product" class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 sm:mt-20">
+    <div class="reveal relative">
+      <!-- Vignette: poolside register -->
+      <div class="float-a hidden lg:block absolute -left-10 -top-10 w-[230px] z-10">
+        <div class="rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_16px_40px_-12px_rgba(15,45,45,0.35)] p-4">
+          <p class="text-[11px] font-semibold tracking-[0.08em] uppercase text-ink-mute">Saturday · 6:00am</p>
+          <p class="text-[13px] font-semibold text-[#0F2D2D] mt-0.5 mb-2.5">Juniors A register</p>
+          <ul class="space-y-1.5">
+            <li class="flex items-center justify-between text-[13px] text-ink">Ella P<span class="inline-flex items-center justify-center w-[18px] h-[18px] rounded-full bg-[#85FFC7]/45 text-mint-ink"><Check class="w-3 h-3" /></span></li>
+            <li class="flex items-center justify-between text-[13px] text-ink">Noah W<span class="inline-flex items-center justify-center w-[18px] h-[18px] rounded-full bg-[#85FFC7]/45 text-mint-ink"><Check class="w-3 h-3" /></span></li>
+            <li class="flex items-center justify-between text-[13px] text-ink">Amira K<span class="inline-flex items-center justify-center w-[18px] h-[18px] rounded-full bg-[#85FFC7]/45 text-mint-ink"><Check class="w-3 h-3" /></span></li>
+          </ul>
+          <p class="text-[11px] text-ink-mute mt-2.5 pt-2.5 border-t border-[#39393A]/8">14 of 16 marked present</p>
+        </div>
+      </div>
+
+      <!-- Vignette: payment collected -->
+      <div class="float-b hidden lg:block absolute -right-12 top-16 w-[250px] z-10">
+        <div class="rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_16px_40px_-12px_rgba(15,45,45,0.35)] p-4 flex items-start gap-3">
+          <span class="shrink-0 w-8 h-8 rounded-full bg-[#85FFC7]/40 border border-[#1F7A52]/20 flex items-center justify-center">
+            <Check class="w-4 h-4 text-mint-ink" />
+          </span>
+          <div class="min-w-0">
+            <p class="text-[13px] font-semibold text-[#0F2D2D]">Direct Debit collected</p>
+            <p class="text-[13px] text-ink-soft mt-0.5">Harper family · £58.00</p>
+            <p class="text-[11px] text-ink-mute mt-1">Just now</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vignette: DBS renewals -->
+      <div class="float-c hidden lg:block absolute -left-6 bottom-12 w-[240px] z-10">
+        <div class="rounded-2xl bg-[#0F2D2D] shadow-[0_16px_40px_-12px_rgba(15,45,45,0.5)] p-4">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#FFB020]"></span>
+            <p class="text-[13px] font-semibold text-[#E6E6E6]">DBS renewals due</p>
+          </div>
+          <p class="text-[13px] text-[#E6E6E6]/70 mt-1.5">2 coaches in the next 30 days</p>
+          <p class="text-[12px] text-[#85FFC7] mt-2.5">Review now</p>
+        </div>
+      </div>
+
+      <!-- Browser frame -->
+      <div class="rounded-[20px] overflow-hidden border border-[#39393A]/10 bg-surface-raised shadow-[0_32px_64px_-20px_rgba(15,45,45,0.35),0_4px_12px_rgba(57,57,58,0.08)]">
+        <div class="flex items-center gap-1.5 px-4 py-3 bg-[#0F2D2D]">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#FF8552]/80"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-[#85FFC7]/60"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-[#E6E6E6]/30"></span>
+          <span class="ml-3 text-xs text-[#E6E6E6]/60 font-medium">app.swimly.uk</span>
+        </div>
+        <picture>
+          <source srcset="/images/app-screenshots/dashboard-mobile.png" media="(max-width: 639px)" />
+          <source srcset="/images/app-screenshots/dashboard-tablet.png" media="(max-width: 1023px)" />
+          <img src="/images/app-screenshots/dashboard-desktop.png" alt="Swimly dashboard showing club overview with member stats, upcoming sessions, and billing summary" class="w-full" loading="eager" fetchpriority="high" />
+        </picture>
+      </div>
+    </div>
+
+    <p class="reveal text-center text-sm text-ink-mute mt-6">
+      The same product your committee will use. No mockups, no concept art.
+    </p>
+  </div>
+
+  <!-- Trust strip -->
+  <div class="reveal max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+    <div class="flex flex-wrap items-center justify-center gap-x-9 gap-y-3">
+      {trust.map(t => (
+        <span class="inline-flex items-center gap-2 text-sm text-ink-soft">
+          <t.icon class="w-4 h-4 text-[#297373]" />
+          {t.label}
+        </span>
+      ))}
+    </div>
+  </div>
+</header>

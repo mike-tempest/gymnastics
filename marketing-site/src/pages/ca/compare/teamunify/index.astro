@@ -1,0 +1,238 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import Nav from "../../../../components/Nav.astro";
+import Footer from "../../../../components/Footer.astro";
+import { REGIONS } from "../../../../config/regions";
+import { ArrowRight, DollarSign, Zap, Smartphone, Users } from "@lucide/astro";
+
+const SITE = "https://swimly.club";
+const appUrl = REGIONS.ca.appUrl;
+const title = "Swimly vs TeamUnify | Swim Club Software in Canada";
+const description =
+  "Compare Swimly and TeamUnify (now SportsEngine Motion) for Canadian swim clubs. A modern, focused platform with transparent CAD pricing versus an enterprise incumbent.";
+const canonical = `${SITE}/ca/compare/teamunify/`;
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/ca/` },
+    { "@type": "ListItem", position: 2, name: "Swimly vs TeamUnify", item: `${SITE}/ca/compare/teamunify/` },
+  ],
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How does Swimly compare to TeamUnify?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Swimly is a focused, modern platform for volunteer-run clubs, with quick self-service setup and transparent pricing in Canadian dollars. TeamUnify, now part of SportsEngine Motion under NBC Sports Next, is a long-established all-in-one platform used by thousands of swimming organisations worldwide, with strong meet management and a broad feature set. Swimly concentrates on everyday club administration without enterprise overhead, while TeamUnify offers an extensive toolset suited to larger organisations.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does Swimly cost less than TeamUnify?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Swimly publishes flat monthly pricing in Canadian dollars with a free plan for small clubs. TeamUnify's pricing is arranged with their sales team, so a like-for-like figure depends on your organisation. For smaller volunteer-run clubs that want predictable, published pricing, Swimly is designed to be straightforward to budget for.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I move from TeamUnify to Swimly?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Swimly's onboarding includes importing your member data from a spreadsheet or export. If your club relies heavily on advanced meet management, note that Swimly's competition features are still being built, so it is worth checking the timing with our team before switching.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is TeamUnify ever the better choice?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. If you need advanced meet entry and management today, or you are a large organisation that wants a single enterprise platform with a wide feature set, TeamUnify is a strong, established option. Swimly is aimed at clubs that want focused, modern, everyday administration with transparent pricing.",
+      },
+    },
+  ],
+};
+
+
+const rows = [
+  ["Membership management", "Member database with family grouping and squads", "Comprehensive member database and CRM"],
+  ["Payment collection", "Recurring card and bank payments in CAD, automated", "Integrated payment collection and invoicing"],
+  ["Attendance", "Quick poolside check-in on mobile", "Attendance with make-up credit handling"],
+  ["Parent access", "Mobile-first web portal, works poolside", "Dashboard and mobile app"],
+  ["Meet management", "Competition features in development", "Advanced meet entry and management"],
+  ["Pricing", "Published flat rate in CAD, free plan for small clubs", "Arranged with their sales team"],
+  ["Setup", "Self-service, quick to start", "Guided onboarding"],
+  ["Scope", "Focused on everyday club administration", "Broad enterprise platform across many sports"],
+];
+---
+
+<Layout title={title} description={description} canonical={canonical}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <Nav />
+
+  <main class="pt-24 pb-16">
+    <!-- Hero -->
+    <section class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none" aria-hidden="true"></div>
+      <div class="relative">
+        <p class="eyebrow mb-6">Platform comparison</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          Swimly vs TeamUnify
+        </h1>
+        <p class="text-xl text-ink-soft max-w-3xl">
+          TeamUnify, now part of SportsEngine Motion under NBC Sports Next, is a
+          long-established, all-in-one platform used by thousands of swimming
+          organisations. It is powerful and broad. Swimly takes a more focused
+          approach, built for volunteer-run Canadian clubs that want modern,
+          everyday administration with transparent pricing.
+        </p>
+
+        <div class="grid grid-cols-3 gap-4 mt-10">
+          <div class="bg-[#85FFC7]/10 border border-[#1F7A52]/20 rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">CAD</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">published pricing</p>
+          </div>
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">Focused</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">on club admin</p>
+          </div>
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">Self</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">service setup</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Positioning -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="bg-[#85FFC7]/15 rounded-2xl border border-[#1F7A52]/20 p-8 sm:p-10">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-4">Two different fits</h2>
+        <p class="text-ink-soft mb-4">
+          Most swim clubs in Canada are volunteer-run organisations where a parent
+          juggles membership admin between the school run and work. They want
+          software that is quick to learn and predictable to budget for.
+        </p>
+        <p class="text-ink-soft">
+          TeamUnify is a comprehensive platform with a deep feature set and strong
+          meet management, used by organisations of all sizes worldwide. Swimly is
+          a newer, focused alternative that concentrates on everyday club
+          administration, priced in Canadian dollars, without a broad enterprise
+          toolset to learn around.
+        </p>
+      </div>
+    </section>
+
+    <!-- Comparison table -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">At a glance</h2>
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-[#39393A]/8 bg-surface">
+              <th class="text-left p-3 sm:p-6 text-[#0F2D2D] font-semibold">Area</th>
+              <th class="text-left p-3 sm:p-6 text-mint-ink font-semibold bg-[#85FFC7]/10">Swimly</th>
+              <th class="text-left p-3 sm:p-6 text-[#0F2D2D] font-medium">TeamUnify</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#39393A]/8">
+            {rows.map((r) => (
+              <tr>
+                <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">{r[0]}</td>
+                <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">{r[1]}</td>
+                <td class="p-3 sm:p-6 text-ink-soft">{r[2]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-ink-faint mt-4">
+        Based on publicly available information about each platform. Product
+        details and naming can change over time, so check each provider's current
+        site before deciding.
+      </p>
+    </section>
+
+    <!-- Why choose Swimly -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-4 text-center">Where Swimly fits best</h2>
+      <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">Four reasons a volunteer-run Canadian club might choose Swimly.</p>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Users class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">No enterprise overhead</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">A 120-member club does not need a broad enterprise platform or a deep configuration process. Swimly is quick to set up and focused on what a volunteer committee uses week to week.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <DollarSign class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Transparent CAD pricing</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">Swimly publishes flat monthly pricing in Canadian dollars with a free plan for small clubs. You can see the cost before you talk to anyone.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Smartphone class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Mobile-first, poolside</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">Coaches take attendance on the phone they already carry, with no separate app to install. The portal is designed for real life, not just office desks.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Zap class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Modern and quick to improve</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">Swimly is built on a modern stack and iterates regularly based on what clubs tell us they need. We stay focused on everyday club administration.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- When TeamUnify is better -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">When TeamUnify may be the better choice</h2>
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8">
+        <p class="text-ink-soft mb-4">We believe in being honest. TeamUnify may suit your club better if:</p>
+        <ul class="space-y-3 text-ink-soft">
+          <li class="flex gap-3">
+            <span class="text-ink-faint">&bull;</span>
+            <span>You need advanced meet entry and management now, as Swimly's competition features are still being built.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">&bull;</span>
+            <span>You are a large organisation that wants a single, broad enterprise platform with extensive configuration.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">&bull;</span>
+            <span>You want a long-established vendor with a large worldwide install base across many sports.</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-6">See whether Swimly fits your club</h2>
+      <p class="text-xl text-ink-soft mb-8 max-w-xl mx-auto">Create your club today. Free for small clubs, no card required.</p>
+      <a
+        href={`${appUrl}/create-club`}
+        class="inline-flex items-center justify-center gap-2 text-lg font-bold px-8 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all min-h-14 shadow-[0_8px_24px_-8px_rgba(255,133,82,0.6)]"
+      >
+        Start your club, free
+        <ArrowRight class="w-5 h-5" />
+      </a>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

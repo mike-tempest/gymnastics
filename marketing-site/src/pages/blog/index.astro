@@ -1,0 +1,165 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { getCollection } from "astro:content";
+import { ArrowRight, Calendar, Clock } from "@lucide/astro";
+import BlogCardCover from "../../components/BlogCardCover.astro";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+);
+
+function formatDate(date: Date): string {
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(date);
+}
+
+function estimateReadTime(body: string): number {
+  const words = body.trim().split(/\s+/).length;
+  return Math.max(1, Math.round(words / 230));
+}
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://swimly.uk/blog"
+    }
+  ]
+};
+---
+
+<Layout
+  title="Blog | Swimly"
+  description="Practical advice for running a swimming club in the UK. From compliance guidance to club management tips, written for the volunteers who keep grassroots swimming alive."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <Nav />
+  <main>
+    <!-- Hero -->
+    <section class="relative pt-32 pb-16 sm:pt-40 sm:pb-20 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none" aria-hidden="true"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="eyebrow">From the poolside</p>
+        <h1 class="font-display text-4xl sm:text-5xl leading-tight text-[#0F2D2D] mt-5">
+          The Swimly <em>Blog</em>
+        </h1>
+        <p class="mt-5 text-lg text-ink-soft max-w-2xl mx-auto leading-relaxed">
+          Practical advice for running a swimming club in the UK. Written for
+          committee members, coaches, and the volunteers who keep grassroots
+          swimming going.
+        </p>
+      </div>
+    </section>
+
+    <!-- Posts Grid -->
+    <section class="pb-20 sm:pb-28">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <a
+              href={`/blog/${post.id}`}
+              class="group flex flex-col rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all overflow-hidden"
+            >
+              {post.data.image ? (
+                <div class="aspect-video w-full overflow-hidden bg-surface">
+                  <img
+                    src={post.data.image}
+                    alt={post.data.title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
+              ) : (
+                <BlogCardCover
+                  title={post.data.title}
+                  slug={post.id}
+                  tag={post.data.tags[0]}
+                />
+              )}
+
+              <div class="flex flex-col flex-1 p-6">
+                <div class="flex items-center gap-3 text-xs text-ink-mute mb-3">
+                  <div class="flex items-center gap-1">
+                    <Calendar class="w-3.5 h-3.5" />
+                    <time datetime={post.data.pubDate.toISOString()}>
+                      {formatDate(post.data.pubDate)}
+                    </time>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <Clock class="w-3.5 h-3.5" />
+                    <span>{estimateReadTime(post.body || "")} min read</span>
+                  </div>
+                </div>
+
+                {post.data.image && (
+                  <h2 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors mb-2 leading-snug">
+                    {post.data.title}
+                  </h2>
+                )}
+
+                <p class="text-sm text-ink-soft leading-relaxed mb-4 flex-1">
+                  {post.data.description}
+                </p>
+
+                {post.data.tags.length > 0 && (
+                  <div class="flex flex-wrap gap-1.5 mb-4">
+                    {post.data.tags.slice(0, 3).map((tag: string) => (
+                      <span class="px-2 py-0.5 rounded-md bg-[#85FFC7]/15 text-mint-ink text-xs font-medium">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                <span class="inline-flex items-center gap-1 text-sm text-mint-ink font-medium mt-auto">
+                  Read more
+                  <ArrowRight class="w-4 h-4" />
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="pb-20 sm:pb-28">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative rounded-[28px] bg-[#0F2D2D] px-6 py-14 sm:px-12 sm:py-16 text-center overflow-hidden">
+          <div class="ripple absolute -top-16 -right-16 w-56 h-56" aria-hidden="true"></div>
+          <h2 class="relative font-display text-3xl sm:text-4xl text-[#E6E6E6] mb-4">
+            Ready to simplify your club admin?
+          </h2>
+          <p class="relative text-lg text-[#E6E6E6]/65 mb-8 max-w-xl mx-auto leading-relaxed">
+            Run your club on modern swim club management software built for the UK.
+            Free for clubs under 50 members.
+          </p>
+          <a
+            href="https://app.swimly.uk/create-club"
+            class="relative inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-lg bg-lime-cta text-[#0F2D2D] font-semibold hover:bg-lime-cta-hover transition-colors text-lg"
+          >
+            Start your club, free
+            <ArrowRight class="w-5 h-5" />
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

@@ -1,0 +1,238 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const title = 'Swimming Club Billing Software | Automated Payment Collection UK';
+const description = 'Automate your swimming club billing with Direct Debit collection via GoCardless. No more chasing parents for fees or manual bank reconciliation. From £29/month.';
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Billing Software",
+      "item": "https://swimly.uk/swimming-club-billing-software/"
+    }
+  ]
+};
+
+const softwareAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Swimly Billing",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": description,
+  "url": "https://swimly.uk/swimming-club-billing-software/",
+  "offers": {
+    "@type": "Offer",
+    "price": "29",
+    "priceCurrency": "GBP",
+    "priceValidUntil": "2027-12-31",
+    "availability": "https://schema.org/PreOrder"
+  },
+  "featureList": "Direct Debit via GoCardless, Automated invoicing, Payment tracking, Flexible fee schedules, Automatic retry on failures"
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppSchema, null, 2)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <!-- Hero Section -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+        Swim Club Billing Software UK
+      </h1>
+      <p class="text-xl text-ink-soft">
+        Swim club billing software for UK swimming clubs. Automate payment collection with Direct Debit through GoCardless. Set up subscriptions once, collect membership fees automatically every month, and eliminate manual reconciliation.
+      </p>
+    </section>
+
+    <!-- The Problem -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">The billing problem for swim clubs</h2>
+      <div class="space-y-6 text-ink-soft">
+        <p>
+          Most volunteer-run swimming clubs handle membership fees through bank transfers, cheques, or standing orders. This creates significant administrative burden:
+        </p>
+        <ul class="space-y-3">
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>Chasing parents for overdue payments via email or WhatsApp</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>Manually reconciling bank statements against member lists each month</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>Tracking which families have paid and who owes money</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>Managing failed payments or cancelled standing orders</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>Generating invoices manually for each family</span>
+          </li>
+        </ul>
+        <p>
+          Volunteer treasurers spend hours each month on billing tasks that should be automated.
+        </p>
+      </div>
+    </section>
+
+    <!-- The Solution -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">How Swimly automates billing</h2>
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8 lg:p-12 space-y-6">
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">1. Direct Debit via GoCardless</h3>
+          <p class="text-ink-soft">
+Parents set up a Direct Debit mandate once during registration. After that, membership fees are collected automatically from their bank account on a schedule you set (monthly, quarterly, or annually).
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">2. Flexible payment schedules</h3>
+          <p class="text-ink-soft">
+Different squads can have different fees. Competitive swimmers might pay £60/month, while learn-to-swim groups pay £35/month. Set it up once and Swimly handles the rest.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">3. Automatic payment retry</h3>
+          <p class="text-ink-soft">
+If a payment fails (insufficient funds, expired card), GoCardless automatically retries the collection. Parents receive an email notification asking them to ensure funds are available.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">4. Invoice generation</h3>
+          <p class="text-ink-soft">
+Every successful payment generates an invoice automatically. Parents can download invoices from their member portal for their records or expense claims.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">5. Payment tracking dashboard</h3>
+          <p class="text-ink-soft">
+See at a glance which members are paid up, who has outstanding balances, and total monthly revenue. Export reports for your AGM or treasurer's report.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Benefits of automated billing</h2>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Save hours each month</h3>
+          <p class="text-ink-mute text-sm">No more manual bank reconciliation or chasing late payments. Your treasurer gets evenings back.</p>
+        </div>
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Improve cash flow</h3>
+          <p class="text-ink-mute text-sm">Automatic collection means payments arrive on time, every time. Fewer outstanding balances.</p>
+        </div>
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Reduce payment failures</h3>
+          <p class="text-ink-mute text-sm">Direct Debit has lower failure rates than card payments. Automatic retry catches temporary issues.</p>
+        </div>
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Professional invoicing</h3>
+          <p class="text-ink-mute text-sm">Automatic branded invoices sent to parents. No more manually creating PDFs or Excel sheets.</p>
+        </div>
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Financial transparency</h3>
+          <p class="text-ink-mute text-sm">Real-time view of club finances. Export reports for committee meetings and AGMs.</p>
+        </div>
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Parent convenience</h3>
+          <p class="text-ink-mute text-sm">Parents set up Direct Debit once and never worry about missing payments or finding their chequebook.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Pricing for automated billing</h2>
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8">
+        <p class="text-ink-soft mb-6">
+          Automated Direct Debit billing is included in Swimly's <strong class="text-[#0F2D2D]">Club</strong> and <strong class="text-[#0F2D2D]">Performance</strong> plans. Unlike budget options like <a href="/compare/cluborganiser/" class="text-mint-ink hover:text-[#0F2D2D] underline">Club Organiser</a>, which lack Direct Debit integration, Swimly makes automated payment collection central to the platform:
+        </p>
+        <div class="space-y-4 text-ink-soft">
+          <div>
+            <div class="text-2xl font-bold text-[#0F2D2D] mb-1">£29/month · Club Plan</div>
+            <p>For clubs with 50-200 members. Includes Direct Debit collection, automated invoicing, and payment tracking. No transaction fees beyond standard GoCardless charges (1%, capped at £2 per transaction).</p>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-[#0F2D2D] mb-1">£49/month · Performance Plan</div>
+            <p>For clubs with 200-500 members. Everything in Club, plus advanced reporting, multi-squad fee structures, and priority phone support.</p>
+          </div>
+        </div>
+        <div class="mt-8 pt-8 border-t border-[#39393A]/10">
+          <p class="text-sm text-ink-mute">
+            GoCardless is the UK's leading Direct Debit provider, handling billions in payments for businesses and organisations. Transaction fees go directly to GoCardless, not Swimly.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Pages -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-2xl text-[#0F2D2D] mb-6">Related Pages</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <a href="/swim-club-software/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Swim Club Software</h3>
+          <p class="text-ink-mute text-sm">All-in-one platform for UK competitive clubs</p>
+        </a>
+        <a href="/features/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">All Features</h3>
+          <p class="text-ink-mute text-sm">Billing plus membership, sessions, and communication tools</p>
+        </a>
+        <a href="/swim-school-management/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Swim School Management</h3>
+          <p class="text-ink-mute text-sm">Billing for learn-to-swim programmes</p>
+        </a>
+        <a href="/#pricing" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Pricing Plans</h3>
+          <p class="text-ink-mute text-sm">Transparent monthly pricing from £29/month</p>
+        </a>
+        <a href="/compare/swimclubmanager/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">vs SwimClubManager</h3>
+          <p class="text-ink-mute text-sm">Compare billing features with the main competitor</p>
+        </a>
+        <a href="/faq/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Frequently Asked Questions</h3>
+          <p class="text-ink-mute text-sm">Common questions about billing and payments</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Automate your club billing</h2>
+      <p class="text-xl text-ink-soft mb-8">Create your club today. Free for clubs under 50 members, no card required.</p>
+      <a
+        href="https://app.swimly.uk/create-club"
+        class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+      >
+          Start your club, free
+      </a>
+    </section>
+  </main>
+  <Footer />
+</Layout>

@@ -1,0 +1,196 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import clubs from '../../../../data/us-clubs.json';
+import states from '../../../../data/us-states.json';
+
+// Region-only map view of the US directory on swimly.club. US English.
+// Markers are plotted at city level (the directory records each club's city,
+// not its exact venue).
+const stateSlugs = [...new Set(clubs.map((c) => c.stateSlug))].sort();
+const stateOptions = stateSlugs.map((slug) => ({ slug, name: states[slug].name }));
+const clubsWithCoords = clubs.filter((c) => c.lat && c.lng);
+
+const title = 'US Swim Team and Swim School Map | Swimly';
+const description =
+  'Interactive map of swim teams and swim schools across the United States. Filter by state or program type and find a team or learn-to-swim school near you.';
+---
+
+<Layout title={title} description={description}>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+
+  <Nav />
+
+  <main class="pt-16 flex flex-col" id="map-main">
+    <!-- Controls bar -->
+    <div class="bg-surface-raised border-b border-[#39393A]/10">
+      <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div class="flex-1 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <h1 class="font-display text-lg text-[#0F2D2D] whitespace-nowrap">US Directory Map</h1>
+
+            <select
+              id="stateFilter"
+              class="w-full sm:w-56 px-4 py-2 bg-surface border border-[#39393A]/10 rounded-lg text-ink text-sm focus:outline-none focus:border-[#297373]/50 transition-colors appearance-none"
+            >
+              <option value="">All states</option>
+              {stateOptions.map((s) => <option value={s.slug}>{s.name}</option>)}
+            </select>
+
+            <select
+              id="typeFilter"
+              class="w-full sm:w-56 px-4 py-2 bg-surface border border-[#39393A]/10 rounded-lg text-ink text-sm focus:outline-none focus:border-[#297373]/50 transition-colors appearance-none"
+            >
+              <option value="">Teams and swim schools</option>
+              <option value="competitive">Competitive teams</option>
+              <option value="academy">Swim schools</option>
+            </select>
+
+            <span id="clubCount" class="text-sm text-ink-mute whitespace-nowrap">
+              Showing {clubsWithCoords.length} of {clubs.length} programs
+            </span>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <span class="inline-flex items-center gap-2 text-sm text-ink-mute whitespace-nowrap">
+              <span class="w-3 h-3 rounded-full bg-[#00ff90] border border-[#1F7A52]/40" aria-hidden="true"></span>
+              Team
+              <span class="w-3 h-3 rounded-full bg-[#FF8552] border border-[#B4502A]/40 ml-2" aria-hidden="true"></span>
+              Swim school
+            </span>
+            <a
+              href="/us/clubs/"
+              class="text-sm text-mint-ink hover:text-[#0F2D2D] transition-colors whitespace-nowrap"
+            >
+              View as list
+            </a>
+          </div>
+        </div>
+        <p class="text-xs text-ink-faint mt-2">
+          Markers are placed at each program's city, not its exact pool.
+        </p>
+      </div>
+    </div>
+
+    <!-- Map container -->
+    <div id="map" class="flex-1 min-h-[calc(100vh-8rem)]"></div>
+  </main>
+
+  <Footer />
+
+  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script is:inline src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+  <script
+    is:inline
+    define:vars={{
+      clubsJSON: JSON.stringify(clubsWithCoords),
+      totalClubs: clubs.length,
+      homeView: { center: [39.8, -98.6], zoom: 4 },
+      urlBase: '/us/clubs/',
+      locationKey: 'stateSlug',
+    }}
+  >
+    const clubs = JSON.parse(clubsJSON);
+
+    const map = L.map('map', { zoomControl: true }).setView(homeView.center, homeView.zoom);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 18,
+    }).addTo(map);
+
+    const markers = L.markerClusterGroup({
+      maxClusterRadius: 50,
+      spiderfyOnMaxZoom: true,
+      showCoverageOnHover: false,
+      iconCreateFunction: function (cluster) {
+        const count = cluster.getChildCount();
+        let size = 'small';
+        if (count >= 50) size = 'large';
+        else if (count >= 10) size = 'medium';
+        const sizes = { small: 30, medium: 40, large: 50 };
+        const px = sizes[size];
+        return L.divIcon({
+          html:
+            '<div style="background:rgba(0,255,144,0.85);color:#0f172a;border-radius:50%;width:' +
+            px + 'px;height:' + px +
+            'px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:' +
+            (size === 'large' ? '14' : '12') +
+            'px;border:2px solid rgba(0,255,144,0.4);box-shadow:0 2px 8px rgba(0,0,0,0.3);">' +
+            count + '</div>',
+          className: '',
+          iconSize: L.point(px, px),
+        });
+      },
+    });
+
+    const TYPE_COLORS = { competitive: '#00ff90', academy: '#FF8552' };
+    const TYPE_LABELS = { competitive: 'Competitive swim team', academy: 'Swim school' };
+    const allMarkerLayers = [];
+
+    clubs.forEach(function (club) {
+      const color = TYPE_COLORS[club.type] || TYPE_COLORS.competitive;
+      const marker = L.circleMarker([club.lat, club.lng], {
+        radius: 7,
+        fillColor: color,
+        color: color,
+        weight: 1,
+        opacity: 0.8,
+        fillOpacity: 0.6,
+      });
+
+      marker.bindPopup(
+        '<div style="font-family:Inter,sans-serif;min-width:180px;">' +
+          '<strong style="font-size:14px;color:#1e293b;">' + club.name + '</strong>' +
+          '<p style="margin:4px 0 0;font-size:12px;color:#64748b;">' + club.city + ', ' + club.state + '</p>' +
+          '<p style="margin:2px 0 0;font-size:11px;color:#94a3b8;">' + TYPE_LABELS[club.type] + '</p>' +
+          '<a href="' + urlBase + club[locationKey] + '/' + club.slug +
+          '/" style="display:inline-block;margin-top:8px;font-size:12px;color:#297373;font-weight:600;text-decoration:none;">View details &rarr;</a>' +
+        '</div>'
+      );
+
+      marker._clubLocation = club[locationKey];
+      marker._clubType = club.type;
+      allMarkerLayers.push(marker);
+      markers.addLayer(marker);
+    });
+
+    map.addLayer(markers);
+
+    const stateFilter = document.getElementById('stateFilter');
+    const typeFilter = document.getElementById('typeFilter');
+    const clubCount = document.getElementById('clubCount');
+
+    function applyFilters() {
+      const selectedLocation = stateFilter.value;
+      const selectedType = typeFilter.value;
+      markers.clearLayers();
+      const visible = [];
+
+      allMarkerLayers.forEach(function (marker) {
+        const locationOk = !selectedLocation || marker._clubLocation === selectedLocation;
+        const typeOk = !selectedType || marker._clubType === selectedType;
+        if (locationOk && typeOk) {
+          markers.addLayer(marker);
+          visible.push(marker);
+        }
+      });
+
+      clubCount.textContent = 'Showing ' + visible.length + ' of ' + totalClubs + ' programs';
+
+      if ((selectedLocation || selectedType) && visible.length > 0) {
+        const group = new L.featureGroup(visible);
+        map.fitBounds(group.getBounds().pad(0.2));
+      } else {
+        map.setView(homeView.center, homeView.zoom);
+      }
+    }
+
+    stateFilter.addEventListener('change', applyFilters);
+    typeFilter.addEventListener('change', applyFilters);
+  </script>
+</Layout>

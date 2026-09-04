@@ -1,0 +1,50 @@
+{
+  "new-south-wales": {
+    "name": "New South Wales",
+    "abbr": "NSW",
+    "slug": "new-south-wales",
+    "largestCities": ["Sydney", "Newcastle", "Central Coast", "Wollongong", "Wagga Wagga"]
+  },
+  "victoria": {
+    "name": "Victoria",
+    "abbr": "VIC",
+    "slug": "victoria",
+    "largestCities": ["Melbourne", "Geelong", "Ballarat", "Bendigo", "Shepparton"]
+  },
+  "queensland": {
+    "name": "Queensland",
+    "abbr": "QLD",
+    "slug": "queensland",
+    "largestCities": ["Brisbane", "Gold Coast", "Sunshine Coast", "Townsville", "Cairns"]
+  },
+  "western-australia": {
+    "name": "Western Australia",
+    "abbr": "WA",
+    "slug": "western-australia",
+    "largestCities": ["Perth", "Mandurah", "Bunbury", "Geraldton", "Kalgoorlie"]
+  },
+  "south-australia": {
+    "name": "South Australia",
+    "abbr": "SA",
+    "slug": "south-australia",
+    "largestCities": ["Adelaide", "Mount Gambier", "Whyalla", "Murray Bridge", "Port Lincoln"]
+  },
+  "tasmania": {
+    "name": "Tasmania",
+    "abbr": "TAS",
+    "slug": "tasmania",
+    "largestCities": ["Hobart", "Launceston", "Devonport", "Burnie"]
+  },
+  "australian-capital-territory": {
+    "name": "Australian Capital Territory",
+    "abbr": "ACT",
+    "slug": "australian-capital-territory",
+    "largestCities": ["Canberra"]
+  },
+  "northern-territory": {
+    "name": "Northern Territory",
+    "abbr": "NT",
+    "slug": "northern-territory",
+    "largestCities": ["Darwin", "Alice Springs", "Palmerston"]
+  }
+}

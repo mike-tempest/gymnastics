@@ -1,0 +1,94 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import counties from '../../data/counties.json';
+
+const pageTitle = 'Swimming Club Software by County | Swimly';
+const metaDescription = 'Find swimming club management software for clubs across the UK. Browse by county to discover how Swimly helps local swimming clubs streamline operations.';
+
+const sortedCounties = Object.entries(counties).sort(([, a], [, b]) => a.name.localeCompare(b.name));
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Swimming Club Software",
+      "item": "https://swimly.uk/swimming-club-software"
+    }
+  ]
+};
+---
+
+<Layout title={pageTitle} description={metaDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} slot="head" />
+  <Nav />
+
+  <main class="pt-24">
+    <!-- Hero Section -->
+    <section class="relative py-20 px-4 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[500px] pointer-events-none"></div>
+      <div class="relative max-w-4xl mx-auto text-center">
+        <h1 class="font-display text-4xl md:text-5xl text-[#0F2D2D] mb-6">
+          Swimming Club Software <em class="text-mint-ink">Across the UK</em>
+        </h1>
+        <p class="text-xl text-ink-soft mb-8 max-w-2xl mx-auto">
+          Swimly is the modern management platform built for volunteer-run swimming clubs.
+          Browse by county to find clubs near you.
+        </p>
+        <div class="flex gap-4 justify-center flex-wrap">
+          <a href="https://app.swimly.uk/create-club" class="px-6 py-3 min-h-12 inline-flex items-center bg-lime-cta text-[#0F2D2D] rounded-lg font-semibold hover:bg-lime-cta-hover transition-colors">
+          Start your club, free
+          </a>
+          <a href="/#features" class="px-6 py-3 min-h-12 inline-flex items-center border border-[#297373]/40 text-ink rounded-lg font-semibold hover:bg-surface transition-colors">
+            See Features
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Counties Grid -->
+    <section class="py-16 px-4 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="font-display text-3xl text-[#0F2D2D] text-center mb-4">Browse by County</h2>
+        <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">
+          Select your county to view local swimming clubs and discover how Swimly can help.
+        </p>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {sortedCounties.map(([slug, county]) => (
+            <a href={`/swimming-club-software/${slug}`} class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-lg p-4 hover:border-[#297373]/30 transition-colors group">
+              <h3 class="text-[#0F2D2D] font-medium group-hover:text-mint-ink transition-colors">{county.name}</h3>
+              <p class="text-ink-mute text-sm">{county.clubs.length} clubs</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 px-4">
+      <div class="max-w-3xl mx-auto text-center bg-[#85FFC7]/15 border border-[#1F7A52]/20 rounded-2xl p-12">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Ready to Modernise Your Club?</h2>
+        <p class="text-ink-soft mb-8">
+          Join the growing number of swimming clubs using Swimly to save time and provide a better experience for members.
+        </p>
+        <a href="https://app.swimly.uk/create-club" class="inline-flex items-center px-8 py-4 min-h-12 bg-lime-cta text-[#0F2D2D] rounded-lg font-semibold hover:bg-lime-cta-hover transition-colors">
+          Start your club, free
+        </a>
+        <p class="text-ink-mute text-sm mt-4">Free for clubs under 50 members</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

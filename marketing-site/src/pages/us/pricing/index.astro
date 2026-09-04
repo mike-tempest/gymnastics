@@ -1,0 +1,286 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import { REGIONS } from "../../../config/regions";
+import { Check } from "@lucide/astro";
+
+const title = "Swim Team Software Pricing | Free Plan | Swimly";
+const description =
+  "Swim team software pricing in USD, from free for teams under 50 athletes. No per-athlete fees, no hidden charges. Provisional US pricing while we finalize plans.";
+const canonical = "https://swimly.club/us/pricing/";
+const appUrl = REGIONS.us.appUrl;
+
+const tiers = [
+  {
+    name: "Starter",
+    price: "Free",
+    period: "",
+    description: "For small teams finding their feet",
+    members: "Up to 50 athletes",
+    highlight: false,
+    cta: "Start free",
+    ctaHref: `${appUrl}/create-club`,
+    features: [
+      "Basic membership management",
+      "Attendance tracking",
+      "Email notifications",
+      "Session scheduling",
+      "Financial summary",
+    ],
+  },
+  {
+    name: "Team",
+    price: "$39",
+    period: "/mo",
+    description: "The full toolkit for growing teams",
+    members: "50 to 200 athletes",
+    highlight: true,
+    cta: "Start free",
+    ctaHref: `${appUrl}/create-club`,
+    features: [
+      "Everything in Starter",
+      "Billing and invoicing",
+      "Parent portal",
+      "Group management",
+      "Automated card and ACH payments",
+      "Custom reports and exports",
+      "Priority email support",
+    ],
+  },
+  {
+    name: "Performance",
+    price: "$65",
+    period: "/mo",
+    description: "For ambitious, competitive teams",
+    members: "200 to 500 athletes",
+    highlight: false,
+    cta: "Start free",
+    ctaHref: `${appUrl}/create-club`,
+    features: [
+      "Everything in Team",
+      "Performance analytics",
+      "API access",
+      "Meet fee tracking",
+      "Safeguarding dashboard",
+      "Priority phone support",
+    ],
+  },
+  {
+    name: "Enterprise",
+    price: "Custom",
+    period: "",
+    description: "Custom pricing for large organizations",
+    members: "500+ athletes",
+    highlight: false,
+    cta: "Get in touch",
+    ctaHref: "mailto:hello@swimly.club",
+    features: [
+      "Everything in Performance",
+      "Dedicated support",
+      "Custom integrations",
+      "SLA and onboarding support",
+      "Multi-site management",
+      "Dedicated account manager",
+    ],
+  },
+];
+
+const faqItems = [
+  {
+    question: "Is the Starter plan really free?",
+    answer:
+      "Yes. The Starter plan is completely free for teams with up to 50 athletes. There are no hidden fees, no credit card required, and no time limit. You can use it for as long as you like.",
+  },
+  {
+    question: "Why are the paid prices marked provisional?",
+    answer:
+      "We are expanding to the United States and finalizing US pricing. The Team and Performance prices shown are provisional placeholders and may change before general availability. The free Starter plan is available now.",
+  },
+  {
+    question: "Are there any per-athlete fees?",
+    answer:
+      "No. Every plan has a flat monthly rate regardless of how many athletes you have within your tier. We believe swim teams should not be penalized for growing.",
+  },
+  {
+    question: "Can I switch between plans at any time?",
+    answer:
+      "Yes. You can upgrade or downgrade your plan at any time from your team dashboard. When upgrading, you get immediate access to the new features. When downgrading, the change takes effect at the end of your current billing period.",
+  },
+  {
+    question: "What payment methods do you accept?",
+    answer:
+      "Swimly collects dues by card and by bank transfer (ACH). Payments are collected automatically on schedule, so your treasurer is not chasing checks each month.",
+  },
+  {
+    question: "What happens if my team grows beyond the athlete limit?",
+    answer:
+      "We will notify you when you are approaching your plan's athlete limit. You can upgrade to the next tier at any time. We will never cut off access or disable features without giving you plenty of notice.",
+  },
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://swimly.club/us/" },
+    { "@type": "ListItem", position: 2, name: "Pricing", item: "https://swimly.club/us/pricing/" },
+  ],
+};
+---
+
+<Layout title={title} description={description} canonical={canonical} faqItems={faqItems}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <Nav />
+  <main class="pt-28 pb-16">
+    <!-- Hero -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+      <p class="eyebrow reveal">Pricing</p>
+      <h1 class="reveal font-display text-5xl sm:text-6xl text-[#0F2D2D] mt-5 mb-6">
+        Simple, transparent pricing
+      </h1>
+      <p class="reveal text-xl text-ink-soft max-w-2xl mx-auto mb-4">
+        No per-athlete fees. No hidden charges. Just a flat monthly rate that
+        scales with your team.
+      </p>
+    </section>
+
+    <!-- Provisional pricing notice -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="reveal bg-amber-500/10 border border-amber-600/30 rounded-2xl p-5 text-center">
+        <p class="text-[#0F2D2D] font-semibold text-sm mb-1">Provisional US pricing</p>
+        <p class="text-ink-soft text-sm max-w-2xl mx-auto">
+          We are finalizing pricing for the United States. The Team and
+          Performance prices below are provisional placeholders and may change.
+          The free Starter plan is available today.
+        </p>
+      </div>
+    </section>
+
+    <!-- Pricing grid -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-start">
+        {tiers.map((tier) => (
+          <div
+            class:list={[
+              "reveal relative flex flex-col p-6 lg:p-7 rounded-[20px] transition-all",
+              tier.highlight
+                ? "bg-surface-raised border-2 border-[#297373]/35 shadow-[0_16px_40px_-16px_rgba(15,45,45,0.3)] lg:-translate-y-3"
+                : "bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]",
+            ]}
+          >
+            {tier.highlight && (
+              <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full bg-[#0F2D2D] text-[#85FFC7] text-xs font-semibold whitespace-nowrap">
+                Most popular
+              </div>
+            )}
+
+            <div class="mb-5">
+              <h2 class="text-[13px] font-semibold tracking-[0.12em] uppercase text-ink-mute">{tier.name}</h2>
+              <p class="text-sm text-ink-mute mt-2">{tier.description}</p>
+            </div>
+
+            <div class="flex items-baseline gap-1">
+              <span class="font-display text-[44px] leading-none text-[#0F2D2D]">{tier.price}</span>
+              {tier.period && <span class="text-ink-mute text-lg">{tier.period}</span>}
+            </div>
+            <p class="text-sm text-mint-ink mt-2 font-medium">{tier.members}</p>
+            {(tier.name === "Team" || tier.name === "Performance") && (
+              <p class="text-xs text-ink-faint mt-1">Provisional, USD per month</p>
+            )}
+
+            <div class="mt-4 mb-5 pb-5 border-b border-[#39393A]/8"></div>
+
+            <ul class="space-y-3 mb-8 flex-1">
+              {tier.features.map((feature) => (
+                <li class="flex items-start gap-2.5 text-sm text-ink-soft">
+                  <Check class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={tier.ctaHref}
+              class:list={[
+                "block text-center rounded-xl text-base font-bold transition-all min-h-12 leading-[3rem]",
+                tier.highlight || tier.price === "Free"
+                  ? "bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+                  : "border border-[#297373]/40 text-ink hover:border-[#297373]/70 hover:bg-surface",
+              ]}
+            >
+              {tier.cta}
+            </a>
+          </div>
+        ))}
+      </div>
+
+      <p class="text-xs text-ink-faint mt-8 text-center max-w-2xl mx-auto">
+        Prices shown in US dollars. Team and Performance pricing is provisional
+        and subject to change before general availability.
+      </p>
+    </section>
+
+    <!-- What every plan includes -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center mb-10">
+        <p class="eyebrow reveal">Every plan</p>
+        <h2 class="reveal font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5">What every plan includes</h2>
+      </div>
+      <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 text-sm text-ink-mute">
+        <span class="flex items-center gap-2">
+          <Check class="w-4 h-4 text-mint-ink" />
+          No contract, cancel any time
+        </span>
+        <span class="flex items-center gap-2">
+          <Check class="w-4 h-4 text-mint-ink" />
+          No setup fees
+        </span>
+        <span class="flex items-center gap-2">
+          <Check class="w-4 h-4 text-mint-ink" />
+          Migration help included
+        </span>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center mb-12">
+        <p class="eyebrow reveal">FAQ</p>
+        <h2 class="reveal font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5">Frequently asked questions</h2>
+        <p class="reveal mt-4 text-ink-soft text-lg">
+          Everything you need to know about Swimly pricing and billing.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        {faqItems.map((item) => (
+          <details class="group bg-surface-raised border border-[#39393A]/10 rounded-xl transition-colors">
+            <summary class="flex items-center justify-between cursor-pointer px-6 py-5 text-[#0F2D2D] font-medium text-sm list-none">
+              {item.question}
+              <svg class="w-5 h-5 text-mint-ink shrink-0 ml-4 transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div class="px-6 pb-5 text-sm text-ink-mute leading-relaxed">
+              {item.answer}
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+      <h2 class="reveal font-display text-4xl text-[#0F2D2D] mb-6">Ready to simplify team management?</h2>
+      <p class="reveal text-xl text-ink-soft mb-8">Start free with up to 50 athletes. No credit card required.</p>
+      <a
+        href={`${appUrl}/create-club`}
+        class="reveal inline-flex items-center justify-center text-lg font-bold px-8 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all min-h-14 shadow-[0_8px_24px_-8px_rgba(255,133,82,0.6)]"
+      >
+        Start free
+      </a>
+    </section>
+  </main>
+  <Footer />
+</Layout>

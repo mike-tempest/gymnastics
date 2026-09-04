@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Put this week's sessions in Swimly</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f4f4f4; margin: 0; padding: 0;">
+  <div style="max-width: 600px; margin: 20px auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+
+    <div style="background: #111827; padding: 40px 20px; text-align: center;">
+      <h1 style="margin: 0; font-size: 28px; font-weight: 700; color: #00ff90;">Swimly</h1>
+    </div>
+
+    <div style="padding: 30px 20px;">
+      <p style="font-size: 18px; margin-top: 0;">Hi {{#if firstName}}{{firstName}}{{else}}there{{/if}},</p>
+
+      <p>You set up {{activationClubName}} a couple of days ago. The single most useful next step is to put this week's training sessions in.</p>
+
+      <p>It takes about five minutes: pick a squad, add the days and times you train, and you are done. Once your sessions are in, registers, reminders and attendance all start working for you.</p>
+
+      <div style="text-align: center; margin: 30px 0;">
+        <a href="{{sessionsUrl}}" style="display: inline-block; background: #00ff90; color: #111827; font-weight: 700; padding: 14px 32px; border-radius: 8px; text-decoration: none;">Add this week's sessions</a>
+      </div>
+
+      <p>If your training schedule is complicated, or something does not fit, just reply to this email and I will sort it with you.</p>
+
+      <p style="margin-top: 30px;">
+        Cheers,<br>
+        <strong>Mike</strong><br>
+        <span style="color: #64748B;">Founder of Swimly</span>
+      </p>
+    </div>
+
+    <div style="background: #F8FAFC; padding: 20px; text-align: center; color: #64748B; font-size: 13px;">
+      <p style="margin: 5px 0;">&copy; {{year}} Swimly. All rights reserved.</p>
+      <p style="margin: 5px 0;"><a href="{{unsubscribeUrl}}" style="color: #64748B; text-decoration: underline;">Unsubscribe</a></p>
+    </div>
+
+  </div>
+</body>
+</html>

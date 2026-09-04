@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Set Up Direct Debit - {{clubName}}</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .header {
+      background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+      color: #fff;
+      padding: 30px 20px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .content {
+      padding: 30px 20px;
+    }
+    .info-box {
+      background: #F5F3FF;
+      border-left: 4px solid #8B5CF6;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .info-box h3 {
+      margin: 0 0 10px 0;
+      color: #6D28D9;
+    }
+    .benefits {
+      background: #F0FDF4;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .benefits h3 {
+      margin: 0 0 15px 0;
+      color: #059669;
+    }
+    .benefits ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .benefits li {
+      padding: 5px 0;
+    }
+    .button {
+      display: inline-block;
+      background: #8B5CF6;
+      color: #fff;
+      padding: 14px 28px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      margin: 20px 0;
+      text-align: center;
+      font-size: 16px;
+    }
+    .button:hover {
+      background: #7C3AED;
+    }
+    .footer {
+      background: #F8FAFC;
+      padding: 20px;
+      text-align: center;
+      color: #64748B;
+      font-size: 14px;
+    }
+    .footer p {
+      margin: 5px 0;
+    }
+    .guarantee-badge {
+      text-align: center;
+      margin: 20px 0;
+      padding: 15px;
+      background: #FEF3C7;
+      border-radius: 8px;
+    }
+    .guarantee-badge img {
+      max-width: 150px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Set Up Your Direct Debit</h1>
+    </div>
+
+    <div class="content">
+      <p>Dear {{familyName}},</p>
+
+      <p>To make paying for swimming club fees easier and more convenient, we use <strong>GoCardless</strong> to collect payments via Direct Debit.</p>
+
+      <div class="info-box">
+        <h3>Action Required</h3>
+        <p>Please set up your Direct Debit mandate to ensure uninterrupted access to club services and activities.</p>
+      </div>
+
+      <div class="benefits">
+        <h3>Benefits of Direct Debit</h3>
+        <ul>
+          <li>Automatic payment collection - no need to remember due dates</li>
+          <li>{{#if isBecs}}Protected under the Direct Debit Request Service Agreement{{else}}Protected by the Direct Debit Guarantee{{/if}}</li>
+          <li>Easy to manage and cancel at any time</li>
+          <li>Secure and reliable payment method</li>
+          <li>Reduces administrative burden for the club</li>
+        </ul>
+      </div>
+
+      <div style="text-align: center;">
+        <a href="{{setupUrl}}" class="button">Set Up Direct Debit Now</a>
+      </div>
+
+{{#if isBecs}}
+      <div class="guarantee-badge">
+        <p style="margin: 0; font-weight: 600; color: #92400E;">Protected under the BECS Direct Debit rules</p>
+        <p style="margin: 5px 0 0 0; font-size: 12px; color: #78350F;">Your Direct Debit Request is governed by the Bulk Electronic Clearing System (BECS) rules and the Direct Debit Request Service Agreement.</p>
+      </div>
+
+      <p><strong>What is the Direct Debit Request Service Agreement?</strong></p>
+      <ul style="font-size: 14px; color: #64748B;">
+        <li>If there are any changes to the amount, date or frequency of your Direct Debit, {{clubName}} will notify you at least 14 days in advance</li>
+        <li>If a payment is taken in error, you are entitled to a refund from your bank</li>
+        <li>You can cancel a Direct Debit Request at any time by contacting your bank</li>
+      </ul>
+{{else}}
+      <div class="guarantee-badge">
+        <p style="margin: 0; font-weight: 600; color: #92400E;">Protected by the Direct Debit Guarantee</p>
+        <p style="margin: 5px 0 0 0; font-size: 12px; color: #78350F;">This Guarantee is offered by all banks and building societies that accept instructions to pay Direct Debits.</p>
+      </div>
+
+      <p><strong>What is the Direct Debit Guarantee?</strong></p>
+      <ul style="font-size: 14px; color: #64748B;">
+        <li>If there are any changes to the amount, date or frequency of your Direct Debit, {{clubName}} will notify you at least 3 working days in advance</li>
+        <li>If an error is made in the payment of your Direct Debit, you are entitled to a full and immediate refund from your bank</li>
+        <li>You can cancel a Direct Debit at any time by contacting your bank</li>
+      </ul>
+{{/if}}
+
+      <p style="margin-top: 30px;">The setup process is quick and secure, taking just a few minutes to complete.</p>
+
+      <p>If you have any questions or need assistance, please don't hesitate to contact us.</p>
+
+      <p style="margin-top: 20px;">
+        Best regards,<br>
+        <strong>{{clubName}}</strong>
+      </p>
+    </div>
+
+    <div class="footer">
+      <p>&copy; {{year}} {{clubName}}. All rights reserved.</p>
+      <p>Payments are processed securely by GoCardless</p>
+      <p>This is an automated email. Please do not reply to this message.</p>
+    </div>
+  </div>
+</body>
+</html>

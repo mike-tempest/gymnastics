@@ -1,0 +1,247 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import states from '../../../data/us-states.json';
+import cities from '../../../data/us-cities.json';
+
+export async function getStaticPaths() {
+  return Object.entries(states).map(([slug, data]) => ({
+    params: { state: slug },
+    props: { stateData: data },
+  }));
+}
+
+const { stateData } = Astro.props;
+const { state } = Astro.params;
+const { name, abbr, largestCities } = stateData;
+
+// Cities in this state that have their own landing page, sorted alphabetically.
+const stateCities = cities
+  .filter((city) => city.stateSlug === state)
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const cityCount = stateCities.length;
+
+// Format the list of the state's largest metros for use in body copy.
+const topMetros = largestCities.slice(0, 3);
+const metroList =
+  topMetros.length <= 1
+    ? topMetros.join('')
+    : `${topMetros.slice(0, -1).join(', ')} and ${topMetros[topMetros.length - 1]}`;
+
+const pageTitle = `Swim Team Management Software in ${name} | Swimly`;
+const metaDescription = `Swim team management software for clubs and teams across ${name}. Swimly handles registration, billing, attendance and meet planning so ${name} coaches can spend more time on deck.`;
+
+// Vary the intro paragraph by state size so pages do not read identically.
+const introCopy =
+  cityCount >= 6
+    ? `From large metro programs to neighborhood summer-league teams, swim teams across ${name} rely on the same daily routine: keep families informed, collect dues on time, and make every practice count. Swimly brings registration, billing, attendance and meet planning into one place built for the people running the team.`
+    : cityCount >= 3
+      ? `Swim teams across ${name}, from year-round competitive clubs to seasonal programs, share the same admin load: rosters, dues, practice attendance and meet entries. Swimly pulls all of it into one system so coaches and board members spend less time on paperwork and more time on deck.`
+      : `Whether you coach a year-round club or a seasonal summer-league team in ${name}, the back-office work adds up fast. Swimly handles registration, billing, attendance and meet planning in one place so your volunteers can focus on the swimmers, not the spreadsheets.`;
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://swimly.club/us/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: name,
+      item: `https://swimly.club/us/${state}/`,
+    },
+  ],
+};
+
+const areaSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Swimly',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  url: 'https://swimly.club',
+  areaServed: {
+    '@type': 'State',
+    name: name,
+  },
+  description: `Swim team management software for clubs and teams in ${name}. Registration, billing, attendance and meet planning.`,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+    description: 'Free to get started',
+  },
+};
+---
+
+<Layout title={pageTitle} description={metaDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(areaSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <Nav />
+
+  <main class="pt-24">
+    <!-- Hero Section -->
+    <section class="relative py-20 px-4 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[500px] pointer-events-none"></div>
+      <div class="relative max-w-4xl mx-auto text-center">
+        <nav aria-label="Breadcrumb" class="mb-6">
+          <ol class="flex items-center justify-center gap-2 text-sm text-ink-mute">
+            <li><a href="/us/" class="hover:text-mint-ink transition-colors">United States</a></li>
+            <li aria-hidden="true">/</li>
+            <li class="text-[#0F2D2D]">{name}</li>
+          </ol>
+        </nav>
+        <h1 class="font-display text-4xl md:text-5xl text-[#0F2D2D] mb-6">
+          Swim Team Management Software in <em class="text-mint-ink">{name}</em>
+        </h1>
+        <p class="text-xl text-ink-soft mb-8 max-w-2xl mx-auto">
+          The all-in-one platform for swim teams across {name} ({abbr}). Run registration,
+          billing, attendance and meets without the busywork.
+        </p>
+        <div class="flex gap-4 justify-center flex-wrap">
+          <a href="https://app.swimly.uk/create-team" class="px-6 py-3 min-h-12 inline-flex items-center bg-lime-cta text-[#0F2D2D] rounded-lg font-semibold hover:bg-lime-cta-hover transition-colors">
+            Add your team, free
+          </a>
+          <a href="/#features" class="px-6 py-3 min-h-12 inline-flex items-center border border-[#297373]/40 text-ink rounded-lg font-semibold hover:bg-surface transition-colors">
+            See features
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Intro / local context -->
+    <section class="py-16 px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Built for swim teams in {name}</h2>
+        <div class="space-y-4">
+          <p class="text-ink-soft leading-relaxed">{introCopy}</p>
+          <p class="text-ink-soft leading-relaxed">
+            Many {name} teams compete under USA Swimming or a regional summer league, which means
+            registration windows, dues schedules and meet entries all have to line up. Swimly keeps
+            family records, payments and attendance in sync so your roster is always current when
+            entry deadlines arrive.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cities Section -->
+    {cityCount > 0 && (
+      <section class="py-16 px-4 bg-surface border-y border-[#39393A]/8">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="font-display text-3xl text-[#0F2D2D] text-center mb-4">Swim team software by city in {name}</h2>
+          <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">
+            Explore how Swimly supports swim teams in cities across {name}.
+          </p>
+
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {stateCities.map((city) => (
+              <a href={`/us/${state}/${city.slug}/`} class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-lg p-4 hover:border-[#297373]/30 transition-colors group">
+                <h3 class="text-[#0F2D2D] font-medium group-hover:text-mint-ink transition-colors">{city.name}</h3>
+                <p class="text-ink-mute text-sm">{city.name}, {abbr}</p>
+              </a>
+            ))}
+          </div>
+
+          <p class="text-center text-ink-mute mt-8">
+            Coaching somewhere else in {name}? <a href="https://app.swimly.uk/create-team" class="text-mint-ink hover:underline">Add your team</a> and get set up in minutes.
+          </p>
+        </div>
+      </section>
+    )}
+
+    <!-- Features Section -->
+    <section class="py-16 px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="font-display text-3xl text-[#0F2D2D] text-center mb-12">Why {name} teams choose Swimly</h2>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4" aria-hidden="true">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Member management</h3>
+            <p class="text-ink-soft text-sm">Keep swimmers, parents and coaches in one organized roster you can trust.</p>
+          </div>
+
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4" aria-hidden="true">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Automated billing</h3>
+            <p class="text-ink-soft text-sm">Collect dues and fees in USD with online payments and clear financial reporting.</p>
+          </div>
+
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4" aria-hidden="true">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Attendance tracking</h3>
+            <p class="text-ink-soft text-sm">Deck-side check-in for coaches. Know who is at practice, who is late and who is out.</p>
+          </div>
+
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4" aria-hidden="true">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Meet planning</h3>
+            <p class="text-ink-soft text-sm">Organize entries, lineups and travel details for meets across {name} and beyond.</p>
+          </div>
+
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4" aria-hidden="true">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Parent portal</h3>
+            <p class="text-ink-soft text-sm">Families see schedules, invoices and updates from any phone or laptop.</p>
+          </div>
+
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4" aria-hidden="true">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Less time on admin</h3>
+            <p class="text-ink-soft text-sm">Automate the repetitive work so volunteers and coaches in {name} can focus on swimmers.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Local metros note -->
+    <section class="py-16 px-4 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Serving teams across {name}</h2>
+        <p class="text-ink-soft leading-relaxed">
+          Swimly works for swim teams wherever they train in {name}, including metro areas such as
+          {metroList}. Practice locations, board structures and league affiliations differ from
+          program to program, so Swimly is built to adapt to how your team already runs rather than
+          forcing a new workflow on your coaches and families.
+        </p>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 px-4">
+      <div class="max-w-3xl mx-auto text-center bg-[#85FFC7]/15 border border-[#1F7A52]/20 rounded-2xl p-12">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Ready to run your {name} team on Swimly?</h2>
+        <p class="text-ink-soft mb-8">
+          Set up your roster, dues and practice schedule in one place. Add your team and see how
+          much time you get back each week.
+        </p>
+        <a href="https://app.swimly.uk/create-team" class="inline-flex items-center px-8 py-4 min-h-12 bg-lime-cta text-[#0F2D2D] rounded-lg font-semibold hover:bg-lime-cta-hover transition-colors">
+          Add your team, free
+        </a>
+        <p class="text-ink-mute text-sm mt-4">Free to get started. No credit card required.</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

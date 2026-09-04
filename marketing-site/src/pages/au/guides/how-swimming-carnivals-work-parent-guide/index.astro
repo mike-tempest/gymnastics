@@ -1,0 +1,554 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+
+// Region-only page on swimly.club. The Layout derives the canonical
+// (https://swimly.club/au/guides/.../), <html lang="en-AU"> and AUD from this
+// page's path, so none of those are hardcoded here.
+// Commonwealth spelling, real Australian terminology ("carnival", "marshalling",
+// "timekeeper", "bathers"), Swimming Australia and the state/territory
+// associations. No USA Swimming or Swim England specifics.
+const SITE = "https://swimly.club";
+const PATH = "/au/guides/how-swimming-carnivals-work-parent-guide/";
+const appUrl = "https://app.swimly.uk/create-club";
+const contactEmail = "hello@swimly.club";
+
+// Official governing-body references. Each was confirmed to resolve when this
+// page was written. The two rule books are Swimming Australia's own; the
+// multi-class explainer is Swimming NSW's Club House resource.
+const swimAustraliaUrl = "https://www.swimming.org.au/";
+const swimCentralInfoUrl = "https://www.swimming.org.au/get-involved/get-swimming/swim-central";
+const competitionRulesUrl =
+  "https://nsw.swimming.org.au/sites/default/files/assets/documents/SWIMMING-AUSTRALIA-COMPETITION-RULES_May-2023.pdf";
+const swimmingRulesUrl =
+  "https://prod.swimming.org.au/sites/default/files/assets/documents/Swimming-Australia-Swimming-Rules.pdf";
+const multiClassUrl = "https://clubhouse.swimming.org.au/multi-class-swimming/";
+
+const title = "How Swimming Carnivals Work: A Parent's Guide | Swimly";
+const description =
+  "How swimming carnivals work in Australia: nominating in Swim Central, marshalling, heats and lanes, officials, timing, and what to pack.";
+
+const faqItems = [
+  {
+    question: "How does a swimming carnival work?",
+    answer:
+      "A swimming carnival is a competition made up of events, each one a stroke and distance for a given age group. Because more swimmers nominate than a pool has lanes, every event is split into heats, and each heat races a group of swimmers at the same time, one per lane. Swimmers are seeded into heats and lanes by the times they submitted when they nominated, so children of similar speed race together. Before each race swimmers report to marshalling, officials start the race and judge that strokes and turns are legal, and results are posted event by event.",
+  },
+  {
+    question: "What is marshalling at a swimming carnival?",
+    answer:
+      "Marshalling is the process of gathering swimmers before their race and sending them to the right lane in the right heat. Your child reports to the marshalling area ahead of their event, and a Check Starter moves them behind the blocks once the race in front has entered the water. It matters more than most new families expect: under Swimming Australia's competition rules, a swimmer who fails to report to marshalling in time may be deemed to have withdrawn from the event. Each carnival publishes its own marshalling deadlines in its conditions of entry, so check them before the day.",
+  },
+  {
+    question: "How do I nominate my child for a swimming carnival?",
+    answer:
+      "Nominations are made through Swim Central, the national online portal run by Swimming Australia, using the parent or guardian account and family group you set up when your child joined the club. You select the meet, choose the events your child will swim, and pay the entry fees. Swim Central checks your swimmer's eligibility for each event, so where a carnival has qualifying times, events your child has not yet qualified for show as ineligible. Talk to your coach about which events to enter before you nominate, and watch the closing date, because late entries are usually not accepted.",
+  },
+  {
+    question: "What is a multi-class event?",
+    answer:
+      "Multi-class is the format of competitive swimming in Australia for swimmers with disability. Swimmers must hold an eligible classification, which groups athletes of similar function together so they can race fairly. The distinctive part is how a multi-class event is decided: placings are determined by the multi-class point score system rather than by who touches the wall first, because each swim is scored against the world record time for that swimmer's classification. Multi-class events run alongside other events on the same order of events at many carnivals.",
+  },
+  {
+    question: "How are times recorded at a swimming carnival?",
+    answer:
+      "It depends on the pool and the level of the carnival. Larger carnivals use automatic timing, where a touchpad at the end of each lane stops the clock as the swimmer touches, usually backed up by timekeepers so there is a human record if a pad misses a touch. Where automatic or semi-automatic equipment is not available, Swimming Australia's rules have the times come from timekeepers with digital watches instead, which is why club nights and smaller carnivals rely on volunteers behind every lane.",
+  },
+  {
+    question: "What should my child take to their first swimming carnival?",
+    answer:
+      "Pack bathers, a cap and goggles, with a spare pair of goggles because they are the item that always breaks on the day. Add several towels, warm dry clothes for between races, a full drink bottle and food to get through a long day, thongs for the pool deck, and something quiet to do in the gaps. Write your child's events, heats and lanes somewhere they can check them, and find out where your club is sitting so you can set up together.",
+  },
+];
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "How Swimming Carnivals Work: A Parent's Guide",
+  description: description,
+  url: `${SITE}${PATH}`,
+  author: { "@type": "Organization", name: "Swimly" },
+  publisher: {
+    "@type": "Organization",
+    name: "Swimly",
+    logo: { "@type": "ImageObject", url: `${SITE}/swimly-logo.svg` },
+  },
+  mainEntityOfPage: `${SITE}${PATH}`,
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/au/` },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/au/guides/` },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "How Swimming Carnivals Work: A Parent's Guide",
+      item: `${SITE}${PATH}`,
+    },
+  ],
+};
+
+const levels = [
+  {
+    heading: "Club nights",
+    body:
+      "Races run by your own club, usually against clubmates. They are relaxed, short, and built for practice, and they are where most new swimmers race for the first time. Nothing rides on the result beyond a time to improve on.",
+  },
+  {
+    heading: "Development carnivals",
+    body:
+      "Local carnivals open to swimmers from several clubs, aimed at newer racers. They give your child a taste of a full carnival, with marshalling and officials, without the pressure of a qualifying meet.",
+  },
+  {
+    heading: "Qualifying carnivals",
+    body:
+      "Carnivals where the times your child swims can count towards entry to a bigger meet. Times must be achieved at an approved carnival with the required timing equipment before they can be used to qualify.",
+  },
+  {
+    heading: "Regional and state championships",
+    body:
+      "Run by your state or territory association, these need a qualifying time to enter and are held over multiple sessions. They are a goal for later, not a starting point.",
+  },
+];
+
+const timeline = [
+  {
+    heading: "Before the day: nominate and check the order of events",
+    body:
+      "You nominate through Swim Central and pay the entry fees, usually weeks ahead. Closer to the carnival the club publishes the order of events and session times. Find your child's event numbers and write them down.",
+  },
+  {
+    heading: "Arrive for warm-up",
+    body:
+      "Sessions open with a warm-up, where clubs share the pool to a published schedule. Aim to arrive for your club's warm-up slot rather than the first race, because it is when your child gets in the water and settles.",
+  },
+  {
+    heading: "Report to marshalling",
+    body:
+      "Ahead of each race your child reports to the marshalling area. Do not leave this to chance: missing marshalling can mean being counted as a withdrawal, and it is the single most common way a first carnival goes wrong.",
+  },
+  {
+    heading: "Behind the blocks",
+    body:
+      "From marshalling, a Check Starter sends swimmers to their lane and moves them behind the blocks as the heat in front finishes. Parents stay in the stands from this point, which is normal and nothing to worry about.",
+  },
+  {
+    heading: "The race",
+    body:
+      "The starter calls the heat to their marks and begins the race. The swim itself is over quickly, often in well under a minute for a 50, which is why a carnival day is mostly waiting punctuated by short bursts of racing.",
+  },
+  {
+    heading: "Results, then the wait for the next event",
+    body:
+      "Times and placings are posted after each event. Your child rejoins the club area and waits for their next race. Expect long gaps, and treat the published session times as estimates rather than promises.",
+  },
+];
+
+const officials = [
+  {
+    heading: "Referee",
+    body:
+      "In overall charge of the carnival, with final authority on the pool deck. The referee makes sure officials are in position and that the competition runs to the rules.",
+  },
+  {
+    heading: "Starter",
+    body:
+      "Takes each heat from behind the blocks, calls the swimmers to their marks, and starts the race with a consistent signal so every heat begins fairly.",
+  },
+  {
+    heading: "Clerks of course and Check Starters",
+    body:
+      "The clerks of course assemble swimmers before their event in the marshalling area, and the Check Starters receive them and direct them to their starting positions for each heat.",
+  },
+  {
+    heading: "Judges of stroke",
+    body:
+      "Walk the side of the pool checking that each stroke is swum legally. If they see an infringement they report it, which can end in a disqualification for that swim.",
+  },
+  {
+    heading: "Inspectors of turns",
+    body:
+      "Assigned to the ends of the lanes, they check that starts, turns and finishes are done correctly. A distinctly Australian carnival will have one at each end of each lane at a bigger meet.",
+  },
+  {
+    heading: "Chief timekeeper and timekeepers",
+    body:
+      "Timekeepers sit behind a lane and record the time for the swimmer in it. The chief timekeeper assigns their positions and collects the recorded times. This is the role most parents are asked to fill.",
+  },
+];
+
+const packingList = [
+  "Bathers, a club cap, and goggles, plus a spare pair of goggles",
+  "Several towels, more than you think you need for one day",
+  "Warm, dry clothes for between races, and thongs for the pool deck",
+  "A full drink bottle and food to get through a long session",
+  "Your child's event, heat and lane numbers written somewhere they can check",
+  "Something quiet for the gaps, such as a book, cards, or a game",
+];
+
+const adminTasks = [
+  {
+    heading: "Collect carnival nominations",
+    body:
+      "Find out who is racing what without chasing messages, so the person building your club's entries has clean information before the closing date.",
+  },
+  {
+    heading: "Line up timekeepers",
+    body:
+      "Every carnival needs volunteers on the deck. Swimly helps you communicate with families so everyone knows what is needed and when.",
+  },
+  {
+    heading: "Bill fees in AUD",
+    body:
+      "Squad fees and carnival levies add up across a season. Swimly bills them automatically so your treasurer is not chasing bank transfers by hand.",
+  },
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  imageUrl={`${SITE}/og-image.png`}
+  faqItems={faqItems}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+
+  <header class="border-b border-hairline bg-canvas/85 backdrop-blur-xl">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-[68px]">
+        <a href="/au/" class="font-display text-[26px] text-[#0F2D2D] tracking-tight leading-none">Swimly</a>
+        <a
+          href={appUrl}
+          class="text-[15px] font-bold px-5 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-colors min-h-12 inline-flex items-center shadow-[0_1px_3px_rgba(57,57,58,0.16)]"
+        >
+          Start your club
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pb-16">
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section class="py-12">
+        <p class="eyebrow mb-3">Australia Guide</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          How swimming carnivals work: a parent's guide
+        </h1>
+        <p class="text-xl text-ink-soft leading-relaxed">
+          A swimming carnival works like this: it is a competition made up of events, each one a stroke and
+          distance for an age group, and because more swimmers nominate than a pool has lanes, every event is
+          split into heats of swimmers racing one per lane. Your child is seeded into a heat by the time they
+          submitted when you nominated, reports to marshalling before their race, swims, and waits for the
+          results to go up. This guide explains the rest of it: the levels of carnival, nominating through
+          Swim Central, why marshalling catches families out, who all the officials are, how multi-class
+          events are decided, and what to pack so your first carnival feels calm.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">What a carnival is, and the levels of them</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          In Australia a swimming competition is usually called a carnival, the same thing other countries call
+          a swim meet or a gala. Carnivals are not one thing, though, and the gap between a club night and a
+          state championship is wide. Knowing which kind your child is entering tells you most of what to
+          expect from the day.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {levels.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-6">
+          Almost every swimmer starts at the top of that list and works down it over several seasons. There is
+          no need to rush, and no expectation that a new swimmer enters anything beyond a club night in their
+          first season. If your family is still finding a club, our
+          <a href="/au/guides/joining-a-swimming-club-in-australia-parent-guide/" class="text-mint-ink font-semibold hover:underline">guide to joining a swimming club in Australia</a>
+          covers squads, Swim Central membership, the season, and costs.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How a carnival is organised: events, heats and lanes</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Everything on the day is built from three units. An <span class="font-semibold text-[#0F2D2D]">event</span>
+          is a single race defined by a stroke, a distance, and usually an age group, for example the girls
+          10 years 50 metre freestyle. Events are numbered, and the carnival works through them in order. The
+          published list of them, in order, with session times, is what you plan your day around.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Because far more children nominate for an event than a pool has lanes, each event is divided into
+          <span class="font-semibold text-[#0F2D2D]">heats</span>. A heat is one group of swimmers racing at the
+          same time, one per <span class="font-semibold text-[#0F2D2D]">lane</span>. A popular event might run
+          many heats back to back, and the results are combined afterwards to rank everyone who swam, so your
+          child is racing the whole field, not just the five or seven children beside them.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Swimmers are placed into heats by the times submitted when they nominated, listed fastest to slowest,
+          with the fastest lanes in the middle. Under Swimming Australia's rules, swimmers who do not submit a
+          time are treated as the slowest and placed at the end of the list, which is exactly what happens at a
+          first carnival and is nothing to read into. A first swim simply sets the baseline your child spends
+          the season improving on. The season itself splits into a long course half raced in 50 metre pools and
+          a short course half in 25 metre pools, so the same event will produce different times at different
+          points in the year.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Nominating through Swim Central</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          In Australia you enter a carnival by nominating through
+          <a href={swimCentralInfoUrl} class="text-mint-ink font-semibold hover:underline" rel="noopener" target="_blank">Swim Central</a>,
+          the national online portal run by Swimming Australia, using the parent or guardian account and family
+          group you created when your child joined the club. You select the meet, add the events your child will
+          swim, and pay the entry fees for them.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Two things are worth knowing before you start. First, Swim Central works out your swimmer's
+          eligibility for each event, so at a carnival with qualifying times, events your child has not yet
+          qualified for will show as ineligible rather than letting you enter them by mistake. Second,
+          nominations close, and late entries are generally not accepted, so the closing date matters more than
+          the carnival date in your calendar.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Talk to your coach before you nominate rather than after. Coaches know which events suit your child
+          now, how many races is sensible in one session, and which carnivals are worth the trip. It is a
+          conversation that saves families a lot of money and a lot of long Sundays.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Marshalling, the part that catches families out</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          If you take one thing from this guide, take this one. <span class="font-semibold text-[#0F2D2D]">Marshalling</span>
+          is how swimmers are gathered before a race and sent to the right lane in the right heat, and it is the
+          bit no one warns new families about. Your child reports to the marshalling area ahead of their event,
+          and a Check Starter moves them behind the blocks once the race in front has entered the water.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          It matters because missing it has consequences. Swimming Australia's competition rules provide that a
+          swimmer who fails to report to marshalling in time may be deemed to have withdrawn from the event. A
+          child can be poolside, warmed up and ready, and still not get to swim a race you have paid to enter.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          The deadlines vary. Swimming Australia's own rules for national events require swimmers in the first
+          events of a session to report at least ten minutes before the session starts, and otherwise to report
+          at least two events before their own. Where self-marshalling is in place, swimmers report closer to
+          their race, on a scale that depends on the distance. Your carnival will publish its own marshalling
+          arrangements in its conditions of entry, so read them, and in the meantime the safe habit is simple:
+          know your child's event number, and get them moving well before it comes up.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">How the day runs, start to finish</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          Carnivals vary, but nearly all follow the same shape. Here is a typical session from arrival to the
+          last event.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {timeline.map((item, i) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <div class="flex items-baseline gap-3 mb-2">
+                <span class="font-display text-2xl text-mint-ink">{i + 1}</span>
+                <h3 class="text-lg font-semibold text-[#0F2D2D]">{item.heading}</h3>
+              </div>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Who is who on the pool deck</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          The people in matching shirts are technical officials, and nearly all of them are volunteers who have
+          done an accreditation course. You do not need to know every role, but recognising the main ones makes
+          the day far less mysterious.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {officials.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-6">
+          Carnivals sit under
+          <a href={swimAustraliaUrl} class="text-mint-ink font-semibold hover:underline" rel="noopener" target="_blank">Swimming Australia</a>
+          and your state or territory association, which is what makes the times count and the rules consistent
+          from one pool to the next. Our
+          <a href="/au/guides/swimming-australia-state-associations-explained/" class="text-mint-ink font-semibold hover:underline">guide to Swimming Australia and the state associations</a>
+          explains how that structure fits together.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How races are timed, and what a DQ means</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          At larger carnivals a touchpad at the end of each lane stops the clock as the swimmer touches, usually
+          with timekeepers behind the lane as a backup in case a pad misses a light touch. Where automatic or
+          semi-automatic equipment is not available, Swimming Australia's rules have the times come from
+          timekeepers with digital watches instead. That is why club nights run on volunteers with a watch in
+          every lane, and why the call for timekeepers goes out before every carnival.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          A swim can also end in a <span class="font-semibold text-[#0F2D2D]">disqualification</span>, or DQ, when
+          a judge of stroke or inspector of turns sees something outside the rules, such as an illegal kick in
+          breaststroke or a one-handed touch in butterfly. The swim does not count, and the time does not stand.
+          It stings the first time, but a DQ is a normal part of learning to race, and it is genuinely useful:
+          it tells your child's coach exactly what to work on before the next carnival. Nearly every swimmer
+          collects a few.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Multi-class events explained</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          <a href={multiClassUrl} class="text-mint-ink font-semibold hover:underline" rel="noopener" target="_blank">Multi-class</a>
+          is the format of competitive swimming in Australia for swimmers with disability, and you will see
+          multi-class events on the order of events at many carnivals. Swimmers must hold an eligible
+          classification, which groups athletes of similar function so they can race fairly against each other.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          The part that surprises spectators is how a multi-class event is decided. Placings come from the
+          multi-class point score system, not from who touches the wall first, because each swim is scored
+          against the world record time for that swimmer's classification. So the swimmer who wins is the one
+          who swam closest to the standard for their own class, which is why the result can look different from
+          the finish you just watched. If your child may be eligible, your club and your state or territory
+          association can point you to the classification process.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">What to pack for a first carnival</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          A carnival is a long day built around a few short races, so the aim is a comfortable base your swimmer
+          can settle into between events. Pack:
+        </p>
+        <ul class="space-y-3 text-lg text-ink-soft leading-relaxed list-disc pl-6 mb-4">
+          {packingList.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          Find out where your club is sitting before you arrive so you can set up together, and get there for
+          your club's warm-up rather than the first event. Beyond that, the honest advice is to lower your
+          expectations of the day itself: bring a chair, accept that you will watch about ninety seconds of
+          actual swimming, and enjoy the bit where your child comes running over to tell you their time.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">How you can help</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          Carnivals only happen because parents run them. The usual first job is
+          <span class="font-semibold text-[#0F2D2D]">timekeeping</span>: you sit behind a lane and record the
+          time for the swimmer in it. It is the best role to start with, because you are trained on the spot, you
+          need no swimming background at all, and you get the best view in the building. Clubs also need help
+          with marshalling, recording, and the canteen.
+        </p>
+        <p class="text-lg text-ink-soft leading-relaxed">
+          If you are not sure where to start, tell your club you are happy to timekeep. It is the quickest way to
+          understand what you have been watching from the stands, the day goes faster when you have a job, and
+          your club will be quietly grateful. Some parents go on to accredit as technical officials from exactly
+          this starting point.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Where Swimly fits</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-6">
+          Behind a carnival that runs smoothly is a club that collected nominations, found timekeepers, and kept
+          families informed. Swimly is swimming club management software that takes that admin off a volunteer's
+          plate. It does not replace Swim Central, where memberships and meet nominations live, and it is not
+          affiliated with Swimming Australia. You can browse clubs and swim schools in the
+          <a href="/au/clubs/" class="text-mint-ink font-semibold hover:underline">Swimly directory</a>
+          or on the
+          <a href="/au/clubs/map/" class="text-mint-ink font-semibold hover:underline">club map</a>.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-3">
+          {adminTasks.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.heading}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-lg text-ink-soft leading-relaxed mt-6">
+          See what the platform does on the
+          <a href="/au/features/" class="text-mint-ink font-semibold hover:underline">features page</a>, or how
+          plans are priced on the
+          <a href="/au/pricing/" class="text-mint-ink font-semibold hover:underline">pricing page</a>.
+          Questions before you start? Email us at
+          <a href={`mailto:${contactEmail}`} class="text-mint-ink font-semibold hover:underline">{contactEmail}</a>.
+        </p>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Frequently asked questions</h2>
+        <div class="space-y-6">
+          {faqItems.map((item) => (
+            <div class="bg-surface-raised border border-hairline rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">{item.question}</h3>
+              <p class="text-ink-soft leading-relaxed">{item.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="py-8">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Primary sources</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-4">
+          The marshalling, seeding, officials, timing and multi-class facts on this page come from Swimming
+          Australia's own rules and from Swimming NSW. Rules change, and every carnival publishes its own
+          conditions of entry, so check the current sources and your carnival's own information for the detail
+          that applies on the day.
+        </p>
+        <ul class="space-y-3 text-lg text-ink-soft leading-relaxed list-disc pl-6">
+          <li>
+            <a href={competitionRulesUrl} rel="nofollow noopener" target="_blank" class="text-mint-ink font-semibold hover:underline">Swimming Australia: Rules for the Conduct of Australian Swimming Events</a>
+            (marshalling, qualifying times, classification and multi-class point score)
+          </li>
+          <li>
+            <a href={swimmingRulesUrl} rel="nofollow noopener" target="_blank" class="text-mint-ink font-semibold hover:underline">Swimming Australia: Swimming Rules</a>
+            (technical officials and their duties, seeding of heats, timing equipment)
+          </li>
+          <li>
+            <a href={multiClassUrl} rel="nofollow noopener" target="_blank" class="text-mint-ink font-semibold hover:underline">Swimming NSW Club House: Multi-Class Swimming</a>
+          </li>
+          <li>
+            <a href={swimCentralInfoUrl} rel="nofollow noopener" target="_blank" class="text-mint-ink font-semibold hover:underline">Swimming Australia: Swim Central</a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="py-12 text-center">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Spend less time on admin, more on swimming</h2>
+        <p class="text-lg text-ink-soft leading-relaxed mb-8 max-w-2xl mx-auto">
+          Collect nominations, line up timekeepers, and keep families informed in one place. Set up your club in
+          minutes.
+        </p>
+        <a
+          href={appUrl}
+          class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+        >
+          Start your club free
+        </a>
+      </section>
+    </article>
+  </main>
+
+  <footer class="border-t border-hairline">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-ink-mute">&copy; {new Date().getFullYear()} Swimly</p>
+      <a href={`mailto:${contactEmail}`} class="text-sm text-ink-mute hover:text-[#0F2D2D] transition-colors">{contactEmail}</a>
+    </div>
+  </footer>
+</Layout>

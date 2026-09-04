@@ -1,0 +1,265 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import states from '../../../data/au-states.json';
+import cities from '../../../data/au-cities.json';
+import { REGIONS } from '../../../config/regions';
+
+export async function getStaticPaths() {
+  return Object.entries(states).map(([slug, data]) => {
+    const stateCities = Object.entries(cities)
+      .filter(([, city]) => city.stateSlug === slug)
+      .map(([, city]) => city)
+      .sort((a, b) => a.name.localeCompare(b.name));
+    return {
+      params: { state: slug },
+      props: { stateData: data, stateCities },
+    };
+  });
+}
+
+const { stateData, stateCities } = Astro.props;
+const { state } = Astro.params;
+const { name, abbr } = stateData;
+
+const SITE_URL = 'https://swimly.club';
+const appUrl = REGIONS.au.appUrl;
+
+const pageTitle = `Swimming Club Management Software in ${name} (${abbr}) | Swimly`;
+const metaDescription = `Swimly is swimming club management software built for clubs across ${name}. Manage membership, payments, attendance, and compliance in one place. Free to start.`;
+
+// Vary the opening narrative by how many cities we list, so each state page
+// reads differently rather than sharing one boilerplate paragraph.
+const cityCount = stateCities.length;
+const reach = cityCount >= 8 ? 'large' : cityCount >= 4 ? 'medium' : 'small';
+
+const softwareApplicationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Swimly',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  url: SITE_URL,
+  areaServed: {
+    '@type': 'AdministrativeArea',
+    name: `${name}, Australia`,
+  },
+  description: `Swimming club management software for clubs in ${name}. Membership, billing, attendance, and compliance.`,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'AUD',
+    description: 'Free for clubs under 50 members',
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: `${SITE_URL}/`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Australia',
+      item: `${SITE_URL}/au/`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: name,
+      item: `${SITE_URL}/au/${state}/`,
+    },
+  ],
+};
+---
+
+<Layout title={pageTitle} description={metaDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(softwareApplicationSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <Nav />
+
+  <main class="pt-24">
+    <!-- Hero Section -->
+    <section class="relative py-20 px-4 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[500px] pointer-events-none"></div>
+      <div class="relative max-w-4xl mx-auto text-center">
+        <nav aria-label="Breadcrumb" class="mb-6">
+          <ol class="flex items-center justify-center gap-2 text-sm text-ink-mute">
+            <li><a href="/au/" class="hover:text-mint-ink transition-colors">Australia</a></li>
+            <li aria-hidden="true">/</li>
+            <li class="text-[#0F2D2D]" aria-current="page">{name}</li>
+          </ol>
+        </nav>
+        <h1 class="font-display text-4xl md:text-5xl text-[#0F2D2D] mb-6">
+          Swimming Club Management Software in <em class="text-mint-ink">{name}</em>
+        </h1>
+        <p class="text-xl text-ink-soft mb-8 max-w-2xl mx-auto">
+          Swimly is the modern platform for swimming clubs across {name}. Run membership,
+          payments, attendance, and compliance from one organised place.
+        </p>
+        <div class="flex gap-4 justify-center flex-wrap">
+          <a href={`${appUrl}/create-club`} class="px-6 py-3 min-h-12 inline-flex items-center bg-lime-cta text-[#0F2D2D] rounded-lg font-semibold hover:bg-lime-cta-hover transition-colors">
+            Start your club, free
+          </a>
+          <a href="/#features" class="px-6 py-3 min-h-12 inline-flex items-center border border-[#297373]/40 text-ink rounded-lg font-semibold hover:bg-surface transition-colors">
+            See features
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cities Section -->
+    {stateCities.length > 0 && (
+      <section class="py-16 px-4 bg-surface border-y border-[#39393A]/8">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="font-display text-3xl text-[#0F2D2D] text-center mb-4">Swimming Club Software Across {name}</h2>
+          <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">
+            Explore how Swimly supports clubs in cities and regional centres throughout {name}.
+          </p>
+
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {stateCities.map((city) => (
+              <a href={`/au/${state}/${city.slug}/`} class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-lg p-4 hover:border-[#297373]/30 transition-colors group">
+                <h3 class="text-[#0F2D2D] font-medium group-hover:text-mint-ink transition-colors">{city.name}</h3>
+                <p class="text-ink-mute text-sm">Club management software</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Local Context Section -->
+    <section class="py-16 px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Built for swimming clubs in {name}</h2>
+        {reach === 'large' && (
+          <div class="space-y-4">
+            <p class="text-ink-soft leading-relaxed">
+              {name} is one of Australia's busiest swimming regions, with clubs spread from the
+              capital through to coastal and inland centres. Coaches and committees here juggle
+              learn-to-swim programmes, squad training, carnivals, and a steady flow of new
+              families every season. Keeping all of that organised on spreadsheets and group chats
+              quickly becomes a second job.
+            </p>
+            <p class="text-ink-soft leading-relaxed">
+              Swimly brings membership, billing, attendance, and compliance together so volunteers
+              across {name} can spend less time on admin and more time on the pool deck. Whether your
+              club runs a single squad or several venues, the platform scales with you and keeps
+              everyone working from the same up-to-date information.
+            </p>
+          </div>
+        )}
+        {reach === 'medium' && (
+          <div class="space-y-4">
+            <p class="text-ink-soft leading-relaxed">
+              Swimming clubs across {name} range from large metropolitan squads to dedicated
+              regional clubs that are the heart of their local pool. Each one relies on volunteers
+              to manage registrations, collect fees, and keep families informed throughout the
+              season.
+            </p>
+            <p class="text-ink-soft leading-relaxed">
+              Swimly gives clubs in {name} a single organised home for membership records, payment
+              collection, and poolside attendance. That means fewer late nights chasing paperwork
+              and a smoother experience for the parents and swimmers who make the club tick.
+            </p>
+          </div>
+        )}
+        {reach === 'small' && (
+          <div class="space-y-4">
+            <p class="text-ink-soft leading-relaxed">
+              {name} has a close-knit swimming community, and the clubs here are often run by a
+              small group of committed volunteers. When a handful of people look after coaching,
+              fees, and family communication all at once, good tools make a real difference.
+            </p>
+            <p class="text-ink-soft leading-relaxed">
+              Swimly helps clubs across {name} stay on top of membership, billing, and attendance
+              without the overhead of complicated systems. It is quick to set up, easy to hand over
+              between committees, and free for clubs under 50 members.
+            </p>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 px-4 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="font-display text-3xl text-[#0F2D2D] text-center mb-12">Why clubs in {name} choose Swimly</h2>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Member management</h3>
+            <p class="text-ink-soft text-sm">Keep swimmers, parents, and coaches in one organised, centralised system.</p>
+          </div>
+
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Automated billing</h3>
+            <p class="text-ink-soft text-sm">Collect fees in Australian dollars with clear financial reporting and reconciliation.</p>
+          </div>
+
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Session planning</h3>
+            <p class="text-ink-soft text-sm">Schedule training sessions and squads, and manage attendance without the spreadsheets.</p>
+          </div>
+
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Parent portal</h3>
+            <p class="text-ink-soft text-sm">Parents see schedules, invoices, and updates from any device, wherever they are.</p>
+          </div>
+
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Attendance tracking</h3>
+            <p class="text-ink-soft text-sm">Poolside check-in for coaches. Know who is here, who is late, and who is away.</p>
+          </div>
+
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-6">
+            <div class="w-12 h-12 bg-[#85FFC7]/20 border border-[#1F7A52]/15 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2z" /></svg>
+            </div>
+            <h3 class="text-[#0F2D2D] font-semibold mb-2">Built for Australian clubs</h3>
+            <p class="text-ink-soft text-sm">Australian dollars, local date formats, and a workflow that suits how clubs here run.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 px-4">
+      <div class="max-w-3xl mx-auto text-center bg-[#85FFC7]/15 border border-[#1F7A52]/20 rounded-2xl p-12">
+        <h2 class="font-display text-3xl text-[#0F2D2D] mb-4">Ready to organise your {name} club?</h2>
+        <p class="text-ink-soft mb-8">
+          Join the swimming clubs using Swimly to save time and give members a better experience.
+        </p>
+        <a href={`${appUrl}/create-club`} class="inline-flex items-center px-8 py-4 min-h-12 bg-lime-cta text-[#0F2D2D] rounded-lg font-semibold hover:bg-lime-cta-hover transition-colors">
+          Start your club, free
+        </a>
+        <p class="text-ink-mute text-sm mt-4">Free for clubs under 50 members</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

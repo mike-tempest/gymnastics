@@ -1,0 +1,344 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { ArrowRight, Smartphone, PoundSterling, Zap, Users } from '@lucide/astro';
+
+const title = 'Swimly vs ClubSpark | Swim Club Software UK';
+const description = 'Compare Swimly and ClubSpark for UK swimming clubs. Swim-specific features, flat pricing, and no per-member charges. See the full comparison.';
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Compare",
+      "item": "https://swimly.uk/compare/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "ClubSpark",
+      "item": "https://swimly.uk/compare/clubspark"
+    }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does Swimly compare to ClubSpark?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Swimly is purpose-built exclusively for swimming clubs with features like lane management, swim levels, and pool session workflows. ClubSpark is primarily designed for tennis venues (through the LTA partnership) and serves 15,000+ sports venues across multiple sports. Whilst ClubSpark offers multi-sport capabilities, Swimly focuses specifically on the unique needs of swimming clubs without transaction fees and with swim-specific features throughout."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Swimly cheaper than ClubSpark?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Swimly offers transparent pricing from £29/month with no transaction fees on payments. ClubSpark uses tiered pricing based on member limits (150/500/unlimited) and charges 1.1-1.4% plus 5p per transaction on top of Stripe fees. For clubs processing many monthly payments, these transaction fees can add up significantly. Swimly includes payment processing in its standard pricing without additional per-transaction charges."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I migrate from ClubSpark to Swimly?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, you can migrate from ClubSpark to Swimly. Swimly's setup process includes importing your member database, and our swim-specific design means you won't need to adapt tennis-focused booking systems for pool sessions. Our support team can help ensure your club's data migrates smoothly and that you're set up with features designed specifically for swimming clubs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does ClubSpark work for swimming clubs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ClubSpark can be used by swimming clubs as a multi-sport platform, but it was originally designed for tennis venues through the LTA partnership. Its booking system is court-focused rather than pool-focused. Swimming clubs need features like lane assignments, swim level progression, and session management designed for aquatics, which is where purpose-built platforms like Swimly provide a better fit."
+      }
+    }
+  ]
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <!-- Hero Section -->
+    <section class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none"></div>
+      <div class="relative">
+        <p class="eyebrow mb-6">Platform comparison</p>
+        <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+          Swimly vs ClubSpark
+        </h1>
+        <p class="text-xl text-ink-soft max-w-3xl">
+          ClubSpark is the LTA's tennis management platform, serving 15,000+ sports venues. While it offers multi-sport capabilities, Swimly is built specifically for swimming clubs with features designed for pool-based activities and swim club workflows.
+        </p>
+
+        <!-- Key stats row -->
+        <div class="grid grid-cols-3 gap-4 mt-10">
+          <div class="bg-[#85FFC7]/10 border border-[#1F7A52]/20 rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">£0</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">transaction fees</p>
+          </div>
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">No</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">member limits</p>
+          </div>
+          <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl p-4 text-center">
+            <p class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">100%</p>
+            <p class="text-xs sm:text-sm text-ink-mute mt-1">swimming-focused</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-[#39393A]/8 bg-surface">
+              <th class="text-left p-3 sm:p-6 text-[#0F2D2D] font-semibold">Feature</th>
+              <th class="text-left p-3 sm:p-6 text-mint-ink font-semibold bg-[#85FFC7]/10">Swimly</th>
+              <th class="text-left p-3 sm:p-6 text-[#0F2D2D] font-medium">ClubSpark</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#39393A]/8">
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Membership Management</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">Swim-specific member database</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Tiered limits (150/500/unlimited members)</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Automated Billing</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">Stripe integration, no transaction fees</td>
+              <td class="p-3 sm:p-6 text-ink-soft">1.1-1.4% + 5p transaction fees via Stripe</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Attendance Tracking</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">Pool session check-in system</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Basic attendance tracking</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Parent Portal/App</td>
+              <td class="p-3 sm:p-6 text-ink-soft bg-[#85FFC7]/10">Mobile-friendly web portal</td>
+              <td class="p-3 sm:p-6 text-ink-soft">ClubSpark Booker app</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Pricing/Cost</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">From £29/mo, transparent pricing</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Tiered pricing, free for LTA venues</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Swimming-Specific Features</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">Lanes, sessions, swim levels</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Generic booking system (court-focused)</td>
+            </tr>
+            <tr>
+              <td class="p-3 sm:p-6 text-[#0F2D2D] font-medium">Primary Sport Focus</td>
+              <td class="p-3 sm:p-6 text-mint-ink font-medium bg-[#85FFC7]/10">Swimming clubs</td>
+              <td class="p-3 sm:p-6 text-ink-soft">Tennis venues (LTA partnership)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- See Swimly in Action -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-4 text-center">See what a <em class="text-mint-ink">modern platform</em> looks like</h2>
+      <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">Built for the way committees actually work: quick glances on phones between sessions, and proper admin on laptops when you have time.</p>
+
+      <!-- Dashboard -->
+      <div class="mb-16">
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          <div class="lg:w-2/3">
+            <div class="rounded-2xl overflow-hidden border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+              <div class="flex items-center gap-1.5 px-4 py-3 bg-surface border-b border-[#39393A]/8">
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <span class="ml-3 text-xs text-ink-mute">app.swimly.uk</span>
+              </div>
+              <picture>
+                <source srcset="/mockups/dashboard-macbook.webp" type="image/webp" />
+                <img src="/mockups/dashboard-macbook.png" alt="Swimly club dashboard showing swimmers, sessions, and billing overview" class="w-full" loading="lazy" />
+              </picture>
+            </div>
+          </div>
+          <div class="lg:w-1/3">
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Club dashboard</h3>
+            <p class="text-ink-soft text-sm leading-relaxed mb-4">Everything your committee needs at a glance: member counts, upcoming sessions, billing status, and compliance alerts. No clicking through five menus to find what matters.</p>
+            <ul class="space-y-2">
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Real-time member and payment stats
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Upcoming sessions and attendance
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Compliance and DBS expiry warnings
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Billing -->
+      <div class="mb-16">
+        <div class="flex flex-col lg:flex-row-reverse items-center gap-8 lg:gap-12">
+          <div class="lg:w-2/3">
+            <div class="rounded-2xl overflow-hidden border border-[#39393A]/10 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.3)]">
+              <div class="flex items-center gap-1.5 px-4 py-3 bg-surface border-b border-[#39393A]/8">
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <div class="w-3 h-3 rounded-full bg-[#39393A]/15"></div>
+                <span class="ml-3 text-xs text-ink-mute">app.swimly.uk/billing</span>
+              </div>
+              <picture>
+                <source srcset="/mockups/billing-macbook.webp" type="image/webp" />
+                <img src="/mockups/billing-macbook.png" alt="Swimly billing page showing automated Direct Debit collections" class="w-full" loading="lazy" />
+              </picture>
+            </div>
+          </div>
+          <div class="lg:w-1/3">
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Automated billing</h3>
+            <p class="text-ink-soft text-sm leading-relaxed mb-4">Direct Debit via GoCardless means fees collect themselves. The Treasurer sees who has paid, who hasn't, and what failed, all without opening a spreadsheet.</p>
+            <ul class="space-y-2">
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                One-click Direct Debit setup
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Automatic retry on failed payments
+              </li>
+              <li class="flex items-start gap-2 text-sm text-ink-soft">
+                <svg class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Clear payment status dashboard
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile / Poolside -->
+      <div>
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          <div class="lg:w-1/3 flex justify-center">
+            <div class="w-[220px]">
+              <picture>
+                <source srcset="/mockups/sessions-iphone.webp" type="image/webp" />
+                <img src="/mockups/sessions-iphone.png" alt="Swimly attendance register on an iPhone at poolside" class="w-full h-auto" loading="lazy" />
+              </picture>
+            </div>
+          </div>
+          <div class="lg:w-2/3">
+            <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Works poolside on your phone</h3>
+            <p class="text-ink-soft text-sm leading-relaxed mb-4">Coaches take attendance on their phone at 6am. Parents check balances in the car park. Committee members approve things on the train. Swimly is designed for real life, not just office desks.</p>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="p-4 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+                <p class="text-sm font-semibold text-[#0F2D2D] mb-1">No app download needed</p>
+                <p class="text-xs text-ink-mute">Works in any mobile browser. Add to home screen for an app-like experience.</p>
+              </div>
+              <div class="p-4 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+                <p class="text-sm font-semibold text-[#0F2D2D] mb-1">Offline-friendly attendance</p>
+                <p class="text-xs text-ink-mute">Mark attendance even with patchy poolside WiFi. Syncs when reconnected.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Swimly -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-4 text-center">Why choose Swimly over ClubSpark?</h2>
+      <p class="text-ink-soft text-center mb-12 max-w-2xl mx-auto">Four reasons clubs are making the switch.</p>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Smartphone class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Built specifically for swimming clubs</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">ClubSpark was designed for tennis venues and adapted for other sports. Swimly is purpose-built for swimming clubs with features like lane management, swim levels, and pool session workflows that ClubSpark's court booking system doesn't address.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <PoundSterling class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">No transaction fees eating into your budget</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">ClubSpark charges 1.1-1.4% plus 5p per transaction on top of Stripe fees. Those costs add up quickly for clubs processing hundreds of payments. Swimly's standard pricing includes payment processing without additional transaction fees.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Zap class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Designed for swim club workflows</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">Swimming clubs operate differently from tennis venues. You need features for managing swim sessions, tracking swimmer progression, and organising galas, not court booking systems adapted for pools.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:border-[#297373]/30 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+            <Users class="w-5 h-5 text-mint-ink" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">No arbitrary member limits</h3>
+          <p class="text-sm text-ink-soft leading-relaxed">ClubSpark's pricing tiers limit you to 150, 500, or unlimited members. Swimly's pricing is based on what you need, not artificial member caps that force you into higher tiers as your club grows.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Compare All Platforms -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8 text-center">
+        <h2 class="font-display text-2xl text-[#0F2D2D] mb-4">Comparing other platforms?</h2>
+        <p class="text-ink-soft mb-6">
+          See how Swimly compares to all the top UK swim club software options in one place.
+        </p>
+        <a
+          href="/best-swim-club-software"
+          class="inline-flex items-center gap-2 text-mint-ink hover:text-[#0F2D2D] transition-colors font-medium"
+        >
+          View full comparison guide →
+        </a>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <div class="relative">
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-6">Ready to simplify your swim club management?</h2>
+        <p class="text-xl text-ink-soft mb-8 max-w-xl mx-auto">Create your club today. Free for clubs under 50 members, no card required.</p>
+        <a
+          href="https://app.swimly.uk/create-club"
+          class="inline-flex items-center gap-2 text-lg font-semibold min-h-12 px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all"
+        >
+          Start your club, free
+          <ArrowRight class="w-5 h-5" />
+        </a>
+        <p class="mt-4 text-sm text-ink-mute">Free to join. No payment details required.</p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

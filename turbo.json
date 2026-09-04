@@ -1,0 +1,68 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [".env", "tsconfig.json"],
+  "globalEnv": [
+    "NODE_ENV",
+    "DB_HOST",
+    "DB_PORT",
+    "DB_USER",
+    "DB_PASSWORD",
+    "DB_NAME",
+    "REDIS_HOST",
+    "REDIS_PORT",
+    "JWT_SECRET",
+    "NEXT_PUBLIC_API_URL",
+    "NEXTAUTH_URL",
+    "NEXTAUTH_SECRET",
+    "EMAIL_HOST",
+    "EMAIL_PORT",
+    "EMAIL_USER",
+    "EMAIL_PASSWORD",
+    "EMAIL_FROM",
+    "NOTIFICATIONS_PORT",
+    "SMTP_HOST",
+    "SMTP_PORT",
+    "SMTP_USER",
+    "SMTP_PASS",
+    "SMTP_FROM"
+  ],
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**", "build/**", "out/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "outputs": ["coverage/**"]
+    },
+    "test:unit": {
+      "dependsOn": ["build"],
+      "outputs": ["coverage/**"]
+    },
+    "test:e2e": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "lint": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "clean": {
+      "cache": false
+    },
+    "db:migrate": {
+      "cache": false
+    },
+    "db:seed": {
+      "cache": false
+    }
+  }
+}

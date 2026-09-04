@@ -1,0 +1,216 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { MapPin, ChevronRight, Home } from "@lucide/astro";
+import clubsData from "../../data/clubs.json";
+import countiesData from "../../data/counties.json";
+
+export async function getStaticPaths() {
+  const clubs = clubsData;
+  const regions = [...new Set(clubs.map(club => club.region))];
+
+  // Build county slug lookup
+  const regionToCountySlug: Record<string, string> = {};
+  for (const [slug, data] of Object.entries(countiesData)) {
+    regionToCountySlug[(data as { name: string }).name] = slug;
+  }
+
+  return regions.map(region => {
+    const regionSlug = region.toLowerCase().replace(/ /g, '-');
+    const regionClubs = clubs.filter(c => c.region === region);
+    const countySlug = regionToCountySlug[region] || null;
+
+    return {
+      params: { region: regionSlug },
+      props: { region, regionClubs, countySlug },
+    };
+  });
+}
+
+const { region, regionClubs, countySlug } = Astro.props;
+
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: `Swimming Clubs in ${region}`,
+  description: `Directory of swimming clubs in ${region}. Find your local club and discover training opportunities.`,
+  numberOfItems: regionClubs.length,
+  itemListElement: regionClubs.map((club, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    item: {
+      "@type": "SportsOrganization",
+      name: club.name,
+      sport: "Swimming",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: club.location,
+        addressRegion: club.region,
+        addressCountry: "GB",
+      },
+      url: `/clubs/${region.toLowerCase().replace(/ /g, '-')}/${club.slug}`,
+    },
+  })),
+};
+
+const regionSlug = region.toLowerCase().replace(/ /g, '-');
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Clubs",
+      "item": "https://swimly.uk/clubs"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": region,
+      "item": `https://swimly.uk/clubs/${regionSlug}`
+    }
+  ]
+};
+---
+
+<Layout
+  title={`Swimming Clubs in ${region} | Swimly`}
+  description={`Find swimming clubs in ${region}. Discover ${regionClubs.length} local swimming clubs offering training and competitive opportunities for swimmers of all ages and abilities.`}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(itemListSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+
+  <Nav />
+  
+  <main>
+    <!-- Breadcrumbs -->
+    <section class="pt-24 pb-8">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex items-center gap-2 text-sm text-ink-mute">
+          <a href="/" class="hover:text-mint-ink transition-colors flex items-center gap-1">
+            <Home class="w-4 h-4" />
+            Home
+          </a>
+          <ChevronRight class="w-4 h-4" />
+          <a href="/clubs/" class="hover:text-mint-ink transition-colors">Clubs</a>
+          <ChevronRight class="w-4 h-4" />
+          <span class="text-[#0F2D2D]">{region}</span>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="pb-16 sm:pb-20 relative overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[500px] pointer-events-none"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p class="eyebrow inline-flex items-center gap-2 mb-6">
+          <MapPin class="w-4 h-4" />
+          {region}
+        </p>
+
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.1] text-[#0F2D2D]">
+          Swimming Clubs in <em class="text-mint-ink">{region}</em>
+        </h1>
+
+        <p class="mt-6 text-lg sm:text-xl text-ink-soft max-w-2xl leading-relaxed">
+          Discover {regionClubs.length} swimming {regionClubs.length === 1 ? 'club' : 'clubs'} in {region}. From grassroots clubs to competitive programmes, find the right fit for your swimming journey.
+        </p>
+      </div>
+    </section>
+
+    <!-- Clubs Grid -->
+    <section class="pb-20 sm:pb-28 relative">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {regionClubs.map(club => (
+            <a
+              href={`/clubs/${regionSlug}/${club.slug}`}
+              class="group p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all hover:-translate-y-1"
+            >
+              <h3 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors mb-2">
+                {club.name}
+              </h3>
+
+              <div class="flex items-center gap-2 text-sm text-ink-mute mb-3">
+                <MapPin class="w-4 h-4" />
+                <span>{club.location}</span>
+              </div>
+
+              {club.venue && (
+                <div class="text-sm text-ink-mute mb-3">
+                  <span class="text-ink-faint">Venue:</span> {club.venue}
+                </div>
+              )}
+
+              <p class="text-sm text-ink-soft leading-relaxed line-clamp-3 mb-4">
+                {club.description}
+              </p>
+
+              <div class="text-mint-ink text-sm font-medium flex items-center gap-1">
+                View club details
+                <ChevronRight class="w-4 h-4" />
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- About Region -->
+    <section class="py-20 sm:py-28">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-2xl p-8 lg:p-12">
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">
+            Swimming in {region}
+          </h2>
+          <div class="space-y-4 text-ink-soft leading-relaxed">
+            <p>
+              {region} is home to {regionClubs.length} active swimming {regionClubs.length === 1 ? 'club' : 'clubs'} offering training for swimmers of all ages and abilities. Whether you're looking for learn-to-swim programmes, competitive training, or recreational swimming, you'll find clubs across the region ready to welcome you.
+            </p>
+            <p>
+              Each club provides quality coaching, regular training sessions, and opportunities to compete at local, county, and regional levels. Many clubs also offer social swimming and family-friendly sessions.
+            </p>
+            <p>
+              Use the directory above to explore clubs in {region} and find the perfect fit for your swimming goals.
+            </p>
+            {countySlug && (
+              <p>
+                Looking for club management tools? See our <a href={`/swimming-club-software/${countySlug}/`} class="text-mint-ink hover:text-[#0F2D2D] transition-colors">swimming club software for {region}</a>.
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 sm:py-28 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="font-display text-3xl sm:text-4xl text-[#0F2D2D] mb-4">
+          Is Your Club Missing?
+        </h2>
+        <p class="text-lg text-ink-soft mb-8 max-w-xl mx-auto">
+          Add your swimming club to the directory and start managing it with Swimly. Purpose-built software for UK swimming clubs.
+        </p>
+        <a
+          href="/clubs/add/"
+          class="inline-flex items-center gap-2 px-6 py-3 min-h-12 rounded-lg bg-lime-cta text-[#0F2D2D] font-semibold hover:bg-lime-cta-hover transition-colors text-lg"
+        >
+          Add your club
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

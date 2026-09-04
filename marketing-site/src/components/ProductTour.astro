@@ -1,0 +1,112 @@
+---
+// Product screenshot tour for the swimly.club region pages.
+//
+// The screenshots are captured per region, so a US visitor sees USD and
+// month/day dates and a USA Swimming registration number, not the GBP and Swim
+// England numbers of the swimly.uk captures. See
+// docs/regional-screenshots.md for how they are produced.
+//
+// Every image is a real screenshot of the app, so the alt text describes what
+// is actually on screen rather than restating the marketing copy.
+import type { RegionKey } from "../config/regions";
+import { REGIONS } from "../config/regions";
+
+interface Props {
+  region: Exclude<RegionKey, "uk">;
+  /** "team" in the US, "club" everywhere else. */
+  noun?: string;
+}
+
+const { region, noun = "club" } = Astro.props;
+const cfg = REGIONS[region];
+const base = `/images/app-screenshots/${region}`;
+
+// Members first, then the two screens that decide the sale (money and
+// timetable), then the parent-facing view.
+const shots = [
+  {
+    file: "swimmers",
+    eyebrow: "Members",
+    title: `Every swimmer, one record`,
+    body: `Squads, dates of birth and ${cfg.governingBody} registration numbers in one searchable list. No more cross-referencing spreadsheets to find out who is in which squad.`,
+    alt: `Swimly swimmers list showing 36 active members with squad filters and ${cfg.governingBody} registration numbers`,
+  },
+  {
+    file: "billing",
+    eyebrow: "Billing",
+    title: `Know exactly who has paid`,
+    body: `Outstanding, overdue and collected totals at the top, every invoice underneath. Amounts are in ${cfg.currency}, so the numbers match your bank statement.`,
+    alt: `Swimly billing overview showing outstanding, overdue and collected totals in ${cfg.currency} above a list of invoices`,
+  },
+  {
+    file: "sessions",
+    eyebrow: "Sessions",
+    title: `The timetable your coaches actually use`,
+    body: `Scheduled sessions by squad and week, with the register attached to each one. Coaches see what is on tonight without asking.`,
+    alt: "Swimly sessions page showing upcoming training sessions grouped by week with squad filters",
+  },
+  {
+    file: "parent-invoices",
+    eyebrow: "Parent portal",
+    title: `Parents answer their own questions`,
+    body: `Families sign in to see what they owe, what they have paid and when it is due. That is most of your inbox gone.`,
+    alt: `Swimly parent portal showing a family's invoices with totals in ${cfg.currency} and their due dates`,
+  },
+];
+---
+
+<section class="py-20 sm:py-28 bg-surface border-y border-[#39393A]/8">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl mb-14">
+      <p class="eyebrow reveal">Inside Swimly</p>
+      <h2 class="reveal font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5">
+        This is the actual software
+      </h2>
+      <p class="reveal text-ink-soft text-lg mt-6 leading-relaxed">
+        Not a mock-up. These are screenshots of Swimly set up for a
+        {cfg.label} {noun}, billing in {cfg.currency}.
+      </p>
+    </div>
+
+    <div class="space-y-16 sm:space-y-24">
+      {
+        shots.map((shot, i) => (
+          <div class="grid lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+            <div class={`lg:col-span-4 ${i % 2 === 1 ? "lg:order-2" : ""}`}>
+              <p class="eyebrow reveal">{shot.eyebrow}</p>
+              <h3 class="reveal font-display text-2xl sm:text-3xl text-[#0F2D2D] mt-4 leading-tight">
+                {shot.title}
+              </h3>
+              <p class="reveal text-ink-soft mt-4 leading-relaxed">{shot.body}</p>
+            </div>
+
+            <div class={`lg:col-span-8 ${i % 2 === 1 ? "lg:order-1" : ""}`}>
+              <div class="reveal rounded-[20px] overflow-hidden border border-[#39393A]/12 shadow-[0_24px_56px_-24px_rgba(15,45,45,0.35)] bg-[#0F2D2D]">
+                <picture>
+                  {/* The phone capture is 390x844, so it carries its own
+                      dimensions: without them the browser reserves space using
+                      the desktop image's 16:10 ratio and the page jumps. */}
+                  <source
+                    media="(max-width: 639px)"
+                    srcset={`${base}/${shot.file}-mobile.png`}
+                    width="390"
+                    height="844"
+                  />
+                  <img
+                    src={`${base}/${shot.file}-desktop.png`}
+                    alt={shot.alt}
+                    width="1440"
+                    height="900"
+                    class="w-full h-auto block"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

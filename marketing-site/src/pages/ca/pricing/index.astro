@@ -1,0 +1,310 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import { REGIONS } from "../../../config/regions";
+import { Check, ArrowRight } from "@lucide/astro";
+
+const SITE = "https://swimly.club";
+const title = "Swim Club Software Pricing in CAD | Swimly Canada";
+const description =
+  "Transparent swim club software pricing in Canadian dollars. A free plan for small clubs, then flat monthly rates with no per-member fees. Provisional CAD pricing.";
+const canonical = `${SITE}/ca/pricing/`;
+const appUrl = REGIONS.ca.appUrl;
+
+const tiers = [
+  {
+    name: "Starter",
+    price: "Free",
+    period: "",
+    description: "For small clubs finding their feet",
+    members: "Up to 50 members",
+    highlight: false,
+    cta: "Start free",
+    ctaHref: `${appUrl}/create-club`,
+    features: [
+      "Basic membership management",
+      "Attendance tracking",
+      "Email notifications",
+      "Session scheduling",
+      "Financial summary",
+    ],
+  },
+  {
+    name: "Club",
+    price: "C$49",
+    period: "/mo",
+    description: "The full toolkit for growing clubs",
+    members: "50 to 200 members",
+    highlight: true,
+    cta: "Start free",
+    ctaHref: `${appUrl}/create-club`,
+    features: [
+      "Everything in Starter",
+      "Billing and invoicing in CAD",
+      "Parent portal",
+      "Squad management",
+      "Recurring card and bank payments",
+      "Custom reports and exports",
+      "Priority email support",
+    ],
+  },
+  {
+    name: "Performance",
+    price: "C$85",
+    period: "/mo",
+    description: "For ambitious, competitive clubs",
+    members: "200 to 500 members",
+    highlight: false,
+    cta: "Start free",
+    ctaHref: `${appUrl}/create-club`,
+    features: [
+      "Everything in Club",
+      "Performance analytics",
+      "Competition fee tracking",
+      "API access",
+      "Safeguarding dashboard",
+      "Priority support",
+    ],
+  },
+  {
+    name: "Enterprise",
+    price: "Custom",
+    period: "",
+    description: "Bespoke pricing for large organisations",
+    members: "500+ members",
+    highlight: false,
+    cta: "Get in touch",
+    ctaHref: "mailto:hello@swimly.club",
+    features: [
+      "Everything in Performance",
+      "Dedicated support",
+      "Custom integrations",
+      "Onboarding support",
+      "Multi-site management",
+      "Dedicated account manager",
+    ],
+  },
+];
+
+const faqItems = [
+  {
+    question: "Is the Starter plan really free?",
+    answer:
+      "Yes. The Starter plan is free for clubs with up to 50 members. There is no card required and no time limit. You can use it for as long as you like while your club grows.",
+  },
+  {
+    question: "Are the prices final?",
+    answer:
+      "Not yet. The Club and Performance prices shown here are provisional while we open Swimly to Canadian clubs. We will confirm final Canadian dollar pricing before your club is billed, and the free Starter plan stays free.",
+  },
+  {
+    question: "Are there per-member fees?",
+    answer:
+      "No. Every paid plan is a flat monthly rate in Canadian dollars regardless of how many members you have within your tier. We do not think clubs should be penalised for growing.",
+  },
+  {
+    question: "How do members pay their fees?",
+    answer:
+      "Through Swimly you can collect club fees by recurring card payment or pre-authorised bank payment, so monthly, term or seasonal fees are collected automatically rather than chased by e-transfer.",
+  },
+  {
+    question: "Can I switch plans at any time?",
+    answer:
+      "Yes. You can move up or down a plan from your club dashboard. Upgrades take effect immediately, and downgrades take effect at the end of your current billing period.",
+  },
+  {
+    question: "What happens if my club grows beyond a member limit?",
+    answer:
+      "We will let you know when you are approaching your plan's member limit and you can move to the next tier whenever you are ready. We will not cut off access without giving you plenty of notice.",
+  },
+];
+---
+
+<Layout title={title} description={description} canonical={canonical} faqItems={faqItems}>
+  <Nav />
+
+  <main class="pt-28 pb-16">
+    <!-- Hero -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+      <p class="eyebrow reveal">Pricing in Canadian dollars</p>
+      <h1 class="reveal font-display text-5xl sm:text-6xl text-[#0F2D2D] mt-5 mb-6">
+        Simple, transparent pricing
+      </h1>
+      <p class="reveal text-xl text-ink-soft max-w-2xl mx-auto mb-4">
+        No per-member fees. No hidden charges. No annual lock-in. Just a flat
+        monthly rate in CAD that scales with your club.
+      </p>
+      <p class="reveal text-base text-mint-ink max-w-2xl mx-auto">
+        Preparing a proposal for your AGM? Transparent pricing makes committee
+        decisions easier.
+      </p>
+    </section>
+
+    <!-- Provisional pricing notice -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="reveal bg-amber-500/10 border border-amber-600/30 rounded-2xl p-5 text-center">
+        <p class="text-[#0F2D2D] font-semibold text-sm mb-1">Provisional Canadian pricing</p>
+        <p class="text-ink-soft text-sm max-w-2xl mx-auto">
+          The Club and Performance prices below are provisional while we open
+          Swimly to Canadian clubs. We will confirm final CAD pricing before your
+          club is billed. The free Starter plan stays free.
+        </p>
+      </div>
+    </section>
+
+    <!-- Pricing Grid -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-start">
+        {tiers.map((tier) => (
+          <div
+            class:list={[
+              "reveal relative flex flex-col p-6 lg:p-7 rounded-[20px] transition-all",
+              tier.highlight
+                ? "bg-surface-raised border-2 border-[#297373]/35 shadow-[0_16px_40px_-16px_rgba(15,45,45,0.3)] lg:-translate-y-3"
+                : "bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]",
+            ]}
+          >
+            {tier.highlight && (
+              <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full bg-[#0F2D2D] text-[#85FFC7] text-xs font-semibold whitespace-nowrap">
+                Most popular
+              </div>
+            )}
+
+            <div class="mb-5">
+              <h2 class="text-[13px] font-semibold tracking-[0.12em] uppercase text-ink-mute">{tier.name}</h2>
+              <p class="text-sm text-ink-mute mt-2">{tier.description}</p>
+            </div>
+
+            <div class="flex items-baseline gap-1">
+              <span class="font-display text-[44px] leading-none text-[#0F2D2D]">{tier.price}</span>
+              {tier.period && <span class="text-ink-mute text-lg">{tier.period}</span>}
+            </div>
+            <p class="text-sm text-mint-ink mt-2 font-medium">{tier.members}</p>
+            {(tier.name === "Club" || tier.name === "Performance") && (
+              <p class="text-xs text-ink-faint mt-1">Provisional CAD pricing</p>
+            )}
+
+            <div class="mt-4 mb-5 pb-5 border-b border-[#39393A]/8"></div>
+
+            <ul class="space-y-3 mb-8 flex-1">
+              {tier.features.map((feature) => (
+                <li class="flex items-start gap-2.5 text-sm text-ink-soft">
+                  <Check class="w-4 h-4 text-mint-ink mt-0.5 shrink-0" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={tier.ctaHref}
+              class:list={[
+                "block text-center rounded-xl text-base font-bold transition-all min-h-12 leading-[3rem]",
+                tier.highlight || tier.price === "Free"
+                  ? "bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+                  : "border border-[#297373]/40 text-ink hover:border-[#297373]/70 hover:bg-surface",
+              ]}
+            >
+              {tier.cta}
+            </a>
+          </div>
+        ))}
+      </div>
+
+      <!-- Trust signals -->
+      <div class="reveal mt-12 flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 text-sm text-ink-mute">
+        <span class="flex items-center gap-2">
+          <Check class="w-4 h-4 text-mint-ink" />
+          No contract, cancel any time
+        </span>
+        <span class="flex items-center gap-2">
+          <Check class="w-4 h-4 text-mint-ink" />
+          No setup fees
+        </span>
+        <span class="flex items-center gap-2">
+          <Check class="w-4 h-4 text-mint-ink" />
+          Free data migration
+        </span>
+      </div>
+    </section>
+
+    <!-- What flat-rate means -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center mb-10">
+        <p class="eyebrow reveal">Why flat-rate</p>
+        <h2 class="reveal font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5">
+          Pricing your treasurer can predict
+        </h2>
+        <p class="reveal mt-4 text-ink-soft text-lg max-w-2xl mx-auto">
+          Many platforms charge per athlete, so the bill climbs every time your
+          club grows. Swimly charges one predictable monthly rate per tier.
+        </p>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-5">
+        <div class="reveal p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <h3 class="text-lg font-semibold text-mint-ink mb-2">One flat rate</h3>
+          <p class="text-ink-mute text-sm leading-relaxed">A single monthly figure per tier, in Canadian dollars, so your budget does not move with your member count.</p>
+        </div>
+        <div class="reveal p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <h3 class="text-lg font-semibold text-mint-ink mb-2">No surprise add-ons</h3>
+          <p class="text-ink-mute text-sm leading-relaxed">Core club management is included in your plan. You are not buying modules one at a time to get the basics working.</p>
+        </div>
+        <div class="reveal p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <h3 class="text-lg font-semibold text-mint-ink mb-2">Cancel any time</h3>
+          <p class="text-ink-mute text-sm leading-relaxed">Monthly billing with no annual lock-in. If Swimly is not right for your club, you are free to leave.</p>
+        </div>
+      </div>
+      <p class="reveal text-xs text-ink-faint mt-8 text-center">
+        Payment processing may be subject to your payment provider's standard
+        transaction fees. Taxes may apply depending on your province.
+      </p>
+    </section>
+
+    <!-- FAQ -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center mb-12">
+        <p class="eyebrow reveal">FAQ</p>
+        <h2 class="reveal font-display text-4xl sm:text-5xl text-[#0F2D2D] mt-5">
+          Frequently asked questions
+        </h2>
+        <p class="reveal mt-4 text-ink-soft text-lg">
+          Everything you need to know about Swimly pricing in Canada.
+        </p>
+      </div>
+      <div class="space-y-4">
+        {faqItems.map((item) => (
+          <details class="group bg-surface-raised border border-[#39393A]/10 rounded-xl transition-colors">
+            <summary class="flex items-center justify-between cursor-pointer px-6 py-5 text-[#0F2D2D] font-medium text-sm list-none">
+              {item.question}
+              <svg class="w-5 h-5 text-mint-ink shrink-0 ml-4 transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div class="px-6 pb-5 text-sm text-ink-mute leading-relaxed">
+              {item.answer}
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+      <h2 class="reveal font-display text-4xl text-[#0F2D2D] mb-6">
+        Ready to simplify club management?
+      </h2>
+      <p class="reveal text-xl text-ink-soft mb-8">
+        Start free with a small club. No card required.
+      </p>
+      <a
+        href={`${appUrl}/create-club`}
+        class="reveal inline-flex items-center justify-center gap-2 text-lg font-bold px-8 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all min-h-14 shadow-[0_8px_24px_-8px_rgba(255,133,82,0.6)]"
+      >
+        Start free
+        <ArrowRight class="w-5 h-5" />
+      </a>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

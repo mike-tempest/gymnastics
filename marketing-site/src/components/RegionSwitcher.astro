@@ -1,0 +1,120 @@
+---
+// Region (country) switcher.
+//
+// Lists every Swimly region and links to each region home as an absolute,
+// cross-domain URL with a trailing slash. The current region (derived from
+// the page path) is highlighted and marked aria-current.
+//
+// Rendered as a native <details>/<summary> disclosure so it is keyboard
+// accessible and works without JavaScript. Every interactive target is at
+// least 48x48px to meet the WCAG AA touch-target guidance.
+import {
+  REGIONS,
+  REGION_ORDER,
+  regionHomeUrl,
+  regionFromPath,
+  type RegionKey,
+} from "../config/regions";
+
+interface Props {
+  /** Visual variant. "light" suits the dark footer; default suits the nav. */
+  variant?: "default" | "light";
+  /** Extra classes for the wrapping element. */
+  class?: string;
+}
+
+const { variant = "default", class: className = "" } = Astro.props;
+
+const current: RegionKey = regionFromPath(Astro.url.pathname);
+const currentRegion = REGIONS[current];
+
+const isLight = variant === "light";
+
+// Summary (the always-visible trigger).
+const summaryClass = isLight
+  ? "list-none cursor-pointer select-none inline-flex items-center gap-2 min-h-12 px-3 rounded-lg text-sm text-[#E6E6E6]/70 hover:text-[#85FFC7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#85FFC7] transition-colors"
+  : "list-none cursor-pointer select-none inline-flex items-center gap-2 min-h-12 px-3 rounded-lg text-[15px] text-ink-mute hover:text-[#0F2D2D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint-ink transition-colors";
+
+// Dropdown panel. The light variant lives in the footer (which clips
+// overflow), so it opens upward; the default variant opens downward.
+const panelClass = isLight
+  ? "absolute right-0 bottom-full z-50 mb-2 w-56 rounded-xl border border-[#E6E6E6]/15 bg-[#0F2D2D] shadow-[0_-16px_40px_-12px_rgba(0,0,0,0.5)] overflow-hidden py-1"
+  : "absolute right-0 z-50 mt-2 w-56 rounded-xl border border-[#39393A]/10 bg-surface-raised shadow-[0_16px_40px_-12px_rgba(15,45,45,0.25)] overflow-hidden py-1";
+
+// A single option link.
+const optionBase =
+  "flex items-center justify-between gap-2 min-h-12 px-4 py-2 text-sm transition-colors";
+const optionIdle = isLight
+  ? "text-[#E6E6E6]/70 hover:bg-[#85FFC7]/10 hover:text-[#85FFC7]"
+  : "text-ink-soft hover:bg-[#85FFC7]/15 hover:text-mint-ink";
+const optionActive = isLight
+  ? "text-[#85FFC7] font-semibold bg-[#85FFC7]/10"
+  : "text-mint-ink font-semibold bg-[#85FFC7]/15";
+---
+
+<details class:list={["relative group", className]}>
+  <summary class={summaryClass} aria-label={`Change region, current region ${currentRegion.label}`}>
+    <svg class="w-4 h-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" />
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3a13.5 13.5 0 0 1 0 18 13.5 13.5 0 0 1 0-18Z" />
+    </svg>
+    <span>{currentRegion.label}</span>
+    <svg class="w-3.5 h-3.5 opacity-60 transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
+  </summary>
+
+  <ul class={panelClass} role="list" aria-label="Choose your region">
+    {REGION_ORDER.map((key) => {
+      const region = REGIONS[key];
+      const isActive = key === current;
+      return (
+        <li>
+          <a
+            href={regionHomeUrl(key)}
+            class:list={[optionBase, isActive ? optionActive : optionIdle]}
+            aria-current={isActive ? "true" : undefined}
+          >
+            <span>{region.label}</span>
+            {isActive && (
+              <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            )}
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+</details>
+
+<script>
+  // Close any open region switcher when clicking outside it or pressing Escape.
+  // Progressive enhancement only: the disclosure still works without this.
+  document.addEventListener("click", (event) => {
+    const target = event.target as Node;
+    document
+      .querySelectorAll<HTMLDetailsElement>("details[open]")
+      .forEach((details) => {
+        if (!details.contains(target)) details.open = false;
+      });
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    document
+      .querySelectorAll<HTMLDetailsElement>("details[open]")
+      .forEach((details) => {
+        details.open = false;
+      });
+  });
+</script>
+
+<style>
+  /* Hide the default disclosure triangle across browsers. */
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary {
+    list-style: none;
+  }
+</style>

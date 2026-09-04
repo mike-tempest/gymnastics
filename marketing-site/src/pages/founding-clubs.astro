@@ -1,0 +1,539 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { CheckCircle, ArrowRight, MessageSquare, Users, Star, Heart, Headphones, Gift, Zap, Shield, Calendar, FileText } from "@lucide/astro";
+
+const onePagers = [
+  { role: "For the Chair", desc: "Governance, handovers, and committee oversight in one place.", href: "/downloads/chair-one-pager.html" },
+  { role: "For the Treasurer", desc: "Direct Debit collection, reconciliation, and AGM-ready reports.", href: "/downloads/treasurer-one-pager.html" },
+  { role: "For the Membership Secretary", desc: "Self-service member records and automated renewals.", href: "/downloads/membership-secretary-one-pager.html" },
+  { role: "For Coaches", desc: "Poolside registers and squad lists on your phone.", href: "/downloads/coach-one-pager.html" },
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Founding Clubs",
+      "item": "https://swimly.uk/founding-clubs/"
+    }
+  ]
+};
+
+const faqs = [
+  {
+    question: "What does a founding club get?",
+    answer: "Founding clubs receive 6 months completely free, white-glove data migration, lifetime locked pricing, direct product input via a private feedback channel, early access to new features, and priority support. No payment details required upfront."
+  },
+  {
+    question: "What size club are you looking for?",
+    answer: "We are looking for UK competitive swimming clubs with 50 to 300 members. Clubs should be volunteer-run and open to trying modern software for membership, billing, and compliance management."
+  },
+  {
+    question: "Is there any obligation or contract?",
+    answer: "No. There is no contract and no obligation. If Swimly is not the right fit after the 6-month founding period, you simply stop using it. We want clubs that choose to stay because the product works, not because of a contract."
+  },
+  {
+    question: "How long does migration take?",
+    answer: "We migrate your data within the first few days, your committee logs in around day five, and most clubs are up and running within two weeks. We handle importing your membership data from spreadsheets or CSV files, setting up billing schedules, and training your committee. No technical knowledge required on your end."
+  },
+  {
+    question: "What do founding clubs need to do?",
+    answer: "Use Swimly as your club management platform, share honest feedback on what works and what needs improving, and give us a committee contact we can collaborate with regularly. We handle all data migration and setup."
+  }
+];
+---
+
+<Layout
+  title="Become a Founding Club | Swimly UK Swimming Club Software"
+  description="Join Swimly as a founding club. 6 months free, white-glove migration, lifetime pricing lock, and direct product input. Limited to 10 UK swimming clubs."
+  faqItems={faqs}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <Nav />
+  <main>
+    <!-- Hero -->
+    <section class="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[600px] pointer-events-none" aria-hidden="true"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="reveal inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#85FFC7]/20 border border-[#1F7A52]/20 text-mint-ink text-sm font-medium mb-8">
+          <Star class="w-4 h-4" />
+          Limited to 10 clubs
+        </div>
+
+        <h1 class="reveal font-display text-4xl sm:text-5xl lg:text-6xl leading-tight tracking-tight text-[#0F2D2D]">
+          Shape the future of
+          <br />
+          <em class="text-mint-ink">swimming club software</em>
+        </h1>
+
+        <p class="reveal mt-6 text-lg sm:text-xl text-ink-soft max-w-2xl mx-auto leading-relaxed">
+          Founding clubs are not beta testers. You are partners who shape every feature,
+          every workflow, and every decision. In return, you get 6 months free, lifetime
+          pricing, and a product built around how your club actually works.
+        </p>
+
+        <div class="reveal mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="https://app.swimly.uk/create-club"
+            class="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-lg shadow-lime-cta/20 hover:shadow-lime-cta/30 hover:scale-[1.02] min-h-12"
+          >
+            Start your club, free
+            <ArrowRight class="w-5 h-5" />
+          </a>
+          <a
+            href="#how-it-works"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-[#297373]/40 text-ink hover:bg-surface transition-colors text-lg min-h-12"
+          >
+            See how it works
+          </a>
+        </div>
+      </div>
+
+      <!-- Stats bar -->
+      <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+        <div class="reveal grid grid-cols-3 gap-4 sm:gap-8 p-6 sm:p-8 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+          <div class="text-center">
+            <div class="font-display text-2xl sm:text-3xl text-mint-ink">6</div>
+            <div class="text-xs sm:text-sm text-ink-mute mt-1">months free</div>
+          </div>
+          <div class="text-center border-x border-[#39393A]/10">
+            <div class="font-display text-2xl sm:text-3xl text-mint-ink">10</div>
+            <div class="text-xs sm:text-sm text-ink-mute mt-1">places in the first cohort</div>
+          </div>
+          <div class="text-center">
+            <div class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">£0</div>
+            <div class="text-xs sm:text-sm text-ink-mute mt-1">upfront cost</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- App preview: device mockups -->
+      <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+        <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
+          <div class="w-full max-w-2xl">
+            <picture>
+              <source srcset="/mockups/dashboard-macbook.webp" type="image/webp" />
+              <img
+                src="/mockups/dashboard-macbook.png"
+                alt="Swimly dashboard on a MacBook showing club overview with swimmers, families, sessions and billing at a glance"
+                class="w-full h-auto"
+                loading="eager"
+              />
+            </picture>
+          </div>
+          <div class="w-full max-w-[200px] sm:max-w-[240px]">
+            <picture>
+              <source srcset="/mockups/dashboard-iphone.webp" type="image/webp" />
+              <img
+                src="/mockups/dashboard-iphone.png"
+                alt="Swimly dashboard on an iPhone for poolside club management"
+                class="w-full h-auto"
+                loading="lazy"
+              />
+            </picture>
+          </div>
+        </div>
+        <p class="text-center text-sm text-ink-mute mt-6">
+          Your club dashboard. Works on your laptop in the office and your phone at poolside.
+        </p>
+      </div>
+    </section>
+
+    <!-- What Founding Clubs Get - Visual cards -->
+    <section class="py-20 sm:py-28 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14">
+          <p class="eyebrow reveal">What you get</p>
+          <h2 class="reveal font-display text-3xl sm:text-4xl text-[#0F2D2D] mt-5">
+            What your club <em class="text-mint-ink">gets</em>
+          </h2>
+          <p class="reveal mt-4 text-ink-soft max-w-2xl mx-auto">
+            Everything you need to move from spreadsheets to a modern platform,
+            without any risk or upfront investment.
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div class="reveal group p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] transition-all">
+            <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+              <Gift class="w-5 h-5 text-mint-ink" />
+            </div>
+            <h3 class="font-semibold text-lg mb-2 text-[#0F2D2D]">6 months completely free</h3>
+            <p class="text-sm text-ink-mute leading-relaxed">No payment details required upfront. If Swimly is not the right fit, you simply stop using it.</p>
+          </div>
+
+          <div class="reveal group p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] transition-all">
+            <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+              <Zap class="w-5 h-5 text-mint-ink" />
+            </div>
+            <h3 class="font-semibold text-lg mb-2 text-[#0F2D2D]">White-glove migration</h3>
+            <p class="text-sm text-ink-mute leading-relaxed">Send us your spreadsheets and we handle the rest. Members, squads, fee structures, session schedules. Done within days.</p>
+          </div>
+
+          <div class="reveal group p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] transition-all">
+            <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+              <Shield class="w-5 h-5 text-mint-ink" />
+            </div>
+            <h3 class="font-semibold text-lg mb-2 text-[#0F2D2D]">Lifetime pricing lock</h3>
+            <p class="text-sm text-ink-mute leading-relaxed">Your founding club rate never increases. No matter what happens to our pricing in the future, your club is locked in.</p>
+          </div>
+
+          <div class="reveal group p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] transition-all">
+            <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+              <MessageSquare class="w-5 h-5 text-mint-ink" />
+            </div>
+            <h3 class="font-semibold text-lg mb-2 text-[#0F2D2D]">Direct product input</h3>
+            <p class="text-sm text-ink-mute leading-relaxed">A private channel to the product team. Your feature requests go to the top of the roadmap. Your feedback shapes what we build next.</p>
+          </div>
+
+          <div class="reveal group p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] transition-all">
+            <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+              <Calendar class="w-5 h-5 text-mint-ink" />
+            </div>
+            <h3 class="font-semibold text-lg mb-2 text-[#0F2D2D]">Early access to features</h3>
+            <p class="text-sm text-ink-mute leading-relaxed">See and test new features before anyone else. Competition management, parent portal updates, billing improvements. You see them first.</p>
+          </div>
+
+          <div class="reveal group p-6 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] transition-all">
+            <div class="w-10 h-10 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+              <Headphones class="w-5 h-5 text-mint-ink" />
+            </div>
+            <h3 class="font-semibold text-lg mb-2 text-[#0F2D2D]">Priority support</h3>
+            <p class="text-sm text-ink-mute leading-relaxed">Direct access to our team whenever you need help. Not a ticket queue. A real person who knows your club by name.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What We Ask - compact -->
+    <section class="py-20 sm:py-28">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-5 gap-10 items-start">
+          <div class="lg:col-span-2">
+            <p class="eyebrow reveal">What we ask</p>
+            <h2 class="reveal font-display text-3xl sm:text-4xl text-[#0F2D2D] mt-5">
+              What we <em class="text-mint-ink">ask</em>
+            </h2>
+            <p class="reveal mt-4 text-ink-soft leading-relaxed">
+              This is a partnership, not a freebie. We invest heavily in each founding club. In return, we ask for four simple things.
+            </p>
+          </div>
+
+          <div class="lg:col-span-3 grid sm:grid-cols-2 gap-4">
+            <div class="reveal p-5 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+              <h3 class="font-semibold mb-1.5 text-[#0F2D2D]">Honest feedback</h3>
+              <p class="text-sm text-ink-mute">Tell us what works and what does not. Candid feedback is more valuable than polite feedback.</p>
+            </div>
+            <div class="reveal p-5 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+              <h3 class="font-semibold mb-1.5 text-[#0F2D2D]">Patience</h3>
+              <p class="text-sm text-ink-mute">Some features are still being built. We are transparent about what is ready and what is coming.</p>
+            </div>
+            <div class="reveal p-5 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+              <h3 class="font-semibold mb-1.5 text-[#0F2D2D]">50 to 300 members</h3>
+              <p class="text-sm text-ink-mute">We are building for volunteer-run competitive swimming clubs. That is the context we need to get right.</p>
+            </div>
+            <div class="reveal p-5 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+              <h3 class="font-semibold mb-1.5 text-[#0F2D2D]">A committee contact</h3>
+              <p class="text-sm text-ink-mute">One person we can work with regularly to coordinate migration and gather feedback.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Is This Right For Your Club? -->
+    <section class="py-20 sm:py-28 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p class="eyebrow reveal text-center">Right fit</p>
+        <h2 class="reveal font-display text-3xl sm:text-4xl text-[#0F2D2D] mt-5 mb-4 text-center">
+          Is this right for <em class="text-mint-ink">your club?</em>
+        </h2>
+        <p class="reveal text-lg text-ink-soft mb-10 text-center max-w-2xl mx-auto">
+          The founding clubs programme is designed for volunteer-run clubs ready to leave spreadsheets behind.
+        </p>
+        <div class="max-w-3xl mx-auto grid sm:grid-cols-2 gap-4">
+          <div class="reveal p-5 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] transition-all flex items-start gap-4">
+            <div class="shrink-0 w-10 h-10 rounded-lg bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center">
+              <Users class="w-5 h-5 text-mint-ink" />
+            </div>
+            <div>
+              <h3 class="font-semibold text-[#0F2D2D] mb-1">50 to 300 members</h3>
+              <p class="text-sm text-ink-mute">Big enough to need a system, small enough to know everyone.</p>
+            </div>
+          </div>
+          <div class="reveal p-5 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] transition-all flex items-start gap-4">
+            <div class="shrink-0 w-10 h-10 rounded-lg bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center">
+              <svg class="w-5 h-5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-[#0F2D2D] mb-1">Currently on spreadsheets</h3>
+              <p class="text-sm text-ink-mute">Or legacy software you have been meaning to replace for years.</p>
+            </div>
+          </div>
+          <div class="reveal p-5 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] transition-all flex items-start gap-4">
+            <div class="shrink-0 w-10 h-10 rounded-lg bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center">
+              <svg class="w-5 h-5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-[#0F2D2D] mb-1">Willing to try something new</h3>
+              <p class="text-sm text-ink-mute">A committee that wants better, not just familiar.</p>
+            </div>
+          </div>
+          <div class="reveal p-5 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] transition-all flex items-start gap-4">
+            <div class="shrink-0 w-10 h-10 rounded-lg bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center">
+              <svg class="w-5 h-5 text-mint-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-[#0F2D2D] mb-1">Tech-comfortable, not tech-expert</h3>
+              <p class="text-sm text-ink-mute">If you can use online banking, you can use Swimly. No developers needed.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works - Visual timeline -->
+    <section id="how-it-works" class="py-20 sm:py-28 relative">
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14">
+          <p class="eyebrow reveal">How it works</p>
+          <h2 class="reveal font-display text-3xl sm:text-4xl text-[#0F2D2D] mt-5">
+            How it <em class="text-mint-ink">works</em>
+          </h2>
+          <p class="reveal mt-4 text-ink-soft">From first conversation to a running club in under two weeks.</p>
+        </div>
+
+        <!-- Timeline -->
+        <div class="relative">
+          <!-- Connecting line -->
+          <div class="hidden sm:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#297373]/40 via-[#297373]/20 to-transparent"></div>
+
+          <div class="space-y-8 sm:space-y-0">
+            <!-- Step 1 -->
+            <div class="reveal sm:grid sm:grid-cols-2 sm:gap-8 relative">
+              <div class="sm:text-right sm:pr-8 pb-8 sm:pb-16">
+                <div class="hidden sm:flex absolute left-1/2 top-2 -translate-x-1/2 w-8 h-8 rounded-full bg-surface-raised border-2 border-mint-ink items-center justify-center z-10">
+                  <span class="text-xs font-bold text-mint-ink">1</span>
+                </div>
+                <div class="flex sm:hidden items-center gap-3 mb-3">
+                  <div class="w-8 h-8 rounded-full bg-surface-raised border-2 border-mint-ink flex items-center justify-center shrink-0">
+                    <span class="text-xs font-bold text-mint-ink">1</span>
+                  </div>
+                  <span class="eyebrow">Day 0</span>
+                </div>
+                <span class="eyebrow hidden sm:inline-block mb-2">Day 0</span>
+                <h3 class="text-xl font-semibold mb-2 text-[#0F2D2D]">Get in touch</h3>
+                <p class="text-ink-soft text-sm leading-relaxed">Email mike@swimly.uk or use the contact form. Tell us about your club, how many members you have, and what you are currently using. No hard sell. Just a conversation about whether Swimly is a good fit.</p>
+              </div>
+              <div class="hidden sm:block"></div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="reveal sm:grid sm:grid-cols-2 sm:gap-8 relative">
+              <div class="hidden sm:block"></div>
+              <div class="sm:pl-8 pb-8 sm:pb-16">
+                <div class="hidden sm:flex absolute left-1/2 top-2 -translate-x-1/2 w-8 h-8 rounded-full bg-surface-raised border-2 border-mint-ink items-center justify-center z-10">
+                  <span class="text-xs font-bold text-mint-ink">2</span>
+                </div>
+                <div class="flex sm:hidden items-center gap-3 mb-3">
+                  <div class="w-8 h-8 rounded-full bg-surface-raised border-2 border-mint-ink flex items-center justify-center shrink-0">
+                    <span class="text-xs font-bold text-mint-ink">2</span>
+                  </div>
+                  <span class="eyebrow">Days 1-3</span>
+                </div>
+                <span class="eyebrow hidden sm:inline-block mb-2">Days 1-3</span>
+                <h3 class="text-xl font-semibold mb-2 text-[#0F2D2D]">We migrate your data</h3>
+                <p class="text-ink-soft text-sm leading-relaxed">Send us your spreadsheets, CSV files, or screenshots of your current setup. We import your members, configure squads, set up fee structures, and build your session schedule. You do not need to touch a thing.</p>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="reveal sm:grid sm:grid-cols-2 sm:gap-8 relative">
+              <div class="sm:text-right sm:pr-8 pb-8 sm:pb-16">
+                <div class="hidden sm:flex absolute left-1/2 top-2 -translate-x-1/2 w-8 h-8 rounded-full bg-surface-raised border-2 border-mint-ink items-center justify-center z-10">
+                  <span class="text-xs font-bold text-mint-ink">3</span>
+                </div>
+                <div class="flex sm:hidden items-center gap-3 mb-3">
+                  <div class="w-8 h-8 rounded-full bg-surface-raised border-2 border-mint-ink flex items-center justify-center shrink-0">
+                    <span class="text-xs font-bold text-mint-ink">3</span>
+                  </div>
+                  <span class="eyebrow">Day 5</span>
+                </div>
+                <span class="eyebrow hidden sm:inline-block mb-2">Day 5</span>
+                <h3 class="text-xl font-semibold mb-2 text-[#0F2D2D]">Your committee logs in</h3>
+                <p class="text-ink-soft text-sm leading-relaxed">We walk your Treasurer, Membership Secretary, and coaches through the platform. Each person sees exactly the features relevant to their role. Takes about 30 minutes per person.</p>
+              </div>
+              <div class="hidden sm:block"></div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="reveal sm:grid sm:grid-cols-2 sm:gap-8 relative">
+              <div class="hidden sm:block"></div>
+              <div class="sm:pl-8">
+                <div class="hidden sm:flex absolute left-1/2 top-2 -translate-x-1/2 w-8 h-8 rounded-full bg-surface-raised border-2 border-mint-ink items-center justify-center z-10">
+                  <span class="text-xs font-bold text-mint-ink">4</span>
+                </div>
+                <div class="flex sm:hidden items-center gap-3 mb-3">
+                  <div class="w-8 h-8 rounded-full bg-surface-raised border-2 border-mint-ink flex items-center justify-center shrink-0">
+                    <span class="text-xs font-bold text-mint-ink">4</span>
+                  </div>
+                  <span class="eyebrow">Week 2+</span>
+                </div>
+                <span class="eyebrow hidden sm:inline-block mb-2">Week 2+</span>
+                <h3 class="text-xl font-semibold mb-2 text-[#0F2D2D]">Start running your club</h3>
+                <p class="text-ink-soft text-sm leading-relaxed">Take attendance poolside. Collect subs via Direct Debit. Track safeguarding. Your committee can finally focus on the club instead of admin. And we are on hand throughout.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why This Matters -->
+    <section class="py-20 sm:py-28">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="reveal p-8 sm:p-10 rounded-2xl bg-[#0F2D2D] relative overflow-hidden">
+          <div class="ripple absolute -top-16 -right-16 w-56 h-56" aria-hidden="true"></div>
+          <div class="relative">
+            <div class="flex items-center gap-3 mb-6">
+              <Heart class="w-6 h-6 text-[#85FFC7]" />
+              <h2 class="font-display text-2xl sm:text-3xl text-[#E6E6E6]">Why we do this differently</h2>
+            </div>
+            <div class="text-[#E6E6E6]/65 leading-relaxed space-y-4">
+              <p>
+                Most club management software is built by people who have never sat on a swimming club committee.
+                They build what they think clubs need based on feature checklists and competitor analysis.
+              </p>
+              <p>
+                Swimly's founder is a swim parent and volunteer at a Kent club. He has done the spreadsheets,
+                chased the subs, and sat through the AGMs. But one person's experience is not enough.
+              </p>
+              <p class="text-[#E6E6E6] font-medium">
+                Founding clubs give us the breadth of understanding we need to build something that genuinely works
+                for every type of club: large and small, competitive and development-focused, well-resourced and
+                running on goodwill.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Committee one-pagers -->
+    <section class="py-20 sm:py-28 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <p class="eyebrow reveal">For your committee</p>
+          <h2 class="reveal font-display text-3xl sm:text-4xl text-[#0F2D2D] mt-5">
+            Make the case to <em class="text-mint-ink">your committee</em>
+          </h2>
+          <p class="reveal mt-4 text-ink-soft max-w-2xl mx-auto">
+            Switching software is a committee decision, and you should not have to argue it alone.
+            These one-page summaries explain what Swimly changes for each role. Print one for
+            everyone before your next meeting.
+          </p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {onePagers.map(p => (
+            <a href={p.href} class="reveal block p-5 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] hover:-translate-y-0.5 transition-all group">
+              <div class="w-10 h-10 rounded-lg bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center mb-4">
+                <FileText class="w-5 h-5 text-mint-ink" />
+              </div>
+              <h3 class="font-semibold text-[#0F2D2D] mb-1.5 group-hover:text-mint-ink transition-colors">{p.role}</h3>
+              <p class="text-sm text-ink-mute leading-relaxed mb-3">{p.desc}</p>
+              <span class="text-mint-ink text-sm font-medium inline-flex items-center gap-1">View and print <ArrowRight class="w-3.5 h-3.5" /></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-20 sm:py-28 relative">
+      <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p class="eyebrow reveal text-center">Questions</p>
+        <h2 class="reveal font-display text-3xl sm:text-4xl text-[#0F2D2D] mt-5 mb-10 text-center">
+          Common <em class="text-mint-ink">questions</em>
+        </h2>
+        <div class="space-y-4">
+          {faqs.map(faq => (
+            <details class="reveal group p-5 rounded-2xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] transition-all cursor-pointer">
+              <summary class="flex items-center justify-between font-semibold text-[#0F2D2D] list-none [&::-webkit-details-marker]:hidden">
+                {faq.question}
+                <svg class="w-5 h-5 text-mint-ink shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <p class="mt-4 text-ink-soft leading-relaxed text-sm">{faq.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-20 sm:py-28 bg-surface border-y border-[#39393A]/8">
+      <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="eyebrow reveal">Ready to join</p>
+        <h2 class="reveal font-display text-3xl sm:text-4xl text-[#0F2D2D] mt-5 mb-4">
+          Ready to join?
+        </h2>
+        <p class="reveal text-lg text-ink-soft mb-8 max-w-xl mx-auto">
+          No obligation, no hard sell. Get in touch and we will have a straightforward
+          conversation about whether Swimly is a good fit for your club.
+        </p>
+        <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="mailto:mike@swimly.uk"
+            class="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] font-bold hover:bg-lime-cta-hover transition-all text-lg shadow-lg shadow-lime-cta/20 hover:shadow-lime-cta/30 hover:scale-[1.02] min-h-12"
+          >
+            Email mike@swimly.uk
+            <ArrowRight class="w-5 h-5" />
+          </a>
+          <a
+            href="/contact/"
+            class="inline-flex items-center gap-2 px-8 py-4 rounded-xl border border-[#297373]/40 text-ink font-semibold hover:bg-surface-raised transition-all text-lg min-h-12"
+          >
+            Use the contact form
+          </a>
+        </div>
+        <p class="mt-6 text-sm text-ink-mute">
+          Limited to 10 founding clubs. We respond to every enquiry within 48 hours.
+        </p>
+        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-ink-mute">
+          <span class="flex items-center gap-2">
+            <CheckCircle class="w-4 h-4 text-mint-ink" />
+            No payment details required
+          </span>
+          <span class="flex items-center gap-2">
+            <CheckCircle class="w-4 h-4 text-mint-ink" />
+            We handle all migration
+          </span>
+          <span class="flex items-center gap-2">
+            <CheckCircle class="w-4 h-4 text-mint-ink" />
+            Cancel any time
+          </span>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

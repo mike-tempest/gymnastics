@@ -1,0 +1,409 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import { MapPin, Globe, Building, ChevronRight, Home, Users, HelpCircle } from "@lucide/astro";
+import clubsData from "../../../data/clubs.json";
+import countiesData from "../../../data/counties.json";
+
+export async function getStaticPaths() {
+  const clubs = clubsData;
+
+  // Build county slug lookup: region name -> county slug
+  const regionToCountySlug: Record<string, string> = {};
+  for (const [slug, data] of Object.entries(countiesData)) {
+    regionToCountySlug[(data as { name: string }).name] = slug;
+  }
+
+  return clubs.map(club => {
+    const regionSlug = club.region.toLowerCase().replace(/ /g, '-');
+    const allRegionClubs = clubs.filter(c => c.region === club.region && c.slug !== club.slug);
+
+    // Sort nearby clubs by distance if coordinates available, otherwise alphabetically
+    let nearbyClubs;
+    if (club.lat && club.lng) {
+      nearbyClubs = allRegionClubs
+        .filter(c => c.lat && c.lng)
+        .map(c => ({
+          ...c,
+          distance: Math.sqrt(
+            Math.pow((c.lat! - club.lat!) * 111, 2) +
+            Math.pow((c.lng! - club.lng!) * 111 * Math.cos(club.lat! * Math.PI / 180), 2)
+          ),
+        }))
+        .sort((a, b) => a.distance - b.distance)
+        .slice(0, 5);
+    } else {
+      nearbyClubs = allRegionClubs.slice(0, 5);
+    }
+
+    const countySlug = regionToCountySlug[club.region] || null;
+
+    return {
+      params: {
+        region: regionSlug,
+        slug: club.slug
+      },
+      props: { club, nearbyClubs, allRegionClubs, countySlug },
+    };
+  });
+}
+
+const { club, nearbyClubs, allRegionClubs, countySlug } = Astro.props;
+const regionSlug = club.region.toLowerCase().replace(/ /g, '-');
+const regionClubCount = allRegionClubs.length + 1;
+
+// Generate unique meta description per club
+const typeLabel = club.type === 'competitive' ? 'competitive swimming club' : 'swimming club';
+const venueText = club.venue ? ` Training at ${club.venue}.` : '';
+const pageTitle = `${club.name} -- Swimming Club in ${club.location}, ${club.region} | Swimly`;
+const pageDescription = `${club.name} is a ${typeLabel} in ${club.location}, ${club.region}.${venueText} ${club.description} Find training info, membership details, and nearby clubs.`;
+
+// FAQ items unique to this club
+const faqItems = [
+  {
+    question: `Where is ${club.name} based?`,
+    answer: `${club.name} is based in ${club.location}, ${club.region}${club.venue ? `. Training takes place at ${club.venue}` : ''}.`,
+  },
+  {
+    question: `How do I join ${club.name}?`,
+    answer: `To join ${club.name}, visit their ${club.website ? 'website for the latest membership information and registration details' : 'club directly for membership information'}. Most swimming clubs in ${club.region} welcome new members throughout the year.`,
+  },
+  {
+    question: `Are there other swimming clubs near ${club.name}?`,
+    answer: `Yes, there are ${regionClubCount} swimming clubs across ${club.region}. Browse our ${club.region} clubs directory to find other options near ${club.location}.`,
+  },
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Clubs",
+      "item": "https://swimly.uk/clubs/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": club.region,
+      "item": `https://swimly.uk/clubs/${regionSlug}/`
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": club.name,
+      "item": `https://swimly.uk/clubs/${regionSlug}/${club.slug}/`
+    }
+  ]
+};
+
+const sportsOrgSchema = {
+  "@context": "https://schema.org",
+  "@type": "SportsOrganization",
+  name: club.name,
+  sport: "Swimming",
+  url: club.website || `https://swimly.uk/clubs/${regionSlug}/${club.slug}/`,
+  description: club.description,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: club.location,
+    addressRegion: club.region,
+    addressCountry: "GB",
+  },
+  ...(club.venue ? { location: { "@type": "Place", name: club.venue } } : {}),
+  ...(club.lat && club.lng ? {
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: club.lat,
+      longitude: club.lng,
+    }
+  } : {}),
+  memberOf: {
+    "@type": "Organization",
+    name: "Swim England",
+  },
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map(item => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+};
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(sportsOrgSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema, null, 2)} />
+
+  <Nav />
+
+  <main>
+    <!-- Breadcrumbs -->
+    <section class="pt-24 pb-8">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex items-center gap-2 text-sm text-ink-mute flex-wrap">
+          <a href="/" class="hover:text-mint-ink transition-colors flex items-center gap-1">
+            <Home class="w-4 h-4" />
+            Home
+          </a>
+          <ChevronRight class="w-4 h-4" />
+          <a href="/clubs/" class="hover:text-mint-ink transition-colors">Clubs</a>
+          <ChevronRight class="w-4 h-4" />
+          <a href={`/clubs/${regionSlug}/`} class="hover:text-mint-ink transition-colors">{club.region}</a>
+          <ChevronRight class="w-4 h-4" />
+          <span class="text-[#0F2D2D]">{club.name}</span>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Club Header -->
+    <section class="pb-16 sm:pb-20 relative overflow-hidden">
+      <div class="dot-grid absolute inset-x-0 top-0 h-[500px] pointer-events-none"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p class="eyebrow inline-flex items-center gap-2 mb-6">
+          <MapPin class="w-4 h-4" />
+          {club.location}, {club.region}
+        </p>
+
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.1] text-[#0F2D2D] mb-6">
+          {club.name}
+        </h1>
+
+        <p class="text-lg sm:text-xl text-ink-soft leading-relaxed mb-8">
+          {club.description}
+        </p>
+
+        <!-- Club Details -->
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="flex items-start gap-3 p-4 rounded-lg bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+            <MapPin class="w-5 h-5 text-mint-ink mt-0.5" />
+            <div>
+              <div class="text-sm text-ink-mute mb-1">Location</div>
+              <div class="text-[#0F2D2D]">{club.location}, {club.region}</div>
+            </div>
+          </div>
+
+          {club.venue && (
+            <div class="flex items-start gap-3 p-4 rounded-lg bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+              <Building class="w-5 h-5 text-mint-ink mt-0.5" />
+              <div>
+                <div class="text-sm text-ink-mute mb-1">Venue</div>
+                <div class="text-[#0F2D2D]">{club.venue}</div>
+              </div>
+            </div>
+          )}
+
+          {club.website && (
+            <div class="flex items-start gap-3 p-4 rounded-lg bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] sm:col-span-2">
+              <Globe class="w-5 h-5 text-mint-ink mt-0.5" />
+              <div class="flex-1">
+                <div class="text-sm text-ink-mute mb-1">Website</div>
+                <a
+                  href={club.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-mint-ink hover:text-[#0F2D2D] transition-colors break-all"
+                >
+                  {club.website}
+                </a>
+                {club.website.includes('teamunify.com') && (
+                  <p class="text-sm text-ink-mute mt-3">
+                    Currently using TeamUnify? <a href="/compare/teamunify/" class="text-mint-ink hover:text-[#0F2D2D] transition-colors">See how Swimly compares</a> as a modern UK-focused alternative.
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <!-- Swimming in Region -->
+    <section class="py-16 sm:py-20 bg-surface border-y border-[#39393A]/8">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-2xl p-8 lg:p-12">
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-4">
+            Swimming in {club.region}
+          </h2>
+          <div class="space-y-4 text-ink-soft leading-relaxed">
+            <p>
+              {club.name} is one of {regionClubCount} swimming clubs in {club.region}, offering opportunities for swimmers of all ages and abilities. Whether you are looking for competitive training, learn-to-swim programmes, or recreational swimming in {club.location}, the {club.region} swimming community has something for everyone.
+            </p>
+            <p>
+              Clubs across {club.region} are affiliated with Swim England and provide quality coaching, regular training sessions, and pathways into competitive swimming at county, regional, and national levels.
+            </p>
+          </div>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a
+              href={`/clubs/${regionSlug}/`}
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface border border-[#297373]/40 hover:bg-[#85FFC7]/15 text-ink hover:text-[#0F2D2D] text-sm font-medium transition-colors"
+            >
+              All {club.region} clubs
+              <ChevronRight class="w-4 h-4" />
+            </a>
+            {countySlug && (
+              <a
+                href={`/swimming-club-software/${countySlug}/`}
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface border border-[#297373]/40 hover:bg-[#85FFC7]/15 text-ink hover:text-[#0F2D2D] text-sm font-medium transition-colors"
+              >
+                Club software for {club.region}
+                <ChevronRight class="w-4 h-4" />
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Is This Your Club CTA -->
+    <section class="py-20 sm:py-28">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-[#85FFC7]/15 border border-[#1F7A52]/20 rounded-2xl p-8 lg:p-12">
+          <div class="flex items-start gap-4 mb-6">
+            <div class="w-12 h-12 rounded-xl bg-[#85FFC7]/20 border border-[#1F7A52]/15 flex items-center justify-center shrink-0">
+              <Users class="w-6 h-6 text-mint-ink" />
+            </div>
+            <div>
+              <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-2">
+                Is This Your Club?
+              </h2>
+              <p class="text-lg text-ink-soft">
+                Manage {club.name} with Swimly
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-4 text-ink-soft leading-relaxed mb-8">
+            <p>
+              If you're part of {club.name}, <a href="/swim-club-management-software/" class="text-mint-ink hover:text-[#0F2D2D] transition-colors">Swimly's swim club management software</a> can help you manage your club more effectively. Say goodbye to spreadsheets and hello to purpose-built club management software.
+            </p>
+            <ul class="space-y-2 pl-6">
+              <li class="flex items-start gap-2">
+                <span class="text-mint-ink mt-1">&bull;</span>
+                <span>Membership management and online registration</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-mint-ink mt-1">&bull;</span>
+                <span>Automated subscription collection via Direct Debit</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-mint-ink mt-1">&bull;</span>
+                <span>Session planning and attendance tracking</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-mint-ink mt-1">&bull;</span>
+                <span>Wavepower-compliant safeguarding tools</span>
+              </li>
+            </ul>
+          </div>
+
+          <a
+            href="https://app.swimly.uk/create-club"
+            class="inline-flex items-center gap-2 px-6 py-3 min-h-12 rounded-lg bg-lime-cta text-[#0F2D2D] font-semibold hover:bg-lime-cta-hover transition-colors text-lg"
+          >
+            Get started with Swimly
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 sm:py-20">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center gap-3 mb-8">
+          <HelpCircle class="w-6 h-6 text-mint-ink" />
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D]">Frequently Asked Questions</h2>
+        </div>
+        <div class="space-y-4">
+          {faqItems.map(item => (
+            <details class="group bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] rounded-xl overflow-hidden">
+              <summary class="flex items-center justify-between gap-4 p-6 cursor-pointer text-[#0F2D2D] font-medium hover:text-mint-ink transition-colors">
+                <span>{item.question}</span>
+                <ChevronRight class="w-5 h-5 text-ink-faint group-open:rotate-90 transition-transform shrink-0" />
+              </summary>
+              <div class="px-6 pb-6 text-ink-soft leading-relaxed">
+                {item.answer}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Nearby Clubs -->
+    {nearbyClubs.length > 0 && (
+      <section class="pb-20 sm:pb-28 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-2">
+            Nearby Clubs in {club.region}
+          </h2>
+          <p class="text-ink-soft mb-6">
+            Other swimming clubs near {club.location} that you might be interested in.
+          </p>
+
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {nearbyClubs.map(nearbyClub => (
+              <a
+                href={`/clubs/${regionSlug}/${nearbyClub.slug}/`}
+                class="group p-6 rounded-xl bg-surface-raised border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.25)] transition-all hover:-translate-y-1"
+              >
+                <h3 class="text-lg font-semibold text-[#0F2D2D] group-hover:text-mint-ink transition-colors mb-2">
+                  {nearbyClub.name}
+                </h3>
+
+                <div class="flex items-center gap-2 text-sm text-ink-mute mb-3">
+                  <MapPin class="w-4 h-4" />
+                  <span>{nearbyClub.location}</span>
+                </div>
+
+                <p class="text-sm text-ink-soft leading-relaxed line-clamp-2 mb-4">
+                  {nearbyClub.description}
+                </p>
+
+                <div class="text-mint-ink text-sm font-medium flex items-center gap-1">
+                  View club
+                  <ChevronRight class="w-4 h-4" />
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {allRegionClubs.length > 5 && (
+            <div class="mt-8 text-center">
+              <a
+                href={`/clubs/${regionSlug}/`}
+                class="inline-flex items-center gap-2 px-6 py-3 min-h-12 rounded-lg bg-surface-raised border border-[#297373]/40 hover:bg-[#85FFC7]/15 text-[#0F2D2D] hover:text-[#0F2D2D] font-semibold transition-colors"
+              >
+                View all {regionClubCount} clubs in {club.region}
+                <ChevronRight class="w-5 h-5" />
+              </a>
+            </div>
+          )}
+        </div>
+      </section>
+    )}
+  </main>
+
+  <Footer />
+</Layout>

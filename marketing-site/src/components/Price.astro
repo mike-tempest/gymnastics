@@ -1,0 +1,20 @@
+---
+// Price.astro
+// Small helper that renders a localised price (currency symbol + amount) for a
+// given region. Region defaults to the value derived from the current page path
+// so callers can simply drop <Price amount={29} /> onto a page and get the
+// correct currency for swimly.uk (£) or the /us, /ca, /au pages on swimly.club.
+//
+// Non-UK figures come from src/config/regions.ts and are PROVISIONAL until the
+// real per-region pricing is confirmed.
+import { regionFromPath, formatPrice, type RegionKey } from "../config/regions";
+
+interface Props {
+  amount: number;
+  region?: RegionKey;
+}
+
+const { amount, region = regionFromPath(Astro.url.pathname) } = Astro.props;
+const formatted = formatPrice(region, amount);
+---
+{formatted}

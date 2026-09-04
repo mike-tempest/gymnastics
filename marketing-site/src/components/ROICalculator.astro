@@ -1,0 +1,139 @@
+---
+// ROI Calculator Component for Pricing Page
+//
+// Region-aware: the displayed currency symbol and monthly price come from
+// src/config/regions.ts. Non-UK prices are PROVISIONAL until confirmed.
+//
+// The UK code path is kept byte-for-byte identical to the original component so
+// the live swimly.uk /pricing/ page is completely unchanged. International
+// regions ('us', 'ca', 'au') render an inline, region-parameterised version.
+import { regionFromPath, REGIONS, type RegionKey } from "../config/regions";
+
+interface Props {
+  region?: RegionKey;
+}
+
+const { region = regionFromPath(Astro.url.pathname) } = Astro.props;
+const isUK = region === "uk";
+
+const cfg = REGIONS[region];
+const symbol = cfg.currencySymbol;
+const monthly = cfg.pricePrimary;
+const annual = monthly * 12;
+// Static initial values for the default 100-member slider position.
+const perMemberInitial = (monthly / 100).toFixed(2);
+---
+
+<section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <div class="reveal bg-surface-raised border border-[#39393A]/10 rounded-[20px] p-8 shadow-[0_1px_3px_rgba(57,57,58,0.08)]">
+    <div class="text-center mb-8">
+      <h3 class="font-display text-2xl sm:text-3xl text-[#0F2D2D] mb-2">Cost per member calculator</h3>
+      <p class="text-ink-mute">See exactly what Swimly Club costs your club</p>
+    </div>
+
+    <div class="max-w-md mx-auto">
+      <div class="mb-6">
+        <label for="member-count" class="block text-sm font-medium text-ink-soft mb-3">
+          Number of members in your club
+        </label>
+        <input
+          type="range"
+          id="member-count"
+          min="30"
+          max="300"
+          value="100"
+          class="w-full h-2 bg-surface rounded-lg appearance-none cursor-pointer accent-[#1F7A52]"
+        />
+        <div class="flex justify-between text-xs text-ink-faint mt-1">
+          <span>30</span>
+          <span id="member-display" class="text-mint-ink font-semibold text-base">100 members</span>
+          <span>300</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <div class="bg-surface border border-[#39393A]/8 rounded-xl p-4 text-center">
+          <p class="text-xs text-ink-mute mb-1">Monthly cost</p>
+          {isUK ? (
+            <p class="font-display text-3xl text-[#0F2D2D]">&pound;29</p>
+          ) : (
+            <p class="font-display text-3xl text-[#0F2D2D]">{symbol}{monthly}</p>
+          )}
+          <p class="text-xs text-ink-faint mt-1">flat rate</p>
+        </div>
+        <div class="bg-surface border border-[#297373]/25 rounded-xl p-4 text-center">
+          <p class="text-xs text-mint-ink mb-1">Per member</p>
+          {isUK ? (
+            <p id="per-member" class="font-display text-3xl text-[#0F2D2D]">&pound;0.29</p>
+          ) : (
+            <p id="per-member" class="font-display text-3xl text-[#0F2D2D]">{symbol}{perMemberInitial}</p>
+          )}
+          <p class="text-xs text-ink-faint mt-1">per month</p>
+        </div>
+      </div>
+
+      <div class="bg-surface border border-[#39393A]/8 rounded-xl p-5">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-sm text-ink-mute">Annual total</span>
+          {isUK ? (
+            <span id="annual-total" class="font-display text-2xl text-[#0F2D2D]">&pound;348</span>
+          ) : (
+            <span id="annual-total" class="font-display text-2xl text-[#0F2D2D]">{symbol}{annual}</span>
+          )}
+        </div>
+        <div class="flex items-center justify-between text-xs text-ink-faint">
+          <span>That's less than the cost of one swim cap per member per year</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{
+  isUK ? (
+    <script>
+      const slider = document.getElementById('member-count') as HTMLInputElement;
+      const memberDisplay = document.getElementById('member-display');
+      const perMemberDisplay = document.getElementById('per-member');
+      const annualTotalDisplay = document.getElementById('annual-total');
+
+      function updateCalculation() {
+        const members = parseInt(slider.value);
+        const monthlyTotal = 29;
+        const perMember = monthlyTotal / members;
+        const annualTotal = monthlyTotal * 12;
+
+        if (memberDisplay) memberDisplay.textContent = `${members} members`;
+        if (perMemberDisplay) perMemberDisplay.textContent = `£${perMember.toFixed(2)}`;
+        if (annualTotalDisplay) annualTotalDisplay.textContent = `£${annualTotal}`;
+      }
+
+      if (slider) {
+        slider.addEventListener('input', updateCalculation);
+        updateCalculation(); // Initial calculation
+      }
+    </script>
+  ) : (
+    <script is:inline define:vars={{ monthlyTotal: monthly, symbol }}>
+      const slider = document.getElementById('member-count');
+      const memberDisplay = document.getElementById('member-display');
+      const perMemberDisplay = document.getElementById('per-member');
+      const annualTotalDisplay = document.getElementById('annual-total');
+
+      function updateCalculation() {
+        const members = parseInt(slider.value);
+        const perMember = monthlyTotal / members;
+        const annualTotal = monthlyTotal * 12;
+
+        if (memberDisplay) memberDisplay.textContent = `${members} members`;
+        if (perMemberDisplay) perMemberDisplay.textContent = `${symbol}${perMember.toFixed(2)}`;
+        if (annualTotalDisplay) annualTotalDisplay.textContent = `${symbol}${annualTotal}`;
+      }
+
+      if (slider) {
+        slider.addEventListener('input', updateCalculation);
+        updateCalculation();
+      }
+    </script>
+  )
+}

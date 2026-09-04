@@ -1,0 +1,420 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const title = 'Swim School Management Software | Lesson Scheduling & Billing UK';
+const description = 'Manage your swim school with automated lesson scheduling, parent portal, and Direct Debit billing. Built for UK swim schools and learn-to-swim programmes. From £29/month.';
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Swim School Management",
+      "item": "https://swimly.uk/swim-school-management/"
+    }
+  ]
+};
+
+const softwareAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Swimly Swim School",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": description,
+  "url": "https://swimly.uk/swim-school-management/",
+  "offers": {
+    "@type": "Offer",
+    "price": "29",
+    "priceCurrency": "GBP",
+    "priceValidUntil": "2027-12-31",
+    "availability": "https://schema.org/PreOrder"
+  },
+  "featureList": "Lesson scheduling, Attendance tracking, Parent portal, Direct Debit billing, Swimmer progression tracking, Teacher management"
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppSchema, null, 2)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <!-- Hero Section -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+        Swim School Management Software UK
+      </h1>
+      <p class="text-xl text-ink-soft">
+        Swim school management software for UK instructors and learn-to-swim programmes. Automate lesson scheduling, attendance tracking, parent communication, and Direct Debit billing in one platform built for British swim schools.
+      </p>
+    </section>
+
+    <!-- Key Challenges -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Challenges running a swim school</h2>
+      <div class="space-y-6 text-ink-soft">
+        <p>
+          Running a swim school or learn-to-swim programme involves juggling multiple administrative tasks:
+        </p>
+        <ul class="space-y-3">
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>Scheduling lessons across multiple pools, teachers, and ability levels</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>Tracking swimmer progression through teaching levels (Stage 1-10, ASA awards)</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>Collecting termly or monthly fees from dozens or hundreds of families</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>Managing waiting lists and class availability</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>Communicating lesson changes, term dates, and progress updates to parents</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ink-faint">•</span>
+            <span>Maintaining teacher records, qualifications, and DBS certificates</span>
+          </li>
+        </ul>
+        <p>
+          Most swim schools use spreadsheets, paper registers, and WhatsApp messages. Swimly brings everything into one purpose-built platform.
+        </p>
+      </div>
+    </section>
+
+    <!-- Features for Swim Schools -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Swimly features for swim schools</h2>
+
+      <div class="space-y-8">
+        <!-- Lesson Scheduling -->
+        <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8">
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Lesson scheduling & class management</h3>
+          <div class="space-y-3 text-ink-soft">
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Create recurring weekly lesson schedules with specific teachers and time slots</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Organise swimmers into classes by ability level (Stage 1-10, ASA awards, distance badges)</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Visual class planner showing lane allocations and teacher assignments</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Track class capacity and waiting lists for popular time slots</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Attendance registers for each lesson with quick check-in/out</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Parent Communication -->
+        <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8">
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Parent portal & communication</h3>
+          <div class="space-y-3 text-ink-soft">
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Parents log in to view their child's lesson schedule and attendance history</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Automated emails for lesson cancellations, term date reminders, and progress updates</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Parents update their own contact details and emergency information</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Send targeted announcements to specific classes or the whole school</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Billing -->
+        <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8">
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Automated billing & payments</h3>
+          <div class="space-y-3 text-ink-soft">
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Direct Debit collection via GoCardless for monthly or termly fees</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Different pricing for different lesson types (group lessons, private lessons, intensive courses)</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Automatic invoicing with downloadable receipts for parents</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Payment tracking dashboard showing who's paid and who has outstanding balances</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Automatic retry for failed payments with parent notifications</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Swimmer Progress -->
+        <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8">
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Swimmer progression tracking</h3>
+          <div class="space-y-3 text-ink-soft">
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Record swimmer progress through ASA/Swim England teaching stages</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Move swimmers between classes as they progress to higher levels</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Notes and feedback visible to parents and other teachers</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Certificate generation for completed stages and distance awards</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Teacher Management -->
+        <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8">
+          <h3 class="text-2xl font-semibold text-[#0F2D2D] mb-4">Teacher & safeguarding management</h3>
+          <div class="space-y-3 text-ink-soft">
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Track teaching qualifications (Level 1, Level 2, UKCC) with expiry dates</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>DBS certificate tracking with automatic renewal reminders</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Pool lifeguard and first aid certificate management</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-mint-ink flex-shrink-0">✓</span>
+              <span>Compliance dashboard for Swim England Wavepower requirements</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Term-Based vs Rolling -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Term-based and rolling enrolment</h2>
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8">
+        <p class="text-ink-soft mb-6">
+          Swimly supports both term-based swim schools (following school terms) and rolling enrolment programmes:
+        </p>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <div>
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Term-based schools</h3>
+            <ul class="space-y-2 text-ink-soft text-sm">
+              <li class="flex gap-2">
+                <span class="text-mint-ink">✓</span>
+                <span>Set term dates and lesson counts per term</span>
+              </li>
+              <li class="flex gap-2">
+                <span class="text-mint-ink">✓</span>
+                <span>Bill parents for the full term or split payments</span>
+              </li>
+              <li class="flex gap-2">
+                <span class="text-mint-ink">✓</span>
+                <span>Automated term renewal reminders</span>
+              </li>
+              <li class="flex gap-2">
+                <span class="text-mint-ink">✓</span>
+                <span>Track holiday dates and make-up lessons</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Rolling enrolment</h3>
+            <ul class="space-y-2 text-ink-soft text-sm">
+              <li class="flex gap-2">
+                <span class="text-mint-ink">✓</span>
+                <span>Ongoing weekly lessons year-round</span>
+              </li>
+              <li class="flex gap-2">
+                <span class="text-mint-ink">✓</span>
+                <span>Monthly Direct Debit billing</span>
+              </li>
+              <li class="flex gap-2">
+                <span class="text-mint-ink">✓</span>
+                <span>Swimmers join or leave at any time</span>
+              </li>
+              <li class="flex gap-2">
+                <span class="text-mint-ink">✓</span>
+                <span>Pro-rata billing for part-months</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Pricing for swim schools</h2>
+      <div class="space-y-6">
+        <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8">
+          <div class="text-2xl font-bold text-[#0F2D2D] mb-2">Starter · Free</div>
+          <p class="text-ink-soft mb-4">Perfect for small swim schools or instructors starting out:</p>
+          <ul class="space-y-2 text-ink-soft text-sm">
+            <li class="flex gap-2">
+              <span class="text-mint-ink">✓</span>
+              <span>Up to 50 swimmers</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-mint-ink">✓</span>
+              <span>Basic lesson scheduling and attendance</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-mint-ink">✓</span>
+              <span>Parent portal for viewing schedules</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-mint-ink">✓</span>
+              <span>Manual payment tracking (no automated billing)</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-surface-raised rounded-2xl border-2 border-[#297373]/35 shadow-[0_16px_40px_-16px_rgba(15,45,45,0.3)] p-8">
+          <div class="text-2xl font-bold text-[#0F2D2D] mb-2">Club · £29/month</div>
+          <p class="text-ink-soft mb-4">Most popular for established swim schools with 50-200 swimmers:</p>
+          <ul class="space-y-2 text-ink-soft text-sm">
+            <li class="flex gap-2">
+              <span class="text-mint-ink">✓</span>
+              <span>Everything in Starter, plus:</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-mint-ink">✓</span>
+              <span>Automated Direct Debit billing via GoCardless</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-mint-ink">✓</span>
+              <span>Automatic invoicing and payment tracking</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-mint-ink">✓</span>
+              <span>Teacher rota management</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-mint-ink">✓</span>
+              <span>Progress notes and level tracking</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-mint-ink">✓</span>
+              <span>Priority email support</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8">
+          <div class="text-2xl font-bold text-[#0F2D2D] mb-2">Performance · £49/month</div>
+          <p class="text-ink-soft mb-4">For larger swim schools with 200-500 swimmers or multiple sites:</p>
+          <ul class="space-y-2 text-ink-soft text-sm">
+            <li class="flex gap-2">
+              <span class="text-mint-ink">✓</span>
+              <span>Everything in Club, plus:</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-mint-ink">✓</span>
+              <span>Unlimited swimmers</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-mint-ink">✓</span>
+              <span>Multi-site support (multiple pools/locations)</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-mint-ink">✓</span>
+              <span>Advanced reporting and analytics</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-mint-ink">✓</span>
+              <span>Safeguarding compliance dashboard</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-mint-ink">✓</span>
+              <span>Priority phone support</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Pages -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-2xl text-[#0F2D2D] mb-6">Related Pages</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <a href="/swim-club-software/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Swim Club Software</h3>
+          <p class="text-ink-mute text-sm">All-in-one platform for competitive clubs</p>
+        </a>
+        <a href="/features/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">All Features</h3>
+          <p class="text-ink-mute text-sm">Complete feature list for swim schools and clubs</p>
+        </a>
+        <a href="/swimming-club-billing-software/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Billing Software</h3>
+          <p class="text-ink-mute text-sm">How automated billing works for swim schools</p>
+        </a>
+        <a href="/features/parent-portal/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Parent Portal</h3>
+          <p class="text-ink-mute text-sm">Self-service access for parents and families</p>
+        </a>
+        <a href="/#pricing" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Pricing Plans</h3>
+          <p class="text-ink-mute text-sm">Transparent monthly pricing from £29/month</p>
+        </a>
+        <a href="/faq/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">FAQ</h3>
+          <p class="text-ink-mute text-sm">Common questions about swim school management</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Simplify your swim school management</h2>
+      <p class="text-xl text-ink-soft mb-8">Create your club today. Free for clubs under 50 members, no card required.</p>
+      <a
+        href="https://app.swimly.uk/create-club"
+        class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+      >
+          Start your club, free
+      </a>
+    </section>
+  </main>
+  <Footer />
+</Layout>

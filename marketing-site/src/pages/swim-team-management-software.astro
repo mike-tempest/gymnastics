@@ -1,0 +1,342 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const title = 'Swim Team Management Software UK | Swimly';
+const description = 'Swim team management software for competitive and recreational swimming teams in the UK. Manage squads, automate billing, track attendance, and maintain Wavepower compliance. Built for volunteer-run swim teams.';
+
+const faqItems = [
+  {
+    question: "What is swim team management software?",
+    answer: "Swim team management software is a platform designed to help competitive and recreational swimming teams manage their squads, members, training schedules, and admin. Swimly is purpose-built for UK swim teams, handling squad management, automated Direct Debit billing, session attendance, and Wavepower compliance requirements."
+  },
+  {
+    question: "How does swim team software help coaches?",
+    answer: "Swimly gives coaches quick access to squad lists, attendance history, and swimmer performance data on their phone. Poolside registers take seconds, not minutes. Coaches can see which swimmers are present, track session participation, and focus on training rather than paperwork."
+  },
+  {
+    question: "Can Swimly handle multiple squads with different fee structures?",
+    answer: "Yes. Swimly supports unlimited squads with separate training schedules, coaching teams, and fee structures. Whether you run a single competitive squad or multiple groups from beginners to elite, each squad can have its own settings, billing, and attendance tracking."
+  },
+  {
+    question: "How much does swim team software cost?",
+    answer: "Swimly has a free Starter plan for small teams under 50 members. The Club plan is £29/month for teams with 50-200 members and includes automated billing. The Performance plan costs £49/month for larger teams (200-500 members) with advanced reporting and priority support."
+  },
+  {
+    question: "Does Swimly work with Swim England-affiliated teams?",
+    answer: "Yes. Swimly is built to work alongside Swim England systems. You can track Swim England registrations, export member data in compatible formats, monitor Wavepower compliance requirements, and maintain records that align with SwimMark accreditation standards."
+  },
+  {
+    question: "Is there a free trial?",
+    answer: "Yes. We offer a founding teams pilot with 6 months free on any plan and hands-on migration support. There's no contract or commitment. If Swimly doesn't work for your team, you can leave at any time with no penalty."
+  }
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://swimly.uk"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Swim Team Management Software",
+      "item": "https://swimly.uk/swim-team-management-software/"
+    }
+  ]
+};
+
+const softwareAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Swimly",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": description,
+  "url": "https://swimly.uk/swim-team-management-software/",
+  "featureList": [
+    "Squad management",
+    "Automated Direct Debit billing",
+    "Poolside attendance tracking",
+    "Wavepower compliance",
+    "Parent communication",
+    "Multi-squad support",
+    "Financial reporting"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "GBP"
+  }
+};
+---
+
+<Layout title={title} description={description} faqItems={faqItems}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppSchema, null, 2)} />
+  <Nav />
+  <main class="pt-24 pb-16">
+    <!-- Hero Section -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display text-4xl sm:text-5xl text-[#0F2D2D] mb-6">
+        Swim Team Management Software UK
+      </h1>
+      <p class="text-xl text-ink-soft mb-8">
+        Purpose-built swim team software for British competitive and recreational swimming teams. Squad management, automated fee collection, poolside registers, and Wavepower compliance, designed for volunteer-run teams, not IT departments.
+      </p>
+      <a
+        href="/founding-clubs/"
+        class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+      >
+        Become a founding club
+      </a>
+    </section>
+
+    <!-- The Problem -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Why swim teams need proper management software</h2>
+      <div class="space-y-6 text-ink-soft">
+        <p>
+          Running a swimming team, whether competitive, masters, or learn-to-swim, means managing multiple squads, dozens of families, coaches' schedules, and regulatory compliance. Most teams rely on fragmented tools that don't talk to each other:
+        </p>
+        <div class="grid sm:grid-cols-3 gap-6 mt-8">
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Squad chaos</h3>
+            <p class="text-sm">Membership lists in one spreadsheet, squad assignments in another, attendance on paper. Coaches don't know who's supposed to be there, and treasurers can't reconcile payments to squad rosters.</p>
+          </div>
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Manual billing</h3>
+            <p class="text-sm">Chasing parents for fees via email and WhatsApp. Reconciling bank transfers against membership lists. Failed payments go unnoticed for months. Treasurers spend hours every week on admin that should take minutes.</p>
+          </div>
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">Compliance stress</h3>
+            <p class="text-sm">DBS certificates stored in someone's inbox. Coaching qualifications tracked on paper. Safeguarding training dates forgotten until an inspection. Wavepower compliance becomes a scramble every year.</p>
+          </div>
+        </div>
+        <p>
+          Swim team management software solves these problems by centralising members, squads, billing, attendance, and compliance in one system that committee members and coaches can access from anywhere.
+        </p>
+      </div>
+    </section>
+
+    <!-- The Solution -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">What swim team software does for your team</h2>
+      <div class="bg-surface-raised rounded-2xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-8 lg:p-12 space-y-8">
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Squad management</h3>
+          <p class="text-ink-soft">
+            Create unlimited squads with different training schedules, coaching teams, and fees. Move swimmers between squads as they progress. Track squad sizes, session attendance, and capacity at a glance. No more spreadsheet guesswork.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Automated fee collection</h3>
+          <p class="text-ink-soft">
+            Collect monthly fees automatically via Direct Debit through GoCardless. Set different prices per squad, handle sibling discounts, and apply pro-rata billing when swimmers move between squads mid-month. Failed payments retry automatically and parents are notified.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Poolside attendance</h3>
+          <p class="text-ink-soft">
+            Coaches take attendance on their phone in seconds. No paper registers, no clipboards. See the squad list, mark who's present, note absences. Session history is saved automatically for safeguarding and reporting.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Family accounts</h3>
+          <p class="text-ink-soft">
+            Group siblings under one family account with a single monthly Direct Debit. Apply sibling discounts, share emergency contact details across swimmers, and bill one parent per family. Parents see all their swimmers in a single login.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Wavepower compliance</h3>
+          <p class="text-ink-soft">
+            Track DBS certificates, coaching qualifications, and safeguarding training with automatic renewal alerts. Compliance dashboard shows your team's status at a glance for Swim England inspections and SwimMark accreditation.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Parent communication</h3>
+          <p class="text-ink-soft">
+            Send announcements to specific squads or the whole team. Automated session cancellation alerts, payment reminders, and renewal notifications. One central communication channel replaces multiple WhatsApp groups.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Built for every type of swim team</h2>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Competitive teams</h3>
+          <p class="text-ink-soft mb-4">
+            Manage multiple squads from development through to county and regional level. Track squad progression, handle varying fee structures, and communicate competition schedules and gala results.
+          </p>
+          <ul class="text-sm text-ink-soft space-y-2">
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2">✓</span>
+              <span>Tiered squad structure (Development, County, Regional)</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2">✓</span>
+              <span>Different training schedules per squad</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2">✓</span>
+              <span>Competition entry tracking</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Learn-to-swim programmes</h3>
+          <p class="text-ink-soft mb-4">
+            Run structured swimming lessons with class groups, progression tracking, and term-based billing. Manage waiting lists, handle class changes, and communicate directly with parents.
+          </p>
+          <ul class="text-sm text-ink-soft space-y-2">
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2">✓</span>
+              <span>Class sizes and capacity limits</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2">✓</span>
+              <span>Waiting list management</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2">✓</span>
+              <span>Skill progression tracking</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Masters swimming</h3>
+          <p class="text-ink-soft mb-4">
+            Manage adult swim teams with flexible session attendance, varying membership levels, and lower admin overhead. Perfect for teams with 20-150 members.
+          </p>
+          <ul class="text-sm text-ink-soft space-y-2">
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2">✓</span>
+              <span>Flexible session pass options</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2">✓</span>
+              <span>Self-service member portal</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2">✓</span>
+              <span>Social swim coordination</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+          <h3 class="text-xl font-semibold text-[#0F2D2D] mb-3">Multi-squad clubs</h3>
+          <p class="text-ink-soft mb-4">
+            Run multiple teams under one umbrella organisation. Share membership databases, centralise billing, and maintain consistent compliance standards across all squads.
+          </p>
+          <ul class="text-sm text-ink-soft space-y-2">
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2">✓</span>
+              <span>Cross-squad reporting</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2">✓</span>
+              <span>Unified parent accounts</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-mint-ink mr-2">✓</span>
+              <span>Centralised financial overview</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Built by a swim parent and CTO</h2>
+      <div class="space-y-6 text-ink-soft">
+        <p>
+          Swimly was created by a parent who spent years watching volunteer committees struggle with outdated admin tools. We're not a generic team management platform trying to fit swimming. We're building specifically for British swim teams.
+        </p>
+        <div class="grid sm:grid-cols-3 gap-6">
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 text-center">
+            <div class="font-display text-3xl text-mint-ink mb-2">UK-hosted</div>
+            <p class="text-sm text-ink-mute">Data stored in the UK. GDPR compliant. No transatlantic data transfers or US-based servers.</p>
+          </div>
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 text-center">
+            <div class="font-display text-3xl text-mint-ink mb-2">GoCardless</div>
+            <p class="text-sm text-ink-mute">Direct Debit powered by the UK's leading payment provider. FCA regulated and compliant.</p>
+          </div>
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6 text-center">
+            <div class="font-display text-3xl text-mint-ink mb-2">Swim England</div>
+            <p class="text-sm text-ink-mute">Designed around Wavepower, SwimMark, and Swim England membership categories.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-8">Frequently asked questions</h2>
+      <div class="space-y-6">
+        {faqItems.map((item) => (
+          <div class="bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] p-6">
+            <h3 class="text-lg font-semibold text-[#0F2D2D] mb-3">{item.question}</h3>
+            <p class="text-ink-soft">{item.answer}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Related Pages -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-display text-2xl text-[#0F2D2D] mb-6">Learn more</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <a href="/swim-club-management-software/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Swim Club Management Software</h3>
+          <p class="text-ink-mute text-sm">Full platform overview for volunteer-run swimming clubs</p>
+        </a>
+        <a href="/swimming-club-billing-software/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Billing Software</h3>
+          <p class="text-ink-mute text-sm">Automated Direct Debit fee collection for swim teams</p>
+        </a>
+        <a href="/features/membership/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Membership Management</h3>
+          <p class="text-ink-mute text-sm">Squad assignments, renewals, waiting lists, and family accounts</p>
+        </a>
+        <a href="/pricing/" class="block p-6 bg-surface-raised rounded-xl border border-[#39393A]/10 shadow-[0_1px_3px_rgba(57,57,58,0.08)] hover:shadow-[0_12px_32px_-12px_rgba(15,45,45,0.2)] transition-all">
+          <h3 class="text-lg font-semibold text-[#0F2D2D] mb-2">Pricing</h3>
+          <p class="text-ink-mute text-sm">Transparent monthly pricing from free to £49/month</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+      <h2 class="font-display text-3xl text-[#0F2D2D] mb-6">Ready to simplify your swim team admin?</h2>
+      <p class="text-xl text-ink-soft mb-8">Join our founding teams pilot with 6 months free on any plan and hands-on migration support.</p>
+      <a
+        href="/founding-clubs/"
+        class="inline-block text-lg font-semibold px-8 py-4 rounded-xl bg-lime-cta text-[#0F2D2D] hover:bg-lime-cta-hover transition-all shadow-[0_8px_20px_-8px_rgba(255,133,82,0.6)]"
+      >
+        Become a founding club
+      </a>
+      <p class="mt-6 text-sm text-ink-mute">
+        No contract. No per-member fees. Cancel any time.
+      </p>
+    </section>
+  </main>
+  <Footer />
+</Layout>
