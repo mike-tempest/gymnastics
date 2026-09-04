@@ -15,6 +15,7 @@ import { toast } from 'sonner';
 
 import MainLayout from '@/components/layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
+import { BRAND } from '@/lib/brand';
 
 const SQUADS_TEMPLATE_CSV = `squad_name,description,min_age,max_age,coach_name,training_times,max_capacity
 Learn to Swim,Beginners building water confidence and basic strokes,5,8,Emma Clarke,Mon/Wed 17:00-17:45,20
@@ -123,7 +124,7 @@ export default function ImportHubPage() {
               Import your club&apos;s data
             </h1>
             <p className="text-grey-600 text-lg max-w-3xl">
-              Bring your existing records into Swimly from CSV files. Work through the
+              Bring your existing records into {BRAND.name} from CSV files. Work through the
               four steps in order: squads first, then members, staff and fee structures.
               Each step has a template you can download and fill in.
             </p>

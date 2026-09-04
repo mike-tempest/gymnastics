@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 
+import { BRAND } from '../src/lib/brand';
+
 /**
  * Swimly E2E Smoke Tests
  * 
@@ -15,7 +17,7 @@ test.describe('Public Pages', () => {
     expect(page.url()).toContain('/login');
     
     // Verify some expected content is present
-    await expect(page).toHaveTitle(/Swimly|Login/i);
+    await expect(page).toHaveTitle(new RegExp(`${BRAND.name}|Login`, 'i'));
   });
 });
 

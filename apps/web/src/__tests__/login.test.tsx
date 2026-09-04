@@ -2,6 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { signIn } from 'next-auth/react';
 
 import LoginPage from '../app/(auth)/login/page';
+import { BRAND } from '../lib/brand';
 
 // Mock next/navigation
 const mockPush = jest.fn();
@@ -46,7 +47,7 @@ describe('LoginPage', () => {
   it('renders the brand logo and subtitle', () => {
     render(<LoginPage />);
 
-    expect(screen.getByRole('img', { name: 'Swimly' })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: BRAND.logoAlt })).toBeInTheDocument();
     expect(screen.getByText('Sign in to your account')).toBeInTheDocument();
   });
 

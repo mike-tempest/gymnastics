@@ -1,5 +1,7 @@
 import { test, expect, Page } from '@playwright/test';
 
+import { BRAND } from '../src/lib/brand';
+
 /**
  * Swimly Critical User Flows - E2E Smoke Tests
  *
@@ -65,7 +67,7 @@ test.describe('Admin Login Page', () => {
     expect(page.url()).toContain('/login');
 
     // Verify the Swimly branding is visible.
-    await expect(page.getByText('Swimly').first()).toBeVisible();
+    await expect(page.getByText(BRAND.name).first()).toBeVisible();
 
     // Verify the email and password fields are present.
     await expect(page.locator('input[type="email"]')).toBeVisible();
@@ -100,7 +102,7 @@ test.describe('Admin Dashboard', () => {
     } else {
       // A redirect to login is a valid unauthenticated response.
       expect(isOnLogin).toBe(true);
-      await expect(page.getByText('Swimly').first()).toBeVisible();
+      await expect(page.getByText(BRAND.name).first()).toBeVisible();
     }
 
     const critical = getCriticalErrors(errors);
@@ -132,7 +134,7 @@ test.describe('Swimmers', () => {
       expect(hasContent).toBe(true);
     } else {
       // Redirect to login is fine when unauthenticated.
-      await expect(page.getByText('Swimly').first()).toBeVisible();
+      await expect(page.getByText(BRAND.name).first()).toBeVisible();
     }
 
     const critical = getCriticalErrors(errors);
@@ -205,7 +207,7 @@ test.describe('Attendance', () => {
       const bodyText = await page.locator('body').innerText();
       expect(bodyText.length).toBeGreaterThan(0);
     } else {
-      await expect(page.getByText('Swimly').first()).toBeVisible();
+      await expect(page.getByText(BRAND.name).first()).toBeVisible();
     }
 
     const critical = getCriticalErrors(errors);

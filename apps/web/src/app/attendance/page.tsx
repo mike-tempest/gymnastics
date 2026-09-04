@@ -8,11 +8,15 @@ import MainLayout from '@/components/layout/MainLayout';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import EmptyState from '@/components/ui/empty-state';
 import { useFormatters } from '@/hooks/useFormatters';
-import { useSessions } from '@/lib/hooks';
+import { BRAND } from '@/lib/brand';
+import { useClubSettings, useSessions } from '@/lib/hooks';
 
 export default function AttendancePage() {
   const { formatDate } = useFormatters();
   const [selectedSessionId, setSelectedSessionId] = useState<string>('');
+
+  const { data: clubSettings } = useClubSettings();
+  const clubDisplayName = clubSettings?.club_name || BRAND.name;
 
   const { data: sessionsData, isLoading: sessionsLoading, error: sessionsError } = useSessions();
   const sessions = sessionsData || [];
@@ -264,7 +268,7 @@ export default function AttendancePage() {
                 {selectedSession.location && ` | ${selectedSession.location}`}
               </p>
               <div className="print-header-meta">
-                <span>Swimly Swimming Club</span>
+                <span>{clubDisplayName}</span>
               </div>
             </div>
           )}
@@ -397,7 +401,7 @@ export default function AttendancePage() {
           {selectedSession && (
             <div className="attendance-print-footer hidden">
               <div className="print-footer-inner">
-                <span>Swimly Swimming Club &middot; Attendance Register</span>
+                <span>{clubDisplayName} &middot; Attendance Register</span>
                 <span>
                   Printed{' '}
                   {formatDate(new Date(), {

@@ -27,6 +27,8 @@ import { useFormatters } from '@/hooks/useFormatters';
 import { getAdminDashboard, type DashboardStats } from '@/lib/api/admin';
 import { getInvoices, type InvoiceWithDetails } from '@/lib/api/finance';
 import { getAdminReports, type AdminReportsData } from '@/lib/api/reports';
+import { BRAND } from '@/lib/brand';
+import { useClubSettings } from '@/lib/hooks';
 
 // ---------------------------------------------------------------------------
 // Colour palette for squads
@@ -78,6 +80,8 @@ function StatCard({
 
 export default function ReportsPage() {
   const { formatDate } = useFormatters();
+  const { data: clubSettings } = useClubSettings();
+  const clubDisplayName = clubSettings?.club_name || BRAND.name;
   const [dashboard, setDashboard] = useState<DashboardStats | null>(null);
   const [reports, setReports] = useState<AdminReportsData | null>(null);
   const [pendingInvoices, setPendingInvoices] = useState<InvoiceWithDetails[]>([]);
@@ -400,7 +404,7 @@ export default function ReportsPage() {
           {/* Print-only header */}
           <div className="reports-print-header hidden">
             <h1>Reports and Analytics</h1>
-            <p>Swimly Swimming Club, Committee Report</p>
+            <p>{clubDisplayName}, Committee Report</p>
             <div className="print-header-meta">
               <span>
                 Generated{' '}
@@ -942,7 +946,7 @@ export default function ReportsPage() {
           {/* Print-only footer with generation timestamp */}
           <div className="reports-print-footer hidden">
             <div className="print-footer-inner">
-              <span>Swimly Swimming Club, Confidential</span>
+              <span>{clubDisplayName}, Confidential</span>
               <span>
                 Report generated{' '}
                 {formatDate(new Date(), {

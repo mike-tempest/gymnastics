@@ -12,6 +12,7 @@ import { z } from 'zod';
 import { storeBackendToken } from '@/lib/api/api-client';
 import { registerUser } from '@/lib/api/auth';
 import { acceptInvite } from '@/lib/api/families';
+import { BRAND } from '@/lib/brand';
 
 const registerSchema = z
   .object({
@@ -144,7 +145,7 @@ export default function RegisterPage() {
       <div className="bg-dark-primary rounded-3xl shadow-lg p-6 sm:p-10">
         {/* Logo and Header */}
         <div className="text-center mb-6 sm:mb-10">
-          <Image src="/swimly-logo.svg" alt="Swimly" width={200} height={64} className="h-16 w-auto mx-auto mb-6" priority />
+          <Image src="/swimly-logo.svg" alt={BRAND.logoAlt} width={200} height={64} className="h-16 w-auto mx-auto mb-6" priority />
           <p className="text-white/70 text-lg">Create your account</p>
         </div>
 
@@ -315,7 +316,7 @@ export default function RegisterPage() {
 
       {/* Footer */}
       <div className="mt-8 text-center text-sm text-grey-400">
-        <p>2026 Swimly. All rights reserved.</p>
+        <p>{BRAND.copyright}</p>
       </div>
     </>
   );

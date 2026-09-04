@@ -6,7 +6,7 @@ export { useSquads, useSquad, useSquadSwimmers } from './useSquads';
 export { useSessions, useSessionDetail, useUpcomingSessions, useSessionsBySquad } from './useSessions';
 export { useSessionAttendance, useSwimmerAttendance, useSwimmerAttendanceStats } from './useAttendance';
 export { useFamilies, useFamily, useFamilyStats } from './useFamilies';
-export { useAdminDashboard, useAdminReports } from './useAdmin';
+export { useAdminDashboard, useAdminReports, useClubSettings } from './useAdmin';
 export { useFinanceDashboard, useInvoices, useOverdueInvoices } from './useFinance';
 
 export { useAuth } from './useAuth';

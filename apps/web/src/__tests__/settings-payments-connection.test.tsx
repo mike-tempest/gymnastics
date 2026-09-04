@@ -55,6 +55,7 @@ jest.mock('@/lib/utils/browser-navigation', () => ({
 }));
 
 import SettingsPage from '../app/admin/settings/page';
+import { BRAND } from '../lib/brand';
 
 function renderWithClient(ui: ReactElement) {
   const queryClient = new QueryClient({
@@ -139,7 +140,7 @@ describe('SettingsPage payments connection card', () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText('Online payments are not yet enabled on this Swimly environment.'),
+        screen.getByText(`Online payments are not yet enabled on this ${BRAND.name} environment.`),
       ).toBeInTheDocument();
     });
     expect(screen.queryByRole('button', { name: 'Connect with Stripe' })).not.toBeInTheDocument();

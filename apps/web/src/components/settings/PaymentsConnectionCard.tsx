@@ -12,6 +12,7 @@ import {
   type PaymentConnection,
   type PaymentConnectionStatus,
 } from '@/lib/api/payments-connection';
+import { BRAND } from '@/lib/brand';
 import { redirectTo } from '@/lib/utils/browser-navigation';
 
 const PRIMARY_BUTTON =
@@ -155,7 +156,7 @@ export function PaymentsConnectionCard() {
   if (isError || !connection || !connection.configured) {
     return (
       <p className="text-white/60 text-sm">
-        Online payments are not yet enabled on this Swimly environment.
+        Online payments are not yet enabled on this {BRAND.name} environment.
       </p>
     );
   }
