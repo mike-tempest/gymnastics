@@ -45,8 +45,8 @@ function UnsubscribeContent() {
           <>
             <p className="text-dark-primary font-semibold mb-2">This link is not valid</p>
             <p className="text-grey-600 text-sm">
-              Please use the unsubscribe link from a recent Swimly email. If it keeps failing,
-              contact hello@swimly.uk and we will sort it for you.
+              Please use the unsubscribe link from a recent email. If it keeps failing, contact
+              your club and they will sort it for you.
             </p>
           </>
         )}
@@ -55,7 +55,7 @@ function UnsubscribeContent() {
             <p className="text-dark-primary font-semibold mb-2">Something went wrong</p>
             <p className="text-grey-600 text-sm">
               We could not update your preferences just now. Please try the link again shortly, or
-              contact hello@swimly.uk.
+              contact your club.
             </p>
           </>
         )}

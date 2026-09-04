@@ -12,6 +12,7 @@ Planning and specs live in `docs/` (see Reference Docs). Work is tracked in Line
 
 ## Relationship to Swimly (READ THIS)
 - This repo shares **nothing** with Swimly production: separate Railway project, database, Redis, GoCardless creditor, Stripe account, domain and `.env`. Never point this repo at a Swimly resource.
+- **Enforced:** `scripts/check-no-swimly.sh` fails the build if any live Swimly endpoint (domain, Fly app, Railway project, FTP host, prod DB host) appears in the repo. CI runs it on every PR and push to main; it is also verification gate 7. If it fires, remove the reference; never widen its exclusions to silence it.
 - **Shared-core hygiene:** keep the generic core mergeable with Swimly so bug fixes can be cherry-picked across. Do **not** gratuitously restructure, reformat or move: `packages/shared-types`, `packages/utils`, and the `auth`, `gocardless`, `finance`, `tenancy` modules. Domain, brand and UX are free to diverge; plumbing should stay recognisable.
 - The Swimly repo is `~/GitHub/team-swim`. Never edit it from this repo's sessions.
 
@@ -104,6 +105,7 @@ UI primitives in `apps/web/src/components/ui/`. Feature components by domain: at
 4. For the rename: the grep gate above returns zero hits
 5. `pnpm lint` and `pnpm format:check` clean
 6. Always run `pnpm build` before reporting work as complete
+7. `./scripts/check-no-swimly.sh` passes (no live Swimly endpoints anywhere in the repo)
 
 ## Testing
 - Jest for unit tests

@@ -5,8 +5,23 @@ on:
     branches:
       - main
       - develop
+  push:
+    branches:
+      - main
 
 jobs:
+  no-swimly:
+    name: No Swimly endpoints
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # This repo must never point at a Swimly resource (CLAUDE.md,
+      # "Relationship to Swimly"). Fails on any live Swimly endpoint:
+      # domains, Fly apps, Railway project, FTP host, prod DB host.
+      - name: Check for live Swimly endpoints
+        run: ./scripts/check-no-swimly.sh
+
   lint:
     name: Lint
     runs-on: ubuntu-latest

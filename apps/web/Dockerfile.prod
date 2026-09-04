@@ -46,7 +46,7 @@ COPY apps/web/ ./apps/web/
 
 # NEXT_PUBLIC_ variables must be present at build time for Next.js to inline
 # them into the client bundle. Pass via --build-arg when deploying.
-ARG NEXT_PUBLIC_API_URL=https://swimly-membership.fly.dev
+ARG NEXT_PUBLIC_API_URL=http://localhost:3001
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 
 # Build everything the web app depends on, then the web app itself

@@ -15,7 +15,7 @@ import { join } from 'path';
 // Load test environment variables
 dotenv.config({ path: join(__dirname, '../../../../.env.test') });
 
-const API_BASE_URL = process.env.API_BASE_URL || 'https://membership-api.swimly.uk';
+const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:3001';
 
 // Test credentials
 const VALID_CREDENTIALS = {

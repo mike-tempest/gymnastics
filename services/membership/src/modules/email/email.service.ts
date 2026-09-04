@@ -249,11 +249,12 @@ export class EmailService {
       this.configService.get<string>('RESEND_API_KEY') ||
       this.configService.get<string>('EMAIL_PASSWORD');
     this.resend = apiKey ? new Resend(apiKey) : null;
-    this.from = this.configService.get<string>('EMAIL_FROM', 'Swimly <hello@updates.swimly.uk>');
+    this.from = this.configService.get<string>('EMAIL_FROM', 'noreply@localhost');
     this.clubName = this.configService.get<string>('CLUB_NAME', 'Your Swimming Club');
     this.appUrl = this.configService.get<string>('APP_URL', 'http://localhost:3000');
     // Internal recipient for platform alerts (e.g. new club signups).
-    this.alertEmail = this.configService.get<string>('SIGNUP_ALERT_EMAIL', 'mike@swimly.uk');
+    // No default: alerts are skipped entirely when SIGNUP_ALERT_EMAIL is unset.
+    this.alertEmail = this.configService.get<string>('SIGNUP_ALERT_EMAIL', '');
     // Templates ship next to this file under dist/modules/email/templates,
     // copied at build time via nest-cli.json assets.
     this.templatesDir = join(__dirname, 'templates');
@@ -594,16 +595,17 @@ export class EmailService {
       {
         marketing: true,
         text,
-        replyTo: this.configService.get<string>('ACTIVATION_REPLY_TO', 'mike@swimly.uk'),
+        replyTo: this.configService.get<string>('ACTIVATION_REPLY_TO'),
       },
     );
   }
 
   /**
-   * Internal alert to the Swimly team when a new club self-serve signs up.
-   * Sent to SIGNUP_ALERT_EMAIL (default mike@swimly.uk), not to the club.
+   * Internal alert to the platform team when a new club self-serve signs up.
+   * Sent to SIGNUP_ALERT_EMAIL, not to the club; skipped when unset.
    */
   async sendNewClubSignupAlert(data: NewClubSignupAlertData): Promise<void> {
+    if (!this.alertEmail) return;
     await this.send(
       this.alertEmail,
       `New club signed up: ${data.newClubName}`,

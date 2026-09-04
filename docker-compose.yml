@@ -60,7 +60,7 @@ services:
       EMAIL_PORT: ${EMAIL_PORT:-1025}
       EMAIL_USER: ${EMAIL_USER:-}
       EMAIL_PASSWORD: ${EMAIL_PASSWORD:-}
-      EMAIL_FROM: ${EMAIL_FROM:-dev@swimly.local}
+      EMAIL_FROM: ${EMAIL_FROM:-dev@localhost}
       LOG_LEVEL: ${LOG_LEVEL:-debug}
     volumes:
       - ./services/membership/src:/app/services/membership/src
@@ -106,7 +106,7 @@ services:
       EMAIL_PORT: ${EMAIL_PORT:-1025}
       EMAIL_USER: ${EMAIL_USER:-}
       EMAIL_PASSWORD: ${EMAIL_PASSWORD:-}
-      EMAIL_FROM: ${EMAIL_FROM:-dev@swimly.local}
+      EMAIL_FROM: ${EMAIL_FROM:-dev@localhost}
       LOG_LEVEL: ${LOG_LEVEL:-debug}
     volumes:
       - ./services/notifications/src:/app/services/notifications/src

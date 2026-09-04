@@ -61,16 +61,15 @@ MANIFEST_FILE="$SCRIPT_DIR/.deploy-manifest"
 INTL_DIRS=(us ca au international)
 
 # Credentials are read from the environment (GitHub Actions secrets in CI,
-# your shell locally). FTP_PASS is REQUIRED and has no fallback: a previous
-# hardcoded fallback password leaked into git history and must be rotated on
-# the host. Never add a password literal back to this file.
-FTP_HOST="${FTP_HOST:-ftp.michaeltempest.com}"
-FTP_USER="${FTP_USER:-monsieur-clawde@swimly.uk}"
-if [[ -z "${FTP_PASS:-}" ]]; then
-    echo "ERROR: FTP_PASS is not set." >&2
-    echo "Set the FTP password in the environment before deploying, e.g.:" >&2
-    echo "  FTP_PASS='...' ./deploy-ftp.sh" >&2
-    echo "In CI it comes from the FTP_PASS repository secret." >&2
+# your shell locally). ALL of host, user and password are REQUIRED with no
+# fallback: this repo is the gymnastics fork, and the old defaults pointed at
+# Swimly's live hosting account. Never add host, user or password literals
+# back to this file.
+if [[ -z "${FTP_HOST:-}" || -z "${FTP_USER:-}" || -z "${FTP_PASS:-}" ]]; then
+    echo "ERROR: FTP_HOST, FTP_USER and FTP_PASS must all be set." >&2
+    echo "Set them in the environment before deploying, e.g.:" >&2
+    echo "  FTP_HOST='...' FTP_USER='...' FTP_PASS='...' ./deploy-ftp.sh" >&2
+    echo "In CI they come from repository secrets." >&2
     exit 1
 fi
 

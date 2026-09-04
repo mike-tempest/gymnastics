@@ -33,6 +33,7 @@ describe('EmailService', () => {
         APP_URL: 'https://app.test.com',
         RESEND_API_KEY: 're_test_key',
         EMAIL_FROM: 'Swimly <hello@updates.swimly.uk>',
+        ACTIVATION_REPLY_TO: 'owner@example.com',
       };
       return config[key] ?? defaultValue;
     }),
@@ -395,14 +396,14 @@ describe('EmailService', () => {
       );
     });
 
-    it('sends the day 10 check-in as plain text with reply-to Mike', async () => {
+    it('sends the day 10 check-in as plain text with the configured reply-to', async () => {
       await service.sendActivationCheckIn(data);
       const call = sendMock.mock.calls[0][0];
       expect(call.subject).toBe('What stopped you?');
       expect(call.text).toContain('Hi Sam');
       expect(call.text).toContain('Whitby Seals');
       expect(call.html).toBeUndefined();
-      expect(call.replyTo).toBe('mike@swimly.uk');
+      expect(call.replyTo).toBe('owner@example.com');
     });
   });
 
