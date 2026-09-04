@@ -341,13 +341,13 @@ describe('AuthService', () => {
       expect(result.access_token).toBe('mock_access_token');
     });
 
-    it('defaults a GB signup with no governing_body to SWIM_ENGLAND', async () => {
+    it('defaults a GB signup with no governing_body to BRITISH_GYMNASTICS', async () => {
       mockJwtService.signAsync.mockResolvedValue('mock_access_token');
       mockEmailService.sendWelcome.mockResolvedValue(undefined);
 
       await service.registerClub(dto);
 
-      expect(store.clubs[0].governing_body).toBe('SWIM_ENGLAND');
+      expect(store.clubs[0].governing_body).toBe('BRITISH_GYMNASTICS');
     });
 
     it('defaults a US signup with no governing_body to USA_SWIMMING', async () => {
@@ -383,7 +383,7 @@ describe('AuthService', () => {
       mockJwtService.signAsync.mockResolvedValue('mock_access_token');
       mockEmailService.sendWelcome.mockResolvedValue(undefined);
 
-      // USA_SWIMMING is not a GB body, so the GB default (Swim England) wins.
+      // USA_SWIMMING is not a GB body, so the GB default (British Gymnastics) wins.
       const mismatchDto: RegisterClubDto = {
         ...dto,
         club: { ...dto.club, country: 'GB', governing_body: 'USA_SWIMMING' },
@@ -391,7 +391,7 @@ describe('AuthService', () => {
 
       await service.registerClub(mismatchDto);
 
-      expect(store.clubs[0].governing_body).toBe('SWIM_ENGLAND');
+      expect(store.clubs[0].governing_body).toBe('BRITISH_GYMNASTICS');
     });
 
     it('maps legacy affiliate_number and swim_england_region onto the new club columns', async () => {

@@ -479,10 +479,10 @@ export const GOVERNING_BODY_CONFIG: Record<GoverningBody, GoverningBodyConfig> =
 /** Governing bodies available to clubs in each supported country. */
 export const COUNTRY_GOVERNING_BODIES: Record<string, GoverningBody[]> = {
   GB: [
+    GoverningBody.BRITISH_GYMNASTICS,
     GoverningBody.SWIM_ENGLAND,
     GoverningBody.SCOTTISH_SWIMMING,
     GoverningBody.SWIM_WALES,
-    GoverningBody.BRITISH_GYMNASTICS,
   ],
   IE: [GoverningBody.SWIM_IRELAND],
   US: [GoverningBody.USA_SWIMMING],
@@ -490,31 +490,31 @@ export const COUNTRY_GOVERNING_BODIES: Record<string, GoverningBody[]> = {
   AU: [GoverningBody.SWIMMING_AUSTRALIA],
 };
 
-/** Default governing body for a club country; Swim England for GB and unknowns. */
+/** Default governing body for a club country; British Gymnastics for GB and unknowns. */
 export function defaultGoverningBodyForCountry(country?: string | null): GoverningBody {
   const bodies = COUNTRY_GOVERNING_BODIES[(country ?? 'GB').toUpperCase()];
-  return bodies?.[0] ?? GoverningBody.SWIM_ENGLAND;
+  return bodies?.[0] ?? GoverningBody.BRITISH_GYMNASTICS;
 }
 
-/** Config for a governing body, falling back to Swim England (the GB default). */
+/** Config for a governing body, falling back to British Gymnastics (this product's default). */
 export function governingBodyConfig(body?: GoverningBody | string | null): GoverningBodyConfig {
   if (body && body in GOVERNING_BODY_CONFIG) {
     return GOVERNING_BODY_CONFIG[body as GoverningBody];
   }
-  return GOVERNING_BODY_CONFIG[GoverningBody.SWIM_ENGLAND];
+  return GOVERNING_BODY_CONFIG[GoverningBody.BRITISH_GYMNASTICS];
 }
 
 /**
  * Governing bodies on UK background-check regimes. Data-import applies the
  * strict 7-digit SE-style registration-number format to every body listed
- * here; the British Gymnastics membership number format is unverified, so
- * relax that gate for BG once the real format is confirmed.
+ * here. British Gymnastics is deliberately excluded: its membership number
+ * format is unverified, and listing it would reject valid BG numbers on
+ * import. Add it only once the 7-digit format is confirmed for BG.
  */
 export const UK_GOVERNING_BODIES: GoverningBody[] = [
   GoverningBody.SWIM_ENGLAND,
   GoverningBody.SCOTTISH_SWIMMING,
   GoverningBody.SWIM_WALES,
-  GoverningBody.BRITISH_GYMNASTICS,
 ];
 
 /**

@@ -201,40 +201,43 @@ describe('orderedBackgroundCheckTypes', () => {
 });
 
 describe('UK_GOVERNING_BODIES', () => {
-  it('contains exactly the four UK bodies', () => {
+  it('contains exactly the three bodies on 7-digit SE-style numbers', () => {
+    // British Gymnastics is deliberately excluded: this list gates the strict
+    // 7-digit registration-number format in data-import, and the BG membership
+    // number format is unverified.
     expect(UK_GOVERNING_BODIES).toEqual([
       GoverningBody.SWIM_ENGLAND,
       GoverningBody.SCOTTISH_SWIMMING,
       GoverningBody.SWIM_WALES,
-      GoverningBody.BRITISH_GYMNASTICS,
     ]);
+    expect(UK_GOVERNING_BODIES).not.toContain(GoverningBody.BRITISH_GYMNASTICS);
   });
 });
 
 describe('COUNTRY_GOVERNING_BODIES', () => {
   it('resolves a default body for every supported country', () => {
-    expect(defaultGoverningBodyForCountry('GB')).toBe(GoverningBody.SWIM_ENGLAND);
+    expect(defaultGoverningBodyForCountry('GB')).toBe(GoverningBody.BRITISH_GYMNASTICS);
     expect(defaultGoverningBodyForCountry('US')).toBe(GoverningBody.USA_SWIMMING);
     expect(defaultGoverningBodyForCountry('CA')).toBe(GoverningBody.SWIMMING_CANADA);
     expect(defaultGoverningBodyForCountry('AU')).toBe(GoverningBody.SWIMMING_AUSTRALIA);
     expect(defaultGoverningBodyForCountry('IE')).toBe(GoverningBody.SWIM_IRELAND);
   });
 
-  it('falls back to Swim England for unknown or missing countries', () => {
-    expect(defaultGoverningBodyForCountry('FR')).toBe(GoverningBody.SWIM_ENGLAND);
-    expect(defaultGoverningBodyForCountry(undefined)).toBe(GoverningBody.SWIM_ENGLAND);
+  it('falls back to British Gymnastics for unknown or missing countries', () => {
+    expect(defaultGoverningBodyForCountry('FR')).toBe(GoverningBody.BRITISH_GYMNASTICS);
+    expect(defaultGoverningBodyForCountry(undefined)).toBe(GoverningBody.BRITISH_GYMNASTICS);
   });
 
-  it('lists British Gymnastics for GB clubs after the swimming bodies', () => {
+  it('lists British Gymnastics first for GB clubs', () => {
     expect(COUNTRY_GOVERNING_BODIES.GB).toEqual([
+      GoverningBody.BRITISH_GYMNASTICS,
       GoverningBody.SWIM_ENGLAND,
       GoverningBody.SCOTTISH_SWIMMING,
       GoverningBody.SWIM_WALES,
-      GoverningBody.BRITISH_GYMNASTICS,
     ]);
-    // The GB default stays pinned to Swim England: defaultGoverningBodyForCountry
-    // returns the first entry, so British Gymnastics must be appended last.
-    expect(defaultGoverningBodyForCountry('GB')).toBe(GoverningBody.SWIM_ENGLAND);
+    // British Gymnastics is this product's default governing body (CLAUDE.md):
+    // defaultGoverningBodyForCountry returns the first entry, so it stays first.
+    expect(defaultGoverningBodyForCountry('GB')).toBe(GoverningBody.BRITISH_GYMNASTICS);
   });
 
   it('only lists bodies whose config country matches', () => {
@@ -252,9 +255,9 @@ describe('governingBodyConfig', () => {
     expect(governingBodyConfig('BRITISH_GYMNASTICS').label).toBe('British Gymnastics');
   });
 
-  it('falls back to Swim England for null, undefined or unknown values', () => {
-    expect(governingBodyConfig(null).label).toBe('Swim England');
-    expect(governingBodyConfig(undefined).label).toBe('Swim England');
-    expect(governingBodyConfig('NOT_A_BODY').label).toBe('Swim England');
+  it('falls back to British Gymnastics for null, undefined or unknown values', () => {
+    expect(governingBodyConfig(null).label).toBe('British Gymnastics');
+    expect(governingBodyConfig(undefined).label).toBe('British Gymnastics');
+    expect(governingBodyConfig('NOT_A_BODY').label).toBe('British Gymnastics');
   });
 });

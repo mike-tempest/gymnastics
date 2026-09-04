@@ -282,6 +282,8 @@ export function getSafeguardingTemplate(
     case GoverningBody.SWIMMING_CANADA:
       return genericTemplate(body);
     default:
-      return SWIM_ENGLAND_TEMPLATE;
+      // British Gymnastics is this product's default governing body, so an
+      // unset or unknown body seeds the BG checklist rather than Wavepower.
+      return BRITISH_GYMNASTICS_TEMPLATE;
   }
 }

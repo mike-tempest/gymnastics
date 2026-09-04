@@ -50,17 +50,22 @@ describe('CreateClubPage governing body', () => {
     });
   });
 
-  it('shows the governing body picker and a Swim England region select for GB (the default)', () => {
+  it('shows the governing body picker defaulting to British Gymnastics for GB', () => {
     render(<CreateClubPage />);
 
-    // GB has three bodies, so the picker renders and defaults to Swim England.
+    // GB has four bodies, so the picker renders and defaults to British Gymnastics.
     const bodyPicker = screen.getByLabelText('Governing body') as HTMLSelectElement;
-    expect(bodyPicker.value).toBe('SWIM_ENGLAND');
+    expect(bodyPicker.value).toBe('BRITISH_GYMNASTICS');
     expect(screen.getByRole('option', { name: 'Scottish Swimming' })).toBeInTheDocument();
 
-    // Region is the Swim England 7-option select.
-    const region = screen.getByLabelText(/Region/) as HTMLSelectElement;
-    expect(region.tagName).toBe('SELECT');
+    // Region is free text for British Gymnastics; the 7-option select is Swim
+    // England specific and appears once Swim England is chosen.
+    const region = screen.getByLabelText(/Region/) as HTMLInputElement;
+    expect(region.tagName).toBe('INPUT');
+
+    fireEvent.change(bodyPicker, { target: { value: 'SWIM_ENGLAND' } });
+    const seRegion = screen.getByLabelText(/Region/) as HTMLSelectElement;
+    expect(seRegion.tagName).toBe('SELECT');
     expect(screen.getByRole('option', { name: 'South West' })).toBeInTheDocument();
   });
 
@@ -96,6 +101,7 @@ describe('CreateClubPage governing body', () => {
     render(<CreateClubPage />);
 
     fireEvent.change(screen.getByLabelText('Club name'), { target: { value: 'Whitby Seals' } });
+    fireEvent.change(screen.getByLabelText('Governing body'), { target: { value: 'SWIM_ENGLAND' } });
     fireEvent.change(screen.getByLabelText(/Region/), { target: { value: 'London' } });
     fireEvent.change(screen.getByLabelText(/Affiliate number/), { target: { value: 'SE-1234' } });
     fillAdminAccount();
