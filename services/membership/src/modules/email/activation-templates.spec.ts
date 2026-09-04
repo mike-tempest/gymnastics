@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import * as Handlebars from 'handlebars';
+import { BRAND } from '../../common/brand';
 
 /**
  * Renders the real activation template files (not mocks) so a broken
@@ -13,7 +14,12 @@ describe('activation email templates', () => {
 
   const render = (name: string, context: Record<string, unknown>) => {
     const source = readFileSync(join(templatesDir, `${name}.hbs`), 'utf8');
-    return Handlebars.compile(source)({ year: 2026, appUrl: 'https://app.swimly.uk', ...context });
+    return Handlebars.compile(source)({
+      year: 2026,
+      appUrl: 'https://app.swimly.uk',
+      brandName: BRAND.name,
+      ...context,
+    });
   };
 
   const regions = [
@@ -32,6 +38,7 @@ describe('activation email templates', () => {
 
       expect(html).toContain(`Hi ${region.firstName}`);
       expect(html).toContain(region.clubName);
+      expect(html).toContain(BRAND.name);
       expect(html).toContain('https://app.swimly.uk/sessions');
       expect(html).toContain('unsubscribe');
       expect(html).not.toMatch(/{{[^}]+}}/);

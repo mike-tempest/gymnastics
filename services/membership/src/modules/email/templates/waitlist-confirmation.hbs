@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>You're on the Swimly waitlist!</title>
+  <title>You're on the {{brandName}} waitlist!</title>
 </head>
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f4f4f4; margin: 0; padding: 0;">
   <div style="max-width: 600px; margin: 20px auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
 
     <div style="background: #111827; padding: 40px 20px; text-align: center;">
-      <h1 style="margin: 0; font-size: 28px; font-weight: 700; color: #00ff90;">Swimly</h1>
+      <h1 style="margin: 0; font-size: 28px; font-weight: 700; color: #00ff90;">{{brandName}}</h1>
     </div>
 
     <div style="padding: 30px 20px;">
       <p style="font-size: 18px; margin-top: 0;">Hi {{#if name}}{{name}}{{else}}there{{/if}},</p>
 
-      <p>Thanks for signing up to the Swimly waitlist. We are genuinely thrilled to have you on board.</p>
+      <p>Thanks for signing up to the {{brandName}} waitlist. We are genuinely thrilled to have you on board.</p>
 
-      <p>Swimly is a modern swim club management platform, built specifically for swimming clubs like yours. Sessions, payments, communications, member management — all in one place. No more spreadsheets, no more chasing.</p>
+      <p>{{brandName}} is a modern club management platform, built specifically for clubs like yours. Sessions, payments, communications, member management — all in one place. No more spreadsheets, no more chasing.</p>
 
       {{#if clubName}}
       <div style="background: #F0FDF4; border-left: 4px solid #00ff90; padding: 20px; margin: 25px 0; border-radius: 4px;">
@@ -31,12 +31,12 @@
       <p style="margin-top: 30px;">
         Cheers,<br>
         <strong>Mike</strong><br>
-        <span style="color: #64748B;">Founder of Swimly</span>
+        <span style="color: #64748B;">Founder of {{brandName}}</span>
       </p>
     </div>
 
     <div style="background: #F8FAFC; padding: 20px; text-align: center; color: #64748B; font-size: 13px;">
-      <p style="margin: 5px 0;">&copy; {{year}} Swimly. All rights reserved.</p>
+      <p style="margin: 5px 0;">&copy; {{year}} {{brandName}}. All rights reserved.</p>
       <p style="margin: 5px 0;"><a href="{{unsubscribeUrl}}" style="color: #64748B; text-decoration: underline;">Unsubscribe</a></p>
     </div>
 
