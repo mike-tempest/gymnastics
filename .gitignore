@@ -74,3 +74,7 @@ tests/e2e/node_modules/
 
 # Generated activity dashboards (contain customer email addresses)
 reports/activity-dashboard*.html
+
+# Playwright generated reports
+playwright-report/
+test-results/
