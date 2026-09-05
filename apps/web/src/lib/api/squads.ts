@@ -1,4 +1,4 @@
-import { Squad, Swimmer } from '@swim-nexus/shared-types';
+import { Squad, Swimmer } from '@club-manager/shared-types';
 
 import { api } from './api-client';
 

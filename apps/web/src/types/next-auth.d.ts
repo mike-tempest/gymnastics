@@ -1,4 +1,4 @@
-import { UserRole } from '@swim-nexus/shared-types';
+import { UserRole } from '@club-manager/shared-types';
 import { DefaultSession } from 'next-auth';
 
 declare module 'next-auth' {

@@ -1,6 +1,5 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Swimmer,
   Squad,
@@ -8,7 +7,8 @@ import {
   GOVERNING_BODY_LABELS,
   COUNTRY_GOVERNING_BODIES,
   governingBodyConfig,
-} from '@swim-nexus/shared-types';
+} from '@club-manager/shared-types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';

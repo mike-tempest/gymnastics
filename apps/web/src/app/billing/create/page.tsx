@@ -1,6 +1,6 @@
 'use client';
 
-import { Family } from '@swim-nexus/shared-types';
+import { Family } from '@club-manager/shared-types';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';

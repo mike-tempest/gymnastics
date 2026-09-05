@@ -1,6 +1,6 @@
 'use client';
 
-import { governingBodyConfig, defaultGoverningBodyForCountry } from '@swim-nexus/shared-types';
+import { governingBodyConfig, defaultGoverningBodyForCountry } from '@club-manager/shared-types';
 import {
   Users,
   CheckCircle,

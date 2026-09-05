@@ -1,6 +1,6 @@
 "use client";
 
-import { defaultGoverningBodyForCountry, governingBodyConfig } from "@swim-nexus/shared-types";
+import { defaultGoverningBodyForCountry, governingBodyConfig } from "@club-manager/shared-types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Papa from "papaparse";

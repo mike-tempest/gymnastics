@@ -1,6 +1,6 @@
 'use client';
 
-import { Competition, CompetitionStatus } from '@swim-nexus/shared-types';
+import { Competition, CompetitionStatus } from '@club-manager/shared-types';
 import { Trophy } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';

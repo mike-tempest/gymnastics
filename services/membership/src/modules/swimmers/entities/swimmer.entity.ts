@@ -8,7 +8,7 @@ import {
   JoinColumn,
   Unique,
 } from 'typeorm';
-import { GoverningBody } from '@swim-nexus/shared-types';
+import { GoverningBody } from '@club-manager/shared-types';
 import { Family } from '../../families/entities/family.entity';
 import { Squad } from '../../squads/entities/squad.entity';
 

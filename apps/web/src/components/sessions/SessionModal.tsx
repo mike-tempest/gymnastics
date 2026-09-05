@@ -1,7 +1,7 @@
 'use client';
 
+import { Session, SessionStatus, Squad } from '@club-manager/shared-types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Session, SessionStatus, Squad } from '@swim-nexus/shared-types';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';

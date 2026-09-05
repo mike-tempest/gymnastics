@@ -1,4 +1,4 @@
-import { BackgroundCheckStatus, BackgroundCheckType } from '@swim-nexus/shared-types';
+import { BackgroundCheckStatus, BackgroundCheckType } from '@club-manager/shared-types';
 
 // Shared-types is the single source of truth for check enums; the DBS names
 // are aliases kept so existing imports compile unchanged.

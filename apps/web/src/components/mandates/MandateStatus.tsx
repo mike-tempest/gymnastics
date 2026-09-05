@@ -1,6 +1,6 @@
 'use client';
 
-import { DirectDebitMandate } from '@swim-nexus/shared-types';
+import { DirectDebitMandate } from '@club-manager/shared-types';
 import { Loader2, CheckCircle2, XCircle, AlertCircle, RefreshCw } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 

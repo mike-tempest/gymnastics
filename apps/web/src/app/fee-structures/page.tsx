@@ -1,6 +1,6 @@
 'use client';
 
-import { Squad } from '@swim-nexus/shared-types';
+import { Squad } from '@club-manager/shared-types';
 import { Receipt } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';

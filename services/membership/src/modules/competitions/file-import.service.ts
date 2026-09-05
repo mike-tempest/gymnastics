@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException, Logger } from '@nestjs/common';
-import { governingBodyConfig } from '@swim-nexus/shared-types';
+import { governingBodyConfig } from '@club-manager/shared-types';
 import { CompetitionsRepository } from './competitions.repository';
 import { SwimmersRepository } from '../swimmers/swimmers.repository';
 import { ClubsService } from '../clubs/clubs.service';

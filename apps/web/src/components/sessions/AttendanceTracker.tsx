@@ -1,6 +1,6 @@
 'use client';
 
-import { AttendanceStatus, Swimmer } from '@swim-nexus/shared-types';
+import { AttendanceStatus, Swimmer } from '@club-manager/shared-types';
 import { useState, useEffect, useCallback } from 'react';
 
 import LoadingSpinner from '@/components/ui/LoadingSpinner';

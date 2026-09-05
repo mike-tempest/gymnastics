@@ -1,6 +1,6 @@
 'use client';
 
-import { InvoiceStatus } from '@swim-nexus/shared-types';
+import { InvoiceStatus } from '@club-manager/shared-types';
 import { CreditCard } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';

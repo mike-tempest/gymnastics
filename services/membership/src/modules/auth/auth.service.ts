@@ -25,7 +25,7 @@ import {
   COUNTRY_GOVERNING_BODIES,
   GoverningBody,
   defaultGoverningBodyForCountry,
-} from '@swim-nexus/shared-types';
+} from '@club-manager/shared-types';
 
 @Injectable()
 export class AuthService {

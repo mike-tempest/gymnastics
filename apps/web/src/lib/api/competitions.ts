@@ -6,12 +6,12 @@ import {
   QualifyingTime,
   RelayLeg,
   SwimmerPersonalBests,
-} from '@swim-nexus/shared-types';
+} from '@club-manager/shared-types';
 
 import { api } from './api-client';
 
 export type { QualifyingTime, RelayLeg, SwimmerPersonalBests };
-export type { PersonalBest, SeasonBest } from '@swim-nexus/shared-types';
+export type { PersonalBest, SeasonBest } from '@club-manager/shared-types';
 
 export interface CreateCompetitionInput {
   name: string;

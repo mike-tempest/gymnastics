@@ -1,6 +1,6 @@
 'use client';
 
-import { Session, Swimmer } from '@swim-nexus/shared-types';
+import { Session, Swimmer } from '@club-manager/shared-types';
 import { Clock, Users } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';

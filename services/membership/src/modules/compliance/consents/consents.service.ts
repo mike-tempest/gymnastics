@@ -10,7 +10,7 @@ import { EmailService } from '../../email/email.service';
 import { ClubsService } from '../../clubs/clubs.service';
 import { CLS_CLUB_ID_KEY } from '../../../common/tenancy/tenant-context.service';
 import { formatClubDate } from '../../../common/region/format.util';
-import { governingBodyConfig } from '@swim-nexus/shared-types';
+import { governingBodyConfig } from '@club-manager/shared-types';
 
 @Injectable()
 export class ConsentsService {

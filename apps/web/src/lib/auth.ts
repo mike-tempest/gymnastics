@@ -1,4 +1,4 @@
-import { UserRole } from '@swim-nexus/shared-types';
+import { UserRole } from '@club-manager/shared-types';
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 

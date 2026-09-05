@@ -1,6 +1,6 @@
 'use client';
 
-import { Swimmer, GOVERNING_BODY_LABELS } from '@swim-nexus/shared-types';
+import { Swimmer, GOVERNING_BODY_LABELS } from '@club-manager/shared-types';
 import { Upload, Users } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';

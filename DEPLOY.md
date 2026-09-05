@@ -316,7 +316,7 @@ Use separate Railway projects for staging and production.
 
 ## 9. Common Troubleshooting
 
-### Build fails: "Cannot find module '@swim-nexus/shared-types'"
+### Build fails: "Cannot find module '@club-manager/shared-types'"
 
 The Dockerfiles copy shared packages before the service source. Verify the `packages/` directory is not excluded by `.dockerignore`.
 

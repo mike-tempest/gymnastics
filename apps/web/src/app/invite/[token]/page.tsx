@@ -1,6 +1,6 @@
 'use client';
 
-import { Family } from '@swim-nexus/shared-types';
+import { Family } from '@club-manager/shared-types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';

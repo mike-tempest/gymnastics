@@ -1,6 +1,6 @@
 'use client';
 
-import { Attendance, AttendanceStats } from '@swim-nexus/shared-types';
+import { Attendance, AttendanceStats } from '@club-manager/shared-types';
 
 import {
   getSessionAttendance,

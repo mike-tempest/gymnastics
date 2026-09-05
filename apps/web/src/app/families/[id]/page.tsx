@@ -1,6 +1,6 @@
 'use client';
 
-import { Swimmer } from '@swim-nexus/shared-types';
+import { Swimmer } from '@club-manager/shared-types';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';

@@ -1,6 +1,6 @@
 'use client';
 
-import { Attendance, AttendanceStatus } from '@swim-nexus/shared-types';
+import { Attendance, AttendanceStatus } from '@club-manager/shared-types';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Check, Users } from 'lucide-react';
 import { useMemo, useState } from 'react';

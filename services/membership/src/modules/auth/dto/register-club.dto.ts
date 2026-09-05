@@ -10,7 +10,7 @@ import {
   MinLength,
   ValidateNested,
 } from 'class-validator';
-import { GoverningBody } from '@swim-nexus/shared-types';
+import { GoverningBody } from '@club-manager/shared-types';
 
 /**
  * Club details supplied at self-serve signup. Only the name is required; the

@@ -1,6 +1,6 @@
 'use client';
 
-import { Squad, Swimmer } from '@swim-nexus/shared-types';
+import { Squad, Swimmer } from '@club-manager/shared-types';
 
 import { getSquads, getSquad, getSquadSwimmers } from '@/lib/api/squads';
 

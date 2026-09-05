@@ -1,6 +1,6 @@
 'use client';
 
-import { GOVERNING_BODY_LABELS } from '@swim-nexus/shared-types';
+import { GOVERNING_BODY_LABELS } from '@club-manager/shared-types';
 import { Users } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';

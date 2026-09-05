@@ -1,4 +1,4 @@
-import { GoverningBody } from '@swim-nexus/shared-types';
+import { GoverningBody } from '@club-manager/shared-types';
 import { Swimmer } from '../../modules/swimmers/entities/swimmer.entity';
 
 let counter = 0;

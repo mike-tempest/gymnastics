@@ -1,6 +1,6 @@
 'use client';
 
-import { InvoiceStatus, PaymentMethod, PaymentStatus } from '@swim-nexus/shared-types';
+import { InvoiceStatus, PaymentMethod, PaymentStatus } from '@club-manager/shared-types';
 import { useRouter, useParams } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';

@@ -1,6 +1,6 @@
 'use client';
 
-import { Competition } from '@swim-nexus/shared-types';
+import { Competition } from '@club-manager/shared-types';
 
 import { getCompetitions, getCompetition } from '@/lib/api/competitions';
 

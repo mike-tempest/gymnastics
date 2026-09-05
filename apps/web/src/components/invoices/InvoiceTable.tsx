@@ -1,6 +1,6 @@
 'use client';
 
-import { InvoiceStatus } from '@swim-nexus/shared-types';
+import { InvoiceStatus } from '@club-manager/shared-types';
 import { FileText } from 'lucide-react';
 
 import EmptyState from '@/components/ui/empty-state';

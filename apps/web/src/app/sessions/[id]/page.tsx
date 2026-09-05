@@ -1,6 +1,6 @@
 'use client';
 
-import { SessionStatus } from '@swim-nexus/shared-types';
+import { SessionStatus } from '@club-manager/shared-types';
 import { Calendar } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';

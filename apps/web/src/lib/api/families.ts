@@ -1,4 +1,4 @@
-import { Family } from '@swim-nexus/shared-types';
+import { Family } from '@club-manager/shared-types';
 
 import { api } from './api-client';
 

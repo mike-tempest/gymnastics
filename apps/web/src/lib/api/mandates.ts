@@ -1,4 +1,4 @@
-import { DirectDebitMandate } from '@swim-nexus/shared-types';
+import { DirectDebitMandate } from '@club-manager/shared-types';
 
 import { api } from './api-client';
 

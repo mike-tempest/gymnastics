@@ -1,7 +1,7 @@
 'use client';
 
+import { PaymentMethod } from '@club-manager/shared-types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PaymentMethod } from '@swim-nexus/shared-types';
 import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';

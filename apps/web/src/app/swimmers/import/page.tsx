@@ -1,6 +1,6 @@
 'use client';
 
-import { governingBodyConfig, defaultGoverningBodyForCountry } from '@swim-nexus/shared-types';
+import { governingBodyConfig, defaultGoverningBodyForCountry } from '@club-manager/shared-types';
 import { Upload, FileCheck, AlertTriangle, CheckCircle2, ArrowLeft, Download, FileSpreadsheet } from 'lucide-react';
 import Link from 'next/link';
 import { useCallback, useRef, useState } from 'react';
