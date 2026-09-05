@@ -3,7 +3,11 @@
  * Supports Hy-Tek HY3 and SportSystems formats.
  */
 
-import { UK_GOVERNING_BODIES, governingBodyConfig } from '@swim-nexus/shared-types';
+import {
+  UK_GOVERNING_BODIES,
+  defaultGoverningBodyForCountry,
+  governingBodyConfig,
+} from '@swim-nexus/shared-types';
 
 export interface ParsedSwimmer {
   /**
@@ -84,19 +88,21 @@ export interface ParserValidationOptions {
 }
 
 /**
- * Derive parser validation options from a club's governing body. UK bodies
- * keep the strict 7-digit registration-number format; every other body only
- * requires a non-empty number of at most 20 characters. Error copy uses the
- * body's own registration-number label.
+ * Derive parser validation options from a club's governing body. Bodies in
+ * UK_GOVERNING_BODIES keep the strict 7-digit registration-number format;
+ * every other body (including British Gymnastics, whose membership number
+ * format is not published) only requires a non-empty number of at most 20
+ * characters. A missing body follows the product's default governing body,
+ * so strictness always matches the label shown in error copy.
  */
 export function validationOptionsForGoverningBody(
   governingBody?: string | null,
 ): ParserValidationOptions {
-  const config = governingBodyConfig(governingBody);
-  const isUkBody = !governingBody || (UK_GOVERNING_BODIES as string[]).includes(governingBody);
+  const body = governingBody || defaultGoverningBodyForCountry();
+  const config = governingBodyConfig(body);
   return {
     registrationNumberLabel: config.registrationNumberLabel,
-    enforceSevenDigitFormat: isUkBody,
+    enforceSevenDigitFormat: (UK_GOVERNING_BODIES as string[]).includes(body),
   };
 }
 
