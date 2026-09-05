@@ -10,8 +10,9 @@ import { CanActivate, Injectable, NotFoundException } from '@nestjs/common';
  *
  * Read from process.env rather than ConfigService because AppModule and
  * ParentModule consult it at module-composition time, before Nest's injector
- * exists. ConfigModule.forRoot() has already loaded .env files into
- * process.env by the time the conditional imports are evaluated.
+ * exists. ParentModule's decorator evaluates during import hoisting, before
+ * ConfigModule.forRoot() runs, so main.ts preloads .env files first via
+ * config/env.preload.ts; without that preload the two modules could disagree.
  */
 export function competitionsEnabled(): boolean {
   return process.env.ENABLE_COMPETITIONS === 'true';

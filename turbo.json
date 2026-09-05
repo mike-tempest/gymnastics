@@ -3,6 +3,8 @@
   "globalDependencies": [".env", "tsconfig.json"],
   "globalEnv": [
     "NODE_ENV",
+    "ENABLE_COMPETITIONS",
+    "NEXT_PUBLIC_ENABLE_COMPETITIONS",
     "DB_HOST",
     "DB_PORT",
     "DB_USER",

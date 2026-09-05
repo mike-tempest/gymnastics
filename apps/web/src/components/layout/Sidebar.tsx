@@ -120,8 +120,9 @@ const COACH_NAV_NAMES = new Set([
   'Sessions',
   'Communications',
   'Attendance',
-  // Swimming times/strokes module, feature-flagged off by default (TEM-15).
-  ...(isCompetitionsEnabled() ? ['Competitions'] : []),
+  // 'Competitions' stays a plain member: this set only filters allNavEntries,
+  // which already omits the entry while the module is flagged off (TEM-15).
+  'Competitions',
 ]);
 
 // Parent navigation (entirely separate set of routes)

@@ -86,8 +86,8 @@ import { AppController } from './app.controller';
     HealthModule,
     // Swimming times/strokes module, feature-flagged off by default (TEM-15).
     // With the flag unset its controllers are never mounted, so /competitions
-    // routes 404. ConfigModule.forRoot() above has already loaded .env files
-    // into process.env by the time this spread is evaluated.
+    // routes 404. Env files are loaded by config/env.preload.ts (first import
+    // in main.ts), so this spread and ParentModule's agree on the flag.
     ...(competitionsEnabled() ? [CompetitionsModule] : []),
     WellbeingModule,
     DataImportModule,

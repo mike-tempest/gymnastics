@@ -2,9 +2,9 @@
 
 import { Swimmer, Session, Attendance, AttendanceStats } from '@swim-nexus/shared-types';
 import { Calendar, ClipboardList, BookOpen } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { useState, useEffect , use } from 'react';
 
-import PersonalBests from '@/components/swimmers/PersonalBests';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
@@ -18,6 +18,12 @@ import {
   fetchSwimmerSchedule,
 } from '@/lib/api/parent';
 import { isCompetitionsEnabled } from '@/lib/features';
+
+// Loaded lazily so the recharts-heavy times UI stays out of the route chunk
+// while the competitions module is flagged off (TEM-15).
+const PersonalBests = dynamic(() => import('@/components/swimmers/PersonalBests'), {
+  ssr: false,
+});
 
 function formatTime(time: string): string {
   return time.slice(0, 5);

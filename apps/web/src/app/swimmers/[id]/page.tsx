@@ -2,6 +2,7 @@
 
 import { GOVERNING_BODY_LABELS } from '@swim-nexus/shared-types';
 import { Users } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -10,7 +11,6 @@ import { toast } from 'sonner';
 import MainLayout from '@/components/layout/MainLayout';
 import AttendanceHistory from '@/components/swimmers/AttendanceHistory';
 import DeleteConfirmModal from '@/components/swimmers/DeleteConfirmModal';
-import PersonalBests from '@/components/swimmers/PersonalBests';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/ErrorState';
@@ -19,6 +19,12 @@ import { useFormatters } from '@/hooks/useFormatters';
 import { deleteSwimmer } from '@/lib/api/swimmers';
 import { isCompetitionsEnabled } from '@/lib/features';
 import { useSwimmer, useSquad } from '@/lib/hooks';
+
+// Loaded lazily so the recharts-heavy times UI stays out of the route chunk
+// while the competitions module is flagged off (TEM-15).
+const PersonalBests = dynamic(() => import('@/components/swimmers/PersonalBests'), {
+  ssr: false,
+});
 
 export default function SwimmerDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
