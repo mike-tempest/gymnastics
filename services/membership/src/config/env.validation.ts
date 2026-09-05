@@ -74,7 +74,7 @@ class EnvironmentVariables {
 
   @IsString()
   @IsOptional()
-  CLUB_NAME?: string = 'Swimming Club';
+  CLUB_NAME?: string = 'Your Club';
 
   // CORS
   @IsString()

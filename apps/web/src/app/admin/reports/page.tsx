@@ -28,7 +28,6 @@ import { useFormatters } from '@/hooks/useFormatters';
 import { getAdminDashboard, type DashboardStats } from '@/lib/api/admin';
 import { getInvoices, type InvoiceWithDetails } from '@/lib/api/finance';
 import { getAdminReports, type AdminReportsData } from '@/lib/api/reports';
-import { BRAND } from '@/lib/brand';
 
 // ---------------------------------------------------------------------------
 // Colour palette for squads
@@ -62,7 +61,9 @@ function StatCard({
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <p className="text-sm font-medium text-white/60 mb-1">{title}</p>
-            <p className="font-serif text-4xl text-lime tracking-tight mb-2 tabular-nums">{value}</p>
+            <p className="font-serif text-4xl text-lime tracking-tight mb-2 tabular-nums">
+              {value}
+            </p>
             {subtitle && <p className="text-sm text-white/60">{subtitle}</p>}
           </div>
           <div className="p-3 rounded-lg bg-lime/20">
@@ -81,7 +82,10 @@ function StatCard({
 export default function ReportsPage() {
   const { formatDate } = useFormatters();
   const { club } = useClubRegion();
-  const clubDisplayName = club?.name || BRAND.name;
+  // Print headers show the club's own name; while the club has not loaded
+  // (or the fetch failed) they omit the name rather than printing the
+  // platform placeholder as if it were the club.
+  const clubDisplayName = club?.name ?? '';
   const [dashboard, setDashboard] = useState<DashboardStats | null>(null);
   const [reports, setReports] = useState<AdminReportsData | null>(null);
   const [pendingInvoices, setPendingInvoices] = useState<InvoiceWithDetails[]>([]);
@@ -152,39 +156,31 @@ export default function ReportsPage() {
     month: r.month,
     amount: r.collected,
   }));
-  const maxRevenue = monthlyRevenue.length > 0
-    ? Math.max(...monthlyRevenue.map((m) => m.amount))
-    : 1;
+  const maxRevenue =
+    monthlyRevenue.length > 0 ? Math.max(...monthlyRevenue.map((m) => m.amount)) : 1;
 
-  const totalOutstanding = pendingInvoices.reduce(
-    (sum, inv) => sum + (inv.total_amount ?? 0),
-    0,
-  );
+  const totalOutstanding = pendingInvoices.reduce((sum, inv) => sum + (inv.total_amount ?? 0), 0);
 
-  const totalDistribution = squadDistribution.reduce(
-    (sum, s) => sum + s.swimmerCount,
-    0,
-  );
+  const totalDistribution = squadDistribution.reduce((sum, s) => sum + s.swimmerCount, 0);
 
   // Average attendance from the weekly trend
-  const avgAttendance = weeklyAttendance.length > 0
-    ? Math.round(
-        weeklyAttendance.reduce((sum, w) => sum + w.rate, 0) / weeklyAttendance.length,
-      )
-    : 0;
+  const avgAttendance =
+    weeklyAttendance.length > 0
+      ? Math.round(weeklyAttendance.reduce((sum, w) => sum + w.rate, 0) / weeklyAttendance.length)
+      : 0;
 
   // Latest month revenue
-  const latestMonthRevenue = monthlyRevenue.length > 0
-    ? monthlyRevenue[monthlyRevenue.length - 1].amount
-    : 0;
-  const latestMonthLabel = monthlyRevenue.length > 0
-    ? monthlyRevenue[monthlyRevenue.length - 1].month
-    : '';
+  const latestMonthRevenue =
+    monthlyRevenue.length > 0 ? monthlyRevenue[monthlyRevenue.length - 1].amount : 0;
+  const latestMonthLabel =
+    monthlyRevenue.length > 0 ? monthlyRevenue[monthlyRevenue.length - 1].month : '';
 
   return (
     <MainLayout>
       {/* Print styles for reports page */}
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         @media print {
           .reports-page {
             background: white !important;
@@ -398,13 +394,15 @@ export default function ReportsPage() {
             justify-content: space-between;
           }
         }
-      `}} />
+      `,
+        }}
+      />
       <div className="reports-page min-h-dvh bg-canvas p-6 sm:p-10">
         <div className="max-w-7xl mx-auto">
           {/* Print-only header */}
           <div className="reports-print-header hidden">
             <h1>Reports and Analytics</h1>
-            <p>{clubDisplayName}, Committee Report</p>
+            <p>{clubDisplayName ? `${clubDisplayName}, Committee Report` : 'Committee Report'}</p>
             <div className="print-header-meta">
               <span>
                 Generated{' '}
@@ -430,9 +428,7 @@ export default function ReportsPage() {
               </p>
             </div>
             <div className="flex items-center gap-2 shrink-0">
-              <Button
-                className="flex items-center gap-2 bg-brand text-dark-primary hover:bg-brand-dark"
-              >
+              <Button className="flex items-center gap-2 bg-brand text-dark-primary hover:bg-brand-dark">
                 <Download className="w-4 h-4" />
                 Download CSV
               </Button>
@@ -496,10 +492,7 @@ export default function ReportsPage() {
                 <CardContent>
                   <div className="flex items-end justify-between gap-2 h-[200px]">
                     {weeklyAttendance.map((week) => (
-                      <div
-                        key={week.label}
-                        className="flex-1 flex flex-col items-center gap-1"
-                      >
+                      <div key={week.label} className="flex-1 flex flex-col items-center gap-1">
                         <span className="text-xs text-white/60 tabular-nums">{week.rate}%</span>
                         <div
                           className="w-full rounded-t-md bg-gradient-to-t from-lime to-lime-light"
@@ -665,10 +658,7 @@ export default function ReportsPage() {
                 <CardContent>
                   <div className="flex items-end justify-between gap-3 h-[220px]">
                     {monthlyRevenue.map((m) => (
-                      <div
-                        key={m.month}
-                        className="flex-1 flex flex-col items-center gap-1"
-                      >
+                      <div key={m.month} className="flex-1 flex flex-col items-center gap-1">
                         <span className="text-xs text-white/60 tabular-nums">
                           {'\u00A3'}
                           {(m.amount / 1000).toFixed(1)}k
@@ -698,7 +688,10 @@ export default function ReportsPage() {
                     {monthlyRevenue.map((m) => (
                       <tr key={m.month}>
                         <td>{m.month}</td>
-                        <td>{'\u00A3'}{m.amount.toLocaleString()}</td>
+                        <td>
+                          {'\u00A3'}
+                          {m.amount.toLocaleString()}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -725,7 +718,9 @@ export default function ReportsPage() {
                           />
                         </div>
                       </div>
-                      <span className="font-serif text-3xl text-lime tabular-nums">{collectionRate}%</span>
+                      <span className="font-serif text-3xl text-lime tabular-nums">
+                        {collectionRate}%
+                      </span>
                     </div>
                   </CardContent>
                 </Card>
@@ -737,15 +732,11 @@ export default function ReportsPage() {
                       <div>
                         <CardTitle className="text-white">Outstanding Invoices</CardTitle>
                         <CardDescription className="text-white/60">
-                          {pendingInvoices.length} invoices totalling{' '}
-                          {'\u00A3'}
+                          {pendingInvoices.length} invoices totalling {'\u00A3'}
                           {totalOutstanding.toFixed(2)}
                         </CardDescription>
                       </div>
-                      <Badge
-                        variant="secondary"
-                        className="text-xs bg-warning/20 text-warning"
-                      >
+                      <Badge variant="secondary" className="text-xs bg-warning/20 text-warning">
                         {pendingInvoices.length} pending
                       </Badge>
                     </div>
@@ -803,9 +794,7 @@ export default function ReportsPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <CardTitle className="text-white">New Joiners</CardTitle>
-                      <CardDescription className="text-white/60">
-                        This month
-                      </CardDescription>
+                      <CardDescription className="text-white/60">This month</CardDescription>
                     </div>
                     <div className="p-2 rounded-lg bg-lime/20">
                       <UserPlus className="w-5 h-5 text-lime" />
@@ -849,9 +838,7 @@ export default function ReportsPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <CardTitle className="text-white">Leavers</CardTitle>
-                      <CardDescription className="text-white/60">
-                        This month
-                      </CardDescription>
+                      <CardDescription className="text-white/60">This month</CardDescription>
                     </div>
                     <div className="p-2 rounded-lg bg-danger/20">
                       <UserMinus className="w-5 h-5 text-danger" />
@@ -893,9 +880,7 @@ export default function ReportsPage() {
               <Card className="bg-dark-primary border-white/10">
                 <CardHeader>
                   <CardTitle className="text-white">Squad Distribution</CardTitle>
-                  <CardDescription className="text-white/60">
-                    Swimmers per squad
-                  </CardDescription>
+                  <CardDescription className="text-white/60">Swimmers per squad</CardDescription>
                 </CardHeader>
                 <CardContent>
                   {/* Visual distribution bar */}
@@ -904,9 +889,10 @@ export default function ReportsPage() {
                       <div
                         key={squad.squadId}
                         style={{
-                          width: totalDistribution > 0
-                            ? `${(squad.swimmerCount / totalDistribution) * 100}%`
-                            : '0%',
+                          width:
+                            totalDistribution > 0
+                              ? `${(squad.swimmerCount / totalDistribution) * 100}%`
+                              : '0%',
                           backgroundColor: getSquadColour(index),
                         }}
                       />
@@ -916,10 +902,7 @@ export default function ReportsPage() {
                   {/* Legend */}
                   <div className="space-y-3">
                     {squadDistribution.map((squad, index) => (
-                      <div
-                        key={squad.squadId}
-                        className="flex items-center justify-between"
-                      >
+                      <div key={squad.squadId} className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <div
                             className="w-3 h-3 rounded-full"
@@ -936,7 +919,9 @@ export default function ReportsPage() {
 
                   <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
                     <span className="text-sm text-white/60">Total</span>
-                    <span className="text-sm font-bold text-white tabular-nums">{totalDistribution}</span>
+                    <span className="text-sm font-bold text-white tabular-nums">
+                      {totalDistribution}
+                    </span>
                   </div>
                 </CardContent>
               </Card>
@@ -946,7 +931,7 @@ export default function ReportsPage() {
           {/* Print-only footer with generation timestamp */}
           <div className="reports-print-footer hidden">
             <div className="print-footer-inner">
-              <span>{clubDisplayName}, Confidential</span>
+              <span>{clubDisplayName ? `${clubDisplayName}, Confidential` : 'Confidential'}</span>
               <span>
                 Report generated{' '}
                 {formatDate(new Date(), {

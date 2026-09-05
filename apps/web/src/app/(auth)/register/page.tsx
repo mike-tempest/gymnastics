@@ -145,7 +145,7 @@ export default function RegisterPage() {
       <div className="bg-dark-primary rounded-3xl shadow-lg p-6 sm:p-10">
         {/* Logo and Header */}
         <div className="text-center mb-6 sm:mb-10">
-          <Image src="/swimly-logo.svg" alt={BRAND.logoAlt} width={200} height={64} className="h-16 w-auto mx-auto mb-6" priority />
+          <Image src="/swimly-logo.svg" alt="" width={200} height={64} className="h-16 w-auto mx-auto mb-6" priority />
           <p className="text-white/70 text-lg">Create your account</p>
         </div>
 

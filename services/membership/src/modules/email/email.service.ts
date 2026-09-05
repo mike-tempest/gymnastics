@@ -251,7 +251,7 @@ export class EmailService {
       this.configService.get<string>('EMAIL_PASSWORD');
     this.resend = apiKey ? new Resend(apiKey) : null;
     this.from = this.configService.get<string>('EMAIL_FROM', 'noreply@localhost');
-    this.clubName = this.configService.get<string>('CLUB_NAME', 'Your Swimming Club');
+    this.clubName = this.configService.get<string>('CLUB_NAME', 'Your Club');
     this.appUrl = this.configService.get<string>('APP_URL', 'http://localhost:3000');
     // Internal recipient for platform alerts (e.g. new club signups).
     // No default: alerts are skipped entirely when SIGNUP_ALERT_EMAIL is unset.
@@ -312,12 +312,15 @@ export class EmailService {
       compiled = Handlebars.compile(source);
       this.templateCache.set(name, compiled);
     }
+    // Globals first so a caller's context always wins: senders that pass a
+    // per-club clubName (broadcast, waitlist, session-cancelled) must not be
+    // clobbered by the instance-wide CLUB_NAME fallback.
     return compiled({
-      ...context,
       brandName: BRAND.name,
       clubName: this.clubName,
       appUrl: this.appUrl,
       year: new Date().getFullYear(),
+      ...context,
     });
   }
 

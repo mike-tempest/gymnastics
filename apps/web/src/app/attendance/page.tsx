@@ -9,7 +9,6 @@ import Breadcrumb from '@/components/ui/Breadcrumb';
 import EmptyState from '@/components/ui/empty-state';
 import { useClubRegion } from '@/hooks/useClubRegion';
 import { useFormatters } from '@/hooks/useFormatters';
-import { BRAND } from '@/lib/brand';
 import { useSessions } from '@/lib/hooks';
 
 export default function AttendancePage() {
@@ -17,7 +16,10 @@ export default function AttendancePage() {
   const [selectedSessionId, setSelectedSessionId] = useState<string>('');
 
   const { club } = useClubRegion();
-  const clubDisplayName = club?.name || BRAND.name;
+  // Print headers show the club's own name; while the club has not loaded
+  // (or the fetch failed) they omit the name rather than printing the
+  // platform placeholder as if it were the club.
+  const clubDisplayName = club?.name ?? '';
 
   const { data: sessionsData, isLoading: sessionsLoading, error: sessionsError } = useSessions();
   const sessions = sessionsData || [];
@@ -76,7 +78,9 @@ export default function AttendancePage() {
   return (
     <MainLayout>
       {/* Print styles for attendance page */}
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         @media print {
           .attendance-page {
             background: white !important;
@@ -216,16 +220,13 @@ export default function AttendancePage() {
             margin-right: 1.5rem;
           }
         }
-      `}} />
+      `,
+        }}
+      />
       <div className="attendance-page min-h-full bg-canvas p-4 md:p-6 lg:p-8">
         <div className="max-w-3xl mx-auto">
           <div className="no-print">
-            <Breadcrumb
-              items={[
-                { label: 'Dashboard', href: '/' },
-                { label: 'Attendance' },
-              ]}
-            />
+            <Breadcrumb items={[{ label: 'Dashboard', href: '/' }, { label: 'Attendance' }]} />
           </div>
 
           {/* Header */}
@@ -302,7 +303,9 @@ export default function AttendancePage() {
                   {sessions.map((session) => (
                     <option key={session.session_id} value={session.session_id}>
                       {session.session_name}
-                      {session.session_date ? ` - ${formatDate(session.session_date, { weekday: 'short', day: 'numeric', month: 'short' })}` : ''}
+                      {session.session_date
+                        ? ` - ${formatDate(session.session_date, { weekday: 'short', day: 'numeric', month: 'short' })}`
+                        : ''}
                       {session.start_time ? ` ${session.start_time}` : ''}
                       {session.squad?.squad_name ? ` (${session.squad.squad_name})` : ''}
                     </option>
@@ -349,9 +352,7 @@ export default function AttendancePage() {
             <div className="mb-6 p-4 rounded-3xl border border-grey-200 bg-dark-primary/80 shadow-lg no-print">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
                 <div>
-                  <p className="text-white font-semibold text-lg">
-                    {selectedSession.session_name}
-                  </p>
+                  <p className="text-white font-semibold text-lg">{selectedSession.session_name}</p>
                   <p className="text-text-secondary text-sm mt-0.5">
                     {selectedSession.session_date &&
                       formatDate(selectedSession.session_date, {
@@ -390,8 +391,7 @@ export default function AttendancePage() {
           {/* Print-only attendance key */}
           {selectedSession && (
             <div className="attendance-print-key hidden">
-              <strong>Key:</strong>{' '}
-              <span>P = Present</span>
+              <strong>Key:</strong> <span>P = Present</span>
               <span>L = Late</span>
               <span>A = Absent</span>
               <span>E = Excused</span>
@@ -402,7 +402,13 @@ export default function AttendancePage() {
           {selectedSession && (
             <div className="attendance-print-footer hidden">
               <div className="print-footer-inner">
-                <span>{clubDisplayName} &middot; Attendance Register</span>
+                <span>
+                  {clubDisplayName ? (
+                    <>{clubDisplayName} &middot; Attendance Register</>
+                  ) : (
+                    'Attendance Register'
+                  )}
+                </span>
                 <span>
                   Printed{' '}
                   {formatDate(new Date(), {

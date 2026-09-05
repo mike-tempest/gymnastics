@@ -276,7 +276,7 @@ export default function CreateClubPage() {
         <div className="text-center mb-6 sm:mb-10">
           <Image
             src="/swimly-logo.svg"
-            alt={BRAND.logoAlt}
+            alt=""
             width={200}
             height={64}
             className="h-16 w-auto mx-auto mb-6"

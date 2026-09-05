@@ -2,7 +2,6 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { signIn } from 'next-auth/react';
 
 import LoginPage from '../app/(auth)/login/page';
-import { BRAND } from '../lib/brand';
 
 // Mock next/navigation
 const mockPush = jest.fn();
@@ -47,7 +46,9 @@ describe('LoginPage', () => {
   it('renders the brand logo and subtitle', () => {
     render(<LoginPage />);
 
-    expect(screen.getByRole('img', { name: BRAND.logoAlt })).toBeInTheDocument();
+    // The logo is decorative (empty alt) until the placeholder artwork is
+    // replaced with the real brand's wordmark.
+    expect(document.querySelector('img[alt=""]')).toBeInTheDocument();
     expect(screen.getByText('Sign in to your account')).toBeInTheDocument();
   });
 

@@ -36,7 +36,6 @@ import { signOut } from 'next-auth/react';
 import { useState, useEffect, useMemo } from 'react';
 
 import { useClubRegion } from '@/hooks/useClubRegion';
-import { BRAND } from '@/lib/brand';
 import { useRole, isAdmin, isCoach, isParent } from '@/lib/hooks/useRole';
 
 interface NavItem {
@@ -239,7 +238,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <div className="p-6 border-b border-white/10">
             <Link href="/" onClick={onClose} className="flex items-center space-x-3 group">
               <div>
-                <Image src="/swimly-logo.svg" alt={BRAND.logoAlt} width={120} height={32} className="h-8 w-auto" />
+                <Image src="/swimly-logo.svg" alt="" width={120} height={32} className="h-8 w-auto" />
                 <p className="text-xs text-grey-300 mt-1">Club Management</p>
               </div>
             </Link>

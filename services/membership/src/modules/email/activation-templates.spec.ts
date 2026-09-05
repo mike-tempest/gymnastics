@@ -16,7 +16,7 @@ describe('activation email templates', () => {
     const source = readFileSync(join(templatesDir, `${name}.hbs`), 'utf8');
     return Handlebars.compile(source)({
       year: 2026,
-      appUrl: 'https://app.swimly.uk',
+      appUrl: 'https://app.example.com',
       brandName: BRAND.name,
       ...context,
     });
@@ -32,14 +32,14 @@ describe('activation email templates', () => {
       const html = render('activation-schedule-sessions', {
         firstName: region.firstName,
         activationClubName: region.clubName,
-        sessionsUrl: 'https://app.swimly.uk/sessions',
-        unsubscribeUrl: 'https://app.swimly.uk/unsubscribe?email=x&token=y',
+        sessionsUrl: 'https://app.example.com/sessions',
+        unsubscribeUrl: 'https://app.example.com/unsubscribe?email=x&token=y',
       });
 
       expect(html).toContain(`Hi ${region.firstName}`);
       expect(html).toContain(region.clubName);
       expect(html).toContain(BRAND.name);
-      expect(html).toContain('https://app.swimly.uk/sessions');
+      expect(html).toContain('https://app.example.com/sessions');
       expect(html).toContain('unsubscribe');
       expect(html).not.toMatch(/{{[^}]+}}/);
     });
@@ -48,8 +48,8 @@ describe('activation email templates', () => {
       const html = render('activation-first-register', {
         firstName: region.firstName,
         activationClubName: region.clubName,
-        sessionsUrl: 'https://app.swimly.uk/sessions',
-        unsubscribeUrl: 'https://app.swimly.uk/unsubscribe?email=x&token=y',
+        sessionsUrl: 'https://app.example.com/sessions',
+        unsubscribeUrl: 'https://app.example.com/unsubscribe?email=x&token=y',
       });
 
       expect(html).toContain(region.clubName);
@@ -61,8 +61,8 @@ describe('activation email templates', () => {
   it('falls back to a neutral greeting without a first name', () => {
     const html = render('activation-schedule-sessions', {
       activationClubName: 'Whitby Seals',
-      sessionsUrl: 'https://app.swimly.uk/sessions',
-      unsubscribeUrl: 'https://app.swimly.uk/unsubscribe?email=x&token=y',
+      sessionsUrl: 'https://app.example.com/sessions',
+      unsubscribeUrl: 'https://app.example.com/unsubscribe?email=x&token=y',
     });
     expect(html).toContain('Hi there');
   });

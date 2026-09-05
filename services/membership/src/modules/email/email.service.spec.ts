@@ -224,6 +224,20 @@ describe('EmailService', () => {
         }),
       );
     });
+
+    it("renders the caller's clubName, not the CLUB_NAME env fallback", async () => {
+      // Regression: render() must spread the caller context last so a
+      // per-club clubName is never clobbered by the instance-wide fallback.
+      (fs.readFileSync as jest.Mock).mockReturnValue(schemeTemplate);
+      await service.sendMandateSetupRequired({ ...data, clubName: 'Leeds Gymnastics Club' });
+      expect(sendMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          html: expect.stringContaining('Leeds Gymnastics Club'),
+        }),
+      );
+      const html = sendMock.mock.calls[sendMock.mock.calls.length - 1][0].html as string;
+      expect(html).not.toContain('Test Swimming Club');
+    });
   });
 
   describe('sendPaymentFailed', () => {
