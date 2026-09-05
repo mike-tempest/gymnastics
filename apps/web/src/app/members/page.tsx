@@ -15,6 +15,7 @@ import ErrorState from '@/components/ui/ErrorState';
 import { TableSkeleton } from '@/components/ui/skeleton';
 import { useFormatters } from '@/hooks/useFormatters';
 import { getMember, createMember, updateMember, deleteMember } from '@/lib/api/members';
+import { MEMBER_NOUN, MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 import { useMembers } from '@/lib/hooks/useMembers';
 import { useSquads } from '@/lib/hooks/useSquads';
 
@@ -111,16 +112,16 @@ function MembersPageInner() {
 
       if (selectedMember) {
         await updateMember(selectedMember.member_id, data);
-        toast.success('Member updated successfully');
+        toast.success(`${MEMBER_NOUN} updated successfully`);
       } else {
         await createMember(data);
-        toast.success('Member added successfully');
+        toast.success(`${MEMBER_NOUN} added successfully`);
       }
 
       refetchMembers();
       handleCloseModal();
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to save member';
+      const message = err instanceof Error ? err.message : `Failed to save ${MEMBER_NOUN_LOWER}`;
       setMutationError(message);
       toast.error(message);
       throw err;
@@ -142,9 +143,9 @@ function MembersPageInner() {
       await deleteMember(memberToDelete.member_id);
       refetchMembers();
       setMemberToDelete(null);
-      toast.success('Member removed successfully');
+      toast.success(`${MEMBER_NOUN} removed successfully`);
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to remove member';
+      const message = err instanceof Error ? err.message : `Failed to remove ${MEMBER_NOUN_LOWER}`;
       setMutationError(message);
       toast.error(message);
     } finally {
@@ -159,8 +160,8 @@ function MembersPageInner() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
             <div>
-              <h1 className="font-serif text-2xl sm:text-5xl md:text-6xl text-dark-primary tracking-tight mb-2">Members</h1>
-              <p className="text-grey-600 text-lg">Manage your club&apos;s members</p>
+              <h1 className="font-serif text-2xl sm:text-5xl md:text-6xl text-dark-primary tracking-tight mb-2">{MEMBER_NOUN_PLURAL}</h1>
+              <p className="text-grey-600 text-lg">Manage your club&apos;s {MEMBER_NOUN_PLURAL_LOWER}</p>
             </div>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <Link
@@ -174,7 +175,7 @@ function MembersPageInner() {
                 onClick={handleOpenAddModal}
                 className="px-6 py-3 sm:px-8 sm:py-4 min-h-[44px] bg-brand text-dark-primary rounded-button font-bold hover:bg-brand-light transition-all shadow-sm flex items-center justify-center space-x-3 text-base sm:text-lg"
               >
-                <span>Add Member</span>
+                <span>Add {MEMBER_NOUN}</span>
                 <svg
                   className="w-6 h-6"
                   fill="none"
@@ -197,12 +198,12 @@ function MembersPageInner() {
           <div className="bg-surface rounded-3xl border border-grey-200 p-6 sm:p-10 shadow-lg mb-8">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
               <div>
-                <p className="text-dark-primary text-xl font-semibold mb-3">Total Members</p>
+                <p className="text-dark-primary text-xl font-semibold mb-3">Total {MEMBER_NOUN_PLURAL}</p>
                 <h2 className="text-4xl sm:text-8xl font-bold text-dark-primary mb-4 tabular-nums">
                   {displayError ? '—' : members.length}
                   {!displayError && <span className="text-4xl">+</span>}
                 </h2>
-                <p className="text-grey-600 text-lg">{displayError ? 'Unable to load' : 'Active Members'}</p>
+                <p className="text-grey-600 text-lg">{displayError ? 'Unable to load' : `Active ${MEMBER_NOUN_PLURAL}`}</p>
               </div>
               <div className="flex flex-col sm:flex-row md:flex-col gap-4">
                 <div className="bg-brand rounded-3xl p-4 sm:p-6 text-center flex-1 sm:min-w-[180px] shadow-sm">
@@ -220,7 +221,7 @@ function MembersPageInner() {
           {/* Members List */}
           <div className="bg-dark-primary rounded-3xl shadow-lg p-4 sm:p-8 border border-white/20">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
-              <h2 className="font-serif text-2xl sm:text-4xl text-white tracking-tight">All Members</h2>
+              <h2 className="font-serif text-2xl sm:text-4xl text-white tracking-tight">All {MEMBER_NOUN_PLURAL}</h2>
               <div className="flex space-x-2">
                 <button className="px-4 py-2 min-h-[44px] bg-brand text-dark-primary rounded-button font-semibold text-sm">
                   Active
@@ -291,17 +292,17 @@ function MembersPageInner() {
             ) : members.length === 0 ? (
               <EmptyState
                 icon={Users}
-                title="No members yet"
-                description="Register your club's members so you can track attendance, squads, and progress."
+                title={`No ${MEMBER_NOUN_PLURAL_LOWER} yet`}
+                description={`Register your club's ${MEMBER_NOUN_PLURAL_LOWER} so you can track attendance, squads, and progress.`}
                 hint="You can also import from a CSV if you have an existing spreadsheet."
-                actionLabel="Add Member"
+                actionLabel={`Add ${MEMBER_NOUN}`}
                 actionOnClick={handleOpenAddModal}
               />
             ) : filteredMembers.length === 0 ? (
               <EmptyState
                 icon={Users}
-                title="No members found"
-                description="No members match your search criteria"
+                title={`No ${MEMBER_NOUN_PLURAL_LOWER} found`}
+                description={`No ${MEMBER_NOUN_PLURAL_LOWER} match your search criteria`}
                 actionLabel="Clear Filters"
                 actionOnClick={() => { setSearchQuery(''); setSquadFilter(''); }}
               />

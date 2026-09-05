@@ -81,9 +81,9 @@ describe('API Validation', () => {
     });
   });
 
-  describe('Swimmers Validation', () => {
-    it('POST /api/swimmers with missing first_name returns 400', async () => {
-      const res = await authPost('/swimmers', adminToken, {
+  describe('Members Validation', () => {
+    it('POST /api/members with missing first_name returns 400', async () => {
+      const res = await authPost('/members', adminToken, {
         last_name: 'Test',
         dob: '2010-01-01',
         gender: 'M',
@@ -92,8 +92,8 @@ describe('API Validation', () => {
       expect(res.status).toBe(400);
     });
 
-    it('POST /api/swimmers with missing last_name returns 400', async () => {
-      const res = await authPost('/swimmers', adminToken, {
+    it('POST /api/members with missing last_name returns 400', async () => {
+      const res = await authPost('/members', adminToken, {
         first_name: 'Test',
         dob: '2010-01-01',
         gender: 'M',
@@ -102,20 +102,20 @@ describe('API Validation', () => {
       expect(res.status).toBe(400);
     });
 
-    it('POST /api/swimmers with missing dob returns 400', async () => {
-      const res = await authPost('/swimmers', adminToken, {
+    it('POST /api/members with missing dob returns 400', async () => {
+      const res = await authPost('/members', adminToken, {
         first_name: 'Test',
-        last_name: 'Swimmer',
+        last_name: 'Member',
         gender: 'M',
       });
 
       expect(res.status).toBe(400);
     });
 
-    it('POST /api/swimmers with invalid date format returns 400', async () => {
-      const res = await authPost('/swimmers', adminToken, {
+    it('POST /api/members with invalid date format returns 400', async () => {
+      const res = await authPost('/members', adminToken, {
         first_name: 'Test',
-        last_name: 'Swimmer',
+        last_name: 'Member',
         dob: 'not-a-date',
         gender: 'M',
       });
@@ -123,13 +123,13 @@ describe('API Validation', () => {
       expect(res.status).toBe(400);
     });
 
-    it('POST /api/swimmers with future dob returns 400', async () => {
+    it('POST /api/members with future dob returns 400', async () => {
       const futureDate = new Date();
       futureDate.setFullYear(futureDate.getFullYear() + 1);
 
-      const res = await authPost('/swimmers', adminToken, {
+      const res = await authPost('/members', adminToken, {
         first_name: 'Test',
-        last_name: 'Swimmer',
+        last_name: 'Member',
         dob: futureDate.toISOString().split('T')[0],
         gender: 'M',
       });

@@ -116,7 +116,7 @@ describe('AttendanceRoster', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Monday Training')).toBeInTheDocument();
-      expect(screen.getByText('3 members')).toBeInTheDocument();
+      expect(screen.getByText('3 gymnasts')).toBeInTheDocument();
     });
   });
 
@@ -152,7 +152,7 @@ describe('AttendanceRoster', () => {
 
     await waitFor(() => {
       expect(
-        screen.getByRole('heading', { name: 'No members in this session' }),
+        screen.getByRole('heading', { name: 'No gymnasts in this session' }),
       ).toBeInTheDocument();
     });
   });

@@ -13,6 +13,7 @@ import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useConfirm } from '@/hooks/useConfirm';
 import { createSquad, updateSquad, deleteSquad } from '@/lib/api/squads';
+import { MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 import { useSquads } from '@/lib/hooks/useSquads';
 
 export default function SquadsPage() {
@@ -150,7 +151,7 @@ export default function SquadsPage() {
               </div>
               <div className="flex flex-row sm:flex-col gap-4">
                 <div className="bg-brand rounded-3xl p-4 sm:p-6 text-center flex-1 sm:min-w-[180px] shadow-sm">
-                  <p className="text-dark-primary text-sm font-semibold mb-1">Total Members</p>
+                  <p className="text-dark-primary text-sm font-semibold mb-1">Total {MEMBER_NOUN_PLURAL}</p>
                   <p className="text-dark-primary text-2xl sm:text-4xl font-bold">{displayError ? '—' : totalMembers}</p>
                 </div>
                 <div className="bg-white rounded-3xl p-4 sm:p-6 text-center flex-1 sm:min-w-[180px]">
@@ -175,7 +176,7 @@ export default function SquadsPage() {
               <EmptyState
                 icon={Users}
                 title="No squads yet"
-                description="Squads group members by age or ability, like Learn to Swim, Development, or Competition."
+                description={`Squads group ${MEMBER_NOUN_PLURAL_LOWER} by age or ability, like Learn to Swim, Development, or Competition.`}
                 hint="Most clubs start with 2-4 squads. You can reorganise later."
                 actionLabel="Create Squad"
                 actionHref="/squads/new"

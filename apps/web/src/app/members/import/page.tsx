@@ -11,6 +11,7 @@ import SwimCentralHint from '@/components/import/SwimCentralHint';
 import MainLayout from '@/components/layout/MainLayout';
 import { useClubRegion } from '@/hooks/useClubRegion';
 import { type CreateMemberInput, bulkImportMembers } from '@/lib/api/members';
+import { MEMBER_NOUN, MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 import { DOB_FORMAT_HINT, parseDateOfBirth } from '@/lib/import/date-of-birth';
 import { type AutoMapField, autoMapHeaders, normaliseGender } from '@/lib/import/header-mapping';
 import {
@@ -261,11 +262,11 @@ export default function MembersImportPage() {
         errors: result.errors || [],
       });
       if (result.created.length > 0 && (!result.errors || result.errors.length === 0)) {
-        toast.success(`${result.created.length} member${result.created.length !== 1 ? 's' : ''} imported successfully`);
+        toast.success(`${result.created.length} ${result.created.length !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER} imported successfully`);
       } else if (result.created.length > 0) {
-        toast.success(`${result.created.length} member${result.created.length !== 1 ? 's' : ''} imported with some errors`);
+        toast.success(`${result.created.length} ${result.created.length !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER} imported with some errors`);
       } else {
-        toast.error('Import failed. No members were added');
+        toast.error(`Import failed. No ${MEMBER_NOUN_PLURAL_LOWER} were added`);
       }
     } catch (err) {
       setImportResults({
@@ -307,11 +308,11 @@ export default function MembersImportPage() {
                 className="inline-flex items-center space-x-2 text-text-secondary hover:text-brand transition-colors mb-3 min-h-[44px]"
               >
                 <ArrowLeft className="w-5 h-5" />
-                <span>Back to Members</span>
+                <span>Back to {MEMBER_NOUN_PLURAL}</span>
               </Link>
-              <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight mb-2">Import Members</h1>
+              <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight mb-2">Import {MEMBER_NOUN_PLURAL}</h1>
               <p className="text-grey-600 text-lg">
-                Upload a CSV or Excel file to add multiple members at once
+                Upload a CSV or Excel file to add multiple {MEMBER_NOUN_PLURAL_LOWER} at once
               </p>
             </div>
           </div>
@@ -333,7 +334,7 @@ export default function MembersImportPage() {
                     <span className="text-white font-medium">last_name</span>, and{' '}
                     <span className="text-white font-medium">dob</span>. Other columns (gender, registration_number, squad, family) are optional.
                     {registrationLabel !== 'SE number' && (
-                      <> The registration_number column holds each member&apos;s {registrationLabel}.</>
+                      <> The registration_number column holds each {MEMBER_NOUN_LOWER}&apos;s {registrationLabel}.</>
                     )}{' '}
                     Exports from other systems work too: column names are matched automatically and
                     you can adjust the mapping before importing. {DOB_FORMAT_HINT}
@@ -571,7 +572,7 @@ export default function MembersImportPage() {
                   >
                     <Upload className="w-5 h-5" />
                     <span>
-                      Import {validCount} Member{validCount !== 1 ? 's' : ''}
+                      Import {validCount} {validCount !== 1 ? MEMBER_NOUN_PLURAL : MEMBER_NOUN}
                     </span>
                   </button>
                 </div>
@@ -585,8 +586,8 @@ export default function MembersImportPage() {
                   <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-brand bg-opacity-10 flex items-center justify-center">
                     <Upload className="w-8 h-8 text-brand animate-pulse" />
                   </div>
-                  <h3 className="font-serif text-2xl text-white mb-2">Importing members...</h3>
-                  <p className="text-text-secondary">Please wait while your members are being added.</p>
+                  <h3 className="font-serif text-2xl text-white mb-2">Importing {MEMBER_NOUN_PLURAL_LOWER}...</h3>
+                  <p className="text-text-secondary">Please wait while your {MEMBER_NOUN_PLURAL_LOWER} are being added.</p>
                 </div>
                 <div className="max-w-md mx-auto">
                   <div className="flex items-center justify-between mb-2">
@@ -615,7 +616,7 @@ export default function MembersImportPage() {
                       </div>
                       <h3 className="font-serif text-3xl text-white mb-2">Import Complete</h3>
                       <p className="text-text-secondary">
-                        Successfully imported {importResults.successCount} member{importResults.successCount !== 1 ? 's' : ''}.
+                        Successfully imported {importResults.successCount} {importResults.successCount !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER}.
                       </p>
                     </>
                   ) : importResults.successCount > 0 ? (
@@ -625,7 +626,7 @@ export default function MembersImportPage() {
                       </div>
                       <h3 className="font-serif text-3xl text-white mb-2">Import Partially Complete</h3>
                       <p className="text-text-secondary">
-                        {importResults.successCount} member{importResults.successCount !== 1 ? 's' : ''} imported successfully.{' '}
+                        {importResults.successCount} {importResults.successCount !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER} imported successfully.{' '}
                         {importResults.errors.length} failed.
                       </p>
                     </>
@@ -636,7 +637,7 @@ export default function MembersImportPage() {
                       </div>
                       <h3 className="font-serif text-3xl text-white mb-2">Import Failed</h3>
                       <p className="text-text-secondary">
-                        No members were imported. Please check the errors below.
+                        No {MEMBER_NOUN_PLURAL_LOWER} were imported. Please check the errors below.
                       </p>
                     </>
                   )}
@@ -684,7 +685,7 @@ export default function MembersImportPage() {
                     className="px-8 py-3 bg-brand text-dark-primary rounded-xl font-bold hover:bg-brand-light transition-all shadow-sm min-h-[44px] flex items-center justify-center space-x-2"
                   >
                     <ArrowLeft className="w-5 h-5" />
-                    <span>Back to Members</span>
+                    <span>Back to {MEMBER_NOUN_PLURAL}</span>
                   </Link>
                 </div>
               </div>

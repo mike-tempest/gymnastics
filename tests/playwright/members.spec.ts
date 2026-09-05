@@ -13,42 +13,42 @@ async function login(page) {
   await page.waitForURL(url => !url.pathname.includes('/login'), { timeout: 15000 });
 }
 
-test.describe('Swimmer Interactions', () => {
+test.describe('Member Interactions', () => {
   test.beforeEach(async ({ page }) => {
     await login(page);
   });
 
-  test('should display swimmers page with list of swimmers', async ({ page }) => {
-    await page.goto('/swimmers');
+  test('should display members page with list of members', async ({ page }) => {
+    await page.goto('/members');
     await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {});
     
     // Verify page loads (look for table or content)
     await page.waitForTimeout(2000); // Allow data to load
     
-    // Count swimmer rows or cards (at least 10 visible)
-    const swimmerRows = page.locator('tbody tr');
-    const count = await swimmerRows.count();
+    // Count member rows or cards (at least 10 visible)
+    const memberRows = page.locator('tbody tr');
+    const count = await memberRows.count();
     expect(count).toBeGreaterThanOrEqual(10);
   });
 
-  test('should navigate to swimmer detail page when clicking on swimmer', async ({ page }) => {
-    await page.goto('/swimmers');
+  test('should navigate to member detail page when clicking on member', async ({ page }) => {
+    await page.goto('/members');
     await page.waitForTimeout(1000);
 
-    // Click on first swimmer name or row
-    const firstSwimmer = page.locator('tbody tr a, [data-testid="swimmer-link"], tbody tr').first();
-    await firstSwimmer.click();
+    // Click on first member name or row
+    const firstMember = page.locator('tbody tr a, [data-testid="member-link"], tbody tr').first();
+    await firstMember.click();
 
-    // Verify detail page loads (URL changes and swimmer info visible)
-    await page.waitForURL(url => url.pathname.includes('/swimmer'), { timeout: 10000 });
+    // Verify detail page loads (URL changes and member info visible)
+    await page.waitForURL(url => url.pathname.includes('/member'), { timeout: 10000 });
     
-    // Verify swimmer information is displayed
-    const swimmerInfo = page.locator('text=/first.*name|last.*name|date.*birth/i').first();
-    await expect(swimmerInfo).toBeVisible({ timeout: 5000 });
+    // Verify member information is displayed
+    const memberInfo = page.locator('text=/first.*name|last.*name|date.*birth/i').first();
+    await expect(memberInfo).toBeVisible({ timeout: 5000 });
   });
 
-  test('should filter swimmers using search functionality', async ({ page }) => {
-    await page.goto('/swimmers');
+  test('should filter members using search functionality', async ({ page }) => {
+    await page.goto('/members');
     await page.waitForTimeout(1000);
 
     // Get initial count
@@ -74,8 +74,8 @@ test.describe('Swimmer Interactions', () => {
     }
   });
 
-  test('should filter swimmers by squad if dropdown exists', async ({ page }) => {
-    await page.goto('/swimmers');
+  test('should filter members by squad if dropdown exists', async ({ page }) => {
+    await page.goto('/members');
     await page.waitForTimeout(1000);
 
     // Check if squad filter dropdown exists

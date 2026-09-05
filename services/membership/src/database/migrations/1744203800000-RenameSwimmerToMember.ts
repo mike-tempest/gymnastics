@@ -115,9 +115,7 @@ export class RenameSwimmerToMember1744203800000 implements MigrationInterface {
     await queryRunner.query(
       `ALTER INDEX "IDX_SWIMMERS_LAST_NAME" RENAME TO "IDX_MEMBERS_LAST_NAME"`,
     );
-    await queryRunner.query(
-      `ALTER INDEX "IDX_SWIMMERS_SQUAD_ID" RENAME TO "IDX_MEMBERS_SQUAD_ID"`,
-    );
+    await queryRunner.query(`ALTER INDEX "IDX_SWIMMERS_SQUAD_ID" RENAME TO "IDX_MEMBERS_SQUAD_ID"`);
     await queryRunner.query(
       `ALTER INDEX "IDX_WELLBEING_SWIMMER_ID" RENAME TO "IDX_WELLBEING_MEMBER_ID"`,
     );
@@ -154,9 +152,7 @@ export class RenameSwimmerToMember1744203800000 implements MigrationInterface {
     await queryRunner.query(
       `ALTER INDEX "IDX_WELLBEING_MEMBER_ID" RENAME TO "IDX_WELLBEING_SWIMMER_ID"`,
     );
-    await queryRunner.query(
-      `ALTER INDEX "IDX_MEMBERS_SQUAD_ID" RENAME TO "IDX_SWIMMERS_SQUAD_ID"`,
-    );
+    await queryRunner.query(`ALTER INDEX "IDX_MEMBERS_SQUAD_ID" RENAME TO "IDX_SWIMMERS_SQUAD_ID"`);
     await queryRunner.query(
       `ALTER INDEX "IDX_MEMBERS_LAST_NAME" RENAME TO "IDX_SWIMMERS_LAST_NAME"`,
     );

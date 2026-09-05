@@ -126,7 +126,7 @@ describe('MembersPage', () => {
     render(<MembersPage />, { wrapper: createWrapper() });
 
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: 'Members' })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Gymnasts' })).toBeInTheDocument();
     });
   });
 
@@ -144,7 +144,7 @@ describe('MembersPage', () => {
     render(<MembersPage />, { wrapper: createWrapper() });
 
     await waitFor(() => {
-      expect(screen.getByText('Total Members')).toBeInTheDocument();
+      expect(screen.getByText('Total Gymnasts')).toBeInTheDocument();
     });
   });
 
@@ -152,7 +152,7 @@ describe('MembersPage', () => {
     render(<MembersPage />, { wrapper: createWrapper() });
 
     await waitFor(() => {
-      expect(screen.getByText('Add Member')).toBeInTheDocument();
+      expect(screen.getByText('Add Gymnast')).toBeInTheDocument();
     });
   });
 
@@ -223,7 +223,7 @@ describe('MembersPage', () => {
     fireEvent.change(searchInput, { target: { value: 'zzzznonexistent' } });
 
     await waitFor(() => {
-      expect(screen.getByText('No members found')).toBeInTheDocument();
+      expect(screen.getByText('No gymnasts found')).toBeInTheDocument();
     });
   });
 });

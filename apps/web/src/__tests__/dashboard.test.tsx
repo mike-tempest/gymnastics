@@ -249,7 +249,7 @@ describe('Dashboard Page', () => {
   // out the metric card by excluding any match nested in a link.
   function getMembersMetricCard() {
     const membersLabel = screen
-      .getAllByText('Members')
+      .getAllByText('Gymnasts')
       .find((el) => el.closest('a') === null);
     expect(membersLabel).toBeDefined();
     return membersLabel!.closest('div');

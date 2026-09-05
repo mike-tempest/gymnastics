@@ -13,6 +13,7 @@ import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useConfirm } from '@/hooks/useConfirm';
 import { deleteSquad, updateSquad } from '@/lib/api/squads';
+import { MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 import { useSquad, useSquadMembers } from '@/lib/hooks';
 
 export default function SquadDetailPage({ params }: { params: { id: string } }) {
@@ -264,7 +265,7 @@ export default function SquadDetailPage({ params }: { params: { id: string } }) 
               </div>
               <p className="text-white text-xl font-bold">
                 {squad.member_count || 0}
-                {squad.max_capacity ? ` / ${squad.max_capacity}` : ''} members
+                {squad.max_capacity ? ` / ${squad.max_capacity}` : ''} {MEMBER_NOUN_PLURAL_LOWER}
               </p>
               {squad.max_capacity && (
                 <div className="mt-3 w-full bg-white/10 rounded-full h-2">
@@ -308,16 +309,16 @@ export default function SquadDetailPage({ params }: { params: { id: string } }) 
             <div className="flex items-center justify-between mb-6">
               <h2 className="font-serif text-2xl sm:text-4xl text-white tracking-tight">Squad Members</h2>
               <span className="text-text-secondary text-lg tabular-nums">
-                {members.length} {members.length === 1 ? 'member' : 'members'}
+                {members.length} {members.length === 1 ? MEMBER_NOUN_LOWER : MEMBER_NOUN_PLURAL_LOWER}
               </span>
             </div>
 
             {members.length === 0 ? (
               <EmptyState
                 icon={Users}
-                title="No members in this squad yet"
-                description="Assign members to this squad to track attendance and progress together."
-                hint="Use Edit Squad to add members, or add a member to this squad from their profile."
+                title={`No ${MEMBER_NOUN_PLURAL_LOWER} in this squad yet`}
+                description={`Assign ${MEMBER_NOUN_PLURAL_LOWER} to this squad to track attendance and progress together.`}
+                hint={`Use Edit Squad to add ${MEMBER_NOUN_PLURAL_LOWER}, or add a ${MEMBER_NOUN_LOWER} to this squad from their profile.`}
               />
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

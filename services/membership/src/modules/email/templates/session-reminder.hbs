@@ -225,7 +225,7 @@
     <div class="content">
       <p>Dear {{parentName}},</p>
 
-      <p>This is a friendly reminder about an upcoming swimming session for {{#if multipleMembers}}your members{{else}}{{memberName}}{{/if}}.</p>
+      <p>This is a friendly reminder about an upcoming training session for {{#if multipleMembers}}your {{memberNounPluralLower}}{{else}}{{memberName}}{{/if}}.</p>
 
       <div class="reminder-banner">
         <h2>Session in {{timeUntilSession}}</h2>
@@ -281,7 +281,7 @@
 
       {{#if members}}
       <div class="members-list">
-        <h4>Registered Members</h4>
+        <h4>Registered {{memberNounPlural}}</h4>
         {{#each members}}
         <div class="member-item">
           <span class="member-name">{{this.name}}</span>
@@ -295,11 +295,11 @@
         <h3>Don't Forget to Bring</h3>
         <div class="checklist-item">
           <div class="checkbox"></div>
-          <div class="text">Swimsuit and towel</div>
+          <div class="text">Training kit</div>
         </div>
         <div class="checklist-item">
           <div class="checkbox"></div>
-          <div class="text">Goggles and swim cap</div>
+          <div class="text">Grips, guards or other equipment</div>
         </div>
         <div class="checklist-item">
           <div class="checkbox"></div>
@@ -337,11 +337,11 @@
       </div>
 
       <p style="margin-top: 30px; font-size: 14px; color: #64748B;">
-        <strong>Can't make it?</strong> Please inform us as soon as possible if your member cannot attend.
+        <strong>Can't make it?</strong> Please inform us as soon as possible if your {{memberNounLower}} cannot attend.
       </p>
 
       <p style="margin-top: 20px;">
-        See you at the pool!<br>
+        See you in the gym!<br>
         <strong>{{clubName}} Team</strong>
       </p>
     </div>

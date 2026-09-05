@@ -21,7 +21,7 @@ import {
 import { createMember } from "@/lib/api/members";
 import { updateClubSettings } from "@/lib/api/settings";
 import { createSquad } from "@/lib/api/squads";
-import { BRAND } from "@/lib/brand";
+import { BRAND, MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from "@/lib/brand";
 import { isValidPhone } from "@/lib/utils/postal";
 import { countyLabel } from "@/lib/utils/region-labels";
 
@@ -149,7 +149,7 @@ const STEP_LABELS = [
   "Club Details",
   "Venues",
   "Squads",
-  "Import Members",
+  `Import ${MEMBER_NOUN_PLURAL}`,
   "Invite Staff",
   "Review",
 ];
@@ -447,7 +447,7 @@ export default function OnboardingPage() {
       .filter((s) => s.firstName || s.lastName);
 
     setMembers((prev) => [...prev, ...mapped]);
-    toast.success(`Imported ${mapped.length} member${mapped.length === 1 ? "" : "s"}.`);
+    toast.success(`Imported ${mapped.length} ${mapped.length === 1 ? MEMBER_NOUN_LOWER : MEMBER_NOUN_PLURAL_LOWER}.`);
     setCsvHeaders([]);
     setCsvRows([]);
   };
@@ -716,12 +716,12 @@ export default function OnboardingPage() {
           Add Squad
         </button>
       </div>
-      <p className="text-white/50 text-sm mb-4">Squads help you organise members by age or ability. e.g. Learn to Swim, Development, Competition.</p>
+      <p className="text-white/50 text-sm mb-4">Squads help you organise {MEMBER_NOUN_PLURAL_LOWER} by age or ability. e.g. Learn to Swim, Development, Competition.</p>
 
       {squads.length === 0 && (
         <div className="rounded-xl border border-dashed border-white/20 p-6 text-center">
           <p className="text-white/70 text-sm mb-4">
-            Squads help organise members by age or ability. Common examples: Learn to Swim, Development, Competition, Masters.
+            Squads help organise {MEMBER_NOUN_PLURAL_LOWER} by age or ability. Common examples: Learn to Swim, Development, Competition, Masters.
           </p>
           <button type="button" className={primaryBtnClass} onClick={addSquad}>
             Add Squad
@@ -802,8 +802,8 @@ export default function OnboardingPage() {
 
   const renderImportMembers = () => (
     <div className="space-y-4">
-      <h2 className="font-serif text-2xl text-white tracking-tight mb-1">Import Members</h2>
-      <p className="text-white/50 text-sm mb-1">Import your existing member list from a CSV, or add them manually. You can skip this for now and add members later.</p>
+      <h2 className="font-serif text-2xl text-white tracking-tight mb-1">Import {MEMBER_NOUN_PLURAL}</h2>
+      <p className="text-white/50 text-sm mb-1">Import your existing {MEMBER_NOUN_LOWER} list from a CSV, or add them manually. You can skip this for now and add {MEMBER_NOUN_PLURAL_LOWER} later.</p>
       <p className="text-white/50 text-xs mb-4">
         You can also import members, squads, staff and fees later from the{" "}
         <Link

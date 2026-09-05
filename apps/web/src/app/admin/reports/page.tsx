@@ -28,6 +28,7 @@ import { useFormatters } from '@/hooks/useFormatters';
 import { getAdminDashboard, type DashboardStats } from '@/lib/api/admin';
 import { getInvoices, type InvoiceWithDetails } from '@/lib/api/finance';
 import { getAdminReports, type AdminReportsData } from '@/lib/api/reports';
+import { MEMBER_NOUN, MEMBER_NOUN_PLURAL } from '@/lib/brand';
 
 // ---------------------------------------------------------------------------
 // Colour palette for squads
@@ -446,7 +447,7 @@ export default function ReportsPage() {
           {/* Top-level stat cards */}
           <div className="report-stat-cards grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <StatCard
-              title="Active Members"
+              title={`Active ${MEMBER_NOUN_PLURAL}`}
               value={activeMembers}
               subtitle={`${newJoiners.length} new this month`}
               icon={Users}
@@ -596,7 +597,9 @@ export default function ReportsPage() {
                       <table className="w-full text-left">
                         <thead>
                           <tr className="border-b border-white/10">
-                            <th className="pb-3 text-sm font-medium text-white/60">Member</th>
+                            <th className="pb-3 text-sm font-medium text-white/60">
+                              {MEMBER_NOUN}
+                            </th>
                             <th className="pb-3 text-sm font-medium text-white/60">Squad</th>
                             <th className="pb-3 text-sm font-medium text-white/60 text-right">
                               Missed Sessions
@@ -880,7 +883,9 @@ export default function ReportsPage() {
               <Card className="bg-dark-primary border-white/10">
                 <CardHeader>
                   <CardTitle className="text-white">Squad Distribution</CardTitle>
-                  <CardDescription className="text-white/60">Members per squad</CardDescription>
+                  <CardDescription className="text-white/60">
+                    {MEMBER_NOUN_PLURAL} per squad
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   {/* Visual distribution bar */}

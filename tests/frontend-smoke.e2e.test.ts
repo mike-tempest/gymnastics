@@ -43,7 +43,7 @@ describe('Swimly Frontend Smoke Tests', () => {
   describe('Protected Routes (Unauthenticated)', () => {
     const protectedRoutes = [
       '/',
-      '/swimmers',
+      '/members',
       '/families',
       '/squads',
       '/sessions',

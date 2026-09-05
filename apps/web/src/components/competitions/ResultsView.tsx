@@ -15,6 +15,7 @@ import {
   getCompetitionResults,
   updateCompetitionResult,
 } from '@/lib/api/competitions';
+import { MEMBER_NOUN } from '@/lib/brand';
 import { formatSwimTime } from '@/lib/competitions-utils';
 
 import AddResultModal from './AddResultModal';
@@ -60,7 +61,7 @@ function getMemberName(result: CompetitionResult): string {
   if (result.member) {
     return `${result.member.first_name} ${result.member.last_name}`;
   }
-  return 'Unknown Member';
+  return `Unknown ${MEMBER_NOUN}`;
 }
 
 function SplitsRow({ splits, relayLegs }: { splits: number[]; relayLegs?: CompetitionResult['relay_legs'] }) {
@@ -300,7 +301,7 @@ function EventGroupSection({ group, actions }: { group: EventGroup; actions: Res
       <table className="hidden md:table w-full">
         <thead>
           <tr className="text-left text-text-secondary text-xs uppercase tracking-wider">
-            <th className="px-4 py-2 font-semibold">Member</th>
+            <th className="px-4 py-2 font-semibold">{MEMBER_NOUN}</th>
             <th className="px-4 py-2 font-semibold">Time</th>
             <th className="px-4 py-2 font-semibold">Place</th>
             <th className="px-4 py-2 font-semibold">Heat</th>

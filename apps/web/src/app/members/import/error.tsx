@@ -1,8 +1,11 @@
 'use client';
 
+
 import { AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect } from 'react';
+
+import { MEMBER_NOUN_PLURAL } from '@/lib/brand';
 
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => { console.error(error); }, [error]);
@@ -14,7 +17,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
         <p className="text-text-secondary mb-6">{error.message || 'An error occurred whilst loading the import page. Please try again.'}</p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button onClick={reset} className="px-6 py-3 min-h-[44px] bg-brand text-dark-primary rounded-xl font-semibold hover:bg-brand-light transition-all">Try Again</button>
-          <Link href="/members" className="px-6 py-3 min-h-[44px] rounded-xl font-semibold text-text-secondary border border-white/20 hover:border-brand hover:text-white transition-all inline-flex items-center justify-center">Back to Members</Link>
+          <Link href="/members" className="px-6 py-3 min-h-[44px] rounded-xl font-semibold text-text-secondary border border-white/20 hover:border-brand hover:text-white transition-all inline-flex items-center justify-center">Back to {MEMBER_NOUN_PLURAL}</Link>
         </div>
       </div>
     </div>

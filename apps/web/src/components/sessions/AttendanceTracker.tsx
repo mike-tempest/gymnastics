@@ -6,6 +6,7 @@ import { useState, useEffect, useCallback } from 'react';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { getSessionAttendance, markAttendance } from '@/lib/api/attendance';
 import { getSquadMembers } from '@/lib/api/squads';
+import { MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
 interface AttendanceTrackerProps {
   sessionId: string;
@@ -109,7 +110,7 @@ export default function AttendanceTracker({ sessionId, squadId, onUpdate }: Atte
 
       onUpdate?.();
     } catch {
-      setError('Failed to check in all members');
+      setError(`Failed to check in all ${MEMBER_NOUN_PLURAL_LOWER}`);
     } finally {
       setIsSaving(false);
     }
@@ -152,7 +153,7 @@ export default function AttendanceTracker({ sessionId, squadId, onUpdate }: Atte
       {/* Attendance List */}
       {members.length === 0 ? (
         <div className="text-center py-8 bg-dark-primary/80 rounded-xl border border-white/20">
-          <p className="text-text-secondary">No members in this squad</p>
+          <p className="text-text-secondary">No {MEMBER_NOUN_PLURAL_LOWER} in this squad</p>
         </div>
       ) : (
         <div className="space-y-3">

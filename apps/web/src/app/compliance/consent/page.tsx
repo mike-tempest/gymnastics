@@ -18,6 +18,7 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useClubRegion } from '@/hooks/useClubRegion';
 import { useFormatters } from '@/hooks/useFormatters';
 import { getConsentData, MemberConsent } from '@/lib/api/compliance';
+import { MEMBER_NOUN, MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 import { downloadCsv } from '@/lib/csv-export';
 
 type FilterTab = 'all' | 'complete' | 'incomplete';
@@ -166,7 +167,7 @@ export default function ConsentManagementPage() {
               <div className="flex items-center gap-3">
                 <Users className="w-6 h-6 text-brand" />
                 <div>
-                  <p className="text-white/60 text-sm">Total members</p>
+                  <p className="text-white/60 text-sm">Total {MEMBER_NOUN_PLURAL_LOWER}</p>
                   <p className="text-2xl font-bold text-white tabular-nums">{consentData.length}</p>
                 </div>
               </div>
@@ -201,7 +202,7 @@ export default function ConsentManagementPage() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search by member name or squad..."
+                  placeholder={`Search by ${MEMBER_NOUN_LOWER} name or squad...`}
                   className="w-full pl-12 pr-4 py-3 min-h-[44px] rounded-xl bg-white/5 border border-white/20 text-white focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 outline-none transition-all"
                 />
               </div>
@@ -226,14 +227,14 @@ export default function ConsentManagementPage() {
               <EmptyState
                 icon={Users}
                 title="No consent records yet"
-                description="Collect medical, photography, and data consent from parents so you have a clear record for every member."
+                description={`Collect medical, photography, and data consent from parents so you have a clear record for every ${MEMBER_NOUN_LOWER}.`}
                 actionLabel={null}
               />
             ) : filteredMembers.length === 0 ? (
               <EmptyState
                 icon={Search}
-                title="No members found"
-                description="No members match your search criteria."
+                title={`No ${MEMBER_NOUN_PLURAL_LOWER} found`}
+                description={`No ${MEMBER_NOUN_PLURAL_LOWER} match your search criteria.`}
                 actionLabel="Clear filters"
                 actionOnClick={() => { setSearchQuery(''); setActiveTab('all'); }}
               />
@@ -278,7 +279,7 @@ export default function ConsentManagementPage() {
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-white/10">
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Member</th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">{MEMBER_NOUN}</th>
                         <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Squad</th>
                         <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Medical consent</th>
                         <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Photo consent</th>

@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { MEMBER_NOUN_LOWER } from '../../common/brand';
 import { FamiliesRepository } from '../families/families.repository';
 import { MembersRepository } from '../members/members.repository';
 import { SquadsRepository } from '../squads/squads.repository';
@@ -203,7 +204,8 @@ export class DataImportService {
         } catch (error: unknown) {
           errors.push({
             row: rowPlan.row,
-            message: error instanceof Error ? error.message : 'Failed to import member',
+            message:
+              error instanceof Error ? error.message : `Failed to import ${MEMBER_NOUN_LOWER}`,
           });
         }
       }
@@ -342,14 +344,17 @@ export class DataImportService {
       if (body) {
         matched =
           clubMembers.find(
-            (member) => member.registration_number === registrationNumber && member.governing_body === body,
+            (member) =>
+              member.registration_number === registrationNumber && member.governing_body === body,
           ) ?? null;
       } else {
-        const candidates = clubMembers.filter((member) => member.registration_number === registrationNumber);
+        const candidates = clubMembers.filter(
+          (member) => member.registration_number === registrationNumber,
+        );
         if (candidates.length > 1) {
           rowPlan.errors.push(
-            `Registration number ${registrationNumber} matches more than one member across ` +
-              `governing bodies; supply governing_body to identify which member this row is for`,
+            `Registration number ${registrationNumber} matches more than one ${MEMBER_NOUN_LOWER} across ` +
+              `governing bodies; supply governing_body to identify which ${MEMBER_NOUN_LOWER} this row is for`,
           );
           return;
         }

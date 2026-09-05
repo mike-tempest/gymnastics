@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 
 import { type CreateEntryInput } from '@/lib/api/competitions';
 import { getMembers } from '@/lib/api/members';
+import { MEMBER_NOUN, MEMBER_NOUN_LOWER } from '@/lib/brand';
 
 const STROKES = ['Freestyle', 'Backstroke', 'Breaststroke', 'Butterfly', 'Individual Medley'];
 const DISTANCES = [25, 50, 100, 200, 400, 800, 1500];
@@ -118,14 +119,14 @@ export default function AddEntriesModal({ onClose, onSubmit }: AddEntriesModalPr
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs text-white/60 mb-1">Member</label>
+                  <label className="block text-xs text-white/60 mb-1">{MEMBER_NOUN}</label>
                   <select
                     value={entry.member_id}
                     onChange={(e) => updateEntry(index, 'member_id', e.target.value)}
                     className={inputCls}
                     required
                   >
-                    <option value="">Select member...</option>
+                    <option value="">Select {MEMBER_NOUN_LOWER}...</option>
                     {members.map((s) => (
                       <option key={s.member_id} value={s.member_id}>
                         {s.first_name} {s.last_name}

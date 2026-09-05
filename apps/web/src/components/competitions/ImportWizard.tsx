@@ -1,5 +1,6 @@
 'use client';
 
+
 import {
   AlertTriangle,
   CheckCircle2,
@@ -15,6 +16,7 @@ import {
   ImportPreview,
   importCompetitionResults,
 } from '@/lib/api/competitions';
+import { MEMBER_NOUN, MEMBER_NOUN_PLURAL } from '@/lib/brand';
 import { formatSwimTime } from '@/lib/competitions-utils';
 
 type WizardStep = 'upload' | 'preview' | 'confirm' | 'complete';
@@ -342,7 +344,7 @@ export default function ImportWizard({
                 </div>
                 <div className="bg-white/5 rounded-xl p-3 text-center">
                   <p className="text-2xl font-bold text-brand">{preview.matchedMembers}</p>
-                  <p className="text-text-secondary text-xs">Matched Members</p>
+                  <p className="text-text-secondary text-xs">Matched {MEMBER_NOUN_PLURAL}</p>
                 </div>
                 <div className="bg-white/5 rounded-xl p-3 text-center">
                   <p className="text-2xl font-bold text-yellow-400">{preview.unmatchedMembers.length}</p>
@@ -395,7 +397,7 @@ export default function ImportWizard({
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="text-left text-text-tertiary text-xs uppercase tracking-wider">
-                          <th className="px-3 py-2">Member</th>
+                          <th className="px-3 py-2">{MEMBER_NOUN}</th>
                           <th className="px-3 py-2">Event</th>
                           <th className="px-3 py-2">Time</th>
                           <th className="px-3 py-2">Place</th>

@@ -11,6 +11,7 @@ import { getFamilies } from '@/lib/api/families';
 import { getFinanceDashboard, FinanceDashboard, getOverdueInvoices, InvoiceWithDetails } from '@/lib/api/finance';
 import { getMembers } from '@/lib/api/members';
 import { getUpcomingSessions, getRecentSessions } from '@/lib/api/sessions';
+import { MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
 // Activity Feed Types
 type ActivityType = 'member_joined' | 'invoice_paid' | 'session_completed';
@@ -52,7 +53,7 @@ function buildActivityFeed(
       type: 'member_joined',
       timestamp: new Date(member.created_at),
       title: `${member.first_name} ${member.last_name} joined the club`,
-      subtitle: 'New member registration',
+      subtitle: `New ${MEMBER_NOUN_LOWER} registration`,
       icon: 'user',
       colour: 'green',
     });
@@ -204,14 +205,14 @@ export default function Home() {
             {/* Members */}
             <div className="bg-dark-primary rounded-3xl p-8 relative overflow-hidden group hover:scale-[1.02] transition-transform">
               <div className="absolute top-0 right-0 w-20 h-20 sm:w-32 sm:h-32 bg-brand/10 rounded-full -translate-y-4 translate-x-4 sm:-translate-y-8 sm:translate-x-8" />
-              <p className="text-white/70 text-sm font-medium uppercase tracking-wider mb-4">Members</p>
+              <p className="text-white/70 text-sm font-medium uppercase tracking-wider mb-4">{MEMBER_NOUN_PLURAL}</p>
               {isLoading ? (
                 <div className="animate-pulse bg-white/10 rounded h-16 w-24" />
               ) : error ? (
                 <p className="text-white text-6xl font-serif">{unavailable}</p>
               ) : totalMembers === 0 ? (
                 <div>
-                  <p className="text-white/80 text-sm mb-2">No members registered yet</p>
+                  <p className="text-white/80 text-sm mb-2">No {MEMBER_NOUN_PLURAL_LOWER} registered yet</p>
                   <Link href="/members" className="inline-block text-brand text-sm font-semibold hover:underline">
                     Add your first member &rarr;
                   </Link>
@@ -343,7 +344,7 @@ export default function Home() {
                   <div className="bg-brand/10 w-10 h-10 flex items-center justify-center rounded-xl flex-shrink-0">
                     <UserPlus className="w-5 h-5 text-brand" />
                   </div>
-                  <span className="font-medium text-dark-primary flex-1">Register a member</span>
+                  <span className="font-medium text-dark-primary flex-1">Register a {MEMBER_NOUN_LOWER}</span>
                   <ArrowRight className="w-5 h-5 text-grey-300 group-hover:text-brand transition-colors" />
                 </Link>
                 <Link href="/sessions" className="flex items-center gap-4 p-4 rounded-2xl hover:bg-canvas/50 transition-colors group">
@@ -452,7 +453,7 @@ export default function Home() {
                     })}
                   </div>
                 ) : (
-                  <p className="text-grey-300 text-center py-8">Activity will appear here as members join and sessions are completed.</p>
+                  <p className="text-grey-300 text-center py-8">Activity will appear here as {MEMBER_NOUN_PLURAL_LOWER} join and sessions are completed.</p>
                 );
               })()}
             </div>
@@ -486,7 +487,7 @@ export default function Home() {
                   <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               )},
-              { label: 'Members', href: '/members', icon: (
+              { label: MEMBER_NOUN_PLURAL, href: '/members', icon: (
                 <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
                   <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>

@@ -53,11 +53,7 @@ export class WellbeingService {
     return this.wellbeingRepository.findCycleLogsByMember(memberId, limit);
   }
 
-  async updateCycleLog(
-    logId: string,
-    memberId: string,
-    dto: UpdateCycleLogDto,
-  ): Promise<CycleLog> {
+  async updateCycleLog(logId: string, memberId: string, dto: UpdateCycleLogDto): Promise<CycleLog> {
     const existing = await this.wellbeingRepository.findOneCycleLog(logId);
     if (!existing) {
       throw new NotFoundException('Cycle log not found');

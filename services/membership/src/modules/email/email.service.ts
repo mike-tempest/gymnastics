@@ -7,7 +7,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as Handlebars from 'handlebars';
 import { Resend } from 'resend';
 import { Repository } from 'typeorm';
-import { BRAND } from '../../common/brand';
+import {
+  BRAND,
+  MEMBER_NOUN,
+  MEMBER_NOUN_LOWER,
+  MEMBER_NOUN_PLURAL,
+  MEMBER_NOUN_PLURAL_LOWER,
+} from '../../common/brand';
 import { WaitlistEntry } from '../waitlist/entities/waitlist.entity';
 import { EmailSuppression } from './entities/email-suppression.entity';
 
@@ -320,6 +326,10 @@ export class EmailService {
       clubName: this.clubName,
       appUrl: this.appUrl,
       year: new Date().getFullYear(),
+      memberNoun: MEMBER_NOUN,
+      memberNounLower: MEMBER_NOUN_LOWER,
+      memberNounPlural: MEMBER_NOUN_PLURAL,
+      memberNounPluralLower: MEMBER_NOUN_PLURAL_LOWER,
       ...context,
     });
   }

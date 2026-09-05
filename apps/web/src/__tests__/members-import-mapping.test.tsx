@@ -82,7 +82,7 @@ describe('Members import mapping flow', () => {
     expect(screen.getByText('2015-06-05')).toBeInTheDocument();
     expect(screen.getByText('F')).toBeInTheDocument();
     expect(screen.getByText('1 valid row')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Import 1 Member/ })).toBeEnabled();
+    expect(screen.getByRole('button', { name: /Import 1 Gymnast/ })).toBeEnabled();
   });
 
   it('shows the mapping step when a required column cannot be guessed', async () => {

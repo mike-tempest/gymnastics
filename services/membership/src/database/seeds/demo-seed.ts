@@ -424,7 +424,15 @@ async function seed() {
         `INSERT INTO members (
           family_id, registration_number, first_name, last_name, dob, gender, squad_id
         ) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING member_id`,
-        [familyIds[famIdx], registrationNumber, firstName, lastName, dob, gender, squadIdMap[squadKey]],
+        [
+          familyIds[famIdx],
+          registrationNumber,
+          firstName,
+          lastName,
+          dob,
+          gender,
+          squadIdMap[squadKey],
+        ],
       );
       const memberId = res.rows[0].member_id;
       memberIds.push(memberId);

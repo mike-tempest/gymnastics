@@ -17,6 +17,7 @@ import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useFormatters } from '@/hooks/useFormatters';
 import { deleteMember } from '@/lib/api/members';
+import { MEMBER_NOUN, MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL } from '@/lib/brand';
 import { isCompetitionsEnabled } from '@/lib/features';
 import { useMember, useSquad } from '@/lib/hooks';
 
@@ -41,10 +42,10 @@ export default function MemberDetailPage({ params }: { params: { id: string } })
     try {
       setIsDeleting(true);
       await deleteMember(member.member_id);
-      toast.success('Member removed successfully');
+      toast.success(`${MEMBER_NOUN} removed successfully`);
       router.push('/members');
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to remove member';
+      const message = err instanceof Error ? err.message : `Failed to remove ${MEMBER_NOUN_LOWER}`;
       setError(message);
       toast.error(message);
       setShowDeleteModal(false);
@@ -80,7 +81,7 @@ export default function MemberDetailPage({ params }: { params: { id: string } })
       <MainLayout>
         <div className="min-h-dvh bg-canvas p-6 sm:p-10">
           <div className="max-w-7xl mx-auto">
-            <LoadingSpinner message="Loading member details..." />
+            <LoadingSpinner message={`Loading ${MEMBER_NOUN_LOWER} details...`} />
           </div>
         </div>
       </MainLayout>
@@ -97,9 +98,9 @@ export default function MemberDetailPage({ params }: { params: { id: string } })
             ) : (
               <EmptyState
                 icon={Users}
-                title="Member not found"
-                description="This member could not be found. They may have been removed."
-                actionLabel="Back to Members"
+                title={`${MEMBER_NOUN} not found`}
+                description={`This ${MEMBER_NOUN_LOWER} could not be found. They may have been removed.`}
+                actionLabel={`Back to ${MEMBER_NOUN_PLURAL}`}
                 actionHref="/members"
               />
             )}
@@ -143,7 +144,7 @@ export default function MemberDetailPage({ params }: { params: { id: string } })
               <button
                 onClick={() => setShowDeleteModal(true)}
                 className="w-full sm:w-auto px-6 py-3 sm:py-4 bg-dark-primary/80 text-red-400 rounded-button font-bold hover:bg-red-500 hover:bg-opacity-20 transition-all flex items-center justify-center space-x-3 text-base sm:text-lg border border-white/20 min-h-[44px]"
-                aria-label="Remove member"
+                aria-label={`Remove ${MEMBER_NOUN_LOWER}`}
               >
                 <svg
                   className="w-6 h-6"
@@ -173,7 +174,7 @@ export default function MemberDetailPage({ params }: { params: { id: string } })
                 >
                   <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                 </svg>
-                <span>Edit Member</span>
+                <span>Edit {MEMBER_NOUN}</span>
               </Link>
             </div>
           </div>

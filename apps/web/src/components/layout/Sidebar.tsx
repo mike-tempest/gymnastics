@@ -1,5 +1,6 @@
 'use client';
 
+
 import { governingBodyConfig, defaultGoverningBodyForCountry } from '@club-manager/shared-types';
 import {
   Home,
@@ -36,6 +37,7 @@ import { signOut } from 'next-auth/react';
 import { useState, useEffect, useMemo } from 'react';
 
 import { useClubRegion } from '@/hooks/useClubRegion';
+import { MEMBER_NOUN_PLURAL } from '@/lib/brand';
 import { isCompetitionsEnabled } from '@/lib/features';
 import { useRole, isAdmin, isCoach, isParent } from '@/lib/hooks/useRole';
 
@@ -60,7 +62,7 @@ function isSection(entry: NavEntry): entry is NavSection {
 // Full navigation entries (admin sees everything)
 const allNavEntries: NavEntry[] = [
   { name: 'Dashboard', href: '/', icon: Home },
-  { name: 'Members', href: '/members', icon: Users },
+  { name: MEMBER_NOUN_PLURAL, href: '/members', icon: Users },
   { name: 'Families', href: '/families', icon: UsersRound },
   { name: 'Squads', href: '/squads', icon: Shield },
   { name: 'Sessions', href: '/sessions', icon: Calendar },
@@ -115,7 +117,7 @@ const allNavEntries: NavEntry[] = [
 // Items visible to coaches
 const COACH_NAV_NAMES = new Set([
   'Dashboard',
-  'Members',
+  MEMBER_NOUN_PLURAL,
   'Squads',
   'Sessions',
   'Communications',

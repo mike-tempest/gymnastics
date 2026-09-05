@@ -23,9 +23,7 @@ export class AttendanceService {
       );
 
       if (existing) {
-        throw new ConflictException(
-          'Attendance record already exists for this member and session',
-        );
+        throw new ConflictException('Attendance record already exists for this member and session');
       }
 
       return await this.attendanceRepository.create(createAttendanceDto);
@@ -35,9 +33,7 @@ export class AttendanceService {
       }
       if ((error as Record<string, unknown>).code === '23505') {
         // Unique constraint violation
-        throw new ConflictException(
-          'Attendance record already exists for this member and session',
-        );
+        throw new ConflictException('Attendance record already exists for this member and session');
       }
       throw error;
     }
@@ -84,10 +80,7 @@ export class AttendanceService {
           }
         } catch (error: unknown) {
           // Log error but continue with other members
-          console.error(
-            `Failed to mark attendance for member ${attendanceDto.member_id}:`,
-            error,
-          );
+          console.error(`Failed to mark attendance for member ${attendanceDto.member_id}:`, error);
         }
       }
 
@@ -99,10 +92,7 @@ export class AttendanceService {
 
   async checkInMember(sessionId: string, memberId: string): Promise<Attendance> {
     try {
-      const existing = await this.attendanceRepository.findBySessionAndMember(
-        sessionId,
-        memberId,
-      );
+      const existing = await this.attendanceRepository.findBySessionAndMember(sessionId, memberId);
 
       if (existing) {
         // Update existing record

@@ -13,6 +13,7 @@ import Breadcrumb from '@/components/ui/Breadcrumb';
 import { useFormatters } from '@/hooks/useFormatters';
 import { updateFamily, deleteFamily, generateInvite, CreateFamilyData } from '@/lib/api/families';
 import { getMembersByFamily } from '@/lib/api/members';
+import { MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 import { useFamily } from '@/lib/hooks';
 
 export default function FamilyDetailPage({ params }: { params: { id: string } }) {
@@ -371,7 +372,7 @@ export default function FamilyDetailPage({ params }: { params: { id: string } })
             <div className="flex items-center justify-between mb-6">
               <h2 className="font-serif text-4xl text-dark-primary tracking-tight">Family Members</h2>
               <span className="text-grey-500 text-lg">
-                {members.length} {members.length === 1 ? 'member' : 'members'}
+                {members.length} {members.length === 1 ? MEMBER_NOUN_LOWER : MEMBER_NOUN_PLURAL_LOWER}
               </span>
             </div>
 
@@ -388,7 +389,7 @@ export default function FamilyDetailPage({ params }: { params: { id: string } })
                 >
                   <path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                 </svg>
-                <p className="text-grey-500 text-lg">No members in this family yet</p>
+                <p className="text-grey-500 text-lg">No {MEMBER_NOUN_PLURAL_LOWER} in this family yet</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

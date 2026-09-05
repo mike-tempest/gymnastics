@@ -3,6 +3,7 @@ import { governingBodyConfig } from '@club-manager/shared-types';
 import { CompetitionsRepository } from './competitions.repository';
 import { MembersRepository } from '../members/members.repository';
 import { ClubsService } from '../clubs/clubs.service';
+import { MEMBER_NOUN } from '../../common/brand';
 import { ParserFactory } from '../../parsers/parser-factory';
 import {
   FileFormat,
@@ -142,7 +143,7 @@ export class FileImportService {
       const member = memberMap.get(result.member.registrationNumber);
       if (!member) {
         warnings.push(
-          `Member "${result.member.firstName} ${result.member.lastName}" (${registrationLabel}: ${result.member.registrationNumber}) not found in club — skipped`,
+          `${MEMBER_NOUN} "${result.member.firstName} ${result.member.lastName}" (${registrationLabel}: ${result.member.registrationNumber}) not found in club, skipped`,
         );
         continue;
       }

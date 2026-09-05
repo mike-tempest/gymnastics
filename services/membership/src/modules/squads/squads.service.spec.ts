@@ -300,9 +300,9 @@ describe('SquadsService', () => {
     it('should throw NotFoundException if squad does not exist', async () => {
       mockRepository.findOne.mockResolvedValue(null);
 
-      await expect(
-        service.assignMember('non-existent-id', mockMember.member_id),
-      ).rejects.toThrow(NotFoundException);
+      await expect(service.assignMember('non-existent-id', mockMember.member_id)).rejects.toThrow(
+        NotFoundException,
+      );
     });
 
     it('should throw BadRequestException when squad is at full capacity', async () => {
@@ -323,9 +323,9 @@ describe('SquadsService', () => {
       mockRepository.findOne.mockResolvedValue({ ...mockSquad, members: [] });
       mockRepository.assignMember.mockResolvedValue(null);
 
-      await expect(
-        service.assignMember(mockSquad.squad_id, 'non-existent-member'),
-      ).rejects.toThrow(NotFoundException);
+      await expect(service.assignMember(mockSquad.squad_id, 'non-existent-member')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -342,9 +342,9 @@ describe('SquadsService', () => {
     it('should throw NotFoundException if squad does not exist', async () => {
       mockRepository.findOne.mockResolvedValue(null);
 
-      await expect(
-        service.removeMember('non-existent-id', mockMember.member_id),
-      ).rejects.toThrow(NotFoundException);
+      await expect(service.removeMember('non-existent-id', mockMember.member_id)).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -362,9 +362,7 @@ describe('SquadsService', () => {
     it('should throw NotFoundException if squad does not exist', async () => {
       mockRepository.findOne.mockResolvedValue(null);
 
-      await expect(service.getMembersBySquad('non-existent-id')).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(service.getMembersBySquad('non-existent-id')).rejects.toThrow(NotFoundException);
     });
   });
 

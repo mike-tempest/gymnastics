@@ -13,6 +13,7 @@ import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/ErrorState';
 import { TableSkeleton } from '@/components/ui/skeleton';
 import { getFamily, createFamily, updateFamily, CreateFamilyData } from '@/lib/api/families';
+import { MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 import { useFamilies } from '@/lib/hooks';
 
 export default function FamiliesPage() {
@@ -239,7 +240,7 @@ function FamiliesPageInner() {
               <EmptyState
                 icon={Users}
                 title="No families yet"
-                description="Families link parents to their members for billing and communications."
+                description={`Families link parents to their ${MEMBER_NOUN_PLURAL_LOWER} for billing and communications.`}
                 hint="When parents register, their family is created automatically."
                 actionLabel="Add Family"
                 actionHref="/families/new"

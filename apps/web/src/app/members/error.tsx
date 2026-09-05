@@ -4,6 +4,8 @@ import { AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect } from 'react';
 
+import { MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
+
 export default function Error({
   error,
   reset,
@@ -19,9 +21,12 @@ export default function Error({
     <div className="flex h-dvh items-center justify-center bg-dark-primary p-4">
       <div className="text-center max-w-md">
         <AlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
-        <h2 className="text-2xl font-bold text-white mb-2">Failed to load members</h2>
+        <h2 className="text-2xl font-bold text-white mb-2">
+          Failed to load {MEMBER_NOUN_PLURAL_LOWER}
+        </h2>
         <p className="text-text-secondary mb-6">
-          {error.message || 'An error occurred whilst loading the members list. Please try again.'}
+          {error.message ||
+            `An error occurred whilst loading the ${MEMBER_NOUN_LOWER} list. Please try again.`}
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button

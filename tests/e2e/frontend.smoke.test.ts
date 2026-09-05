@@ -16,7 +16,7 @@ describe('Frontend Smoke Tests', () => {
   describe('Protected pages redirect to login when unauthenticated', () => {
     const protectedRoutes = [
       '/',
-      '/swimmers',
+      '/members',
       '/families',
       '/squads',
       '/sessions',

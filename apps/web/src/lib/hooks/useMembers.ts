@@ -2,12 +2,7 @@
 
 import { Member } from '@club-manager/shared-types';
 
-import {
-  getMembers,
-  getMember,
-  getMemberStatistics,
-  MemberStatistics,
-} from '@/lib/api/members';
+import { getMembers, getMember, getMemberStatistics, MemberStatistics } from '@/lib/api/members';
 
 import { useApi, UseApiResult } from './useApi';
 

@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 
+import { MEMBER_NOUN } from '@/lib/brand';
+
 interface DeleteConfirmModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -82,7 +84,7 @@ export default function DeleteConfirmModal({
           </div>
 
           <h2 id="member-delete-modal-title" className="font-serif text-2xl md:text-3xl text-white text-center mb-2">
-            Remove Member
+            Remove {MEMBER_NOUN}
           </h2>
           <p className="text-white/70 text-center mb-8">
             Are you sure you want to remove{' '}
@@ -132,7 +134,7 @@ export default function DeleteConfirmModal({
                   <span>Removing...</span>
                 </>
               ) : (
-                <span>Remove Member</span>
+                <span>Remove {MEMBER_NOUN}</span>
               )}
             </button>
           </div>

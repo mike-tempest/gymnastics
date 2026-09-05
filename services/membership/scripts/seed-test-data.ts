@@ -47,7 +47,7 @@ async function seedTestData() {
     console.log(`✅ Created ${family1.family_name} and ${family2.family_name}\n`);
 
     // 2. Create test squads
-    console.log('🏊 Creating squads...');
+    console.log('Creating squads...');
     const squad1 = await squadsService.create({
       squad_name: 'Junior Squad',
       description: 'Ages 8-12',
@@ -71,7 +71,7 @@ async function seedTestData() {
     console.log(`✅ Created ${squad1.squad_name} and ${squad2.squad_name}\n`);
 
     // 3. Create test members
-    console.log('👶 Creating members...');
+    console.log('Creating members...');
     const member1 = await membersService.create({
       family_id: family1.family_id,
       first_name: 'Emily',

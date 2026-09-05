@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException, BadRequestException, Logger } from '@nestjs/common';
+import { MEMBER_NOUN_LOWER } from '../../common/brand';
 import { MembersRepository } from './members.repository';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
@@ -16,7 +17,9 @@ export class MembersService {
     } catch (error: unknown) {
       if (error instanceof Object && 'code' in error && error.code === '23505') {
         // Unique constraint violation
-        throw new BadRequestException('A member with this registration number already exists');
+        throw new BadRequestException(
+          `A ${MEMBER_NOUN_LOWER} with this registration number already exists`,
+        );
       }
       throw error;
     }
@@ -57,7 +60,9 @@ export class MembersService {
       return updated;
     } catch (error: unknown) {
       if (error instanceof Object && 'code' in error && error.code === '23505') {
-        throw new BadRequestException('A member with this registration number already exists');
+        throw new BadRequestException(
+          `A ${MEMBER_NOUN_LOWER} with this registration number already exists`,
+        );
       }
       throw error;
     }
@@ -95,7 +100,7 @@ export class MembersService {
       } catch (error: unknown) {
         errors.push({
           row: i + 1,
-          message: error instanceof Error ? error.message : 'Failed to create member',
+          message: error instanceof Error ? error.message : `Failed to create ${MEMBER_NOUN_LOWER}`,
         });
       }
     }

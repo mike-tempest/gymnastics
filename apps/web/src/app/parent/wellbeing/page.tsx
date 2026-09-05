@@ -11,6 +11,7 @@ import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { fetchParentMembers } from '@/lib/api/parent';
 import { fetchTodayCheckIn, type WellbeingLog } from '@/lib/api/wellbeing';
+import { MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
 function readinessColour(level: string): string {
   switch (level) {
@@ -97,7 +98,7 @@ export default function WellbeingHubPage() {
             <div className="bg-dark-primary rounded-3xl border border-white/10 shadow-lg">
               <EmptyState
                 icon={Heart}
-                title="No members found"
+                title={`No ${MEMBER_NOUN_PLURAL_LOWER} found`}
                 description="Once your children are registered with the club, you can check in on their wellbeing here."
               />
             </div>
@@ -155,13 +156,13 @@ export default function WellbeingHubPage() {
             <h2 className="font-serif text-lg text-white">Why we track wellbeing</h2>
             <div className="space-y-3 text-sm text-text-secondary leading-relaxed">
               <p>
-                A quick daily check-in helps coaches understand how each member is feeling, so they can adapt sessions without needing to ask personal questions.
+                A quick daily check-in helps coaches understand how each {MEMBER_NOUN_LOWER} is feeling, so they can adapt sessions without needing to ask personal questions.
               </p>
               <p>
                 Coaches only ever see a green, amber, or red indicator. They never see individual scores, private notes, or any cycle tracking data.
               </p>
               <p>
-                Research shows that young members, particularly girls, are more likely to stay engaged in the sport when they feel supported and understood. Wellbeing tracking makes that possible without any awkward conversations.
+                Research shows that young {MEMBER_NOUN_PLURAL_LOWER}, particularly girls, are more likely to stay engaged in the sport when they feel supported and understood. Wellbeing tracking makes that possible without any awkward conversations.
               </p>
             </div>
           </div>

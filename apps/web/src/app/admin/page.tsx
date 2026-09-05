@@ -43,6 +43,7 @@ import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useFormatters } from '@/hooks/useFormatters';
 import { getAdminDashboard, type DashboardStats } from '@/lib/api/admin';
+import { MEMBER_NOUN, MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
 // ─── Chart palette ─────────────────────────────────────────────────────────
 // Recharts needs concrete colour values, so these mirror the canonical design
@@ -256,7 +257,7 @@ export default function AdminDashboard() {
           {/* ── Top Stat Cards ──────────────────────────────────────────── */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <StatCard
-              title="Total Members"
+              title={`Total ${MEMBER_NOUN_PLURAL}`}
               value={membership.totalMembers}
               subtitle={`${membership.totalFamilies} families`}
               icon={Users}
@@ -494,14 +495,14 @@ export default function AdminDashboard() {
           {/* ── Membership Statistics ───────────────────────────────────── */}
           <SectionHeader
             title="Membership Statistics"
-            description="Member enrolment and squad distribution"
+            description={`${MEMBER_NOUN} enrolment and squad distribution`}
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <Card className="bg-dark-primary border-white/10">
               <CardContent className="p-5">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4 text-lime" />
-                  <p className="text-xs font-medium text-white/60 uppercase tracking-wider">Total Members</p>
+                  <p className="text-xs font-medium text-white/60 uppercase tracking-wider">Total {MEMBER_NOUN_PLURAL}</p>
                 </div>
                 <p className="font-serif text-4xl text-lime tracking-tight tabular-nums">{membership.totalMembers}</p>
               </CardContent>
@@ -531,7 +532,7 @@ export default function AdminDashboard() {
                   <p className="text-xs font-medium text-white/60 uppercase tracking-wider">Squads</p>
                 </div>
                 <p className="font-serif text-4xl text-lime tracking-tight tabular-nums">{membership.totalSquads}</p>
-                <p className="text-xs text-white/60 mt-1 tabular-nums">~{avgPerSquad} members per squad</p>
+                <p className="text-xs text-white/60 mt-1 tabular-nums">~{avgPerSquad} {MEMBER_NOUN_PLURAL_LOWER} per squad</p>
               </CardContent>
             </Card>
           </div>
@@ -635,7 +636,7 @@ export default function AdminDashboard() {
             <QuickAction
               href="/members"
               icon={Plus}
-              title="Add Member"
+              title={`Add ${MEMBER_NOUN}`}
               description="Register a new club member"
               variant="primary"
             />

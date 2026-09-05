@@ -17,6 +17,7 @@ import {
   fetchMemberResults,
   fetchMemberSchedule,
 } from '@/lib/api/parent';
+import { MEMBER_NOUN, MEMBER_NOUN_LOWER } from '@/lib/brand';
 import { isCompetitionsEnabled } from '@/lib/features';
 
 // Loaded lazily so the recharts-heavy times UI stays out of the route chunk
@@ -104,7 +105,7 @@ export default function ChildDetailPage({ params }: PageProps) {
         setAttendanceStats(stats);
         setUpcomingSessions(sessions);
       } catch (err) {
-        setError('Failed to load member details. Please try again.');
+        setError(`Failed to load ${MEMBER_NOUN_LOWER} details. Please try again.`);
       } finally {
         setIsLoading(false);
       }
@@ -116,7 +117,7 @@ export default function ChildDetailPage({ params }: PageProps) {
   if (isLoading) {
     return (
       <div className="min-h-dvh bg-canvas p-6 sm:p-10 flex items-center justify-center">
-        <LoadingSpinner message="Loading member details..." />
+        <LoadingSpinner message={`Loading ${MEMBER_NOUN_LOWER} details...`} />
       </div>
     );
   }
@@ -125,7 +126,7 @@ export default function ChildDetailPage({ params }: PageProps) {
     return (
       <div className="min-h-dvh bg-canvas p-6 sm:p-10">
         <div className="max-w-7xl mx-auto">
-          <ErrorState message={error || 'Member not found'} onRetry={() => window.location.reload()} />
+          <ErrorState message={error || `${MEMBER_NOUN} not found`} onRetry={() => window.location.reload()} />
         </div>
       </div>
     );
@@ -149,7 +150,7 @@ export default function ChildDetailPage({ params }: PageProps) {
           <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight mb-2">
             {member.first_name} {member.last_name}
           </h1>
-          <p className="text-text-secondary text-lg">Member profile and attendance</p>
+          <p className="text-text-secondary text-lg">{MEMBER_NOUN} profile and attendance</p>
         </div>
 
         {/* Profile and Stats Cards */}

@@ -8,7 +8,7 @@ describe('Edge Cases API', () => {
   });
 
   it('Invalid UUID in URL returns 400 or 404', async () => {
-    const res = await authGet('/swimmers/not-a-uuid', adminToken);
+    const res = await authGet('/members/not-a-uuid', adminToken);
     expect([400, 404]).toContain(res.status);
   });
 
@@ -23,7 +23,7 @@ describe('Edge Cases API', () => {
   });
 
   it('Empty POST body returns 400', async () => {
-    const res = await fetch(`${API_BASE}/swimmers`, {
+    const res = await fetch(`${API_BASE}/members`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ describe('Edge Cases API', () => {
     const families = await familiesRes.json();
     const familyId = families[0]?.family_id;
 
-    const res = await authPost('/swimmers', adminToken, {
+    const res = await authPost('/members', adminToken, {
       first_name: veryLongName,
       last_name: 'Test',
       dob: '2010-01-01',
@@ -100,10 +100,10 @@ describe('Edge Cases API', () => {
   });
 
   it('Search with special characters is handled safely', async () => {
-    const specialChars = ['<script>alert("xss")</script>', "'; DROP TABLE swimmers; --", '../../../etc/passwd', '%00'];
+    const specialChars = ['<script>alert("xss")</script>', "'; DROP TABLE members; --", '../../../etc/passwd', '%00'];
 
     for (const searchTerm of specialChars) {
-      const res = await authGet(`/swimmers?search=${encodeURIComponent(searchTerm)}`, adminToken);
+      const res = await authGet(`/members?search=${encodeURIComponent(searchTerm)}`, adminToken);
       // Should not crash, should return 200 with empty results or 400
       expect([200, 400]).toContain(res.status);
     }
@@ -111,14 +111,14 @@ describe('Edge Cases API', () => {
 
   it('Filter with SQL injection attempt is handled safely', async () => {
     const sqlInjection = "1' OR '1'='1";
-    const res = await authGet(`/swimmers?squad_id=${encodeURIComponent(sqlInjection)}`, adminToken);
+    const res = await authGet(`/members?squad_id=${encodeURIComponent(sqlInjection)}`, adminToken);
     
     // Should not expose data, should return 400 or 404
     expect([200, 400, 404]).toContain(res.status);
   });
 
   it('Malformed JSON in POST body returns 400', async () => {
-    const res = await fetch(`${API_BASE}/swimmers`, {
+    const res = await fetch(`${API_BASE}/members`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -39,7 +39,7 @@ async function seedDemoData() {
     console.log('✅ Data cleared\n');
 
     // Club Settings
-    console.log('🏊 Creating RTW Monson club settings...');
+    console.log('Creating RTW Monson club settings...');
     const clubResult = await dataSource.query(`
       INSERT INTO club_settings (
         club_name, address, contact_email, phone, website,
@@ -300,7 +300,7 @@ async function seedDemoData() {
     console.log(`✅ Created ${familyIds.length} families\n`);
 
     // Create Squads
-    console.log('🏊 Creating squads...');
+    console.log('Creating squads...');
     const squads = await Promise.all([
       dataSource.query(`
         INSERT INTO squads (squad_name, description, min_age, max_age, coach_name, training_times, max_capacity)
@@ -383,7 +383,7 @@ async function seedDemoData() {
     };
 
     // Create Members
-    console.log('🏊‍♀️ Creating members...');
+    console.log('Creating members...');
 
     const firstNames = [
       'Oliver',

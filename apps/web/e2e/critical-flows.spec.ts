@@ -125,9 +125,9 @@ test.describe('Members', () => {
 
     if (!redirectedToLogin) {
       // Verify the page has loaded with some meaningful content.
-      // The members page uses a heading or contains the word "Members".
+      // The members page uses a heading or contains the word "Gymnasts".
       const hasContent = await page
-        .getByText(/members/i)
+        .getByText(/gymnasts/i)
         .first()
         .isVisible()
         .catch(() => false);

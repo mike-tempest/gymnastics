@@ -47,7 +47,7 @@ FAMILY2=$(curl -s -X POST "$API_URL/families" \
 FAMILY2_ID=$(echo $FAMILY2 | grep -o '"family_id":"[^"]*"' | cut -d'"' -f4)
 echo -e "Created Johnson Family (${FAMILY2_ID})\n"
 
-echo -e "${GREEN}🏊 Creating squads...${NC}"
+echo -e "${GREEN}Creating squads...${NC}"
 SQUAD1=$(curl -s -X POST "$API_URL/squads" \
   -H "Content-Type: application/json" \
   -d '{
@@ -76,7 +76,7 @@ SQUAD2=$(curl -s -X POST "$API_URL/squads" \
 SQUAD2_ID=$(echo $SQUAD2 | grep -o '"squad_id":"[^"]*"' | cut -d'"' -f4)
 echo -e "Created Senior Squad (${SQUAD2_ID})\n"
 
-echo -e "${GREEN}👶 Creating members...${NC}"
+echo -e "${GREEN}Creating members...${NC}"
 MEMBER1=$(curl -s -X POST "$API_URL/members" \
   -H "Content-Type: application/json" \
   -d "{

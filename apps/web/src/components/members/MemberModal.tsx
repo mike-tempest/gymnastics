@@ -1,5 +1,6 @@
 'use client';
 
+
 import {
   Member,
   Squad,
@@ -15,6 +16,7 @@ import { z } from 'zod';
 
 import { useClubRegion } from '@/hooks/useClubRegion';
 import { getSquads } from '@/lib/api/squads';
+import { MEMBER_NOUN, MEMBER_NOUN_LOWER } from '@/lib/brand';
 
 const memberSchema = z
   .object({
@@ -242,10 +244,10 @@ export default function MemberModal({
         <div className="flex items-center justify-between p-4 sm:p-8 border-b border-white/10">
           <div>
             <h2 id="member-modal-title" className="font-serif text-2xl sm:text-3xl text-white mb-1">
-              {member ? 'Edit Member' : 'Add New Member'}
+              {member ? `Edit ${MEMBER_NOUN}` : `Add New ${MEMBER_NOUN}`}
             </h2>
             <p className="text-white/70">
-              {member ? 'Update member information' : 'Enter member details to add to your roster'}
+              {member ? `Update ${MEMBER_NOUN_LOWER} information` : `Enter ${MEMBER_NOUN_LOWER} details to add to your roster`}
             </p>
           </div>
           <button
@@ -498,7 +500,7 @@ export default function MemberModal({
                   <span>{member ? 'Updating...' : 'Adding...'}</span>
                 </>
               ) : (
-                <span>{member ? 'Update Member' : 'Add Member'}</span>
+                <span>{member ? `Update ${MEMBER_NOUN}` : `Add ${MEMBER_NOUN}`}</span>
               )}
             </button>
           </div>

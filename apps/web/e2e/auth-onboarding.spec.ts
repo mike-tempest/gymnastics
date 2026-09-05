@@ -99,7 +99,7 @@ test.describe('Protected Routes', () => {
     if (!redirectedToLogin) {
       // If members page loads, verify content is present
       const hasContent = await page
-        .getByText(/members/i)
+        .getByText(/gymnasts/i)
         .first()
         .isVisible()
         .catch(() => false);

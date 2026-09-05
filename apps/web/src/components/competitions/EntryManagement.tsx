@@ -13,6 +13,7 @@ import {
   type CompetitionEntry,
   type CreateEntryInput,
 } from '@/lib/api/competitions';
+import { MEMBER_NOUN, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 import { formatSwimTime, findQualifyingTime } from '@/lib/competitions-utils';
 import { useCompetition } from '@/lib/hooks/useCompetitions';
 
@@ -125,7 +126,7 @@ export default function EntryManagement({ competitionId }: EntryManagementProps)
         <EmptyState
           icon={Users}
           title="No entries yet"
-          description="Add members to this competition to get started."
+          description={`Add ${MEMBER_NOUN_PLURAL_LOWER} to this competition to get started.`}
           actionLabel="Add Entries"
           actionOnClick={() => setShowAddModal(true)}
         />
@@ -162,7 +163,7 @@ export default function EntryManagement({ competitionId }: EntryManagementProps)
             <table className="w-full">
               <thead>
                 <tr className="text-left text-xs text-white/50 border-b border-white/10">
-                  <th className="pb-3 font-medium">Member</th>
+                  <th className="pb-3 font-medium">{MEMBER_NOUN}</th>
                   <th className="pb-3 font-medium">Event</th>
                   <th className="pb-3 font-medium">Distance</th>
                   <th className="pb-3 font-medium">Stroke</th>

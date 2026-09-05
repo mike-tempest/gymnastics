@@ -14,6 +14,7 @@ import {
   fetchMemberAttendanceStats,
   fetchMemberSchedule,
 } from '@/lib/api/parent';
+import { MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
 interface MemberWithStats extends Member {
   squad?: { squad_id: string; squad_name: string };
@@ -146,7 +147,7 @@ export default function ChildrenListPage() {
         {/* Children List */}
         <div className="bg-dark-primary rounded-card shadow-card border border-white/10">
           <div className="p-4 md:p-6 border-b border-white/10">
-            <h2 className="font-serif text-2xl text-white">Registered members</h2>
+            <h2 className="font-serif text-2xl text-white">Registered {MEMBER_NOUN_PLURAL_LOWER}</h2>
           </div>
           <div className="p-4 md:p-6">
             {members.length === 0 ? (

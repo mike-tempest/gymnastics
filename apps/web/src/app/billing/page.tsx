@@ -18,6 +18,7 @@ import { TableSkeleton } from '@/components/ui/skeleton';
 import { useConfirm } from '@/hooks/useConfirm';
 import { useFormatters } from '@/hooks/useFormatters';
 import { generateMonthlyInvoices, updateInvoice } from '@/lib/api/finance';
+import { MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 import { useInvoices, useFamilies } from '@/lib/hooks';
 import { getDisplayStatus } from '@/lib/utils/billing';
 
@@ -402,7 +403,7 @@ export default function BillingPage() {
                 icon={FileText}
                 title="No invoices yet"
                 description="Generate invoices for your families and track who has paid. No more chasing standing orders."
-                hint="You can create invoices individually or generate them in bulk for all active members."
+                hint={`You can create invoices individually or generate them in bulk for all active ${MEMBER_NOUN_PLURAL_LOWER}.`}
                 actionLabel="Create Invoice"
                 actionHref="/billing/create"
               />

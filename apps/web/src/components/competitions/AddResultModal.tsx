@@ -9,6 +9,7 @@ import {
   type RelayLeg,
 } from '@/lib/api/competitions';
 import { getMembers } from '@/lib/api/members';
+import { MEMBER_NOUN, MEMBER_NOUN_LOWER } from '@/lib/brand';
 import { formatSwimTime, parseSwimTimeInput } from '@/lib/competitions-utils';
 
 const STROKES = ['Freestyle', 'Backstroke', 'Breaststroke', 'Butterfly', 'Individual Medley'];
@@ -102,7 +103,7 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
     setFormError(null);
 
     if (!memberId) {
-      setFormError('Select a member.');
+      setFormError(`Select a ${MEMBER_NOUN_LOWER}.`);
       return;
     }
 
@@ -186,7 +187,7 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className={labelCls}>Member</label>
+              <label className={labelCls}>{MEMBER_NOUN}</label>
               <select
                 value={memberId}
                 onChange={(e) => setMemberId(e.target.value)}
@@ -194,7 +195,7 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
                 disabled={isEditing}
                 required
               >
-                <option value="">Select member...</option>
+                <option value="">Select {MEMBER_NOUN_LOWER}...</option>
                 {members.map((s) => (
                   <option key={s.member_id} value={s.member_id}>
                     {s.first_name} {s.last_name}
@@ -287,11 +288,11 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
 
           {isRelay && (
             <div className="bg-white/5 rounded-xl p-4 border border-white/10 space-y-3">
-              <p className="text-xs text-white/40 font-medium">Relay legs (the result is recorded against the lead member above)</p>
+              <p className="text-xs text-white/40 font-medium">Relay legs (the result is recorded against the lead {MEMBER_NOUN_LOWER} above)</p>
               {relayLegs.map((leg, index) => (
                 <div key={index} className="grid grid-cols-[1fr_1fr_auto] gap-2 items-end">
                   <div>
-                    <label className={labelCls}>Leg {index + 1} member</label>
+                    <label className={labelCls}>Leg {index + 1} {MEMBER_NOUN_LOWER}</label>
                     <select value={leg.member_id} onChange={(e) => updateLeg(index, 'member_id', e.target.value)} className={inputCls}>
                       <option value="">Name only...</option>
                       {members.map((s) => (

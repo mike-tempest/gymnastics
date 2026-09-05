@@ -233,7 +233,9 @@ describe('SportSystemsParser', () => {
       const reparsed = parser.parseEntries(generated);
 
       expect(reparsed.entries).toHaveLength(parsed.entries.length);
-      expect(reparsed.entries[0].member.registrationNumber).toBe(parsed.entries[0].member.registrationNumber);
+      expect(reparsed.entries[0].member.registrationNumber).toBe(
+        parsed.entries[0].member.registrationNumber,
+      );
     });
   });
 

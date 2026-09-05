@@ -16,6 +16,7 @@ import {
   markAttendance,
 } from '@/lib/api/attendance';
 import { fetchSessionReadiness, type MemberReadiness } from '@/lib/api/wellbeing';
+import { MEMBER_NOUN, MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
 import MemberCheckIn from './MemberCheckIn';
 import SessionStats from './SessionStats';
@@ -111,7 +112,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['session-attendance', sessionId] });
       setShowBulkSuccess(true);
-      toast.success('All members marked as present');
+      toast.success(`All ${MEMBER_NOUN_PLURAL_LOWER} marked as present`);
       setTimeout(() => setShowBulkSuccess(false), 3000);
     },
     onError: () => {
@@ -197,9 +198,9 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
     return (
       <EmptyState
         icon={Users}
-        title="No members in this session"
-        description="Assign members to this session and they will appear here ready to check in."
-        hint="Add members to the session's squad, then return to take the register."
+        title={`No ${MEMBER_NOUN_PLURAL_LOWER} in this session`}
+        description={`Assign ${MEMBER_NOUN_PLURAL_LOWER} to this session and they will appear here ready to check in.`}
+        hint={`Add ${MEMBER_NOUN_PLURAL_LOWER} to the session's squad, then return to take the register.`}
       />
     );
   }
@@ -246,7 +247,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
         <div>
           <p className="text-sm text-white/60 font-medium">{sessionName}</p>
           <p className="text-xs text-white/70 mt-0.5">
-            {attendance.length} member{attendance.length !== 1 ? 's' : ''}
+            {attendance.length} {attendance.length !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER}
           </p>
         </div>
         {unmarkedMembers.length > 0 && (
@@ -268,7 +269,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
         <div className="p-3 rounded-xl border animate-in slide-in-from-top-2 duration-200 no-print bg-success/15 border-success/30 text-success">
           <p className="text-sm font-medium text-center flex items-center justify-center gap-1.5">
             <Check className="w-4 h-4" />
-            Marked {unmarkedMembers.length} member{unmarkedMembers.length !== 1 ? 's' : ''} as present
+            Marked {unmarkedMembers.length} {unmarkedMembers.length !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER} as present
           </p>
         </div>
       )}
@@ -298,7 +299,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
           <tr>
             <th className="print-checkbox-cell" aria-label="Tick">&nbsp;</th>
             <th className="w-8">#</th>
-            <th>Member</th>
+            <th>{MEMBER_NOUN}</th>
             {squadName && <th>Squad</th>}
             <th className="print-status-cell">Status</th>
             <th className="print-notes-cell">Notes</th>

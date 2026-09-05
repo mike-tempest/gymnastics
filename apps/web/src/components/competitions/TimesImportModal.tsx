@@ -9,6 +9,7 @@ import {
   type TimesImportPreview,
   type TimesImportOutcome,
 } from '@/lib/api/competitions';
+import { MEMBER_NOUN } from '@/lib/brand';
 import { formatSwimTime } from '@/lib/competitions-utils';
 
 const TEMPLATE_CSV = [
@@ -153,7 +154,7 @@ export default function TimesImportModal({
                   <table className="w-full text-sm">
                     <thead className="sticky top-0 bg-dark-primary">
                       <tr className="text-left text-xs text-white/50">
-                        <th className="px-3 py-2 font-medium">Member</th>
+                        <th className="px-3 py-2 font-medium">{MEMBER_NOUN}</th>
                         <th className="px-3 py-2 font-medium">Event</th>
                         <th className="px-3 py-2 font-medium">Time</th>
                         <th className="px-3 py-2 font-medium">Date</th>
