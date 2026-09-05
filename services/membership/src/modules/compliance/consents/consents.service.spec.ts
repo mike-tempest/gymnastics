@@ -17,7 +17,7 @@ describe('ConsentsService', () => {
 
   const mockConsent: Partial<Consent> = {
     consent_id: '123e4567-e89b-12d3-a456-426614174000',
-    swimmer_id: '223e4567-e89b-12d3-a456-426614174001',
+    member_id: '223e4567-e89b-12d3-a456-426614174001',
     consent_type: ConsentType.PHOTOGRAPHY,
     status: ConsentStatus.GRANTED,
     granted_by_user_id: '333e4567-e89b-12d3-a456-426614174002',
@@ -32,8 +32,8 @@ describe('ConsentsService', () => {
     create: jest.fn(),
     findAll: jest.fn(),
     findOne: jest.fn(),
-    findBySwimmer: jest.fn(),
-    findBySwimmerAndType: jest.fn(),
+    findByMember: jest.fn(),
+    findByMemberAndType: jest.fn(),
     findByType: jest.fn(),
     findPendingConsents: jest.fn(),
     findExpiringConsents: jest.fn(),
@@ -86,12 +86,12 @@ describe('ConsentsService', () => {
   describe('create', () => {
     it('should create a consent record', async () => {
       const createDto = {
-        swimmer_id: mockConsent.swimmer_id as string,
+        member_id: mockConsent.member_id as string,
         consent_type: ConsentType.PHOTOGRAPHY,
         granted_by_user_id: mockConsent.granted_by_user_id as string,
       };
 
-      mockRepository.findBySwimmerAndType.mockResolvedValue(null);
+      mockRepository.findByMemberAndType.mockResolvedValue(null);
       mockRepository.create.mockResolvedValue(mockConsent);
 
       const result = await service.create(createDto as any);
@@ -100,14 +100,14 @@ describe('ConsentsService', () => {
       expect(mockRepository.create).toHaveBeenCalledWith(createDto);
     });
 
-    it('should throw ConflictException if swimmer already has a granted consent of the same type', async () => {
+    it('should throw ConflictException if member already has a granted consent of the same type', async () => {
       const createDto = {
-        swimmer_id: mockConsent.swimmer_id as string,
+        member_id: mockConsent.member_id as string,
         consent_type: ConsentType.PHOTOGRAPHY,
         granted_by_user_id: mockConsent.granted_by_user_id as string,
       };
 
-      mockRepository.findBySwimmerAndType.mockResolvedValue({
+      mockRepository.findByMemberAndType.mockResolvedValue({
         ...mockConsent,
         status: ConsentStatus.GRANTED,
       });
@@ -118,12 +118,12 @@ describe('ConsentsService', () => {
 
     it('should allow creation if existing consent is not granted', async () => {
       const createDto = {
-        swimmer_id: mockConsent.swimmer_id as string,
+        member_id: mockConsent.member_id as string,
         consent_type: ConsentType.PHOTOGRAPHY,
         granted_by_user_id: mockConsent.granted_by_user_id as string,
       };
 
-      mockRepository.findBySwimmerAndType.mockResolvedValue({
+      mockRepository.findByMemberAndType.mockResolvedValue({
         ...mockConsent,
         status: ConsentStatus.REVOKED,
       });
@@ -161,25 +161,25 @@ describe('ConsentsService', () => {
     });
   });
 
-  describe('findBySwimmer', () => {
-    it('should return consents for a specific swimmer', async () => {
-      mockRepository.findBySwimmer.mockResolvedValue([mockConsent]);
+  describe('findByMember', () => {
+    it('should return consents for a specific member', async () => {
+      mockRepository.findByMember.mockResolvedValue([mockConsent]);
 
-      const result = await service.findBySwimmer(mockConsent.swimmer_id as string);
+      const result = await service.findByMember(mockConsent.member_id as string);
 
       expect(result).toEqual([mockConsent]);
-      expect(mockRepository.findBySwimmer).toHaveBeenCalledWith(mockConsent.swimmer_id);
+      expect(mockRepository.findByMember).toHaveBeenCalledWith(mockConsent.member_id);
     });
   });
 
-  describe('getSwimmerConsentStatus', () => {
+  describe('getMemberConsentStatus', () => {
     it('should return consent status for all types', async () => {
-      mockRepository.findBySwimmer.mockResolvedValue([
+      mockRepository.findByMember.mockResolvedValue([
         { ...mockConsent, consent_type: ConsentType.PHOTOGRAPHY, status: ConsentStatus.GRANTED },
         { ...mockConsent, consent_type: ConsentType.VIDEO, status: ConsentStatus.DENIED },
       ]);
 
-      const result = await service.getSwimmerConsentStatus(mockConsent.swimmer_id as string);
+      const result = await service.getMemberConsentStatus(mockConsent.member_id as string);
 
       expect(result[ConsentType.PHOTOGRAPHY]).toBe(true);
       expect(result[ConsentType.VIDEO]).toBe(false);
@@ -188,15 +188,15 @@ describe('ConsentsService', () => {
   });
 
   describe('hasConsent', () => {
-    it('should return true when swimmer has a granted, non-expired consent', async () => {
-      mockRepository.findBySwimmerAndType.mockResolvedValue({
+    it('should return true when member has a granted, non-expired consent', async () => {
+      mockRepository.findByMemberAndType.mockResolvedValue({
         ...mockConsent,
         status: ConsentStatus.GRANTED,
         expiry_date: null,
       });
 
       const result = await service.hasConsent(
-        mockConsent.swimmer_id as string,
+        mockConsent.member_id as string,
         ConsentType.PHOTOGRAPHY,
       );
 
@@ -204,10 +204,10 @@ describe('ConsentsService', () => {
     });
 
     it('should return false when no consent exists', async () => {
-      mockRepository.findBySwimmerAndType.mockResolvedValue(null);
+      mockRepository.findByMemberAndType.mockResolvedValue(null);
 
       const result = await service.hasConsent(
-        mockConsent.swimmer_id as string,
+        mockConsent.member_id as string,
         ConsentType.PHOTOGRAPHY,
       );
 
@@ -218,14 +218,14 @@ describe('ConsentsService', () => {
       const pastDate = new Date();
       pastDate.setFullYear(pastDate.getFullYear() - 1);
 
-      mockRepository.findBySwimmerAndType.mockResolvedValue({
+      mockRepository.findByMemberAndType.mockResolvedValue({
         ...mockConsent,
         status: ConsentStatus.GRANTED,
         expiry_date: pastDate,
       });
 
       const result = await service.hasConsent(
-        mockConsent.swimmer_id as string,
+        mockConsent.member_id as string,
         ConsentType.PHOTOGRAPHY,
       );
 
@@ -233,13 +233,13 @@ describe('ConsentsService', () => {
     });
 
     it('should return false when consent status is not granted', async () => {
-      mockRepository.findBySwimmerAndType.mockResolvedValue({
+      mockRepository.findByMemberAndType.mockResolvedValue({
         ...mockConsent,
         status: ConsentStatus.DENIED,
       });
 
       const result = await service.hasConsent(
-        mockConsent.swimmer_id as string,
+        mockConsent.member_id as string,
         ConsentType.PHOTOGRAPHY,
       );
 
@@ -382,7 +382,7 @@ describe('ConsentsService', () => {
         status: ConsentStatus.GRANTED,
         expiry_date: expiry,
         granted_by: { first_name: 'Alex', last_name: 'Jones', email: 'alex@example.com' } as any,
-        swimmer: { first_name: 'Sam', last_name: 'Jones', dob: new Date('2012-05-01') } as any,
+        member: { first_name: 'Sam', last_name: 'Jones', dob: new Date('2012-05-01') } as any,
       };
     };
 

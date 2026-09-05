@@ -12,7 +12,7 @@ import { AuditInterceptor } from './common/audit/audit.interceptor';
 import { AuditLogsModule } from './modules/compliance/audit-logs/audit-logs.module';
 import { validate } from './config/env.validation';
 import { competitionsEnabled } from './common/features/competitions.feature';
-import { SwimmersModule } from './modules/swimmers/swimmers.module';
+import { MembersModule } from './modules/members/members.module';
 import { SquadsModule } from './modules/squads/squads.module';
 import { FamiliesModule } from './modules/families/families.module';
 import { UsersModule } from './modules/users/users.module';
@@ -68,7 +68,7 @@ import { AppController } from './app.controller';
     // module once and shares the same provider instance.
     AuditLogsModule,
     ClubsModule,
-    SwimmersModule,
+    MembersModule,
     SquadsModule,
     FamiliesModule,
     UsersModule,

@@ -45,11 +45,11 @@ import {
 type ImportStep = 'upload' | 'map' | 'preview' | 'importing' | 'results';
 
 type CanonicalField =
-  | 'swimmer_first_name'
-  | 'swimmer_last_name'
+  | 'member_first_name'
+  | 'member_last_name'
   | 'date_of_birth'
   | 'gender'
-  | 'se_number'
+  | 'registration_number'
   | 'governing_body'
   | 'squad_name'
   | 'medical_notes'
@@ -64,13 +64,13 @@ type CanonicalField =
   | 'postcode';
 
 const CANONICAL_FIELDS: { key: CanonicalField; label: string; required: boolean }[] = [
-  { key: 'swimmer_first_name', label: 'Swimmer first name', required: true },
-  { key: 'swimmer_last_name', label: 'Swimmer last name', required: true },
+  { key: 'member_first_name', label: 'Member first name', required: true },
+  { key: 'member_last_name', label: 'Member last name', required: true },
   { key: 'date_of_birth', label: 'Date of birth', required: true },
   { key: 'gender', label: 'Gender', required: true },
   { key: 'parent_name', label: 'Parent name', required: true },
   { key: 'parent_email', label: 'Parent email', required: true },
-  { key: 'se_number', label: 'Membership / registration number', required: false },
+  { key: 'registration_number', label: 'Membership / registration number', required: false },
   { key: 'governing_body', label: 'Governing body', required: false },
   { key: 'squad_name', label: 'Squad', required: false },
   { key: 'medical_notes', label: 'Medical notes', required: false },
@@ -93,11 +93,11 @@ const REQUIRED_FIELDS = CANONICAL_FIELDS.filter((f) => f.required).map((f) => f.
  * "Family Name" is also a surname synonym in other systems' exports.
  */
 const AUTO_MAP_FIELDS: readonly AutoMapField<CanonicalField>[] = [
-  { key: 'swimmer_first_name', canonical: 'first_name' },
-  { key: 'swimmer_last_name', canonical: 'last_name' },
+  { key: 'member_first_name', canonical: 'first_name' },
+  { key: 'member_last_name', canonical: 'last_name' },
   { key: 'date_of_birth', canonical: 'date_of_birth' },
   { key: 'gender', canonical: 'gender' },
-  { key: 'se_number', canonical: 'registration_number' },
+  { key: 'registration_number', canonical: 'registration_number' },
   { key: 'governing_body', canonical: 'governing_body' },
   { key: 'squad_name', canonical: 'squad' },
   { key: 'medical_notes', canonical: 'medical_notes' },
@@ -112,7 +112,7 @@ const AUTO_MAP_FIELDS: readonly AutoMapField<CanonicalField>[] = [
   { key: 'postcode', canonical: 'postcode' },
 ];
 
-const TEMPLATE_CSV = `swimmer_first_name,swimmer_last_name,date_of_birth,gender,se_number,governing_body,squad,medical_notes,emergency_contact,parent_name,parent_email,parent_phone,family_name,address_line1,address_line2,city,postcode
+const TEMPLATE_CSV = `member_first_name,member_last_name,date_of_birth,gender,registration_number,governing_body,squad,medical_notes,emergency_contact,parent_name,parent_email,parent_phone,family_name,address_line1,address_line2,city,postcode
 Olivia,Hartley,2014-05-12,F,1234567,SWIM_ENGLAND,Juniors,Mild asthma (inhaler in kit bag),Sarah Hartley 07700 900123,Sarah Hartley,sarah.hartley@example.co.uk,07700 900123,Hartley,14 Meadow Lane,,Leeds,LS6 3AB
 Thomas,Hartley,2012-09-30,M,1234568,SWIM_ENGLAND,Performance,,Sarah Hartley 07700 900123,Sarah Hartley,sarah.hartley@example.co.uk,07700 900123,Hartley,14 Meadow Lane,,Leeds,LS6 3AB
 Amelia,Rhys-Jones,2015-01-22,F,2345678,SWIM_WALES,Learn to Swim,,David Rhys-Jones 07700 900456,David Rhys-Jones,d.rhysjones@example.co.uk,07700 900456,Rhys-Jones,7 Castle View,Pontcanna,Cardiff,CF11 9LJ`;
@@ -159,8 +159,8 @@ function validateRow(row: DraftRow): RowValidation {
   const errors: string[] = [];
   const v = row.values;
 
-  if (!v.swimmer_first_name) errors.push('Swimmer first name is required');
-  if (!v.swimmer_last_name) errors.push('Swimmer last name is required');
+  if (!v.member_first_name) errors.push('Member first name is required');
+  if (!v.member_last_name) errors.push('Member last name is required');
 
   let normalisedDate = '';
   if (!v.date_of_birth) {
@@ -201,11 +201,11 @@ function toApiRow(row: DraftRow, validation: RowValidation): MemberImportRow {
   const optional = (value: string) => (value ? value : undefined);
 
   return {
-    swimmer_first_name: v.swimmer_first_name,
-    swimmer_last_name: v.swimmer_last_name,
+    member_first_name: v.member_first_name,
+    member_last_name: v.member_last_name,
     dob: validation.normalisedDate,
     gender: validation.normalisedGender,
-    se_number: optional(v.se_number),
+    registration_number: optional(v.registration_number),
     governing_body: optional(v.governing_body),
     squad_name: optional(v.squad_name),
     medical_notes: optional(v.medical_notes),
@@ -251,8 +251,8 @@ export default function MembersImportPage() {
   >([]);
   const [importResults, setImportResults] = useState<{
     familiesCreated: number;
-    swimmersCreated: number;
-    swimmersUpdated: number;
+    membersCreated: number;
+    membersUpdated: number;
     errors: MemberImportError[];
   } | null>(null);
 
@@ -395,12 +395,12 @@ export default function MembersImportPage() {
       const result = await importMembers(apiRows, { create_missing_squads: createMissingSquads });
       setImportResults({
         familiesCreated: result.summary.families_created,
-        swimmersCreated: result.summary.swimmers_created,
-        swimmersUpdated: result.summary.swimmers_updated,
+        membersCreated: result.summary.members_created,
+        membersUpdated: result.summary.members_updated,
         errors: result.errors || [],
       });
 
-      const total = result.summary.swimmers_created + result.summary.swimmers_updated;
+      const total = result.summary.members_created + result.summary.members_updated;
       if (total > 0 && (!result.errors || result.errors.length === 0)) {
         toast.success(`${total} member${total !== 1 ? 's' : ''} imported successfully`);
       } else if (total > 0) {
@@ -411,8 +411,8 @@ export default function MembersImportPage() {
     } catch (err) {
       setImportResults({
         familiesCreated: 0,
-        swimmersCreated: 0,
-        swimmersUpdated: 0,
+        membersCreated: 0,
+        membersUpdated: 0,
         errors: [{ row: 0, message: err instanceof Error ? err.message : 'Import failed' }],
       });
       toast.error(err instanceof Error ? err.message : 'Member import failed');
@@ -502,7 +502,7 @@ export default function MembersImportPage() {
               </Link>
               <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight mb-2">Import Members</h1>
               <p className="text-grey-600 text-lg">
-                Upload a CSV or Excel file to add swimmers and their families in one go
+                Upload a CSV or Excel file to add members and their families in one go
               </p>
             </div>
           </div>
@@ -541,12 +541,12 @@ export default function MembersImportPage() {
                     1. Download the template
                   </h3>
                   <p className="text-text-secondary text-sm mb-3">
-                    Required columns: <span className="text-white font-medium">swimmer_first_name</span>,{' '}
-                    <span className="text-white font-medium">swimmer_last_name</span>,{' '}
+                    Required columns: <span className="text-white font-medium">member_first_name</span>,{' '}
+                    <span className="text-white font-medium">member_last_name</span>,{' '}
                     <span className="text-white font-medium">date_of_birth</span>,{' '}
                     <span className="text-white font-medium">gender</span>,{' '}
                     <span className="text-white font-medium">parent_name</span> and{' '}
-                    <span className="text-white font-medium">parent_email</span>. Swimmers with the same
+                    <span className="text-white font-medium">parent_email</span>. Members with the same
                     parent email are grouped into one family. Exports from other systems work too, because
                     you can match your columns to {BRAND.name} fields in the next step. {DOB_FORMAT_HINT}
                   </p>
@@ -715,11 +715,11 @@ export default function MembersImportPage() {
                             title={hasRowError ? rowErrors.join(', ') : undefined}
                           >
                             <td className="px-4 py-3 text-text-tertiary">{i + 1}</td>
-                            <td className={`px-4 py-3 ${!v.swimmer_first_name ? 'text-red-400 italic' : 'text-white'}`}>
-                              {v.swimmer_first_name || 'missing'}
+                            <td className={`px-4 py-3 ${!v.member_first_name ? 'text-red-400 italic' : 'text-white'}`}>
+                              {v.member_first_name || 'missing'}
                             </td>
-                            <td className={`px-4 py-3 ${!v.swimmer_last_name ? 'text-red-400 italic' : 'text-white'}`}>
-                              {v.swimmer_last_name || 'missing'}
+                            <td className={`px-4 py-3 ${!v.member_last_name ? 'text-red-400 italic' : 'text-white'}`}>
+                              {v.member_last_name || 'missing'}
                             </td>
                             <td className={`px-4 py-3 ${
                               rowErrors.some((e) => e.toLowerCase().includes('date'))
@@ -795,7 +795,7 @@ export default function MembersImportPage() {
                   {dryRun.status === 'loading' && (
                     <div className="flex items-center space-x-2 text-text-secondary text-sm">
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Checking your rows against existing families, swimmers and squads...</span>
+                      <span>Checking your rows against existing families, members and squads...</span>
                     </div>
                   )}
                   {dryRun.status === 'error' && (
@@ -824,12 +824,12 @@ export default function MembersImportPage() {
                           <p className="text-text-secondary text-xs">Families matched</p>
                         </div>
                         <div className="bg-dark-primary rounded-xl border border-white/20 p-3 text-center">
-                          <p className="text-brand text-2xl font-bold">{dryRun.data.summary.swimmers_to_create}</p>
-                          <p className="text-text-secondary text-xs">Swimmers to create</p>
+                          <p className="text-brand text-2xl font-bold">{dryRun.data.summary.members_to_create}</p>
+                          <p className="text-text-secondary text-xs">Members to create</p>
                         </div>
                         <div className="bg-dark-primary rounded-xl border border-white/20 p-3 text-center">
-                          <p className="text-white text-2xl font-bold">{dryRun.data.summary.swimmers_to_update}</p>
-                          <p className="text-text-secondary text-xs">Swimmers to update</p>
+                          <p className="text-white text-2xl font-bold">{dryRun.data.summary.members_to_update}</p>
+                          <p className="text-text-secondary text-xs">Members to update</p>
                         </div>
                       </div>
                       {dryRun.data.summary.squads_matched.length > 0 && (
@@ -844,7 +844,7 @@ export default function MembersImportPage() {
                           <span className="text-white">{dryRun.data.summary.squads_missing.join(', ')}</span>
                           {createMissingSquads
                             ? '. They will be created during the import.'
-                            : '. Swimmers in these squads will be imported without a squad.'}
+                            : '. Members in these squads will be imported without a squad.'}
                         </p>
                       )}
                     </div>
@@ -884,7 +884,7 @@ export default function MembersImportPage() {
                     Importing {submittedEntries.length} member{submittedEntries.length !== 1 ? 's' : ''}...
                   </h3>
                   <p className="text-text-secondary">
-                    Please wait while families, swimmers and squads are being added. This can take a
+                    Please wait while families, members and squads are being added. This can take a
                     moment for larger files.
                   </p>
                 </div>
@@ -901,7 +901,7 @@ export default function MembersImportPage() {
               <div className="space-y-6">
                 {/* Result Summary */}
                 <div className="text-center py-8">
-                  {importResults.swimmersCreated + importResults.swimmersUpdated > 0 &&
+                  {importResults.membersCreated + importResults.membersUpdated > 0 &&
                   importResults.errors.length === 0 ? (
                     <>
                       <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-brand bg-opacity-10 flex items-center justify-center">
@@ -912,7 +912,7 @@ export default function MembersImportPage() {
                         Your members were imported successfully.
                       </p>
                     </>
-                  ) : importResults.swimmersCreated + importResults.swimmersUpdated > 0 ? (
+                  ) : importResults.membersCreated + importResults.membersUpdated > 0 ? (
                     <>
                       <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-yellow-500 bg-opacity-10 flex items-center justify-center">
                         <AlertTriangle className="w-8 h-8 text-yellow-400" />
@@ -942,12 +942,12 @@ export default function MembersImportPage() {
                     <p className="text-text-secondary text-sm">Families created</p>
                   </div>
                   <div className="px-6 py-4 bg-brand bg-opacity-10 border border-brand border-opacity-30 rounded-xl text-center min-w-[140px]">
-                    <p className="text-brand text-3xl font-bold">{importResults.swimmersCreated}</p>
-                    <p className="text-text-secondary text-sm">Swimmers created</p>
+                    <p className="text-brand text-3xl font-bold">{importResults.membersCreated}</p>
+                    <p className="text-text-secondary text-sm">Members created</p>
                   </div>
                   <div className="px-6 py-4 bg-dark-primary/80 border border-white/20 rounded-xl text-center min-w-[140px]">
-                    <p className="text-white text-3xl font-bold">{importResults.swimmersUpdated}</p>
-                    <p className="text-text-secondary text-sm">Swimmers updated</p>
+                    <p className="text-white text-3xl font-bold">{importResults.membersUpdated}</p>
+                    <p className="text-text-secondary text-sm">Members updated</p>
                   </div>
                   {(importResults.errors.length > 0 || errorCount > 0) && (
                     <div className="px-6 py-4 bg-red-500 bg-opacity-10 border border-red-500 border-opacity-30 rounded-xl text-center min-w-[140px]">

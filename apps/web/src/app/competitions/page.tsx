@@ -179,7 +179,7 @@ export default function CompetitionsPage() {
               <EmptyState
                 icon={Trophy}
                 title="No competitions yet"
-                description={`Competitions track meets, ${eventNoun}, and events your swimmers enter.`}
+                description={`Competitions track meets, ${eventNoun}, and events your members enter.`}
                 hint="Add your first competition to start managing entries and results."
                 actionLabel="Add Competition"
                 actionOnClick={handleOpenAddModal}

@@ -61,11 +61,11 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
         {/* Center - Search */}
         <div className="flex-1 max-w-xl mx-2 sm:mx-4 md:mx-8">
           <div className="relative hidden sm:block">
-            <label htmlFor="topbar-search" className="sr-only">Search swimmers, families, sessions</label>
+            <label htmlFor="topbar-search" className="sr-only">Search members, families, sessions</label>
             <input
               id="topbar-search"
               type="text"
-              placeholder="Search swimmers, families, sessions..."
+              placeholder="Search members, families, sessions..."
               className="w-full px-4 py-2 pl-10 bg-white/10 border border-transparent rounded-xl text-sm text-white placeholder-text-tertiary focus:outline-none focus:border-brand/30 focus:ring-2 focus:ring-brand/20 transition-all"
             />
             <svg

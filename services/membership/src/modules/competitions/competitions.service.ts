@@ -68,14 +68,14 @@ export class CompetitionsService {
     return await this.repository.findResultsByCompetition(competitionId);
   }
 
-  async getSwimmerResults(swimmerId: string): Promise<CompetitionResult[]> {
-    return await this.repository.findResultsBySwimmer(swimmerId);
+  async getMemberResults(memberId: string): Promise<CompetitionResult[]> {
+    return await this.repository.findResultsByMember(memberId);
   }
 
-  async getSwimmerPersonalBests(swimmerId: string) {
+  async getMemberPersonalBests(memberId: string) {
     const [personalBests, seasonBests] = await Promise.all([
-      this.personalBests.getForSwimmer(swimmerId),
-      this.personalBests.getSeasonBests(swimmerId),
+      this.personalBests.getForMember(memberId),
+      this.personalBests.getSeasonBests(memberId),
     ]);
     return {
       personalBests,
@@ -94,7 +94,7 @@ export class CompetitionsService {
       course: dto.course ?? competition.course,
       time: dto.dq ? 0 : dto.time,
     });
-    await this.personalBests.recomputeForSwimmer(result.swimmer_id);
+    await this.personalBests.recomputeForMember(result.member_id);
     return (await this.repository.findResultById(result.result_id)) ?? result;
   }
 
@@ -115,7 +115,7 @@ export class CompetitionsService {
     if (!updated) {
       throw new NotFoundException(`Result with ID ${resultId} not found`);
     }
-    await this.personalBests.recomputeForSwimmer(existing.swimmer_id);
+    await this.personalBests.recomputeForMember(existing.member_id);
     return (await this.repository.findResultById(resultId)) ?? updated;
   }
 
@@ -126,6 +126,6 @@ export class CompetitionsService {
       throw new NotFoundException(`Result with ID ${resultId} not found`);
     }
     await this.repository.removeResult(resultId);
-    await this.personalBests.recomputeForSwimmer(existing.swimmer_id);
+    await this.personalBests.recomputeForMember(existing.member_id);
   }
 }

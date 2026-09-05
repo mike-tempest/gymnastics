@@ -341,11 +341,11 @@ export default function ImportWizard({
                   <p className="text-text-secondary text-xs">Total Results</p>
                 </div>
                 <div className="bg-white/5 rounded-xl p-3 text-center">
-                  <p className="text-2xl font-bold text-brand">{preview.matchedSwimmers}</p>
-                  <p className="text-text-secondary text-xs">Matched Swimmers</p>
+                  <p className="text-2xl font-bold text-brand">{preview.matchedMembers}</p>
+                  <p className="text-text-secondary text-xs">Matched Members</p>
                 </div>
                 <div className="bg-white/5 rounded-xl p-3 text-center">
-                  <p className="text-2xl font-bold text-yellow-400">{preview.unmatchedSwimmers.length}</p>
+                  <p className="text-2xl font-bold text-yellow-400">{preview.unmatchedMembers.length}</p>
                   <p className="text-text-secondary text-xs">Unmatched</p>
                 </div>
                 <div className="bg-white/5 rounded-xl p-3 text-center">
@@ -361,20 +361,20 @@ export default function ImportWizard({
                 </p>
               )}
 
-              {/* Unmatched swimmers warning */}
-              {preview.unmatchedSwimmers.length > 0 && (
+              {/* Unmatched members warning */}
+              {preview.unmatchedMembers.length > 0 && (
                 <div className="p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
                   <div className="flex items-start gap-2">
                     <AlertTriangle className="w-5 h-5 text-yellow-400 shrink-0 mt-0.5" />
                     <div>
                       <p className="text-yellow-400 text-sm font-semibold mb-1">
-                        Unmatched Swimmers
+                        Unmatched Members
                       </p>
                       <p className="text-text-secondary text-sm">
-                        The following swimmers could not be matched to club members:
+                        The following members could not be matched to club members:
                       </p>
                       <ul className="mt-1 text-yellow-400/80 text-sm list-disc list-inside">
-                        {preview.unmatchedSwimmers.map((name) => (
+                        {preview.unmatchedMembers.map((name) => (
                           <li key={name}>{name}</li>
                         ))}
                       </ul>
@@ -395,7 +395,7 @@ export default function ImportWizard({
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="text-left text-text-tertiary text-xs uppercase tracking-wider">
-                          <th className="px-3 py-2">Swimmer</th>
+                          <th className="px-3 py-2">Member</th>
                           <th className="px-3 py-2">Event</th>
                           <th className="px-3 py-2">Time</th>
                           <th className="px-3 py-2">Place</th>
@@ -404,7 +404,7 @@ export default function ImportWizard({
                       <tbody>
                         {preview.results.slice(0, 20).map((r, i) => (
                           <tr key={i} className="border-t border-white/5">
-                            <td className="px-3 py-2 text-white">{r.swimmer_name}</td>
+                            <td className="px-3 py-2 text-white">{r.member_name}</td>
                             <td className="px-3 py-2 text-text-secondary">
                               {r.distance}m {r.stroke}
                             </td>

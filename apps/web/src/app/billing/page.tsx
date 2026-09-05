@@ -402,7 +402,7 @@ export default function BillingPage() {
                 icon={FileText}
                 title="No invoices yet"
                 description="Generate invoices for your families and track who has paid. No more chasing standing orders."
-                hint="You can create invoices individually or generate them in bulk for all active swimmers."
+                hint="You can create invoices individually or generate them in bulk for all active members."
                 actionLabel="Create Invoice"
                 actionHref="/billing/create"
               />

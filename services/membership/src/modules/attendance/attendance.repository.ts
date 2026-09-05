@@ -46,7 +46,7 @@ export class AttendanceRepository {
 
   async findAll(): Promise<Attendance[]> {
     return await this.scoped.scopedFind(this.repository, {
-      relations: ['swimmer'],
+      relations: ['member'],
       order: {
         created_at: 'DESC',
       },
@@ -57,37 +57,37 @@ export class AttendanceRepository {
     // An attendance_id from another club resolves to null (behaves as not-found).
     return await this.scoped.scopedFindOne(this.repository, {
       where: { attendance_id: id },
-      relations: ['swimmer'],
+      relations: ['member'],
     });
   }
 
   async findBySession(sessionId: string): Promise<Attendance[]> {
     return await this.scoped.scopedFind(this.repository, {
       where: { session_id: sessionId },
-      relations: ['swimmer'],
+      relations: ['member'],
       order: {
         created_at: 'ASC',
       },
     });
   }
 
-  async findBySwimmer(swimmerId: string): Promise<Attendance[]> {
+  async findByMember(memberId: string): Promise<Attendance[]> {
     return await this.scoped.scopedFind(this.repository, {
-      where: { swimmer_id: swimmerId },
+      where: { member_id: memberId },
       order: {
         created_at: 'DESC',
       },
     });
   }
 
-  async findBySwimmerAndDateRange(
-    swimmerId: string,
+  async findByMemberAndDateRange(
+    memberId: string,
     startDate: Date,
     endDate: Date,
   ): Promise<Attendance[]> {
     return await this.scoped.scopedFind(this.repository, {
       where: {
-        swimmer_id: swimmerId,
+        member_id: memberId,
         created_at: Between(startDate, endDate),
       },
       order: {
@@ -96,8 +96,8 @@ export class AttendanceRepository {
     });
   }
 
-  async getAttendanceStats(swimmerId: string): Promise<AttendanceStats> {
-    const allAttendance = await this.findBySwimmer(swimmerId);
+  async getAttendanceStats(memberId: string): Promise<AttendanceStats> {
+    const allAttendance = await this.findByMember(memberId);
 
     const total_sessions = allAttendance.length;
     const attended = allAttendance.filter((a) => a.status === AttendanceStatus.PRESENT).length;
@@ -118,11 +118,11 @@ export class AttendanceRepository {
     };
   }
 
-  async findBySessionAndSwimmer(sessionId: string, swimmerId: string): Promise<Attendance | null> {
+  async findBySessionAndMember(sessionId: string, memberId: string): Promise<Attendance | null> {
     return await this.scoped.scopedFindOne(this.repository, {
       where: {
         session_id: sessionId,
-        swimmer_id: swimmerId,
+        member_id: memberId,
       },
     });
   }

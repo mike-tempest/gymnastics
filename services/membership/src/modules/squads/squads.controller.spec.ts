@@ -3,7 +3,7 @@ import { SquadsController } from './squads.controller';
 import { SquadsService } from './squads.service';
 import { CreateSquadDto } from './dto/create-squad.dto';
 import { UpdateSquadDto } from './dto/update-squad.dto';
-import { AssignSwimmerDto } from './dto/assign-swimmer.dto';
+import { AssignMemberDto } from './dto/assign-member.dto';
 import { BulkCreateSquadDto } from './dto/bulk-create-squad.dto';
 
 describe('SquadsController', () => {
@@ -19,14 +19,14 @@ describe('SquadsController', () => {
     coach_name: 'Sarah Jones',
     training_times: 'Monday 17:00, Wednesday 17:00',
     max_capacity: 20,
-    swimmer_count: 0,
-    swimmers: [],
+    member_count: 0,
+    members: [],
     created_at: new Date(),
     updated_at: new Date(),
   };
 
-  const mockSwimmer = {
-    swimmer_id: '123e4567-e89b-12d3-a456-426614174000',
+  const mockMember = {
+    member_id: '123e4567-e89b-12d3-a456-426614174000',
     first_name: 'Tom',
     last_name: 'Brown',
   };
@@ -38,9 +38,9 @@ describe('SquadsController', () => {
     findOne: jest.fn(),
     update: jest.fn(),
     remove: jest.fn(),
-    assignSwimmer: jest.fn(),
-    removeSwimmer: jest.fn(),
-    getSwimmersBySquad: jest.fn(),
+    assignMember: jest.fn(),
+    removeMember: jest.fn(),
+    getMembersBySquad: jest.fn(),
     getStatistics: jest.fn(),
   };
 
@@ -134,14 +134,14 @@ describe('SquadsController', () => {
     });
   });
 
-  describe('getSwimmers', () => {
-    it('should return swimmers in the specified squad', async () => {
-      mockService.getSwimmersBySquad.mockResolvedValue([mockSwimmer]);
+  describe('getMembers', () => {
+    it('should return members in the specified squad', async () => {
+      mockService.getMembersBySquad.mockResolvedValue([mockMember]);
 
-      const result = await controller.getSwimmers(mockSquad.squad_id);
+      const result = await controller.getMembers(mockSquad.squad_id);
 
-      expect(result).toEqual([mockSwimmer]);
-      expect(mockService.getSwimmersBySquad).toHaveBeenCalledWith(mockSquad.squad_id);
+      expect(result).toEqual([mockMember]);
+      expect(mockService.getMembersBySquad).toHaveBeenCalledWith(mockSquad.squad_id);
     });
   });
 
@@ -169,35 +169,35 @@ describe('SquadsController', () => {
     });
   });
 
-  describe('assignSwimmer', () => {
-    it('should assign a swimmer to the squad', async () => {
-      const assignDto: AssignSwimmerDto = { swimmer_id: mockSwimmer.swimmer_id };
-      const updatedSquad = { ...mockSquad, swimmer_count: 1, swimmers: [mockSwimmer] };
+  describe('assignMember', () => {
+    it('should assign a member to the squad', async () => {
+      const assignDto: AssignMemberDto = { member_id: mockMember.member_id };
+      const updatedSquad = { ...mockSquad, member_count: 1, members: [mockMember] };
 
-      mockService.assignSwimmer.mockResolvedValue(updatedSquad);
+      mockService.assignMember.mockResolvedValue(updatedSquad);
 
-      const result = await controller.assignSwimmer(mockSquad.squad_id, assignDto);
+      const result = await controller.assignMember(mockSquad.squad_id, assignDto);
 
       expect(result).toEqual(updatedSquad);
-      expect(mockService.assignSwimmer).toHaveBeenCalledWith(
+      expect(mockService.assignMember).toHaveBeenCalledWith(
         mockSquad.squad_id,
-        mockSwimmer.swimmer_id,
+        mockMember.member_id,
       );
     });
   });
 
-  describe('removeSwimmer', () => {
-    it('should remove a swimmer from the squad', async () => {
-      const updatedSquad = { ...mockSquad, swimmer_count: 0, swimmers: [] };
+  describe('removeMember', () => {
+    it('should remove a member from the squad', async () => {
+      const updatedSquad = { ...mockSquad, member_count: 0, members: [] };
 
-      mockService.removeSwimmer.mockResolvedValue(updatedSquad);
+      mockService.removeMember.mockResolvedValue(updatedSquad);
 
-      const result = await controller.removeSwimmer(mockSquad.squad_id, mockSwimmer.swimmer_id);
+      const result = await controller.removeMember(mockSquad.squad_id, mockMember.member_id);
 
       expect(result).toEqual(updatedSquad);
-      expect(mockService.removeSwimmer).toHaveBeenCalledWith(
+      expect(mockService.removeMember).toHaveBeenCalledWith(
         mockSquad.squad_id,
-        mockSwimmer.swimmer_id,
+        mockMember.member_id,
       );
     });
   });

@@ -1,4 +1,4 @@
-export * from './swimmer.entity';
+export * from './member.entity';
 export * from './squad.entity';
 export * from './family.entity';
 export * from './invoice.entity';

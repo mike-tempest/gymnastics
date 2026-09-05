@@ -17,13 +17,13 @@ import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useClubRegion } from '@/hooks/useClubRegion';
 import { useFormatters } from '@/hooks/useFormatters';
-import { getConsentData, SwimmerConsent } from '@/lib/api/compliance';
+import { getConsentData, MemberConsent } from '@/lib/api/compliance';
 import { downloadCsv } from '@/lib/csv-export';
 
 type FilterTab = 'all' | 'complete' | 'incomplete';
 
-function isConsentComplete(swimmer: SwimmerConsent): boolean {
-  return swimmer.medicalConsent && swimmer.photoConsent && swimmer.dataConsent;
+function isConsentComplete(member: MemberConsent): boolean {
+  return member.medicalConsent && member.photoConsent && member.dataConsent;
 }
 
 function ConsentBadge({ granted }: { granted: boolean }) {
@@ -50,7 +50,7 @@ export default function ConsentManagementPage() {
   const { dataSharingRecipient } = governingBodyConfig(
     club?.governing_body ?? defaultGoverningBodyForCountry(country),
   );
-  const [consentData, setConsentData] = useState<SwimmerConsent[]>([]);
+  const [consentData, setConsentData] = useState<MemberConsent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -73,7 +73,7 @@ export default function ConsentManagementPage() {
     fetchData();
   }, [fetchData]);
 
-  const filteredSwimmers = useMemo(() => {
+  const filteredMembers = useMemo(() => {
     let result = consentData;
 
     if (searchQuery.trim()) {
@@ -135,7 +135,7 @@ export default function ConsentManagementPage() {
             <div>
               <h1 className="font-serif text-3xl sm:text-4xl text-dark-primary tracking-tight mb-2">Consent management</h1>
               <p className="text-grey-600 text-lg">
-                Track medical, photo, and data consent for all swimmers. Data consent covers
+                Track medical, photo, and data consent for all members. Data consent covers
                 data sharing with {dataSharingRecipient}.
               </p>
             </div>
@@ -143,7 +143,7 @@ export default function ConsentManagementPage() {
               onClick={() =>
                 downloadCsv(
                   'consent-records.csv',
-                  filteredSwimmers.map((s) => ({
+                  filteredMembers.map((s) => ({
                     Name: s.name,
                     Squad: s.squad,
                     'Medical Consent': s.medicalConsent ? 'Yes' : 'No',
@@ -166,7 +166,7 @@ export default function ConsentManagementPage() {
               <div className="flex items-center gap-3">
                 <Users className="w-6 h-6 text-brand" />
                 <div>
-                  <p className="text-white/60 text-sm">Total swimmers</p>
+                  <p className="text-white/60 text-sm">Total members</p>
                   <p className="text-2xl font-bold text-white tabular-nums">{consentData.length}</p>
                 </div>
               </div>
@@ -201,7 +201,7 @@ export default function ConsentManagementPage() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search by swimmer name or squad..."
+                  placeholder="Search by member name or squad..."
                   className="w-full pl-12 pr-4 py-3 min-h-[44px] rounded-xl bg-white/5 border border-white/20 text-white focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 outline-none transition-all"
                 />
               </div>
@@ -226,14 +226,14 @@ export default function ConsentManagementPage() {
               <EmptyState
                 icon={Users}
                 title="No consent records yet"
-                description="Collect medical, photography, and data consent from parents so you have a clear record for every swimmer."
+                description="Collect medical, photography, and data consent from parents so you have a clear record for every member."
                 actionLabel={null}
               />
-            ) : filteredSwimmers.length === 0 ? (
+            ) : filteredMembers.length === 0 ? (
               <EmptyState
                 icon={Search}
-                title="No swimmers found"
-                description="No swimmers match your search criteria."
+                title="No members found"
+                description="No members match your search criteria."
                 actionLabel="Clear filters"
                 actionOnClick={() => { setSearchQuery(''); setActiveTab('all'); }}
               />
@@ -241,32 +241,32 @@ export default function ConsentManagementPage() {
               <>
                 {/* Mobile card view */}
                 <div className="md:hidden space-y-3">
-                  {filteredSwimmers.map((swimmer) => (
+                  {filteredMembers.map((member) => (
                     <div
-                      key={swimmer.id}
+                      key={member.id}
                       className="p-4 rounded-xl bg-white/5 border border-white/10"
                     >
                       <div className="flex items-start justify-between mb-3">
                         <div>
-                          <p className="text-white font-semibold">{swimmer.name}</p>
-                          <p className="text-white/60 text-sm">{swimmer.squad}</p>
+                          <p className="text-white font-semibold">{member.name}</p>
+                          <p className="text-white/60 text-sm">{member.squad}</p>
                         </div>
                         <p className="text-white/60 text-xs tabular-nums">
-                          {formatDate(swimmer.lastUpdated, { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                          {formatDate(member.lastUpdated, { day: '2-digit', month: '2-digit', year: 'numeric' })}
                         </p>
                       </div>
                       <div className="flex flex-wrap gap-2">
                         <div className="flex items-center gap-1.5">
                           <span className="text-white/60 text-xs">Medical</span>
-                          <ConsentBadge granted={swimmer.medicalConsent} />
+                          <ConsentBadge granted={member.medicalConsent} />
                         </div>
                         <div className="flex items-center gap-1.5">
                           <span className="text-white/60 text-xs">Photo</span>
-                          <ConsentBadge granted={swimmer.photoConsent} />
+                          <ConsentBadge granted={member.photoConsent} />
                         </div>
                         <div className="flex items-center gap-1.5">
                           <span className="text-white/60 text-xs">Data</span>
-                          <ConsentBadge granted={swimmer.dataConsent} />
+                          <ConsentBadge granted={member.dataConsent} />
                         </div>
                       </div>
                     </div>
@@ -278,7 +278,7 @@ export default function ConsentManagementPage() {
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-white/10">
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Swimmer</th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Member</th>
                         <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Squad</th>
                         <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Medical consent</th>
                         <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Photo consent</th>
@@ -287,29 +287,29 @@ export default function ConsentManagementPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredSwimmers.map((swimmer) => (
+                      {filteredMembers.map((member) => (
                         <tr
-                          key={swimmer.id}
+                          key={member.id}
                           className="border-b border-white/10 last:border-b-0 hover:bg-white/5 transition-colors"
                         >
                           <td className="py-4 px-4">
-                            <p className="text-white font-semibold">{swimmer.name}</p>
+                            <p className="text-white font-semibold">{member.name}</p>
                           </td>
                           <td className="py-4 px-4">
-                            <p className="text-white/80 text-sm">{swimmer.squad}</p>
+                            <p className="text-white/80 text-sm">{member.squad}</p>
                           </td>
                           <td className="py-4 px-4">
-                            <ConsentBadge granted={swimmer.medicalConsent} />
+                            <ConsentBadge granted={member.medicalConsent} />
                           </td>
                           <td className="py-4 px-4">
-                            <ConsentBadge granted={swimmer.photoConsent} />
+                            <ConsentBadge granted={member.photoConsent} />
                           </td>
                           <td className="py-4 px-4">
-                            <ConsentBadge granted={swimmer.dataConsent} />
+                            <ConsentBadge granted={member.dataConsent} />
                           </td>
                           <td className="py-4 px-4">
                             <p className="text-white/80 text-sm tabular-nums">
-                              {formatDate(swimmer.lastUpdated, { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                              {formatDate(member.lastUpdated, { day: '2-digit', month: '2-digit', year: 'numeric' })}
                             </p>
                           </td>
                         </tr>
@@ -319,7 +319,7 @@ export default function ConsentManagementPage() {
                 </div>
 
                 <p className="text-white/60 text-sm mt-4">
-                  Showing {filteredSwimmers.length} of {consentData.length} records
+                  Showing {filteredMembers.length} of {consentData.length} records
                 </p>
               </>
             )}

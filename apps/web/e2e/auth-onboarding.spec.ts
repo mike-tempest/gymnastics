@@ -89,17 +89,17 @@ test.describe('Protected Routes', () => {
     expect(critical, `Unexpected JS errors: ${critical.join(', ')}`).toHaveLength(0);
   });
 
-  test('redirects unauthenticated users from swimmers page', async ({ page }) => {
+  test('redirects unauthenticated users from members page', async ({ page }) => {
     const errors = attachErrorCollector(page);
 
-    await page.goto('/swimmers');
+    await page.goto('/members');
 
     const redirectedToLogin = page.url().includes('/login');
 
     if (!redirectedToLogin) {
-      // If swimmers page loads, verify content is present
+      // If members page loads, verify content is present
       const hasContent = await page
-        .getByText(/swimmers/i)
+        .getByText(/members/i)
         .first()
         .isVisible()
         .catch(() => false);
@@ -409,13 +409,13 @@ test.describe('Complete Happy Path', () => {
     expect(critical, `Unexpected JS errors: ${critical.join(', ')}`).toHaveLength(0);
   });
 
-  test('swimmers page loads correctly', async ({ page }) => {
+  test('members page loads correctly', async ({ page }) => {
     const errors = attachErrorCollector(page);
 
-    await page.goto('/swimmers');
+    await page.goto('/members');
 
     // Verify page renders
-    const response = await page.goto('/swimmers');
+    const response = await page.goto('/members');
     expect(response?.status()).toBeLessThan(500);
 
     const critical = getCriticalErrors(errors);

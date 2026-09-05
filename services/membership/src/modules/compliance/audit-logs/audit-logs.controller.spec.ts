@@ -13,9 +13,9 @@ describe('AuditLogsController', () => {
     user_id: '223e4567-e89b-12d3-a456-426614174001',
     user_email: 'coach@swimclub.org.uk',
     action: AuditAction.CREATE,
-    entity_type: AuditEntityType.SWIMMER,
+    entity_type: AuditEntityType.MEMBER,
     entity_id: '333e4567-e89b-12d3-a456-426614174002',
-    description: 'Created a new swimmer record',
+    description: 'Created a new member record',
     created_at: new Date(),
   };
 
@@ -116,11 +116,11 @@ describe('AuditLogsController', () => {
     it('should return audit logs for a specific entity', async () => {
       mockAuditLogsService.findByEntity.mockResolvedValue([mockAuditLog]);
 
-      const result = await controller.findByEntity(AuditEntityType.SWIMMER, mockAuditLog.entity_id);
+      const result = await controller.findByEntity(AuditEntityType.MEMBER, mockAuditLog.entity_id);
 
       expect(result).toEqual([mockAuditLog]);
       expect(mockAuditLogsService.findByEntity).toHaveBeenCalledWith(
-        AuditEntityType.SWIMMER,
+        AuditEntityType.MEMBER,
         mockAuditLog.entity_id,
         100,
       );

@@ -1,4 +1,4 @@
-import { Swimmer, Family, Session } from '@club-manager/shared-types';
+import { Member, Family, Session } from '@club-manager/shared-types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import { ReactElement, ReactNode } from 'react';
@@ -23,8 +23,8 @@ jest.mock('sonner', () => ({
 }));
 
 // Mock API modules
-jest.mock('@/lib/api/swimmers', () => ({
-  getSwimmers: jest.fn(),
+jest.mock('@/lib/api/members', () => ({
+  getMembers: jest.fn(),
 }));
 
 jest.mock('@/lib/api/families', () => ({
@@ -57,8 +57,8 @@ jest.mock('@/lib/api/clubs', () => ({
 // Import after mocking
 import { getFamilies } from '@/lib/api/families';
 import { getFinanceDashboard, getOverdueInvoices, FinanceDashboard, InvoiceWithDetails } from '@/lib/api/finance';
+import { getMembers } from '@/lib/api/members';
 import { getUpcomingSessions, getRecentSessions } from '@/lib/api/sessions';
-import { getSwimmers } from '@/lib/api/swimmers';
 
 import Home from '../app/page';
 
@@ -75,19 +75,19 @@ function renderWithClient(ui: ReactElement) {
   return render(ui, { wrapper: Wrapper });
 }
 
-const mockGetSwimmers = getSwimmers as jest.MockedFunction<typeof getSwimmers>;
+const mockGetMembers = getMembers as jest.MockedFunction<typeof getMembers>;
 const mockGetFamilies = getFamilies as jest.MockedFunction<typeof getFamilies>;
 const mockGetUpcomingSessions = getUpcomingSessions as jest.MockedFunction<typeof getUpcomingSessions>;
 const mockGetRecentSessions = getRecentSessions as jest.MockedFunction<typeof getRecentSessions>;
 const mockGetFinanceDashboard = getFinanceDashboard as jest.MockedFunction<typeof getFinanceDashboard>;
 const mockGetOverdueInvoices = getOverdueInvoices as jest.MockedFunction<typeof getOverdueInvoices>;
 
-const mockSwimmers = [
+const mockMembers = [
   {
-    swimmer_id: 's1',
+    member_id: 's1',
     family_id: 'f1',
     club_id: 'c1',
-    se_number: 'SE001',
+    registration_number: 'SE001',
     first_name: 'Emma',
     last_name: 'Watson',
     dob: '2015-03-15',
@@ -100,10 +100,10 @@ const mockSwimmers = [
     updated_at: '2026-02-25T10:00:00Z',
   },
   {
-    swimmer_id: 's2',
+    member_id: 's2',
     family_id: 'f2',
     club_id: 'c1',
-    se_number: 'SE002',
+    registration_number: 'SE002',
     first_name: 'Oliver',
     last_name: 'Taylor',
     dob: '2014-07-22',
@@ -152,7 +152,7 @@ const mockSessions = [
     max_participants: 20,
     status: 'scheduled',
     attendance_count: 8,
-    total_swimmers: 10,
+    total_members: 10,
     created_at: '2026-01-01',
     updated_at: '2026-01-01',
   },
@@ -169,7 +169,7 @@ const mockSessions = [
     max_participants: 15,
     status: 'scheduled',
     attendance_count: 12,
-    total_swimmers: 15,
+    total_members: 15,
     created_at: '2026-01-01',
     updated_at: '2026-01-01',
   },
@@ -221,7 +221,7 @@ const mockOverdueInvoices = [
 ];
 
 function setupMocks() {
-  mockGetSwimmers.mockResolvedValue(mockSwimmers as unknown as Swimmer[]);
+  mockGetMembers.mockResolvedValue(mockMembers as unknown as Member[]);
   mockGetFamilies.mockResolvedValue(mockFamilies as unknown as Family[]);
   mockGetUpcomingSessions.mockResolvedValue(mockSessions as unknown as Session[]);
   mockGetRecentSessions.mockResolvedValue([]);
@@ -243,33 +243,33 @@ describe('Dashboard Page', () => {
     });
   });
 
-  // The dashboard renders "Swimmers" twice: once as a primary metric card label
+  // The dashboard renders "Members" twice: once as a primary metric card label
   // and once as a quick-navigation link. The metric card label sits in a plain
   // paragraph, whereas the quick-nav label is inside an anchor, so we can single
   // out the metric card by excluding any match nested in a link.
-  function getSwimmersMetricCard() {
-    const swimmersLabel = screen
-      .getAllByText('Swimmers')
+  function getMembersMetricCard() {
+    const membersLabel = screen
+      .getAllByText('Members')
       .find((el) => el.closest('a') === null);
-    expect(swimmersLabel).toBeDefined();
-    return swimmersLabel!.closest('div');
+    expect(membersLabel).toBeDefined();
+    return membersLabel!.closest('div');
   }
 
   it('renders all primary metric cards', async () => {
     renderWithClient(<Home />);
 
     await waitFor(() => {
-      expect(getSwimmersMetricCard()).toBeInTheDocument();
+      expect(getMembersMetricCard()).toBeInTheDocument();
       expect(screen.getByText('Families')).toBeInTheDocument();
       expect(screen.getByText('This Month')).toBeInTheDocument();
     });
   });
 
-  it('displays total swimmers count after loading', async () => {
+  it('displays total members count after loading', async () => {
     renderWithClient(<Home />);
 
     await waitFor(() => {
-      expect(getSwimmersMetricCard()).toHaveTextContent('2');
+      expect(getMembersMetricCard()).toHaveTextContent('2');
     });
   });
 
@@ -300,10 +300,10 @@ describe('Dashboard Page', () => {
     });
   });
 
-  it('displays recently added swimmers in activity feed', async () => {
+  it('displays recently added members in activity feed', async () => {
     renderWithClient(<Home />);
 
-    // The activity feed combines the swimmer name with surrounding copy in a
+    // The activity feed combines the member name with surrounding copy in a
     // single node (e.g. "Emma Watson joined the club"), so match on a substring.
     await waitFor(() => {
       expect(screen.getByText(/Emma Watson/)).toBeInTheDocument();
@@ -315,7 +315,7 @@ describe('Dashboard Page', () => {
     renderWithClient(<Home />);
 
     await waitFor(() => {
-      expect(mockGetSwimmers).toHaveBeenCalledTimes(1);
+      expect(mockGetMembers).toHaveBeenCalledTimes(1);
       expect(mockGetFamilies).toHaveBeenCalledTimes(1);
       expect(mockGetUpcomingSessions).toHaveBeenCalledTimes(1);
       expect(mockGetFinanceDashboard).toHaveBeenCalledTimes(1);

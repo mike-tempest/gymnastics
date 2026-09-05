@@ -1,7 +1,7 @@
 export interface Attendance {
   attendance_id: string;
   session_id: string;
-  swimmer_id: string;
+  member_id: string;
   status: AttendanceStatus;
   check_in_time?: string | null;
   notes?: string | null;
@@ -9,8 +9,8 @@ export interface Attendance {
   updated_at: string;
 
   // Relations
-  swimmer?: {
-    swimmer_id: string;
+  member?: {
+    member_id: string;
     first_name: string;
     last_name: string;
     photo_url?: string | null;
@@ -30,7 +30,7 @@ export enum AttendanceStatus {
 }
 
 export interface AttendanceStats {
-  swimmer_id: string;
+  member_id: string;
   total_sessions: number;
   attended: number;
   absent: number;

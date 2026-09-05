@@ -1,6 +1,6 @@
 'use client';
 
-import { Swimmer, Session, Family, InvoiceStatus } from '@club-manager/shared-types';
+import { Member, Session, Family, InvoiceStatus } from '@club-manager/shared-types';
 import { UserPlus, Receipt, Users, Calendar, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -9,11 +9,11 @@ import MainLayout from '@/components/layout/MainLayout';
 import { useFormatters, type Formatters } from '@/hooks/useFormatters';
 import { getFamilies } from '@/lib/api/families';
 import { getFinanceDashboard, FinanceDashboard, getOverdueInvoices, InvoiceWithDetails } from '@/lib/api/finance';
+import { getMembers } from '@/lib/api/members';
 import { getUpcomingSessions, getRecentSessions } from '@/lib/api/sessions';
-import { getSwimmers } from '@/lib/api/swimmers';
 
 // Activity Feed Types
-type ActivityType = 'swimmer_joined' | 'invoice_paid' | 'session_completed';
+type ActivityType = 'member_joined' | 'invoice_paid' | 'session_completed';
 
 interface ActivityItem {
   id: string;
@@ -37,7 +37,7 @@ function getTimeAgo(date: Date): string {
 }
 
 function buildActivityFeed(
-  swimmers: Swimmer[],
+  members: Member[],
   invoices: InvoiceWithDetails[],
   sessions: Session[],
   formatCurrency: Formatters['formatCurrency'],
@@ -45,14 +45,14 @@ function buildActivityFeed(
 ): ActivityItem[] {
   const activities: ActivityItem[] = [];
 
-  // Add swimmer registrations
-  swimmers.forEach((swimmer) => {
+  // Add member registrations
+  members.forEach((member) => {
     activities.push({
-      id: `swimmer-${swimmer.swimmer_id}`,
-      type: 'swimmer_joined',
-      timestamp: new Date(swimmer.created_at),
-      title: `${swimmer.first_name} ${swimmer.last_name} joined the club`,
-      subtitle: 'New swimmer registration',
+      id: `member-${member.member_id}`,
+      type: 'member_joined',
+      timestamp: new Date(member.created_at),
+      title: `${member.first_name} ${member.last_name} joined the club`,
+      subtitle: 'New member registration',
       icon: 'user',
       colour: 'green',
     });
@@ -80,7 +80,7 @@ function buildActivityFeed(
     .filter((session) => session.status === 'completed' && session.attendance_count !== undefined)
     .forEach((session) => {
       const attended = session.attendance_count ?? 0;
-      const total = session.total_swimmers ?? 0;
+      const total = session.total_members ?? 0;
       activities.push({
         id: `session-${session.session_id}`,
         type: 'session_completed',
@@ -111,17 +111,17 @@ function formatSessionTime(
 
 function calculateAttendanceRate(sessions: Session[]): number {
   const sessionsWithAttendance = sessions.filter(
-    (s) => s.attendance_count !== undefined && s.total_swimmers !== undefined && s.total_swimmers > 0
+    (s) => s.attendance_count !== undefined && s.total_members !== undefined && s.total_members > 0
   );
   if (sessionsWithAttendance.length === 0) return 0;
   const totalAttended = sessionsWithAttendance.reduce((sum, s) => sum + (s.attendance_count ?? 0), 0);
-  const totalExpected = sessionsWithAttendance.reduce((sum, s) => sum + (s.total_swimmers ?? 0), 0);
+  const totalExpected = sessionsWithAttendance.reduce((sum, s) => sum + (s.total_members ?? 0), 0);
   return totalExpected > 0 ? Math.round((totalAttended / totalExpected) * 100) : 0;
 }
 
 export default function Home() {
   const { formatCurrency, formatDate } = useFormatters();
-  const [swimmers, setSwimmers] = useState<Swimmer[]>([]);
+  const [members, setMembers] = useState<Member[]>([]);
   const [families, setFamilies] = useState<Family[]>([]);
   const [upcomingSessions, setUpcomingSessions] = useState<Session[]>([]);
   const [recentSessions, setRecentSessions] = useState<Session[]>([]);
@@ -134,8 +134,8 @@ export default function Home() {
     async function fetchDashboardData() {
       try {
         setIsLoading(true);
-        const [swimmersData, familiesData, sessionsData, recentData, financeDashboardData, overdueData] = await Promise.all([
-          getSwimmers(),
+        const [membersData, familiesData, sessionsData, recentData, financeDashboardData, overdueData] = await Promise.all([
+          getMembers(),
           getFamilies(),
           getUpcomingSessions(),
           getRecentSessions(),
@@ -148,7 +148,7 @@ export default function Home() {
             return [] as InvoiceWithDetails[];
           }),
         ]);
-        setSwimmers(swimmersData);
+        setMembers(membersData);
         setFamilies(familiesData);
         setUpcomingSessions(sessionsData.slice(0, 5));
         setRecentSessions(recentData);
@@ -164,7 +164,7 @@ export default function Home() {
     fetchDashboardData();
   }, []);
 
-  const totalSwimmers = swimmers.length;
+  const totalMembers = members.length;
   const activeFamilies = families.length;
   const overdueCount = overdueInvoices.length;
   const overdueTotal = overdueInvoices.reduce((sum, inv) => sum + Number(inv.total_amount || 0), 0);
@@ -187,7 +187,7 @@ export default function Home() {
               Dashboard
             </h1>
             <p className="text-lg text-grey-600 max-w-xl">
-              Your club at a glance. Track swimmers, sessions, and finances in one place.
+              Your club at a glance. Track members, sessions, and finances in one place.
             </p>
           </div>
 
@@ -201,26 +201,26 @@ export default function Home() {
 
           {/* Primary Metrics - Dark Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            {/* Swimmers */}
+            {/* Members */}
             <div className="bg-dark-primary rounded-3xl p-8 relative overflow-hidden group hover:scale-[1.02] transition-transform">
               <div className="absolute top-0 right-0 w-20 h-20 sm:w-32 sm:h-32 bg-brand/10 rounded-full -translate-y-4 translate-x-4 sm:-translate-y-8 sm:translate-x-8" />
-              <p className="text-white/70 text-sm font-medium uppercase tracking-wider mb-4">Swimmers</p>
+              <p className="text-white/70 text-sm font-medium uppercase tracking-wider mb-4">Members</p>
               {isLoading ? (
                 <div className="animate-pulse bg-white/10 rounded h-16 w-24" />
               ) : error ? (
                 <p className="text-white text-6xl font-serif">{unavailable}</p>
-              ) : totalSwimmers === 0 ? (
+              ) : totalMembers === 0 ? (
                 <div>
-                  <p className="text-white/80 text-sm mb-2">No swimmers registered yet</p>
-                  <Link href="/swimmers" className="inline-block text-brand text-sm font-semibold hover:underline">
-                    Add your first swimmer &rarr;
+                  <p className="text-white/80 text-sm mb-2">No members registered yet</p>
+                  <Link href="/members" className="inline-block text-brand text-sm font-semibold hover:underline">
+                    Add your first member &rarr;
                   </Link>
                 </div>
               ) : (
-                <p className="text-white text-6xl font-serif tabular-nums">{totalSwimmers}</p>
+                <p className="text-white text-6xl font-serif tabular-nums">{totalMembers}</p>
               )}
-              {totalSwimmers > 0 && (
-                <Link href="/swimmers" className="mt-6 inline-block text-white/70 text-sm hover:text-brand transition-colors">
+              {totalMembers > 0 && (
+                <Link href="/members" className="mt-6 inline-block text-white/70 text-sm hover:text-brand transition-colors">
                   View all &rarr;
                 </Link>
               )}
@@ -327,7 +327,7 @@ export default function Home() {
           </div>
 
           {/* Setup Checklist - First Run Experience */}
-          {totalSwimmers === 0 && !isLoading && !error && (
+          {totalMembers === 0 && !isLoading && !error && (
             <div className="bg-surface rounded-3xl p-8 border border-grey-200 mb-8">
               <h2 className="font-serif text-2xl text-dark-primary mb-4">Get started</h2>
               <p className="text-grey-400 text-sm mb-6">Set up your club in a few minutes</p>
@@ -339,11 +339,11 @@ export default function Home() {
                   <span className="font-medium text-dark-primary flex-1">Create your first squad</span>
                   <ArrowRight className="w-5 h-5 text-grey-300 group-hover:text-brand transition-colors" />
                 </Link>
-                <Link href="/swimmers" className="flex items-center gap-4 p-4 rounded-2xl hover:bg-canvas/50 transition-colors group">
+                <Link href="/members" className="flex items-center gap-4 p-4 rounded-2xl hover:bg-canvas/50 transition-colors group">
                   <div className="bg-brand/10 w-10 h-10 flex items-center justify-center rounded-xl flex-shrink-0">
                     <UserPlus className="w-5 h-5 text-brand" />
                   </div>
-                  <span className="font-medium text-dark-primary flex-1">Register a swimmer</span>
+                  <span className="font-medium text-dark-primary flex-1">Register a member</span>
                   <ArrowRight className="w-5 h-5 text-grey-300 group-hover:text-brand transition-colors" />
                 </Link>
                 <Link href="/sessions" className="flex items-center gap-4 p-4 rounded-2xl hover:bg-canvas/50 transition-colors group">
@@ -423,7 +423,7 @@ export default function Home() {
                   ))}
                 </div>
               ) : (() => {
-                const activityFeed = buildActivityFeed(swimmers, overdueInvoices, recentSessions, formatCurrency, formatDate).slice(0, 6);
+                const activityFeed = buildActivityFeed(members, overdueInvoices, recentSessions, formatCurrency, formatDate).slice(0, 6);
                 const iconMap = {
                   user: { bg: 'bg-brand/10', colour: 'text-brand' },
                   receipt: { bg: 'bg-info/10', colour: 'text-info' },
@@ -452,7 +452,7 @@ export default function Home() {
                     })}
                   </div>
                 ) : (
-                  <p className="text-grey-300 text-center py-8">Activity will appear here as swimmers join and sessions are completed.</p>
+                  <p className="text-grey-300 text-center py-8">Activity will appear here as members join and sessions are completed.</p>
                 );
               })()}
             </div>
@@ -486,7 +486,7 @@ export default function Home() {
                   <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               )},
-              { label: 'Swimmers', href: '/swimmers', icon: (
+              { label: 'Members', href: '/members', icon: (
                 <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
                   <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>

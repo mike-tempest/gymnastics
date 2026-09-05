@@ -7,7 +7,7 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { Swimmer } from '../../swimmers/entities/swimmer.entity';
+import { Member } from '../../members/entities/member.entity';
 
 @Entity('squads')
 export class Squad {
@@ -44,17 +44,17 @@ export class Squad {
   @UpdateDateColumn({ type: 'timestamp' })
   updated_at: Date;
 
-  @ManyToMany(() => Swimmer, { eager: false })
+  @ManyToMany(() => Member, { eager: false })
   @JoinTable({
-    name: 'squad_swimmers',
+    name: 'squad_members',
     joinColumn: {
       name: 'squad_id',
       referencedColumnName: 'squad_id',
     },
     inverseJoinColumn: {
-      name: 'swimmer_id',
-      referencedColumnName: 'swimmer_id',
+      name: 'member_id',
+      referencedColumnName: 'member_id',
     },
   })
-  swimmers: Swimmer[];
+  members: Member[];
 }

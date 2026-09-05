@@ -15,7 +15,7 @@ import { CreateInvoiceDto } from './dto/create-invoice.dto';
 /**
  * Cross-tenant isolation test for the invoices repository (Group C, finance).
  *
- * Modelled on src/modules/swimmers/swimmers.tenant-isolation.spec.ts. It drives
+ * Modelled on src/modules/members/members.tenant-isolation.spec.ts. It drives
  * the real InvoicesRepository through the real TenantScopedHelper /
  * TenantContextService, faking ClsService and the TypeORM repositories so no
  * live database is needed. It proves the enforcement rule from
@@ -32,7 +32,7 @@ import { CreateInvoiceDto } from './dto/create-invoice.dto';
  * supplied club_id derived from the loaded entity.
  */
 
-/** Minimal in-memory fake of ClsService, matching the swimmers reference test. */
+/** Minimal in-memory fake of ClsService, matching the members reference test. */
 class FakeClsService {
   private store = new Map<string, unknown>();
 

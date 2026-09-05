@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Communication, RecipientType } from './entities/communication.entity';
 import { CreateCommunicationDto } from './dto/create-communication.dto';
 import { Family } from '../families/entities/family.entity';
-import { Swimmer } from '../swimmers/entities/swimmer.entity';
+import { Member } from '../members/entities/member.entity';
 import { TenantScopedHelper } from '../../common/tenancy/tenant-scoped.helper';
 import { TenantContextService } from '../../common/tenancy/tenant-context.service';
 
@@ -15,8 +15,8 @@ export class CommunicationsRepository {
     private readonly communicationRepository: Repository<Communication>,
     @InjectRepository(Family)
     private readonly familyRepository: Repository<Family>,
-    @InjectRepository(Swimmer)
-    private readonly swimmerRepository: Repository<Swimmer>,
+    @InjectRepository(Member)
+    private readonly memberRepository: Repository<Member>,
     private readonly scoped: TenantScopedHelper,
     private readonly tenantContext: TenantContextService,
   ) {}
@@ -28,7 +28,7 @@ export class CommunicationsRepository {
     const clubId = this.tenantContext.getClubId();
 
     // Calculate recipient count based on type, scoped to the active club so the
-    // count never reflects another club's families/swimmers.
+    // count never reflects another club's families/members.
     let recipientCount = 0;
 
     if (createCommunicationDto.recipientType === RecipientType.ALL) {
@@ -37,13 +37,13 @@ export class CommunicationsRepository {
       createCommunicationDto.recipientType === RecipientType.SQUAD &&
       createCommunicationDto.squadId
     ) {
-      // Count distinct families that have swimmers in this squad (this club only).
-      const result = await this.swimmerRepository
-        .createQueryBuilder('swimmer')
-        .select('COUNT(DISTINCT swimmer.family_id)', 'count')
-        .where('swimmer.club_id = :clubId', { clubId })
-        .andWhere('swimmer.squad_id = :squadId', { squadId: createCommunicationDto.squadId })
-        .andWhere('swimmer.family_id IS NOT NULL')
+      // Count distinct families that have members in this squad (this club only).
+      const result = await this.memberRepository
+        .createQueryBuilder('member')
+        .select('COUNT(DISTINCT member.family_id)', 'count')
+        .where('member.club_id = :clubId', { clubId })
+        .andWhere('member.squad_id = :squadId', { squadId: createCommunicationDto.squadId })
+        .andWhere('member.family_id IS NOT NULL')
         .getRawOne();
       recipientCount = parseInt(result?.count ?? '0', 10);
     } else if (
@@ -85,13 +85,13 @@ export class CommunicationsRepository {
     }
 
     if (dto.recipientType === RecipientType.SQUAD && dto.squadId) {
-      const rows = await this.swimmerRepository
-        .createQueryBuilder('swimmer')
-        .innerJoin('families', 'family', 'family.family_id = swimmer.family_id')
+      const rows = await this.memberRepository
+        .createQueryBuilder('member')
+        .innerJoin('families', 'family', 'family.family_id = member.family_id')
         .select('DISTINCT family.primary_contact_email', 'email')
         .addSelect('family.family_name', 'family_name')
-        .where('swimmer.club_id = :clubId', { clubId })
-        .andWhere('swimmer.squad_id = :squadId', { squadId: dto.squadId })
+        .where('member.club_id = :clubId', { clubId })
+        .andWhere('member.squad_id = :squadId', { squadId: dto.squadId })
         .andWhere('family.primary_contact_email IS NOT NULL')
         .getRawMany<{ email: string; family_name: string }>();
       return rows.map((r) => ({ email: r.email, familyName: r.family_name }));

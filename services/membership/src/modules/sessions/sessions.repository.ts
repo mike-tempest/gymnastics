@@ -102,7 +102,7 @@ export class SessionsRepository {
   }
 
   /**
-   * Register totals for the given sessions: how many swimmers were marked at
+   * Register totals for the given sessions: how many members were marked at
    * all, and how many of those were present or late. Sessions with no register
    * simply return no row.
    */
@@ -163,7 +163,7 @@ export class SessionsRepository {
 
   /**
    * Find SCHEDULED sessions dated on the given day (an ISO YYYY-MM-DD string)
-   * that need reminder emails. Loads the squad, its swimmers and each swimmer's
+   * that need reminder emails. Loads the squad, its members and each member's
    * family so the caller can dispatch one email per family.
    *
    * BACKGROUND/CRON PATH: this is invoked from SessionsService.sendSessionReminders,
@@ -179,8 +179,8 @@ export class SessionsRepository {
     return await this.repository
       .createQueryBuilder('session')
       .leftJoinAndSelect('session.squad', 'squad')
-      .leftJoinAndSelect('squad.swimmers', 'swimmers')
-      .leftJoinAndSelect('swimmers.family', 'family')
+      .leftJoinAndSelect('squad.members', 'members')
+      .leftJoinAndSelect('members.family', 'family')
       .where('session.status = :status', { status: 'scheduled' })
       .andWhere('session.session_date BETWEEN :fromDate AND :toDate', { fromDate, toDate })
       .orderBy('session.start_time', 'ASC')

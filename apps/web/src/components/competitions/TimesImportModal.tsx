@@ -107,7 +107,7 @@ export default function TimesImportModal({
 
         <div className="p-6 space-y-4">
           <p className="text-text-secondary text-sm">
-            Upload one sheet for the whole squad: one row per swimmer per event. Match swimmers by
+            Upload one sheet for the whole squad: one row per member per event. Match members by
             registration number, or by first and last name. Course and date are optional; without
             them the time takes this competition&apos;s course and date.
           </p>
@@ -153,7 +153,7 @@ export default function TimesImportModal({
                   <table className="w-full text-sm">
                     <thead className="sticky top-0 bg-dark-primary">
                       <tr className="text-left text-xs text-white/50">
-                        <th className="px-3 py-2 font-medium">Swimmer</th>
+                        <th className="px-3 py-2 font-medium">Member</th>
                         <th className="px-3 py-2 font-medium">Event</th>
                         <th className="px-3 py-2 font-medium">Time</th>
                         <th className="px-3 py-2 font-medium">Date</th>
@@ -162,7 +162,7 @@ export default function TimesImportModal({
                     <tbody className="divide-y divide-white/5">
                       {preview.validRows.map((row) => (
                         <tr key={row.row}>
-                          <td className="px-3 py-2 text-white">{row.swimmerName}</td>
+                          <td className="px-3 py-2 text-white">{row.memberName}</td>
                           <td className="px-3 py-2 text-white/70">
                             {row.distance}m {row.stroke} ({row.course})
                           </td>

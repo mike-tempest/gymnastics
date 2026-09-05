@@ -18,7 +18,7 @@ export function buildSquad(overrides?: Partial<Squad>): Squad {
     max_capacity: 24,
     created_at: now,
     updated_at: now,
-    swimmers: [],
+    members: [],
   };
 
   return { ...defaults, ...overrides };

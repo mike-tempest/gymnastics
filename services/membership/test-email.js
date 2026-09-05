@@ -25,14 +25,14 @@ async function sendTestEmail() {
       s.location,
       sq.squad_name,
       array_agg(DISTINCT jsonb_build_object(
-        'swimmer_name', sw.first_name || ' ' || sw.last_name,
+        'member_name', sw.first_name || ' ' || sw.last_name,
         'family_email', f.primary_contact_email,
         'family_name', f.family_name
       )) as families
     FROM sessions s
     LEFT JOIN squads sq ON s.squad_id = sq.squad_id
-    LEFT JOIN squad_swimmers ss ON sq.squad_id = ss.squad_id
-    LEFT JOIN swimmers sw ON ss.swimmer_id = sw.swimmer_id
+    LEFT JOIN squad_members ss ON sq.squad_id = ss.squad_id
+    LEFT JOIN members sw ON ss.member_id = sw.member_id
     LEFT JOIN families f ON sw.family_id = f.family_id
     WHERE s.session_date = '2025-12-30'
       AND s.status = 'scheduled'
@@ -75,7 +75,7 @@ async function sendTestEmail() {
             <li><strong>Time:</strong> ${session.start_time} - ${session.end_time}</li>
             <li><strong>Location:</strong> ${session.location || 'Pool'}</li>
           </ul>
-          <p>Please make sure your swimmer is ready!</p>
+          <p>Please make sure your member is ready!</p>
         `,
       };
 

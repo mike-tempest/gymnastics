@@ -1,4 +1,4 @@
-import { buildSwimmer } from './swimmer.factory';
+import { buildMember } from './member.factory';
 import { buildFamily } from './family.factory';
 import { buildSquad } from './squad.factory';
 import { buildSession } from './session.factory';
@@ -10,25 +10,25 @@ import { buildDBSCheck } from './dbs-check.factory';
 import { buildConsent } from './consent.factory';
 
 describe('Test factories', () => {
-  describe('buildSwimmer', () => {
-    it('should return an object with swimmer_id and required fields', () => {
-      const swimmer = buildSwimmer();
-      expect(swimmer.swimmer_id).toBeDefined();
-      expect(swimmer.first_name).toBeDefined();
-      expect(swimmer.last_name).toBeDefined();
-      expect(swimmer.dob).toBeInstanceOf(Date);
-      expect(swimmer.gender).toBeDefined();
+  describe('buildMember', () => {
+    it('should return an object with member_id and required fields', () => {
+      const member = buildMember();
+      expect(member.member_id).toBeDefined();
+      expect(member.first_name).toBeDefined();
+      expect(member.last_name).toBeDefined();
+      expect(member.dob).toBeInstanceOf(Date);
+      expect(member.gender).toBeDefined();
     });
 
     it('should accept overrides', () => {
-      const swimmer = buildSwimmer({ first_name: 'Alice' });
-      expect(swimmer.first_name).toBe('Alice');
+      const member = buildMember({ first_name: 'Alice' });
+      expect(member.first_name).toBe('Alice');
     });
 
     it('should generate unique IDs on successive calls', () => {
-      const a = buildSwimmer();
-      const b = buildSwimmer();
-      expect(a.swimmer_id).not.toBe(b.swimmer_id);
+      const a = buildMember();
+      const b = buildMember();
+      expect(a.member_id).not.toBe(b.member_id);
     });
   });
 
@@ -125,7 +125,7 @@ describe('Test factories', () => {
       const attendance = buildAttendance();
       expect(attendance.attendance_id).toBeDefined();
       expect(attendance.session_id).toBeDefined();
-      expect(attendance.swimmer_id).toBeDefined();
+      expect(attendance.member_id).toBeDefined();
       expect(attendance.status).toBeDefined();
     });
 
@@ -155,7 +155,7 @@ describe('Test factories', () => {
     it('should return an object with consent_id and required fields', () => {
       const consent = buildConsent();
       expect(consent.consent_id).toBeDefined();
-      expect(consent.swimmer_id).toBeDefined();
+      expect(consent.member_id).toBeDefined();
       expect(consent.consent_type).toBeDefined();
       expect(consent.status).toBeDefined();
       expect(consent.granted_date).toBeInstanceOf(Date);

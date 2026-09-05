@@ -1,8 +1,8 @@
 import { api } from './api-client';
 
 export interface MembershipStats {
-  totalSwimmers: number;
-  activeSwimmers: number;
+  totalMembers: number;
+  activeMembers: number;
   totalFamilies: number;
   totalSquads: number;
 }
@@ -22,7 +22,7 @@ export interface AttendanceStats {
 
 export interface RecentActivity {
   id: string;
-  type: 'invoice' | 'payment' | 'swimmer' | 'session';
+  type: 'invoice' | 'payment' | 'member' | 'session';
   description: string;
   timestamp: string;
   metadata?: Record<string, string | number | boolean>;

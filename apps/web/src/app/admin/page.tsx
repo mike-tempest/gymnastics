@@ -234,12 +234,12 @@ export default function AdminDashboard() {
   const overdueAmount = outstandingAmount * 0.4;
 
   // Membership breakdown
-  const activeSwimmers = membership.activeSwimmers;
-  const inactiveSwimmers = membership.totalSwimmers - membership.activeSwimmers;
+  const activeMembers = membership.activeMembers;
+  const inactiveMembers = membership.totalMembers - membership.activeMembers;
 
   // Squad distribution data
   const squadCount = membership.totalSquads;
-  const avgPerSquad = squadCount > 0 ? Math.round(membership.totalSwimmers / squadCount) : 0;
+  const avgPerSquad = squadCount > 0 ? Math.round(membership.totalMembers / squadCount) : 0;
 
   return (
     <MainLayout>
@@ -256,8 +256,8 @@ export default function AdminDashboard() {
           {/* ── Top Stat Cards ──────────────────────────────────────────── */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <StatCard
-              title="Total Swimmers"
-              value={membership.totalSwimmers}
+              title="Total Members"
+              value={membership.totalMembers}
               subtitle={`${membership.totalFamilies} families`}
               icon={Users}
             />
@@ -449,7 +449,7 @@ export default function AdminDashboard() {
                     {Math.round(attendance.attendanceRate)}%
                   </p>
                   <p className="text-sm text-white/60">
-                    {attendance.averageAttendance} swimmers per session on average
+                    {attendance.averageAttendance} members per session on average
                   </p>
                 </CardContent>
               </Card>
@@ -494,16 +494,16 @@ export default function AdminDashboard() {
           {/* ── Membership Statistics ───────────────────────────────────── */}
           <SectionHeader
             title="Membership Statistics"
-            description="Swimmer enrolment and squad distribution"
+            description="Member enrolment and squad distribution"
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <Card className="bg-dark-primary border-white/10">
               <CardContent className="p-5">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4 text-lime" />
-                  <p className="text-xs font-medium text-white/60 uppercase tracking-wider">Total Swimmers</p>
+                  <p className="text-xs font-medium text-white/60 uppercase tracking-wider">Total Members</p>
                 </div>
-                <p className="font-serif text-4xl text-lime tracking-tight tabular-nums">{membership.totalSwimmers}</p>
+                <p className="font-serif text-4xl text-lime tracking-tight tabular-nums">{membership.totalMembers}</p>
               </CardContent>
             </Card>
             <Card className="bg-dark-primary border-white/10">
@@ -512,7 +512,7 @@ export default function AdminDashboard() {
                   <UserCheck className="w-4 h-4 text-success" />
                   <p className="text-xs font-medium text-white/60 uppercase tracking-wider">Active</p>
                 </div>
-                <p className="text-3xl font-bold text-success tabular-nums">{activeSwimmers}</p>
+                <p className="text-3xl font-bold text-success tabular-nums">{activeMembers}</p>
               </CardContent>
             </Card>
             <Card className="bg-dark-primary border-white/10">
@@ -521,7 +521,7 @@ export default function AdminDashboard() {
                   <UserX className="w-4 h-4 text-white/60" />
                   <p className="text-xs font-medium text-white/60 uppercase tracking-wider">Inactive</p>
                 </div>
-                <p className="text-3xl font-bold text-white/80 tabular-nums">{inactiveSwimmers}</p>
+                <p className="text-3xl font-bold text-white/80 tabular-nums">{inactiveMembers}</p>
               </CardContent>
             </Card>
             <Card className="bg-dark-primary border-white/10">
@@ -531,7 +531,7 @@ export default function AdminDashboard() {
                   <p className="text-xs font-medium text-white/60 uppercase tracking-wider">Squads</p>
                 </div>
                 <p className="font-serif text-4xl text-lime tracking-tight tabular-nums">{membership.totalSquads}</p>
-                <p className="text-xs text-white/60 mt-1 tabular-nums">~{avgPerSquad} swimmers per squad</p>
+                <p className="text-xs text-white/60 mt-1 tabular-nums">~{avgPerSquad} members per squad</p>
               </CardContent>
             </Card>
           </div>
@@ -548,8 +548,8 @@ export default function AdminDashboard() {
                   <PieChart>
                     <Pie
                       data={[
-                        { name: 'Active', value: activeSwimmers },
-                        { name: 'Inactive', value: inactiveSwimmers },
+                        { name: 'Active', value: activeMembers },
+                        { name: 'Inactive', value: inactiveMembers },
                       ]}
                       cx="50%"
                       cy="50%"
@@ -570,11 +570,11 @@ export default function AdminDashboard() {
                 <div className="flex justify-center gap-6 mt-2">
                   <div className="flex items-center gap-2">
                     <span className="w-3 h-3 rounded-full bg-brand" />
-                    <span className="text-sm text-white/60 tabular-nums">Active ({activeSwimmers})</span>
+                    <span className="text-sm text-white/60 tabular-nums">Active ({activeMembers})</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-3 h-3 rounded-full bg-grey-500" />
-                    <span className="text-sm text-white/60 tabular-nums">Inactive ({inactiveSwimmers})</span>
+                    <span className="text-sm text-white/60 tabular-nums">Inactive ({inactiveMembers})</span>
                   </div>
                 </div>
               </CardContent>
@@ -610,7 +610,7 @@ export default function AdminDashboard() {
                           className={`ml-2 text-xs ${
                             activity.type === 'payment' ? 'bg-lime/20 text-lime' :
                             activity.type === 'invoice' ? 'bg-warning/20 text-warning' :
-                            activity.type === 'swimmer' ? 'bg-brand/20 text-brand' :
+                            activity.type === 'member' ? 'bg-brand/20 text-brand' :
                             'bg-info/20 text-info'
                           }`}
                         >
@@ -633,9 +633,9 @@ export default function AdminDashboard() {
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <QuickAction
-              href="/swimmers"
+              href="/members"
               icon={Plus}
-              title="Add Swimmer"
+              title="Add Member"
               description="Register a new club member"
               variant="primary"
             />

@@ -30,7 +30,7 @@ export class ConsentsRepository {
 
   async findAll(): Promise<Consent[]> {
     return await this.scoped.scopedFind(this.consentRepository, {
-      relations: ['swimmer', 'granted_by'],
+      relations: ['member', 'granted_by'],
       order: { created_at: 'DESC' },
     });
   }
@@ -39,21 +39,21 @@ export class ConsentsRepository {
     // A consent_id from another club resolves to null (behaves as not-found).
     return await this.scoped.scopedFindOne(this.consentRepository, {
       where: { consent_id: id },
-      relations: ['swimmer', 'granted_by'],
+      relations: ['member', 'granted_by'],
     });
   }
 
-  async findBySwimmer(swimmerId: string): Promise<Consent[]> {
+  async findByMember(memberId: string): Promise<Consent[]> {
     return await this.scoped.scopedFind(this.consentRepository, {
-      where: { swimmer_id: swimmerId },
+      where: { member_id: memberId },
       relations: ['granted_by'],
       order: { created_at: 'DESC' },
     });
   }
 
-  async findBySwimmerAndType(swimmerId: string, consentType: ConsentType): Promise<Consent | null> {
+  async findByMemberAndType(memberId: string, consentType: ConsentType): Promise<Consent | null> {
     const consents = await this.scoped.scopedFind(this.consentRepository, {
-      where: { swimmer_id: swimmerId, consent_type: consentType },
+      where: { member_id: memberId, consent_type: consentType },
       order: { created_at: 'DESC' },
     });
 
@@ -63,7 +63,7 @@ export class ConsentsRepository {
   async findByType(consentType: ConsentType): Promise<Consent[]> {
     return await this.scoped.scopedFind(this.consentRepository, {
       where: { consent_type: consentType },
-      relations: ['swimmer', 'granted_by'],
+      relations: ['member', 'granted_by'],
       order: { created_at: 'DESC' },
     });
   }
@@ -71,7 +71,7 @@ export class ConsentsRepository {
   async findPendingConsents(): Promise<Consent[]> {
     return await this.scoped.scopedFind(this.consentRepository, {
       where: { status: ConsentStatus.PENDING },
-      relations: ['swimmer', 'granted_by'],
+      relations: ['member', 'granted_by'],
       order: { created_at: 'ASC' },
     });
   }
@@ -82,7 +82,7 @@ export class ConsentsRepository {
 
     return await this.scoped
       .scopedQueryBuilder(this.consentRepository, 'consent')
-      .leftJoinAndSelect('consent.swimmer', 'swimmer')
+      .leftJoinAndSelect('consent.member', 'member')
       .leftJoinAndSelect('consent.granted_by', 'granted_by')
       .andWhere('consent.expiry_date IS NOT NULL')
       .andWhere('consent.expiry_date <= :futureDate', { futureDate })

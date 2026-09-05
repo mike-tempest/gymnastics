@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ParentController } from './parent.controller';
 import { ParentService } from './parent.service';
-import { Swimmer } from '../swimmers/entities/swimmer.entity';
+import { Member } from '../members/entities/member.entity';
 import { Session } from '../sessions/entities/session.entity';
 import { Invoice } from '../finance/invoices/entities/invoice.entity';
 import { Attendance } from '../attendance/entities/attendance.entity';
@@ -18,7 +18,7 @@ import { competitionsEnabled } from '../../common/features/competitions.feature'
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      Swimmer,
+      Member,
       Session,
       Invoice,
       Attendance,

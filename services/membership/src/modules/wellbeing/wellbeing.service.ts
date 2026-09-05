@@ -6,8 +6,8 @@ import { UpdateCycleLogDto } from './dto/update-cycle-log.dto';
 import { ReadinessLevel, WellbeingLog } from './entities/wellbeing-log.entity';
 import { CycleLog } from './entities/cycle-log.entity';
 
-export interface SwimmerReadiness {
-  swimmer_id: string;
+export interface MemberReadiness {
+  member_id: string;
   first_name: string;
   last_name: string;
   readiness: ReadinessLevel;
@@ -20,7 +20,7 @@ export interface SessionReadinessSummary {
   amber: number;
   red: number;
   no_data: number;
-  swimmers: SwimmerReadiness[];
+  members: MemberReadiness[];
 }
 
 @Injectable()
@@ -35,12 +35,12 @@ export class WellbeingService {
     return this.wellbeingRepository.upsertWellbeingLog(dto);
   }
 
-  async getSwimmerHistory(swimmerId: string, limit = 30): Promise<WellbeingLog[]> {
-    return this.wellbeingRepository.findWellbeingBySwimmer(swimmerId, limit);
+  async getMemberHistory(memberId: string, limit = 30): Promise<WellbeingLog[]> {
+    return this.wellbeingRepository.findWellbeingByMember(memberId, limit);
   }
 
-  async getTodayCheckIn(swimmerId: string): Promise<WellbeingLog | null> {
-    return this.wellbeingRepository.findTodayWellbeing(swimmerId);
+  async getTodayCheckIn(memberId: string): Promise<WellbeingLog | null> {
+    return this.wellbeingRepository.findTodayWellbeing(memberId);
   }
 
   // --- Parent-facing: cycle tracking (consent-gated) ---
@@ -49,54 +49,54 @@ export class WellbeingService {
     return this.wellbeingRepository.createCycleLog(dto);
   }
 
-  async getCycleHistory(swimmerId: string, limit = 12): Promise<CycleLog[]> {
-    return this.wellbeingRepository.findCycleLogsBySwimmer(swimmerId, limit);
+  async getCycleHistory(memberId: string, limit = 12): Promise<CycleLog[]> {
+    return this.wellbeingRepository.findCycleLogsByMember(memberId, limit);
   }
 
   async updateCycleLog(
     logId: string,
-    swimmerId: string,
+    memberId: string,
     dto: UpdateCycleLogDto,
   ): Promise<CycleLog> {
     const existing = await this.wellbeingRepository.findOneCycleLog(logId);
     if (!existing) {
       throw new NotFoundException('Cycle log not found');
     }
-    if (existing.swimmer_id !== swimmerId) {
-      throw new ForbiddenException("Cannot update another swimmer's cycle log");
+    if (existing.member_id !== memberId) {
+      throw new ForbiddenException("Cannot update another member's cycle log");
     }
     const updated = await this.wellbeingRepository.updateCycleLog(logId, dto);
     return updated!;
   }
 
-  async removeCycleLog(logId: string, swimmerId: string): Promise<void> {
+  async removeCycleLog(logId: string, memberId: string): Promise<void> {
     const existing = await this.wellbeingRepository.findOneCycleLog(logId);
     if (!existing) {
       throw new NotFoundException('Cycle log not found');
     }
-    if (existing.swimmer_id !== swimmerId) {
-      throw new ForbiddenException("Cannot delete another swimmer's cycle log");
+    if (existing.member_id !== memberId) {
+      throw new ForbiddenException("Cannot delete another member's cycle log");
     }
     await this.wellbeingRepository.removeCycleLog(logId);
   }
 
   // --- Coach-facing: readiness only (no raw data) ---
 
-  async getSessionReadiness(swimmerIds: string[], date: string): Promise<SessionReadinessSummary> {
-    const logs = await this.wellbeingRepository.findWellbeingByDate(swimmerIds, date);
+  async getSessionReadiness(memberIds: string[], date: string): Promise<SessionReadinessSummary> {
+    const logs = await this.wellbeingRepository.findWellbeingByDate(memberIds, date);
 
     const logMap = new Map<string, WellbeingLog>();
     for (const log of logs) {
-      logMap.set(log.swimmer_id, log);
+      logMap.set(log.member_id, log);
     }
 
-    const swimmers: SwimmerReadiness[] = [];
+    const members: MemberReadiness[] = [];
     let green = 0;
     let amber = 0;
     let red = 0;
     let noData = 0;
 
-    for (const id of swimmerIds) {
+    for (const id of memberIds) {
       const log = logMap.get(id);
       if (!log) {
         noData++;
@@ -108,22 +108,22 @@ export class WellbeingService {
       else if (readiness === ReadinessLevel.AMBER) amber++;
       else red++;
 
-      swimmers.push({
-        swimmer_id: id,
-        first_name: log.swimmer?.first_name ?? '',
-        last_name: log.swimmer?.last_name ?? '',
+      members.push({
+        member_id: id,
+        first_name: log.member?.first_name ?? '',
+        last_name: log.member?.last_name ?? '',
         readiness,
         prefers_land_training: log.prefers_land_training,
       });
     }
 
     return {
-      total: swimmerIds.length,
+      total: memberIds.length,
       green,
       amber,
       red,
       no_data: noData,
-      swimmers,
+      members,
     };
   }
 }

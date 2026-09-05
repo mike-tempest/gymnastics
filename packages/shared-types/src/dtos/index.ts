@@ -1,1 +1,1 @@
-export * from './swimmer.dto';
+export * from './member.dto';

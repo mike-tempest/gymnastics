@@ -1,12 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { FamiliesRepository } from '../families/families.repository';
-import { SwimmersRepository } from '../swimmers/swimmers.repository';
+import { MembersRepository } from '../members/members.repository';
 import { SquadsRepository } from '../squads/squads.repository';
 import { Family } from '../families/entities/family.entity';
-import { Swimmer } from '../swimmers/entities/swimmer.entity';
+import { Member } from '../members/entities/member.entity';
 import { CreateFamilyDto } from '../families/dto/create-family.dto';
-import { CreateSwimmerDto } from '../swimmers/dto/create-swimmer.dto';
-import { UpdateSwimmerDto } from '../swimmers/dto/update-swimmer.dto';
+import { CreateMemberDto } from '../members/dto/create-member.dto';
+import { UpdateMemberDto } from '../members/dto/update-member.dto';
 import { ImportMembersDto } from './dto/import-members.dto';
 import { MemberImportRowDto } from './dto/member-import-row.dto';
 
@@ -24,8 +24,8 @@ export interface ImportPreviewResponse {
   summary: {
     families_to_create: number;
     families_matched: number;
-    swimmers_to_create: number;
-    swimmers_to_update: number;
+    members_to_create: number;
+    members_to_update: number;
     squads_matched: string[];
     squads_missing: string[];
   };
@@ -35,8 +35,8 @@ export interface ImportPreviewResponse {
 export interface ImportOutcomeResponse {
   summary: {
     families_created: number;
-    swimmers_created: number;
-    swimmers_updated: number;
+    members_created: number;
+    members_updated: number;
   };
   errors: Array<{ row: number; message: string }>;
 }
@@ -45,13 +45,13 @@ interface RowPlan {
   row: number; // 1-based position in the submitted rows array
   data: MemberImportRowDto;
   errors: string[];
-  swimmerAction: 'create' | 'update';
-  existingSwimmerId: string | null;
+  memberAction: 'create' | 'update';
+  existingMemberId: string | null;
   existingSquadId: string | null;
   // Set when the squad is unknown and create_missing_squads is enabled.
   squadToCreate: string | null;
-  // Registration identity (se_number plus governing body) used to collapse
-  // several payload rows describing the same swimmer into one record.
+  // Registration identity (registration_number plus governing body) used to collapse
+  // several payload rows describing the same member into one record.
   seKey: string | null;
 }
 
@@ -77,7 +77,7 @@ export class DataImportService {
 
   constructor(
     private readonly familiesRepository: FamiliesRepository,
-    private readonly swimmersRepository: SwimmersRepository,
+    private readonly membersRepository: MembersRepository,
     private readonly squadsRepository: SquadsRepository,
   ) {}
 
@@ -105,8 +105,8 @@ export class DataImportService {
       summary: {
         families_to_create: familiesToCreate,
         families_matched: familiesMatched,
-        swimmers_to_create: importableRows.filter((row) => row.swimmerAction === 'create').length,
-        swimmers_to_update: importableRows.filter((row) => row.swimmerAction === 'update').length,
+        members_to_create: importableRows.filter((row) => row.memberAction === 'create').length,
+        members_to_update: importableRows.filter((row) => row.memberAction === 'update').length,
         squads_matched: plan.squadsMatched,
         squads_missing: plan.squadsMissing,
       },
@@ -115,7 +115,7 @@ export class DataImportService {
           familyPlan.rows.map(
             (row): ImportPreviewRowResult => ({
               row: row.row,
-              action: row.errors.length > 0 ? 'error' : row.swimmerAction,
+              action: row.errors.length > 0 ? 'error' : row.memberAction,
               family_action: familyPlan.existingFamily ? 'match' : 'create',
               errors: row.errors,
             }),
@@ -134,17 +134,17 @@ export class DataImportService {
     const plan = await this.buildPlan(dto);
 
     let familiesCreated = 0;
-    let swimmersCreated = 0;
-    let swimmersUpdated = 0;
+    let membersCreated = 0;
+    let membersUpdated = 0;
     const errors: Array<{ row: number; message: string }> = [];
 
     // Squads created during this import, keyed by lowercase name, so several
     // rows referencing the same new squad share a single created squad.
     const createdSquads = new Map<string, string>();
-    // Swimmers created during this import, keyed by registration identity, so
-    // a later row with the same (se_number, governing_body) updates the
-    // swimmer created earlier instead of violating the unique constraint.
-    const createdSwimmersBySeKey = new Map<string, string>();
+    // Members created during this import, keyed by registration identity, so
+    // a later row with the same (registration_number, governing_body) updates the
+    // member created earlier instead of violating the unique constraint.
+    const createdMembersBySeKey = new Map<string, string>();
 
     for (const familyPlan of plan.familyPlans) {
       for (const rowPlan of familyPlan.rows) {
@@ -179,31 +179,31 @@ export class DataImportService {
         try {
           const squadId = await this.resolveSquadIdForImport(rowPlan, createdSquads);
 
-          // The target may be an existing swimmer, or one created earlier in
-          // this batch under the same (se_number, governing_body) identity.
-          const targetSwimmerId =
-            rowPlan.existingSwimmerId ??
-            (rowPlan.seKey ? (createdSwimmersBySeKey.get(rowPlan.seKey) ?? null) : null);
+          // The target may be an existing member, or one created earlier in
+          // this batch under the same (registration_number, governing_body) identity.
+          const targetMemberId =
+            rowPlan.existingMemberId ??
+            (rowPlan.seKey ? (createdMembersBySeKey.get(rowPlan.seKey) ?? null) : null);
 
-          if (targetSwimmerId) {
-            await this.swimmersRepository.update(
-              targetSwimmerId,
-              this.toSwimmerUpdateFields(rowPlan.data, familyId, squadId),
+          if (targetMemberId) {
+            await this.membersRepository.update(
+              targetMemberId,
+              this.toMemberUpdateFields(rowPlan.data, familyId, squadId),
             );
-            swimmersUpdated++;
+            membersUpdated++;
           } else {
-            const swimmer = await this.swimmersRepository.create(
-              this.toSwimmerCreateFields(rowPlan.data, familyId, squadId),
+            const member = await this.membersRepository.create(
+              this.toMemberCreateFields(rowPlan.data, familyId, squadId),
             );
             if (rowPlan.seKey) {
-              createdSwimmersBySeKey.set(rowPlan.seKey, swimmer.swimmer_id);
+              createdMembersBySeKey.set(rowPlan.seKey, member.member_id);
             }
-            swimmersCreated++;
+            membersCreated++;
           }
         } catch (error: unknown) {
           errors.push({
             row: rowPlan.row,
-            message: error instanceof Error ? error.message : 'Failed to import swimmer',
+            message: error instanceof Error ? error.message : 'Failed to import member',
           });
         }
       }
@@ -213,15 +213,15 @@ export class DataImportService {
 
     this.logger.log(
       `Members import complete: ${familiesCreated} families created, ` +
-        `${swimmersCreated} swimmers created, ${swimmersUpdated} swimmers updated, ` +
+        `${membersCreated} members created, ${membersUpdated} members updated, ` +
         `${errors.length} row errors`,
     );
 
     return {
       summary: {
         families_created: familiesCreated,
-        swimmers_created: swimmersCreated,
-        swimmers_updated: swimmersUpdated,
+        members_created: membersCreated,
+        members_updated: membersUpdated,
       },
       errors,
     };
@@ -232,9 +232,9 @@ export class DataImportService {
    * Shared by preview and import so both take identical decisions.
    */
   private async buildPlan(dto: ImportMembersDto): Promise<ImportPlan> {
-    const [clubSwimmers, clubSquads] = await Promise.all([
-      this.swimmersRepository.findAll(),
-      // Ids and names only: name matching never needs the swimmers relation.
+    const [clubMembers, clubSquads] = await Promise.all([
+      this.membersRepository.findAll(),
+      // Ids and names only: name matching never needs the members relation.
       this.squadsRepository.findAllNames(),
     ]);
 
@@ -248,8 +248,8 @@ export class DataImportService {
     const familyPlansByEmail = new Map<string, FamilyPlan>();
     const rowPlans: RowPlan[] = [];
     // First payload row seen for each registration identity, so later rows
-    // describing the same swimmer collapse onto it instead of tripping the
-    // (governing_body, se_number) unique constraint at insert time.
+    // describing the same member collapse onto it instead of tripping the
+    // (governing_body, registration_number) unique constraint at insert time.
     const batchSeKeys = new Map<string, RowPlan>();
 
     for (let i = 0; i < dto.rows.length; i++) {
@@ -258,8 +258,8 @@ export class DataImportService {
         row: i + 1,
         data,
         errors: [],
-        swimmerAction: 'create',
-        existingSwimmerId: null,
+        memberAction: 'create',
+        existingMemberId: null,
         existingSquadId: null,
         squadToCreate: null,
         seKey: null,
@@ -284,8 +284,8 @@ export class DataImportService {
         }
       }
 
-      // Swimmer upsert resolution
-      this.resolveSwimmerMatch(rowPlan, clubSwimmers, batchSeKeys);
+      // Member upsert resolution
+      this.resolveMemberMatch(rowPlan, clubMembers, batchSeKeys);
 
       rowPlans.push(rowPlan);
 
@@ -312,44 +312,44 @@ export class DataImportService {
   }
 
   /**
-   * Resolves an import row against existing club swimmers and earlier rows in
+   * Resolves an import row against existing club members and earlier rows in
    * the same batch.
    *
    * Registration numbers are unique per governing body, not globally, so when
-   * the row provides governing_body the match is on the (se_number,
-   * governing_body) pair. Without a governing_body the match is on se_number
-   * alone, but if several swimmers share that se_number across governing
-   * bodies the row errors rather than guessing. Rows without an se_number
+   * the row provides governing_body the match is on the (registration_number,
+   * governing_body) pair. Without a governing_body the match is on registration_number
+   * alone, but if several members share that registration_number across governing
+   * bodies the row errors rather than guessing. Rows without an registration_number
    * match on first name, last name and dob (case-insensitive).
    *
    * A second payload row with the same registration identity collapses onto
-   * the first: it becomes an update of the same swimmer instead of a
+   * the first: it becomes an update of the same member instead of a
    * duplicate insert that would trip the unique constraint.
    */
-  private resolveSwimmerMatch(
+  private resolveMemberMatch(
     rowPlan: RowPlan,
-    clubSwimmers: Swimmer[],
+    clubMembers: Member[],
     batchSeKeys: Map<string, RowPlan>,
   ): void {
     const data = rowPlan.data;
-    const seNumber = data.se_number?.trim();
+    const registrationNumber = data.registration_number?.trim();
 
-    if (seNumber) {
+    if (registrationNumber) {
       const body = data.governing_body ?? null;
-      rowPlan.seKey = `${seNumber.toLowerCase()}|${body ?? ''}`;
+      rowPlan.seKey = `${registrationNumber.toLowerCase()}|${body ?? ''}`;
 
-      let matched: Swimmer | null = null;
+      let matched: Member | null = null;
       if (body) {
         matched =
-          clubSwimmers.find(
-            (swimmer) => swimmer.se_number === seNumber && swimmer.governing_body === body,
+          clubMembers.find(
+            (member) => member.registration_number === registrationNumber && member.governing_body === body,
           ) ?? null;
       } else {
-        const candidates = clubSwimmers.filter((swimmer) => swimmer.se_number === seNumber);
+        const candidates = clubMembers.filter((member) => member.registration_number === registrationNumber);
         if (candidates.length > 1) {
           rowPlan.errors.push(
-            `Registration number ${seNumber} matches more than one swimmer across ` +
-              `governing bodies; supply governing_body to identify which swimmer this row is for`,
+            `Registration number ${registrationNumber} matches more than one member across ` +
+              `governing bodies; supply governing_body to identify which member this row is for`,
           );
           return;
         }
@@ -357,44 +357,44 @@ export class DataImportService {
       }
 
       if (matched) {
-        rowPlan.swimmerAction = 'update';
-        rowPlan.existingSwimmerId = matched.swimmer_id;
+        rowPlan.memberAction = 'update';
+        rowPlan.existingMemberId = matched.member_id;
       }
 
       // Collapse onto an earlier batch row with the same registration
-      // identity. When that row creates the swimmer, the id is resolved at
-      // import time from the created-swimmers cache via seKey.
+      // identity. When that row creates the member, the id is resolved at
+      // import time from the created-members cache via seKey.
       const priorRow = batchSeKeys.get(rowPlan.seKey);
       if (priorRow) {
-        rowPlan.swimmerAction = 'update';
-        rowPlan.existingSwimmerId = rowPlan.existingSwimmerId ?? priorRow.existingSwimmerId;
+        rowPlan.memberAction = 'update';
+        rowPlan.existingMemberId = rowPlan.existingMemberId ?? priorRow.existingMemberId;
       } else {
         batchSeKeys.set(rowPlan.seKey, rowPlan);
       }
       return;
     }
 
-    const firstName = data.swimmer_first_name.trim().toLowerCase();
-    const lastName = data.swimmer_last_name.trim().toLowerCase();
+    const firstName = data.member_first_name.trim().toLowerCase();
+    const lastName = data.member_last_name.trim().toLowerCase();
     const dob = this.toDateKey(data.dob);
 
     const matched =
-      clubSwimmers.find(
-        (swimmer) =>
-          swimmer.first_name.trim().toLowerCase() === firstName &&
-          swimmer.last_name.trim().toLowerCase() === lastName &&
-          this.toDateKey(swimmer.dob) === dob,
+      clubMembers.find(
+        (member) =>
+          member.first_name.trim().toLowerCase() === firstName &&
+          member.last_name.trim().toLowerCase() === lastName &&
+          this.toDateKey(member.dob) === dob,
       ) ?? null;
 
     if (matched) {
-      rowPlan.swimmerAction = 'update';
-      rowPlan.existingSwimmerId = matched.swimmer_id;
+      rowPlan.memberAction = 'update';
+      rowPlan.existingMemberId = matched.member_id;
     }
   }
 
   private toCreateFamilyDto(data: MemberImportRowDto): CreateFamilyDto {
-    // The family name defaults to the swimmer's last name when not supplied.
-    const familyName = data.family_name?.trim() || data.swimmer_last_name.trim();
+    // The family name defaults to the member's last name when not supplied.
+    const familyName = data.family_name?.trim() || data.member_last_name.trim();
     return {
       family_name: familyName,
       primary_contact_name: data.parent_name.trim(),
@@ -407,18 +407,18 @@ export class DataImportService {
     };
   }
 
-  private toSwimmerCreateFields(
+  private toMemberCreateFields(
     data: MemberImportRowDto,
     familyId: string,
     squadId: string | null,
-  ): CreateSwimmerDto {
+  ): CreateMemberDto {
     return {
-      first_name: data.swimmer_first_name.trim(),
-      last_name: data.swimmer_last_name.trim(),
+      first_name: data.member_first_name.trim(),
+      last_name: data.member_last_name.trim(),
       dob: data.dob,
       gender: this.normaliseGender(data.gender),
       family_id: familyId,
-      se_number: data.se_number?.trim() || null,
+      registration_number: data.registration_number?.trim() || null,
       governing_body: data.governing_body ?? null,
       squad_id: squadId ?? undefined,
       medical_notes: data.medical_notes,
@@ -426,22 +426,22 @@ export class DataImportService {
     };
   }
 
-  private toSwimmerUpdateFields(
+  private toMemberUpdateFields(
     data: MemberImportRowDto,
     familyId: string,
     squadId: string | null,
-  ): UpdateSwimmerDto {
+  ): UpdateMemberDto {
     // Fill or overwrite only the fields the row actually provides. Fields the
-    // row omits (including the squad) are left untouched on the swimmer.
-    const fields: UpdateSwimmerDto = {
-      first_name: data.swimmer_first_name.trim(),
-      last_name: data.swimmer_last_name.trim(),
+    // row omits (including the squad) are left untouched on the member.
+    const fields: UpdateMemberDto = {
+      first_name: data.member_first_name.trim(),
+      last_name: data.member_last_name.trim(),
       dob: data.dob,
       gender: this.normaliseGender(data.gender),
       family_id: familyId,
     };
-    if (data.se_number?.trim()) {
-      fields.se_number = data.se_number.trim();
+    if (data.registration_number?.trim()) {
+      fields.registration_number = data.registration_number.trim();
     }
     if (data.governing_body) {
       fields.governing_body = data.governing_body;

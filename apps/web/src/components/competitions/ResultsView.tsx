@@ -56,11 +56,11 @@ function groupResultsByEvent(results: CompetitionResult[]): EventGroup[] {
   return Array.from(groups.values());
 }
 
-function getSwimmerName(result: CompetitionResult): string {
-  if (result.swimmer) {
-    return `${result.swimmer.first_name} ${result.swimmer.last_name}`;
+function getMemberName(result: CompetitionResult): string {
+  if (result.member) {
+    return `${result.member.first_name} ${result.member.last_name}`;
   }
-  return 'Unknown Swimmer';
+  return 'Unknown Member';
 }
 
 function SplitsRow({ splits, relayLegs }: { splits: number[]; relayLegs?: CompetitionResult['relay_legs'] }) {
@@ -162,7 +162,7 @@ interface ResultRowActions {
 function DesktopResultRow({ result, actions }: { result: CompetitionResult; actions: ResultRowActions }) {
   const [expanded, setExpanded] = useState(false);
   const hasDetails = (result.splits && result.splits.length > 0) || (result.relay_legs && result.relay_legs.length > 0);
-  const swimmerName = getSwimmerName(result);
+  const memberName = getMemberName(result);
 
   return (
     <>
@@ -173,14 +173,14 @@ function DesktopResultRow({ result, actions }: { result: CompetitionResult; acti
             className={`flex items-center gap-2 min-h-[44px] ${hasDetails ? 'cursor-pointer' : 'cursor-default'}`}
             disabled={!hasDetails}
             aria-expanded={hasDetails ? expanded : undefined}
-            aria-label={hasDetails ? `${expanded ? 'Collapse' : 'Expand'} details for ${swimmerName}` : undefined}
+            aria-label={hasDetails ? `${expanded ? 'Collapse' : 'Expand'} details for ${memberName}` : undefined}
           >
             {hasDetails && (
               expanded
                 ? <ChevronDown className="w-4 h-4 text-text-tertiary" />
                 : <ChevronRight className="w-4 h-4 text-text-tertiary" />
             )}
-            <span className="text-white font-medium">{swimmerName}</span>
+            <span className="text-white font-medium">{memberName}</span>
             {result.is_relay && <RelayBadge />}
           </button>
         </td>
@@ -199,14 +199,14 @@ function DesktopResultRow({ result, actions }: { result: CompetitionResult; acti
             <button
               onClick={() => actions.onEdit(result)}
               className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-white/10 rounded-lg transition-colors"
-              aria-label={`Edit result for ${swimmerName}`}
+              aria-label={`Edit result for ${memberName}`}
             >
               <Pencil className="w-4 h-4 text-text-tertiary" />
             </button>
             <button
               onClick={() => actions.onDelete(result)}
               className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-white/10 rounded-lg transition-colors"
-              aria-label={`Delete result for ${swimmerName}`}
+              aria-label={`Delete result for ${memberName}`}
             >
               <Trash2 className="w-4 h-4 text-red-400" />
             </button>
@@ -237,7 +237,7 @@ function MobileResultCard({ result, actions }: { result: CompetitionResult; acti
       >
         <div className="flex items-center justify-between mb-2">
           <span className="text-white font-medium flex items-center gap-2">
-            {getSwimmerName(result)}
+            {getMemberName(result)}
             {result.is_relay && <RelayBadge />}
           </span>
           {result.is_pb && <PBBadge />}
@@ -300,7 +300,7 @@ function EventGroupSection({ group, actions }: { group: EventGroup; actions: Res
       <table className="hidden md:table w-full">
         <thead>
           <tr className="text-left text-text-secondary text-xs uppercase tracking-wider">
-            <th className="px-4 py-2 font-semibold">Swimmer</th>
+            <th className="px-4 py-2 font-semibold">Member</th>
             <th className="px-4 py-2 font-semibold">Time</th>
             <th className="px-4 py-2 font-semibold">Place</th>
             <th className="px-4 py-2 font-semibold">Heat</th>
@@ -376,7 +376,7 @@ export default function ResultsView({ competitionId }: ResultsViewProps) {
   async function handleEdit(data: CreateResultInput) {
     if (!editingResult) return;
     try {
-      // Build the update payload explicitly so swimmer_id is dropped without
+      // Build the update payload explicitly so member_id is dropped without
       // an unused-variable binding (next build lints it, next lint does not).
       await updateCompetitionResult(competitionId, editingResult.result_id, {
         event_name: data.event_name,
@@ -401,7 +401,7 @@ export default function ResultsView({ competitionId }: ResultsViewProps) {
   }
 
   async function handleDelete(result: CompetitionResult) {
-    const name = result.swimmer ? `${result.swimmer.first_name} ${result.swimmer.last_name}` : 'this swimmer';
+    const name = result.member ? `${result.member.first_name} ${result.member.last_name}` : 'this member';
     if (!window.confirm(`Delete the ${result.distance}m ${result.stroke} result for ${name}? Personal bests will be recalculated.`)) {
       return;
     }

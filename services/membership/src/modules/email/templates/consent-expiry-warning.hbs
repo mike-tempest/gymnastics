@@ -61,14 +61,14 @@
       color: #92400E;
       font-size: 15px;
     }
-    .swimmer-info {
+    .member-info {
       background: #F8FAFC;
       border-left: 4px solid #F59E0B;
       padding: 20px;
       margin: 25px 0;
       border-radius: 4px;
     }
-    .swimmer-info h3 {
+    .member-info h3 {
       margin: 0 0 15px 0;
       font-size: 16px;
       color: #1E293B;
@@ -178,22 +178,22 @@
     <div class="content">
       <p>Dear {{parentName}},</p>
 
-      <p>Some of the consents you previously granted for {{swimmerName}} are due to expire soon. To ensure uninterrupted participation in all club activities, we need you to review and renew these consents.</p>
+      <p>Some of the consents you previously granted for {{memberName}} are due to expire soon. To ensure uninterrupted participation in all club activities, we need you to review and renew these consents.</p>
 
       <div class="notice-banner">
         <h2>{{expiringCount}} Consent{{#if multipleExpiring}}s{{/if}} Expiring Soon</h2>
         <p>These consents expire {{#if nearestExpiry}}on {{nearestExpiry}}{{else}}within the next 30 days{{/if}}</p>
       </div>
 
-      <div class="swimmer-info">
-        <h3>Swimmer Information</h3>
+      <div class="member-info">
+        <h3>Member Information</h3>
         <div class="detail-row">
-          <span class="detail-label">Swimmer Name:</span>
-          <span class="detail-value">{{swimmerName}}</span>
+          <span class="detail-label">Member Name:</span>
+          <span class="detail-value">{{memberName}}</span>
         </div>
         <div class="detail-row">
           <span class="detail-label">Date of Birth:</span>
-          <span class="detail-value">{{swimmerDOB}}</span>
+          <span class="detail-value">{{memberDOB}}</span>
         </div>
         <div class="detail-row">
           <span class="detail-label">Current Squad:</span>
@@ -220,7 +220,7 @@
       <p>Please log in to your parent portal to review and renew these consents. The process only takes a few minutes:</p>
       <ol style="margin-top: 15px; color: #475569;">
         <li>Log in to your parent portal</li>
-        <li>Navigate to "<strong>{{swimmerName}}</strong>" → "<strong>Consents</strong>"</li>
+        <li>Navigate to "<strong>{{memberName}}</strong>" → "<strong>Consents</strong>"</li>
         <li>Review each expiring consent</li>
         <li>Grant or update your consent preferences</li>
       </ol>
@@ -230,7 +230,7 @@
       </div>
 
       <p style="margin-top: 30px; background: #FEF2F2; padding: 15px; border-radius: 4px; border-left: 3px solid #F87171;">
-        <strong style="color: #991B1B;">Important:</strong> <span style="color: #7F1D1D;">If consents are not renewed by the expiry date, {{swimmerName}} may not be able to participate in activities covered by those consents until they are updated.</span>
+        <strong style="color: #991B1B;">Important:</strong> <span style="color: #7F1D1D;">If consents are not renewed by the expiry date, {{memberName}} may not be able to participate in activities covered by those consents until they are updated.</span>
       </p>
 
       <p style="margin-top: 25px;">If you have any questions about specific consent types or need assistance, please don't hesitate to contact us.</p>

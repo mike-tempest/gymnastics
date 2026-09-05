@@ -148,7 +148,7 @@ export default function ReportsPage() {
   const squadDistribution = reports?.squadDistribution ?? [];
 
   const revenueChart = dashboard?.revenueChart ?? [];
-  const activeSwimmers = dashboard?.membership?.activeSwimmers ?? 0;
+  const activeMembers = dashboard?.membership?.activeMembers ?? 0;
   const collectionRate = Math.round(dashboard?.revenue?.collectionRate ?? 0);
 
   // Monthly revenue chart data mapped to { month, amount }
@@ -161,7 +161,7 @@ export default function ReportsPage() {
 
   const totalOutstanding = pendingInvoices.reduce((sum, inv) => sum + (inv.total_amount ?? 0), 0);
 
-  const totalDistribution = squadDistribution.reduce((sum, s) => sum + s.swimmerCount, 0);
+  const totalDistribution = squadDistribution.reduce((sum, s) => sum + s.memberCount, 0);
 
   // Average attendance from the weekly trend
   const avgAttendance =
@@ -446,8 +446,8 @@ export default function ReportsPage() {
           {/* Top-level stat cards */}
           <div className="report-stat-cards grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <StatCard
-              title="Active Swimmers"
-              value={activeSwimmers}
+              title="Active Members"
+              value={activeMembers}
               subtitle={`${newJoiners.length} new this month`}
               icon={Users}
             />
@@ -585,7 +585,7 @@ export default function ReportsPage() {
                 <CardHeader>
                   <CardTitle className="text-white">Top Absentees</CardTitle>
                   <CardDescription className="text-white/60">
-                    Swimmers with the most missed sessions this month
+                    Members with the most missed sessions this month
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -596,7 +596,7 @@ export default function ReportsPage() {
                       <table className="w-full text-left">
                         <thead>
                           <tr className="border-b border-white/10">
-                            <th className="pb-3 text-sm font-medium text-white/60">Swimmer</th>
+                            <th className="pb-3 text-sm font-medium text-white/60">Member</th>
                             <th className="pb-3 text-sm font-medium text-white/60">Squad</th>
                             <th className="pb-3 text-sm font-medium text-white/60 text-right">
                               Missed Sessions
@@ -604,26 +604,26 @@ export default function ReportsPage() {
                           </tr>
                         </thead>
                         <tbody>
-                          {topAbsentees.map((swimmer) => (
+                          {topAbsentees.map((member) => (
                             <tr
-                              key={swimmer.swimmerId}
+                              key={member.memberId}
                               className="border-b border-white/10 last:border-0"
                             >
-                              <td className="py-3 text-sm text-white">{swimmer.name}</td>
+                              <td className="py-3 text-sm text-white">{member.name}</td>
                               <td className="py-3">
                                 <Badge
                                   variant="secondary"
                                   className="text-xs bg-white/10 text-white/60"
                                 >
-                                  {swimmer.squadName}
+                                  {member.squadName}
                                 </Badge>
                               </td>
                               <td className="py-3 text-sm font-semibold text-right">
                                 <span
-                                  className={`inline-flex items-center gap-1 tabular-nums ${swimmer.missedCount >= 6 ? 'text-danger' : 'text-warning'}`}
+                                  className={`inline-flex items-center gap-1 tabular-nums ${member.missedCount >= 6 ? 'text-danger' : 'text-warning'}`}
                                 >
                                   <AlertCircle className="w-3.5 h-3.5" />
-                                  {swimmer.missedCount}
+                                  {member.missedCount}
                                 </span>
                               </td>
                             </tr>
@@ -808,7 +808,7 @@ export default function ReportsPage() {
                     ) : (
                       newJoiners.map((joiner) => (
                         <div
-                          key={joiner.swimmerId}
+                          key={joiner.memberId}
                           className="flex items-center justify-between py-2 border-b border-white/10 last:border-0"
                         >
                           <div>
@@ -852,7 +852,7 @@ export default function ReportsPage() {
                     ) : (
                       leavers.map((leaver) => (
                         <div
-                          key={leaver.swimmerId}
+                          key={leaver.memberId}
                           className="flex items-center justify-between py-2 border-b border-white/10 last:border-0"
                         >
                           <div>
@@ -880,7 +880,7 @@ export default function ReportsPage() {
               <Card className="bg-dark-primary border-white/10">
                 <CardHeader>
                   <CardTitle className="text-white">Squad Distribution</CardTitle>
-                  <CardDescription className="text-white/60">Swimmers per squad</CardDescription>
+                  <CardDescription className="text-white/60">Members per squad</CardDescription>
                 </CardHeader>
                 <CardContent>
                   {/* Visual distribution bar */}
@@ -891,7 +891,7 @@ export default function ReportsPage() {
                         style={{
                           width:
                             totalDistribution > 0
-                              ? `${(squad.swimmerCount / totalDistribution) * 100}%`
+                              ? `${(squad.memberCount / totalDistribution) * 100}%`
                               : '0%',
                           backgroundColor: getSquadColour(index),
                         }}
@@ -911,7 +911,7 @@ export default function ReportsPage() {
                           <span className="text-sm text-white/80">{squad.squadName}</span>
                         </div>
                         <span className="text-sm font-semibold text-white tabular-nums">
-                          {squad.swimmerCount}
+                          {squad.memberCount}
                         </span>
                       </div>
                     ))}

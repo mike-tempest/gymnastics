@@ -21,5 +21,5 @@ export interface Session {
     squad_name: string;
   };
   attendance_count?: number;
-  total_swimmers?: number;
+  total_members?: number;
 }

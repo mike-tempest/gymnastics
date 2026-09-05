@@ -22,7 +22,7 @@ describe('ParserFactory', () => {
     });
 
     it('should detect SportSystems format from content with ClubCode header', () => {
-      expect(ParserFactory.detectFormat('unknown.txt', 'ClubCode,ClubName,SwimmerSENumber')).toBe(
+      expect(ParserFactory.detectFormat('unknown.txt', 'ClubCode,ClubName,MemberSENumber')).toBe(
         FileFormat.SPORTSYSTEMS,
       );
     });

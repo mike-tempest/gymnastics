@@ -11,9 +11,9 @@ describe('AuditLogsService', () => {
     user_id: '223e4567-e89b-12d3-a456-426614174001',
     user_email: 'coach@swimclub.org.uk',
     action: AuditAction.CREATE,
-    entity_type: AuditEntityType.SWIMMER,
+    entity_type: AuditEntityType.MEMBER,
     entity_id: '333e4567-e89b-12d3-a456-426614174002',
-    description: 'Created a new swimmer record',
+    description: 'Created a new member record',
     created_at: new Date(),
   };
 
@@ -101,13 +101,13 @@ describe('AuditLogsService', () => {
       mockRepository.findByEntity.mockResolvedValue([mockAuditLog]);
 
       const result = await service.findByEntity(
-        AuditEntityType.SWIMMER,
+        AuditEntityType.MEMBER,
         mockAuditLog.entity_id as string,
       );
 
       expect(result).toEqual([mockAuditLog]);
       expect(mockRepository.findByEntity).toHaveBeenCalledWith(
-        AuditEntityType.SWIMMER,
+        AuditEntityType.MEMBER,
         mockAuditLog.entity_id,
         100,
       );
@@ -185,9 +185,9 @@ describe('AuditLogsService', () => {
       const createDto = {
         user_id: mockAuditLog.user_id as string,
         action: AuditAction.CREATE,
-        entity_type: AuditEntityType.SWIMMER,
+        entity_type: AuditEntityType.MEMBER,
         entity_id: mockAuditLog.entity_id,
-        description: 'Created swimmer',
+        description: 'Created member',
       };
 
       mockRepository.create.mockResolvedValue(mockAuditLog);
@@ -206,17 +206,17 @@ describe('AuditLogsService', () => {
       await service.logAction(
         'user-123',
         AuditAction.UPDATE,
-        AuditEntityType.SWIMMER,
-        'swimmer-456',
-        'Updated swimmer details',
+        AuditEntityType.MEMBER,
+        'member-456',
+        'Updated member details',
       );
 
       expect(mockRepository.create).toHaveBeenCalledWith({
         user_id: 'user-123',
         action: AuditAction.UPDATE,
-        entity_type: AuditEntityType.SWIMMER,
-        entity_id: 'swimmer-456',
-        description: 'Updated swimmer details',
+        entity_type: AuditEntityType.MEMBER,
+        entity_id: 'member-456',
+        description: 'Updated member details',
         changes: undefined,
       });
     });

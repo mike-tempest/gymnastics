@@ -60,7 +60,7 @@ function isSection(entry: NavEntry): entry is NavSection {
 // Full navigation entries (admin sees everything)
 const allNavEntries: NavEntry[] = [
   { name: 'Dashboard', href: '/', icon: Home },
-  { name: 'Swimmers', href: '/swimmers', icon: Users },
+  { name: 'Members', href: '/members', icon: Users },
   { name: 'Families', href: '/families', icon: UsersRound },
   { name: 'Squads', href: '/squads', icon: Shield },
   { name: 'Sessions', href: '/sessions', icon: Calendar },
@@ -115,7 +115,7 @@ const allNavEntries: NavEntry[] = [
 // Items visible to coaches
 const COACH_NAV_NAMES = new Set([
   'Dashboard',
-  'Swimmers',
+  'Members',
   'Squads',
   'Sessions',
   'Communications',

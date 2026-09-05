@@ -130,9 +130,9 @@ describe('Swimly API E2E Tests', () => {
     });
   });
 
-  describe('Swimmers Endpoints', () => {
-    it('should return array of 30 swimmers', async () => {
-      const response = await authenticatedRequest('/api/swimmers');
+  describe('Members Endpoints', () => {
+    it('should return array of 30 members', async () => {
+      const response = await authenticatedRequest('/api/members');
 
       expect(response.status).toBe(200);
 

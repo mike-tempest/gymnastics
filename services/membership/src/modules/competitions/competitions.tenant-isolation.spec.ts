@@ -15,7 +15,7 @@ import { CreateEntryDto } from './dto/create-entry.dto';
 /**
  * Cross-tenant isolation test for the competitions module (Group E).
  *
- * Modelled on swimmers.tenant-isolation.spec.ts (the Phase 3 reference). It
+ * Modelled on members.tenant-isolation.spec.ts (the Phase 3 reference). It
  * drives the real CompetitionsRepository through the real TenantScopedHelper /
  * TenantContextService, faking ClsService and the three TypeORM repositories so
  * no live database is needed. It proves the enforcement rule from
@@ -51,7 +51,7 @@ const ENTRY_IN_A = 'entry-1111-in-club-a';
 const ENTRY_IN_B = 'entry-2222-in-club-b';
 const RESULT_IN_A = 'result-1111-in-club-a';
 const RESULT_IN_B = 'result-2222-in-club-b';
-const SWIMMER_X = 'swimmer-xxxx';
+const MEMBER_X = 'member-xxxx';
 
 describe('CompetitionsRepository tenant isolation', () => {
   let repo: CompetitionsRepository;
@@ -74,13 +74,13 @@ describe('CompetitionsRepository tenant isolation', () => {
   ];
 
   const entries: Array<Partial<CompetitionEntry>> = [
-    { entry_id: ENTRY_IN_A, competition_id: COMP_IN_A, swimmer_id: SWIMMER_X, club_id: CLUB_A },
-    { entry_id: ENTRY_IN_B, competition_id: COMP_IN_B, swimmer_id: SWIMMER_X, club_id: CLUB_B },
+    { entry_id: ENTRY_IN_A, competition_id: COMP_IN_A, member_id: MEMBER_X, club_id: CLUB_A },
+    { entry_id: ENTRY_IN_B, competition_id: COMP_IN_B, member_id: MEMBER_X, club_id: CLUB_B },
   ];
 
   const results: Array<Partial<CompetitionResult>> = [
-    { result_id: RESULT_IN_A, competition_id: COMP_IN_A, swimmer_id: SWIMMER_X, club_id: CLUB_A },
-    { result_id: RESULT_IN_B, competition_id: COMP_IN_B, swimmer_id: SWIMMER_X, club_id: CLUB_B },
+    { result_id: RESULT_IN_A, competition_id: COMP_IN_A, member_id: MEMBER_X, club_id: CLUB_A },
+    { result_id: RESULT_IN_B, competition_id: COMP_IN_B, member_id: MEMBER_X, club_id: CLUB_B },
   ];
 
   function matches(row: ObjectLiteral, where: ObjectLiteral): boolean {
@@ -265,12 +265,12 @@ describe('CompetitionsRepository tenant isolation', () => {
       expect(entryFindCalls[0]).toEqual({ competition_id: COMP_IN_A, club_id: CLUB_A });
     });
 
-    it('findEntriesBySwimmer never returns another club rows', async () => {
+    it('findEntriesByMember never returns another club rows', async () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
-      const result = await repo.findEntriesBySwimmer(SWIMMER_X);
+      const result = await repo.findEntriesByMember(MEMBER_X);
 
-      expect(entryFindCalls[0]).toEqual({ swimmer_id: SWIMMER_X, club_id: CLUB_A });
+      expect(entryFindCalls[0]).toEqual({ member_id: MEMBER_X, club_id: CLUB_A });
       expect(result).toHaveLength(1);
       expect(result[0].entry_id).toBe(ENTRY_IN_A);
     });
@@ -280,13 +280,13 @@ describe('CompetitionsRepository tenant isolation', () => {
     it('stamps the parent club_id when the competition is in the caller club', async () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
-      const dto: CreateEntryDto = { swimmer_id: SWIMMER_X, distance: 50, stroke: 'Freestyle' };
+      const dto: CreateEntryDto = { member_id: MEMBER_X, distance: 50, stroke: 'Freestyle' };
 
       await repo.createEntry(COMP_IN_A, dto);
 
       expect(savedEntries[0]).toMatchObject({
         competition_id: COMP_IN_A,
-        swimmer_id: SWIMMER_X,
+        member_id: MEMBER_X,
         club_id: CLUB_A,
       });
     });
@@ -294,7 +294,7 @@ describe('CompetitionsRepository tenant isolation', () => {
     it('rejects an entry for a competition_id that belongs to another club', async () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
-      const dto: CreateEntryDto = { swimmer_id: SWIMMER_X, distance: 50, stroke: 'Freestyle' };
+      const dto: CreateEntryDto = { member_id: MEMBER_X, distance: 50, stroke: 'Freestyle' };
 
       // COMP_IN_B exists, but not in CLUB_A, so the parent guard fails.
       await expect(repo.createEntry(COMP_IN_B, dto)).rejects.toThrow(NotFoundException);
@@ -304,7 +304,7 @@ describe('CompetitionsRepository tenant isolation', () => {
     it('createEntries rejects a cross-club parent and writes nothing', async () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
-      const dtos: CreateEntryDto[] = [{ swimmer_id: SWIMMER_X, distance: 50, stroke: 'Freestyle' }];
+      const dtos: CreateEntryDto[] = [{ member_id: MEMBER_X, distance: 50, stroke: 'Freestyle' }];
 
       await expect(repo.createEntries(COMP_IN_B, dtos)).rejects.toThrow(NotFoundException);
       expect(savedEntries).toHaveLength(0);
@@ -314,8 +314,8 @@ describe('CompetitionsRepository tenant isolation', () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
       const dtos: CreateEntryDto[] = [
-        { swimmer_id: SWIMMER_X, distance: 50, stroke: 'Freestyle' },
-        { swimmer_id: SWIMMER_X, distance: 100, stroke: 'Backstroke' },
+        { member_id: MEMBER_X, distance: 50, stroke: 'Freestyle' },
+        { member_id: MEMBER_X, distance: 100, stroke: 'Backstroke' },
       ];
 
       await repo.createEntries(COMP_IN_A, dtos);
@@ -334,12 +334,12 @@ describe('CompetitionsRepository tenant isolation', () => {
       expect(resultFindCalls[0]).toEqual({ competition_id: COMP_IN_A, club_id: CLUB_A });
     });
 
-    it('findResultsBySwimmer never returns another club rows', async () => {
+    it('findResultsByMember never returns another club rows', async () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
-      const result = await repo.findResultsBySwimmer(SWIMMER_X);
+      const result = await repo.findResultsByMember(MEMBER_X);
 
-      expect(resultFindCalls[0]).toEqual({ swimmer_id: SWIMMER_X, club_id: CLUB_A });
+      expect(resultFindCalls[0]).toEqual({ member_id: MEMBER_X, club_id: CLUB_A });
       expect(result).toHaveLength(1);
       expect(result[0].result_id).toBe(RESULT_IN_A);
     });
@@ -351,7 +351,7 @@ describe('CompetitionsRepository tenant isolation', () => {
 
       await repo.createResult({
         competition_id: COMP_IN_A,
-        swimmer_id: SWIMMER_X,
+        member_id: MEMBER_X,
         distance: 50,
         stroke: 'Freestyle',
         time: 30.5,
@@ -365,7 +365,7 @@ describe('CompetitionsRepository tenant isolation', () => {
 
       await repo.createResult({
         competition_id: COMP_IN_A,
-        swimmer_id: SWIMMER_X,
+        member_id: MEMBER_X,
         distance: 50,
         stroke: 'Freestyle',
         time: 30.5,
@@ -383,7 +383,7 @@ describe('CompetitionsRepository tenant isolation', () => {
       await expect(
         repo.createResult({
           competition_id: COMP_IN_B,
-          swimmer_id: SWIMMER_X,
+          member_id: MEMBER_X,
           distance: 50,
           stroke: 'Freestyle',
           time: 30.5,
@@ -399,7 +399,7 @@ describe('CompetitionsRepository tenant isolation', () => {
         repo.createResults([
           {
             competition_id: COMP_IN_B,
-            swimmer_id: SWIMMER_X,
+            member_id: MEMBER_X,
             distance: 50,
             stroke: 'Freestyle',
             time: 30.5,

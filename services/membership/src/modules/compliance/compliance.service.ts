@@ -93,10 +93,10 @@ export class ComplianceService {
       // Complete: all 3 consent types granted
       // Partial: at least 1 consent type granted
       // Missing: no consents granted
-      const totalSwimmers = consentStats.total / 3; // Assuming 3 consent types per swimmer
-      const consentComplete = Math.floor(totalSwimmers * 0.7); // Mock calculation
-      const consentPartial = Math.floor(totalSwimmers * 0.2);
-      const consentMissing = Math.floor(totalSwimmers * 0.1);
+      const totalMembers = consentStats.total / 3; // Assuming 3 consent types per member
+      const consentComplete = Math.floor(totalMembers * 0.7); // Mock calculation
+      const consentPartial = Math.floor(totalMembers * 0.2);
+      const consentMissing = Math.floor(totalMembers * 0.1);
 
       return {
         healthScore,

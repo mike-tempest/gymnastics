@@ -1,6 +1,6 @@
 'use client';
 
-import { Session, Swimmer } from '@club-manager/shared-types';
+import { Session, Member } from '@club-manager/shared-types';
 import { Clock, Users } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -11,7 +11,7 @@ import { useFormatters } from '@/hooks/useFormatters';
 import { InvoiceWithDetails } from '@/lib/api/finance';
 import {
   fetchParentDashboard,
-  fetchParentSwimmers,
+  fetchParentMembers,
   fetchParentInvoices,
   fetchParentUpcomingSessions,
   ParentDashboardSummary,
@@ -90,7 +90,7 @@ function generateRecentActivity(
 export default function ParentDashboardPage() {
   const { formatCurrency, formatDate } = useFormatters();
   const [dashboard, setDashboard] = useState<ParentDashboardSummary | null>(null);
-  const [swimmers, setSwimmers] = useState<Swimmer[]>([]);
+  const [members, setMembers] = useState<Member[]>([]);
   const [invoices, setInvoices] = useState<InvoiceWithDetails[]>([]);
   const [sessions, setSessions] = useState<Session[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -103,12 +103,12 @@ export default function ParentDashboardPage() {
         setError(null);
         const [dashData, swimData, invData, sessData] = await Promise.all([
           fetchParentDashboard(),
-          fetchParentSwimmers(),
+          fetchParentMembers(),
           fetchParentInvoices(),
           fetchParentUpcomingSessions(),
         ]);
         setDashboard(dashData);
-        setSwimmers(swimData);
+        setMembers(swimData);
         setInvoices(invData);
         setSessions(sessData);
       } catch (err) {
@@ -172,7 +172,7 @@ export default function ParentDashboardPage() {
               </div>
             </div>
             <p className="text-text-secondary text-sm mb-2">Children registered</p>
-            <p className="text-4xl font-bold text-brand tabular-nums">{dashboard?.childrenCount ?? swimmers.length}</p>
+            <p className="text-4xl font-bold text-brand tabular-nums">{dashboard?.childrenCount ?? members.length}</p>
           </div>
 
           {/* Upcoming Sessions */}
@@ -236,7 +236,7 @@ export default function ParentDashboardPage() {
               </Link>
             </div>
             <div className="p-4 md:p-6">
-              {swimmers.length === 0 ? (
+              {members.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-8 text-center">
                   <Users className="w-12 h-12 text-text-tertiary mb-4" />
                   <p className="text-white font-semibold mb-1">No children registered</p>
@@ -244,24 +244,24 @@ export default function ParentDashboardPage() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {swimmers.map((swimmer) => (
+                  {members.map((member) => (
                     <Link
-                      key={swimmer.swimmer_id}
-                      href={`/parent/children/${swimmer.swimmer_id}`}
+                      key={member.member_id}
+                      href={`/parent/children/${member.member_id}`}
                       className="flex items-center justify-between p-4 min-h-[44px] bg-white/5 rounded-2xl hover:bg-white/10 active:bg-white/5 active:scale-[0.98] transition-all group"
                     >
                       <div className="flex items-center space-x-4">
                         <div className="w-12 h-12 bg-brand/20 rounded-full flex items-center justify-center">
                           <span className="text-brand font-bold text-lg">
-                            {swimmer.first_name[0]}{swimmer.last_name[0]}
+                            {member.first_name[0]}{member.last_name[0]}
                           </span>
                         </div>
                         <div className="min-w-0">
                           <p className="text-white font-semibold group-hover:text-brand transition-colors truncate">
-                            {swimmer.first_name} {swimmer.last_name}
+                            {member.first_name} {member.last_name}
                           </p>
                           <p className="text-text-tertiary text-sm truncate">
-                            {swimmer.se_number || 'No registration number'}
+                            {member.registration_number || 'No registration number'}
                           </p>
                         </div>
                       </div>

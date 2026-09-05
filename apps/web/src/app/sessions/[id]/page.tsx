@@ -268,7 +268,7 @@ export default function SessionDetailPage() {
                     </svg>
                     <div>
                       <p className="text-text-tertiary text-sm mb-1">Capacity</p>
-                      <p className="text-white text-lg font-semibold tabular-nums">{session.max_participants} swimmers</p>
+                      <p className="text-white text-lg font-semibold tabular-nums">{session.max_participants} members</p>
                     </div>
                   </div>
                 )}

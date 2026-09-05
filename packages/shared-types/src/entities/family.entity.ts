@@ -1,4 +1,4 @@
-import { Swimmer } from './swimmer.entity';
+import { Member } from './member.entity';
 
 export interface Family {
   family_id: string;
@@ -16,5 +16,5 @@ export interface Family {
   invite_accepted_at?: string | null;
   created_at: string;
   updated_at: string;
-  swimmers?: Swimmer[];
+  members?: Member[];
 }

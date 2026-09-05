@@ -236,7 +236,7 @@ export default function AttendancePage() {
                 Attendance
               </h1>
               <p className="text-grey-600 text-lg no-print">
-                Track swimmer attendance for each session
+                Track member attendance for each session
               </p>
             </div>
             {selectedSession && (
@@ -426,7 +426,7 @@ export default function AttendancePage() {
             <EmptyState
               icon={Calendar}
               title="No sessions yet"
-              description="Attendance tracking starts here. Create a training session and you can mark swimmers present or absent from your phone poolside."
+              description="Attendance tracking starts here. Create a training session and you can mark members present or absent from your phone poolside."
               hint="Registers work offline and sync when you are back in Wi-Fi range."
               actionLabel="Create Session"
               actionHref="/sessions"

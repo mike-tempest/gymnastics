@@ -152,7 +152,7 @@ function FamiliesPageInner() {
                 <div className="bg-brand rounded-3xl p-4 sm:p-6 text-center flex-1 sm:min-w-[180px] shadow-sm">
                   <p className="text-dark-primary text-sm font-semibold mb-1">Total Members</p>
                   <p className="text-dark-primary text-2xl sm:text-4xl font-bold">
-                    {error ? '—' : families.reduce((sum, family) => sum + (family.swimmers?.length || 0), 0)}
+                    {error ? '—' : families.reduce((sum, family) => sum + (family.members?.length || 0), 0)}
                   </p>
                 </div>
                 <div className="bg-white rounded-3xl p-4 sm:p-6 text-center flex-1 sm:min-w-[180px]">
@@ -162,7 +162,7 @@ function FamiliesPageInner() {
                       ? (
                           Math.round(
                             (families.reduce(
-                              (sum, family) => sum + (family.swimmers?.length || 0),
+                              (sum, family) => sum + (family.members?.length || 0),
                               0
                             ) /
                               families.length) *
@@ -239,7 +239,7 @@ function FamiliesPageInner() {
               <EmptyState
                 icon={Users}
                 title="No families yet"
-                description="Families link parents to their swimmers for billing and communications."
+                description="Families link parents to their members for billing and communications."
                 hint="When parents register, their family is created automatically."
                 actionLabel="Add Family"
                 actionHref="/families/new"
@@ -297,7 +297,7 @@ function FamiliesPageInner() {
                       <div className="text-right hidden sm:block">
                         <p className="text-xs text-text-secondary mb-1">Members</p>
                         <span className="px-4 py-1.5 bg-brand bg-opacity-20 text-brand text-sm font-bold rounded-full border border-brand whitespace-nowrap">
-                          {family.swimmers?.length || 0} SWIMMERS
+                          {family.members?.length || 0} MEMBERS
                         </span>
                       </div>
                       <div className="p-3 min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-brand hover:text-dark-primary rounded-button transition-all group-hover:bg-brand group-hover:text-dark-primary">

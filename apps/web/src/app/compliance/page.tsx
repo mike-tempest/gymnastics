@@ -111,7 +111,7 @@ export default function ComplianceDashboardPage() {
                 icon={ShieldCheck}
                 title="Safeguarding starts here"
                 description={`Compliance tracking helps you stay on top of ${noun} checks, parental consent, and ${config.label} ${config.safeguardingFramework} requirements. Your club's compliance health score updates automatically as you add records.`}
-                hint="This is not about paperwork for its own sake. It is about keeping swimmers safe and giving parents peace of mind."
+                hint="This is not about paperwork for its own sake. It is about keeping members safe and giving parents peace of mind."
                 features={[
                   `Track ${noun} check expiry dates for all coaches and volunteers`,
                   'Collect and manage photography and medical consent from parents',

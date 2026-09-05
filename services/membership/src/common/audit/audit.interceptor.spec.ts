@@ -44,7 +44,7 @@ describe('AuditInterceptor', () => {
     const interceptor = build();
     const context = makeContext({
       method: 'POST',
-      originalUrl: '/api/swimmers',
+      originalUrl: '/api/members',
       user: USER,
       body: { first_name: 'Daisy' },
       headers: { 'user-agent': 'jest', 'x-forwarded-for': '203.0.113.7, 10.0.0.1' },
@@ -60,12 +60,12 @@ describe('AuditInterceptor', () => {
       user_id: USER.user_id,
       user_email: USER.email,
       action: AuditAction.CREATE,
-      entity_type: AuditEntityType.SWIMMER,
+      entity_type: AuditEntityType.MEMBER,
       changes: { first_name: 'Daisy' },
     });
     // The forwarded client IP wins over the internal socket address.
     expect(entry.ip_address).toBe('203.0.113.7');
-    expect(entry.metadata).toMatchObject({ method: 'POST', path: '/api/swimmers' });
+    expect(entry.metadata).toMatchObject({ method: 'POST', path: '/api/members' });
     expect(typeof entry.metadata.duration_ms).toBe('number');
   });
 
@@ -73,7 +73,7 @@ describe('AuditInterceptor', () => {
     const interceptor = build();
     const context = makeContext({
       method: 'POST',
-      originalUrl: '/api/swimmers',
+      originalUrl: '/api/members',
       user: USER,
       headers: {},
     });
@@ -128,9 +128,9 @@ describe('AuditInterceptor', () => {
     const interceptor = build();
     const context = makeContext({
       method: 'POST',
-      originalUrl: '/api/import/swimmers',
+      originalUrl: '/api/import/members',
       user: USER,
-      body: { rows: Array.from({ length: 64 }, (_, i) => ({ name: `swimmer ${i}` })) },
+      body: { rows: Array.from({ length: 64 }, (_, i) => ({ name: `member ${i}` })) },
       headers: {},
     });
 
@@ -144,7 +144,7 @@ describe('AuditInterceptor', () => {
     const interceptor = build();
     const context = makeContext({
       method: 'POST',
-      originalUrl: '/api/swimmers',
+      originalUrl: '/api/members',
       headers: {},
     });
 
@@ -155,7 +155,7 @@ describe('AuditInterceptor', () => {
 
   it('skips GETs unless AUDIT_LOG_VIEWS is enabled', async () => {
     const context = () =>
-      makeContext({ method: 'GET', originalUrl: '/api/swimmers', user: USER, headers: {} });
+      makeContext({ method: 'GET', originalUrl: '/api/members', user: USER, headers: {} });
 
     await lastValueFrom(build(false).intercept(context(), makeHandler()));
     expect(auditLogsService.log).not.toHaveBeenCalled();

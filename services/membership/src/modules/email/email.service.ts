@@ -144,8 +144,8 @@ export interface DBSExpiryWarningEmailData {
 export interface ConsentExpiryWarningEmailData {
   parentName: string;
   recipientEmail: string;
-  swimmerName: string;
-  swimmerDOB: string;
+  memberName: string;
+  memberDOB: string;
   squadName: string;
   expiringCount: number;
   multipleExpiring: boolean;
@@ -185,8 +185,8 @@ export interface SessionCancelledEmailData {
 export interface SessionReminderEmailData {
   parentName: string;
   recipientEmail: string;
-  swimmerName?: string;
-  multipleSwimmers: boolean;
+  memberName?: string;
+  multipleMembers: boolean;
   sessionType: string;
   sessionTime: string;
   sessionDate: string;
@@ -197,7 +197,7 @@ export interface SessionReminderEmailData {
   poolAddress: string;
   duration: string;
   coachName?: string;
-  swimmers?: Array<{
+  members?: Array<{
     name: string;
     lane?: string;
   }>;
@@ -442,7 +442,7 @@ export class EmailService {
   async sendConsentExpiryWarning(data: ConsentExpiryWarningEmailData): Promise<void> {
     await this.send(
       data.recipientEmail,
-      `Consent Renewal Required for ${data.swimmerName} - ${this.clubName}`,
+      `Consent Renewal Required for ${data.memberName} - ${this.clubName}`,
       'consent-expiry-warning',
       data as unknown as Record<string, unknown>,
     );

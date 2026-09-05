@@ -12,21 +12,21 @@ export interface SquadAttendanceRate {
 }
 
 export interface TopAbsentee {
-  swimmerId: string;
+  memberId: string;
   name: string;
   squadName: string;
   missedCount: number;
 }
 
 export interface NewJoiner {
-  swimmerId: string;
+  memberId: string;
   name: string;
   squadName: string;
   joinedAt: string;
 }
 
 export interface Leaver {
-  swimmerId: string;
+  memberId: string;
   name: string;
   squadName: string;
   leftAt: string;
@@ -35,7 +35,7 @@ export interface Leaver {
 export interface SquadDistributionItem {
   squadId: string;
   squadName: string;
-  swimmerCount: number;
+  memberCount: number;
 }
 
 export interface AdminReportsData {

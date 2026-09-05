@@ -40,7 +40,7 @@ describe('WaitlistController', () => {
       const dto: CreateWaitlistDto = {
         email: 'parent@example.com',
         name: 'Test Parent',
-        clubName: 'City Swimmers',
+        clubName: 'City Members',
       };
       const expected = { success: true, message: 'Thanks! We will be in touch.' };
       mockWaitlistService.create.mockResolvedValue(expected);

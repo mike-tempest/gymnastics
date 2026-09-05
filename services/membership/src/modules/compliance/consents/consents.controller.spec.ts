@@ -10,7 +10,7 @@ describe('ConsentsController', () => {
 
   const mockConsent = {
     consent_id: '123e4567-e89b-12d3-a456-426614174000',
-    swimmer_id: '223e4567-e89b-12d3-a456-426614174001',
+    member_id: '223e4567-e89b-12d3-a456-426614174001',
     consent_type: ConsentType.PHOTOGRAPHY,
     status: ConsentStatus.GRANTED,
     granted_by_user_id: '333e4567-e89b-12d3-a456-426614174002',
@@ -23,8 +23,8 @@ describe('ConsentsController', () => {
     create: jest.fn(),
     findAll: jest.fn(),
     findOne: jest.fn(),
-    findBySwimmer: jest.fn(),
-    getSwimmerConsentStatus: jest.fn(),
+    findByMember: jest.fn(),
+    getMemberConsentStatus: jest.fn(),
     hasConsent: jest.fn(),
     findByType: jest.fn(),
     getPendingConsents: jest.fn(),
@@ -60,7 +60,7 @@ describe('ConsentsController', () => {
   describe('create', () => {
     it('should call consentsService.create and return the result', async () => {
       const createDto = {
-        swimmer_id: mockConsent.swimmer_id,
+        member_id: mockConsent.member_id,
         consent_type: ConsentType.PHOTOGRAPHY,
         granted_by_user_id: mockConsent.granted_by_user_id,
       };
@@ -115,36 +115,36 @@ describe('ConsentsController', () => {
     });
   });
 
-  describe('findBySwimmer', () => {
-    it('should return consents for a specific swimmer', async () => {
-      mockConsentsService.findBySwimmer.mockResolvedValue([mockConsent]);
+  describe('findByMember', () => {
+    it('should return consents for a specific member', async () => {
+      mockConsentsService.findByMember.mockResolvedValue([mockConsent]);
 
-      const result = await controller.findBySwimmer(mockConsent.swimmer_id);
+      const result = await controller.findByMember(mockConsent.member_id);
 
       expect(result).toEqual([mockConsent]);
-      expect(mockConsentsService.findBySwimmer).toHaveBeenCalledWith(mockConsent.swimmer_id);
+      expect(mockConsentsService.findByMember).toHaveBeenCalledWith(mockConsent.member_id);
     });
   });
 
-  describe('getSwimmerConsentStatus', () => {
-    it('should return consent status for a swimmer', async () => {
+  describe('getMemberConsentStatus', () => {
+    it('should return consent status for a member', async () => {
       const mockStatus = { [ConsentType.PHOTOGRAPHY]: true, [ConsentType.VIDEO]: false };
-      mockConsentsService.getSwimmerConsentStatus.mockResolvedValue(mockStatus);
+      mockConsentsService.getMemberConsentStatus.mockResolvedValue(mockStatus);
 
-      const result = await controller.getSwimmerConsentStatus(mockConsent.swimmer_id);
+      const result = await controller.getMemberConsentStatus(mockConsent.member_id);
 
       expect(result).toEqual(mockStatus);
     });
   });
 
   describe('hasConsent', () => {
-    it('should return whether the swimmer has a specific consent', async () => {
+    it('should return whether the member has a specific consent', async () => {
       mockConsentsService.hasConsent.mockResolvedValue(true);
 
-      const result = await controller.hasConsent(mockConsent.swimmer_id, ConsentType.PHOTOGRAPHY);
+      const result = await controller.hasConsent(mockConsent.member_id, ConsentType.PHOTOGRAPHY);
 
       expect(result).toEqual({
-        swimmer_id: mockConsent.swimmer_id,
+        member_id: mockConsent.member_id,
         consent_type: ConsentType.PHOTOGRAPHY,
         has_consent: true,
       });
