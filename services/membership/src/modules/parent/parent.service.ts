@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, Optional } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, MoreThanOrEqual, Between, In, FindOptionsWhere } from 'typeorm';
 import { Swimmer } from '../swimmers/entities/swimmer.entity';
@@ -38,13 +38,20 @@ export class ParentService {
     private paymentRepository: Repository<Payment>,
     @InjectRepository(DirectDebitMandate)
     private mandateRepository: Repository<DirectDebitMandate>,
-    @InjectRepository(CompetitionResult)
-    private resultsRepository: Repository<CompetitionResult>,
-    private readonly personalBests: PersonalBestsService,
     private goCardlessService: GoCardlessService,
     private readonly clubsRepository: ClubsRepository,
     private readonly scoped: TenantScopedHelper,
     private readonly tenantContext: TenantContextService,
+    // Both competitions dependencies are absent when the competitions module
+    // is flagged off (TEM-15): ParentModule then registers neither the entity
+    // nor CompetitionsModule, and the results endpoints 404 via
+    // CompetitionsEnabledGuard before reaching them. Declared last because
+    // optional parameters cannot precede required ones.
+    @Optional()
+    @InjectRepository(CompetitionResult)
+    private resultsRepository?: Repository<CompetitionResult>,
+    @Optional()
+    private readonly personalBests?: PersonalBestsService,
   ) {}
 
   async getProfile(familyId: string) {
@@ -215,6 +222,12 @@ export class ParentService {
   }
 
   async getChildResults(familyId: string, childId: string) {
+    // Defence in depth: the controller route already 404s via
+    // CompetitionsEnabledGuard when the competitions module is off.
+    if (!this.resultsRepository) {
+      throw new NotFoundException();
+    }
+
     // Verify child belongs to family (scoped to the active club).
     const child = await this.scoped.scopedFindOne(this.swimmersRepository, {
       where: { swimmer_id: childId, family_id: familyId },
@@ -232,6 +245,13 @@ export class ParentService {
   }
 
   async getChildPersonalBests(familyId: string, childId: string) {
+    // Defence in depth: the controller route already 404s via
+    // CompetitionsEnabledGuard when the competitions module is off.
+    const personalBestsService = this.personalBests;
+    if (!personalBestsService) {
+      throw new NotFoundException();
+    }
+
     // Verify child belongs to family (scoped to the active club).
     const child = await this.scoped.scopedFindOne(this.swimmersRepository, {
       where: { swimmer_id: childId, family_id: familyId },
@@ -242,8 +262,8 @@ export class ParentService {
     }
 
     const [personalBests, seasonBests] = await Promise.all([
-      this.personalBests.getForSwimmer(childId),
-      this.personalBests.getSeasonBests(childId),
+      personalBestsService.getForSwimmer(childId),
+      personalBestsService.getSeasonBests(childId),
     ]);
 
     return {

@@ -2,9 +2,9 @@
 
 import { Swimmer, Session, Attendance, AttendanceStats } from '@swim-nexus/shared-types';
 import { Calendar, ClipboardList, BookOpen } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { useState, useEffect , use } from 'react';
 
-import PersonalBests from '@/components/swimmers/PersonalBests';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
@@ -17,6 +17,13 @@ import {
   fetchSwimmerResults,
   fetchSwimmerSchedule,
 } from '@/lib/api/parent';
+import { isCompetitionsEnabled } from '@/lib/features';
+
+// Loaded lazily so the recharts-heavy times UI stays out of the route chunk
+// while the competitions module is flagged off (TEM-15).
+const PersonalBests = dynamic(() => import('@/components/swimmers/PersonalBests'), {
+  ssr: false,
+});
 
 function formatTime(time: string): string {
   return time.slice(0, 5);
@@ -357,20 +364,22 @@ export default function ChildDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Times and Personal Bests */}
-        <div className="bg-dark-primary rounded-card shadow-card border border-white/10 mb-8">
-          <div className="p-4 md:p-6 border-b border-white/10">
-            <h2 className="font-serif text-2xl text-white">Times and personal bests</h2>
+        {/* Times and Personal Bests: swimming times, feature-flagged off by default (TEM-15) */}
+        {isCompetitionsEnabled() && (
+          <div className="bg-dark-primary rounded-card shadow-card border border-white/10 mb-8">
+            <div className="p-4 md:p-6 border-b border-white/10">
+              <h2 className="font-serif text-2xl text-white">Times and personal bests</h2>
+            </div>
+            <div className="p-4 md:p-6">
+              <PersonalBests
+                swimmerId={id}
+                fetchPersonalBests={fetchSwimmerPersonalBests}
+                fetchResults={fetchSwimmerResults}
+                emptyMessage="No competition times recorded yet. Times will appear here after their first gala, time trial or meet."
+              />
+            </div>
           </div>
-          <div className="p-4 md:p-6">
-            <PersonalBests
-              swimmerId={id}
-              fetchPersonalBests={fetchSwimmerPersonalBests}
-              fetchResults={fetchSwimmerResults}
-              emptyMessage="No competition times recorded yet. Times will appear here after their first gala, time trial or meet."
-            />
-          </div>
-        </div>
+        )}
 
         {/* Progress Notes */}
         <div className="bg-dark-primary rounded-card shadow-card border border-white/10">
