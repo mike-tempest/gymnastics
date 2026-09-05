@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { verifyInviteToken, acceptInvite } from '@/lib/api/families';
+import { BRAND } from '@/lib/brand';
 
 export default function InviteAcceptancePage({ params }: { params: { token: string } }) {
   const router = useRouter();
@@ -108,7 +109,7 @@ export default function InviteAcceptancePage({ params }: { params: { token: stri
         <div className="bg-dark-primary rounded-3xl shadow-card p-10 border border-white/10">
           {/* Logo and Header */}
           <div className="text-center mb-10">
-            <Image src="/swimly-logo.svg" alt="Swimly" width={200} height={64} className="h-16 w-auto mx-auto mb-6" />
+            <Image src="/swimly-logo.svg" alt="" width={200} height={64} className="h-16 w-auto mx-auto mb-6" />
             <p className="text-grey-300 text-lg">Parent invitation</p>
           </div>
 
@@ -205,7 +206,7 @@ export default function InviteAcceptancePage({ params }: { params: { token: stri
 
         {/* Footer */}
         <div className="mt-8 text-center text-sm text-text-tertiary">
-          <p>2026 Swimly. All rights reserved.</p>
+          <p>{BRAND.copyright}</p>
         </div>
       </div>
     </div>

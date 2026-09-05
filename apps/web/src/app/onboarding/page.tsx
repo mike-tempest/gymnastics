@@ -21,6 +21,7 @@ import {
 import { updateClubSettings } from "@/lib/api/settings";
 import { createSquad } from "@/lib/api/squads";
 import { createSwimmer } from "@/lib/api/swimmers";
+import { BRAND } from "@/lib/brand";
 import { isValidPhone } from "@/lib/utils/postal";
 import { countyLabel } from "@/lib/utils/region-labels";
 
@@ -995,7 +996,7 @@ export default function OnboardingPage() {
           Add Staff Member
         </button>
       </div>
-      <p className="text-white/50 text-sm mb-4">Invite coaches and other admins so they can access Swimly too.</p>
+      <p className="text-white/50 text-sm mb-4">Invite coaches and other admins so they can access {BRAND.name} too.</p>
 
       {staff.length === 0 && (
         <p className="text-white/70 text-sm">No staff added yet. You can always invite coaches and admins later from Settings.</p>
@@ -1177,7 +1178,7 @@ export default function OnboardingPage() {
     <div className="min-h-dvh bg-dark-secondary">
       <div className="max-w-2xl mx-auto px-4 py-10">
         {/* Header */}
-        <h1 className="font-serif text-4xl text-white tracking-tight text-center mb-2">Welcome to Swimly</h1>
+        <h1 className="font-serif text-4xl text-white tracking-tight text-center mb-2">Welcome to {BRAND.name}</h1>
         <p className="text-white/70 text-center text-lg mb-4">
           Let&apos;s get your club up and running. This takes about 5 minutes, and you can change everything later.
         </p>

@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 
+import { BRAND } from '@/lib/brand';
+
 export default function Navbar() {
   const { data: session } = useSession();
 
@@ -12,7 +14,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
             <Link href="/" className="text-xl font-bold text-brand">
-              Swimly
+              {BRAND.name}
             </Link>
 
             {session && (

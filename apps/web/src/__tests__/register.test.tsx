@@ -56,7 +56,9 @@ describe('RegisterPage', () => {
   it('renders the brand logo and subtitle', () => {
     render(<RegisterPage />);
 
-    expect(screen.getByRole('img', { name: 'Swimly' })).toBeInTheDocument();
+    // The logo is decorative (empty alt) until the placeholder artwork is
+    // replaced with the real brand's wordmark.
+    expect(document.querySelector('img[alt=""]')).toBeInTheDocument();
     expect(screen.getByText('Create your account')).toBeInTheDocument();
   });
 
@@ -90,14 +92,20 @@ describe('RegisterPage', () => {
 
     fireEvent.change(screen.getByLabelText('First Name'), { target: { value: 'Jane' } });
     fireEvent.change(screen.getByLabelText('Last Name'), { target: { value: 'Doe' } });
-    fireEvent.change(screen.getByLabelText('Email Address'), { target: { value: 'jane@example.com' } });
+    fireEvent.change(screen.getByLabelText('Email Address'), {
+      target: { value: 'jane@example.com' },
+    });
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password123' } });
-    fireEvent.change(screen.getByLabelText('Confirm Password'), { target: { value: 'differentpassword' } });
+    fireEvent.change(screen.getByLabelText('Confirm Password'), {
+      target: { value: 'differentpassword' },
+    });
 
     fireEvent.click(screen.getByRole('button', { name: /create account/i }));
 
     await waitFor(() => {
-      expect(screen.getByText('Passwords do not match. Please re-enter your password.')).toBeInTheDocument();
+      expect(
+        screen.getByText('Passwords do not match. Please re-enter your password.')
+      ).toBeInTheDocument();
     });
   });
 
@@ -106,7 +114,9 @@ describe('RegisterPage', () => {
 
     fireEvent.change(screen.getByLabelText('First Name'), { target: { value: 'Jane' } });
     fireEvent.change(screen.getByLabelText('Last Name'), { target: { value: 'Doe' } });
-    fireEvent.change(screen.getByLabelText('Email Address'), { target: { value: 'jane@example.com' } });
+    fireEvent.change(screen.getByLabelText('Email Address'), {
+      target: { value: 'jane@example.com' },
+    });
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'short' } });
     fireEvent.change(screen.getByLabelText('Confirm Password'), { target: { value: 'short' } });
 
@@ -128,9 +138,13 @@ describe('RegisterPage', () => {
 
     fireEvent.change(screen.getByLabelText('First Name'), { target: { value: 'Jane' } });
     fireEvent.change(screen.getByLabelText('Last Name'), { target: { value: 'Doe' } });
-    fireEvent.change(screen.getByLabelText('Email Address'), { target: { value: 'jane@example.com' } });
+    fireEvent.change(screen.getByLabelText('Email Address'), {
+      target: { value: 'jane@example.com' },
+    });
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password123' } });
-    fireEvent.change(screen.getByLabelText('Confirm Password'), { target: { value: 'password123' } });
+    fireEvent.change(screen.getByLabelText('Confirm Password'), {
+      target: { value: 'password123' },
+    });
 
     fireEvent.click(screen.getByRole('button', { name: /create account/i }));
 
@@ -162,15 +176,22 @@ describe('RegisterPage', () => {
 
     fireEvent.change(screen.getByLabelText('First Name'), { target: { value: 'Jane' } });
     fireEvent.change(screen.getByLabelText('Last Name'), { target: { value: 'Doe' } });
-    fireEvent.change(screen.getByLabelText('Email Address'), { target: { value: 'jane@example.com' } });
+    fireEvent.change(screen.getByLabelText('Email Address'), {
+      target: { value: 'jane@example.com' },
+    });
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password123' } });
-    fireEvent.change(screen.getByLabelText('Confirm Password'), { target: { value: 'password123' } });
+    fireEvent.change(screen.getByLabelText('Confirm Password'), {
+      target: { value: 'password123' },
+    });
 
     fireEvent.click(screen.getByRole('button', { name: /create account/i }));
 
     await waitFor(() => {
       expect(screen.getByText('Account Created')).toBeInTheDocument();
-      expect(screen.getByRole('link', { name: /go to sign in/i })).toHaveAttribute('href', '/login');
+      expect(screen.getByRole('link', { name: /go to sign in/i })).toHaveAttribute(
+        'href',
+        '/login'
+      );
     });
   });
 
@@ -181,9 +202,13 @@ describe('RegisterPage', () => {
 
     fireEvent.change(screen.getByLabelText('First Name'), { target: { value: 'Jane' } });
     fireEvent.change(screen.getByLabelText('Last Name'), { target: { value: 'Doe' } });
-    fireEvent.change(screen.getByLabelText('Email Address'), { target: { value: 'jane@example.com' } });
+    fireEvent.change(screen.getByLabelText('Email Address'), {
+      target: { value: 'jane@example.com' },
+    });
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password123' } });
-    fireEvent.change(screen.getByLabelText('Confirm Password'), { target: { value: 'password123' } });
+    fireEvent.change(screen.getByLabelText('Confirm Password'), {
+      target: { value: 'password123' },
+    });
 
     fireEvent.click(screen.getByRole('button', { name: /create account/i }));
 

@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * Playwright configuration for Swimly E2E smoke tests
+ * Playwright configuration for the web app's E2E smoke tests
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({

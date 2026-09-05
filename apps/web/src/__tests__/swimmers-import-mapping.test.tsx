@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import SwimmersImportPage from '@/app/swimmers/import/page';
+import { BRAND } from '@/lib/brand';
 
 // Mock next/navigation
 jest.mock('next/navigation', () => ({
@@ -90,7 +91,7 @@ describe('Swimmers import mapping flow', () => {
     uploadCsv('Given Name,Family Name,Born\nMia,Chen,14/03/2015\n');
 
     await waitFor(() => {
-      expect(screen.getByText('Match your columns to Swimly fields')).toBeInTheDocument();
+      expect(screen.getByText(`Match your columns to ${BRAND.name} fields`)).toBeInTheDocument();
     });
 
     // The unrecognised column is flagged, not fatal.

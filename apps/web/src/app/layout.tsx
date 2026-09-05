@@ -6,13 +6,14 @@ import './globals.css';
 import PostHogProvider from '@/components/providers/PostHogProvider';
 import QueryProvider from '@/components/providers/QueryProvider';
 import SessionProvider from '@/components/providers/SessionProvider';
+import { BRAND } from '@/lib/brand';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const dmSerif = DM_Serif_Display({ weight: '400', subsets: ['latin'], variable: '--font-serif', display: 'swap' });
 
 export const metadata: Metadata = {
-  title: 'Swimly - Swim Club Management',
-  description: 'Comprehensive club management platform for swimming clubs',
+  title: BRAND.name,
+  description: BRAND.description,
   manifest: '/site.webmanifest',
   icons: {
     icon: [

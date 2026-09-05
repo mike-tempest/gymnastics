@@ -29,6 +29,7 @@ import {
   importMembers,
   previewMembersImport,
 } from '@/lib/api/data-import';
+import { BRAND } from '@/lib/brand';
 import { DOB_FORMAT_HINT, parseDateOfBirth } from '@/lib/import/date-of-birth';
 import {
   type AutoMapField,
@@ -87,7 +88,7 @@ const REQUIRED_FIELDS = CANONICAL_FIELDS.filter((f) => f.required).map((f) => f.
 /**
  * Auto-mapping targets: each page field, tagged with the canonical concept
  * whose synonyms live in the shared header-mapping lib. Headers matching
- * the field key itself (e.g. a re-uploaded Swimly template) always win, so
+ * the field key itself (e.g. a re-uploaded template of ours) always win, so
  * a family_name column still maps to the family grouping even though
  * "Family Name" is also a surname synonym in other systems' exports.
  */
@@ -547,7 +548,7 @@ export default function MembersImportPage() {
                     <span className="text-white font-medium">parent_name</span> and{' '}
                     <span className="text-white font-medium">parent_email</span>. Swimmers with the same
                     parent email are grouped into one family. Exports from other systems work too, because
-                    you can match your columns to Swimly fields in the next step. {DOB_FORMAT_HINT}
+                    you can match your columns to {BRAND.name} fields in the next step. {DOB_FORMAT_HINT}
                   </p>
                   <button
                     onClick={downloadTemplate}
