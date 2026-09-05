@@ -136,8 +136,8 @@ Swimmer {
 | reflect-metadata | ^0.2.1 | Metadata reflection |
 
 ### Workspace Dependencies
-- `@swim-nexus/shared-types` - Shared TypeScript types
-- `@swim-nexus/utils` - Shared utility functions
+- `@club-manager/shared-types` - Shared TypeScript types
+- `@club-manager/utils` - Shared utility functions
 
 ### Development Dependencies
 - TypeScript 5.3.3
@@ -221,8 +221,8 @@ The service is configured to accept requests from:
 - `http://localhost:3000` (Next.js app)
 
 ### Workspace Integration
-- Uses `@swim-nexus/shared-types` for type safety across services
-- Uses `@swim-nexus/utils` for common utilities
+- Uses `@club-manager/shared-types` for type safety across services
+- Uses `@club-manager/utils` for common utilities
 - Part of pnpm workspace for dependency sharing
 
 ## Future Enhancements

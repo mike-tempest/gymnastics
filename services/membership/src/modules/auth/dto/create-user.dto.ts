@@ -7,7 +7,7 @@ import {
   MinLength,
   IsEnum,
 } from 'class-validator';
-import { UserRole } from '@swim-nexus/shared-types';
+import { UserRole } from '@club-manager/shared-types';
 
 export class CreateUserDto {
   @IsNotEmpty()

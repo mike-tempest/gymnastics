@@ -1,5 +1,5 @@
 {
-  "name": "@swim-nexus/membership-service",
+  "name": "@club-manager/membership-service",
   "version": "1.0.0",
   "private": true,
   "description": "Membership service for managing swimmers, families, and club memberships",
@@ -41,8 +41,8 @@
     "@nestjs/throttler": "^6.5.0",
     "@nestjs/typeorm": "^10.0.1",
     "@sentry/node": "^10.42.0",
-    "@swim-nexus/shared-types": "workspace:*",
-    "@swim-nexus/utils": "workspace:*",
+    "@club-manager/shared-types": "workspace:*",
+    "@club-manager/utils": "workspace:*",
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",

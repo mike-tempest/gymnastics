@@ -1,6 +1,6 @@
 'use client';
 
-import { Family } from '@swim-nexus/shared-types';
+import { Family } from '@club-manager/shared-types';
 import { Users } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';

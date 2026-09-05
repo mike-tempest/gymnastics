@@ -23,7 +23,7 @@ node scripts/screenshot-db-reset.mjs
 
 # 3. Start the membership service against the scratch copy, and the web app.
 #    From the repo root:
-#      DB_DATABASE=swimly_screenshots DATABASE_URL= pnpm --filter @swim-nexus/membership-service dev
+#      DB_DATABASE=swimly_screenshots DATABASE_URL= pnpm --filter @club-manager/membership-service dev
 #      pnpm --filter web dev
 
 # 4. Capture. This applies the per-region fixture and shoots each page.

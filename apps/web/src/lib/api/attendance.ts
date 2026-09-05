@@ -1,4 +1,4 @@
-import { Attendance, AttendanceStatus, AttendanceStats } from '@swim-nexus/shared-types';
+import { Attendance, AttendanceStatus, AttendanceStats } from '@club-manager/shared-types';
 
 import { api } from './api-client';
 

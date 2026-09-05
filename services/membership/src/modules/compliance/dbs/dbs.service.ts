@@ -11,7 +11,7 @@ import { ClubsService } from '../../clubs/clubs.service';
 import { Club } from '../../clubs/entities/club.entity';
 import { CLS_CLUB_ID_KEY } from '../../../common/tenancy/tenant-context.service';
 import { formatClubDate } from '../../../common/region/format.util';
-import { GoverningBody, governingBodyConfig } from '@swim-nexus/shared-types';
+import { GoverningBody, governingBodyConfig } from '@club-manager/shared-types';
 
 @Injectable()
 export class DBSService {

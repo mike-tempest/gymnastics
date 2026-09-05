@@ -568,16 +568,16 @@ if (recipient.age < 18) {
 
 All services share:
 
-- **@swim-nexus/shared-types:** TypeScript types
-- **@swim-nexus/validation:** Zod schemas
-- **@swim-nexus/utils:** Common utilities (date formatting, etc.)
-- **@swim-nexus/database:** Database connection, base repository
-- **@swim-nexus/logger:** Winston logger
+- **@club-manager/shared-types:** TypeScript types
+- **@club-manager/validation:** Zod schemas
+- **@club-manager/utils:** Common utilities (date formatting, etc.)
+- **@club-manager/database:** Database connection, base repository
+- **@club-manager/logger:** Winston logger
 
 ```typescript
 // Example: Using shared types
-import { CreateSwimmerDto, Swimmer } from '@swim-nexus/shared-types';
-import { createSwimmerSchema } from '@swim-nexus/validation';
+import { CreateSwimmerDto, Swimmer } from '@club-manager/shared-types';
+import { createSwimmerSchema } from '@club-manager/validation';
 
 @Post()
 async create(@Body() dto: CreateSwimmerDto): Promise<Swimmer> {

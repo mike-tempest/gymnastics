@@ -7,7 +7,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { BackgroundCheckStatus, BackgroundCheckType } from '@swim-nexus/shared-types';
+import { BackgroundCheckStatus, BackgroundCheckType } from '@club-manager/shared-types';
 import { User } from '../../../users/entities/user.entity';
 
 // The shared-types enums are the single source of truth for check types and

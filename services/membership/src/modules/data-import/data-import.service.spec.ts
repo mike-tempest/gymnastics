@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { GoverningBody } from '@swim-nexus/shared-types';
+import { GoverningBody } from '@club-manager/shared-types';
 import { DataImportService } from './data-import.service';
 import { FamiliesRepository } from '../families/families.repository';
 import { SwimmersRepository } from '../swimmers/swimmers.repository';

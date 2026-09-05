@@ -1,6 +1,6 @@
 'use client';
 
-import { governingBodyConfig, defaultGoverningBodyForCountry, checkNoun } from '@swim-nexus/shared-types';
+import { governingBodyConfig, defaultGoverningBodyForCountry, checkNoun } from '@club-manager/shared-types';
 import {
   ShieldCheck,
   AlertTriangle,

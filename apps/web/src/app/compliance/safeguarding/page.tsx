@@ -3,7 +3,7 @@
 import {
   governingBodyConfig,
   defaultGoverningBodyForCountry,
-} from '@swim-nexus/shared-types';
+} from '@club-manager/shared-types';
 import {
   ShieldCheck,
   CheckCircle,

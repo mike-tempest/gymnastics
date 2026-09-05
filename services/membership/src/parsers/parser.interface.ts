@@ -3,7 +3,7 @@
  * Supports Hy-Tek HY3 and SportSystems formats.
  */
 
-import { UK_GOVERNING_BODIES, governingBodyConfig } from '@swim-nexus/shared-types';
+import { UK_GOVERNING_BODIES, governingBodyConfig } from '@club-manager/shared-types';
 
 export interface ParsedSwimmer {
   /**

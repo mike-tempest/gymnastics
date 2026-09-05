@@ -13,8 +13,8 @@ const config: Config = {
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
-    '^@swim-nexus/shared-types$': '<rootDir>/../../packages/shared-types/src/index.ts',
-    '^@swim-nexus/utils$': '<rootDir>/../../packages/utils/src/index.ts',
+    '^@club-manager/shared-types$': '<rootDir>/../../packages/shared-types/src/index.ts',
+    '^@club-manager/utils$': '<rootDir>/../../packages/utils/src/index.ts',
   },
   testMatch: ['<rootDir>/src/**/__tests__/**/*.test.{ts,tsx}'],
 };

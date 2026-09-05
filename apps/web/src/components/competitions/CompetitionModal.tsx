@@ -1,7 +1,7 @@
 'use client';
 
+import { Competition, CompetitionType, CompetitionStatus, Course, QualifyingTime } from '@club-manager/shared-types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Competition, CompetitionType, CompetitionStatus, Course, QualifyingTime } from '@swim-nexus/shared-types';
 import { Plus, Trash2 } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';

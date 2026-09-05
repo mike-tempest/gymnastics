@@ -1,6 +1,6 @@
 'use client';
 
-import { Swimmer, Session, Family, InvoiceStatus } from '@swim-nexus/shared-types';
+import { Swimmer, Session, Family, InvoiceStatus } from '@club-manager/shared-types';
 import { UserPlus, Receipt, Users, Calendar, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';

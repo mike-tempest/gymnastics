@@ -1,4 +1,4 @@
-import { Session, Squad } from '@swim-nexus/shared-types';
+import { Session, Squad } from '@club-manager/shared-types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 

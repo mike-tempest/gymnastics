@@ -1,6 +1,6 @@
 'use client';
 
-import { AttendanceStatus } from '@swim-nexus/shared-types';
+import { AttendanceStatus } from '@club-manager/shared-types';
 import { Check, Clock, Info, X, type LucideIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 

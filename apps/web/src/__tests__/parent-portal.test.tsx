@@ -1,4 +1,4 @@
-import { Swimmer, Session } from '@swim-nexus/shared-types';
+import { Swimmer, Session } from '@club-manager/shared-types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import { ReactElement } from 'react';

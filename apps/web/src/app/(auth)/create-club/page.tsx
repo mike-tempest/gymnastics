@@ -1,13 +1,13 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import {
   AU_STATES,
   COUNTRY_GOVERNING_BODIES,
   GoverningBody,
   defaultGoverningBodyForCountry,
   governingBodyConfig,
-} from '@swim-nexus/shared-types';
+} from '@club-manager/shared-types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';

@@ -1,4 +1,4 @@
-import { Family } from '@swim-nexus/shared-types';
+import { Family } from '@club-manager/shared-types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { type ReactElement } from 'react';

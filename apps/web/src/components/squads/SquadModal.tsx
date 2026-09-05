@@ -1,7 +1,7 @@
 'use client';
 
+import { Squad, Swimmer } from '@club-manager/shared-types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Squad, Swimmer } from '@swim-nexus/shared-types';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';

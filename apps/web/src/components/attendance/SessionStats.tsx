@@ -1,6 +1,6 @@
 'use client';
 
-import { AttendanceStatus } from '@swim-nexus/shared-types';
+import { AttendanceStatus } from '@club-manager/shared-types';
 
 interface SessionStatsProps {
   counts: Record<AttendanceStatus | 'unmarked', number>;

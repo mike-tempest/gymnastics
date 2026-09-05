@@ -11,7 +11,7 @@ import {
   Max,
   MaxLength,
 } from 'class-validator';
-import { GoverningBody } from '@swim-nexus/shared-types';
+import { GoverningBody } from '@club-manager/shared-types';
 
 export class LocationDto {
   @IsString()

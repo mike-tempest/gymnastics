@@ -1,4 +1,4 @@
-import { Session, SessionStatus } from '@swim-nexus/shared-types';
+import { Session, SessionStatus } from '@club-manager/shared-types';
 
 import { api } from './api-client';
 

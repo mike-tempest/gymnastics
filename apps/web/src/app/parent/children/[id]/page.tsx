@@ -1,6 +1,6 @@
 'use client';
 
-import { Swimmer, Session, Attendance, AttendanceStats } from '@swim-nexus/shared-types';
+import { Swimmer, Session, Attendance, AttendanceStats } from '@club-manager/shared-types';
 import { Calendar, ClipboardList, BookOpen } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useState, useEffect , use } from 'react';

@@ -7,7 +7,7 @@ import {
   IsIn,
   MaxLength,
 } from 'class-validator';
-import { GoverningBody } from '@swim-nexus/shared-types';
+import { GoverningBody } from '@club-manager/shared-types';
 
 // One row of a combined members import (swimmer plus parent/family details).
 export class MemberImportRowDto {

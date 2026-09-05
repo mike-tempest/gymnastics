@@ -6,7 +6,7 @@ import {
   InvoiceStatus,
   Attendance,
   AttendanceStats,
-} from '@swim-nexus/shared-types';
+} from '@club-manager/shared-types';
 
 import { api, apiDownload } from './api-client';
 import { type CompetitionResult, type SwimmerPersonalBests } from './competitions';

@@ -166,7 +166,7 @@ While Vite is excellent for SPAs:
    }
 
    // Frontend (Next.js)
-   import { CreateSwimmerDto } from '@swim-nexus/shared-types';
+   import { CreateSwimmerDto } from '@club-manager/shared-types';
    const swimmer: CreateSwimmerDto = { ... };
    ```
    - TypeScript across backend, web, and shared packages

@@ -1,4 +1,4 @@
-import { CompetitionStatus, CompetitionType, Course, QualifyingTime } from '@swim-nexus/shared-types';
+import { CompetitionStatus, CompetitionType, Course, QualifyingTime } from '@club-manager/shared-types';
 
 export const COMPETITION_STATUS_STYLES: Record<CompetitionStatus, string> = {
   [CompetitionStatus.DRAFT]: 'bg-white/10 text-grey-300',

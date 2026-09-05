@@ -1,6 +1,6 @@
 'use client';
 
-import { Swimmer } from '@swim-nexus/shared-types';
+import { Swimmer } from '@club-manager/shared-types';
 import { Heart, ChevronRight, Battery, Waves } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';

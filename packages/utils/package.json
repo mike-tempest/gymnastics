@@ -1,5 +1,5 @@
 {
-  "name": "@swim-nexus/utils",
+  "name": "@club-manager/utils",
   "version": "1.0.0",
   "private": true,
   "main": "./dist/index.js",

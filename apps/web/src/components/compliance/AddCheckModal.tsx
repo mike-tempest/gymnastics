@@ -1,7 +1,7 @@
 'use client';
 
+import { type GoverningBodyConfig, checkNoun, orderedBackgroundCheckTypes } from '@club-manager/shared-types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type GoverningBodyConfig, checkNoun, orderedBackgroundCheckTypes } from '@swim-nexus/shared-types';
 import { useQuery } from '@tanstack/react-query';
 import { X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';

@@ -1,4 +1,4 @@
-import { Invoice, InvoiceItem, Payment, InvoiceStatus, PaymentMethod } from '@swim-nexus/shared-types';
+import { Invoice, InvoiceItem, Payment, InvoiceStatus, PaymentMethod } from '@club-manager/shared-types';
 
 import { api, apiDownload } from './api-client';
 
