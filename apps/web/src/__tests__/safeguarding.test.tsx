@@ -85,16 +85,20 @@ describe('SafeguardingPage', () => {
     mockGetIncidents.mockResolvedValue([]);
   });
 
-  it('renders GB safeguarding labels for a GB club', async () => {
+  it('renders British Gymnastics safeguarding labels for a GB club by default', async () => {
     mockGetMyClub.mockResolvedValue({ id: 'club-gb', name: 'Whitby Seals', country: 'GB' });
 
     renderPage();
 
-    expect(await screen.findByText('Wavepower compliance checklist')).toBeInTheDocument();
     expect(
-      screen.getByText('Wavepower compliance, Club Welfare Officer details, and incident tracking'),
+      await screen.findByText('Safeguarding and Protecting Children Policy compliance checklist'),
     ).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Club Welfare Officer' })).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'Safeguarding and Protecting Children Policy compliance, Welfare Officer details, and incident tracking',
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Welfare Officer' })).toBeInTheDocument();
     expect(screen.getByText('DBS number')).toBeInTheDocument();
     expect(screen.getByText('DBS expiry')).toBeInTheDocument();
   });
@@ -132,7 +136,12 @@ describe('SafeguardingPage', () => {
   });
 
   it('offers an add-officer action instead of a dead link when no officer exists', async () => {
-    mockGetMyClub.mockResolvedValue({ id: 'club-gb', name: 'Whitby Seals', country: 'GB' });
+    mockGetMyClub.mockResolvedValue({
+      id: 'club-gb',
+      name: 'Whitby Seals',
+      country: 'GB',
+      governing_body: 'SWIM_ENGLAND',
+    });
     mockGetOfficer.mockResolvedValue(null);
 
     renderPage();
@@ -147,7 +156,12 @@ describe('SafeguardingPage', () => {
   });
 
   it('optimistically toggles a checklist item and persists via the API', async () => {
-    mockGetMyClub.mockResolvedValue({ id: 'club-gb', name: 'Whitby Seals', country: 'GB' });
+    mockGetMyClub.mockResolvedValue({
+      id: 'club-gb',
+      name: 'Whitby Seals',
+      country: 'GB',
+      governing_body: 'SWIM_ENGLAND',
+    });
     mockUpdateChecklistItem.mockResolvedValue({ ...CHECKLIST[1], completed: true });
 
     renderPage();
@@ -164,7 +178,12 @@ describe('SafeguardingPage', () => {
   });
 
   it('reverts and surfaces a non-blocking toast when the PATCH 404s', async () => {
-    mockGetMyClub.mockResolvedValue({ id: 'club-gb', name: 'Whitby Seals', country: 'GB' });
+    mockGetMyClub.mockResolvedValue({
+      id: 'club-gb',
+      name: 'Whitby Seals',
+      country: 'GB',
+      governing_body: 'SWIM_ENGLAND',
+    });
     mockUpdateChecklistItem.mockRejectedValue(new ApiError('Not found', 404));
 
     renderPage();

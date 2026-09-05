@@ -526,13 +526,13 @@ describe('ConsentsService', () => {
       expect(payload.expiringConsents[0].name).toBe('Data Sharing with Swimming Australia');
     });
 
-    it('falls back to the GB wording when a club has no governing body set', async () => {
+    it('falls back to the British Gymnastics wording when a club has no governing body set', async () => {
       await runCronForClub({ id: 'club-legacy', locale: 'en-GB', timezone: 'Europe/London' });
 
       expect(mockEmailService.sendConsentExpiryWarning).toHaveBeenCalledTimes(1);
       const payload = mockEmailService.sendConsentExpiryWarning.mock.calls[0][0];
       expect(payload.complianceRequirements).toBe(
-        'GDPR and Swim England Wavepower requirements',
+        'GDPR and British Gymnastics Safeguarding and Protecting Children Policy requirements',
       );
     });
   });

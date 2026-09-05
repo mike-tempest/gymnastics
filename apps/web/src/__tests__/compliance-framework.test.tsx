@@ -58,19 +58,23 @@ describe('Compliance dashboard framework awareness', () => {
     mockGetDbsChecks.mockResolvedValue([]);
   });
 
-  it('shows the GB Swim England wording when the club country is unknown', async () => {
+  it('shows the British Gymnastics wording when the club country is unknown', async () => {
     mockGetMyClub.mockRejectedValue(new Error('No club'));
 
     render(<ComplianceDashboardPage />, { wrapper: createWrapper() });
 
     await waitFor(() =>
-      expect(screen.getByRole('heading', { name: 'Compliance and Wavepower' })).toBeInTheDocument()
+      expect(
+        screen.getByRole('heading', {
+          name: 'Compliance and Safeguarding and Protecting Children Policy',
+        })
+      ).toBeInTheDocument()
     );
     expect(
-      screen.getByText(/Swim England Wavepower requirements/)
+      screen.getByText(/British Gymnastics Safeguarding and Protecting Children Policy requirements/)
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Club Welfare Officer for Wavepower compliance/)
+      screen.getByText(/Welfare Officer for Safeguarding and Protecting Children Policy compliance/)
     ).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Add DBS checks' })).toBeInTheDocument();
   });
@@ -123,7 +127,7 @@ describe('DBS check tracker framework awareness', () => {
     mockGetDbsChecks.mockResolvedValue([]);
   });
 
-  it('keeps the GB DBS wording byte-identical for UK clubs', async () => {
+  it('keeps the GB DBS wording for UK clubs, framed by the BG default framework', async () => {
     mockGetMyClub.mockRejectedValue(new Error('No club'));
 
     render(<DbsChecksPage />, { wrapper: createWrapper() });
@@ -133,7 +137,9 @@ describe('DBS check tracker framework awareness', () => {
     );
     expect(screen.getByText('Monitor DBS disclosure status for all staff and volunteers')).toBeInTheDocument();
     expect(screen.getByText('Expiring within 90 days')).toBeInTheDocument();
-    expect(screen.getByText(/stay Wavepower compliant/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/stay Safeguarding and Protecting Children Policy compliant/)
+    ).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Search by name, role, or DBS number...')).toBeInTheDocument();
     expect(screen.queryByText(/60 days/)).not.toBeInTheDocument();
   });

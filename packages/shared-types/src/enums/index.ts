@@ -168,6 +168,7 @@ export enum GoverningBody {
   USA_SWIMMING = 'USA_SWIMMING',
   SWIMMING_CANADA = 'SWIMMING_CANADA',
   SWIMMING_AUSTRALIA = 'SWIMMING_AUSTRALIA',
+  BRITISH_GYMNASTICS = 'BRITISH_GYMNASTICS',
 }
 
 // Human-readable labels for each governing body
@@ -179,6 +180,7 @@ export const GOVERNING_BODY_LABELS: Record<GoverningBody, string> = {
   [GoverningBody.USA_SWIMMING]: 'USA Swimming',
   [GoverningBody.SWIMMING_CANADA]: 'Swimming Canada',
   [GoverningBody.SWIMMING_AUSTRALIA]: 'Swimming Australia',
+  [GoverningBody.BRITISH_GYMNASTICS]: 'British Gymnastics',
 };
 
 // Background check type. GB values predate the international ones and must
@@ -444,32 +446,71 @@ export const GOVERNING_BODY_CONFIG: Record<GoverningBody, GoverningBodyConfig> =
     safeguardingOfficerLabel: 'Member Protection Information Officer (MPIO)',
     dataSharingRecipient: 'Swimming Australia',
   },
+  [GoverningBody.BRITISH_GYMNASTICS]: {
+    label: 'British Gymnastics',
+    country: 'GB',
+    registrationNumberLabel: 'BG membership number',
+    // "DBS" is the England and Wales framework and the shorthand BG itself
+    // uses; Scotland (PVG) and Northern Ireland (AccessNI) appear as their
+    // own check types below so clubs in every home nation record the right
+    // scheme.
+    backgroundCheckFramework: 'DBS',
+    backgroundCheckShortLabel: 'DBS',
+    certificateNumberLabel: 'Certificate number',
+    backgroundCheckTypes: [
+      ...DBS_CHECK_TYPES,
+      {
+        value: BackgroundCheckType.BACKGROUND_CHECK,
+        label: 'PVG Scheme Membership (Scotland)',
+      },
+      {
+        value: BackgroundCheckType.CRIMINAL_RECORD_CHECK,
+        label: 'AccessNI Check (Northern Ireland)',
+      },
+    ],
+    // BG has no Wavepower-style brand: the governing policy document sits
+    // under BG's "Safe & Fair Sport" programme.
+    safeguardingFramework: 'Safeguarding and Protecting Children Policy',
+    safeguardingOfficerLabel: 'Welfare Officer',
+    dataSharingRecipient: 'British Gymnastics',
+  },
 };
 
 /** Governing bodies available to clubs in each supported country. */
 export const COUNTRY_GOVERNING_BODIES: Record<string, GoverningBody[]> = {
-  GB: [GoverningBody.SWIM_ENGLAND, GoverningBody.SCOTTISH_SWIMMING, GoverningBody.SWIM_WALES],
+  GB: [
+    GoverningBody.BRITISH_GYMNASTICS,
+    GoverningBody.SWIM_ENGLAND,
+    GoverningBody.SCOTTISH_SWIMMING,
+    GoverningBody.SWIM_WALES,
+  ],
   IE: [GoverningBody.SWIM_IRELAND],
   US: [GoverningBody.USA_SWIMMING],
   CA: [GoverningBody.SWIMMING_CANADA],
   AU: [GoverningBody.SWIMMING_AUSTRALIA],
 };
 
-/** Default governing body for a club country; Swim England for GB and unknowns. */
+/** Default governing body for a club country; British Gymnastics for GB and unknowns. */
 export function defaultGoverningBodyForCountry(country?: string | null): GoverningBody {
   const bodies = COUNTRY_GOVERNING_BODIES[(country ?? 'GB').toUpperCase()];
-  return bodies?.[0] ?? GoverningBody.SWIM_ENGLAND;
+  return bodies?.[0] ?? GoverningBody.BRITISH_GYMNASTICS;
 }
 
-/** Config for a governing body, falling back to Swim England (the GB default). */
+/** Config for a governing body, falling back to British Gymnastics (this product's default). */
 export function governingBodyConfig(body?: GoverningBody | string | null): GoverningBodyConfig {
   if (body && body in GOVERNING_BODY_CONFIG) {
     return GOVERNING_BODY_CONFIG[body as GoverningBody];
   }
-  return GOVERNING_BODY_CONFIG[GoverningBody.SWIM_ENGLAND];
+  return GOVERNING_BODY_CONFIG[GoverningBody.BRITISH_GYMNASTICS];
 }
 
-/** Governing bodies on UK background-check regimes (7-digit SE-style numbers). */
+/**
+ * Governing bodies on UK background-check regimes. Data-import applies the
+ * strict 7-digit SE-style registration-number format to every body listed
+ * here. British Gymnastics is deliberately excluded: its membership number
+ * format is unverified, and listing it would reject valid BG numbers on
+ * import. Add it only once the 7-digit format is confirmed for BG.
+ */
 export const UK_GOVERNING_BODIES: GoverningBody[] = [
   GoverningBody.SWIM_ENGLAND,
   GoverningBody.SCOTTISH_SWIMMING,

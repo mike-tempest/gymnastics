@@ -199,6 +199,35 @@ describe('SafeguardingService', () => {
       expect(result.some((i) => i.requirement.includes('Wavepower'))).toBe(false);
     });
 
+    it('seeds the British Gymnastics template for a British Gymnastics club', async () => {
+      clubGoverningBody = GoverningBody.BRITISH_GYMNASTICS;
+
+      const result = await service.getChecklist();
+
+      // Pin the full template contents and order against the compliance brief.
+      expect(result.map((i) => i.requirement)).toEqual([
+        'Safeguarding and Protecting Children Policy Review',
+        'Welfare Officer Appointment',
+        'Criminal Record Checks for All Coaches',
+        'Safeguarding Training Completion',
+        'Photography and Filming Consent',
+        'Changing Room Supervision Policy',
+        'Incident Reporting Procedure',
+        'Code of Conduct Acknowledgement',
+      ]);
+      const policy = result.find(
+        (i) => i.requirement === 'Safeguarding and Protecting Children Policy Review',
+      );
+      expect(policy?.description).toContain('Safe & Fair Sport');
+      expect(result.some((i) => i.requirement === 'Welfare Officer Appointment')).toBe(true);
+      const checks = result.find((i) => i.requirement === 'Criminal Record Checks for All Coaches');
+      expect(checks?.description).toContain('DBS, PVG or AccessNI');
+      const reporting = result.find((i) => i.requirement === 'Incident Reporting Procedure');
+      expect(reporting?.description).toContain('British Gymnastics');
+      // No Swim England Wavepower content for a gymnastics club.
+      expect(result.some((i) => i.requirement.includes('Wavepower'))).toBe(false);
+    });
+
     it('assigns sort_order following template order', async () => {
       const result = await service.getChecklist();
 

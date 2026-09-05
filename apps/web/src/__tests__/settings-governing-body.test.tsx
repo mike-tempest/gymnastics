@@ -72,8 +72,9 @@ describe('SettingsPage governing body section', () => {
     mockGetClubSettings.mockResolvedValue(baseSettings);
   });
 
-  it('shows the Swim England heading for a GB club', async () => {
+  it('shows the Swim England heading for a Swim England club', async () => {
     mockGetMyClub.mockResolvedValue({ id: 'club-1', country: 'GB' });
+    mockGetClubSettings.mockResolvedValue({ ...baseSettings, governing_body: 'SWIM_ENGLAND' });
 
     render(<SettingsPage />, { wrapper: createWrapper() });
 
@@ -81,7 +82,7 @@ describe('SettingsPage governing body section', () => {
       expect(screen.getByRole('heading', { name: 'Swim England' })).toBeInTheDocument();
     });
 
-    // GB shows the governing-body picker (three bodies) and the SE region select.
+    // GB shows the governing-body picker (four bodies) and the SE region select.
     expect(screen.getByLabelText('Governing body')).toBeInTheDocument();
     const region = screen.getByLabelText('Region') as HTMLSelectElement;
     expect(region.tagName).toBe('SELECT');
@@ -134,7 +135,7 @@ describe('SettingsPage governing body section', () => {
     render(<SettingsPage />, { wrapper: createWrapper() });
 
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: 'Swim England' })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'British Gymnastics' })).toBeInTheDocument();
     });
 
     const picker = screen.getByLabelText('Governing body') as HTMLSelectElement;
@@ -153,6 +154,7 @@ describe('SettingsPage governing body section', () => {
     mockGetMyClub.mockResolvedValue({ id: 'club-1', country: 'GB' });
     mockGetClubSettings.mockResolvedValue({
       ...baseSettings,
+      governing_body: 'SWIM_ENGLAND',
       swim_england: { affiliationNumber: 'SE-9999', region: 'London', county: 'Greater London' },
     });
 
