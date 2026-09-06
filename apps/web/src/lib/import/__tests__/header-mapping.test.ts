@@ -28,8 +28,11 @@ describe('matchHeader', () => {
   it('maps Swim Central style member number headers to registration_number', () => {
     expect(matchHeader('Member Number')).toBe('registration_number');
     expect(matchHeader('Membership Number')).toBe('registration_number');
-    expect(matchHeader('Member ID')).toBe('registration_number');
     expect(matchHeader('Registration Number')).toBe('registration_number');
+  });
+
+  it('leaves Member ID unmapped so re-imported platform exports keep their UUIDs out of registration_number', () => {
+    expect(matchHeader('Member ID')).toBeNull();
   });
 
   it('maps name headers', () => {
