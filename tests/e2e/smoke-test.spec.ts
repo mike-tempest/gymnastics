@@ -223,10 +223,10 @@ test.describe('SwimNexus UK - Full User Journey Smoke Test', () => {
       await page.locator('input[type="radio"][value="F"]').check();
     }
     
-    // Fill SE number if field exists
-    const seNumberField = page.locator('input[name="registration_number"], input[placeholder*="SE number"]');
-    if (await seNumberField.isVisible({ timeout: 2000 }).catch(() => false)) {
-      await seNumberField.fill(memberData.registrationNumber);
+    // Fill registration number if the field exists
+    const registrationNumberField = page.locator('input[name="registration_number"]');
+    if (await registrationNumberField.isVisible({ timeout: 2000 }).catch(() => false)) {
+      await registrationNumberField.fill(memberData.registrationNumber);
     }
     
     // Select squad if available
@@ -240,7 +240,7 @@ test.describe('SwimNexus UK - Full User Journey Smoke Test', () => {
     }
     
     // Submit member form
-    await page.click('button[type="submit"]:has-text("Save"), button:has-text("Create Member"), button:has-text("Add Gymnast")');
+    await page.click('button[type="submit"]:has-text("Save"), button:has-text("Add New Gymnast")');
     
     // Wait for modal to close and member to appear in list
     await page.waitForTimeout(2000);

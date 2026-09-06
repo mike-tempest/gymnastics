@@ -101,14 +101,14 @@ export default function ParentDashboardPage() {
       try {
         setIsLoading(true);
         setError(null);
-        const [dashData, swimData, invData, sessData] = await Promise.all([
+        const [dashData, membersData, invData, sessData] = await Promise.all([
           fetchParentDashboard(),
           fetchParentMembers(),
           fetchParentInvoices(),
           fetchParentUpcomingSessions(),
         ]);
         setDashboard(dashData);
-        setMembers(swimData);
+        setMembers(membersData);
         setInvoices(invData);
         setSessions(sessData);
       } catch (err) {

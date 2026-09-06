@@ -90,7 +90,9 @@ const HEADER_SYNONYMS: Record<string, CanonicalImportField> = {
   membershipid: 'registration_number',
   membernumber: 'registration_number',
   memberno: 'registration_number',
-  memberid: 'registration_number',
+  // Deliberately no 'memberid' synonym: member_id is this platform's own
+  // primary-key column in exports, and auto-mapping its UUIDs onto
+  // registration_number would silently corrupt re-imported rosters.
   usaswimmingid: 'registration_number',
   // Governing body
   governingbody: 'governing_body',

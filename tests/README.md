@@ -10,7 +10,7 @@ Location: `services/membership/src/e2e/api.e2e.test.ts`
 Tests all major API endpoints:
 - Authentication (login, register, profile)
 - Users (15 expected)
-- Swimmers (30 expected)
+- Members (30 expected)
 - Squads (4 expected)
 - Sessions (78 expected)
 - Attendance
