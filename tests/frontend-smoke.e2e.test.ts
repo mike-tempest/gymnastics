@@ -15,7 +15,7 @@ import { join } from 'path';
 // Load test environment variables
 dotenv.config({ path: join(__dirname, '../.env.test') });
 
-const WEB_BASE_URL = process.env.WEB_BASE_URL || 'https://web-app-production-7a4c.up.railway.app';
+const WEB_BASE_URL = process.env.WEB_BASE_URL || 'http://localhost:3000';
 
 /**
  * Helper function to make web requests

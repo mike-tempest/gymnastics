@@ -26,6 +26,8 @@ PATTERNS=(
   'monsieur-clawde'                    # Swimly marketing FTP user
   'mainline\.proxy\.rlwy\.net'         # Swimly production Postgres proxy host
   '5009ceaf'                           # Swimly production DB credential fragment
+  'membership-api-production-3628'     # Swimly production API on Railway
+  'web-app-production-7a4c'            # Swimly production web app on Railway
 )
 
 # Excluded paths:

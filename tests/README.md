@@ -36,8 +36,8 @@ npm run test:e2e
 ```
 
 This runs tests against the Railway staging environment:
-- API: https://membership-api-production-3628.up.railway.app
-- Web: https://web-app-production-7a4c.up.railway.app
+- API: http://localhost:3001
+- Web: http://localhost:3000
 
 ### Against Local Development Environment
 
@@ -76,8 +76,8 @@ These credentials are configured in the test files and should match the demo dat
 Test environment variables are defined in `.env.test` at the project root:
 
 ```env
-API_BASE_URL=https://membership-api-production-3628.up.railway.app
-WEB_BASE_URL=https://web-app-production-7a4c.up.railway.app
+API_BASE_URL=http://localhost:3001
+WEB_BASE_URL=http://localhost:3000
 ```
 
 You can override these by setting environment variables when running the tests (see examples above).

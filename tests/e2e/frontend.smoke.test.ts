@@ -39,7 +39,7 @@ describe('Frontend Smoke Tests', () => {
 
   describe('API health check', () => {
     it('GET /api/health or root returns a response', async () => {
-      const apiBase = process.env.API_BASE_URL || 'https://membership-api-production-3628.up.railway.app/api';
+      const apiBase = process.env.API_BASE_URL || 'http://localhost:3001/api';
       // Strip /api suffix for health check
       const baseUrl = apiBase.replace(/\/api$/, '');
       const res = await fetch(`${baseUrl}/health`);

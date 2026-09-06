@@ -3,8 +3,8 @@ import * as path from 'path';
 
 dotenv.config({ path: path.resolve(__dirname, '.env.test') });
 
-export const API_BASE = process.env.API_BASE_URL || 'https://membership-api-production-3628.up.railway.app/api';
-export const WEB_BASE = process.env.WEB_BASE_URL || 'https://web-app-production-7a4c.up.railway.app';
+export const API_BASE = process.env.API_BASE_URL || 'http://localhost:3001/api';
+export const WEB_BASE = process.env.WEB_BASE_URL || 'http://localhost:3000';
 
 export const ADMIN_EMAIL = process.env.TEST_ADMIN_EMAIL || 'admin@rtwmonson.co.uk';
 export const ADMIN_PASSWORD = process.env.TEST_ADMIN_PASSWORD || 'Demo2024!';
