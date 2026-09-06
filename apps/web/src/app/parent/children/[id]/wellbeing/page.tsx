@@ -1,6 +1,6 @@
 'use client';
 
-import { Swimmer } from '@club-manager/shared-types';
+import { Member } from '@club-manager/shared-types';
 import {
   Heart,
   Battery,
@@ -19,7 +19,7 @@ import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useFormatters } from '@/hooks/useFormatters';
-import { fetchParentSwimmer } from '@/lib/api/parent';
+import { fetchParentMember } from '@/lib/api/parent';
 import {
   submitWellbeingCheckIn,
   fetchWellbeingHistory,
@@ -67,9 +67,9 @@ interface PageProps {
 }
 
 export default function WellbeingPage({ params }: PageProps) {
-  const { id: swimmerId } = params;
+  const { id: memberId } = params;
   const { formatDate } = useFormatters();
-  const [swimmer, setSwimmer] = useState<Swimmer | null>(null);
+  const [member, setMember] = useState<Member | null>(null);
   const [todayLog, setTodayLog] = useState<WellbeingLog | null>(null);
   const [history, setHistory] = useState<WellbeingLog[]>([]);
   const [cycleHistory, setCycleHistory] = useState<CycleLog[]>([]);
@@ -100,13 +100,13 @@ export default function WellbeingPage({ params }: PageProps) {
     async function load() {
       try {
         setIsLoading(true);
-        const [swimmerData, today, hist, cycles] = await Promise.all([
-          fetchParentSwimmer(swimmerId),
-          fetchTodayCheckIn(swimmerId).catch(() => null),
-          fetchWellbeingHistory(swimmerId, 14),
-          fetchCycleHistory(swimmerId, 6).catch(() => []),
+        const [memberData, today, hist, cycles] = await Promise.all([
+          fetchParentMember(memberId),
+          fetchTodayCheckIn(memberId).catch(() => null),
+          fetchWellbeingHistory(memberId, 14),
+          fetchCycleHistory(memberId, 6).catch(() => []),
         ]);
-        setSwimmer(swimmerData);
+        setMember(memberData);
         setTodayLog(today);
         setHistory(hist);
         setCycleHistory(cycles);
@@ -125,7 +125,7 @@ export default function WellbeingPage({ params }: PageProps) {
       }
     }
     load();
-  }, [swimmerId]);
+  }, [memberId]);
 
   async function handleCheckInSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -134,7 +134,7 @@ export default function WellbeingPage({ params }: PageProps) {
       setSubmitSuccess(false);
       const today = new Date().toISOString().split('T')[0];
       const result = await submitWellbeingCheckIn({
-        swimmer_id: swimmerId,
+        member_id: memberId,
         log_date: today,
         energy_level: energy,
         sleep_quality: sleep ?? undefined,
@@ -145,7 +145,7 @@ export default function WellbeingPage({ params }: PageProps) {
       setTodayLog(result);
       setSubmitSuccess(true);
       // Refresh history
-      const hist = await fetchWellbeingHistory(swimmerId, 14);
+      const hist = await fetchWellbeingHistory(memberId, 14);
       setHistory(hist);
     } catch {
       setError('Failed to submit check-in. Please try again.');
@@ -160,7 +160,7 @@ export default function WellbeingPage({ params }: PageProps) {
     try {
       setIsCycleSubmitting(true);
       await submitCycleLog({
-        swimmer_id: swimmerId,
+        member_id: memberId,
         period_start: cycleStart,
         period_end: cycleEnd || undefined,
         symptoms: symptoms.length > 0 ? symptoms : undefined,
@@ -171,7 +171,7 @@ export default function WellbeingPage({ params }: PageProps) {
       setCycleEnd('');
       setSymptoms([]);
       setCycleNotes('');
-      const cycles = await fetchCycleHistory(swimmerId, 6);
+      const cycles = await fetchCycleHistory(memberId, 6);
       setCycleHistory(cycles);
     } catch {
       setError('Failed to save cycle log.');
@@ -196,7 +196,7 @@ export default function WellbeingPage({ params }: PageProps) {
     );
   }
 
-  if (error && !swimmer) {
+  if (error && !member) {
     return (
       <div className="min-h-dvh bg-canvas p-4 md:p-8">
         <div className="max-w-3xl mx-auto">
@@ -213,7 +213,7 @@ export default function WellbeingPage({ params }: PageProps) {
         <Breadcrumb
             items={[
               { label: 'My Children', href: '/parent/children' },
-              { label: swimmer?.first_name || 'Child', href: `/parent/children/${swimmerId}` },
+              { label: member?.first_name || 'Child', href: `/parent/children/${memberId}` },
               { label: 'Wellbeing' },
             ]}
           />
@@ -222,7 +222,7 @@ export default function WellbeingPage({ params }: PageProps) {
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
               <Link
-                href={`/parent/children/${swimmerId}`}
+                href={`/parent/children/${memberId}`}
                 aria-label="Back to child overview"
                 className="flex-shrink-0 p-3 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-button bg-dark-primary/80 hover:bg-dark-primary transition-colors"
               >
@@ -230,7 +230,7 @@ export default function WellbeingPage({ params }: PageProps) {
               </Link>
               <div className="min-w-0">
                 <h1 className="font-serif text-3xl md:text-4xl text-dark-primary truncate">
-                  {swimmer?.first_name}&apos;s wellbeing
+                  {member?.first_name}&apos;s wellbeing
                 </h1>
                 <p className="text-grey-600 mt-1">
                   How are they feeling ahead of today&apos;s session?

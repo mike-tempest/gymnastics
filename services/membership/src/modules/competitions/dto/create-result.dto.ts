@@ -23,7 +23,7 @@ export class RelayLegDto {
 
   @IsOptional()
   @IsUUID()
-  swimmer_id?: string;
+  member_id?: string;
 
   @IsOptional()
   @IsString()
@@ -39,7 +39,7 @@ export class RelayLegDto {
 export class CreateResultDto {
   @IsNotEmpty()
   @IsUUID()
-  swimmer_id: string;
+  member_id: string;
 
   @IsOptional()
   @IsString()

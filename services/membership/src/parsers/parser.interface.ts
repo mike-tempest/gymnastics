@@ -5,13 +5,13 @@
 
 import { UK_GOVERNING_BODIES, governingBodyConfig } from '@club-manager/shared-types';
 
-export interface ParsedSwimmer {
+export interface ParsedMember {
   /**
-   * The swimmer's governing-body registration number. Historically named for
+   * The member's governing-body registration number. Historically named for
    * the Swim England number; non-UK bodies (USA Swimming ID, Swimming
    * Australia member number) use the same field.
    */
-  seNumber: string;
+  registrationNumber: string;
   lastName: string;
   firstName: string;
   gender: 'M' | 'F';
@@ -21,7 +21,7 @@ export interface ParsedSwimmer {
 }
 
 export interface ParsedEntry {
-  swimmer: ParsedSwimmer;
+  member: ParsedMember;
   eventNumber?: string;
   eventName?: string;
   distance: number;
@@ -33,7 +33,7 @@ export interface ParsedEntry {
 }
 
 export interface ParsedResult {
-  swimmer: ParsedSwimmer;
+  member: ParsedMember;
   eventName?: string;
   distance: number;
   stroke: string;
@@ -72,7 +72,7 @@ export interface ValidationResult {
 }
 
 /**
- * Controls how a parser validates swimmer registration numbers. Defaults
+ * Controls how a parser validates member registration numbers. Defaults
  * reproduce the historical Swim England behaviour (strict 7-digit numbers),
  * so callers that pass nothing keep the previous GB validation.
  */
@@ -101,7 +101,7 @@ export function validationOptionsForGoverningBody(
 }
 
 /**
- * Validate a swimmer's registration number against the active options. A
+ * Validate a member's registration number against the active options. A
  * missing number, or one over 20 characters, is always an error. The
  * historical 7-digit format check applies only when enforceSevenDigitFormat
  * is on (the default, matching the previous Swim England behaviour), so for
@@ -120,7 +120,7 @@ export function validateRegistrationNumber(
   if (!value || value.trim().length === 0) {
     errors.push({
       row,
-      field: 'seNumber',
+      field: 'registrationNumber',
       value,
       message: `${label} is required`,
       severity: 'error',
@@ -130,7 +130,7 @@ export function validateRegistrationNumber(
   if (value.length > 20) {
     errors.push({
       row,
-      field: 'seNumber',
+      field: 'registrationNumber',
       value,
       message: `${label} must be 20 characters or fewer`,
       severity: 'error',
@@ -140,7 +140,7 @@ export function validateRegistrationNumber(
   if (enforceSevenDigits && !/^\d{7}$/.test(value)) {
     errors.push({
       row,
-      field: 'seNumber',
+      field: 'registrationNumber',
       value,
       message: `${label} must be exactly 7 digits`,
       severity: 'error',

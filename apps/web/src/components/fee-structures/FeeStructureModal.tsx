@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { useClubRegion } from '@/hooks/useClubRegion';
 import { FeeStructure } from '@/lib/api/finance';
 import { getSquads } from '@/lib/api/squads';
+import { MEMBER_NOUN } from '@/lib/brand';
 import { currencySymbol } from '@/lib/utils/currency';
 
 const feeStructureSchema = z.object({
@@ -18,7 +19,7 @@ const feeStructureSchema = z.object({
     .min(0.01, 'Please enter an amount greater than zero')
     .max(10000, 'Amount cannot exceed 10,000. Please check the value entered.'),
   frequency: z.enum(['monthly', 'term', 'annual', 'one_time']),
-  applies_to: z.enum(['club', 'squad', 'swimmer']),
+  applies_to: z.enum(['club', 'squad', 'member']),
   squad_id: z.string().optional().nullable(),
   is_active: z.boolean(),
 }).refine(
@@ -316,7 +317,7 @@ export default function FeeStructureModal({
                 >
                   <option value="club">Whole Club</option>
                   <option value="squad">Specific Squad</option>
-                  <option value="swimmer">Per Swimmer</option>
+                  <option value="member">Per {MEMBER_NOUN}</option>
                 </select>
                 {errors.applies_to && <p className="mt-2 text-sm text-red-400">{errors.applies_to.message}</p>}
               </div>

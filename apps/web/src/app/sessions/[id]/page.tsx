@@ -16,6 +16,7 @@ import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useFormatters } from '@/hooks/useFormatters';
 import { updateSession, updateSessionStatus } from '@/lib/api/sessions';
+import { MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 import { useSessionDetail } from '@/lib/hooks';
 
 function formatTimeRange(startTime: string, endTime: string): string {
@@ -268,7 +269,7 @@ export default function SessionDetailPage() {
                     </svg>
                     <div>
                       <p className="text-text-tertiary text-sm mb-1">Capacity</p>
-                      <p className="text-white text-lg font-semibold tabular-nums">{session.max_participants} swimmers</p>
+                      <p className="text-white text-lg font-semibold tabular-nums">{session.max_participants} {MEMBER_NOUN_PLURAL_LOWER}</p>
                     </div>
                   </div>
                 )}

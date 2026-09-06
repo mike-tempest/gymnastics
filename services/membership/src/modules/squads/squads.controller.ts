@@ -14,7 +14,7 @@ import { SquadsService } from './squads.service';
 import { CreateSquadDto } from './dto/create-squad.dto';
 import { UpdateSquadDto } from './dto/update-squad.dto';
 import { BulkCreateSquadDto } from './dto/bulk-create-squad.dto';
-import { AssignSwimmerDto } from './dto/assign-swimmer.dto';
+import { AssignMemberDto } from './dto/assign-member.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
@@ -54,9 +54,9 @@ export class SquadsController {
     return this.squadsService.findOne(id);
   }
 
-  @Get(':id/swimmers')
-  getSwimmers(@Param('id') id: string) {
-    return this.squadsService.getSwimmersBySquad(id);
+  @Get(':id/members')
+  getMembers(@Param('id') id: string) {
+    return this.squadsService.getMembersBySquad(id);
   }
 
   @Patch(':id')
@@ -72,17 +72,17 @@ export class SquadsController {
     return this.squadsService.remove(id);
   }
 
-  @Post(':id/swimmers')
+  @Post(':id/members')
   @HttpCode(HttpStatus.OK)
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  assignSwimmer(@Param('id') id: string, @Body() assignSwimmerDto: AssignSwimmerDto) {
-    return this.squadsService.assignSwimmer(id, assignSwimmerDto.swimmer_id);
+  assignMember(@Param('id') id: string, @Body() assignMemberDto: AssignMemberDto) {
+    return this.squadsService.assignMember(id, assignMemberDto.member_id);
   }
 
-  @Delete(':id/swimmers/:swimmerId')
+  @Delete(':id/members/:memberId')
   @HttpCode(HttpStatus.OK)
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  removeSwimmer(@Param('id') id: string, @Param('swimmerId') swimmerId: string) {
-    return this.squadsService.removeSwimmer(id, swimmerId);
+  removeMember(@Param('id') id: string, @Param('memberId') memberId: string) {
+    return this.squadsService.removeMember(id, memberId);
   }
 }

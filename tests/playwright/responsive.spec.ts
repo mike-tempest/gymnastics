@@ -37,8 +37,8 @@ test.describe('Mobile Responsive Design', () => {
     await expect(content).toBeVisible();
   });
 
-  test('should adapt swimmers page for mobile viewport', async ({ page }) => {
-    await page.goto('/swimmers');
+  test('should adapt members page for mobile viewport', async ({ page }) => {
+    await page.goto('/members');
     await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {});
     await page.waitForTimeout(2000);
 
@@ -78,7 +78,7 @@ test.describe('Mobile Responsive Design', () => {
   });
 
   test('should render forms correctly on mobile', async ({ page }) => {
-    await page.goto('/swimmers');
+    await page.goto('/members');
     await page.waitForTimeout(1000);
 
     // Check if there's a search input (common form element)

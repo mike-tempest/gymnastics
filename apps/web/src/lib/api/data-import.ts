@@ -5,11 +5,11 @@ import { api } from './api-client';
  * Dates must already be normalised to YYYY-MM-DD and gender to M or F.
  */
 export interface MemberImportRow {
-  swimmer_first_name: string;
-  swimmer_last_name: string;
+  member_first_name: string;
+  member_last_name: string;
   dob: string;
   gender: string;
-  se_number?: string;
+  registration_number?: string;
   governing_body?: string;
   squad_name?: string;
   medical_notes?: string;
@@ -31,8 +31,8 @@ export interface MemberImportOptions {
 export interface MemberImportPreviewSummary {
   families_to_create: number;
   families_matched: number;
-  swimmers_to_create: number;
-  swimmers_to_update: number;
+  members_to_create: number;
+  members_to_update: number;
   squads_matched: string[];
   squads_missing: string[];
 }
@@ -51,8 +51,8 @@ export interface MemberImportPreviewResponse {
 
 export interface MemberImportResultSummary {
   families_created: number;
-  swimmers_created: number;
-  swimmers_updated: number;
+  members_created: number;
+  members_updated: number;
 }
 
 export interface MemberImportError {
@@ -79,7 +79,7 @@ export async function previewMembersImport(
 }
 
 /**
- * Real import: creates or updates families, swimmers and (optionally) squads.
+ * Real import: creates or updates families, members and (optionally) squads.
  */
 export async function importMembers(
   rows: MemberImportRow[],

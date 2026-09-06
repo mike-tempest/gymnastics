@@ -1,4 +1,4 @@
-import { Swimmer } from './swimmer.entity';
+import { Member } from './member.entity';
 
 export interface Squad {
   squad_id: string;
@@ -11,6 +11,6 @@ export interface Squad {
   max_capacity?: number | null;
   created_at: string;
   updated_at: string;
-  swimmers?: Swimmer[];
-  swimmer_count?: number;
+  members?: Member[];
+  member_count?: number;
 }

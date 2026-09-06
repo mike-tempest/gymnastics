@@ -13,22 +13,23 @@ import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useConfirm } from '@/hooks/useConfirm';
 import { deleteSquad, updateSquad } from '@/lib/api/squads';
-import { useSquad, useSquadSwimmers } from '@/lib/hooks';
+import { MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
+import { useSquad, useSquadMembers } from '@/lib/hooks';
 
 export default function SquadDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { confirm, ConfirmDialog } = useConfirm();
   const { data: squad, isLoading: squadLoading, error: squadError, refetch: refetchSquad } = useSquad(params.id);
-  const { data: swimmersData, isLoading: swimmersLoading, refetch: refetchSwimmers } = useSquadSwimmers(params.id);
-  const swimmers = swimmersData || [];
-  const isLoading = squadLoading || swimmersLoading;
+  const { data: membersData, isLoading: membersLoading, refetch: refetchMembers } = useSquadMembers(params.id);
+  const members = membersData || [];
+  const isLoading = squadLoading || membersLoading;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchSquadData = () => {
     refetchSquad();
-    refetchSwimmers();
+    refetchMembers();
   };
 
   const handleOpenEditModal = () => {
@@ -263,8 +264,8 @@ export default function SquadDetailPage({ params }: { params: { id: string } }) 
                 <span className="text-text-secondary text-sm font-semibold">Capacity</span>
               </div>
               <p className="text-white text-xl font-bold">
-                {squad.swimmer_count || 0}
-                {squad.max_capacity ? ` / ${squad.max_capacity}` : ''} swimmers
+                {squad.member_count || 0}
+                {squad.max_capacity ? ` / ${squad.max_capacity}` : ''} {MEMBER_NOUN_PLURAL_LOWER}
               </p>
               {squad.max_capacity && (
                 <div className="mt-3 w-full bg-white/10 rounded-full h-2">
@@ -272,7 +273,7 @@ export default function SquadDetailPage({ params }: { params: { id: string } }) 
                     className="bg-brand rounded-full h-2 transition-all"
                     style={{
                       width: `${Math.min(
-                        ((squad.swimmer_count || 0) / squad.max_capacity) * 100,
+                        ((squad.member_count || 0) / squad.max_capacity) * 100,
                         100
                       )}%`,
                     }}
@@ -303,34 +304,34 @@ export default function SquadDetailPage({ params }: { params: { id: string } }) 
             </div>
           )}
 
-          {/* Swimmers List */}
+          {/* Members List */}
           <div className="bg-dark-primary rounded-3xl shadow-lg p-4 sm:p-8 border border-white/20">
             <div className="flex items-center justify-between mb-6">
               <h2 className="font-serif text-2xl sm:text-4xl text-white tracking-tight">Squad Members</h2>
               <span className="text-text-secondary text-lg tabular-nums">
-                {swimmers.length} {swimmers.length === 1 ? 'swimmer' : 'swimmers'}
+                {members.length} {members.length === 1 ? MEMBER_NOUN_LOWER : MEMBER_NOUN_PLURAL_LOWER}
               </span>
             </div>
 
-            {swimmers.length === 0 ? (
+            {members.length === 0 ? (
               <EmptyState
                 icon={Users}
-                title="No swimmers in this squad yet"
-                description="Assign swimmers to this squad to track attendance and progress together."
-                hint="Use Edit Squad to add members, or add a swimmer to this squad from their profile."
+                title={`No ${MEMBER_NOUN_PLURAL_LOWER} in this squad yet`}
+                description={`Assign ${MEMBER_NOUN_PLURAL_LOWER} to this squad to track attendance and progress together.`}
+                hint={`Use Edit Squad to add ${MEMBER_NOUN_PLURAL_LOWER}, or add a ${MEMBER_NOUN_LOWER} to this squad from their profile.`}
               />
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {swimmers.map((swimmer) => (
+                {members.map((member) => (
                   <div
-                    key={swimmer.swimmer_id}
+                    key={member.member_id}
                     className="p-6 bg-white/8 rounded-2xl border border-white/10 hover:border-brand transition-all group cursor-pointer"
-                    onClick={() => router.push(`/swimmers/${swimmer.swimmer_id}`)}
+                    onClick={() => router.push(`/members/${member.member_id}`)}
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1">
                         <h3 className="font-bold text-xl text-white mb-1">
-                          {swimmer.first_name} {swimmer.last_name}
+                          {member.first_name} {member.last_name}
                         </h3>
                       </div>
                       <svg

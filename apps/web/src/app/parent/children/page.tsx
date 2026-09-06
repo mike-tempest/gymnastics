@@ -1,6 +1,6 @@
 'use client';
 
-import { Swimmer , AttendanceStats, Session } from '@club-manager/shared-types';
+import { Member , AttendanceStats, Session } from '@club-manager/shared-types';
 import { Users } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -10,12 +10,13 @@ import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import {
-  fetchParentSwimmers,
-  fetchSwimmerAttendanceStats,
-  fetchSwimmerSchedule,
+  fetchParentMembers,
+  fetchMemberAttendanceStats,
+  fetchMemberSchedule,
 } from '@/lib/api/parent';
+import { MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
-interface SwimmerWithStats extends Swimmer {
+interface MemberWithStats extends Member {
   squad?: { squad_id: string; squad_name: string };
   attendanceStats?: AttendanceStats;
   upcomingSessionsCount: number;
@@ -28,7 +29,7 @@ function attendanceColour(rate: number): string {
 }
 
 export default function ChildrenListPage() {
-  const [swimmers, setSwimmers] = useState<SwimmerWithStats[]>([]);
+  const [members, setMembers] = useState<MemberWithStats[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -38,24 +39,24 @@ export default function ChildrenListPage() {
         setIsLoading(true);
         setError(null);
 
-        const swimmerData = await fetchParentSwimmers();
+        const memberData = await fetchParentMembers();
 
         const enriched = await Promise.all(
-          swimmerData.map(async (swimmer) => {
+          memberData.map(async (member) => {
             const [stats, schedule] = await Promise.all([
-              fetchSwimmerAttendanceStats(swimmer.swimmer_id).catch(() => undefined),
-              fetchSwimmerSchedule(swimmer.swimmer_id).catch(() => [] as Session[]),
+              fetchMemberAttendanceStats(member.member_id).catch(() => undefined),
+              fetchMemberSchedule(member.member_id).catch(() => [] as Session[]),
             ]);
 
             return {
-              ...swimmer,
+              ...member,
               attendanceStats: stats,
               upcomingSessionsCount: schedule.length,
-            } as SwimmerWithStats;
+            } as MemberWithStats;
           })
         );
 
-        setSwimmers(enriched);
+        setMembers(enriched);
       } catch (err) {
         setError('Failed to load your children. Please try again.');
       } finally {
@@ -91,7 +92,7 @@ export default function ChildrenListPage() {
           <Breadcrumb items={[{ label: 'Parent Portal', href: '/parent' }, { label: 'Children' }]} />
           <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight mb-2">Your children</h1>
           <p className="text-text-secondary text-lg">
-            View and manage your registered swimmers.
+            View and manage your registered members.
           </p>
         </div>
 
@@ -106,7 +107,7 @@ export default function ChildrenListPage() {
               </div>
             </div>
             <p className="text-text-secondary text-sm mb-2">Total children</p>
-            <p className="text-4xl font-bold text-brand tabular-nums">{swimmers.length}</p>
+            <p className="text-4xl font-bold text-brand tabular-nums">{members.length}</p>
           </div>
 
           <div className="bg-dark-primary rounded-card p-6 md:p-8 shadow-card border border-white/10">
@@ -119,7 +120,7 @@ export default function ChildrenListPage() {
             </div>
             <p className="text-text-secondary text-sm mb-2">Squads</p>
             <p className="text-4xl font-bold text-brand tabular-nums">
-              {new Set(swimmers.map((s) => s.squad_id).filter(Boolean)).size}
+              {new Set(members.map((s) => s.squad_id).filter(Boolean)).size}
             </p>
           </div>
 
@@ -133,10 +134,10 @@ export default function ChildrenListPage() {
             </div>
             <p className="text-text-secondary text-sm mb-2">Average attendance</p>
             <p className="text-4xl font-bold text-success tabular-nums">
-              {swimmers.length > 0
+              {members.length > 0
                 ? `${Math.round(
-                    swimmers.reduce((sum, s) => sum + (s.attendanceStats?.attendance_rate ?? 0), 0) /
-                      swimmers.length
+                    members.reduce((sum, s) => sum + (s.attendanceStats?.attendance_rate ?? 0), 0) /
+                      members.length
                   )}%`
                 : 'N/A'}
             </p>
@@ -146,10 +147,10 @@ export default function ChildrenListPage() {
         {/* Children List */}
         <div className="bg-dark-primary rounded-card shadow-card border border-white/10">
           <div className="p-4 md:p-6 border-b border-white/10">
-            <h2 className="font-serif text-2xl text-white">Registered swimmers</h2>
+            <h2 className="font-serif text-2xl text-white">Registered {MEMBER_NOUN_PLURAL_LOWER}</h2>
           </div>
           <div className="p-4 md:p-6">
-            {swimmers.length === 0 ? (
+            {members.length === 0 ? (
               <EmptyState
                 icon={Users}
                 title="No children registered"
@@ -157,30 +158,30 @@ export default function ChildrenListPage() {
               />
             ) : (
               <div className="space-y-4">
-                {swimmers.map((swimmer) => (
+                {members.map((member) => (
                   <Link
-                    key={swimmer.swimmer_id}
-                    href={`/parent/children/${swimmer.swimmer_id}`}
+                    key={member.member_id}
+                    href={`/parent/children/${member.member_id}`}
                     className="flex items-center justify-between p-5 min-h-[44px] bg-white/5 rounded-2xl hover:bg-white/10 active:bg-white/5 active:scale-[0.98] transition-all group"
                   >
                     <div className="flex items-center space-x-4 min-w-0">
                       <div className="w-14 h-14 bg-brand/20 rounded-full flex items-center justify-center flex-shrink-0">
                         <span className="text-brand font-bold text-xl">
-                          {swimmer.first_name[0]}{swimmer.last_name[0]}
+                          {member.first_name[0]}{member.last_name[0]}
                         </span>
                       </div>
                       <div className="min-w-0">
                         <p className="text-white font-semibold text-lg group-hover:text-brand transition-colors">
-                          {swimmer.first_name} {swimmer.last_name}
+                          {member.first_name} {member.last_name}
                         </p>
                         <div className="flex flex-wrap items-center gap-2 mt-1">
-                          {swimmer.squad?.squad_name && (
+                          {member.squad?.squad_name && (
                             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-brand/10 text-brand border border-brand/20">
-                              {swimmer.squad.squad_name}
+                              {member.squad.squad_name}
                             </span>
                           )}
                           <span className="text-text-tertiary text-sm">
-                            {swimmer.se_number || 'No registration number'}
+                            {member.registration_number || 'No registration number'}
                           </span>
                         </div>
                       </div>
@@ -190,15 +191,15 @@ export default function ChildrenListPage() {
                       <div className="hidden md:block text-right">
                         <p className="text-text-tertiary text-xs">Upcoming</p>
                         <p className="text-brand font-bold text-lg tabular-nums">
-                          {swimmer.upcomingSessionsCount}
+                          {member.upcomingSessionsCount}
                         </p>
                       </div>
                       {/* Attendance */}
                       <div className="hidden md:block text-right">
                         <p className="text-text-tertiary text-xs">Attendance</p>
-                        <p className={`font-bold text-lg tabular-nums ${attendanceColour(swimmer.attendanceStats?.attendance_rate ?? 0)}`}>
-                          {swimmer.attendanceStats
-                            ? `${swimmer.attendanceStats.attendance_rate}%`
+                        <p className={`font-bold text-lg tabular-nums ${attendanceColour(member.attendanceStats?.attendance_rate ?? 0)}`}>
+                          {member.attendanceStats
+                            ? `${member.attendanceStats.attendance_rate}%`
                             : 'N/A'}
                         </p>
                       </div>

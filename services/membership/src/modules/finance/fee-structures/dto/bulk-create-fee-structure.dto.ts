@@ -15,7 +15,7 @@ import { FeeFrequency, AppliesToType } from '../entities/fee-structure.entity';
 
 // A single fee structure row within a bulk import. Unlike CreateFeeStructureDto,
 // bulk rows reference squads by name (resolved server-side) and only support
-// club and squad scopes; swimmer-level fees must be created individually.
+// club and squad scopes; member-level fees must be created individually.
 export class BulkFeeStructureItemDto {
   @IsNotEmpty()
   @IsString()

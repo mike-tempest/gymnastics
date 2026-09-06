@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Squad } from './entities/squad.entity';
-import { Swimmer } from '../swimmers/entities/swimmer.entity';
+import { Member } from '../members/entities/member.entity';
 import { CreateSquadDto } from './dto/create-squad.dto';
 import { UpdateSquadDto } from './dto/update-squad.dto';
 import { TenantScopedHelper } from '../../common/tenancy/tenant-scoped.helper';
@@ -13,8 +13,8 @@ export class SquadsRepository {
   constructor(
     @InjectRepository(Squad)
     private readonly repository: Repository<Squad>,
-    @InjectRepository(Swimmer)
-    private readonly swimmerRepository: Repository<Swimmer>,
+    @InjectRepository(Member)
+    private readonly memberRepository: Repository<Member>,
     private readonly scoped: TenantScopedHelper,
     private readonly tenantContext: TenantContextService,
   ) {}
@@ -30,7 +30,7 @@ export class SquadsRepository {
 
   async findAll(): Promise<Squad[]> {
     return await this.scoped.scopedFind(this.repository, {
-      relations: ['swimmers'],
+      relations: ['members'],
       order: {
         squad_name: 'ASC',
       },
@@ -39,7 +39,7 @@ export class SquadsRepository {
 
   async findAllNames(): Promise<Array<Pick<Squad, 'squad_id' | 'squad_name'>>> {
     // Lightweight tenant-scoped lookup for name resolution and duplicate-name
-    // checks; avoids loading the swimmers relation that findAll() eager-loads.
+    // checks; avoids loading the members relation that findAll() eager-loads.
     return await this.scoped.scopedFind(this.repository, {
       select: ['squad_id', 'squad_name'],
       order: {
@@ -52,7 +52,7 @@ export class SquadsRepository {
     // A squad_id from another club resolves to null (behaves as not-found).
     return await this.scoped.scopedFindOne(this.repository, {
       where: { squad_id: id },
-      relations: ['swimmers'],
+      relations: ['members'],
     });
   }
 
@@ -79,58 +79,58 @@ export class SquadsRepository {
     });
   }
 
-  async assignSwimmer(squadId: string, swimmerId: string): Promise<Squad | null> {
+  async assignMember(squadId: string, memberId: string): Promise<Squad | null> {
     const squad = await this.scoped.scopedFindOne(this.repository, {
       where: { squad_id: squadId },
-      relations: ['swimmers'],
+      relations: ['members'],
     });
 
     if (!squad) {
       return null;
     }
 
-    // Only allow assigning a swimmer that belongs to the same tenant.
-    const swimmer = await this.scoped.scopedFindOne(this.swimmerRepository, {
-      where: { swimmer_id: swimmerId },
+    // Only allow assigning a member that belongs to the same tenant.
+    const member = await this.scoped.scopedFindOne(this.memberRepository, {
+      where: { member_id: memberId },
     });
 
-    if (!swimmer) {
+    if (!member) {
       return null;
     }
 
-    // Check if swimmer is already in squad
-    const isAlreadyInSquad = squad.swimmers.some((s) => s.swimmer_id === swimmerId);
+    // Check if member is already in squad
+    const isAlreadyInSquad = squad.members.some((s) => s.member_id === memberId);
 
     if (!isAlreadyInSquad) {
-      squad.swimmers.push(swimmer);
+      squad.members.push(member);
       await this.repository.save(squad);
     }
 
     return this.findOne(squadId);
   }
 
-  async removeSwimmer(squadId: string, swimmerId: string): Promise<Squad | null> {
+  async removeMember(squadId: string, memberId: string): Promise<Squad | null> {
     const squad = await this.scoped.scopedFindOne(this.repository, {
       where: { squad_id: squadId },
-      relations: ['swimmers'],
+      relations: ['members'],
     });
 
     if (!squad) {
       return null;
     }
 
-    squad.swimmers = squad.swimmers.filter((swimmer) => swimmer.swimmer_id !== swimmerId);
+    squad.members = squad.members.filter((member) => member.member_id !== memberId);
 
     await this.repository.save(squad);
     return this.findOne(squadId);
   }
 
-  async getSwimmersBySquad(squadId: string): Promise<Swimmer[]> {
+  async getMembersBySquad(squadId: string): Promise<Member[]> {
     const squad = await this.scoped.scopedFindOne(this.repository, {
       where: { squad_id: squadId },
-      relations: ['swimmers'],
+      relations: ['members'],
     });
 
-    return squad ? squad.swimmers : [];
+    return squad ? squad.members : [];
   }
 }

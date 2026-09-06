@@ -10,7 +10,7 @@ export interface DbsCheck {
   status: 'valid' | 'expiring' | 'expired';
 }
 
-export interface SwimmerConsent {
+export interface MemberConsent {
   id: string;
   name: string;
   squad: string;
@@ -104,8 +104,8 @@ export async function createSafeguardingOfficer(
   return api.post('/compliance/safeguarding/officers', input);
 }
 
-export async function getConsentData(): Promise<SwimmerConsent[]> {
-  return api.get<SwimmerConsent[]>('/compliance/consents', { cache: 'no-store' });
+export async function getConsentData(): Promise<MemberConsent[]> {
+  return api.get<MemberConsent[]>('/compliance/consents', { cache: 'no-store' });
 }
 
 export async function getChecklist(): Promise<ChecklistItem[]> {

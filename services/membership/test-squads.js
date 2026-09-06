@@ -16,9 +16,9 @@ try {
   console.log('  POST   /api/squads - Create squad');
   console.log('  PATCH  /api/squads/:id - Update squad');
   console.log('  DELETE /api/squads/:id - Delete squad');
-  console.log('  POST   /api/squads/:id/swimmers - Assign swimmer to squad');
-  console.log('  DELETE /api/squads/:id/swimmers/:swimmerId - Remove swimmer from squad');
-  console.log('  GET    /api/squads/:id/swimmers - Get squad swimmers');
+  console.log('  POST   /api/squads/:id/members - Assign member to squad');
+  console.log('  DELETE /api/squads/:id/members/:memberId - Remove member from squad');
+  console.log('  GET    /api/squads/:id/members - Get squad members');
 } catch (error) {
   console.error('Error:', error.message);
   process.exit(1);

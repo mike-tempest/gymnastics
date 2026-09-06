@@ -19,15 +19,15 @@ export class AttendanceStatsDto {
 }
 
 export class MembershipStatsDto {
-  totalSwimmers: number;
-  activeSwimmers: number;
+  totalMembers: number;
+  activeMembers: number;
   totalFamilies: number;
   totalSquads: number;
 }
 
 export class RecentActivityDto {
   id: string;
-  type: 'invoice' | 'payment' | 'swimmer' | 'session';
+  type: 'invoice' | 'payment' | 'member' | 'session';
   description: string;
   timestamp: Date;
   metadata?: Record<string, unknown>;

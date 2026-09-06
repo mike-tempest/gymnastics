@@ -19,8 +19,8 @@ export interface SeasonBest {
 /**
  * Maintains the personal_bests table and the is_pb flags on results.
  *
- * PBs are stored per swimmer/distance/stroke/course and recomputed from
- * scratch for a swimmer whenever any of their results change. Relay swims and
+ * PBs are stored per member/distance/stroke/course and recomputed from
+ * scratch for a member whenever any of their results change. Relay swims and
  * DQs never count. A result's is_pb flag means "was a PB at the time it was
  * swum" (strictly faster than every earlier eligible result for the same
  * event and course), so history stays truthful when older meets are imported
@@ -39,9 +39,9 @@ export class PersonalBestsService {
     private readonly tenantContext: TenantContextService,
   ) {}
 
-  async getForSwimmer(swimmerId: string): Promise<PersonalBest[]> {
+  async getForMember(memberId: string): Promise<PersonalBest[]> {
     return await this.scoped.scopedFind(this.pbRepo, {
-      where: { swimmer_id: swimmerId },
+      where: { member_id: memberId },
       order: { course: 'ASC', stroke: 'ASC', distance: 'ASC' },
     });
   }
@@ -50,9 +50,9 @@ export class PersonalBestsService {
    * Best time per event swum since the start of the current swimming season
    * (1 September, matching the British Swimming season).
    */
-  async getSeasonBests(swimmerId: string): Promise<{ seasonStart: string; bests: SeasonBest[] }> {
+  async getSeasonBests(memberId: string): Promise<{ seasonStart: string; bests: SeasonBest[] }> {
     const seasonStart = PersonalBestsService.currentSeasonStart();
-    const results = await this.eligibleResultsForSwimmer(swimmerId);
+    const results = await this.eligibleResultsForMember(memberId);
 
     const bests = new Map<string, SeasonBest>();
     for (const result of results) {
@@ -86,14 +86,14 @@ export class PersonalBestsService {
   }
 
   /**
-   * Rebuild the swimmer's personal_bests rows and result is_pb flags from
+   * Rebuild the member's personal_bests rows and result is_pb flags from
    * their full (club-scoped) result history. Returns how many PB rows were
    * created or improved, so callers like the file importer can report it.
    */
-  async recomputeForSwimmer(swimmerId: string): Promise<{ improved: number }> {
+  async recomputeForMember(memberId: string): Promise<{ improved: number }> {
     const clubId = this.tenantContext.getClubId();
     const results = await this.scoped.scopedFind(this.resultRepo, {
-      where: { swimmer_id: swimmerId },
+      where: { member_id: memberId },
       relations: ['competition'],
     });
 
@@ -141,7 +141,7 @@ export class PersonalBestsService {
 
     // Sync the personal_bests table to the fastest time per key.
     const existing = await this.scoped.scopedFind(this.pbRepo, {
-      where: { swimmer_id: swimmerId },
+      where: { member_id: memberId },
     });
     const existingByKey = new Map(
       existing.map((pb) => [`${pb.distance}|${pb.stroke}|${pb.course}`, pb]),
@@ -167,7 +167,7 @@ export class PersonalBestsService {
         await this.pbRepo.save(
           this.pbRepo.create({
             club_id: clubId,
-            swimmer_id: swimmerId,
+            member_id: memberId,
             distance: result.distance,
             stroke: result.stroke,
             course: course as CourseType,
@@ -188,9 +188,9 @@ export class PersonalBestsService {
     return { improved };
   }
 
-  private async eligibleResultsForSwimmer(swimmerId: string): Promise<CompetitionResult[]> {
+  private async eligibleResultsForMember(memberId: string): Promise<CompetitionResult[]> {
     const results = await this.scoped.scopedFind(this.resultRepo, {
-      where: { swimmer_id: swimmerId },
+      where: { member_id: memberId },
       relations: ['competition'],
     });
     return results.filter((r) => !r.dq && !r.is_relay && Number(r.time) > 0);

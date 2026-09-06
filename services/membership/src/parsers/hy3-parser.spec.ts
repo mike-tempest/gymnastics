@@ -18,8 +18,8 @@ describe('HY3Parser', () => {
       country: 'UK',
       entries: [
         {
-          swimmer: {
-            seNumber: '1234567',
+          member: {
+            registrationNumber: '1234567',
             lastName: 'Tempest',
             firstName: 'Kassidy',
             gender: 'F',
@@ -32,8 +32,8 @@ describe('HY3Parser', () => {
           eventName: '50 Free',
         },
         {
-          swimmer: {
-            seNumber: '1234567',
+          member: {
+            registrationNumber: '1234567',
             lastName: 'Tempest',
             firstName: 'Kassidy',
             gender: 'F',
@@ -46,8 +46,8 @@ describe('HY3Parser', () => {
           eventName: '100 Free',
         },
         {
-          swimmer: {
-            seNumber: '1234568',
+          member: {
+            registrationNumber: '1234568',
             lastName: 'Johnson',
             firstName: 'Emma',
             gender: 'F',
@@ -74,8 +74,8 @@ describe('HY3Parser', () => {
       entries: [],
       results: [
         {
-          swimmer: {
-            seNumber: '1234567',
+          member: {
+            registrationNumber: '1234567',
             lastName: 'Tempest',
             firstName: 'Kassidy',
             gender: 'F',
@@ -90,8 +90,8 @@ describe('HY3Parser', () => {
           eventName: '50 Free',
         },
         {
-          swimmer: {
-            seNumber: '1234567',
+          member: {
+            registrationNumber: '1234567',
             lastName: 'Tempest',
             firstName: 'Kassidy',
             gender: 'F',
@@ -105,8 +105,8 @@ describe('HY3Parser', () => {
           eventName: '100 Free',
         },
         {
-          swimmer: {
-            seNumber: '1234568',
+          member: {
+            registrationNumber: '1234568',
             lastName: 'Johnson',
             firstName: 'Emma',
             gender: 'F',
@@ -144,11 +144,11 @@ describe('HY3Parser', () => {
       const result = parser.parseEntries(buildEntryFile());
       const first = result.entries[0];
 
-      expect(first.swimmer.seNumber).toBe('1234567');
-      expect(first.swimmer.lastName).toBe('Tempest');
-      expect(first.swimmer.firstName).toBe('Kassidy');
-      expect(first.swimmer.gender).toBe('F');
-      expect(first.swimmer.dateOfBirth.getFullYear()).toBe(2015);
+      expect(first.member.registrationNumber).toBe('1234567');
+      expect(first.member.lastName).toBe('Tempest');
+      expect(first.member.firstName).toBe('Kassidy');
+      expect(first.member.gender).toBe('F');
+      expect(first.member.dateOfBirth.getFullYear()).toBe(2015);
     });
 
     it('should parse stroke from code', () => {
@@ -163,7 +163,7 @@ describe('HY3Parser', () => {
 
     it('should parse distinct swimmers', () => {
       const result = parser.parseEntries(buildEntryFile());
-      const unique = new Set(result.entries.map((e) => e.swimmer.seNumber));
+      const unique = new Set(result.entries.map((e) => e.member.registrationNumber));
       expect(unique.size).toBe(2);
     });
 
@@ -207,7 +207,7 @@ describe('HY3Parser', () => {
         'D11234567Tempest             Kassidy             F09152015RTW MONSON SC                     ';
       const result = parser.parseSwimmerRecord(line, 1);
 
-      expect(result.seNumber).toBe('1234567');
+      expect(result.registrationNumber).toBe('1234567');
       expect(result.lastName).toBe('Tempest');
       expect(result.firstName).toBe('Kassidy');
       expect(result.gender).toBe('F');
@@ -220,7 +220,7 @@ describe('HY3Parser', () => {
       const line =
         'D1AB12345Tempest             Kassidy             F09152015RTW MONSON SC                     ';
       const result = parser.parseSwimmerRecord(line, 1);
-      expect(result.seNumber).toBe('AB12345');
+      expect(result.registrationNumber).toBe('AB12345');
     });
 
     it('should throw for a missing registration number', () => {
@@ -288,8 +288,8 @@ describe('HY3Parser', () => {
         country: 'UK',
         entries: [
           {
-            swimmer: {
-              seNumber: '1234567',
+            member: {
+              registrationNumber: '1234567',
               lastName: 'Smith',
               firstName: 'John',
               gender: 'M' as const,
@@ -325,8 +325,8 @@ describe('HY3Parser', () => {
         country: 'UK',
         entries: [
           {
-            swimmer: {
-              seNumber: '9876543',
+            member: {
+              registrationNumber: '9876543',
               lastName: 'Jones',
               firstName: 'Sarah',
               gender: 'F' as const,
@@ -346,8 +346,8 @@ describe('HY3Parser', () => {
 
       expect(reparsed.meetName).toContain('Round Trip Meet');
       expect(reparsed.entries).toHaveLength(1);
-      expect(reparsed.entries[0].swimmer.seNumber).toBe('9876543');
-      expect(reparsed.entries[0].swimmer.lastName).toBe('Jones');
+      expect(reparsed.entries[0].member.registrationNumber).toBe('9876543');
+      expect(reparsed.entries[0].member.lastName).toBe('Jones');
       expect(reparsed.entries[0].stroke).toBe('Backstroke');
     });
 
@@ -359,8 +359,8 @@ describe('HY3Parser', () => {
         teamCode: 'SWIM',
         entries: [
           {
-            swimmer: {
-              seNumber: '9876543',
+            member: {
+              registrationNumber: '9876543',
               lastName: 'Jones',
               firstName: 'Sarah',
               gender: 'F' as const,
@@ -400,8 +400,8 @@ describe('HY3Parser', () => {
         entries: [],
         results: [
           {
-            swimmer: {
-              seNumber: '1234567',
+            member: {
+              registrationNumber: '1234567',
               lastName: 'Smith',
               firstName: 'John',
               gender: 'M' as const,
@@ -430,8 +430,8 @@ describe('HY3Parser', () => {
         meetName: 'Test',
         entries: [
           {
-            swimmer: {
-              seNumber: '1234567',
+            member: {
+              registrationNumber: '1234567',
               lastName: 'Test',
               firstName: 'Swimmer',
               gender: 'M' as const,
@@ -454,8 +454,8 @@ describe('HY3Parser', () => {
         meetName: 'Test',
         entries: [
           {
-            swimmer: {
-              seNumber: 'INVALID',
+            member: {
+              registrationNumber: 'INVALID',
               lastName: 'Test',
               firstName: 'Swimmer',
               gender: 'M' as const,
@@ -471,7 +471,7 @@ describe('HY3Parser', () => {
 
       const validation = parser.validate(data);
       expect(validation.valid).toBe(false);
-      expect(validation.errors.some((e) => e.field === 'seNumber')).toBe(true);
+      expect(validation.errors.some((e) => e.field === 'registrationNumber')).toBe(true);
       // GB regression bar: the exact previous Swim England error copy.
       expect(validation.errors[0].message).toBe('SE number must be exactly 7 digits');
     });
@@ -481,8 +481,8 @@ describe('HY3Parser', () => {
         meetName: 'NSW Country Championships',
         entries: [
           {
-            swimmer: {
-              seNumber: 'AUS12345',
+            member: {
+              registrationNumber: 'AUS12345',
               lastName: 'Test',
               firstName: 'Swimmer',
               gender: 'M' as const,
@@ -509,8 +509,8 @@ describe('HY3Parser', () => {
         meetName: 'Test',
         entries: [
           {
-            swimmer: {
-              seNumber,
+            member: {
+              registrationNumber: seNumber,
               lastName: 'Test',
               firstName: 'Swimmer',
               gender: 'M' as const,
@@ -539,8 +539,8 @@ describe('HY3Parser', () => {
         meetName: 'Test',
         entries: [
           {
-            swimmer: {
-              seNumber: '1234567',
+            member: {
+              registrationNumber: '1234567',
               lastName: 'Test',
               firstName: 'Swimmer',
               gender: 'M' as const,
@@ -563,8 +563,8 @@ describe('HY3Parser', () => {
         meetName: 'Test',
         entries: [
           {
-            swimmer: {
-              seNumber: '1234567',
+            member: {
+              registrationNumber: '1234567',
               lastName: 'Test',
               firstName: 'Swimmer',
               gender: 'M' as const,

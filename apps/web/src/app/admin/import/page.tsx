@@ -15,17 +15,17 @@ import { toast } from 'sonner';
 
 import MainLayout from '@/components/layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
-import { BRAND } from '@/lib/brand';
+import { BRAND, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
 const SQUADS_TEMPLATE_CSV = `squad_name,description,min_age,max_age,coach_name,training_times,max_capacity
-Learn to Swim,Beginners building water confidence and basic strokes,5,8,Emma Clarke,Mon/Wed 17:00-17:45,20
+Recreational,Beginners building confidence and fundamental movement skills,5,8,Emma Clarke,Mon/Wed 17:00-17:45,20
 Development,Improving technique across all four strokes,8,12,Tom Barker,Tue/Thu 18:00-19:00,24
 Competition,Squad training for county and regional galas,11,17,Rachel Hughes,Mon/Wed/Fri 19:00-20:30,30`;
 
-const MEMBERS_TEMPLATE_CSV = `swimmer_first_name,swimmer_last_name,date_of_birth,gender,se_number,governing_body,squad,medical_notes,emergency_contact,parent_name,parent_email,parent_phone,family_name,address_line1,address_line2,city,postcode
-Olivia,Thompson,2015-03-14,F,1234567,SWIM_ENGLAND,Development,Mild asthma (inhaler kept in kit bag),Sarah Thompson 07700 900123,Sarah Thompson,sarah.thompson@example.co.uk,07700 900123,Thompson,14 Riverside Close,,Tunbridge Wells,TN1 2AB
-Harry,Thompson,2013-08-22,M,1234568,SWIM_ENGLAND,Competition,,Sarah Thompson 07700 900123,Sarah Thompson,sarah.thompson@example.co.uk,07700 900123,Thompson,14 Riverside Close,,Tunbridge Wells,TN1 2AB
-Amelia,Patel,2014-05-09,F,2345678,SWIM_ENGLAND,Development,,Priya Patel 07700 900456,Priya Patel,priya.patel@example.co.uk,07700 900456,Patel,7 Orchard Way,Flat 2,Maidstone,ME14 5XY`;
+const MEMBERS_TEMPLATE_CSV = `member_first_name,member_last_name,date_of_birth,gender,registration_number,governing_body,squad,medical_notes,emergency_contact,parent_name,parent_email,parent_phone,family_name,address_line1,address_line2,city,postcode
+Olivia,Thompson,2015-03-14,F,1234567,BRITISH_GYMNASTICS,Development,Mild asthma (inhaler kept in kit bag),Sarah Thompson 07700 900123,Sarah Thompson,sarah.thompson@example.co.uk,07700 900123,Thompson,14 Riverside Close,,Tunbridge Wells,TN1 2AB
+Harry,Thompson,2013-08-22,M,1234568,BRITISH_GYMNASTICS,Competition,,Sarah Thompson 07700 900123,Sarah Thompson,sarah.thompson@example.co.uk,07700 900123,Thompson,14 Riverside Close,,Tunbridge Wells,TN1 2AB
+Amelia,Patel,2014-05-09,F,2345678,BRITISH_GYMNASTICS,Development,,Priya Patel 07700 900456,Priya Patel,priya.patel@example.co.uk,07700 900456,Patel,7 Orchard Way,Flat 2,Maidstone,ME14 5XY`;
 
 const STAFF_TEMPLATE_CSV = `first_name,last_name,email,role
 Emma,Clarke,emma.clarke@example.co.uk,head_coach
@@ -33,7 +33,7 @@ Tom,Barker,tom.barker@example.co.uk,squad_coach
 Janet,Osei,janet.osei@example.co.uk,treasurer`;
 
 const FEES_TEMPLATE_CSV = `name,description,amount,frequency,applies_to,squad_name
-Club Membership,Annual club membership for all swimmers,45.00,annual,club,
+Club Membership,Annual club membership for all ${MEMBER_NOUN_PLURAL_LOWER},45.00,annual,club,
 Development Squad Fees,Monthly training fees for the Development squad,32.50,monthly,squad,Development
 Competition Squad Fees,Monthly training fees for the Competition squad,44.00,monthly,squad,Competition`;
 
@@ -64,8 +64,8 @@ const IMPORT_CARDS: ImportCard[] = [
     step: 2,
     title: 'Members',
     description:
-      'Import swimmers together with their parent and family details. Rows sharing a parent email are grouped into one family.',
-    hint: 'Columns include swimmer_first_name, swimmer_last_name, date_of_birth, gender, se_number, governing_body, squad, plus parent, family and address details. Dates can be YYYY-MM-DD or DD/MM/YYYY.',
+      `Import ${MEMBER_NOUN_PLURAL_LOWER} together with their parent and family details. Rows sharing a parent email are grouped into one family.`,
+    hint: 'Columns include member_first_name, member_last_name, date_of_birth, gender, registration_number, governing_body, squad, plus parent, family and address details. Dates can be YYYY-MM-DD or DD/MM/YYYY.',
     icon: Users,
     templateCsv: MEMBERS_TEMPLATE_CSV,
     templateFileName: 'members_import_template.csv',

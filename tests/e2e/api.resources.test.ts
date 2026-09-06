@@ -17,22 +17,22 @@ describe('Resource APIs (authenticated as admin)', () => {
     });
   });
 
-  describe('Swimmers', () => {
-    it('GET /swimmers returns array of swimmers', async () => {
-      const res = await authGet('/swimmers', token);
+  describe('Members', () => {
+    it('GET /members returns array of members', async () => {
+      const res = await authGet('/members', token);
       expect(res.status).toBe(200);
       const data = await res.json();
       expect(Array.isArray(data)).toBe(true);
       expect(data.length).toBe(30);
     });
 
-    it('swimmers have required fields', async () => {
-      const res = await authGet('/swimmers', token);
+    it('members have required fields', async () => {
+      const res = await authGet('/members', token);
       const data = await res.json();
-      const swimmer = data[0];
-      expect(swimmer).toHaveProperty('swimmer_id');
-      expect(swimmer).toHaveProperty('first_name');
-      expect(swimmer).toHaveProperty('last_name');
+      const member = data[0];
+      expect(member).toHaveProperty('member_id');
+      expect(member).toHaveProperty('first_name');
+      expect(member).toHaveProperty('last_name');
     });
   });
 

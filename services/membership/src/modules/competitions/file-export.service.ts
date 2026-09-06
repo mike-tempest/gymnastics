@@ -1,13 +1,13 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { CompetitionsRepository } from './competitions.repository';
-import { SwimmersRepository } from '../swimmers/swimmers.repository';
+import { MembersRepository } from '../members/members.repository';
 import { ClubsService } from '../clubs/clubs.service';
 import { ParserFactory } from '../../parsers/parser-factory';
 import {
   FileFormat,
   ParsedMeetData,
   ParsedEntry,
-  ParsedSwimmer,
+  ParsedMember,
 } from '../../parsers/parser.interface';
 
 @Injectable()
@@ -16,13 +16,13 @@ export class FileExportService {
 
   constructor(
     private readonly repository: CompetitionsRepository,
-    private readonly swimmersRepository: SwimmersRepository,
+    private readonly membersRepository: MembersRepository,
     private readonly clubsService: ClubsService,
   ) {}
 
   /**
    * Generate an entry file for a competition in the specified format.
-   * Retrieves entries from the database, resolves swimmer details,
+   * Retrieves entries from the database, resolves member details,
    * and produces a formatted file string.
    */
   async generateEntryFile(
@@ -40,27 +40,27 @@ export class FileExportService {
       throw new NotFoundException('No entries found for this competition');
     }
 
-    // Resolve swimmer details
-    const swimmerIds = [...new Set(entries.map((e) => e.swimmer_id))];
-    const swimmers = await Promise.all(swimmerIds.map((id) => this.swimmersRepository.findOne(id)));
-    const swimmerMap = new Map(swimmers.filter(Boolean).map((s) => [s!.swimmer_id, s!]));
+    // Resolve member details
+    const memberIds = [...new Set(entries.map((e) => e.member_id))];
+    const members = await Promise.all(memberIds.map((id) => this.membersRepository.findOne(id)));
+    const memberMap = new Map(members.filter(Boolean).map((s) => [s!.member_id, s!]));
 
     // Build parsed data structure
     const parsedEntries: ParsedEntry[] = [];
     for (const entry of entries) {
-      const swimmer = swimmerMap.get(entry.swimmer_id);
-      if (!swimmer) continue;
+      const member = memberMap.get(entry.member_id);
+      if (!member) continue;
 
-      const parsedSwimmer: ParsedSwimmer = {
-        seNumber: swimmer.se_number || '0000000',
-        lastName: swimmer.last_name,
-        firstName: swimmer.first_name,
-        gender: swimmer.gender as 'M' | 'F',
-        dateOfBirth: new Date(swimmer.dob),
+      const parsedMember: ParsedMember = {
+        registrationNumber: member.registration_number || '0000000',
+        lastName: member.last_name,
+        firstName: member.first_name,
+        gender: member.gender as 'M' | 'F',
+        dateOfBirth: new Date(member.dob),
       };
 
       parsedEntries.push({
-        swimmer: parsedSwimmer,
+        member: parsedMember,
         eventName: entry.event_name || undefined,
         distance: entry.distance,
         stroke: entry.stroke,

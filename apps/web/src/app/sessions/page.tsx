@@ -544,20 +544,20 @@ export default function SessionsPage() {
                             </div>
 
                             {/* Attendance Info */}
-                            {session.attendance_count !== undefined && session.total_swimmers !== undefined && (
+                            {session.attendance_count !== undefined && session.total_members !== undefined && (
                               <div className="mb-4">
                                 <div className="flex items-center justify-between text-sm mb-2">
                                   <span className="text-text-secondary">Attendance</span>
                                   <span className="text-white font-semibold tabular-nums">
-                                    {session.attendance_count} / {session.total_swimmers}
+                                    {session.attendance_count} / {session.total_members}
                                   </span>
                                 </div>
-                                {session.total_swimmers > 0 && (
+                                {session.total_members > 0 && (
                                   <div className="w-full bg-dark-primary rounded-full h-2">
                                     <div
                                       className="bg-brand rounded-full h-2 transition-all"
                                       style={{
-                                        width: `${(session.attendance_count / session.total_swimmers) * 100}%`,
+                                        width: `${(session.attendance_count / session.total_members) * 100}%`,
                                       }}
                                     ></div>
                                   </div>

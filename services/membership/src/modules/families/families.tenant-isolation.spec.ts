@@ -12,7 +12,7 @@ import { CreateFamilyDto } from './dto/create-family.dto';
 /**
  * Cross-tenant isolation test for the families module (Group B).
  *
- * Modelled on src/modules/swimmers/swimmers.tenant-isolation.spec.ts. It drives
+ * Modelled on src/modules/members/members.tenant-isolation.spec.ts. It drives
  * the real FamiliesRepository through the real TenantScopedHelper /
  * TenantContextService, faking ClsService and the TypeORM repositories so no live
  * database is needed. It proves the enforcement rule from

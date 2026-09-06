@@ -1,10 +1,10 @@
 export { useApi, useMutation } from './useApi';
 export type { UseApiResult, UseMutationResult } from './useApi';
 
-export { useSwimmers, useSwimmer, useSwimmerStats } from './useSwimmers';
-export { useSquads, useSquad, useSquadSwimmers } from './useSquads';
+export { useMembers, useMember, useMemberStats } from './useMembers';
+export { useSquads, useSquad, useSquadMembers } from './useSquads';
 export { useSessions, useSessionDetail, useUpcomingSessions, useSessionsBySquad } from './useSessions';
-export { useSessionAttendance, useSwimmerAttendance, useSwimmerAttendanceStats } from './useAttendance';
+export { useSessionAttendance, useMemberAttendance, useMemberAttendanceStats } from './useAttendance';
 export { useFamilies, useFamily, useFamilyStats } from './useFamilies';
 export { useAdminDashboard, useAdminReports } from './useAdmin';
 export { useFinanceDashboard, useInvoices, useOverdueInvoices } from './useFinance';

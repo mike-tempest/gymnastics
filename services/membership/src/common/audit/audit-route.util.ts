@@ -47,7 +47,7 @@ const NEVER_AUDIT = [
  * to keep it in the right order by hand.
  */
 const ROUTE_ENTITY_MAP: ReadonlyArray<[string, AuditEntityType]> = [
-  ['swimmers', AuditEntityType.SWIMMER],
+  ['members', AuditEntityType.MEMBER],
   ['squads', AuditEntityType.SQUAD],
   ['sessions', AuditEntityType.SESSION],
   ['attendance', AuditEntityType.ATTENDANCE],
@@ -90,7 +90,7 @@ const METHOD_ACTION_MAP: Readonly<Record<string, AuditAction>> = {
 
 /**
  * Strip the global `api` prefix, query string and surrounding slashes so the
- * remaining string is a bare route path such as `swimmers/<uuid>`.
+ * remaining string is a bare route path such as `members/<uuid>`.
  */
 export function normalisePath(url: string): string {
   const withoutQuery = url.split('?')[0];
@@ -145,13 +145,13 @@ export function resolveEntityType(url: string): AuditEntityType | null {
  * Pull a resource id out of the path when one is present.
  *
  * `audit_logs.entity_id` is a uuid column, so anything that is not a valid uuid
- * (`swimmers/search`, `sessions/upcoming`) must resolve to undefined rather
+ * (`members/search`, `sessions/upcoming`) must resolve to undefined rather
  * than being written and rejected by Postgres.
  */
 export function resolveEntityId(url: string): string | undefined {
   const path = normalisePath(url);
   const segments = path.split('/');
-  // Search from the end: `swimmers/<id>/notes` should still resolve `<id>`.
+  // Search from the end: `members/<id>/notes` should still resolve `<id>`.
   for (let i = segments.length - 1; i >= 0; i--) {
     if (UUID_PATTERN.test(segments[i])) {
       return segments[i];
@@ -161,7 +161,7 @@ export function resolveEntityId(url: string): string | undefined {
 }
 
 /**
- * A short human-readable summary, e.g. "CREATE SWIMMER via POST /api/swimmers".
+ * A short human-readable summary, e.g. "CREATE MEMBER via POST /api/members".
  */
 export function describeRequest(method: string, url: string): string {
   const action = resolveAction(method);

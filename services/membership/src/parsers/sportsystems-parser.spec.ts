@@ -27,10 +27,10 @@ describe('SportSystemsParser', () => {
       const result = parser.parseEntries(content);
 
       const firstEntry = result.entries[0];
-      expect(firstEntry.swimmer.seNumber).toBe('1234567');
-      expect(firstEntry.swimmer.lastName).toBe('Tempest');
-      expect(firstEntry.swimmer.firstName).toBe('Kassidy');
-      expect(firstEntry.swimmer.gender).toBe('F');
+      expect(firstEntry.member.registrationNumber).toBe('1234567');
+      expect(firstEntry.member.lastName).toBe('Tempest');
+      expect(firstEntry.member.firstName).toBe('Kassidy');
+      expect(firstEntry.member.gender).toBe('F');
     });
 
     it('should parse entry times correctly', () => {
@@ -45,7 +45,7 @@ describe('SportSystemsParser', () => {
       const content = fs.readFileSync(path.join(testDataDir, 'entry-club-open-meet.csv'), 'utf-8');
       const result = parser.parseEntries(content);
 
-      const dob = result.entries[0].swimmer.dateOfBirth;
+      const dob = result.entries[0].member.dateOfBirth;
       expect(dob.getDate()).toBe(15);
       expect(dob.getMonth()).toBe(8); // September = 8
       expect(dob.getFullYear()).toBe(2015);
@@ -98,7 +98,7 @@ describe('SportSystemsParser', () => {
       const result = parser.parseResults(content);
 
       const firstResult = result.results[0];
-      expect(firstResult.swimmer.seNumber).toBe('1234567');
+      expect(firstResult.member.registrationNumber).toBe('1234567');
       expect(firstResult.place).toBe(2);
       expect(firstResult.dq).toBe(false);
       expect(firstResult.time).toBeCloseTo(64.56);
@@ -194,8 +194,8 @@ describe('SportSystemsParser', () => {
         teamCode: 'TEST',
         entries: [
           {
-            swimmer: {
-              seNumber: '1234567',
+            member: {
+              registrationNumber: '1234567',
               lastName: 'Smith',
               firstName: 'John',
               gender: 'M' as const,
@@ -233,7 +233,9 @@ describe('SportSystemsParser', () => {
       const reparsed = parser.parseEntries(generated);
 
       expect(reparsed.entries).toHaveLength(parsed.entries.length);
-      expect(reparsed.entries[0].swimmer.seNumber).toBe(parsed.entries[0].swimmer.seNumber);
+      expect(reparsed.entries[0].member.registrationNumber).toBe(
+        parsed.entries[0].member.registrationNumber,
+      );
     });
   });
 
@@ -244,8 +246,8 @@ describe('SportSystemsParser', () => {
         entries: [],
         results: [
           {
-            swimmer: {
-              seNumber: '1234567',
+            member: {
+              registrationNumber: '1234567',
               lastName: 'Smith',
               firstName: 'John',
               gender: 'M' as const,
@@ -290,8 +292,8 @@ describe('SportSystemsParser', () => {
         meetName: 'Test',
         entries: [
           {
-            swimmer: {
-              seNumber: 'BAD',
+            member: {
+              registrationNumber: 'BAD',
               lastName: 'Test',
               firstName: 'Swimmer',
               gender: 'M' as const,
@@ -307,7 +309,7 @@ describe('SportSystemsParser', () => {
 
       const validation = parser.validate(data);
       expect(validation.valid).toBe(false);
-      expect(validation.errors.some((e) => e.field === 'seNumber')).toBe(true);
+      expect(validation.errors.some((e) => e.field === 'registrationNumber')).toBe(true);
       // GB regression bar: the exact previous Swim England error copy.
       expect(validation.errors[0].message).toBe('SE number must be exactly 7 digits');
     });
@@ -317,8 +319,8 @@ describe('SportSystemsParser', () => {
         meetName: 'NSW Country Championships',
         entries: [
           {
-            swimmer: {
-              seNumber: 'AUS12345',
+            member: {
+              registrationNumber: 'AUS12345',
               lastName: 'Test',
               firstName: 'Swimmer',
               gender: 'M' as const,
@@ -331,8 +333,8 @@ describe('SportSystemsParser', () => {
         ],
         results: [
           {
-            swimmer: {
-              seNumber: 'AUS12345',
+            member: {
+              registrationNumber: 'AUS12345',
               lastName: 'Test',
               firstName: 'Swimmer',
               gender: 'M' as const,
@@ -361,8 +363,8 @@ describe('SportSystemsParser', () => {
         entries: [],
         results: [
           {
-            swimmer: {
-              seNumber: '',
+            member: {
+              registrationNumber: '',
               lastName: 'Test',
               firstName: 'Swimmer',
               gender: 'M' as const,
@@ -390,8 +392,8 @@ describe('SportSystemsParser', () => {
         meetName: 'Test',
         entries: [
           {
-            swimmer: {
-              seNumber: '1234567',
+            member: {
+              registrationNumber: '1234567',
               lastName: 'Test',
               firstName: 'Swimmer',
               gender: 'M' as const,

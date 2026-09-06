@@ -9,7 +9,7 @@ import {
   Index,
   Unique,
 } from 'typeorm';
-import { Swimmer } from '../../swimmers/entities/swimmer.entity';
+import { Member } from '../../members/entities/member.entity';
 import { Session } from '../../sessions/entities/session.entity';
 
 export enum AttendanceStatus {
@@ -20,9 +20,9 @@ export enum AttendanceStatus {
 }
 
 @Entity('attendance')
-@Unique(['session_id', 'swimmer_id'])
+@Unique(['session_id', 'member_id'])
 @Index(['session_id'])
-@Index(['swimmer_id'])
+@Index(['member_id'])
 @Index(['status'])
 export class Attendance {
   @PrimaryGeneratedColumn('uuid')
@@ -35,7 +35,7 @@ export class Attendance {
   session_id: string;
 
   @Column({ type: 'uuid' })
-  swimmer_id: string;
+  member_id: string;
 
   @Column({
     type: 'enum',
@@ -56,9 +56,9 @@ export class Attendance {
   @UpdateDateColumn({ type: 'timestamp' })
   updated_at: Date;
 
-  @ManyToOne(() => Swimmer, { eager: false })
-  @JoinColumn({ name: 'swimmer_id' })
-  swimmer?: Swimmer;
+  @ManyToOne(() => Member, { eager: false })
+  @JoinColumn({ name: 'member_id' })
+  member?: Member;
 
   @ManyToOne(() => Session, { eager: false })
   @JoinColumn({ name: 'session_id' })

@@ -6,7 +6,7 @@ import { FeeStructuresRepository } from '../fee-structures/fee-structures.reposi
 import { PaymentsService } from '../payments/payments.service';
 import { EmailService } from '../../email/email.service';
 import { FamiliesRepository } from '../../families/families.repository';
-import { SwimmersRepository } from '../../swimmers/swimmers.repository';
+import { MembersRepository } from '../../members/members.repository';
 import { AppliesToType, FeeFrequency } from '../fee-structures/entities/fee-structure.entity';
 import { Invoice, InvoiceStatus } from './entities/invoice.entity';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
@@ -68,7 +68,7 @@ describe('InvoicesService', () => {
     findOne: jest.fn(),
   };
 
-  const mockSwimmersRepository = {
+  const mockMembersRepository = {
     findOne: jest.fn(),
     findBySquadId: jest.fn(),
   };
@@ -103,7 +103,7 @@ describe('InvoicesService', () => {
         { provide: PaymentsService, useValue: mockPaymentsService },
         { provide: EmailService, useValue: mockEmailService },
         { provide: FamiliesRepository, useValue: mockFamiliesRepository },
-        { provide: SwimmersRepository, useValue: mockSwimmersRepository },
+        { provide: MembersRepository, useValue: mockMembersRepository },
         { provide: ClubsRepository, useValue: mockClubsRepository },
         { provide: TenantContextService, useValue: mockTenantContext },
       ],
@@ -609,22 +609,22 @@ describe('InvoicesService', () => {
       primary_contact_email: 'joan.jones@example.com',
     };
 
-    const swimmerA1 = {
-      swimmer_id: 'a1ae0000-e89b-12d3-a456-4266141741a1',
+    const memberA1 = {
+      member_id: 'a1ae0000-e89b-12d3-a456-4266141741a1',
       family_id: familyA.family_id,
       first_name: 'Alice',
       last_name: 'Smith',
       squad_id: SQUAD_ID,
     };
-    const swimmerA2 = {
-      swimmer_id: 'a2ae0000-e89b-12d3-a456-4266141741a2',
+    const memberA2 = {
+      member_id: 'a2ae0000-e89b-12d3-a456-4266141741a2',
       family_id: familyA.family_id,
       first_name: 'Ben',
       last_name: 'Smith',
       squad_id: SQUAD_ID,
     };
-    const swimmerB1 = {
-      swimmer_id: 'b1be0000-e89b-12d3-a456-4266141741b1',
+    const memberB1 = {
+      member_id: 'b1be0000-e89b-12d3-a456-4266141741b1',
       family_id: familyB.family_id,
       first_name: 'Cara',
       last_name: 'Jones',
@@ -692,20 +692,20 @@ describe('InvoicesService', () => {
       );
     });
 
-    it('invoices each family with a swimmer in the squad, one line item per swimmer', async () => {
+    it('invoices each family with a member in the squad, one line item per member', async () => {
       mockFeeStructuresRepository.findOne.mockResolvedValue({
         ...clubFee,
         name: 'Squad Fee',
         applies_to_type: AppliesToType.SQUAD,
         applies_to_id: SQUAD_ID,
       });
-      mockSwimmersRepository.findBySquadId.mockResolvedValue([swimmerA1, swimmerA2, swimmerB1]);
+      mockMembersRepository.findBySquadId.mockResolvedValue([memberA1, memberA2, memberB1]);
 
       const result = await service.generateInvoicesForFeeStructure(FEE_ID);
 
       expect(result.created).toBe(2);
-      expect(mockSwimmersRepository.findBySquadId).toHaveBeenCalledWith(SQUAD_ID);
-      // Family A has two swimmers in the squad, so its invoice has two items.
+      expect(mockMembersRepository.findBySquadId).toHaveBeenCalledWith(SQUAD_ID);
+      // Family A has two members in the squad, so its invoice has two items.
       expect(mockInvoicesRepository.create).toHaveBeenCalledWith(
         expect.objectContaining({
           family_id: familyA.family_id,
@@ -727,14 +727,14 @@ describe('InvoicesService', () => {
       );
     });
 
-    it('invoices only the swimmer family for a per-swimmer fee', async () => {
+    it('invoices only the member family for a per-member fee', async () => {
       mockFeeStructuresRepository.findOne.mockResolvedValue({
         ...clubFee,
         name: 'Kit Fee',
-        applies_to_type: AppliesToType.SWIMMER,
-        applies_to_id: swimmerB1.swimmer_id,
+        applies_to_type: AppliesToType.MEMBER,
+        applies_to_id: memberB1.member_id,
       });
-      mockSwimmersRepository.findOne.mockResolvedValue(swimmerB1);
+      mockMembersRepository.findOne.mockResolvedValue(memberB1);
 
       const result = await service.generateInvoicesForFeeStructure(FEE_ID);
 
@@ -907,7 +907,7 @@ describe('InvoicesService', () => {
           applies_to_id: SQUAD_ID,
         };
         mockFeeStructuresRepository.findAll.mockResolvedValue([clubFee, squadFee]);
-        mockSwimmersRepository.findBySquadId.mockResolvedValue([swimmerB1]);
+        mockMembersRepository.findBySquadId.mockResolvedValue([memberB1]);
 
         const result = await service.generateMonthlyInvoices(SQUAD_ID);
 

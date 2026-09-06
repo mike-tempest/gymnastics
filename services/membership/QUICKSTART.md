@@ -91,30 +91,30 @@ Expected response:
 }
 ```
 
-### Create a Swimmer
+### Create a Member
 
 ```bash
-curl -X POST http://localhost:3001/api/swimmers \
+curl -X POST http://localhost:3001/api/members \
   -H "Content-Type: application/json" \
   -d '{
     "first_name": "John",
     "last_name": "Smith",
     "dob": "2010-05-15",
     "gender": "M",
-    "se_number": "1234567"
+    "registration_number": "1234567"
   }'
 ```
 
-### Get All Swimmers
+### Get All Members
 
 ```bash
-curl http://localhost:3001/api/swimmers
+curl http://localhost:3001/api/members
 ```
 
 ### Get Statistics
 
 ```bash
-curl http://localhost:3001/api/swimmers/statistics
+curl http://localhost:3001/api/members/statistics
 ```
 
 ## Troubleshooting
@@ -187,18 +187,18 @@ pnpm start
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | /api/health | Health check |
-| POST | /api/swimmers | Create swimmer |
-| GET | /api/swimmers | List all swimmers |
-| GET | /api/swimmers/:id | Get swimmer by ID |
-| PATCH | /api/swimmers/:id | Update swimmer |
-| DELETE | /api/swimmers/:id | Delete swimmer |
-| GET | /api/swimmers?family_id={id} | Filter by family |
-| GET | /api/swimmers?club_id={id} | Filter by club |
-| GET | /api/swimmers?squad_id={id} | Filter by squad |
-| GET | /api/swimmers/statistics | Get statistics |
+| POST | /api/members | Create member |
+| GET | /api/members | List all members |
+| GET | /api/members/:id | Get member by ID |
+| PATCH | /api/members/:id | Update member |
+| DELETE | /api/members/:id | Delete member |
+| GET | /api/members?family_id={id} | Filter by family |
+| GET | /api/members?club_id={id} | Filter by club |
+| GET | /api/members?squad_id={id} | Filter by squad |
+| GET | /api/members/statistics | Get statistics |
 
 ## Success!
 
-If you can access the health endpoint and create a swimmer, you're all set!
+If you can access the health endpoint and create a member, you're all set!
 
 The service is now ready for development and integration with the frontend.

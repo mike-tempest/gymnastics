@@ -28,7 +28,7 @@ test.describe('Attendance Flow', () => {
     await expect(pageContent).toBeVisible();
   });
 
-  test('should select a session and display swimmer list', async ({ page }) => {
+  test('should select a session and display member list', async ({ page }) => {
     await page.goto('/attendance');
     await page.waitForTimeout(1000);
 
@@ -47,14 +47,14 @@ test.describe('Attendance Flow', () => {
       await sessionSelector.click();
     }
 
-    await page.waitForTimeout(2000); // Allow swimmer list to load
+    await page.waitForTimeout(2000); // Allow member list to load
 
-    // Verify swimmer list appears
-    const swimmerList = page.locator('tbody tr, [data-testid="swimmer-item"], .swimmer-list-item, [class*="attendance-row"]').first();
-    await expect(swimmerList).toBeVisible({ timeout: 5000 });
+    // Verify member list appears
+    const memberList = page.locator('tbody tr, [data-testid="member-item"], .member-list-item, [class*="attendance-row"]').first();
+    await expect(memberList).toBeVisible({ timeout: 5000 });
   });
 
-  test('should mark a swimmer as present and verify status update', async ({ page }) => {
+  test('should mark a member as present and verify status update', async ({ page }) => {
     await page.goto('/attendance');
     await page.waitForTimeout(1000);
 

@@ -4,13 +4,14 @@ import { X, Plus, Trash2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 import { type CreateEntryInput } from '@/lib/api/competitions';
-import { getSwimmers } from '@/lib/api/swimmers';
+import { getMembers } from '@/lib/api/members';
+import { MEMBER_NOUN, MEMBER_NOUN_LOWER } from '@/lib/brand';
 
 const STROKES = ['Freestyle', 'Backstroke', 'Breaststroke', 'Butterfly', 'Individual Medley'];
 const DISTANCES = [25, 50, 100, 200, 400, 800, 1500];
 
-interface Swimmer {
-  swimmer_id: string;
+interface Member {
+  member_id: string;
   first_name: string;
   last_name: string;
 }
@@ -22,7 +23,7 @@ interface AddEntriesModalProps {
 
 const emptyEntry = (): CreateEntryInput & { key: number } => ({
   key: Date.now() + Math.random(),
-  swimmer_id: '',
+  member_id: '',
   event_name: '',
   distance: 100,
   stroke: 'Freestyle',
@@ -32,12 +33,12 @@ const emptyEntry = (): CreateEntryInput & { key: number } => ({
 });
 
 export default function AddEntriesModal({ onClose, onSubmit }: AddEntriesModalProps) {
-  const [swimmers, setSwimmers] = useState<Swimmer[]>([]);
+  const [members, setMembers] = useState<Member[]>([]);
   const [entries, setEntries] = useState<(CreateEntryInput & { key: number })[]>([emptyEntry()]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    getSwimmers().then(setSwimmers).catch(() => {});
+    getMembers().then(setMembers).catch(() => {});
 
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -67,7 +68,7 @@ export default function AddEntriesModal({ onClose, onSubmit }: AddEntriesModalPr
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const valid = entries.filter((entry) => entry.swimmer_id && entry.distance && entry.stroke);
+    const valid = entries.filter((entry) => entry.member_id && entry.distance && entry.stroke);
     if (valid.length === 0) return;
 
     setIsSubmitting(true);
@@ -77,7 +78,7 @@ export default function AddEntriesModal({ onClose, onSubmit }: AddEntriesModalPr
         // without an unused-variable binding (which lints differently between
         // `next lint` and the production `next build`).
         valid.map((entry) => ({
-          swimmer_id: entry.swimmer_id,
+          member_id: entry.member_id,
           event_name: entry.event_name || undefined,
           distance: entry.distance,
           stroke: entry.stroke,
@@ -118,16 +119,16 @@ export default function AddEntriesModal({ onClose, onSubmit }: AddEntriesModalPr
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs text-white/60 mb-1">Swimmer</label>
+                  <label className="block text-xs text-white/60 mb-1">{MEMBER_NOUN}</label>
                   <select
-                    value={entry.swimmer_id}
-                    onChange={(e) => updateEntry(index, 'swimmer_id', e.target.value)}
+                    value={entry.member_id}
+                    onChange={(e) => updateEntry(index, 'member_id', e.target.value)}
                     className={inputCls}
                     required
                   >
-                    <option value="">Select swimmer...</option>
-                    {swimmers.map((s) => (
-                      <option key={s.swimmer_id} value={s.swimmer_id}>
+                    <option value="">Select {MEMBER_NOUN_LOWER}...</option>
+                    {members.map((s) => (
+                      <option key={s.member_id} value={s.member_id}>
                         {s.first_name} {s.last_name}
                       </option>
                     ))}
@@ -220,7 +221,7 @@ export default function AddEntriesModal({ onClose, onSubmit }: AddEntriesModalPr
               Cancel
             </button>
             <button type="submit" disabled={isSubmitting} className="flex-1 py-3 min-h-[44px] bg-brand hover:bg-brand-light disabled:opacity-50 text-dark-primary font-bold rounded-xl transition-colors">
-              {isSubmitting ? 'Adding...' : `Add ${entries.filter((e) => e.swimmer_id).length} ${entries.filter((e) => e.swimmer_id).length === 1 ? 'Entry' : 'Entries'}`}
+              {isSubmitting ? 'Adding...' : `Add ${entries.filter((e) => e.member_id).length} ${entries.filter((e) => e.member_id).length === 1 ? 'Entry' : 'Entries'}`}
             </button>
           </div>
         </form>

@@ -169,10 +169,10 @@ const FAMILIES: FamilyData[] = [
   },
 ];
 
-// squadKey, firstName, lastName, dob, gender, familyIndex, seNumber
-type SwimmerRow = [string, string, string, string, string, number, string];
+// squadKey, firstName, lastName, dob, gender, familyIndex, registrationNumber
+type MemberRow = [string, string, string, string, string, number, string];
 
-const SWIMMERS: SwimmerRow[] = [
+const MEMBERS: MemberRow[] = [
   // Learn to Swim (ages 5-8, born 2018-2021)
   ['lts', 'Oliver', 'Johnson', '2019-03-15', 'M', 0, 'SE126001'],
   ['lts', 'Amelia', 'Johnson', '2020-07-22', 'F', 0, 'SE126002'],
@@ -245,8 +245,8 @@ const SQUAD_FEES: Record<string, number> = {
 const LOCATION = 'Tunbridge Wells Sports Centre, St Johns Road, TN4 9XB';
 
 // Deterministic attendance status: 85% present, 8% absent, 7% late
-function attendanceStatus(swimmerIdx: number, sessionIdx: number): string {
-  const n = (swimmerIdx * 17 + sessionIdx * 7) % 100;
+function attendanceStatus(memberIdx: number, sessionIdx: number): string {
+  const n = (memberIdx * 17 + sessionIdx * 7) % 100;
   if (n < 85) return 'present';
   if (n < 93) return 'absent';
   return 'late';
@@ -267,8 +267,8 @@ async function seed() {
     await client.query('DELETE FROM payments');
     await client.query('DELETE FROM invoices');
     await client.query('DELETE FROM sessions');
-    await client.query('DELETE FROM squad_swimmers');
-    await client.query('DELETE FROM swimmers');
+    await client.query('DELETE FROM squad_members');
+    await client.query('DELETE FROM members');
     await client.query('DELETE FROM fee_structures');
     await client.query('DELETE FROM squads');
     await client.query('DELETE FROM family_invites');
@@ -360,7 +360,7 @@ async function seed() {
         key: 'lts',
         name: 'Learn to Swim',
         description:
-          'Foundation programme for young swimmers aged 5 to 8. Focus on water confidence, basic strokes, and fun.',
+          'Foundation programme for young members aged 5 to 8. Focus on water confidence, basic strokes, and fun.',
         minAge: 5,
         maxAge: 8,
         coach: 'Sarah Mitchell',
@@ -371,7 +371,7 @@ async function seed() {
         key: 'dev',
         name: 'Development',
         description:
-          'Developing competitive skills for swimmers aged 9 to 12. Stroke refinement and race preparation.',
+          'Developing competitive skills for members aged 9 to 12. Stroke refinement and race preparation.',
         minAge: 9,
         maxAge: 12,
         coach: 'Dave Thompson',
@@ -382,7 +382,7 @@ async function seed() {
         key: 'comp',
         name: 'Competition',
         description:
-          'High-performance training for swimmers aged 13 to 18. Regional and national competition targets.',
+          'High-performance training for members aged 13 to 18. Regional and national competition targets.',
         minAge: 13,
         maxAge: 18,
         coach: 'Rachel Adams',
@@ -413,35 +413,43 @@ async function seed() {
     }
     console.log(`  Inserted ${squadsData.length} squads.`);
 
-    // 6. Swimmers and squad_swimmers
-    console.log('Inserting swimmers...');
-    const swimmerIds: string[] = [];
-    const swimmerSquadKeys: string[] = [];
+    // 6. Members and squad_members
+    console.log('Inserting members...');
+    const memberIds: string[] = [];
+    const memberSquadKeys: string[] = [];
 
-    for (const sw of SWIMMERS) {
-      const [squadKey, firstName, lastName, dob, gender, famIdx, seNumber] = sw;
+    for (const sw of MEMBERS) {
+      const [squadKey, firstName, lastName, dob, gender, famIdx, registrationNumber] = sw;
       const res = await client.query(
-        `INSERT INTO swimmers (
-          family_id, se_number, first_name, last_name, dob, gender, squad_id
-        ) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING swimmer_id`,
-        [familyIds[famIdx], seNumber, firstName, lastName, dob, gender, squadIdMap[squadKey]],
+        `INSERT INTO members (
+          family_id, registration_number, first_name, last_name, dob, gender, squad_id
+        ) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING member_id`,
+        [
+          familyIds[famIdx],
+          registrationNumber,
+          firstName,
+          lastName,
+          dob,
+          gender,
+          squadIdMap[squadKey],
+        ],
       );
-      const swimmerId = res.rows[0].swimmer_id;
-      swimmerIds.push(swimmerId);
-      swimmerSquadKeys.push(squadKey);
+      const memberId = res.rows[0].member_id;
+      memberIds.push(memberId);
+      memberSquadKeys.push(squadKey);
 
-      await client.query(`INSERT INTO squad_swimmers (squad_id, swimmer_id) VALUES ($1,$2)`, [
+      await client.query(`INSERT INTO squad_members (squad_id, member_id) VALUES ($1,$2)`, [
         squadIdMap[squadKey],
-        swimmerId,
+        memberId,
       ]);
     }
-    console.log(`  Inserted ${swimmerIds.length} swimmers.`);
+    console.log(`  Inserted ${memberIds.length} members.`);
 
-    // Build squad-to-swimmers map for attendance
-    const squadSwimmersMap: Record<string, string[]> = { lts: [], dev: [], comp: [], masters: [] };
-    for (let i = 0; i < swimmerIds.length; i++) {
-      const key = swimmerSquadKeys[i];
-      squadSwimmersMap[key].push(swimmerIds[i]);
+    // Build squad-to-members map for attendance
+    const squadMembersMap: Record<string, string[]> = { lts: [], dev: [], comp: [], masters: [] };
+    for (let i = 0; i < memberIds.length; i++) {
+      const key = memberSquadKeys[i];
+      squadMembersMap[key].push(memberIds[i]);
     }
 
     // 7. Fee structures
@@ -491,7 +499,7 @@ async function seed() {
         description: 'Swim England annual membership (Cat 2 Compete).',
         amount: 33.95,
         frequency: 'annual',
-        appliesToType: 'swimmer',
+        appliesToType: 'member',
         appliesToId: () => null,
       },
       {
@@ -587,20 +595,20 @@ async function seed() {
     let attendanceCount = 0;
 
     for (const squadKey of ['lts', 'dev', 'comp', 'masters']) {
-      const sqSwimmers = squadSwimmersMap[squadKey];
+      const sqMembers = squadMembersMap[squadKey];
       const sqSessions = sessionsBySquad[squadKey];
 
       for (let si = 0; si < sqSessions.length; si++) {
         const { sessionId, sessionIdx } = sqSessions[si];
 
-        for (let swi = 0; swi < sqSwimmers.length; swi++) {
-          const swimmerId = sqSwimmers[swi];
+        for (let swi = 0; swi < sqMembers.length; swi++) {
+          const memberId = sqMembers[swi];
           const status = attendanceStatus(swi, sessionIdx);
 
           await client.query(
-            `INSERT INTO attendance (session_id, swimmer_id, status, checked_in_at)
+            `INSERT INTO attendance (session_id, member_id, status, checked_in_at)
              VALUES ($1,$2,$3,$4)`,
-            [sessionId, swimmerId, status, status !== 'absent' ? new Date().toISOString() : null],
+            [sessionId, memberId, status, status !== 'absent' ? new Date().toISOString() : null],
           );
           attendanceCount++;
         }
@@ -623,14 +631,14 @@ async function seed() {
       'draft', // Clarke
     ];
 
-    // Build family squad lookup (first swimmer's squad key determines fee)
-    const familySwimmers: Record<number, { squadKey: string; swimmerId: string }[]> = {};
+    // Build family squad lookup (first member's squad key determines fee)
+    const familyMembers: Record<number, { squadKey: string; memberId: string }[]> = {};
     for (let i = 0; i < FAMILIES.length; i++) {
-      familySwimmers[i] = [];
+      familyMembers[i] = [];
     }
-    for (let i = 0; i < SWIMMERS.length; i++) {
-      const [squadKey, , , , , famIdx] = SWIMMERS[i];
-      familySwimmers[famIdx].push({ squadKey, swimmerId: swimmerIds[i] });
+    for (let i = 0; i < MEMBERS.length; i++) {
+      const [squadKey, , , , , famIdx] = MEMBERS[i];
+      familyMembers[famIdx].push({ squadKey, memberId: memberIds[i] });
     }
 
     let invoiceCount = 0;
@@ -639,12 +647,12 @@ async function seed() {
       const status = invoiceStatuses[famIdx];
       const invNumber = `RTW-2026-${String(famIdx + 1).padStart(3, '0')}`;
 
-      const famSwimmersList = familySwimmers[famIdx];
-      if (famSwimmersList.length === 0) continue;
+      const famMembersList = familyMembers[famIdx];
+      if (famMembersList.length === 0) continue;
 
-      // Calculate total from all swimmers in this family
+      // Calculate total from all members in this family
       let subtotal = 0;
-      for (const { squadKey } of famSwimmersList) {
+      for (const { squadKey } of famMembersList) {
         subtotal += SQUAD_FEES[squadKey] ?? 0;
       }
 
@@ -657,8 +665,8 @@ async function seed() {
       );
       const invoiceId = invoiceRes.rows[0].invoice_id;
 
-      // Invoice items: one per swimmer
-      for (const { squadKey } of famSwimmersList) {
+      // Invoice items: one per member
+      for (const { squadKey } of famMembersList) {
         const fee = SQUAD_FEES[squadKey] ?? 0;
         const squadName = squadsData.find((s) => s.key === squadKey)?.name ?? squadKey;
         await client.query(
@@ -679,7 +687,7 @@ async function seed() {
     console.log(`  Families:           ${familyIds.length}`);
     console.log(`  Users (staff):      ${STAFF_USERS.length}`);
     console.log(`  Users (parents):    ${FAMILIES.length}`);
-    console.log(`  Swimmers:           ${swimmerIds.length}`);
+    console.log(`  Members:           ${memberIds.length}`);
     console.log(`  Sessions:           ${sessionCount}`);
     console.log(`  Attendance records: ${attendanceCount}`);
     console.log(`  Fee structures:     ${feeDefs.length}`);

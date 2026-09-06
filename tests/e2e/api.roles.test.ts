@@ -34,8 +34,8 @@ describe('Role-based access control', () => {
   });
 
   describe('Coach (head_coach) access', () => {
-    it('can access swimmers', async () => {
-      const res = await authGet('/swimmers', coachToken);
+    it('can access members', async () => {
+      const res = await authGet('/members', coachToken);
       expect(res.status).toBe(200);
     });
 

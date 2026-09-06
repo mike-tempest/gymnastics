@@ -7,10 +7,10 @@ import {
   JoinColumn,
   Index,
 } from 'typeorm';
-import { Swimmer } from '../../swimmers/entities/swimmer.entity';
+import { Member } from '../../members/entities/member.entity';
 
-@Entity('swimmer_cycle_logs')
-@Index(['swimmer_id'])
+@Entity('member_cycle_logs')
+@Index(['member_id'])
 @Index(['period_start'])
 export class CycleLog {
   @PrimaryGeneratedColumn('uuid')
@@ -20,7 +20,7 @@ export class CycleLog {
   club_id: string;
 
   @Column({ type: 'uuid' })
-  swimmer_id: string;
+  member_id: string;
 
   @Column({ type: 'date' })
   period_start: Date;
@@ -37,7 +37,7 @@ export class CycleLog {
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 
-  @ManyToOne(() => Swimmer, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'swimmer_id' })
-  swimmer?: Swimmer;
+  @ManyToOne(() => Member, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'member_id' })
+  member?: Member;
 }

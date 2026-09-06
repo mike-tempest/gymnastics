@@ -1,7 +1,7 @@
 import { Injectable, Logger, NotFoundException, Optional } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, MoreThanOrEqual, Between, In, FindOptionsWhere } from 'typeorm';
-import { Swimmer } from '../swimmers/entities/swimmer.entity';
+import { Member } from '../members/entities/member.entity';
 import { Session } from '../sessions/entities/session.entity';
 import { Invoice, InvoiceStatus } from '../finance/invoices/entities/invoice.entity';
 import { Attendance } from '../attendance/entities/attendance.entity';
@@ -24,8 +24,8 @@ export class ParentService {
   private readonly logger = new Logger(ParentService.name);
 
   constructor(
-    @InjectRepository(Swimmer)
-    private swimmersRepository: Repository<Swimmer>,
+    @InjectRepository(Member)
+    private membersRepository: Repository<Member>,
     @InjectRepository(Session)
     private sessionsRepository: Repository<Session>,
     @InjectRepository(Invoice)
@@ -65,14 +65,14 @@ export class ParentService {
       throw new NotFoundException('Family not found');
     }
 
-    const swimmers = await this.scoped.scopedFind(this.swimmersRepository, {
+    const members = await this.scoped.scopedFind(this.membersRepository, {
       where: { family_id: familyId },
       relations: ['squad'],
     });
 
     return {
       family,
-      swimmers,
+      members,
     };
   }
 
@@ -94,7 +94,7 @@ export class ParentService {
 
   async getDashboard(familyId: string) {
     // Get children count
-    const childrenCount = await this.swimmersRepository.count({
+    const childrenCount = await this.membersRepository.count({
       where: { family_id: familyId, club_id: this.tenantContext.getClubId() },
     });
 
@@ -108,7 +108,7 @@ export class ParentService {
       .leftJoinAndSelect('session.squad', 'squad')
       .andWhere('session.session_date >= :now', { now })
       .andWhere('session.session_date <= :sevenDays', { sevenDays: sevenDaysFromNow })
-      .andWhere('squad.squad_id IN (SELECT squad_id FROM swimmers WHERE family_id = :familyId)', {
+      .andWhere('squad.squad_id IN (SELECT squad_id FROM members WHERE family_id = :familyId)', {
         familyId,
       })
       .orderBy('session.session_date', 'ASC')
@@ -139,7 +139,7 @@ export class ParentService {
   }
 
   async getChildren(familyId: string) {
-    const children = await this.scoped.scopedFind(this.swimmersRepository, {
+    const children = await this.scoped.scopedFind(this.membersRepository, {
       where: { family_id: familyId },
       relations: ['squad', 'family'],
     });
@@ -148,8 +148,8 @@ export class ParentService {
   }
 
   async getChild(familyId: string, childId: string) {
-    const child = await this.scoped.scopedFindOne(this.swimmersRepository, {
-      where: { swimmer_id: childId, family_id: familyId },
+    const child = await this.scoped.scopedFindOne(this.membersRepository, {
+      where: { member_id: childId, family_id: familyId },
       relations: ['squad', 'family'],
     });
 
@@ -162,8 +162,8 @@ export class ParentService {
 
   async getChildAttendance(familyId: string, childId: string, from?: string, to?: string) {
     // Verify child belongs to family (scoped to the active club).
-    const child = await this.scoped.scopedFindOne(this.swimmersRepository, {
-      where: { swimmer_id: childId, family_id: familyId },
+    const child = await this.scoped.scopedFindOne(this.membersRepository, {
+      where: { member_id: childId, family_id: familyId },
     });
 
     if (!child) {
@@ -175,7 +175,7 @@ export class ParentService {
       .scopedQueryBuilder(this.attendanceRepository, 'attendance')
       .leftJoinAndSelect('attendance.session', 'session')
       .leftJoinAndSelect('session.squad', 'squad')
-      .andWhere('attendance.swimmer_id = :swimmerId', { swimmerId: childId });
+      .andWhere('attendance.member_id = :memberId', { memberId: childId });
 
     if (from) {
       query.andWhere('session.session_date >= :from', { from: new Date(from) });
@@ -192,8 +192,8 @@ export class ParentService {
 
   async getChildSchedule(familyId: string, childId: string, days: number = 30) {
     // Verify child belongs to family (scoped to the active club).
-    const child = await this.scoped.scopedFindOne(this.swimmersRepository, {
-      where: { swimmer_id: childId, family_id: familyId },
+    const child = await this.scoped.scopedFindOne(this.membersRepository, {
+      where: { member_id: childId, family_id: familyId },
       relations: ['squad'],
     });
 
@@ -229,8 +229,8 @@ export class ParentService {
     }
 
     // Verify child belongs to family (scoped to the active club).
-    const child = await this.scoped.scopedFindOne(this.swimmersRepository, {
-      where: { swimmer_id: childId, family_id: familyId },
+    const child = await this.scoped.scopedFindOne(this.membersRepository, {
+      where: { member_id: childId, family_id: familyId },
     });
 
     if (!child) {
@@ -238,7 +238,7 @@ export class ParentService {
     }
 
     return await this.scoped.scopedFind(this.resultsRepository, {
-      where: { swimmer_id: childId },
+      where: { member_id: childId },
       relations: ['competition'],
       order: { created_at: 'DESC' },
     });
@@ -253,8 +253,8 @@ export class ParentService {
     }
 
     // Verify child belongs to family (scoped to the active club).
-    const child = await this.scoped.scopedFindOne(this.swimmersRepository, {
-      where: { swimmer_id: childId, family_id: familyId },
+    const child = await this.scoped.scopedFindOne(this.membersRepository, {
+      where: { member_id: childId, family_id: familyId },
     });
 
     if (!child) {
@@ -262,7 +262,7 @@ export class ParentService {
     }
 
     const [personalBests, seasonBests] = await Promise.all([
-      personalBestsService.getForSwimmer(childId),
+      personalBestsService.getForMember(childId),
       personalBestsService.getSeasonBests(childId),
     ]);
 
@@ -330,13 +330,13 @@ export class ParentService {
   }
 
   async getUpcomingSessions(familyId: string) {
-    // Get all swimmers for this family (scoped to the active club).
-    const swimmers = await this.scoped.scopedFind(this.swimmersRepository, {
+    // Get all members for this family (scoped to the active club).
+    const members = await this.scoped.scopedFind(this.membersRepository, {
       where: { family_id: familyId },
       select: ['squad_id'],
     });
 
-    const squadIds = swimmers.map((s) => s.squad_id).filter((id) => id !== null) as string[];
+    const squadIds = members.map((s) => s.squad_id).filter((id) => id !== null) as string[];
 
     if (squadIds.length === 0) {
       return [];

@@ -11,12 +11,12 @@ import { Competition } from './entities/competition.entity';
 import { CompetitionEntry } from './entities/competition-entry.entity';
 import { CompetitionResult } from './entities/competition-result.entity';
 import { PersonalBest } from './entities/personal-best.entity';
-import { SwimmersModule } from '../swimmers/swimmers.module';
+import { MembersModule } from '../members/members.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Competition, CompetitionEntry, CompetitionResult, PersonalBest]),
-    SwimmersModule,
+    MembersModule,
   ],
   controllers: [CompetitionsController],
   providers: [

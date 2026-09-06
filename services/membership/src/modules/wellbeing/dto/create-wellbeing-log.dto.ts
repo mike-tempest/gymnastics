@@ -11,7 +11,7 @@ import {
 
 export class CreateWellbeingLogDto {
   @IsUUID()
-  swimmer_id: string;
+  member_id: string;
 
   @IsDateString()
   log_date: string;

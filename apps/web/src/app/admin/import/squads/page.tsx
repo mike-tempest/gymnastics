@@ -43,9 +43,9 @@ const EXPECTED_HEADERS = [
 ];
 
 const TEMPLATE_CSV = `squad_name,description,min_age,max_age,coach_name,training_times,max_capacity
-Learn to Swim,Beginner lessons for new swimmers,4,8,Sarah Hughes,"Mon 17:00-17:45, Sat 09:00-09:45",20
-Development,Stroke technique and fitness for improving swimmers,8,12,Tom Bradley,"Tue 18:00-19:00, Thu 18:00-19:00",24
-Performance,Competitive squad for county and regional swimmers,12,18,Emma Clarke,"Mon-Fri 05:30-07:00, Sat 07:00-09:00",30`;
+Learn to Swim,Beginner lessons for new members,4,8,Sarah Hughes,"Mon 17:00-17:45, Sat 09:00-09:45",20
+Development,Stroke technique and fitness for improving members,8,12,Tom Bradley,"Tue 18:00-19:00, Thu 18:00-19:00",24
+Performance,Competitive squad for county and regional members,12,18,Emma Clarke,"Mon-Fri 05:30-07:00, Sat 07:00-09:00",30`;
 
 function isNonNegativeInteger(value: string): boolean {
   return /^\d+$/.test(value.trim());

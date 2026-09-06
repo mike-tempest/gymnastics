@@ -136,15 +136,15 @@ export default function InviteAcceptancePage({ params }: { params: { token: stri
                 <p className="text-sm text-text-secondary">{family.primary_contact_email}</p>
               </div>
 
-              {family.swimmers && family.swimmers.length > 0 && (
+              {family.members && family.members.length > 0 && (
                 <div>
                   <p className="text-sm text-text-secondary mb-2">Children</p>
                   <div className="space-y-2">
-                    {family.swimmers.map((swimmer) => (
-                      <div key={swimmer.swimmer_id} className="flex items-center space-x-2">
+                    {family.members.map((member) => (
+                      <div key={member.member_id} className="flex items-center space-x-2">
                         <div className="w-2 h-2 bg-brand rounded-full"></div>
                         <p className="text-white">
-                          {swimmer.first_name} {swimmer.last_name}
+                          {member.first_name} {member.last_name}
                         </p>
                       </div>
                     ))}

@@ -1,5 +1,5 @@
 import {
-  Swimmer,
+  Member,
   Session,
   Family,
   Payment,
@@ -9,14 +9,14 @@ import {
 } from '@club-manager/shared-types';
 
 import { api, apiDownload } from './api-client';
-import { type CompetitionResult, type SwimmerPersonalBests } from './competitions';
+import { type CompetitionResult, type MemberPersonalBests } from './competitions';
 import { InvoiceWithDetails } from './finance';
 
 // Parent profile and family
 
 export interface ParentProfile {
   family: Family;
-  swimmers: Swimmer[];
+  members: Member[];
 }
 
 export interface ParentDashboardSummary {
@@ -46,14 +46,14 @@ export async function updateParentProfile(data: UpdateParentProfileData): Promis
   return api.patch<Family>('/parent/profile', data);
 }
 
-// Swimmers (children in backend terminology)
+// Members (children in backend terminology)
 
-export async function fetchParentSwimmers(): Promise<Swimmer[]> {
-  return api.get<Swimmer[]>('/parent/children', { cache: 'no-store' });
+export async function fetchParentMembers(): Promise<Member[]> {
+  return api.get<Member[]>('/parent/children', { cache: 'no-store' });
 }
 
-export async function fetchParentSwimmer(swimmerId: string): Promise<Swimmer> {
-  return api.get<Swimmer>(`/parent/children/${swimmerId}`, { cache: 'no-store' });
+export async function fetchParentMember(memberId: string): Promise<Member> {
+  return api.get<Member>(`/parent/children/${memberId}`, { cache: 'no-store' });
 }
 
 // Sessions
@@ -63,30 +63,30 @@ export async function fetchParentUpcomingSessions(): Promise<Session[]> {
   return api.get<Session[]>('/parent/sessions/upcoming', { cache: 'no-store' });
 }
 
-export async function fetchSwimmerSchedule(swimmerId: string): Promise<Session[]> {
-  return api.get<Session[]>(`/parent/children/${swimmerId}/schedule`, { cache: 'no-store' });
+export async function fetchMemberSchedule(memberId: string): Promise<Session[]> {
+  return api.get<Session[]>(`/parent/children/${memberId}/schedule`, { cache: 'no-store' });
 }
 
 // Times and personal bests
 
-export async function fetchSwimmerResults(swimmerId: string): Promise<CompetitionResult[]> {
-  return api.get<CompetitionResult[]>(`/parent/children/${swimmerId}/results`, { cache: 'no-store' });
+export async function fetchMemberResults(memberId: string): Promise<CompetitionResult[]> {
+  return api.get<CompetitionResult[]>(`/parent/children/${memberId}/results`, { cache: 'no-store' });
 }
 
-export async function fetchSwimmerPersonalBests(swimmerId: string): Promise<SwimmerPersonalBests> {
-  return api.get<SwimmerPersonalBests>(`/parent/children/${swimmerId}/personal-bests`, {
+export async function fetchMemberPersonalBests(memberId: string): Promise<MemberPersonalBests> {
+  return api.get<MemberPersonalBests>(`/parent/children/${memberId}/personal-bests`, {
     cache: 'no-store',
   });
 }
 
 // Attendance
 
-export async function fetchSwimmerAttendanceHistory(swimmerId: string): Promise<Attendance[]> {
-  return api.get<Attendance[]>(`/attendance/swimmer/${swimmerId}`, { cache: 'no-store' });
+export async function fetchMemberAttendanceHistory(memberId: string): Promise<Attendance[]> {
+  return api.get<Attendance[]>(`/attendance/member/${memberId}`, { cache: 'no-store' });
 }
 
-export async function fetchSwimmerAttendanceStats(swimmerId: string): Promise<AttendanceStats> {
-  return api.get<AttendanceStats>(`/attendance/swimmer/${swimmerId}/stats`, { cache: 'no-store' });
+export async function fetchMemberAttendanceStats(memberId: string): Promise<AttendanceStats> {
+  return api.get<AttendanceStats>(`/attendance/member/${memberId}/stats`, { cache: 'no-store' });
 }
 
 // Invoices

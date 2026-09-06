@@ -5,7 +5,7 @@ import { Check, Clock, Info, X, type LucideIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 interface StatusSelectorProps {
-  swimmerName: string;
+  memberName: string;
   currentStatus: AttendanceStatus | null;
   currentNotes: string | null;
   onSelect: (status: AttendanceStatus, notes: string | null) => void;
@@ -76,7 +76,7 @@ function parseReasonFromNotes(
 }
 
 export default function StatusSelector({
-  swimmerName,
+  memberName,
   currentStatus,
   currentNotes,
   onSelect,
@@ -144,7 +144,7 @@ export default function StatusSelector({
       >
         {/* Header */}
         <div className="px-6 pt-6 pb-4 border-b border-white/5">
-          <h3 id="status-selector-title" className="text-lg font-semibold text-white">{swimmerName}</h3>
+          <h3 id="status-selector-title" className="text-lg font-semibold text-white">{memberName}</h3>
           <p className="text-sm text-white/60 mt-0.5">Select attendance status</p>
         </div>
 

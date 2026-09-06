@@ -20,8 +20,8 @@ import { PaymentsService } from '../payments/payments.service';
 import { EmailService } from '../../email/email.service';
 import { FamiliesRepository } from '../../families/families.repository';
 import { Family } from '../../families/entities/family.entity';
-import { SwimmersRepository } from '../../swimmers/swimmers.repository';
-import { Swimmer } from '../../swimmers/entities/swimmer.entity';
+import { MembersRepository } from '../../members/members.repository';
+import { Member } from '../../members/entities/member.entity';
 import { ClubsRepository } from '../../clubs/clubs.repository';
 import { TenantContextService } from '../../../common/tenancy/tenant-context.service';
 import { formatClubDate, formatMoney, roundTo2dp } from '../../../common/region/format.util';
@@ -38,10 +38,10 @@ export interface InvoiceGenerationSummary {
   invoices: Invoice[];
 }
 
-/** A family in scope for a fee structure, with the swimmers that put it there. */
+/** A family in scope for a fee structure, with the members that put it there. */
 interface ScopeEntry {
   family: Family;
-  swimmers: Swimmer[];
+  members: Member[];
 }
 
 @Injectable()
@@ -55,7 +55,7 @@ export class InvoicesService {
     private readonly paymentsService: PaymentsService,
     private readonly emailService: EmailService,
     private readonly familiesRepository: FamiliesRepository,
-    private readonly swimmersRepository: SwimmersRepository,
+    private readonly membersRepository: MembersRepository,
     private readonly clubsRepository: ClubsRepository,
     private readonly tenantContext: TenantContextService,
   ) {}
@@ -286,9 +286,9 @@ export class InvoicesService {
                 fee_structure_id: fee.fee_structure_id,
               },
             ]
-          : // Squad or swimmer fee: one line item per swimmer in scope.
-            entry.swimmers.map((swimmer) => ({
-              description: `${fee.name} - ${swimmer.first_name} ${swimmer.last_name}`,
+          : // Squad or member fee: one line item per member in scope.
+            entry.members.map((member) => ({
+              description: `${fee.name} - ${member.first_name} ${member.last_name}`,
               unit_price: amount,
               quantity: 1,
               fee_structure_id: fee.fee_structure_id,
@@ -314,59 +314,59 @@ export class InvoicesService {
   }
 
   /**
-   * Resolves the families a fee structure applies to, along with the swimmers
-   * that place each family in scope (used to build per-swimmer line items).
+   * Resolves the families a fee structure applies to, along with the members
+   * that place each family in scope (used to build per-member line items).
    */
   private async resolveScope(fee: FeeStructure): Promise<ScopeEntry[]> {
     switch (fee.applies_to_type) {
       case AppliesToType.CLUB: {
         // Club-wide fee: every family in the club.
         const families = await this.familiesRepository.findAll();
-        return families.map((family) => ({ family, swimmers: [] }));
+        return families.map((family) => ({ family, members: [] }));
       }
 
       case AppliesToType.SQUAD: {
         if (!fee.applies_to_id) {
           throw new BadRequestException('Squad fee structure has no squad assigned');
         }
-        // Families with at least one swimmer in the squad, one entry each.
-        const swimmers = await this.swimmersRepository.findBySquadId(fee.applies_to_id);
-        const swimmersByFamily = new Map<string, Swimmer[]>();
-        for (const swimmer of swimmers) {
-          if (!swimmer.family_id) {
-            // A swimmer without a family cannot be invoiced; skip them.
+        // Families with at least one member in the squad, one entry each.
+        const members = await this.membersRepository.findBySquadId(fee.applies_to_id);
+        const membersByFamily = new Map<string, Member[]>();
+        for (const member of members) {
+          if (!member.family_id) {
+            // A member without a family cannot be invoiced; skip them.
             continue;
           }
-          const list = swimmersByFamily.get(swimmer.family_id) ?? [];
-          list.push(swimmer);
-          swimmersByFamily.set(swimmer.family_id, list);
+          const list = membersByFamily.get(member.family_id) ?? [];
+          list.push(member);
+          membersByFamily.set(member.family_id, list);
         }
         const entries: ScopeEntry[] = [];
-        for (const [familyId, familySwimmers] of swimmersByFamily) {
+        for (const [familyId, familyMembers] of membersByFamily) {
           const family = await this.familiesRepository.findOne(familyId);
           if (family) {
-            entries.push({ family, swimmers: familySwimmers });
+            entries.push({ family, members: familyMembers });
           }
         }
         return entries;
       }
 
-      case AppliesToType.SWIMMER: {
+      case AppliesToType.MEMBER: {
         if (!fee.applies_to_id) {
-          throw new BadRequestException('Swimmer fee structure has no swimmer assigned');
+          throw new BadRequestException('Member fee structure has no member assigned');
         }
-        const swimmer = await this.swimmersRepository.findOne(fee.applies_to_id);
-        if (!swimmer) {
-          throw new NotFoundException(`Swimmer with ID ${fee.applies_to_id} not found`);
+        const member = await this.membersRepository.findOne(fee.applies_to_id);
+        if (!member) {
+          throw new NotFoundException(`Member with ID ${fee.applies_to_id} not found`);
         }
-        if (!swimmer.family_id) {
-          throw new BadRequestException('Swimmer has no family to invoice');
+        if (!member.family_id) {
+          throw new BadRequestException('Member has no family to invoice');
         }
-        const family = await this.familiesRepository.findOne(swimmer.family_id);
+        const family = await this.familiesRepository.findOne(member.family_id);
         if (!family) {
-          throw new NotFoundException(`Family with ID ${swimmer.family_id} not found`);
+          throw new NotFoundException(`Family with ID ${member.family_id} not found`);
         }
-        return [{ family, swimmers: [swimmer] }];
+        return [{ family, members: [member] }];
       }
 
       default:

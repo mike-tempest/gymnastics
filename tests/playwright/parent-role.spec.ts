@@ -52,17 +52,17 @@ test.describe('Parent Role Access Control', () => {
     expect(redirectedAway || forbiddenVisible).toBe(true);
   });
 
-  test('should deny access to /swimmers page', async ({ page }) => {
+  test('should deny access to /members page', async ({ page }) => {
     await loginAsParent(page);
     
-    // Try to navigate to /swimmers
-    await page.goto('/swimmers');
+    // Try to navigate to /members
+    await page.goto('/members');
     await page.waitForTimeout(2000);
 
     const currentUrl = page.url();
     
-    // Should either redirect away from /swimmers or show forbidden message
-    const redirectedAway = !currentUrl.includes('/swimmers');
+    // Should either redirect away from /members or show forbidden message
+    const redirectedAway = !currentUrl.includes('/members');
     const forbiddenVisible = await page.locator('text=/forbidden|access denied|not authorized|unauthori[sz]ed/i').isVisible().catch(() => false);
     
     expect(redirectedAway || forbiddenVisible).toBe(true);

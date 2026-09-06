@@ -14,8 +14,8 @@ export enum UserRole {
   WELFARE_OFFICER = 'welfare_officer',
   COMPETITION_SECRETARY = 'competition_secretary',
   PARENT = 'parent',
-  SWIMMER_ADULT = 'swimmer_adult',
-  SWIMMER_MINOR = 'swimmer_minor',
+  MEMBER_ADULT = 'member_adult',
+  MEMBER_MINOR = 'member_minor',
 }
 
 @Entity('users')

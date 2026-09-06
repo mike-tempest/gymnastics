@@ -11,7 +11,7 @@ import { ConsentType, ConsentStatus } from '../entities/consent.entity';
 
 export class CreateConsentDto {
   @IsUUID()
-  swimmer_id: string;
+  member_id: string;
 
   @IsEnum(ConsentType)
   consent_type: ConsentType;

@@ -8,7 +8,7 @@ export class CreateAttendanceDto {
 
   @IsNotEmpty()
   @IsUUID()
-  swimmer_id: string;
+  member_id: string;
 
   @IsOptional()
   @IsEnum(AttendanceStatus)

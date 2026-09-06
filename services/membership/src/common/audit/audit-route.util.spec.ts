@@ -14,9 +14,9 @@ import {
 describe('audit-route.util', () => {
   describe('normalisePath', () => {
     it('strips the global api prefix, leading slashes and query strings', () => {
-      expect(normalisePath('/api/swimmers?page=2')).toBe('swimmers');
+      expect(normalisePath('/api/members?page=2')).toBe('members');
       expect(normalisePath('/api/squads/')).toBe('squads');
-      expect(normalisePath('swimmers')).toBe('swimmers');
+      expect(normalisePath('members')).toBe('members');
     });
   });
 
@@ -37,7 +37,7 @@ describe('audit-route.util', () => {
 
   describe('resolveEntityType', () => {
     it.each([
-      ['/api/swimmers', AuditEntityType.SWIMMER],
+      ['/api/members', AuditEntityType.MEMBER],
       ['/api/squads/abc', AuditEntityType.SQUAD],
       ['/api/sessions', AuditEntityType.SESSION],
       ['/api/attendance', AuditEntityType.ATTENDANCE],
@@ -51,7 +51,7 @@ describe('audit-route.util', () => {
       ['/api/competitions', AuditEntityType.COMPETITION],
       ['/api/waitlist', AuditEntityType.WAITLIST],
       ['/api/wellbeing', AuditEntityType.WELLBEING],
-      ['/api/import/swimmers', AuditEntityType.DOCUMENT],
+      ['/api/import/members', AuditEntityType.DOCUMENT],
     ])('maps %s to %s', (url, expected) => {
       expect(resolveEntityType(url)).toBe(expected);
     });
@@ -79,28 +79,28 @@ describe('audit-route.util', () => {
   describe('resolveEntityId', () => {
     it('extracts a uuid from the path', () => {
       const id = '3f2504e0-4f89-11d3-9a0c-0305e82c3301';
-      expect(resolveEntityId(`/api/swimmers/${id}`)).toBe(id);
-      expect(resolveEntityId(`/api/swimmers/${id}/notes`)).toBe(id);
+      expect(resolveEntityId(`/api/members/${id}`)).toBe(id);
+      expect(resolveEntityId(`/api/members/${id}/notes`)).toBe(id);
     });
 
     it('returns undefined when no segment is a uuid', () => {
       // entity_id is a uuid column, so non-uuid segments must never be written.
-      expect(resolveEntityId('/api/swimmers/search')).toBeUndefined();
+      expect(resolveEntityId('/api/members/search')).toBeUndefined();
       expect(resolveEntityId('/api/sessions/upcoming')).toBeUndefined();
-      expect(resolveEntityId('/api/swimmers/42')).toBeUndefined();
+      expect(resolveEntityId('/api/members/42')).toBeUndefined();
     });
   });
 
   describe('shouldAudit', () => {
     it('audits mutations regardless of the view flag', () => {
-      expect(shouldAudit('POST', '/api/swimmers', false)).toBe(true);
+      expect(shouldAudit('POST', '/api/members', false)).toBe(true);
       expect(shouldAudit('PATCH', '/api/squads/1', false)).toBe(true);
       expect(shouldAudit('DELETE', '/api/sessions/1', false)).toBe(true);
     });
 
     it('only audits reads when views are enabled', () => {
-      expect(shouldAudit('GET', '/api/swimmers', false)).toBe(false);
-      expect(shouldAudit('GET', '/api/swimmers', true)).toBe(true);
+      expect(shouldAudit('GET', '/api/members', false)).toBe(false);
+      expect(shouldAudit('GET', '/api/members', true)).toBe(true);
     });
 
     it('never audits health, metrics or the audit log itself', () => {
@@ -129,8 +129,8 @@ describe('audit-route.util', () => {
 
   describe('describeRequest', () => {
     it('produces a readable summary without the query string', () => {
-      expect(describeRequest('POST', '/api/swimmers?foo=1')).toBe(
-        'CREATE SWIMMER via POST /api/swimmers',
+      expect(describeRequest('POST', '/api/members?foo=1')).toBe(
+        'CREATE MEMBER via POST /api/members',
       );
     });
   });
