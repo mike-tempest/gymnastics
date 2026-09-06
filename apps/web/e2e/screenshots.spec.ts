@@ -21,7 +21,7 @@ const pages = [
   { name: 'parent', path: '/parent', title: 'Parent Portal' },
   { name: 'invoices', path: '/billing/invoices', title: 'Invoices' },
   { name: 'compliance', path: '/compliance', title: 'Compliance' },
-  { name: 'swimmers', path: '/swimmers', title: 'Swimmers' },
+  { name: 'members', path: '/members', title: 'Gymnasts' },
 ];
 
 test.describe('Marketing screenshots', () => {

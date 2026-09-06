@@ -111,23 +111,23 @@ test.describe('Admin Dashboard', () => {
 });
 
 // ---------------------------------------------------------------------------
-// 3. Swimmers List
+// 3. Members List
 // ---------------------------------------------------------------------------
 
-test.describe('Swimmers', () => {
-  test('swimmers list page loads', async ({ page }) => {
+test.describe('Members', () => {
+  test('members list page loads', async ({ page }) => {
     const errors = attachErrorCollector(page);
 
-    await page.goto('/swimmers');
+    await page.goto('/members');
 
-    // Accept either the swimmers page or a login redirect.
+    // Accept either the members page or a login redirect.
     const redirectedToLogin = page.url().includes('/login');
 
     if (!redirectedToLogin) {
       // Verify the page has loaded with some meaningful content.
-      // The swimmers page uses a heading or contains the word "Swimmers".
+      // The members page uses a heading or contains the word "Gymnasts".
       const hasContent = await page
-        .getByText(/swimmers/i)
+        .getByText(/gymnasts/i)
         .first()
         .isVisible()
         .catch(() => false);

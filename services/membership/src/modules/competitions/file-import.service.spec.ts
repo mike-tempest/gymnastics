@@ -4,7 +4,7 @@ import * as path from 'path';
 import { FileImportService } from './file-import.service';
 import { CompetitionsRepository } from './competitions.repository';
 import { PersonalBestsService } from './personal-bests.service';
-import { SwimmersRepository } from '../swimmers/swimmers.repository';
+import { MembersRepository } from '../members/members.repository';
 import { ClubsService } from '../clubs/clubs.service';
 import { HY3Parser } from '../../parsers/hy3-parser';
 import { CompetitionResult } from './entities/competition-result.entity';
@@ -12,26 +12,26 @@ import { CompetitionResult } from './entities/competition-result.entity';
 describe('FileImportService', () => {
   let service: FileImportService;
 
-  const mockSwimmers = [
+  const mockMembers = [
     {
-      swimmer_id: 'swimmer-1',
-      se_number: '1234567',
+      member_id: 'member-1',
+      registration_number: '1234567',
       first_name: 'Kassidy',
       last_name: 'Tempest',
       gender: 'F',
       dob: new Date('2015-09-15'),
     },
     {
-      swimmer_id: 'swimmer-2',
-      se_number: '1234568',
+      member_id: 'member-2',
+      registration_number: '1234568',
       first_name: 'Emma',
       last_name: 'Johnson',
       gender: 'F',
       dob: new Date('2014-02-10'),
     },
     {
-      swimmer_id: 'swimmer-3',
-      se_number: '1234569',
+      member_id: 'member-3',
+      registration_number: '1234569',
       first_name: 'Oliver',
       last_name: 'Williams',
       gender: 'M',
@@ -45,13 +45,13 @@ describe('FileImportService', () => {
 
   const mockRepository = {
     createResults: jest.fn(echoCreateResults),
-    findResultsBySwimmer: jest.fn().mockResolvedValue([]),
+    findResultsByMember: jest.fn().mockResolvedValue([]),
     findCompetitionById: jest.fn(),
     findResultsByIds: jest.fn(),
   };
 
-  const mockSwimmersRepository = {
-    findAll: jest.fn().mockResolvedValue(mockSwimmers),
+  const mockMembersRepository = {
+    findAll: jest.fn().mockResolvedValue(mockMembers),
   };
 
   const mockClubsService = {
@@ -59,7 +59,7 @@ describe('FileImportService', () => {
   };
 
   const mockPersonalBests = {
-    recomputeForSwimmer: jest.fn().mockResolvedValue({ improved: 0 }),
+    recomputeForMember: jest.fn().mockResolvedValue({ improved: 0 }),
   };
 
   beforeEach(async () => {
@@ -71,8 +71,8 @@ describe('FileImportService', () => {
           useValue: mockRepository,
         },
         {
-          provide: SwimmersRepository,
-          useValue: mockSwimmersRepository,
+          provide: MembersRepository,
+          useValue: mockMembersRepository,
         },
         {
           provide: ClubsService,
@@ -96,7 +96,7 @@ describe('FileImportService', () => {
       country: 'GB',
       governing_body: 'SWIM_ENGLAND',
     });
-    mockSwimmersRepository.findAll.mockResolvedValue(mockSwimmers);
+    mockMembersRepository.findAll.mockResolvedValue(mockMembers);
     mockRepository.createResults.mockImplementation(echoCreateResults);
     mockRepository.findCompetitionById.mockResolvedValue({
       competition_id: 'comp-1',
@@ -108,7 +108,7 @@ describe('FileImportService', () => {
     mockRepository.findResultsByIds.mockImplementation((ids: string[]) =>
       Promise.resolve(ids.map((id) => ({ result_id: id, is_pb: false }))),
     );
-    mockPersonalBests.recomputeForSwimmer.mockResolvedValue({ improved: 0 });
+    mockPersonalBests.recomputeForMember.mockResolvedValue({ improved: 0 });
   });
 
   afterEach(() => {
@@ -130,9 +130,9 @@ describe('FileImportService', () => {
 
       expect(preview.format).toBe('sportsystems');
       expect(preview.totalResults).toBe(7);
-      expect(preview.matchedSwimmers).toBeGreaterThan(0);
-      // SE 9999999 is not in our mock swimmers
-      expect(preview.unmatchedSwimmers.length).toBeGreaterThan(0);
+      expect(preview.matchedMembers).toBeGreaterThan(0);
+      // SE 9999999 is not in our mock members
+      expect(preview.unmatchedMembers.length).toBeGreaterThan(0);
     });
   });
 
@@ -144,13 +144,13 @@ describe('FileImportService', () => {
       );
 
       mockRepository.createResults.mockResolvedValue([]);
-      mockRepository.findResultsBySwimmer.mockResolvedValue([]);
+      mockRepository.findResultsByMember.mockResolvedValue([]);
 
       const outcome = await service.importResults('comp-1', 'results.csv', content);
 
       expect(outcome.imported).toBeGreaterThan(0);
       expect(outcome.errors).toHaveLength(0);
-      // Unmatched swimmer generates a warning
+      // Unmatched member generates a warning
       expect(outcome.warnings.length).toBeGreaterThan(0);
       expect(mockRepository.createResults).toHaveBeenCalled();
     });
@@ -169,7 +169,7 @@ describe('FileImportService', () => {
       const outcome = await service.importResults('comp-1', 'results.csv', content);
 
       expect(outcome.newPBs).toBe(outcome.imported);
-      expect(mockPersonalBests.recomputeForSwimmer).toHaveBeenCalled();
+      expect(mockPersonalBests.recomputeForMember).toHaveBeenCalled();
     });
   });
 
@@ -185,8 +185,8 @@ describe('FileImportService', () => {
         entries: [],
         results: [
           {
-            swimmer: {
-              seNumber: '1234567',
+            member: {
+              registrationNumber: '1234567',
               lastName: 'Tempest',
               firstName: 'Kassidy',
               gender: 'F',
@@ -199,8 +199,8 @@ describe('FileImportService', () => {
             dq: false,
           },
           {
-            swimmer: {
-              seNumber: '1234568',
+            member: {
+              registrationNumber: '1234568',
               lastName: 'Johnson',
               firstName: 'Emma',
               gender: 'F',
@@ -216,7 +216,7 @@ describe('FileImportService', () => {
       });
 
       mockRepository.createResults.mockResolvedValue([]);
-      mockRepository.findResultsBySwimmer.mockResolvedValue([]);
+      mockRepository.findResultsByMember.mockResolvedValue([]);
 
       const outcome = await service.importResults('comp-1', 'results.hy3', content);
 
@@ -227,17 +227,17 @@ describe('FileImportService', () => {
 
   describe('PB detection', () => {
     it('should not flag PB when existing result is faster', async () => {
-      // SportSystems file where swimmer 1234567 gets 1:04.56 in 50 Free
+      // SportSystems file where member 1234567 gets 1:04.56 in 50 Free
       const content = fs.readFileSync(
         path.join(__dirname, '../../../test/test-data/sportsystems/results-club-open-meet.csv'),
         'utf-8',
       );
 
       mockRepository.createResults.mockResolvedValue([]);
-      // Swimmer already has a faster result
-      mockRepository.findResultsBySwimmer.mockResolvedValue([
+      // Member already has a faster result
+      mockRepository.findResultsByMember.mockResolvedValue([
         {
-          swimmer_id: 'swimmer-1',
+          member_id: 'member-1',
           distance: 50,
           stroke: 'Freestyle',
           time: 30.0, // Faster than any result in the file
@@ -247,7 +247,7 @@ describe('FileImportService', () => {
 
       const outcome = await service.importResults('comp-1', 'results.csv', content);
 
-      // Some PBs should still be detected for other events/swimmers
+      // Some PBs should still be detected for other events/members
       expect(outcome.imported).toBeGreaterThan(0);
     });
   });
@@ -260,8 +260,8 @@ describe('FileImportService', () => {
         entries: [],
         results: [
           {
-            swimmer: {
-              seNumber: '1234567',
+            member: {
+              registrationNumber: '1234567',
               lastName: 'Tempest',
               firstName: 'Kassidy',
               gender: 'F',
@@ -303,8 +303,8 @@ describe('FileImportService', () => {
         entries: [],
         results: [
           {
-            swimmer: {
-              seNumber: 'AU12345',
+            member: {
+              registrationNumber: 'AU12345',
               lastName: 'Nguyen',
               firstName: 'Mia',
               gender: 'F',
@@ -326,10 +326,10 @@ describe('FileImportService', () => {
         country: 'AU',
         governing_body: 'SWIMMING_AUSTRALIA',
       });
-      mockSwimmersRepository.findAll.mockResolvedValue([
+      mockMembersRepository.findAll.mockResolvedValue([
         {
-          swimmer_id: 'swimmer-au',
-          se_number: 'AU12345',
+          member_id: 'member-au',
+          registration_number: 'AU12345',
           first_name: 'Mia',
           last_name: 'Nguyen',
           gender: 'F',
@@ -337,7 +337,7 @@ describe('FileImportService', () => {
         },
       ]);
       mockRepository.createResults.mockResolvedValue([]);
-      mockRepository.findResultsBySwimmer.mockResolvedValue([]);
+      mockRepository.findResultsByMember.mockResolvedValue([]);
 
       const outcome = await service.importResults('comp-au', 'results.hy3', buildAuHy3());
 
@@ -357,15 +357,15 @@ describe('FileImportService', () => {
       });
     });
 
-    it('labels unmatched swimmers with the club body registration label', async () => {
+    it('labels unmatched members with the club body registration label', async () => {
       mockClubsService.findCurrent.mockResolvedValue({
         id: 'club-au',
         country: 'AU',
         governing_body: 'SWIMMING_AUSTRALIA',
       });
-      mockSwimmersRepository.findAll.mockResolvedValue([]);
+      mockMembersRepository.findAll.mockResolvedValue([]);
       mockRepository.createResults.mockResolvedValue([]);
-      mockRepository.findResultsBySwimmer.mockResolvedValue([]);
+      mockRepository.findResultsByMember.mockResolvedValue([]);
 
       const outcome = await service.importResults('comp-au', 'results.hy3', buildAuHy3());
 

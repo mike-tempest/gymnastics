@@ -37,7 +37,7 @@ npm run test:frontend
 
 ### API Tests
 - **Auth** - login, invalid credentials, profile, unauthorised access
-- **Resources** - users, swimmers, squads, sessions, attendance, families
+- **Resources** - users, members, squads, sessions, attendance, families
 - **Finance** - fee structures, invoices, payments, mandates
 - **Compliance** - summary, DBS, consents, audit logs, safeguarding
 - **Roles** - admin/coach/parent access control verification

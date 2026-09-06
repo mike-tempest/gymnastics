@@ -15,7 +15,7 @@ import { ClubsRepository } from '../../clubs/clubs.repository';
 /**
  * Cross-tenant isolation test for the admin/settings module (Group H).
  *
- * Modelled on src/modules/swimmers/swimmers.tenant-isolation.spec.ts. It drives
+ * Modelled on src/modules/members/members.tenant-isolation.spec.ts. It drives
  * the real ClubSettingsService through the real TenantScopedHelper /
  * TenantContextService, faking ClsService and the TypeORM repository so no live
  * database is needed.
@@ -29,7 +29,7 @@ import { ClubsRepository } from '../../clubs/clubs.repository';
  *  - a club_id supplied in the payload is overridden by the context club
  */
 
-/** Minimal in-memory fake of ClsService, matching the swimmers reference spec. */
+/** Minimal in-memory fake of ClsService, matching the members reference spec. */
 class FakeClsService {
   private store = new Map<string, unknown>();
 

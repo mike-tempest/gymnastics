@@ -4,7 +4,7 @@ import * as path from 'path';
 import { DataSource } from 'typeorm';
 import { faker } from '@faker-js/faker';
 import { Family } from '../services/membership/src/modules/families/entities/family.entity';
-import { Swimmer } from '../services/membership/src/modules/swimmers/entities/swimmer.entity';
+import { Member } from '../services/membership/src/modules/members/entities/member.entity';
 import { Squad } from '../services/membership/src/modules/squads/entities/squad.entity';
 import { Session } from '../services/membership/src/modules/sessions/entities/session.entity';
 import { FeeStructure, FeeFrequency, AppliesToType } from '../services/membership/src/modules/finance/fee-structures/entities/fee-structure.entity';
@@ -87,7 +87,7 @@ async function seed() {
     username: process.env.DB_USERNAME || 'postgres',
     password: process.env.DB_PASSWORD || 'password',
     database: process.env.DB_DATABASE || 'swimteam',
-    entities: [Family, Swimmer, Squad, Session, FeeStructure, Invoice, InvoiceItem],
+    entities: [Family, Member, Squad, Session, FeeStructure, Invoice, InvoiceItem],
     synchronize: false,
   });
 
@@ -102,8 +102,8 @@ async function seed() {
     await dataSource.query('DELETE FROM invoices');
     await dataSource.query('DELETE FROM attendance');
     await dataSource.query('DELETE FROM sessions');
-    await dataSource.query('DELETE FROM squad_swimmers');
-    await dataSource.query('DELETE FROM swimmers');
+    await dataSource.query('DELETE FROM squad_members');
+    await dataSource.query('DELETE FROM members');
     await dataSource.query('DELETE FROM squads');
     await dataSource.query('DELETE FROM fee_structures');
     await dataSource.query('DELETE FROM families');
@@ -170,9 +170,9 @@ async function seed() {
     }
     console.log(`  ${families.length} families total`);
 
-    // ── SWIMMERS (150) ──────────────────────────────────────────────────
-    console.log('\nCreating 150 swimmers...');
-    const swimmers: Swimmer[] = [];
+    // ── MEMBERS (150) ──────────────────────────────────────────────────
+    console.log('\nCreating 150 members...');
+    const members: Member[] = [];
     let swimmerCount = 0;
     let familyIdx = 0;
 
@@ -192,7 +192,7 @@ async function seed() {
         const gender = Math.random() > 0.5 ? 'Male' : 'Female';
         const firstName = gender === 'Male' ? faker.person.firstName('male') : faker.person.firstName('female');
 
-        const swimmer = dataSource.getRepository(Swimmer).create({
+        const member = dataSource.getRepository(Member).create({
           family_id: family.family_id,
           club_id: clubId,
           first_name: firstName,
@@ -200,7 +200,7 @@ async function seed() {
           dob,
           gender,
           squad_id: squad.squad_id,
-          se_number: `SE-${(1000000 + swimmerCount).toString()}`,
+          registration_number: `SE-${(1000000 + swimmerCount).toString()}`,
           medical_notes: Math.random() < 0.1 ? faker.helpers.arrayElement([
             'Mild asthma, uses inhaler before sessions',
             'Allergy to plasters',
@@ -210,21 +210,21 @@ async function seed() {
           ]) : null,
           photo_url: null,
         });
-        await dataSource.getRepository(Swimmer).save(swimmer);
+        await dataSource.getRepository(Member).save(member);
 
         await dataSource.query(
-          'INSERT INTO squad_swimmers (squad_id, swimmer_id) VALUES ($1, $2)',
-          [squad.squad_id, swimmer.swimmer_id]
+          'INSERT INTO squad_members (squad_id, member_id) VALUES ($1, $2)',
+          [squad.squad_id, member.member_id]
         );
 
-        swimmers.push(swimmer);
+        members.push(member);
         swimmerCount++;
         created++;
         familyIdx++;
       }
-      console.log(`  ${cfg.name}: ${created} swimmers`);
+      console.log(`  ${cfg.name}: ${created} members`);
     }
-    console.log(`  ${swimmers.length} swimmers total`);
+    console.log(`  ${members.length} members total`);
 
     // ── SESSIONS (3 months back + 1 month forward) ──────────────────────
     console.log('\nCreating sessions (3 months history + 1 month forward)...');
@@ -310,18 +310,18 @@ async function seed() {
     const historicalSessions = allSessions.filter(s => s.date < now);
 
     for (const sess of historicalSessions) {
-      const squadSwimmers = swimmers.filter(s => s.squad_id === squads[sess.squadIdx].squad_id);
-      for (const swimmer of squadSwimmers) {
+      const squadSwimmers = members.filter(s => s.squad_id === squads[sess.squadIdx].squad_id);
+      for (const member of squadSwimmers) {
         // 85% attendance rate
         const present = Math.random() < 0.85;
         if (!present && Math.random() < 0.3) continue; // 30% of absences are just not recorded
 
         try {
           await dataSource.query(
-            `INSERT INTO attendance (session_id, swimmer_id, status, notes, recorded_at) VALUES ($1, $2, $3, $4, $5)`,
+            `INSERT INTO attendance (session_id, member_id, status, notes, recorded_at) VALUES ($1, $2, $3, $4, $5)`,
             [
               sess.id,
-              swimmer.swimmer_id,
+              member.member_id,
               present ? 'present' : faker.helpers.arrayElement(['absent', 'absent', 'excused']),
               present ? null : (Math.random() < 0.3 ? faker.helpers.arrayElement([
                 'Unwell', 'Family holiday', 'School event', 'Medical appointment',
@@ -365,7 +365,7 @@ async function seed() {
     ];
 
     for (const family of families) {
-      const familySwimmers = swimmers.filter(s => s.family_id === family.family_id);
+      const familySwimmers = members.filter(s => s.family_id === family.family_id);
       if (familySwimmers.length === 0) continue;
 
       for (const q of quarters) {
@@ -393,15 +393,15 @@ async function seed() {
         await dataSource.getRepository(Invoice).save(invoice);
 
         let total = 0;
-        for (const swimmer of familySwimmers) {
-          const squadIdx = squads.findIndex(s => s.squad_id === swimmer.squad_id);
+        for (const member of familySwimmers) {
+          const squadIdx = squads.findIndex(s => s.squad_id === member.squad_id);
           if (squadIdx === -1) continue;
           const monthlyFee = squadConfig[squadIdx].fee;
           const quarterlyFee = monthlyFee * 3;
 
           const item = dataSource.getRepository(InvoiceItem).create({
             invoice_id: invoice.invoice_id,
-            description: `${squadConfig[squadIdx].name} Squad - ${swimmer.first_name} ${swimmer.last_name} - ${q.label} Training`,
+            description: `${squadConfig[squadIdx].name} Squad - ${member.first_name} ${member.last_name} - ${q.label} Training`,
             unit_price: monthlyFee.toFixed(2),
             quantity: 3,
             total: quarterlyFee.toFixed(2),
@@ -426,7 +426,7 @@ async function seed() {
     console.log(`  Squads:          ${squads.length}`);
     console.log(`  Fee structures:  ${feeStructures.length}`);
     console.log(`  Families:        ${families.length}`);
-    console.log(`  Swimmers:        ${swimmers.length}`);
+    console.log(`  Members:        ${members.length}`);
     console.log(`  Sessions:        ${sessionCount}`);
     console.log(`  Attendance:      ${attendanceCount}`);
     console.log(`  DBS checks:      ${dbsRecords.length}`);

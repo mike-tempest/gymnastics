@@ -64,7 +64,7 @@ describe('Regression Tests', () => {
       const adminToken = await loginAs(ADMIN_EMAIL, ADMIN_PASSWORD);
 
       const endpoints = [
-        '/swimmers',
+        '/members',
         '/squads',
         '/families',
         '/invoices',
@@ -84,7 +84,7 @@ describe('Regression Tests', () => {
       const coachToken = await loginAs(COACH_EMAIL, COACH_PASSWORD);
 
       const coachEndpoints = [
-        '/swimmers',
+        '/members',
         '/squads',
         '/sessions',
         '/attendance',
@@ -150,7 +150,7 @@ describe('Regression Tests', () => {
         
         // Common fields that might exist
         const possibleFields = [
-          'total_swimmers',
+          'total_members',
           'missing_dbs',
           'expired_certifications',
           'compliant_count',
@@ -169,23 +169,23 @@ describe('Regression Tests', () => {
   it('Numeric IDs and UUIDs are consistently formatted', async () => {
     const adminToken = await loginAs(ADMIN_EMAIL, ADMIN_PASSWORD);
 
-    const swimmersRes = await authGet('/swimmers', adminToken);
-    expect(swimmersRes.status).toBe(200);
-    const swimmers = await swimmersRes.json();
+    const membersRes = await authGet('/members', adminToken);
+    expect(membersRes.status).toBe(200);
+    const members = await membersRes.json();
 
     // UUID regex pattern
     const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-    for (const swimmer of swimmers) {
-      if (swimmer.swimmer_id) {
+    for (const member of members) {
+      if (member.member_id) {
         // Should be a valid UUID
-        expect(uuidPattern.test(swimmer.swimmer_id)).toBe(true);
+        expect(uuidPattern.test(member.member_id)).toBe(true);
       }
-      if (swimmer.family_id) {
-        expect(uuidPattern.test(swimmer.family_id)).toBe(true);
+      if (member.family_id) {
+        expect(uuidPattern.test(member.family_id)).toBe(true);
       }
-      if (swimmer.squad_id) {
-        expect(uuidPattern.test(swimmer.squad_id)).toBe(true);
+      if (member.squad_id) {
+        expect(uuidPattern.test(member.squad_id)).toBe(true);
       }
     }
   });
@@ -193,19 +193,19 @@ describe('Regression Tests', () => {
   it('Date fields are in ISO format or consistent format', async () => {
     const adminToken = await loginAs(ADMIN_EMAIL, ADMIN_PASSWORD);
 
-    const swimmersRes = await authGet('/swimmers', adminToken);
-    expect(swimmersRes.status).toBe(200);
-    const swimmers = await swimmersRes.json();
+    const membersRes = await authGet('/members', adminToken);
+    expect(membersRes.status).toBe(200);
+    const members = await membersRes.json();
 
-    for (const swimmer of swimmers) {
-      if (swimmer.date_of_birth) {
+    for (const member of members) {
+      if (member.date_of_birth) {
         // Should be parseable as a date
-        const date = new Date(swimmer.date_of_birth);
+        const date = new Date(member.date_of_birth);
         expect(isNaN(date.getTime())).toBe(false);
       }
 
-      if (swimmer.created_at) {
-        const createdDate = new Date(swimmer.created_at);
+      if (member.created_at) {
+        const createdDate = new Date(member.created_at);
         expect(isNaN(createdDate.getTime())).toBe(false);
       }
     }
@@ -214,7 +214,7 @@ describe('Regression Tests', () => {
   it('Empty arrays are returned instead of null for list endpoints', async () => {
     const adminToken = await loginAs(ADMIN_EMAIL, ADMIN_PASSWORD);
 
-    const endpoints = ['/swimmers', '/squads', '/families', '/invoices', '/sessions'];
+    const endpoints = ['/members', '/squads', '/families', '/invoices', '/sessions'];
 
     for (const endpoint of endpoints) {
       const res = await authGet(endpoint, adminToken);

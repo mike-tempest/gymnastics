@@ -5,12 +5,12 @@ import {
   Course,
   QualifyingTime,
   RelayLeg,
-  SwimmerPersonalBests,
+  MemberPersonalBests,
 } from '@club-manager/shared-types';
 
 import { api } from './api-client';
 
-export type { QualifyingTime, RelayLeg, SwimmerPersonalBests };
+export type { QualifyingTime, RelayLeg, MemberPersonalBests };
 export type { PersonalBest, SeasonBest } from '@club-manager/shared-types';
 
 export interface CreateCompetitionInput {
@@ -64,7 +64,7 @@ export async function deleteCompetition(id: string): Promise<void> {
 export interface CompetitionEntry {
   entry_id: string;
   competition_id: string;
-  swimmer_id: string;
+  member_id: string;
   event_name: string | null;
   distance: number;
   stroke: string;
@@ -73,15 +73,15 @@ export interface CompetitionEntry {
   age_group: string | null;
   status: 'PENDING' | 'SUBMITTED' | 'ACCEPTED' | 'WITHDRAWN';
   created_at: string;
-  swimmer?: {
-    swimmer_id: string;
+  member?: {
+    member_id: string;
     first_name: string;
     last_name: string;
   };
 }
 
 export interface CreateEntryInput {
-  swimmer_id: string;
+  member_id: string;
   event_name?: string;
   distance: number;
   stroke: string;
@@ -106,7 +106,7 @@ export async function addCompetitionEntries(
 export interface CompetitionResult {
   result_id: string;
   competition_id: string;
-  swimmer_id: string;
+  member_id: string;
   event_name: string | null;
   distance: number;
   stroke: string;
@@ -123,7 +123,7 @@ export interface CompetitionResult {
   is_relay: boolean;
   relay_legs: RelayLeg[] | null;
   created_at: string;
-  swimmer?: {
+  member?: {
     first_name: string;
     last_name: string;
   };
@@ -136,7 +136,7 @@ export interface CompetitionResult {
 }
 
 export interface CreateResultInput {
-  swimmer_id: string;
+  member_id: string;
   event_name?: string;
   distance: number;
   stroke: string;
@@ -152,7 +152,7 @@ export interface CreateResultInput {
   relay_legs?: RelayLeg[];
 }
 
-export type UpdateResultInput = Partial<Omit<CreateResultInput, 'swimmer_id'>>;
+export type UpdateResultInput = Partial<Omit<CreateResultInput, 'member_id'>>;
 
 export async function addCompetitionResult(
   competitionId: string,
@@ -180,8 +180,8 @@ export interface ImportPreview {
   format: string;
   meetName: string;
   totalResults: number;
-  matchedSwimmers: number;
-  unmatchedSwimmers: string[];
+  matchedMembers: number;
+  unmatchedMembers: string[];
   validation: Record<string, unknown>;
   results: ParsedResult[];
 }
@@ -191,7 +191,7 @@ export interface ParsedResult {
   distance: number;
   stroke: string;
   time: number;
-  swimmer_name: string;
+  member_name: string;
   place: number | null;
   heat: number | null;
   lane: number | null;
@@ -253,8 +253,8 @@ export interface TimesRowError {
 
 export interface ParsedTimeRow {
   row: number;
-  swimmer_id: string;
-  swimmerName: string;
+  member_id: string;
+  memberName: string;
   distance: number;
   stroke: string;
   time: number;
@@ -337,12 +337,12 @@ export async function exportCompetitionEntries(
   URL.revokeObjectURL(blobUrl);
 }
 
-// --- Swimmer Results ---
+// --- Member Results ---
 
-export async function getSwimmerResults(swimmerId: string): Promise<CompetitionResult[]> {
-  return api.get<CompetitionResult[]>(`/competitions/swimmer/${swimmerId}/results`, { cache: 'no-store' });
+export async function getMemberResults(memberId: string): Promise<CompetitionResult[]> {
+  return api.get<CompetitionResult[]>(`/competitions/member/${memberId}/results`, { cache: 'no-store' });
 }
 
-export async function getSwimmerPersonalBests(swimmerId: string): Promise<SwimmerPersonalBests> {
-  return api.get<SwimmerPersonalBests>(`/competitions/swimmer/${swimmerId}/personal-bests`, { cache: 'no-store' });
+export async function getMemberPersonalBests(memberId: string): Promise<MemberPersonalBests> {
+  return api.get<MemberPersonalBests>(`/competitions/member/${memberId}/personal-bests`, { cache: 'no-store' });
 }

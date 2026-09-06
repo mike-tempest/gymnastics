@@ -14,7 +14,7 @@ import { CreateConsentDto } from './dto/create-consent.dto';
 /**
  * Cross-tenant isolation test for the consents repository (Group F, compliance).
  *
- * Modelled on src/modules/swimmers/swimmers.tenant-isolation.spec.ts. It drives
+ * Modelled on src/modules/members/members.tenant-isolation.spec.ts. It drives
  * the real ConsentsRepository through the real TenantScopedHelper /
  * TenantContextService, but fakes ClsService and the TypeORM repository so no
  * live database is needed. The assertions prove the enforcement rule from
@@ -62,14 +62,14 @@ describe('ConsentsRepository tenant isolation', () => {
   const rows: Array<Partial<Consent>> = [
     {
       consent_id: CONSENT_IN_A,
-      swimmer_id: 'swimmer-a',
+      member_id: 'member-a',
       consent_type: ConsentType.PHOTOGRAPHY,
       status: ConsentStatus.GRANTED,
       club_id: CLUB_A,
     },
     {
       consent_id: CONSENT_IN_B,
-      swimmer_id: 'swimmer-b',
+      member_id: 'member-b',
       consent_type: ConsentType.PHOTOGRAPHY,
       status: ConsentStatus.GRANTED,
       club_id: CLUB_B,
@@ -141,21 +141,21 @@ describe('ConsentsRepository tenant isolation', () => {
       expect(result[0].consent_id).toBe(CONSENT_IN_A);
     });
 
-    it('findBySwimmer merges club_id with the swimmer filter', async () => {
+    it('findByMember merges club_id with the member filter', async () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
-      await repo.findBySwimmer('swimmer-x');
+      await repo.findByMember('member-x');
 
-      expect(findCalls[0]).toEqual({ swimmer_id: 'swimmer-x', club_id: CLUB_A });
+      expect(findCalls[0]).toEqual({ member_id: 'member-x', club_id: CLUB_A });
     });
 
-    it('findBySwimmerAndType merges club_id with both filters', async () => {
+    it('findByMemberAndType merges club_id with both filters', async () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
-      await repo.findBySwimmerAndType('swimmer-a', ConsentType.PHOTOGRAPHY);
+      await repo.findByMemberAndType('member-a', ConsentType.PHOTOGRAPHY);
 
       expect(findCalls[0]).toEqual({
-        swimmer_id: 'swimmer-a',
+        member_id: 'member-a',
         consent_type: ConsentType.PHOTOGRAPHY,
         club_id: CLUB_A,
       });
@@ -197,21 +197,21 @@ describe('ConsentsRepository tenant isolation', () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
       const dto: CreateConsentDto = {
-        swimmer_id: 'swimmer-new',
+        member_id: 'member-new',
         consent_type: ConsentType.PHOTOGRAPHY,
         granted_by_user_id: 'parent-1',
       };
 
       await repo.create(dto);
 
-      expect(savedEntities[0]).toMatchObject({ swimmer_id: 'swimmer-new', club_id: CLUB_A });
+      expect(savedEntities[0]).toMatchObject({ member_id: 'member-new', club_id: CLUB_A });
     });
 
     it('overrides a club_id supplied in the input with the context club', async () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
       const dto = {
-        swimmer_id: 'swimmer-new',
+        member_id: 'member-new',
         consent_type: ConsentType.PHOTOGRAPHY,
         granted_by_user_id: 'parent-1',
         // Attacker tries to plant a row in another club.

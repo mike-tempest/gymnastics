@@ -16,16 +16,14 @@ export class AttendanceService {
 
   async create(createAttendanceDto: CreateAttendanceDto): Promise<Attendance> {
     try {
-      // Check if attendance already exists for this session and swimmer
-      const existing = await this.attendanceRepository.findBySessionAndSwimmer(
+      // Check if attendance already exists for this session and member
+      const existing = await this.attendanceRepository.findBySessionAndMember(
         createAttendanceDto.session_id,
-        createAttendanceDto.swimmer_id,
+        createAttendanceDto.member_id,
       );
 
       if (existing) {
-        throw new ConflictException(
-          'Attendance record already exists for this swimmer and session',
-        );
+        throw new ConflictException('Attendance record already exists for this member and session');
       }
 
       return await this.attendanceRepository.create(createAttendanceDto);
@@ -35,9 +33,7 @@ export class AttendanceService {
       }
       if ((error as Record<string, unknown>).code === '23505') {
         // Unique constraint violation
-        throw new ConflictException(
-          'Attendance record already exists for this swimmer and session',
-        );
+        throw new ConflictException('Attendance record already exists for this member and session');
       }
       throw error;
     }
@@ -47,15 +43,15 @@ export class AttendanceService {
     sessionId: string,
     markAttendanceDto: MarkAttendanceDto,
   ): Promise<Attendance[]> {
-    const { swimmer_ids, status } = markAttendanceDto;
+    const { member_ids, status } = markAttendanceDto;
 
-    if (!swimmer_ids || swimmer_ids.length === 0) {
-      throw new BadRequestException('At least one swimmer ID is required');
+    if (!member_ids || member_ids.length === 0) {
+      throw new BadRequestException('At least one member ID is required');
     }
 
-    const attendances: CreateAttendanceDto[] = swimmer_ids.map((swimmer_id) => ({
+    const attendances: CreateAttendanceDto[] = member_ids.map((member_id) => ({
       session_id: sessionId,
-      swimmer_id,
+      member_id,
       status,
     }));
 
@@ -64,9 +60,9 @@ export class AttendanceService {
       const results: Attendance[] = [];
       for (const attendanceDto of attendances) {
         try {
-          const existing = await this.attendanceRepository.findBySessionAndSwimmer(
+          const existing = await this.attendanceRepository.findBySessionAndMember(
             attendanceDto.session_id,
-            attendanceDto.swimmer_id,
+            attendanceDto.member_id,
           );
 
           if (existing) {
@@ -83,26 +79,20 @@ export class AttendanceService {
             results.push(created);
           }
         } catch (error: unknown) {
-          // Log error but continue with other swimmers
-          console.error(
-            `Failed to mark attendance for swimmer ${attendanceDto.swimmer_id}:`,
-            error,
-          );
+          // Log error but continue with other members
+          console.error(`Failed to mark attendance for member ${attendanceDto.member_id}:`, error);
         }
       }
 
       return results;
     } catch (error: unknown) {
-      throw new BadRequestException('Failed to mark attendance for swimmers');
+      throw new BadRequestException('Failed to mark attendance for members');
     }
   }
 
-  async checkInSwimmer(sessionId: string, swimmerId: string): Promise<Attendance> {
+  async checkInMember(sessionId: string, memberId: string): Promise<Attendance> {
     try {
-      const existing = await this.attendanceRepository.findBySessionAndSwimmer(
-        sessionId,
-        swimmerId,
-      );
+      const existing = await this.attendanceRepository.findBySessionAndMember(sessionId, memberId);
 
       if (existing) {
         // Update existing record
@@ -120,7 +110,7 @@ export class AttendanceService {
         // Create new record
         return await this.attendanceRepository.create({
           session_id: sessionId,
-          swimmer_id: swimmerId,
+          member_id: memberId,
           status: AttendanceStatus.PRESENT,
         });
       }
@@ -128,7 +118,7 @@ export class AttendanceService {
       if (error instanceof NotFoundException) {
         throw error;
       }
-      throw new BadRequestException('Failed to check in swimmer');
+      throw new BadRequestException('Failed to check in member');
     }
   }
 
@@ -148,12 +138,12 @@ export class AttendanceService {
     return await this.attendanceRepository.findBySession(sessionId);
   }
 
-  async getSwimmerAttendance(swimmerId: string): Promise<Attendance[]> {
-    return await this.attendanceRepository.findBySwimmer(swimmerId);
+  async getMemberAttendance(memberId: string): Promise<Attendance[]> {
+    return await this.attendanceRepository.findByMember(memberId);
   }
 
-  async getSwimmerAttendanceStats(swimmerId: string): Promise<AttendanceStats> {
-    return await this.attendanceRepository.getAttendanceStats(swimmerId);
+  async getMemberAttendanceStats(memberId: string): Promise<AttendanceStats> {
+    return await this.attendanceRepository.getAttendanceStats(memberId);
   }
 
   async update(id: string, updateAttendanceDto: UpdateAttendanceDto): Promise<Attendance> {

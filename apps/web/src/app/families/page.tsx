@@ -13,6 +13,7 @@ import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/ErrorState';
 import { TableSkeleton } from '@/components/ui/skeleton';
 import { getFamily, createFamily, updateFamily, CreateFamilyData } from '@/lib/api/families';
+import { MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 import { useFamilies } from '@/lib/hooks';
 
 export default function FamiliesPage() {
@@ -150,9 +151,9 @@ function FamiliesPageInner() {
               </div>
               <div className="flex flex-row sm:flex-col gap-4">
                 <div className="bg-brand rounded-3xl p-4 sm:p-6 text-center flex-1 sm:min-w-[180px] shadow-sm">
-                  <p className="text-dark-primary text-sm font-semibold mb-1">Total Members</p>
+                  <p className="text-dark-primary text-sm font-semibold mb-1">{`Total ${MEMBER_NOUN_PLURAL}`}</p>
                   <p className="text-dark-primary text-2xl sm:text-4xl font-bold">
-                    {error ? '—' : families.reduce((sum, family) => sum + (family.swimmers?.length || 0), 0)}
+                    {error ? '—' : families.reduce((sum, family) => sum + (family.members?.length || 0), 0)}
                   </p>
                 </div>
                 <div className="bg-white rounded-3xl p-4 sm:p-6 text-center flex-1 sm:min-w-[180px]">
@@ -162,7 +163,7 @@ function FamiliesPageInner() {
                       ? (
                           Math.round(
                             (families.reduce(
-                              (sum, family) => sum + (family.swimmers?.length || 0),
+                              (sum, family) => sum + (family.members?.length || 0),
                               0
                             ) /
                               families.length) *
@@ -239,7 +240,7 @@ function FamiliesPageInner() {
               <EmptyState
                 icon={Users}
                 title="No families yet"
-                description="Families link parents to their swimmers for billing and communications."
+                description={`Families link parents to their ${MEMBER_NOUN_PLURAL_LOWER} for billing and communications.`}
                 hint="When parents register, their family is created automatically."
                 actionLabel="Add Family"
                 actionHref="/families/new"
@@ -295,9 +296,9 @@ function FamiliesPageInner() {
 
                     <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0 ml-2">
                       <div className="text-right hidden sm:block">
-                        <p className="text-xs text-text-secondary mb-1">Members</p>
+                        <p className="text-xs text-text-secondary mb-1">{MEMBER_NOUN_PLURAL}</p>
                         <span className="px-4 py-1.5 bg-brand bg-opacity-20 text-brand text-sm font-bold rounded-full border border-brand whitespace-nowrap">
-                          {family.swimmers?.length || 0} SWIMMERS
+                          {family.members?.length || 0} MEMBERS
                         </span>
                       </div>
                       <div className="p-3 min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-brand hover:text-dark-primary rounded-button transition-all group-hover:bg-brand group-hover:text-dark-primary">

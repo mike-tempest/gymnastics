@@ -12,7 +12,7 @@ describe('ParentController', () => {
   const familyId = 'family-uuid-1';
 
   const mockParentService = {
-    getProfile: jest.fn().mockResolvedValue({ family: {}, swimmers: [] }),
+    getProfile: jest.fn().mockResolvedValue({ family: {}, members: [] }),
     getDashboard: jest.fn().mockResolvedValue({
       childrenCount: 0,
       upcomingSessions: [],

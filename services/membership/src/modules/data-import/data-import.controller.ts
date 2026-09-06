@@ -20,7 +20,7 @@ export class DataImportController {
   constructor(private readonly dataImportService: DataImportService) {}
 
   /**
-   * Combined members import: swimmers plus their parent/family details in one
+   * Combined members import: members plus their parent/family details in one
    * payload. With ?preview=true the request is a dry run that persists nothing.
    */
   @Post('members')

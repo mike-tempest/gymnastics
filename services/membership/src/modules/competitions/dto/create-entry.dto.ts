@@ -12,7 +12,7 @@ import { VALID_STROKES } from '../../../parsers/parser.interface';
 export class CreateEntryDto {
   @IsNotEmpty()
   @IsUUID()
-  swimmer_id: string;
+  member_id: string;
 
   @IsOptional()
   @IsString()

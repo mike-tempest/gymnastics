@@ -116,9 +116,9 @@ export class CompetitionsRepository {
     });
   }
 
-  async findEntriesBySwimmer(swimmerId: string): Promise<CompetitionEntry[]> {
+  async findEntriesByMember(memberId: string): Promise<CompetitionEntry[]> {
     return await this.scoped.scopedFind(this.entryRepo, {
-      where: { swimmer_id: swimmerId },
+      where: { member_id: memberId },
       order: { created_at: 'DESC' },
     });
   }
@@ -180,8 +180,8 @@ export class CompetitionsRepository {
     changes: Partial<CompetitionResult>,
   ): Promise<CompetitionResult | null> {
     // Scope the affected-row predicate by club_id, and never allow the club,
-    // competition or swimmer of an existing result to be reassigned.
-    const { club_id: _club, competition_id: _competition, swimmer_id: _swimmer, ...rest } = changes;
+    // competition or member of an existing result to be reassigned.
+    const { club_id: _club, competition_id: _competition, member_id: _member, ...rest } = changes;
     await this.resultRepo.update(
       { result_id: resultId, club_id: this.tenantContext.getClubId() },
       rest,
@@ -203,11 +203,11 @@ export class CompetitionsRepository {
     });
   }
 
-  async findResultsBySwimmer(swimmerId: string): Promise<CompetitionResult[]> {
+  async findResultsByMember(memberId: string): Promise<CompetitionResult[]> {
     // The competition relation carries the meet name, date and course, which
-    // the swimmer profile and progression views need alongside each time.
+    // the member profile and progression views need alongside each time.
     return await this.scoped.scopedFind(this.resultRepo, {
-      where: { swimmer_id: swimmerId },
+      where: { member_id: memberId },
       relations: ['competition'],
       order: { created_at: 'DESC' },
     });

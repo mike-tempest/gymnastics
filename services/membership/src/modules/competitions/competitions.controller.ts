@@ -72,14 +72,14 @@ export class CompetitionsController {
     return this.competitionsService.remove(id);
   }
 
-  @Get('swimmer/:swimmerId/results')
-  getSwimmerResults(@Param('swimmerId') swimmerId: string) {
-    return this.competitionsService.getSwimmerResults(swimmerId);
+  @Get('member/:memberId/results')
+  getMemberResults(@Param('memberId') memberId: string) {
+    return this.competitionsService.getMemberResults(memberId);
   }
 
-  @Get('swimmer/:swimmerId/personal-bests')
-  getSwimmerPersonalBests(@Param('swimmerId') swimmerId: string) {
-    return this.competitionsService.getSwimmerPersonalBests(swimmerId);
+  @Get('member/:memberId/personal-bests')
+  getMemberPersonalBests(@Param('memberId') memberId: string) {
+    return this.competitionsService.getMemberPersonalBests(memberId);
   }
 
   // --- Entries ---
@@ -156,7 +156,7 @@ export class CompetitionsController {
     return this.fileImportService.importResults(id, fileName, fileContent, formatHint);
   }
 
-  // --- CSV Times Import (baseline PBs, one row per swimmer per event) ---
+  // --- CSV Times Import (baseline PBs, one row per member per event) ---
 
   @Post(':id/import-times')
   @HttpCode(HttpStatus.OK)

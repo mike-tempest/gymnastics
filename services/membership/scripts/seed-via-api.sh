@@ -47,7 +47,7 @@ FAMILY2=$(curl -s -X POST "$API_URL/families" \
 FAMILY2_ID=$(echo $FAMILY2 | grep -o '"family_id":"[^"]*"' | cut -d'"' -f4)
 echo -e "Created Johnson Family (${FAMILY2_ID})\n"
 
-echo -e "${GREEN}🏊 Creating squads...${NC}"
+echo -e "${GREEN}Creating squads...${NC}"
 SQUAD1=$(curl -s -X POST "$API_URL/squads" \
   -H "Content-Type: application/json" \
   -d '{
@@ -76,8 +76,8 @@ SQUAD2=$(curl -s -X POST "$API_URL/squads" \
 SQUAD2_ID=$(echo $SQUAD2 | grep -o '"squad_id":"[^"]*"' | cut -d'"' -f4)
 echo -e "Created Senior Squad (${SQUAD2_ID})\n"
 
-echo -e "${GREEN}👶 Creating swimmers...${NC}"
-SWIMMER1=$(curl -s -X POST "$API_URL/swimmers" \
+echo -e "${GREEN}Creating members...${NC}"
+MEMBER1=$(curl -s -X POST "$API_URL/members" \
   -H "Content-Type: application/json" \
   -d "{
     \"family_id\": \"${FAMILY1_ID}\",
@@ -85,13 +85,13 @@ SWIMMER1=$(curl -s -X POST "$API_URL/swimmers" \
     \"last_name\": \"Smith\",
     \"dob\": \"2013-05-15\",
     \"gender\": \"Female\",
-    \"se_number\": \"SE123456\",
+    \"registration_number\": \"SE123456\",
     \"medical_notes\": \"No known allergies\"
   }")
-SWIMMER1_ID=$(echo $SWIMMER1 | grep -o '"swimmer_id":"[^"]*"' | cut -d'"' -f4)
-echo "Created Emily Smith (${SWIMMER1_ID})"
+MEMBER1_ID=$(echo $MEMBER1 | grep -o '"member_id":"[^"]*"' | cut -d'"' -f4)
+echo "Created Emily Smith (${MEMBER1_ID})"
 
-SWIMMER2=$(curl -s -X POST "$API_URL/swimmers" \
+MEMBER2=$(curl -s -X POST "$API_URL/members" \
   -H "Content-Type: application/json" \
   -d "{
     \"family_id\": \"${FAMILY1_ID}\",
@@ -99,12 +99,12 @@ SWIMMER2=$(curl -s -X POST "$API_URL/swimmers" \
     \"last_name\": \"Smith\",
     \"dob\": \"2015-09-22\",
     \"gender\": \"Male\",
-    \"se_number\": \"SE123457\"
+    \"registration_number\": \"SE123457\"
   }")
-SWIMMER2_ID=$(echo $SWIMMER2 | grep -o '"swimmer_id":"[^"]*"' | cut -d'"' -f4)
-echo "Created James Smith (${SWIMMER2_ID})"
+MEMBER2_ID=$(echo $MEMBER2 | grep -o '"member_id":"[^"]*"' | cut -d'"' -f4)
+echo "Created James Smith (${MEMBER2_ID})"
 
-SWIMMER3=$(curl -s -X POST "$API_URL/swimmers" \
+MEMBER3=$(curl -s -X POST "$API_URL/members" \
   -H "Content-Type: application/json" \
   -d "{
     \"family_id\": \"${FAMILY2_ID}\",
@@ -112,25 +112,25 @@ SWIMMER3=$(curl -s -X POST "$API_URL/swimmers" \
     \"last_name\": \"Johnson\",
     \"dob\": \"2011-03-10\",
     \"gender\": \"Female\",
-    \"se_number\": \"SE123458\"
+    \"registration_number\": \"SE123458\"
   }")
-SWIMMER3_ID=$(echo $SWIMMER3 | grep -o '"swimmer_id":"[^"]*"' | cut -d'"' -f4)
-echo -e "Created Olivia Johnson (${SWIMMER3_ID})\n"
+MEMBER3_ID=$(echo $MEMBER3 | grep -o '"member_id":"[^"]*"' | cut -d'"' -f4)
+echo -e "Created Olivia Johnson (${MEMBER3_ID})\n"
 
-echo -e "${GREEN}🔗 Adding swimmers to squads...${NC}"
-curl -s -X POST "$API_URL/squads/${SQUAD1_ID}/swimmers" \
+echo -e "${GREEN}🔗 Adding members to squads...${NC}"
+curl -s -X POST "$API_URL/squads/${SQUAD1_ID}/members" \
   -H "Content-Type: application/json" \
-  -d "{\"swimmerId\": \"${SWIMMER1_ID}\"}" > /dev/null
+  -d "{\"memberId\": \"${MEMBER1_ID}\"}" > /dev/null
 echo "Added Emily to Junior Squad"
 
-curl -s -X POST "$API_URL/squads/${SQUAD1_ID}/swimmers" \
+curl -s -X POST "$API_URL/squads/${SQUAD1_ID}/members" \
   -H "Content-Type: application/json" \
-  -d "{\"swimmerId\": \"${SWIMMER2_ID}\"}" > /dev/null
+  -d "{\"memberId\": \"${MEMBER2_ID}\"}" > /dev/null
 echo "Added James to Junior Squad"
 
-curl -s -X POST "$API_URL/squads/${SQUAD2_ID}/swimmers" \
+curl -s -X POST "$API_URL/squads/${SQUAD2_ID}/members" \
   -H "Content-Type: application/json" \
-  -d "{\"swimmerId\": \"${SWIMMER3_ID}\"}" > /dev/null
+  -d "{\"memberId\": \"${MEMBER3_ID}\"}" > /dev/null
 echo -e "Added Olivia to Senior Squad\n"
 
 echo -e "${GREEN}📅 Creating sessions for tomorrow (${TOMORROW})...${NC}"
@@ -169,13 +169,13 @@ echo -e "Created Senior Training session\n"
 echo -e "${CYAN}✨ Test data seeding completed!${NC}\n"
 echo -e "${GREEN}📊 Summary:${NC}"
 echo "  - 2 families created"
-echo "  - 3 swimmers created"
+echo "  - 3 members created"
 echo "  - 2 squads created"
 echo "  - 2 sessions created for ${TOMORROW}"
 echo ""
 echo -e "${CYAN}📧 Test Emails:${NC}"
-echo "  - sarah.smith@test.com (Smith Family - 2 swimmers in Junior Squad)"
-echo "  - michael.johnson@test.com (Johnson Family - 1 swimmer in Senior Squad)"
+echo "  - sarah.smith@test.com (Smith Family - 2 members in Junior Squad)"
+echo "  - michael.johnson@test.com (Johnson Family - 1 member in Senior Squad)"
 echo ""
 echo -e "${CYAN}🔗 Testing Endpoints:${NC}"
 echo "  GET  http://localhost:3001/api/testing/info"

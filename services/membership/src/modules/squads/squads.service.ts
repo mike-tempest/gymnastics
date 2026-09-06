@@ -3,7 +3,7 @@ import { SquadsRepository } from './squads.repository';
 import { CreateSquadDto } from './dto/create-squad.dto';
 import { UpdateSquadDto } from './dto/update-squad.dto';
 import { Squad } from './entities/squad.entity';
-import { Swimmer } from '../swimmers/entities/swimmer.entity';
+import { Member } from '../members/entities/member.entity';
 
 @Injectable()
 export class SquadsService {
@@ -74,10 +74,10 @@ export class SquadsService {
   async findAll(): Promise<Squad[]> {
     const squads = await this.squadsRepository.findAll();
 
-    // Add swimmer_count to each squad
+    // Add member_count to each squad
     return squads.map((squad) => ({
       ...squad,
-      swimmer_count: squad.swimmers ? squad.swimmers.length : 0,
+      member_count: squad.members ? squad.members.length : 0,
     })) as Squad[];
   }
 
@@ -87,10 +87,10 @@ export class SquadsService {
       throw new NotFoundException(`Squad with ID ${id} not found`);
     }
 
-    // Add swimmer_count
+    // Add member_count
     return {
       ...squad,
-      swimmer_count: squad.swimmers ? squad.swimmers.length : 0,
+      member_count: squad.members ? squad.members.length : 0,
     } as Squad;
   }
 
@@ -112,7 +112,7 @@ export class SquadsService {
       }
       return {
         ...updated,
-        swimmer_count: updated.swimmers ? updated.swimmers.length : 0,
+        member_count: updated.members ? updated.members.length : 0,
       } as Squad;
     } catch (error: unknown) {
       throw error;
@@ -124,48 +124,48 @@ export class SquadsService {
     await this.squadsRepository.remove(id);
   }
 
-  async assignSwimmer(squadId: string, swimmerId: string): Promise<Squad> {
+  async assignMember(squadId: string, memberId: string): Promise<Squad> {
     const squad = await this.squadsRepository.findOne(squadId);
     if (!squad) {
       throw new NotFoundException(`Squad with ID ${squadId} not found`);
     }
 
     // Check capacity
-    if (squad.max_capacity && squad.swimmers && squad.swimmers.length >= squad.max_capacity) {
-      throw new BadRequestException(`Squad is at full capacity (${squad.max_capacity} swimmers)`);
+    if (squad.max_capacity && squad.members && squad.members.length >= squad.max_capacity) {
+      throw new BadRequestException(`Squad is at full capacity (${squad.max_capacity} members)`);
     }
 
-    const updatedSquad = await this.squadsRepository.assignSwimmer(squadId, swimmerId);
+    const updatedSquad = await this.squadsRepository.assignMember(squadId, memberId);
     if (!updatedSquad) {
-      throw new NotFoundException(`Swimmer with ID ${swimmerId} not found`);
+      throw new NotFoundException(`Member with ID ${memberId} not found`);
     }
 
     return {
       ...updatedSquad,
-      swimmer_count: updatedSquad.swimmers ? updatedSquad.swimmers.length : 0,
+      member_count: updatedSquad.members ? updatedSquad.members.length : 0,
     } as Squad;
   }
 
-  async removeSwimmer(squadId: string, swimmerId: string): Promise<Squad> {
+  async removeMember(squadId: string, memberId: string): Promise<Squad> {
     const squad = await this.squadsRepository.findOne(squadId);
     if (!squad) {
       throw new NotFoundException(`Squad with ID ${squadId} not found`);
     }
 
-    const updatedSquad = await this.squadsRepository.removeSwimmer(squadId, swimmerId);
+    const updatedSquad = await this.squadsRepository.removeMember(squadId, memberId);
     if (!updatedSquad) {
       throw new NotFoundException(`Squad with ID ${squadId} not found`);
     }
 
     return {
       ...updatedSquad,
-      swimmer_count: updatedSquad.swimmers ? updatedSquad.swimmers.length : 0,
+      member_count: updatedSquad.members ? updatedSquad.members.length : 0,
     } as Squad;
   }
 
-  async getSwimmersBySquad(squadId: string): Promise<Swimmer[]> {
+  async getMembersBySquad(squadId: string): Promise<Member[]> {
     await this.findOne(squadId); // Verify squad exists
-    return await this.squadsRepository.getSwimmersBySquad(squadId);
+    return await this.squadsRepository.getMembersBySquad(squadId);
   }
 
   async getStatistics() {

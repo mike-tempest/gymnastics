@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Swimmer } from '../swimmers/entities/swimmer.entity';
+import { Member } from '../members/entities/member.entity';
 import { Family } from '../families/entities/family.entity';
 import { Squad } from '../squads/entities/squad.entity';
 import { Session, SessionStatus } from '../sessions/entities/session.entity';
@@ -28,8 +28,8 @@ export class AdminService {
   private readonly logger = new Logger(AdminService.name);
 
   constructor(
-    @InjectRepository(Swimmer)
-    private readonly swimmerRepository: Repository<Swimmer>,
+    @InjectRepository(Member)
+    private readonly memberRepository: Repository<Member>,
     @InjectRepository(Family)
     private readonly familyRepository: Repository<Family>,
     @InjectRepository(Squad)
@@ -114,7 +114,7 @@ export class AdminService {
       topAbsentees,
       newJoiners,
       leavers: [] as Array<{
-        swimmerId: string;
+        memberId: string;
         name: string;
         squadName: string;
         leftAt: string;
@@ -144,7 +144,7 @@ export class AdminService {
       const sessions = await this.sessionRepository
         .createQueryBuilder('session')
         .leftJoinAndSelect('session.squad', 'squad')
-        .leftJoinAndSelect('squad.swimmers', 'swimmers')
+        .leftJoinAndSelect('squad.members', 'members')
         .where('session.club_id = :clubId', { clubId: this.tenantContext.getClubId() })
         .andWhere('session.session_date >= :weekStart', { weekStart })
         .andWhere('session.session_date < :weekEnd', { weekEnd })
@@ -158,7 +158,7 @@ export class AdminService {
         continue;
       }
 
-      const totalExpected = sessions.reduce((sum, s) => sum + (s.squad?.swimmers?.length || 0), 0);
+      const totalExpected = sessions.reduce((sum, s) => sum + (s.squad?.members?.length || 0), 0);
 
       const presentCount = await this.attendanceRepository
         .createQueryBuilder('attendance')
@@ -191,7 +191,7 @@ export class AdminService {
 
     const squads = await this.squadRepository.find({
       where: { club_id: this.tenantContext.getClubId() },
-      relations: ['swimmers'],
+      relations: ['members'],
     });
 
     const results: Array<{
@@ -222,7 +222,7 @@ export class AdminService {
         continue;
       }
 
-      const totalExpected = sessions.length * (squad.swimmers?.length || 0);
+      const totalExpected = sessions.length * (squad.members?.length || 0);
       const sessionIds = sessions.map((s) => s.session_id);
 
       let presentCount = 0;
@@ -252,7 +252,7 @@ export class AdminService {
 
   private async getTopAbsentees(): Promise<
     Array<{
-      swimmerId: string;
+      memberId: string;
       name: string;
       squadName: string;
       missedCount: number;
@@ -263,7 +263,7 @@ export class AdminService {
 
     const absentees = await this.attendanceRepository
       .createQueryBuilder('attendance')
-      .select('attendance.swimmer_id', 'swimmerId')
+      .select('attendance.member_id', 'memberId')
       .addSelect('COUNT(*)', 'missedCount')
       .innerJoin('attendance.session', 'session')
       .where('attendance.club_id = :clubId', { clubId: this.tenantContext.getClubId() })
@@ -276,34 +276,34 @@ export class AdminService {
       .andWhere('session.status = :sessionStatus', {
         sessionStatus: SessionStatus.COMPLETED,
       })
-      .groupBy('attendance.swimmer_id')
+      .groupBy('attendance.member_id')
       .orderBy('"missedCount"', 'DESC')
       .limit(5)
       .getRawMany();
 
     const results: Array<{
-      swimmerId: string;
+      memberId: string;
       name: string;
       squadName: string;
       missedCount: number;
     }> = [];
 
     for (const row of absentees) {
-      const swimmer = await this.swimmerRepository.findOne({
-        where: { swimmer_id: row.swimmerId, club_id: this.tenantContext.getClubId() },
+      const member = await this.memberRepository.findOne({
+        where: { member_id: row.memberId, club_id: this.tenantContext.getClubId() },
       });
 
       let squadName = 'Unassigned';
-      if (swimmer?.squad_id) {
+      if (member?.squad_id) {
         const squad = await this.squadRepository.findOne({
-          where: { squad_id: swimmer.squad_id, club_id: this.tenantContext.getClubId() },
+          where: { squad_id: member.squad_id, club_id: this.tenantContext.getClubId() },
         });
         if (squad) squadName = squad.squad_name;
       }
 
       results.push({
-        swimmerId: row.swimmerId,
-        name: swimmer ? `${swimmer.first_name} ${swimmer.last_name}` : 'Unknown',
+        memberId: row.memberId,
+        name: member ? `${member.first_name} ${member.last_name}` : 'Unknown',
         squadName,
         missedCount: parseInt(row.missedCount, 10),
       });
@@ -314,7 +314,7 @@ export class AdminService {
 
   private async getNewJoiners(): Promise<
     Array<{
-      swimmerId: string;
+      memberId: string;
       name: string;
       squadName: string;
       joinedAt: string;
@@ -323,34 +323,34 @@ export class AdminService {
     const now = new Date();
     const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-    const swimmers = await this.swimmerRepository
-      .createQueryBuilder('swimmer')
-      .where('swimmer.club_id = :clubId', { clubId: this.tenantContext.getClubId() })
-      .andWhere('swimmer.created_at >= :firstDayOfMonth', { firstDayOfMonth })
-      .orderBy('swimmer.created_at', 'DESC')
+    const members = await this.memberRepository
+      .createQueryBuilder('member')
+      .where('member.club_id = :clubId', { clubId: this.tenantContext.getClubId() })
+      .andWhere('member.created_at >= :firstDayOfMonth', { firstDayOfMonth })
+      .orderBy('member.created_at', 'DESC')
       .getMany();
 
     const results: Array<{
-      swimmerId: string;
+      memberId: string;
       name: string;
       squadName: string;
       joinedAt: string;
     }> = [];
 
-    for (const swimmer of swimmers) {
+    for (const member of members) {
       let squadName = 'Unassigned';
-      if (swimmer.squad_id) {
+      if (member.squad_id) {
         const squad = await this.squadRepository.findOne({
-          where: { squad_id: swimmer.squad_id, club_id: this.tenantContext.getClubId() },
+          where: { squad_id: member.squad_id, club_id: this.tenantContext.getClubId() },
         });
         if (squad) squadName = squad.squad_name;
       }
 
       results.push({
-        swimmerId: swimmer.swimmer_id,
-        name: `${swimmer.first_name} ${swimmer.last_name}`,
+        memberId: member.member_id,
+        name: `${member.first_name} ${member.last_name}`,
         squadName,
-        joinedAt: swimmer.created_at.toISOString(),
+        joinedAt: member.created_at.toISOString(),
       });
     }
 
@@ -358,35 +358,35 @@ export class AdminService {
   }
 
   private async getSquadDistribution(): Promise<
-    Array<{ squadId: string; squadName: string; swimmerCount: number }>
+    Array<{ squadId: string; squadName: string; memberCount: number }>
   > {
     const squads = await this.squadRepository
       .createQueryBuilder('squad')
-      .loadRelationCountAndMap('squad.swimmerCount', 'squad.swimmers')
+      .loadRelationCountAndMap('squad.memberCount', 'squad.members')
       .where('squad.club_id = :clubId', { clubId: this.tenantContext.getClubId() })
       .getMany();
 
     return squads.map((squad) => ({
       squadId: squad.squad_id,
       squadName: squad.squad_name,
-      swimmerCount: ((squad as Record<string, unknown> & typeof squad).swimmerCount as number) || 0,
+      memberCount: ((squad as Record<string, unknown> & typeof squad).memberCount as number) || 0,
     }));
   }
 
   private async getMembershipStats(): Promise<MembershipStatsDto> {
     const clubId = this.tenantContext.getClubId();
-    const [totalSwimmers, totalFamilies, totalSquads] = await Promise.all([
-      this.swimmerRepository.count({ where: { club_id: clubId } }),
+    const [totalMembers, totalFamilies, totalSquads] = await Promise.all([
+      this.memberRepository.count({ where: { club_id: clubId } }),
       this.familyRepository.count({ where: { club_id: clubId } }),
       this.squadRepository.count({ where: { club_id: clubId } }),
     ]);
 
-    // For now, consider all swimmers as active since there's no status field
-    const activeSwimmers = totalSwimmers;
+    // For now, consider all members as active since there's no status field
+    const activeMembers = totalMembers;
 
     return {
-      totalSwimmers,
-      activeSwimmers,
+      totalMembers,
+      activeMembers,
       totalFamilies,
       totalSquads,
     };
@@ -484,7 +484,7 @@ export class AdminService {
     const sessionsWithSquads = await this.sessionRepository
       .createQueryBuilder('session')
       .leftJoinAndSelect('session.squad', 'squad')
-      .leftJoinAndSelect('squad.swimmers', 'swimmers')
+      .leftJoinAndSelect('squad.members', 'members')
       .where('session.club_id = :clubId', { clubId })
       .andWhere('session.session_date > :thirtyDaysAgo', { thirtyDaysAgo })
       .andWhere('session.status = :status', {
@@ -493,7 +493,7 @@ export class AdminService {
       .getMany();
 
     const totalExpectedAttendees = sessionsWithSquads.reduce(
-      (sum, session) => sum + (session.squad?.swimmers?.length || 0),
+      (sum, session) => sum + (session.squad?.members?.length || 0),
       0,
     );
 
@@ -555,19 +555,19 @@ export class AdminService {
       });
     });
 
-    // Recent swimmers (last 5)
-    const recentSwimmers = await this.swimmerRepository.find({
+    // Recent members (last 5)
+    const recentMembers = await this.memberRepository.find({
       where: { club_id: clubId },
       order: { created_at: 'DESC' },
       take: 3,
     });
 
-    recentSwimmers.forEach((swimmer) => {
+    recentMembers.forEach((member) => {
       activities.push({
-        id: swimmer.swimmer_id,
-        type: 'swimmer',
-        description: `New swimmer registered: ${swimmer.first_name} ${swimmer.last_name}`,
-        timestamp: swimmer.created_at,
+        id: member.member_id,
+        type: 'member',
+        description: `New member registered: ${member.first_name} ${member.last_name}`,
+        timestamp: member.created_at,
       });
     });
 
@@ -585,7 +585,7 @@ export class AdminService {
     const sessions = await this.sessionRepository
       .createQueryBuilder('session')
       .leftJoinAndSelect('session.squad', 'squad')
-      .leftJoinAndSelect('squad.swimmers', 'swimmers')
+      .leftJoinAndSelect('squad.members', 'members')
       .where('session.club_id = :clubId', { clubId: this.tenantContext.getClubId() })
       .andWhere('session.session_date >= :now', { now })
       .andWhere('session.session_date <= :sevenDays', {
@@ -615,7 +615,7 @@ export class AdminService {
         start_time: startDateTime,
         end_time: endDateTime,
         location: session.location,
-        expected_attendees: session.squad?.swimmers?.length || 0,
+        expected_attendees: session.squad?.members?.length || 0,
       };
     });
   }

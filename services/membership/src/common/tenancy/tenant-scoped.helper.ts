@@ -21,9 +21,9 @@ import { TenantContextService } from './tenant-context.service';
  *
  * ```ts
  * @Injectable()
- * export class SwimmersService {
+ * export class MembersService {
  *   constructor(
- *     @InjectRepository(Swimmer) private readonly repo: Repository<Swimmer>,
+ *     @InjectRepository(Member) private readonly repo: Repository<Member>,
  *     private readonly scoped: TenantScopedHelper,
  *   ) {}
  *
@@ -32,9 +32,9 @@ import { TenantContextService } from './tenant-context.service';
  *     return this.scoped.scopedFind(this.repo, { where: { active: true } });
  *   }
  *
- *   // SELECT ... WHERE club_id = :clubId AND swimmer_id = :id
+ *   // SELECT ... WHERE club_id = :clubId AND member_id = :id
  *   findOne(id: string) {
- *     return this.scoped.scopedFindOne(this.repo, { where: { swimmer_id: id } });
+ *     return this.scoped.scopedFindOne(this.repo, { where: { member_id: id } });
  *   }
  *
  *   // Query builder pre-filtered to the active club
@@ -46,8 +46,8 @@ import { TenantContextService } from './tenant-context.service';
  *   }
  *
  *   // INSERT ... with club_id set from the active tenant
- *   create(dto: CreateSwimmerDto) {
- *     const entity = this.scoped.stampCreate<Swimmer>(dto);
+ *   create(dto: CreateMemberDto) {
+ *     const entity = this.scoped.stampCreate<Member>(dto);
  *     return this.repo.save(entity);
  *   }
  * }

@@ -2,7 +2,7 @@ import { IsUUID, IsDateString, IsOptional, IsString, IsArray } from 'class-valid
 
 export class CreateCycleLogDto {
   @IsUUID()
-  swimmer_id: string;
+  member_id: string;
 
   @IsDateString()
   period_start: string;

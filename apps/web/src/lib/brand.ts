@@ -10,6 +10,17 @@
  */
 const PRODUCT_NAME = 'Club Manager';
 
+/**
+ * Display noun for the core Member entity. Code says Member everywhere;
+ * parents and coaches say "Gymnast". All user-facing copy must go through
+ * these constants so a future sport is a one-line change here.
+ * Lowercase and possessive forms are derived, never hard-coded.
+ */
+export const MEMBER_NOUN = 'Gymnast';
+export const MEMBER_NOUN_PLURAL = 'Gymnasts';
+export const MEMBER_NOUN_LOWER = MEMBER_NOUN.toLowerCase();
+export const MEMBER_NOUN_PLURAL_LOWER = MEMBER_NOUN_PLURAL.toLowerCase();
+
 export const BRAND = {
   /** Product name shown in headings, wordmarks and body copy. */
   name: PRODUCT_NAME,

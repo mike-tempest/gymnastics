@@ -8,7 +8,7 @@ import {
   Index,
   Unique,
 } from 'typeorm';
-import { Swimmer } from '../../swimmers/entities/swimmer.entity';
+import { Member } from '../../members/entities/member.entity';
 
 export enum ReadinessLevel {
   GREEN = 'green',
@@ -16,9 +16,9 @@ export enum ReadinessLevel {
   RED = 'red',
 }
 
-@Entity('swimmer_wellbeing_logs')
-@Unique(['swimmer_id', 'log_date'])
-@Index(['swimmer_id'])
+@Entity('member_wellbeing_logs')
+@Unique(['member_id', 'log_date'])
+@Index(['member_id'])
 @Index(['log_date'])
 export class WellbeingLog {
   @PrimaryGeneratedColumn('uuid')
@@ -28,7 +28,7 @@ export class WellbeingLog {
   club_id: string;
 
   @Column({ type: 'uuid' })
-  swimmer_id: string;
+  member_id: string;
 
   @Column({ type: 'date' })
   log_date: Date;
@@ -43,7 +43,7 @@ export class WellbeingLog {
   comfort_in_water: number; // 1-5
 
   @Column({ type: 'text', nullable: true })
-  notes: string | null; // Private, only visible to parent/swimmer
+  notes: string | null; // Private, only visible to parent/member
 
   @Column({ type: 'boolean', default: false })
   prefers_land_training: boolean;
@@ -51,9 +51,9 @@ export class WellbeingLog {
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 
-  @ManyToOne(() => Swimmer, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'swimmer_id' })
-  swimmer?: Swimmer;
+  @ManyToOne(() => Member, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'member_id' })
+  member?: Member;
 
   /**
    * Derives a readiness indicator from energy and comfort levels.

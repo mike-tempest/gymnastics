@@ -18,13 +18,13 @@ describe('SquadsService', () => {
     coach_name: 'Sarah Jones',
     training_times: 'Monday 17:00, Wednesday 17:00',
     max_capacity: 20,
-    swimmers: [],
+    members: [],
     created_at: new Date(),
     updated_at: new Date(),
   };
 
-  const mockSwimmer = {
-    swimmer_id: '123e4567-e89b-12d3-a456-426614174000',
+  const mockMember = {
+    member_id: '123e4567-e89b-12d3-a456-426614174000',
     first_name: 'Tom',
     last_name: 'Brown',
   };
@@ -37,9 +37,9 @@ describe('SquadsService', () => {
     update: jest.fn(),
     remove: jest.fn(),
     count: jest.fn(),
-    assignSwimmer: jest.fn(),
-    removeSwimmer: jest.fn(),
-    getSwimmersBySquad: jest.fn(),
+    assignMember: jest.fn(),
+    removeMember: jest.fn(),
+    getMembersBySquad: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -187,19 +187,19 @@ describe('SquadsService', () => {
   });
 
   describe('findAll', () => {
-    it('should return all squads with swimmer_count', async () => {
-      const squadsWithSwimmers = [
-        { ...mockSquad, swimmers: [mockSwimmer, mockSwimmer] },
-        { ...mockSquad, squad_id: 'other-id', squad_name: 'Seniors', swimmers: [] },
+    it('should return all squads with member_count', async () => {
+      const squadsWithMembers = [
+        { ...mockSquad, members: [mockMember, mockMember] },
+        { ...mockSquad, squad_id: 'other-id', squad_name: 'Seniors', members: [] },
       ];
 
-      mockRepository.findAll.mockResolvedValue(squadsWithSwimmers);
+      mockRepository.findAll.mockResolvedValue(squadsWithMembers);
 
       const result = await service.findAll();
 
       expect(result).toHaveLength(2);
-      expect((result[0] as unknown as Record<string, unknown>).swimmer_count).toBe(2);
-      expect((result[1] as unknown as Record<string, unknown>).swimmer_count).toBe(0);
+      expect((result[0] as unknown as Record<string, unknown>).member_count).toBe(2);
+      expect((result[1] as unknown as Record<string, unknown>).member_count).toBe(0);
     });
 
     it('should return an empty array when no squads exist', async () => {
@@ -212,13 +212,13 @@ describe('SquadsService', () => {
   });
 
   describe('findOne', () => {
-    it('should return a single squad with swimmer_count', async () => {
-      mockRepository.findOne.mockResolvedValue({ ...mockSquad, swimmers: [mockSwimmer] });
+    it('should return a single squad with member_count', async () => {
+      mockRepository.findOne.mockResolvedValue({ ...mockSquad, members: [mockMember] });
 
       const result = await service.findOne(mockSquad.squad_id);
 
       expect(result.squad_id).toBe(mockSquad.squad_id);
-      expect((result as unknown as Record<string, unknown>).swimmer_count).toBe(1);
+      expect((result as unknown as Record<string, unknown>).member_count).toBe(1);
     });
 
     it('should throw NotFoundException if squad does not exist', async () => {
@@ -231,7 +231,7 @@ describe('SquadsService', () => {
   describe('update', () => {
     it('should update a squad successfully', async () => {
       const updateDto: UpdateSquadDto = { squad_name: 'Advanced Juniors' };
-      const updatedSquad = { ...mockSquad, squad_name: 'Advanced Juniors', swimmers: [] };
+      const updatedSquad = { ...mockSquad, squad_name: 'Advanced Juniors', members: [] };
 
       mockRepository.findOne.mockResolvedValue(mockSquad);
       mockRepository.update.mockResolvedValue(updatedSquad);
@@ -280,91 +280,89 @@ describe('SquadsService', () => {
     });
   });
 
-  describe('assignSwimmer', () => {
-    it('should assign a swimmer to a squad', async () => {
-      const squadWithCapacity = { ...mockSquad, max_capacity: 20, swimmers: [] };
-      const updatedSquad = { ...squadWithCapacity, swimmers: [mockSwimmer] };
+  describe('assignMember', () => {
+    it('should assign a member to a squad', async () => {
+      const squadWithCapacity = { ...mockSquad, max_capacity: 20, members: [] };
+      const updatedSquad = { ...squadWithCapacity, members: [mockMember] };
 
       mockRepository.findOne.mockResolvedValue(squadWithCapacity);
-      mockRepository.assignSwimmer.mockResolvedValue(updatedSquad);
+      mockRepository.assignMember.mockResolvedValue(updatedSquad);
 
-      const result = await service.assignSwimmer(mockSquad.squad_id, mockSwimmer.swimmer_id);
+      const result = await service.assignMember(mockSquad.squad_id, mockMember.member_id);
 
-      expect((result as unknown as Record<string, unknown>).swimmer_count).toBe(1);
-      expect(mockRepository.assignSwimmer).toHaveBeenCalledWith(
+      expect((result as unknown as Record<string, unknown>).member_count).toBe(1);
+      expect(mockRepository.assignMember).toHaveBeenCalledWith(
         mockSquad.squad_id,
-        mockSwimmer.swimmer_id,
+        mockMember.member_id,
       );
     });
 
     it('should throw NotFoundException if squad does not exist', async () => {
       mockRepository.findOne.mockResolvedValue(null);
 
-      await expect(
-        service.assignSwimmer('non-existent-id', mockSwimmer.swimmer_id),
-      ).rejects.toThrow(NotFoundException);
+      await expect(service.assignMember('non-existent-id', mockMember.member_id)).rejects.toThrow(
+        NotFoundException,
+      );
     });
 
     it('should throw BadRequestException when squad is at full capacity', async () => {
       const fullSquad = {
         ...mockSquad,
         max_capacity: 2,
-        swimmers: [mockSwimmer, mockSwimmer],
+        members: [mockMember, mockMember],
       };
 
       mockRepository.findOne.mockResolvedValue(fullSquad);
 
-      await expect(service.assignSwimmer(mockSquad.squad_id, 'new-swimmer-id')).rejects.toThrow(
+      await expect(service.assignMember(mockSquad.squad_id, 'new-member-id')).rejects.toThrow(
         BadRequestException,
       );
     });
 
-    it('should throw NotFoundException if swimmer does not exist', async () => {
-      mockRepository.findOne.mockResolvedValue({ ...mockSquad, swimmers: [] });
-      mockRepository.assignSwimmer.mockResolvedValue(null);
+    it('should throw NotFoundException if member does not exist', async () => {
+      mockRepository.findOne.mockResolvedValue({ ...mockSquad, members: [] });
+      mockRepository.assignMember.mockResolvedValue(null);
 
-      await expect(
-        service.assignSwimmer(mockSquad.squad_id, 'non-existent-swimmer'),
-      ).rejects.toThrow(NotFoundException);
-    });
-  });
-
-  describe('removeSwimmer', () => {
-    it('should remove a swimmer from a squad', async () => {
-      mockRepository.findOne.mockResolvedValue({ ...mockSquad, swimmers: [mockSwimmer] });
-      mockRepository.removeSwimmer.mockResolvedValue({ ...mockSquad, swimmers: [] });
-
-      const result = await service.removeSwimmer(mockSquad.squad_id, mockSwimmer.swimmer_id);
-
-      expect((result as unknown as Record<string, unknown>).swimmer_count).toBe(0);
-    });
-
-    it('should throw NotFoundException if squad does not exist', async () => {
-      mockRepository.findOne.mockResolvedValue(null);
-
-      await expect(
-        service.removeSwimmer('non-existent-id', mockSwimmer.swimmer_id),
-      ).rejects.toThrow(NotFoundException);
-    });
-  });
-
-  describe('getSwimmersBySquad', () => {
-    it('should return swimmers belonging to a squad', async () => {
-      mockRepository.findOne.mockResolvedValue(mockSquad);
-      mockRepository.getSwimmersBySquad.mockResolvedValue([mockSwimmer]);
-
-      const result = await service.getSwimmersBySquad(mockSquad.squad_id);
-
-      expect(result).toEqual([mockSwimmer]);
-      expect(mockRepository.getSwimmersBySquad).toHaveBeenCalledWith(mockSquad.squad_id);
-    });
-
-    it('should throw NotFoundException if squad does not exist', async () => {
-      mockRepository.findOne.mockResolvedValue(null);
-
-      await expect(service.getSwimmersBySquad('non-existent-id')).rejects.toThrow(
+      await expect(service.assignMember(mockSquad.squad_id, 'non-existent-member')).rejects.toThrow(
         NotFoundException,
       );
+    });
+  });
+
+  describe('removeMember', () => {
+    it('should remove a member from a squad', async () => {
+      mockRepository.findOne.mockResolvedValue({ ...mockSquad, members: [mockMember] });
+      mockRepository.removeMember.mockResolvedValue({ ...mockSquad, members: [] });
+
+      const result = await service.removeMember(mockSquad.squad_id, mockMember.member_id);
+
+      expect((result as unknown as Record<string, unknown>).member_count).toBe(0);
+    });
+
+    it('should throw NotFoundException if squad does not exist', async () => {
+      mockRepository.findOne.mockResolvedValue(null);
+
+      await expect(service.removeMember('non-existent-id', mockMember.member_id)).rejects.toThrow(
+        NotFoundException,
+      );
+    });
+  });
+
+  describe('getMembersBySquad', () => {
+    it('should return members belonging to a squad', async () => {
+      mockRepository.findOne.mockResolvedValue(mockSquad);
+      mockRepository.getMembersBySquad.mockResolvedValue([mockMember]);
+
+      const result = await service.getMembersBySquad(mockSquad.squad_id);
+
+      expect(result).toEqual([mockMember]);
+      expect(mockRepository.getMembersBySquad).toHaveBeenCalledWith(mockSquad.squad_id);
+    });
+
+    it('should throw NotFoundException if squad does not exist', async () => {
+      mockRepository.findOne.mockResolvedValue(null);
+
+      await expect(service.getMembersBySquad('non-existent-id')).rejects.toThrow(NotFoundException);
     });
   });
 

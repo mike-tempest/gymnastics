@@ -12,13 +12,13 @@ import { CourseType } from './competition.entity';
 import { CompetitionResult } from './competition-result.entity';
 
 /**
- * The fastest non-DQ individual time a swimmer has recorded for one event
+ * The fastest non-DQ individual time a member has recorded for one event
  * (distance + stroke) in one course type. Maintained by
- * PersonalBestsService.recomputeForSwimmer whenever results change; never
+ * PersonalBestsService.recomputeForMember whenever results change; never
  * written directly by request handlers.
  */
 @Entity('personal_bests')
-@Unique(['swimmer_id', 'distance', 'stroke', 'course'])
+@Unique(['member_id', 'distance', 'stroke', 'course'])
 export class PersonalBest {
   @PrimaryGeneratedColumn('uuid')
   pb_id: string;
@@ -27,7 +27,7 @@ export class PersonalBest {
   club_id: string;
 
   @Column({ type: 'uuid' })
-  swimmer_id: string;
+  member_id: string;
 
   @Column({ type: 'int' })
   distance: number;

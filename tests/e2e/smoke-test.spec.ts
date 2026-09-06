@@ -3,9 +3,9 @@
  * 
  * Full user journey test covering:
  * 1. Login
- * 2. View swimmers
+ * 2. View members
  * 3. Create family
- * 4. Add swimmer to squad
+ * 4. Add member to squad
  * 5. Take attendance
  * 6. View invoices
  * 
@@ -48,7 +48,7 @@ test.describe('SwimNexus UK - Full User Journey Smoke Test', () => {
     test.setTimeout(120000);
   });
 
-  test('Complete user journey: Login -> View swimmers -> Create family -> Add swimmer to squad -> Take attendance -> View invoices', async ({ page }) => {
+  test('Complete user journey: Login -> View members -> Create family -> Add member to squad -> Take attendance -> View invoices', async ({ page }) => {
     
     // ========================================
     // STEP 1: LOGIN
@@ -80,48 +80,48 @@ test.describe('SwimNexus UK - Full User Journey Smoke Test', () => {
     console.log('✓ Login successful');
     
     // ========================================
-    // STEP 2: VIEW SWIMMERS
+    // STEP 2: VIEW MEMBERS
     // ========================================
-    console.log('Step 2: Testing View Swimmers...');
+    console.log('Step 2: Testing View Members...');
     
-    // Navigate to swimmers page
-    await page.goto(`${BASE_URL}/swimmers`);
+    // Navigate to members page
+    await page.goto(`${BASE_URL}/members`);
     
-    // Verify swimmers page loads
-    await expect(page).toHaveURL(/.*swimmers/);
-    await expect(page.locator('h1')).toContainText('Swimmers');
+    // Verify members page loads
+    await expect(page).toHaveURL(/.*members/);
+    await expect(page.locator('h1')).toContainText('Gymnasts');
     
     // Check for key page elements
-    await expect(page.locator('button:has-text("Add Swimmer")')).toBeVisible();
+    await expect(page.locator('button:has-text("Add Gymnast")')).toBeVisible();
     await expect(page.locator('button:has-text("CSV Import")')).toBeVisible();
     
     // Verify stats card is present
-    await expect(page.locator('text=Total Swimmers')).toBeVisible();
+    await expect(page.locator('text=Total Gymnasts')).toBeVisible();
     
-    // Check if swimmers list is visible (or empty state message)
-    const hasSwimmers = await page.locator('[data-testid="swimmer-list"], .space-y-4:has(a[href^="/swimmers/"])').count() > 0;
-    const hasEmptyState = await page.locator('text=No swimmers found').isVisible();
+    // Check if members list is visible (or empty state message)
+    const hasMembers = await page.locator('[data-testid="member-list"], .space-y-4:has(a[href^="/members/"])').count() > 0;
+    const hasEmptyState = await page.locator('text=No gymnasts found').isVisible();
     
-    expect(hasSwimmers || hasEmptyState).toBeTruthy();
+    expect(hasMembers || hasEmptyState).toBeTruthy();
     
-    // Test search functionality if swimmers exist
-    if (hasSwimmers) {
-      // Get first swimmer name
-      const firstSwimmerName = await page.locator('h3.text-white').first().textContent();
+    // Test search functionality if members exist
+    if (hasMembers) {
+      // Get first member name
+      const firstMemberName = await page.locator('h3.text-white').first().textContent();
       
-      if (firstSwimmerName) {
-        // Search for swimmer
-        await page.fill('input[placeholder*="Search"]', firstSwimmerName);
+      if (firstMemberName) {
+        // Search for member
+        await page.fill('input[placeholder*="Search"]', firstMemberName);
         
         // Verify filtered results
-        await expect(page.locator(`text=${firstSwimmerName}`)).toBeVisible();
+        await expect(page.locator(`text=${firstMemberName}`)).toBeVisible();
         
         // Clear search
         await page.locator('button[aria-label="Clear search"]').click();
       }
     }
     
-    console.log('✓ View Swimmers successful');
+    console.log('✓ View Members successful');
     
     // ========================================
     // STEP 3: CREATE FAMILY
@@ -187,32 +187,32 @@ test.describe('SwimNexus UK - Full User Journey Smoke Test', () => {
     console.log('✓ Create Family successful');
     
     // ========================================
-    // STEP 4: ADD SWIMMER TO SQUAD
+    // STEP 4: ADD MEMBER TO SQUAD
     // ========================================
-    console.log('Step 4: Testing Add Swimmer to Squad...');
+    console.log('Step 4: Testing Add Member to Squad...');
     
-    // Navigate back to swimmers page
-    await page.goto(`${BASE_URL}/swimmers`);
+    // Navigate back to members page
+    await page.goto(`${BASE_URL}/members`);
     
-    // Click "Add Swimmer" button
-    await page.click('button:has-text("Add Swimmer")');
+    // Click "Add Member" button
+    await page.click('button:has-text("Add Gymnast")');
     
     // Wait for modal to open
-    await expect(page.locator('h2:has-text("Add Swimmer"), h3:has-text("Add Swimmer")')).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('h2:has-text("Add Gymnast"), h3:has-text("Add Gymnast")')).toBeVisible({ timeout: 5000 });
     
-    // Generate unique swimmer data
-    const swimmerData = {
+    // Generate unique member data
+    const memberData = {
       firstName: 'Emma',
-      lastName: `TestSwimmer${timestamp}`,
+      lastName: `TestMember${timestamp}`,
       dob: '2010-01-15',
       gender: 'F',
-      seNumber: `SE${timestamp.toString().slice(-6)}`,
+      registrationNumber: `SE${timestamp.toString().slice(-6)}`,
     };
     
-    // Fill in swimmer form
-    await page.fill('input[name="first_name"], input[placeholder*="First name"]', swimmerData.firstName);
-    await page.fill('input[name="last_name"], input[placeholder*="Last name"]', swimmerData.lastName);
-    await page.fill('input[type="date"], input[name="dob"]', swimmerData.dob);
+    // Fill in member form
+    await page.fill('input[name="first_name"], input[placeholder*="First name"]', memberData.firstName);
+    await page.fill('input[name="last_name"], input[placeholder*="Last name"]', memberData.lastName);
+    await page.fill('input[type="date"], input[name="dob"]', memberData.dob);
     
     // Select gender
     const genderSelect = page.locator('select[name="gender"]');
@@ -223,10 +223,10 @@ test.describe('SwimNexus UK - Full User Journey Smoke Test', () => {
       await page.locator('input[type="radio"][value="F"]').check();
     }
     
-    // Fill SE number if field exists
-    const seNumberField = page.locator('input[name="se_number"], input[placeholder*="SE number"]');
-    if (await seNumberField.isVisible({ timeout: 2000 }).catch(() => false)) {
-      await seNumberField.fill(swimmerData.seNumber);
+    // Fill registration number if the field exists
+    const registrationNumberField = page.locator('input[name="registration_number"]');
+    if (await registrationNumberField.isVisible({ timeout: 2000 }).catch(() => false)) {
+      await registrationNumberField.fill(memberData.registrationNumber);
     }
     
     // Select squad if available
@@ -239,16 +239,16 @@ test.describe('SwimNexus UK - Full User Journey Smoke Test', () => {
       }
     }
     
-    // Submit swimmer form
-    await page.click('button[type="submit"]:has-text("Save"), button:has-text("Create Swimmer"), button:has-text("Add Swimmer")');
+    // Submit member form
+    await page.click('button[type="submit"]:has-text("Save"), button:has-text("Add New Gymnast")');
     
-    // Wait for modal to close and swimmer to appear in list
+    // Wait for modal to close and member to appear in list
     await page.waitForTimeout(2000);
     
-    // Verify swimmer was created
-    await expect(page.locator(`text=${swimmerData.firstName} ${swimmerData.lastName}`)).toBeVisible({ timeout: 10000 });
+    // Verify member was created
+    await expect(page.locator(`text=${memberData.firstName} ${memberData.lastName}`)).toBeVisible({ timeout: 10000 });
     
-    console.log('✓ Add Swimmer to Squad successful');
+    console.log('✓ Add Member to Squad successful');
     
     // ========================================
     // STEP 5: TAKE ATTENDANCE
@@ -280,7 +280,7 @@ test.describe('SwimNexus UK - Full User Journey Smoke Test', () => {
       const hasRoster = await page.locator('[data-testid="attendance-roster"], .space-y-2:has(button[aria-label*="attendance"])').isVisible({ timeout: 5000 }).catch(() => false);
       
       if (hasRoster) {
-        // Try to mark a swimmer as present
+        // Try to mark a member as present
         const firstAttendanceButton = page.locator('button:has-text("Present"), button[aria-label*="Present"]').first();
         if (await firstAttendanceButton.isVisible({ timeout: 3000 }).catch(() => false)) {
           await firstAttendanceButton.click();
@@ -288,10 +288,10 @@ test.describe('SwimNexus UK - Full User Journey Smoke Test', () => {
           // Wait for update
           await page.waitForTimeout(1000);
           
-          console.log('✓ Marked swimmer as present');
+          console.log('✓ Marked member as present');
         }
       } else {
-        console.log('ℹ No swimmers in session to mark attendance');
+        console.log('ℹ No members in session to mark attendance');
       }
     } else {
       console.log('ℹ No sessions available for attendance');
@@ -382,10 +382,10 @@ test.describe('SwimNexus UK - Full User Journey Smoke Test', () => {
     await expect(page.locator('text=/invalid.*password/i, text=/error/i, [class*="bg-red"]')).toBeVisible({ timeout: 5000 });
   });
   
-  test('Swimmers page - Search and filter functionality', async ({ page }) => {
+  test('Members page - Search and filter functionality', async ({ page }) => {
     await login(page, ADMIN_CREDENTIALS.email, ADMIN_CREDENTIALS.password);
     
-    await page.goto(`${BASE_URL}/swimmers`);
+    await page.goto(`${BASE_URL}/members`);
     
     // Verify search input exists
     await expect(page.locator('input[placeholder*="Search"]')).toBeVisible();
@@ -399,7 +399,7 @@ test.describe('SwimNexus UK - Full User Journey Smoke Test', () => {
 
     // Test navigation to each main section
     const sections = [
-      { url: '/swimmers', heading: 'Swimmers' },
+      { url: '/members', heading: 'Gymnasts' },
       { url: '/families', heading: 'Families' },
       { url: '/squads', heading: 'Squads' },
       { url: '/attendance', heading: 'Attendance' },
@@ -417,7 +417,7 @@ test.describe('SwimNexus UK - Full User Journey Smoke Test', () => {
     await login(page, ADMIN_CREDENTIALS.email, ADMIN_CREDENTIALS.password);
     await page.goto(`${BASE_URL}/`);
     await expect(page.locator('h1, h2')).toContainText(/Dashboard|SwimNexus/);
-    await expect(page.locator('text=/Total|Swimmers|Active|Revenue/i')).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('text=/Total|Gymnasts|Active|Revenue/i')).toBeVisible({ timeout: 5000 });
   });
 
   test('Squads page - List and navigation', async ({ page }) => {

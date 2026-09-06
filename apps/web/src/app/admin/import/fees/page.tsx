@@ -38,7 +38,7 @@ const FREQUENCIES = ['monthly', 'annual', 'one_time'];
 const APPLIES_TO = ['club', 'squad'];
 
 const TEMPLATE_CSV = `name,description,amount,frequency,applies_to,squad_name
-Club Membership,Monthly membership fee for all swimmers,35.00,monthly,club,
+Club Membership,Monthly membership fee for all members,35.00,monthly,club,
 Performance Squad Fee,Monthly training fee for the Performance squad,52.50,monthly,squad,Performance
 Annual Registration,Yearly Swim England registration fee,25.00,annual,club,`;
 

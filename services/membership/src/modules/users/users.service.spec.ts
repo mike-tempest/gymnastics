@@ -232,10 +232,10 @@ describe('UsersService', () => {
       const result = await service.bulkCreateStaff([
         staffItems[0],
         {
-          email: 'swimmer@example.com',
+          email: 'member@example.com',
           first_name: 'Sam',
           last_name: 'Young',
-          role: UserRole.SWIMMER_ADULT,
+          role: UserRole.MEMBER_ADULT,
         },
         {
           email: 'existing@example.com',
@@ -252,7 +252,7 @@ describe('UsersService', () => {
         'treasurer@example.com',
       ]);
       expect(result.errors).toEqual([
-        { row: 2, message: 'Role swimmer_adult is not a staff role' },
+        { row: 2, message: 'Role member_adult is not a staff role' },
         { row: 3, message: 'User with this email already exists' },
       ]);
     });

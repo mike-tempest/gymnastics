@@ -11,7 +11,7 @@ describe('AttendanceService', () => {
   const mockAttendance: Partial<Attendance> = {
     attendance_id: '123e4567-e89b-12d3-a456-426614174000',
     session_id: '223e4567-e89b-12d3-a456-426614174001',
-    swimmer_id: '334e5678-e89b-12d3-a456-426614174002',
+    member_id: '334e5678-e89b-12d3-a456-426614174002',
     status: AttendanceStatus.PRESENT,
     checked_in_at: null,
     notes: null,
@@ -24,8 +24,8 @@ describe('AttendanceService', () => {
     findAll: jest.fn(),
     findOne: jest.fn(),
     findBySession: jest.fn(),
-    findBySwimmer: jest.fn(),
-    findBySessionAndSwimmer: jest.fn(),
+    findByMember: jest.fn(),
+    findBySessionAndMember: jest.fn(),
     getAttendanceStats: jest.fn(),
     update: jest.fn(),
     remove: jest.fn(),
@@ -52,11 +52,11 @@ describe('AttendanceService', () => {
     it('should create an attendance record', async () => {
       const createDto = {
         session_id: mockAttendance.session_id as string,
-        swimmer_id: mockAttendance.swimmer_id as string,
+        member_id: mockAttendance.member_id as string,
         status: AttendanceStatus.PRESENT,
       };
 
-      mockRepository.findBySessionAndSwimmer.mockResolvedValue(null);
+      mockRepository.findBySessionAndMember.mockResolvedValue(null);
       mockRepository.create.mockResolvedValue(mockAttendance);
 
       const result = await service.create(createDto);
@@ -65,14 +65,14 @@ describe('AttendanceService', () => {
       expect(mockRepository.create).toHaveBeenCalledWith(createDto);
     });
 
-    it('should throw ConflictException if attendance already exists for the swimmer and session', async () => {
+    it('should throw ConflictException if attendance already exists for the member and session', async () => {
       const createDto = {
         session_id: mockAttendance.session_id as string,
-        swimmer_id: mockAttendance.swimmer_id as string,
+        member_id: mockAttendance.member_id as string,
         status: AttendanceStatus.PRESENT,
       };
 
-      mockRepository.findBySessionAndSwimmer.mockResolvedValue(mockAttendance);
+      mockRepository.findBySessionAndMember.mockResolvedValue(mockAttendance);
 
       await expect(service.create(createDto)).rejects.toThrow(ConflictException);
       expect(mockRepository.create).not.toHaveBeenCalled();
@@ -81,11 +81,11 @@ describe('AttendanceService', () => {
     it('should throw ConflictException on unique constraint violation from the database', async () => {
       const createDto = {
         session_id: mockAttendance.session_id as string,
-        swimmer_id: mockAttendance.swimmer_id as string,
+        member_id: mockAttendance.member_id as string,
         status: AttendanceStatus.PRESENT,
       };
 
-      mockRepository.findBySessionAndSwimmer.mockResolvedValue(null);
+      mockRepository.findBySessionAndMember.mockResolvedValue(null);
       mockRepository.create.mockRejectedValue({ code: '23505' });
 
       await expect(service.create(createDto)).rejects.toThrow(ConflictException);
@@ -93,14 +93,14 @@ describe('AttendanceService', () => {
   });
 
   describe('markAttendance', () => {
-    it('should mark attendance for multiple swimmers', async () => {
+    it('should mark attendance for multiple members', async () => {
       const sessionId = mockAttendance.session_id as string;
       const markDto = {
-        swimmer_ids: ['swimmer-1', 'swimmer-2'],
+        member_ids: ['member-1', 'member-2'],
         status: AttendanceStatus.PRESENT,
       };
 
-      mockRepository.findBySessionAndSwimmer.mockResolvedValue(null);
+      mockRepository.findBySessionAndMember.mockResolvedValue(null);
       mockRepository.create.mockResolvedValue(mockAttendance);
 
       const result = await service.markAttendance(sessionId, markDto);
@@ -112,14 +112,14 @@ describe('AttendanceService', () => {
     it('should update existing attendance records rather than creating duplicates', async () => {
       const sessionId = mockAttendance.session_id as string;
       const markDto = {
-        swimmer_ids: ['swimmer-1'],
+        member_ids: ['member-1'],
         status: AttendanceStatus.ABSENT,
       };
 
       const existingRecord = { ...mockAttendance, status: AttendanceStatus.PRESENT };
       const updatedRecord = { ...mockAttendance, status: AttendanceStatus.ABSENT };
 
-      mockRepository.findBySessionAndSwimmer.mockResolvedValue(existingRecord);
+      mockRepository.findBySessionAndMember.mockResolvedValue(existingRecord);
       mockRepository.update.mockResolvedValue(updatedRecord);
 
       const result = await service.markAttendance(sessionId, markDto);
@@ -130,10 +130,10 @@ describe('AttendanceService', () => {
       expect(mockRepository.create).not.toHaveBeenCalled();
     });
 
-    it('should throw BadRequestException if swimmer_ids is empty', async () => {
+    it('should throw BadRequestException if member_ids is empty', async () => {
       const sessionId = mockAttendance.session_id as string;
       const markDto = {
-        swimmer_ids: [],
+        member_ids: [],
         status: AttendanceStatus.PRESENT,
       };
 
@@ -141,31 +141,31 @@ describe('AttendanceService', () => {
     });
   });
 
-  describe('checkInSwimmer', () => {
+  describe('checkInMember', () => {
     it('should create a new attendance record with PRESENT status when none exists', async () => {
       const sessionId = mockAttendance.session_id as string;
-      const swimmerId = mockAttendance.swimmer_id as string;
+      const memberId = mockAttendance.member_id as string;
 
-      mockRepository.findBySessionAndSwimmer.mockResolvedValue(null);
+      mockRepository.findBySessionAndMember.mockResolvedValue(null);
       mockRepository.create.mockResolvedValue({
         ...mockAttendance,
         status: AttendanceStatus.PRESENT,
         checked_in_at: new Date(),
       });
 
-      const result = await service.checkInSwimmer(sessionId, swimmerId);
+      const result = await service.checkInMember(sessionId, memberId);
 
       expect(result.status).toBe(AttendanceStatus.PRESENT);
       expect(mockRepository.create).toHaveBeenCalledWith({
         session_id: sessionId,
-        swimmer_id: swimmerId,
+        member_id: memberId,
         status: AttendanceStatus.PRESENT,
       });
     });
 
     it('should update an existing attendance record to PRESENT on check-in', async () => {
       const sessionId = mockAttendance.session_id as string;
-      const swimmerId = mockAttendance.swimmer_id as string;
+      const memberId = mockAttendance.member_id as string;
       const existingRecord = { ...mockAttendance, status: AttendanceStatus.ABSENT };
       const updatedRecord = {
         ...existingRecord,
@@ -173,10 +173,10 @@ describe('AttendanceService', () => {
         checked_in_at: new Date(),
       };
 
-      mockRepository.findBySessionAndSwimmer.mockResolvedValue(existingRecord);
+      mockRepository.findBySessionAndMember.mockResolvedValue(existingRecord);
       mockRepository.update.mockResolvedValue(updatedRecord);
 
-      const result = await service.checkInSwimmer(sessionId, swimmerId);
+      const result = await service.checkInMember(sessionId, memberId);
 
       expect(result.status).toBe(AttendanceStatus.PRESENT);
       expect(mockRepository.update).toHaveBeenCalledWith(
@@ -223,19 +223,19 @@ describe('AttendanceService', () => {
     });
   });
 
-  describe('getSwimmerAttendance', () => {
-    it('should return all attendance records for a swimmer', async () => {
-      mockRepository.findBySwimmer.mockResolvedValue([mockAttendance]);
+  describe('getMemberAttendance', () => {
+    it('should return all attendance records for a member', async () => {
+      mockRepository.findByMember.mockResolvedValue([mockAttendance]);
 
-      const result = await service.getSwimmerAttendance(mockAttendance.swimmer_id as string);
+      const result = await service.getMemberAttendance(mockAttendance.member_id as string);
 
       expect(result).toEqual([mockAttendance]);
-      expect(mockRepository.findBySwimmer).toHaveBeenCalledWith(mockAttendance.swimmer_id);
+      expect(mockRepository.findByMember).toHaveBeenCalledWith(mockAttendance.member_id);
     });
   });
 
-  describe('getSwimmerAttendanceStats', () => {
-    it('should return attendance statistics for a swimmer', async () => {
+  describe('getMemberAttendanceStats', () => {
+    it('should return attendance statistics for a member', async () => {
       const mockStats = {
         total: 20,
         present: 18,
@@ -247,10 +247,10 @@ describe('AttendanceService', () => {
 
       mockRepository.getAttendanceStats.mockResolvedValue(mockStats);
 
-      const result = await service.getSwimmerAttendanceStats(mockAttendance.swimmer_id as string);
+      const result = await service.getMemberAttendanceStats(mockAttendance.member_id as string);
 
       expect(result).toEqual(mockStats);
-      expect(mockRepository.getAttendanceStats).toHaveBeenCalledWith(mockAttendance.swimmer_id);
+      expect(mockRepository.getAttendanceStats).toHaveBeenCalledWith(mockAttendance.member_id);
     });
   });
 

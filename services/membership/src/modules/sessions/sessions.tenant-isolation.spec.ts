@@ -11,7 +11,7 @@ import { CreateSessionDto } from './dto/create-session.dto';
 /**
  * Cross-tenant isolation test for the sessions module (Group D).
  *
- * Modelled on src/modules/swimmers/swimmers.tenant-isolation.spec.ts. It drives
+ * Modelled on src/modules/members/members.tenant-isolation.spec.ts. It drives
  * the real SessionsRepository through the real TenantScopedHelper /
  * TenantContextService, but fakes ClsService and the TypeORM repository so no
  * live database is needed. The assertions prove the enforcement rule from

@@ -34,14 +34,14 @@ export class WellbeingController {
     return this.wellbeingService.submitCheckIn(dto);
   }
 
-  @Get('swimmer/:swimmerId/history')
-  getSwimmerHistory(@Param('swimmerId') swimmerId: string, @Query('limit') limit?: number) {
-    return this.wellbeingService.getSwimmerHistory(swimmerId, limit);
+  @Get('member/:memberId/history')
+  getMemberHistory(@Param('memberId') memberId: string, @Query('limit') limit?: number) {
+    return this.wellbeingService.getMemberHistory(memberId, limit);
   }
 
-  @Get('swimmer/:swimmerId/today')
-  getTodayCheckIn(@Param('swimmerId') swimmerId: string) {
-    return this.wellbeingService.getTodayCheckIn(swimmerId);
+  @Get('member/:memberId/today')
+  getTodayCheckIn(@Param('memberId') memberId: string) {
+    return this.wellbeingService.getTodayCheckIn(memberId);
   }
 
   // --- Cycle tracking (parent only, consent-gated in frontend) ---
@@ -52,23 +52,23 @@ export class WellbeingController {
     return this.wellbeingService.submitCycleLog(dto);
   }
 
-  @Get('cycle/:swimmerId/history')
-  getCycleHistory(@Param('swimmerId') swimmerId: string, @Query('limit') limit?: number) {
-    return this.wellbeingService.getCycleHistory(swimmerId, limit);
+  @Get('cycle/:memberId/history')
+  getCycleHistory(@Param('memberId') memberId: string, @Query('limit') limit?: number) {
+    return this.wellbeingService.getCycleHistory(memberId, limit);
   }
 
   @Patch('cycle/:logId')
   updateCycleLog(@Param('logId') logId: string, @Body() dto: UpdateCycleLogDto) {
-    if (!dto.swimmer_id) {
-      throw new NotFoundException('swimmer_id is required');
+    if (!dto.member_id) {
+      throw new NotFoundException('member_id is required');
     }
-    return this.wellbeingService.updateCycleLog(logId, dto.swimmer_id, dto);
+    return this.wellbeingService.updateCycleLog(logId, dto.member_id, dto);
   }
 
   @Delete('cycle/:logId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  removeCycleLog(@Param('logId') logId: string, @Query('swimmer_id') swimmerId: string) {
-    return this.wellbeingService.removeCycleLog(logId, swimmerId);
+  removeCycleLog(@Param('logId') logId: string, @Query('member_id') memberId: string) {
+    return this.wellbeingService.removeCycleLog(logId, memberId);
   }
 
   // --- Coach endpoints: readiness only ---
@@ -76,8 +76,8 @@ export class WellbeingController {
   @Get('readiness')
   @UseGuards(RolesGuard)
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH, UserRole.SQUAD_COACH, UserRole.WELFARE_OFFICER)
-  getSessionReadiness(@Query('swimmer_ids') swimmerIdsRaw: string, @Query('date') date: string) {
-    const swimmerIds = swimmerIdsRaw ? swimmerIdsRaw.split(',') : [];
-    return this.wellbeingService.getSessionReadiness(swimmerIds, date);
+  getSessionReadiness(@Query('member_ids') memberIdsRaw: string, @Query('date') date: string) {
+    const memberIds = memberIdsRaw ? memberIdsRaw.split(',') : [];
+    return this.wellbeingService.getSessionReadiness(memberIds, date);
   }
 }

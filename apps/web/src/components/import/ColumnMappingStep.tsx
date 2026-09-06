@@ -25,7 +25,7 @@ interface ColumnMappingStepProps {
 }
 
 /**
- * The "match your columns" step shared by the swimmer and member import
+ * The "match your columns" step shared by the member and member import
  * wizards: an auto-guessed mapping from our canonical fields to uploaded columns
  * that the user can adjust before validation runs.
  */

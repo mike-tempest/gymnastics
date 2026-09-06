@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Swimmer } from '../../swimmers/entities/swimmer.entity';
+import { Member } from '../../members/entities/member.entity';
 
 @Entity('families')
 export class Family {
@@ -58,6 +58,6 @@ export class Family {
   @UpdateDateColumn({ type: 'timestamp' })
   updated_at: Date;
 
-  @OneToMany(() => Swimmer, (swimmer) => swimmer.family)
-  swimmers?: Swimmer[];
+  @OneToMany(() => Member, (member) => member.family)
+  members?: Member[];
 }

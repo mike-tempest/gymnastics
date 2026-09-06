@@ -7,7 +7,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as Handlebars from 'handlebars';
 import { Resend } from 'resend';
 import { Repository } from 'typeorm';
-import { BRAND } from '../../common/brand';
+import {
+  BRAND,
+  MEMBER_NOUN,
+  MEMBER_NOUN_LOWER,
+  MEMBER_NOUN_PLURAL,
+  MEMBER_NOUN_PLURAL_LOWER,
+} from '../../common/brand';
 import { WaitlistEntry } from '../waitlist/entities/waitlist.entity';
 import { EmailSuppression } from './entities/email-suppression.entity';
 
@@ -144,8 +150,8 @@ export interface DBSExpiryWarningEmailData {
 export interface ConsentExpiryWarningEmailData {
   parentName: string;
   recipientEmail: string;
-  swimmerName: string;
-  swimmerDOB: string;
+  memberName: string;
+  memberDOB: string;
   squadName: string;
   expiringCount: number;
   multipleExpiring: boolean;
@@ -185,8 +191,8 @@ export interface SessionCancelledEmailData {
 export interface SessionReminderEmailData {
   parentName: string;
   recipientEmail: string;
-  swimmerName?: string;
-  multipleSwimmers: boolean;
+  memberName?: string;
+  multipleMembers: boolean;
   sessionType: string;
   sessionTime: string;
   sessionDate: string;
@@ -197,7 +203,7 @@ export interface SessionReminderEmailData {
   poolAddress: string;
   duration: string;
   coachName?: string;
-  swimmers?: Array<{
+  members?: Array<{
     name: string;
     lane?: string;
   }>;
@@ -320,6 +326,10 @@ export class EmailService {
       clubName: this.clubName,
       appUrl: this.appUrl,
       year: new Date().getFullYear(),
+      memberNoun: MEMBER_NOUN,
+      memberNounLower: MEMBER_NOUN_LOWER,
+      memberNounPlural: MEMBER_NOUN_PLURAL,
+      memberNounPluralLower: MEMBER_NOUN_PLURAL_LOWER,
       ...context,
     });
   }
@@ -442,7 +452,7 @@ export class EmailService {
   async sendConsentExpiryWarning(data: ConsentExpiryWarningEmailData): Promise<void> {
     await this.send(
       data.recipientEmail,
-      `Consent Renewal Required for ${data.swimmerName} - ${this.clubName}`,
+      `Consent Renewal Required for ${data.memberName} - ${this.clubName}`,
       'consent-expiry-warning',
       data as unknown as Record<string, unknown>,
     );

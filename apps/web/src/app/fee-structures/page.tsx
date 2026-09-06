@@ -26,6 +26,7 @@ import {
   UpdateFeeStructureInput,
 } from '@/lib/api/finance';
 import { getSquads } from '@/lib/api/squads';
+import { MEMBER_NOUN, MEMBER_NOUN_LOWER } from '@/lib/brand';
 
 // Helper function to format frequency
 function formatFrequency(frequency: string): string {
@@ -50,8 +51,8 @@ function formatAppliesTo(appliesTo: string): string {
       return 'Whole Club';
     case 'squad':
       return 'Specific Squad';
-    case 'swimmer':
-      return 'Per Swimmer';
+    case 'member':
+      return `Per ${MEMBER_NOUN}`;
     default:
       return appliesTo;
   }
@@ -158,11 +159,11 @@ export default function FeeStructuresPage() {
     if (feeStructure.applies_to === 'squad') {
       const squadName = getSquadName(feeStructure.squad_id);
       return squadName
-        ? `every family with a swimmer in ${squadName}`
-        : 'every family with a swimmer in the selected squad';
+        ? `every family with a ${MEMBER_NOUN_LOWER} in ${squadName}`
+        : `every family with a ${MEMBER_NOUN_LOWER} in the selected squad`;
     }
-    if (feeStructure.applies_to === 'swimmer') {
-      return "the swimmer's family";
+    if (feeStructure.applies_to === 'member') {
+      return `the ${MEMBER_NOUN_LOWER}'s family`;
     }
     return 'every family in the club';
   };
@@ -315,7 +316,7 @@ export default function FeeStructuresPage() {
                 icon={Receipt}
                 title="No fee structures yet"
                 description="Fee structures define how much families pay per month, term or year. Set these up before generating invoices."
-                hint="Most clubs have 2 to 5 fee structures for different squads and swimmer types."
+                hint={`Most clubs have 2 to 5 fee structures for different squads and ${MEMBER_NOUN_LOWER} types.`}
                 actionLabel="Create Fee Structure"
                 actionOnClick={handleOpenAddModal}
               />

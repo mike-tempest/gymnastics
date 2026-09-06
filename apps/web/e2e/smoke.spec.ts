@@ -34,9 +34,9 @@ test.describe('Admin Dashboard', () => {
   });
 });
 
-test.describe('Swimmers Section', () => {
-  test('swimmers list page renders', async ({ page }) => {
-    const response = await page.goto('/swimmers');
+test.describe('Members Section', () => {
+  test('members list page renders', async ({ page }) => {
+    const response = await page.goto('/members');
     expect(response?.status()).toBeLessThan(500);
   });
 });

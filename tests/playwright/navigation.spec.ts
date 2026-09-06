@@ -23,12 +23,12 @@ test.describe('Page Navigation', () => {
 
   test('dashboard loads with stats', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('text=Total Swimmers')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('text=Total Gymnasts')).toBeVisible({ timeout: 10000 });
   });
 
-  test('swimmers page loads', async ({ page }) => {
-    await page.goto('/swimmers');
-    await expect(page.locator('text=Total Swimmers')).toBeVisible({ timeout: 10000 });
+  test('members page loads', async ({ page }) => {
+    await page.goto('/members');
+    await expect(page.locator('text=Total Gymnasts')).toBeVisible({ timeout: 10000 });
   });
 
   test('families page loads', async ({ page }) => {

@@ -42,8 +42,8 @@ export class AttendanceController {
   @Post('check-in')
   @HttpCode(HttpStatus.OK)
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  checkIn(@Body() body: { session_id: string; swimmer_id: string }) {
-    return this.attendanceService.checkInSwimmer(body.session_id, body.swimmer_id);
+  checkIn(@Body() body: { session_id: string; member_id: string }) {
+    return this.attendanceService.checkInMember(body.session_id, body.member_id);
   }
 
   @Get()
@@ -56,14 +56,14 @@ export class AttendanceController {
     return this.attendanceService.getSessionAttendance(sessionId);
   }
 
-  @Get('swimmer/:swimmerId')
-  getSwimmerAttendance(@Param('swimmerId') swimmerId: string) {
-    return this.attendanceService.getSwimmerAttendance(swimmerId);
+  @Get('member/:memberId')
+  getMemberAttendance(@Param('memberId') memberId: string) {
+    return this.attendanceService.getMemberAttendance(memberId);
   }
 
-  @Get('swimmer/:swimmerId/stats')
-  getSwimmerStats(@Param('swimmerId') swimmerId: string) {
-    return this.attendanceService.getSwimmerAttendanceStats(swimmerId);
+  @Get('member/:memberId/stats')
+  getMemberStats(@Param('memberId') memberId: string) {
+    return this.attendanceService.getMemberAttendanceStats(memberId);
   }
 
   @Get(':id')

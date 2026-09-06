@@ -11,7 +11,7 @@ import { Competition, CourseType } from './competition.entity';
 /** One leg of a relay: who swam it and (optionally) their split. */
 export interface RelayLeg {
   leg: number;
-  swimmer_id: string | null;
+  member_id: string | null;
   name: string | null;
   split: number | null;
 }
@@ -28,7 +28,7 @@ export class CompetitionResult {
   competition_id: string;
 
   @Column({ type: 'uuid' })
-  swimmer_id: string;
+  member_id: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
   event_name: string | null;

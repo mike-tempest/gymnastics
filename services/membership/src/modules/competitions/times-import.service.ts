@@ -1,11 +1,11 @@
 import { Injectable, BadRequestException, Logger } from '@nestjs/common';
 import { CompetitionsRepository } from './competitions.repository';
 import { PersonalBestsService } from './personal-bests.service';
-import { SwimmersRepository } from '../swimmers/swimmers.repository';
+import { MembersRepository } from '../members/members.repository';
 import { CompetitionResult } from './entities/competition-result.entity';
 import { CourseType } from './entities/competition.entity';
 import { parseTimeString, VALID_DISTANCES, StrokeCode } from '../../parsers/parser.interface';
-import { Swimmer } from '../swimmers/entities/swimmer.entity';
+import { Member } from '../members/entities/member.entity';
 
 export interface TimesRowError {
   row: number;
@@ -14,8 +14,8 @@ export interface TimesRowError {
 
 export interface ParsedTimeRow {
   row: number;
-  swimmer_id: string;
-  swimmerName: string;
+  member_id: string;
+  memberName: string;
   distance: number;
   stroke: string;
   time: number;
@@ -57,7 +57,6 @@ const STROKE_ALIASES: Record<string, string> = {
 const HEADER_ALIASES: Record<string, string> = {
   registration_number: 'registration_number',
   registration: 'registration_number',
-  se_number: 'registration_number',
   member_number: 'registration_number',
   first_name: 'first_name',
   firstname: 'first_name',
@@ -74,9 +73,9 @@ const HEADER_ALIASES: Record<string, string> = {
 };
 
 /**
- * Imports a plain CSV of times — one row per swimmer per event — into a
+ * Imports a plain CSV of times — one row per member per event — into a
  * competition, typically a "Baseline times" time trial created during
- * onboarding. Swimmers are matched by registration number when present,
+ * onboarding. Members are matched by registration number when present,
  * otherwise by first and last name. Rows may carry their own course and the
  * date the time was swum; both fall back to the competition's values.
  */
@@ -86,7 +85,7 @@ export class TimesImportService {
 
   constructor(
     private readonly repository: CompetitionsRepository,
-    private readonly swimmersRepository: SwimmersRepository,
+    private readonly membersRepository: MembersRepository,
     private readonly personalBests: PersonalBestsService,
   ) {}
 
@@ -108,7 +107,7 @@ export class TimesImportService {
 
     const entities: Partial<CompetitionResult>[] = rows.map((row) => ({
       competition_id: competitionId,
-      swimmer_id: row.swimmer_id,
+      member_id: row.member_id,
       event_name: null,
       distance: row.distance,
       stroke: row.stroke,
@@ -124,9 +123,9 @@ export class TimesImportService {
     }));
 
     const saved = await this.repository.createResults(entities);
-    const affectedSwimmers = new Set(saved.map((r) => r.swimmer_id));
-    for (const swimmerId of affectedSwimmers) {
-      await this.personalBests.recomputeForSwimmer(swimmerId);
+    const affectedMembers = new Set(saved.map((r) => r.member_id));
+    for (const memberId of affectedMembers) {
+      await this.personalBests.recomputeForMember(memberId);
     }
     const refreshed = await this.repository.findResultsByIds(saved.map((r) => r.result_id));
     const newPBs = refreshed.filter((r) => r.is_pb).length;
@@ -166,14 +165,14 @@ export class TimesImportService {
       );
     }
 
-    const swimmers = await this.swimmersRepository.findAll();
+    const members = await this.membersRepository.findAll();
     const byRegistration = new Map(
-      swimmers.filter((s) => s.se_number).map((s) => [s.se_number!.trim().toLowerCase(), s]),
+      members.filter((s) => s.registration_number).map((s) => [s.registration_number!.trim().toLowerCase(), s]),
     );
-    const byName = new Map<string, Swimmer[]>();
-    for (const swimmer of swimmers) {
-      const key = `${swimmer.first_name} ${swimmer.last_name}`.trim().toLowerCase();
-      byName.set(key, [...(byName.get(key) ?? []), swimmer]);
+    const byName = new Map<string, Member[]>();
+    for (const member of members) {
+      const key = `${member.first_name} ${member.last_name}`.trim().toLowerCase();
+      byName.set(key, [...(byName.get(key) ?? []), member]);
     }
 
     const rows: ParsedTimeRow[] = [];
@@ -187,26 +186,26 @@ export class TimesImportService {
         return index >= 0 ? (cells[index] ?? '').trim() : '';
       };
 
-      // --- Swimmer ---
+      // --- Member ---
       const registration = value('registration_number');
       const firstName = value('first_name');
       const lastName = value('last_name');
-      let swimmer = registration ? byRegistration.get(registration.toLowerCase()) : undefined;
-      if (!swimmer && firstName && lastName) {
+      let member = registration ? byRegistration.get(registration.toLowerCase()) : undefined;
+      if (!member && firstName && lastName) {
         const candidates = byName.get(`${firstName} ${lastName}`.toLowerCase()) ?? [];
         if (candidates.length > 1) {
           errors.push({
             row: rowNumber,
-            message: `More than one swimmer is named ${firstName} ${lastName}; add their registration number to the row`,
+            message: `More than one member is named ${firstName} ${lastName}; add their registration number to the row`,
           });
           continue;
         }
-        swimmer = candidates[0];
+        member = candidates[0];
       }
-      if (!swimmer) {
+      if (!member) {
         const identity =
-          registration || `${firstName} ${lastName}`.trim() || '(no swimmer given)';
-        errors.push({ row: rowNumber, message: `Swimmer not found in club: ${identity}` });
+          registration || `${firstName} ${lastName}`.trim() || '(no member given)';
+        errors.push({ row: rowNumber, message: `Member not found in club: ${identity}` });
         continue;
       }
 
@@ -276,8 +275,8 @@ export class TimesImportService {
 
       rows.push({
         row: rowNumber,
-        swimmer_id: swimmer.swimmer_id,
-        swimmerName: `${swimmer.first_name} ${swimmer.last_name}`,
+        member_id: member.member_id,
+        memberName: `${member.first_name} ${member.last_name}`,
         distance,
         stroke,
         time,

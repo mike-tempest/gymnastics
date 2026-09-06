@@ -30,7 +30,7 @@ export class FamiliesRepository {
 
   async findAll(): Promise<Family[]> {
     return await this.scoped.scopedFind(this.repository, {
-      relations: ['swimmers'],
+      relations: ['members'],
       order: {
         family_name: 'ASC',
       },
@@ -41,7 +41,7 @@ export class FamiliesRepository {
     // A family_id from another club resolves to null (behaves as not-found).
     return await this.scoped.scopedFindOne(this.repository, {
       where: { family_id: id },
-      relations: ['swimmers'],
+      relations: ['members'],
     });
   }
 
@@ -69,7 +69,7 @@ export class FamiliesRepository {
   async findOneUnscoped(id: string): Promise<Family | null> {
     return await this.repository.findOne({
       where: { family_id: id },
-      relations: ['swimmers'],
+      relations: ['members'],
     });
   }
 

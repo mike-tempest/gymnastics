@@ -11,8 +11,8 @@ describe('AdminController', () => {
 
   const mockDashboardStats = {
     membership: {
-      totalSwimmers: 10,
-      activeSwimmers: 10,
+      totalMembers: 10,
+      activeMembers: 10,
       totalFamilies: 5,
       totalSquads: 2,
     },

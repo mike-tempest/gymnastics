@@ -8,7 +8,7 @@ import { TenantScopedHelper } from '../../common/tenancy/tenant-scoped.helper';
 import { TenantContextService } from '../../common/tenancy/tenant-context.service';
 
 const CLUB_ID = 'club-1';
-const SWIMMER_ID = 'swimmer-1';
+const MEMBER_ID = 'member-1';
 
 interface ResultSeed {
   result_id: string;
@@ -27,7 +27,7 @@ function makeResult(seed: ResultSeed) {
     result_id: seed.result_id,
     club_id: CLUB_ID,
     competition_id: `comp-${seed.result_id}`,
-    swimmer_id: SWIMMER_ID,
+    member_id: MEMBER_ID,
     event_name: null,
     distance: seed.distance ?? 100,
     stroke: seed.stroke ?? 'Freestyle',
@@ -96,7 +96,7 @@ describe('PersonalBestsService', () => {
     jest.clearAllMocks();
   });
 
-  describe('recomputeForSwimmer', () => {
+  describe('recomputeForMember', () => {
     it('creates a PB row for the fastest eligible time of each event and course', async () => {
       primeScopedFind(
         [
@@ -107,14 +107,14 @@ describe('PersonalBestsService', () => {
         [],
       );
 
-      const outcome = await service.recomputeForSwimmer(SWIMMER_ID);
+      const outcome = await service.recomputeForMember(MEMBER_ID);
 
       expect(outcome.improved).toBe(1);
       expect(pbRepo.save).toHaveBeenCalledTimes(1);
       expect(pbRepo.save).toHaveBeenCalledWith(
         expect.objectContaining({
           club_id: CLUB_ID,
-          swimmer_id: SWIMMER_ID,
+          member_id: MEMBER_ID,
           distance: 100,
           stroke: 'Freestyle',
           course: CourseType.SC,
@@ -134,7 +134,7 @@ describe('PersonalBestsService', () => {
         [],
       );
 
-      await service.recomputeForSwimmer(SWIMMER_ID);
+      await service.recomputeForMember(MEMBER_ID);
 
       // r1 and r2 were PBs when swum; r3 was not and its stale flag clears.
       expect(resultRepo.update).toHaveBeenCalledWith({ result_id: 'r1' }, { is_pb: true });
@@ -153,7 +153,7 @@ describe('PersonalBestsService', () => {
           {
             pb_id: 'pb-1',
             club_id: CLUB_ID,
-            swimmer_id: SWIMMER_ID,
+            member_id: MEMBER_ID,
             distance: 100,
             stroke: 'Freestyle',
             course: CourseType.SC,
@@ -163,7 +163,7 @@ describe('PersonalBestsService', () => {
         ],
       );
 
-      await service.recomputeForSwimmer(SWIMMER_ID);
+      await service.recomputeForMember(MEMBER_ID);
 
       // The recent swim is no longer a PB and the stored row moves to the
       // genuinely fastest time.
@@ -194,7 +194,7 @@ describe('PersonalBestsService', () => {
         [],
       );
 
-      const outcome = await service.recomputeForSwimmer(SWIMMER_ID);
+      const outcome = await service.recomputeForMember(MEMBER_ID);
 
       expect(outcome.improved).toBe(2);
       expect(pbRepo.save).toHaveBeenCalledTimes(2);
@@ -212,7 +212,7 @@ describe('PersonalBestsService', () => {
         [],
       );
 
-      await service.recomputeForSwimmer(SWIMMER_ID);
+      await service.recomputeForMember(MEMBER_ID);
 
       expect(pbRepo.save).toHaveBeenCalledTimes(1);
       expect(pbRepo.save).toHaveBeenCalledWith(
@@ -228,7 +228,7 @@ describe('PersonalBestsService', () => {
           {
             pb_id: 'pb-stale',
             club_id: CLUB_ID,
-            swimmer_id: SWIMMER_ID,
+            member_id: MEMBER_ID,
             distance: 100,
             stroke: 'Freestyle',
             course: CourseType.SC,
@@ -238,7 +238,7 @@ describe('PersonalBestsService', () => {
         ],
       );
 
-      await service.recomputeForSwimmer(SWIMMER_ID);
+      await service.recomputeForMember(MEMBER_ID);
 
       expect(pbRepo.delete).toHaveBeenCalledWith(expect.objectContaining({ club_id: CLUB_ID }));
     });

@@ -14,11 +14,11 @@ import { UpdateCycleLogDto } from './dto/update-cycle-log.dto';
 /**
  * Cross-tenant isolation test for the wellbeing module (Group G).
  *
- * Modelled on src/modules/swimmers/swimmers.tenant-isolation.spec.ts. It drives
+ * Modelled on src/modules/members/members.tenant-isolation.spec.ts. It drives
  * the real WellbeingRepository through the real TenantScopedHelper /
  * TenantContextService, faking ClsService and the two TypeORM repositories so no
  * live database is needed. Cycle logs and wellbeing logs are children of
- * swimmers; the assertions prove the enforcement rule from
+ * members; the assertions prove the enforcement rule from
  * docs/multi-tenancy/03-enforcement.md:
  *
  *  - reads inject `club_id = getClubId()`
@@ -42,8 +42,8 @@ class FakeClsService {
 
 const CLUB_A = 'club-aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa';
 const CLUB_B = 'club-bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb';
-const SWIMMER_IN_A = 'swimmer-1111-in-club-a';
-const SWIMMER_IN_B = 'swimmer-2222-in-club-b';
+const MEMBER_IN_A = 'member-1111-in-club-a';
+const MEMBER_IN_B = 'member-2222-in-club-b';
 const WB_LOG_IN_A = 'wb-log-1111-in-club-a';
 const WB_LOG_IN_B = 'wb-log-2222-in-club-b';
 const CYCLE_LOG_IN_A = 'cycle-log-1111-in-club-a';
@@ -70,20 +70,20 @@ describe('WellbeingRepository tenant isolation', () => {
   const wbRows: Array<Partial<WellbeingLog>> = [
     {
       log_id: WB_LOG_IN_A,
-      swimmer_id: SWIMMER_IN_A,
+      member_id: MEMBER_IN_A,
       club_id: CLUB_A,
       log_date: '2026-05-25' as unknown as Date,
     },
     {
       log_id: WB_LOG_IN_B,
-      swimmer_id: SWIMMER_IN_B,
+      member_id: MEMBER_IN_B,
       club_id: CLUB_B,
       log_date: '2026-05-25' as unknown as Date,
     },
   ];
   const cycleRows: Array<Partial<CycleLog>> = [
-    { log_id: CYCLE_LOG_IN_A, swimmer_id: SWIMMER_IN_A, club_id: CLUB_A },
-    { log_id: CYCLE_LOG_IN_B, swimmer_id: SWIMMER_IN_B, club_id: CLUB_B },
+    { log_id: CYCLE_LOG_IN_A, member_id: MEMBER_IN_A, club_id: CLUB_A },
+    { log_id: CYCLE_LOG_IN_B, member_id: MEMBER_IN_B, club_id: CLUB_B },
   ];
 
   function matches<T extends ObjectLiteral>(row: Partial<T>, where: ObjectLiteral): boolean {
@@ -161,33 +161,33 @@ describe('WellbeingRepository tenant isolation', () => {
   });
 
   describe('wellbeing log reads are scoped to the active club', () => {
-    it('findWellbeingBySwimmer merges club_id with the swimmer filter', async () => {
+    it('findWellbeingByMember merges club_id with the member filter', async () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
-      const result = await repo.findWellbeingBySwimmer(SWIMMER_IN_A);
+      const result = await repo.findWellbeingByMember(MEMBER_IN_A);
 
-      expect(wbFindCalls[0]).toEqual({ swimmer_id: SWIMMER_IN_A, club_id: CLUB_A });
+      expect(wbFindCalls[0]).toEqual({ member_id: MEMBER_IN_A, club_id: CLUB_A });
       expect(result).toHaveLength(1);
       expect(result[0].log_id).toBe(WB_LOG_IN_A);
     });
 
-    it('findWellbeingBySwimmer never returns another club rows', async () => {
+    it('findWellbeingByMember never returns another club rows', async () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
-      // The swimmer lives in CLUB_B, so a CLUB_A caller sees nothing.
-      const result = await repo.findWellbeingBySwimmer(SWIMMER_IN_B);
+      // The member lives in CLUB_B, so a CLUB_A caller sees nothing.
+      const result = await repo.findWellbeingByMember(MEMBER_IN_B);
 
-      expect(wbFindCalls[0]).toEqual({ swimmer_id: SWIMMER_IN_B, club_id: CLUB_A });
+      expect(wbFindCalls[0]).toEqual({ member_id: MEMBER_IN_B, club_id: CLUB_A });
       expect(result).toHaveLength(0);
     });
 
     it('findTodayWellbeing scopes the lookup by club_id', async () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
-      await repo.findTodayWellbeing(SWIMMER_IN_A);
+      await repo.findTodayWellbeing(MEMBER_IN_A);
 
       expect(wbFindOneCalls[0]).toMatchObject({
-        swimmer_id: SWIMMER_IN_A,
+        member_id: MEMBER_IN_A,
         club_id: CLUB_A,
       });
     });
@@ -195,7 +195,7 @@ describe('WellbeingRepository tenant isolation', () => {
     it('findWellbeingByDate scopes the In(...) query by club_id', async () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
-      await repo.findWellbeingByDate([SWIMMER_IN_A, SWIMMER_IN_B], '2026-05-25');
+      await repo.findWellbeingByDate([MEMBER_IN_A, MEMBER_IN_B], '2026-05-25');
 
       expect(wbFindCalls[0]).toMatchObject({ club_id: CLUB_A });
     });
@@ -215,7 +215,7 @@ describe('WellbeingRepository tenant isolation', () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
       const dto: CreateWellbeingLogDto = {
-        swimmer_id: SWIMMER_IN_A,
+        member_id: MEMBER_IN_A,
         log_date: '2026-05-25',
         energy_level: 4,
         comfort_in_water: 4,
@@ -224,7 +224,7 @@ describe('WellbeingRepository tenant isolation', () => {
       await repo.createWellbeingLog(dto);
 
       expect(wbSavedEntities[0]).toMatchObject({
-        swimmer_id: SWIMMER_IN_A,
+        member_id: MEMBER_IN_A,
         club_id: CLUB_A,
       });
     });
@@ -233,7 +233,7 @@ describe('WellbeingRepository tenant isolation', () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
       const dto = {
-        swimmer_id: SWIMMER_IN_A,
+        member_id: MEMBER_IN_A,
         log_date: '2026-05-25',
         energy_level: 4,
         comfort_in_water: 4,
@@ -251,7 +251,7 @@ describe('WellbeingRepository tenant isolation', () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
       await repo.upsertWellbeingLog({
-        swimmer_id: SWIMMER_IN_A,
+        member_id: MEMBER_IN_A,
         log_date: '2026-05-25',
         energy_level: 5,
         comfort_in_water: 5,
@@ -259,7 +259,7 @@ describe('WellbeingRepository tenant isolation', () => {
 
       // The existence check is club-scoped.
       expect(wbFindOneCalls[0]).toMatchObject({
-        swimmer_id: SWIMMER_IN_A,
+        member_id: MEMBER_IN_A,
         club_id: CLUB_A,
       });
       // The matched row belongs to CLUB_A, so the update is scoped by club_id.
@@ -273,10 +273,10 @@ describe('WellbeingRepository tenant isolation', () => {
     it('upsertWellbeingLog creates a fresh row when the existing one is in another club', async () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
-      // SWIMMER_IN_B's log exists but in CLUB_B, so for CLUB_A it is not-found
+      // MEMBER_IN_B's log exists but in CLUB_B, so for CLUB_A it is not-found
       // and a new (club-stamped) row is created instead of mutating CLUB_B's.
       await repo.upsertWellbeingLog({
-        swimmer_id: SWIMMER_IN_B,
+        member_id: MEMBER_IN_B,
         log_date: '2026-05-25',
         energy_level: 3,
         comfort_in_water: 3,
@@ -288,12 +288,12 @@ describe('WellbeingRepository tenant isolation', () => {
   });
 
   describe('cycle log reads behave as not-found across tenants', () => {
-    it('findCycleLogsBySwimmer merges club_id with the swimmer filter', async () => {
+    it('findCycleLogsByMember merges club_id with the member filter', async () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
-      const result = await repo.findCycleLogsBySwimmer(SWIMMER_IN_A);
+      const result = await repo.findCycleLogsByMember(MEMBER_IN_A);
 
-      expect(cycleFindCalls[0]).toEqual({ swimmer_id: SWIMMER_IN_A, club_id: CLUB_A });
+      expect(cycleFindCalls[0]).toEqual({ member_id: MEMBER_IN_A, club_id: CLUB_A });
       expect(result).toHaveLength(1);
     });
 
@@ -321,14 +321,14 @@ describe('WellbeingRepository tenant isolation', () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
       const dto: CreateCycleLogDto = {
-        swimmer_id: SWIMMER_IN_A,
+        member_id: MEMBER_IN_A,
         period_start: '2026-05-01',
       };
 
       await repo.createCycleLog(dto);
 
       expect(cycleSavedEntities[0]).toMatchObject({
-        swimmer_id: SWIMMER_IN_A,
+        member_id: MEMBER_IN_A,
         club_id: CLUB_A,
       });
     });
@@ -337,7 +337,7 @@ describe('WellbeingRepository tenant isolation', () => {
       cls.set(CLS_CLUB_ID_KEY, CLUB_A);
 
       const dto = {
-        swimmer_id: SWIMMER_IN_A,
+        member_id: MEMBER_IN_A,
         period_start: '2026-05-01',
         club_id: CLUB_B,
       } as CreateCycleLogDto;

@@ -2,7 +2,7 @@
   "name": "@club-manager/membership-service",
   "version": "1.0.0",
   "private": true,
-  "description": "Membership service for managing swimmers, families, and club memberships",
+  "description": "Membership service for managing members, families, and club memberships",
   "main": "dist/main.js",
   "scripts": {
     "dev": "nest start --watch",

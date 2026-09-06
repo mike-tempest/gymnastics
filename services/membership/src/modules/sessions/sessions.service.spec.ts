@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { SessionsService } from './sessions.service';
 import { SessionsRepository } from './sessions.repository';
 import { EmailService } from '../email/email.service';
-import { SwimmersRepository } from '../swimmers/swimmers.repository';
+import { MembersRepository } from '../members/members.repository';
 import { FamiliesRepository } from '../families/families.repository';
 import { ClubsRepository } from '../clubs/clubs.repository';
 import { Club } from '../clubs/entities/club.entity';
@@ -66,7 +66,7 @@ describe('SessionsService', () => {
     get: jest.fn().mockReturnValue('http://localhost:3000'),
   };
 
-  const mockSwimmersRepository = {
+  const mockMembersRepository = {
     findOne: jest.fn(),
   };
 
@@ -89,7 +89,7 @@ describe('SessionsService', () => {
         { provide: SessionsRepository, useValue: mockRepository },
         { provide: EmailService, useValue: mockEmailService },
         { provide: ConfigService, useValue: mockConfigService },
-        { provide: SwimmersRepository, useValue: mockSwimmersRepository },
+        { provide: MembersRepository, useValue: mockMembersRepository },
         { provide: FamiliesRepository, useValue: mockFamiliesRepository },
         { provide: ClubsRepository, useValue: mockClubsRepository },
         { provide: TenantContextService, useValue: mockTenantContext },
@@ -257,12 +257,12 @@ describe('SessionsService', () => {
       expect(result[0]).toMatchObject({
         session_id: 'session-a',
         attendance_count: 8,
-        total_swimmers: 10,
+        total_members: 10,
       });
       expect(result[1]).toMatchObject({
         session_id: 'session-b',
         attendance_count: 0,
-        total_swimmers: 0,
+        total_members: 0,
       });
     });
 
@@ -438,7 +438,7 @@ describe('SessionsService', () => {
       timezone: 'Australia/Sydney',
     };
 
-    // Builds a reminder-eligible session with one family/swimmer for a club.
+    // Builds a reminder-eligible session with one family/member for a club.
     const buildSession = (clubId: string, sessionDate: string): Partial<Session> => ({
       session_id: `sess-${clubId}`,
       club_id: clubId,
@@ -452,9 +452,9 @@ describe('SessionsService', () => {
       coach_name: 'Coach A',
       squad: {
         squad_name: 'Seniors',
-        swimmers: [
+        members: [
           {
-            swimmer_id: 'sw-1',
+            member_id: 'sw-1',
             first_name: 'Alex',
             last_name: 'Smith',
             family: {

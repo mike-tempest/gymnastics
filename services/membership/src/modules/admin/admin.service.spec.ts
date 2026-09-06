@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { AdminService } from './admin.service';
-import { Swimmer } from '../swimmers/entities/swimmer.entity';
+import { Member } from '../members/entities/member.entity';
 import { Family } from '../families/entities/family.entity';
 import { Squad } from '../squads/entities/squad.entity';
 import { Session } from '../sessions/entities/session.entity';
@@ -47,7 +47,7 @@ function createMockRepository() {
 
 describe('AdminService', () => {
   let service: AdminService;
-  let swimmerRepo: ReturnType<typeof createMockRepository>;
+  let memberRepo: ReturnType<typeof createMockRepository>;
   let familyRepo: ReturnType<typeof createMockRepository>;
   let squadRepo: ReturnType<typeof createMockRepository>;
   let sessionRepo: ReturnType<typeof createMockRepository>;
@@ -57,7 +57,7 @@ describe('AdminService', () => {
   let clubRepo: ReturnType<typeof createMockRepository>;
 
   beforeEach(async () => {
-    swimmerRepo = createMockRepository();
+    memberRepo = createMockRepository();
     familyRepo = createMockRepository();
     squadRepo = createMockRepository();
     sessionRepo = createMockRepository();
@@ -76,7 +76,7 @@ describe('AdminService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AdminService,
-        { provide: getRepositoryToken(Swimmer), useValue: swimmerRepo },
+        { provide: getRepositoryToken(Member), useValue: memberRepo },
         { provide: getRepositoryToken(Family), useValue: familyRepo },
         { provide: getRepositoryToken(Squad), useValue: squadRepo },
         { provide: getRepositoryToken(Session), useValue: sessionRepo },
@@ -111,15 +111,15 @@ describe('AdminService', () => {
     });
 
     it('should return membership stats from repositories', async () => {
-      swimmerRepo.count.mockResolvedValue(25);
+      memberRepo.count.mockResolvedValue(25);
       familyRepo.count.mockResolvedValue(15);
       squadRepo.count.mockResolvedValue(4);
 
       const result = await service.getDashboardStats();
 
       expect(result.membership).toEqual({
-        totalSwimmers: 25,
-        activeSwimmers: 25,
+        totalMembers: 25,
+        activeMembers: 25,
         totalFamilies: 15,
         totalSquads: 4,
       });
@@ -255,8 +255,8 @@ describe('AdminService', () => {
 
     it('should return squad attendance rates matching the number of squads', async () => {
       squadRepo.find.mockResolvedValue([
-        { squad_id: 'sq-1', squad_name: 'Junior', swimmers: [] },
-        { squad_id: 'sq-2', squad_name: 'Senior', swimmers: [] },
+        { squad_id: 'sq-1', squad_name: 'Junior', members: [] },
+        { squad_id: 'sq-2', squad_name: 'Senior', members: [] },
       ]);
 
       const result = await service.getReportsData();
@@ -277,8 +277,8 @@ describe('AdminService', () => {
       squadRepo.createQueryBuilder.mockReturnValue({
         ...createMockQueryBuilder(),
         getMany: jest.fn().mockResolvedValue([
-          { squad_id: 'sq-1', squad_name: 'Junior', swimmerCount: 10 },
-          { squad_id: 'sq-2', squad_name: 'Senior', swimmerCount: 8 },
+          { squad_id: 'sq-1', squad_name: 'Junior', memberCount: 10 },
+          { squad_id: 'sq-2', squad_name: 'Senior', memberCount: 8 },
         ]),
       });
 
@@ -288,7 +288,7 @@ describe('AdminService', () => {
       expect(result.squadDistribution[0]).toEqual({
         squadId: 'sq-1',
         squadName: 'Junior',
-        swimmerCount: 10,
+        memberCount: 10,
       });
     });
   });
@@ -323,9 +323,9 @@ describe('AdminService', () => {
       }
     });
 
-    it('should handle squads with no swimmers for attendance rates', async () => {
+    it('should handle squads with no members for attendance rates', async () => {
       squadRepo.find.mockResolvedValue([
-        { squad_id: 'sq-1', squad_name: 'Empty Squad', swimmers: [] },
+        { squad_id: 'sq-1', squad_name: 'Empty Squad', members: [] },
       ]);
 
       const result = await service.getReportsData();
