@@ -21,7 +21,12 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
  * The enum is created with only the original eleven entity-type values (and
  * the eight action values) that the entity declared before the extension.
  * ExtendAuditEntityTypes still performs the extension itself, so the
- * migration history stays honest.
+ * migration history stays honest. One deliberate deviation: the value is
+ * seeded as MEMBER rather than the pre-rename SWIMMER label, because the
+ * RenameSwimmerToMember migration does not touch this enum (the column was
+ * varchar on migration-built databases when it was written) and the renamed
+ * audit code writes MEMBER. A fresh database on this fork never needs the
+ * SWIMMER label.
  *
  * Every statement is guarded so the migration is a no-op on databases that
  * already have the types and enum-typed columns (synchronize-built dev
@@ -59,7 +64,7 @@ export class ConvertAuditColumnsToEnums1744202850000 implements MigrationInterfa
             AND n.nspname = current_schema()
         ) THEN
           CREATE TYPE "audit_logs_entity_type_enum" AS ENUM (
-            'USER', 'SWIMMER', 'FAMILY', 'SQUAD', 'SESSION', 'INVOICE',
+            'USER', 'MEMBER', 'FAMILY', 'SQUAD', 'SESSION', 'INVOICE',
             'PAYMENT', 'DBS_CHECK', 'CONSENT', 'MESSAGE', 'DOCUMENT'
           );
         END IF;
