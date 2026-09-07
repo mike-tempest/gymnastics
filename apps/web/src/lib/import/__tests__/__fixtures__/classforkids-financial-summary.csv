@@ -1,0 +1,4 @@
+Date,Time,Amount,Payment Method,Payment Type,Transaction Number,Fees Charged,Income
+01/09/2024,09:14,£32.50,Card,Subscription,TXN-100241,£1.19,£31.31
+01/09/2024,09:15,£44.00,Card,Subscription,TXN-100242,£1.51,£42.49
+02/09/2024,18:02,£26.00,Card,Block booking,TXN-100243,£0.97,£25.03
