@@ -233,6 +233,39 @@ export interface ActivationEmailData {
   clubName: string;
 }
 
+/**
+ * A place has come up for a child on the club's waiting list (TEM-22). The
+ * accept and decline links carry a single-use token, so the parent answers
+ * without needing an account.
+ */
+export interface WaitingListOfferEmailData {
+  recipientEmail: string;
+  parentName: string;
+  childName: string;
+  clubName: string;
+  squadName: string;
+  trainingTimes?: string | null;
+  coachName?: string | null;
+  /** End of the acceptance window, already formatted in the club's locale. */
+  expiresOn: string;
+  acceptUrl: string;
+  declineUrl: string;
+}
+
+/** The place was taken and everything behind it now exists (TEM-22). */
+export interface WaitingListEnrolledEmailData {
+  recipientEmail: string;
+  parentName: string;
+  childName: string;
+  clubName: string;
+  squadName?: string | null;
+  /** Family invite link, so the parent can set up portal access. */
+  inviteUrl?: string | null;
+  consentsRequested?: number;
+  /** True when the family already had a live mandate, so no setup is needed. */
+  mandateAlreadyActive?: boolean;
+}
+
 @Injectable()
 export class EmailService {
   private readonly logger = new Logger(EmailService.name);
@@ -612,6 +645,30 @@ export class EmailService {
         text,
         replyTo: this.configService.get<string>('ACTIVATION_REPLY_TO'),
       },
+    );
+  }
+
+  /**
+   * Offer of a place from the club's waiting list. Transactional, not
+   * marketing: the family asked to be told when a place came up, and the
+   * offer expires, so it is never suppressed.
+   */
+  async sendWaitingListOffer(data: WaitingListOfferEmailData): Promise<void> {
+    await this.send(
+      data.recipientEmail,
+      `A place for ${data.childName} at ${data.clubName}`,
+      'waiting-list-offer',
+      { ...data, clubName: data.clubName || this.clubName },
+    );
+  }
+
+  /** Confirmation that the place was taken, carrying the parent portal invite. */
+  async sendWaitingListEnrolled(data: WaitingListEnrolledEmailData): Promise<void> {
+    await this.send(
+      data.recipientEmail,
+      `${data.childName} is enrolled at ${data.clubName}`,
+      'waiting-list-enrolled',
+      { ...data, clubName: data.clubName || this.clubName },
     );
   }
 

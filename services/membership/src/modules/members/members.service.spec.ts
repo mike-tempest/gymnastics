@@ -4,6 +4,7 @@ import { MembersService } from './members.service';
 import { MembersRepository } from './members.repository';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
+import { SquadCapacityEvents } from '../../common/capacity/squad-capacity.events';
 
 describe('MembersService', () => {
   let service: MembersService;
@@ -37,6 +38,13 @@ describe('MembersService', () => {
     count: jest.fn(),
   };
 
+  // The waiting list listens for freed places through this bus; the service
+  // only publishes to it, so a recording double is enough here.
+  const mockCapacityEvents = {
+    emitPlaceMayHaveOpened: jest.fn().mockResolvedValue(undefined),
+    onPlaceMayHaveOpened: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -44,6 +52,10 @@ describe('MembersService', () => {
         {
           provide: MembersRepository,
           useValue: mockRepository,
+        },
+        {
+          provide: SquadCapacityEvents,
+          useValue: mockCapacityEvents,
         },
       ],
     }).compile();

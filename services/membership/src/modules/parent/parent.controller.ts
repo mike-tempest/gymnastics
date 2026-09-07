@@ -16,9 +16,11 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ParentService } from './parent.service';
+import { ParentMandateService } from './parent-mandate.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { InvoicePdfService } from '../finance/invoices/invoice-pdf.service';
 import { UpdateParentProfileDto } from './dto/update-parent-profile.dto';
+import { StartMandateSetupDto, CompleteMandateSetupDto } from './dto/mandate-setup.dto';
 import { CompetitionsEnabledGuard } from '../../common/features/competitions.feature';
 
 @Controller('parent')
@@ -27,6 +29,7 @@ export class ParentController {
   constructor(
     private readonly parentService: ParentService,
     private readonly invoicePdfService: InvoicePdfService,
+    private readonly parentMandateService: ParentMandateService,
   ) {}
 
   @Get('profile')
@@ -207,6 +210,46 @@ export class ParentController {
       throw new NotFoundException('User not associated with a family');
     }
     return this.parentService.getUpcomingSessions(familyId);
+  }
+
+  /**
+   * Direct Debit setup, started by the parent who is paying.
+   *
+   * The family comes from the JWT, exactly as every other route on this
+   * controller resolves it, so a parent can only ever set up a mandate for
+   * their own family. The session token is minted server-side and returned;
+   * the browser carries it across the provider redirect and hands it back to
+   * the completion call, where it is verified. The SUPER_ADMIN routes on
+   * MandatesController are untouched.
+   */
+  @Post('mandates/setup/start')
+  @HttpCode(HttpStatus.CREATED)
+  async startMandateSetup(
+    @Request() req: { user?: { family_id?: string } },
+    @Body() dto: StartMandateSetupDto,
+  ) {
+    const familyId = req.user?.family_id;
+    if (!familyId) {
+      throw new NotFoundException('User not associated with a family');
+    }
+    return this.parentMandateService.startSetup(familyId, dto.success_redirect_url);
+  }
+
+  @Post('mandates/setup/complete')
+  @HttpCode(HttpStatus.CREATED)
+  async completeMandateSetup(
+    @Request() req: { user?: { family_id?: string } },
+    @Body() dto: CompleteMandateSetupDto,
+  ) {
+    const familyId = req.user?.family_id;
+    if (!familyId) {
+      throw new NotFoundException('User not associated with a family');
+    }
+    return this.parentMandateService.completeSetup(
+      familyId,
+      dto.redirect_flow_id,
+      dto.session_token,
+    );
   }
 
   @Post('invoices/:id/pay')
