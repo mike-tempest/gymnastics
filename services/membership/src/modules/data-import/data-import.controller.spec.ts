@@ -1,9 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DataImportController } from './data-import.controller';
 import { DataImportService } from './data-import.service';
+import { GoCardlessTakeoverService } from './gocardless-takeover.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { ImportMembersDto } from './dto/import-members.dto';
+import { ImportGoCardlessDto } from './dto/import-gocardless.dto';
 
 describe('DataImportController', () => {
   let controller: DataImportController;
@@ -11,6 +13,17 @@ describe('DataImportController', () => {
   const mockDataImportService = {
     previewMembers: jest.fn(),
     importMembers: jest.fn(),
+  };
+
+  const mockGoCardlessTakeoverService = {
+    previewGoCardless: jest.fn(),
+    importGoCardless: jest.fn(),
+  };
+
+  const goCardlessDto: ImportGoCardlessDto = {
+    customers: [{ id: 'CU0001', email: 'sarah.hartley@example.co.uk' }],
+    mandates: [{ id: 'MD0001', customer: 'CU0001', status: 'active' }],
+    options: { create_missing_families: true },
   };
 
   const dto: ImportMembersDto = {
@@ -34,6 +47,10 @@ describe('DataImportController', () => {
         {
           provide: DataImportService,
           useValue: mockDataImportService,
+        },
+        {
+          provide: GoCardlessTakeoverService,
+          useValue: mockGoCardlessTakeoverService,
         },
       ],
     })
@@ -84,5 +101,27 @@ describe('DataImportController', () => {
 
     expect(mockDataImportService.importMembers).toHaveBeenCalledWith(dto);
     expect(mockDataImportService.previewMembers).not.toHaveBeenCalled();
+  });
+
+  it('dry runs the GoCardless takeover when preview=true', async () => {
+    const previewResponse = { summary: {}, customer_results: [], mandate_results: [] };
+    mockGoCardlessTakeoverService.previewGoCardless.mockResolvedValue(previewResponse);
+
+    const result = await controller.importGoCardless(goCardlessDto, 'true');
+
+    expect(mockGoCardlessTakeoverService.previewGoCardless).toHaveBeenCalledWith(goCardlessDto);
+    expect(mockGoCardlessTakeoverService.importGoCardless).not.toHaveBeenCalled();
+    expect(result).toBe(previewResponse);
+  });
+
+  it('performs the GoCardless takeover when preview is absent', async () => {
+    const importResponse = { summary: {}, errors: [], warnings: [] };
+    mockGoCardlessTakeoverService.importGoCardless.mockResolvedValue(importResponse);
+
+    const result = await controller.importGoCardless(goCardlessDto, undefined);
+
+    expect(mockGoCardlessTakeoverService.importGoCardless).toHaveBeenCalledWith(goCardlessDto);
+    expect(mockGoCardlessTakeoverService.previewGoCardless).not.toHaveBeenCalled();
+    expect(result).toBe(importResponse);
   });
 });
