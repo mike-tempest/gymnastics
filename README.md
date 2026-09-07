@@ -64,7 +64,7 @@ docker compose up
 docker compose exec membership pnpm db:migrate
 
 # (Optional) Seed initial data
-docker compose exec membership pnpm db:seed
+docker compose exec membership pnpm seed:demo:gym
 ```
 
 That's it! The following services will be available:
@@ -93,8 +93,8 @@ cp .env.example .env
 # Run database migrations
 pnpm db:migrate
 
-# Seed initial data (optional)
-pnpm db:seed
+# Seed the demo gymnastics club (optional)
+pnpm --filter @club-manager/membership-service seed:demo:gym
 
 # Start all services
 pnpm dev
@@ -214,13 +214,13 @@ pnpm db:migrate
 
 ```bash
 # If using Docker
-docker compose exec membership pnpm db:seed
+docker compose exec membership pnpm seed:demo:gym
 
 # If running natively
-pnpm db:seed
+pnpm --filter @club-manager/membership-service seed:demo:gym
 ```
 
-This creates sample clubs, swimmers, families, squads, and sessions so you have data to work with immediately.
+This creates a demo gymnastics club with families, gymnasts, squads, sessions, invoices and award progress, so you have data to work with immediately. See docs/demos/gym-demo-club.md.
 
 ### 6. Start developing
 
@@ -438,22 +438,23 @@ pnpm db:migrate:revert
 ### Seeding data
 
 ```bash
-# From root (seeds all services)
-pnpm db:seed
-
-# Demo seed with realistic sample data
+# Demo gymnastics club (British Gymnastics, GBP)
 cd services/membership
-pnpm seed:demo
+pnpm seed:demo:gym
+
+# Demo Australian swimming club, kept as the non-UK example
+pnpm seed:demo:au
 ```
 
 ### Resetting the database
 
 ```bash
-# From root
-pnpm db:reset
+# Drop and recreate the local database, then rerun every migration
+dropdb swim_nexus_dev && createdb swim_nexus_dev
+pnpm db:migrate
 ```
 
-This drops and recreates the schema, then reruns all migrations. Useful when you want a completely clean slate.
+Useful when you want a completely clean slate.
 
 Alternatively, if you are using Docker, you can destroy the volume and start fresh:
 
@@ -462,7 +463,7 @@ docker compose down -v
 docker compose up
 # Then re-run migrations and seed
 docker compose exec membership pnpm db:migrate
-docker compose exec membership pnpm db:seed
+docker compose exec membership pnpm seed:demo:gym
 ```
 
 ### Inspecting the database
@@ -790,8 +791,8 @@ DATABASE_URL="postgres://postgres:<password>@localhost:15432/swimly_membership" 
   pnpm --filter membership db:migrate
 
 # (Optional) Seed initial data
-DATABASE_URL="postgres://postgres:<password>@localhost:15432/swimly_membership" \
-  pnpm --filter membership db:seed
+DATABASE_URL="postgres://postgres:<password>@localhost:15432/club_membership" \
+  pnpm --filter @club-manager/membership-service seed:demo:gym
 ```
 
 ### Deploying

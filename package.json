@@ -32,8 +32,6 @@
     "clean": "turbo run clean && rm -rf node_modules",
     "db:migrate": "turbo run db:migrate --filter='./services/*'",
     "db:migrate:create": "turbo run db:migrate:create --filter='./services/*'",
-    "db:seed": "turbo run db:seed --filter='./services/*'",
-    "db:reset": "turbo run db:reset --filter='./services/*'",
     "docker:up": "docker-compose -f infrastructure/docker/docker-compose.dev.yml up -d",
     "docker:down": "docker-compose -f infrastructure/docker/docker-compose.dev.yml down",
     "docker:logs": "docker-compose -f infrastructure/docker/docker-compose.dev.yml logs -f",
