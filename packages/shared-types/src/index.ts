@@ -6,3 +6,6 @@ export * from './entities';
 
 // DTOs
 export * from './dtos';
+
+// Gymnastics disciplines, programme flags and squad types
+export * from './enums/disciplines';

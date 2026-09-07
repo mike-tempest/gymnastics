@@ -7,6 +7,7 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
+import { Discipline, ProgrammeFlag, SquadType } from '@club-manager/shared-types';
 import { Member } from '../../members/entities/member.entity';
 
 @Entity('squads')
@@ -37,6 +38,25 @@ export class Squad {
 
   @Column({ type: 'int', nullable: true })
   max_capacity: number | null;
+
+  // Recreational badge class or competitive squad. Both kinds live in this one
+  // table; the value only ever drives filtering and reporting.
+  @Column({ type: 'varchar', length: 20, nullable: true })
+  squad_type: SquadType | null;
+
+  // Free-form recreational level label, e.g. "Rise Explore" or a club's own
+  // badge level. Deliberately not an enum: award schemes are data, and clubs
+  // that run their own scheme must be able to type their own level names.
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  level: string | null;
+
+  @Column({ type: 'varchar', length: 40, nullable: true })
+  discipline: Discipline | null;
+
+  // Participation programmes this squad serves. A pre-school class can also be
+  // a parkour class, so this is a list rather than a single value.
+  @Column({ type: 'jsonb', nullable: true })
+  programme_flags: ProgrammeFlag[] | null;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
