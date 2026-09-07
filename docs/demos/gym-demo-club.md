@@ -30,10 +30,18 @@ DB_HOST=localhost DB_PORT=5432 DB_USERNAME=postgres DB_PASSWORD=postgres \
   DB_DATABASE=my_local_db pnpm seed:demo:gym
 ```
 
+The seed refuses to start unless the database host resolves to localhost, so
+the root `.env` cannot pull it somewhere it should not go. Seeding a deployment
+is a deliberate act and takes `SEED_DEMO_CLUB=true`, which is the same flag the
+container entrypoint checks before running the seed on boot. Without it the
+entrypoint starts the app against whatever is already in the database.
+
 The seed is idempotent. It deletes any existing `kestrel-vale-gymnastics` club
 and everything hanging off it, then rebuilds, so a second run replaces the
 first rather than duplicating it. Every delete and every insert is scoped by
-`club_id`, so another club in the same database is untouched.
+`club_id`, so another club in the same database is untouched. The clear step
+covers every club-scoped table and fails with a named list when a migration
+adds one it does not know about.
 
 ## Logins
 

@@ -28,23 +28,20 @@ ds.initialize()
   .catch(err => { console.error('[entrypoint] Schema sync failed:', err.message); process.exit(1); });
 " || { echo "[entrypoint] Schema sync failed, continuing anyway..."; }
 
-# Check if seed is needed
-echo "[entrypoint] Checking if seed is needed..."
-NEEDS_SEED=$(node -e "
-const { Client } = require('/app/node_modules/pg');
-const connStr = process.env.DATABASE_URL || 'postgres://' + process.env.DB_USER + ':' + process.env.DB_PASSWORD + '@' + process.env.DB_HOST + ':' + (process.env.DB_PORT || 5432) + '/' + process.env.DB_NAME;
-const client = new Client({ connectionString: connStr });
-client.connect()
-  .then(() => client.query('SELECT COUNT(*) FROM users'))
-  .then(res => { console.log(res.rows[0].count === '0' ? 'yes' : 'no'); return client.end(); })
-  .catch(() => { console.log('yes'); client.end().catch(()=>{}); });
-" 2>/dev/null || echo "yes")
-
-if [ "$NEEDS_SEED" = "yes" ]; then
-  echo "[entrypoint] Seeding demo data..."
-  node dist/database/seeds/demo-seed.js 2>&1 || node dist/seed/demo-seed.js 2>&1 || echo "[entrypoint] Seed not found, skipping."
+# Demo seed. Off unless SEED_DEMO_CLUB is the exact string 'true'.
+#
+# This used to seed whenever the users table was empty, which meant any
+# environment that came up against a fresh database quietly gained a demo
+# club. Seeding a deployment is a decision someone makes, so it now takes an
+# explicit flag, and a failure stops the container rather than being swallowed.
+#
+# The seed is idempotent: it clears its own club and rebuilds, and it touches
+# no other tenant.
+if [ "${SEED_DEMO_CLUB:-}" = "true" ]; then
+  echo "[entrypoint] SEED_DEMO_CLUB=true, seeding the demo gymnastics club..."
+  node dist/seed/gym-demo-seed.js
 else
-  echo "[entrypoint] Database already has data, skipping seed."
+  echo "[entrypoint] SEED_DEMO_CLUB not set, skipping seed."
 fi
 
 echo "[entrypoint] Starting application..."

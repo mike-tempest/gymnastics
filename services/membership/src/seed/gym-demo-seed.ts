@@ -54,6 +54,63 @@ const CLUB_DOMAIN = 'kestrelvalegym.org.uk';
 const LOCATION = 'Kestrel Vale Gymnastics Centre';
 const DEMO_PASSWORD = 'Demo2024!';
 
+const LOCAL_DB_HOSTS = ['localhost', '127.0.0.1', '::1', '0.0.0.0'];
+
+/**
+ * The database host the app config will actually connect to, or null when it
+ * cannot be worked out.
+ */
+function resolveDbHost(): string | null {
+  const url = process.env.DATABASE_URL;
+  if (url) {
+    try {
+      return new URL(url).hostname;
+    } catch {
+      return null;
+    }
+  }
+  const host = process.env.DB_HOST?.trim();
+  return host ? host : null;
+}
+
+/**
+ * Refuses to run against anything but a local database.
+ *
+ * NODE_ENV is not set in an ordinary shell, so checking it alone would let a
+ * plain `pnpm seed:demo:gym` reach whatever the repository root .env points
+ * at. Seeding a deployed database is a decision someone makes on purpose, so
+ * it takes the same explicit SEED_DEMO_CLUB=true flag the container
+ * entrypoint uses.
+ */
+function assertSafeTarget(): void {
+  if (process.env.NODE_ENV === 'production') {
+    console.error('Refusing to run the gymnastics demo seed with NODE_ENV=production.');
+    process.exit(1);
+  }
+
+  if (process.env.SEED_DEMO_CLUB === 'true') {
+    return;
+  }
+
+  const host = resolveDbHost();
+  if (host === null) {
+    console.error(
+      'Refusing to seed: no DATABASE_URL or DB_HOST is set, so the target database is unknown.\n' +
+        'Pass DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD and DB_DATABASE for a local database.',
+    );
+    process.exit(1);
+  }
+
+  if (!LOCAL_DB_HOSTS.includes(host)) {
+    console.error(
+      `Refusing to seed the database at "${host}": it is not local.\n` +
+        'The repository root .env points at a deployed database, so pass DB_* for a local one.\n' +
+        'To seed a deployment on purpose, set SEED_DEMO_CLUB=true.',
+    );
+    process.exit(1);
+  }
+}
+
 /** Round to 2 decimal places, matching InvoicesService.recalculateTotals. */
 function roundTo2dp(value: number): number {
   return Math.round(value * 100) / 100;
@@ -210,10 +267,7 @@ interface SeedMember {
 async function seedGymDemoData() {
   console.log('Starting Kestrel Vale Gymnastics Club demo seed...\n');
 
-  if (process.env.NODE_ENV === 'production') {
-    console.error('Refusing to run the gymnastics demo seed with NODE_ENV=production.');
-    process.exit(1);
-  }
+  assertSafeTarget();
 
   const app = await NestFactory.createApplicationContext(AppModule);
   const dataSource = app.get(DataSource);
