@@ -9,8 +9,11 @@ import {
 } from '@club-manager/shared-types';
 
 import { api, apiDownload } from './api-client';
+import { type BadgeLadder } from './awards';
 import { type CompetitionResult, type MemberPersonalBests } from './competitions';
 import { InvoiceWithDetails } from './finance';
+
+export type { BadgeLadder, BadgeLadderLevel, BadgeLadderScheme } from './awards';
 
 // Parent profile and family
 
@@ -67,10 +70,23 @@ export async function fetchMemberSchedule(memberId: string): Promise<Session[]> 
   return api.get<Session[]>(`/parent/children/${memberId}/schedule`, { cache: 'no-store' });
 }
 
+// Badges
+
+/**
+ * The child's badge ladders: every scheme's levels with this child's status,
+ * award dates and the level they are working towards. 404s for a child outside
+ * the calling parent's family.
+ */
+export async function fetchMemberBadges(memberId: string): Promise<BadgeLadder> {
+  return api.get<BadgeLadder>(`/parent/children/${memberId}/badges`, { cache: 'no-store' });
+}
+
 // Times and personal bests
 
 export async function fetchMemberResults(memberId: string): Promise<CompetitionResult[]> {
-  return api.get<CompetitionResult[]>(`/parent/children/${memberId}/results`, { cache: 'no-store' });
+  return api.get<CompetitionResult[]>(`/parent/children/${memberId}/results`, {
+    cache: 'no-store',
+  });
 }
 
 export async function fetchMemberPersonalBests(memberId: string): Promise<MemberPersonalBests> {

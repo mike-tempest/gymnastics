@@ -18,6 +18,7 @@ import { GoCardlessService } from '../gocardless/gocardless.service';
 import { ClubsRepository } from '../clubs/clubs.repository';
 import { CompetitionResult } from '../competitions/entities/competition-result.entity';
 import { PersonalBestsService } from '../competitions/personal-bests.service';
+import { AwardsService } from '../awards/awards.service';
 import { CLS_CLUB_ID_KEY, TenantContextService } from '../../common/tenancy/tenant-context.service';
 import { TenantScopedHelper } from '../../common/tenancy/tenant-scoped.helper';
 
@@ -131,6 +132,11 @@ describe('ParentService', () => {
     getSeasonBests: jest.fn(),
   };
 
+  const mockAwardsService = {
+    listSchemes: jest.fn(),
+    getMemberProgress: jest.fn(),
+  };
+
   const mockGoCardlessService = {
     isConfigured: jest.fn(),
     createPayment: jest.fn(),
@@ -163,6 +169,7 @@ describe('ParentService', () => {
         { provide: PersonalBestsService, useValue: mockPersonalBestsService },
         { provide: GoCardlessService, useValue: mockGoCardlessService },
         { provide: ClubsRepository, useValue: mockClubsRepository },
+        { provide: AwardsService, useValue: mockAwardsService },
       ],
     }).compile();
 
@@ -358,6 +365,198 @@ describe('ParentService', () => {
     });
   });
 
+  describe('getChildBadges', () => {
+    const riseLevels = [
+      { level_id: 'level-1', name: 'Discover 1', description: null, sort_order: 1, active: true },
+      { level_id: 'level-2', name: 'Discover 2', description: null, sort_order: 2, active: true },
+      { level_id: 'level-3', name: 'Explore 1', description: null, sort_order: 3, active: true },
+    ];
+
+    const riseScheme = {
+      scheme_id: 'scheme-1',
+      name: 'British Gymnastics Rise',
+      description: 'Discover, Explore and Excel.',
+      active: true,
+      levels: riseLevels,
+    };
+
+    beforeEach(() => {
+      mockAwardsService.listSchemes.mockResolvedValue([riseScheme]);
+      mockAwardsService.getMemberProgress.mockResolvedValue([]);
+    });
+
+    it("404s for a child outside the caller's family and reads no badge data", async () => {
+      // Cross-family request: the scoped member lookup finds nothing, so the
+      // awards module is never consulted for another family's gymnast.
+      mockMembersRepository.findOne.mockResolvedValue(null);
+
+      await expect(service.getChildBadges(familyId, 'other-family-child')).rejects.toThrow(
+        NotFoundException,
+      );
+      expect(mockAwardsService.getMemberProgress).not.toHaveBeenCalled();
+      expect(mockAwardsService.listSchemes).not.toHaveBeenCalled();
+    });
+
+    it('verifies family ownership through the club-scoped member lookup', async () => {
+      mockMembersRepository.findOne.mockResolvedValue(mockMember);
+
+      await service.getChildBadges(familyId, childId);
+
+      expect(mockMembersRepository.findOne).toHaveBeenCalledWith({
+        where: { member_id: childId, family_id: familyId, club_id: clubId },
+      });
+      expect(mockAwardsService.getMemberProgress).toHaveBeenCalledWith(childId);
+    });
+
+    it('builds the ladder with statuses, award dates and the current level', async () => {
+      mockMembersRepository.findOne.mockResolvedValue(mockMember);
+      mockAwardsService.getMemberProgress.mockResolvedValue([
+        {
+          level_id: 'level-1',
+          status: 'awarded',
+          started_on: '2026-01-05',
+          assessed_on: '2026-02-10',
+          awarded_on: '2026-02-10',
+        },
+        {
+          level_id: 'level-2',
+          status: 'working_towards',
+          started_on: '2026-02-11',
+          assessed_on: null,
+          awarded_on: null,
+        },
+      ]);
+
+      const result = await service.getChildBadges(familyId, childId);
+
+      expect(result.schemes).toHaveLength(1);
+      const [scheme] = result.schemes;
+      expect(scheme.name).toBe('British Gymnastics Rise');
+      expect(scheme.levels.map((level) => [level.name, level.status])).toEqual([
+        ['Discover 1', 'awarded'],
+        ['Discover 2', 'working_towards'],
+        // Not started yet, so no progress row and no status.
+        ['Explore 1', null],
+      ]);
+      expect(scheme.awarded_count).toBe(1);
+      expect(scheme.current_level?.name).toBe('Discover 2');
+      expect(scheme.latest_award?.name).toBe('Discover 1');
+      expect(scheme.latest_award?.awarded_on).toBe('2026-02-10');
+      expect(result.total_awarded).toBe(1);
+      expect(result.latest_award).toEqual(
+        expect.objectContaining({ name: 'Discover 1', scheme_name: 'British Gymnastics Rise' }),
+      );
+    });
+
+    it('normalises Date award dates to a date-only string', async () => {
+      mockMembersRepository.findOne.mockResolvedValue(mockMember);
+      mockAwardsService.getMemberProgress.mockResolvedValue([
+        {
+          level_id: 'level-1',
+          status: 'awarded',
+          started_on: null,
+          assessed_on: null,
+          awarded_on: new Date('2026-02-10T00:00:00.000Z'),
+        },
+      ]);
+
+      const result = await service.getChildBadges(familyId, childId);
+
+      expect(result.schemes[0].levels[0].awarded_on).toBe('2026-02-10');
+    });
+
+    it('names the next badge as the current level when nothing has been started', async () => {
+      mockMembersRepository.findOne.mockResolvedValue(mockMember);
+
+      const result = await service.getChildBadges(familyId, childId);
+
+      expect(result.total_awarded).toBe(0);
+      expect(result.latest_award).toBeNull();
+      expect(result.schemes[0].current_level?.name).toBe('Discover 1');
+    });
+
+    it('leaves current_level null once every badge in a scheme is awarded', async () => {
+      mockMembersRepository.findOne.mockResolvedValue(mockMember);
+      mockAwardsService.getMemberProgress.mockResolvedValue(
+        riseLevels.map((level) => ({
+          level_id: level.level_id,
+          status: 'awarded',
+          started_on: null,
+          assessed_on: null,
+          awarded_on: '2026-02-10',
+        })),
+      );
+
+      const result = await service.getChildBadges(familyId, childId);
+
+      expect(result.schemes[0].current_level).toBeNull();
+      expect(result.schemes[0].awarded_count).toBe(3);
+    });
+
+    it('hides retired levels and schemes unless this gymnast has progress on them', async () => {
+      mockMembersRepository.findOne.mockResolvedValue(mockMember);
+      mockAwardsService.listSchemes.mockResolvedValue([
+        {
+          ...riseScheme,
+          levels: [
+            ...riseLevels,
+            { ...riseLevels[0], level_id: 'level-old', name: 'Retired badge', active: false },
+          ],
+        },
+        {
+          scheme_id: 'scheme-2',
+          name: 'Legacy Proficiency Awards',
+          description: null,
+          active: false,
+          levels: [
+            {
+              level_id: 'legacy-1',
+              name: 'Award 1',
+              description: null,
+              sort_order: 1,
+              active: true,
+            },
+          ],
+        },
+        {
+          scheme_id: 'scheme-3',
+          name: 'Retired club badges',
+          description: null,
+          active: false,
+          levels: [
+            {
+              level_id: 'retired-1',
+              name: 'Club 1',
+              description: null,
+              sort_order: 1,
+              active: true,
+            },
+          ],
+        },
+      ]);
+      mockAwardsService.getMemberProgress.mockResolvedValue([
+        {
+          level_id: 'legacy-1',
+          status: 'awarded',
+          started_on: null,
+          assessed_on: null,
+          awarded_on: '2025-06-01',
+        },
+      ]);
+
+      const result = await service.getChildBadges(familyId, childId);
+
+      // The retired scheme this gymnast still holds a badge in survives; the
+      // one they never touched, and the retired level nobody worked on, do not.
+      expect(result.schemes.map((scheme) => scheme.name)).toEqual([
+        'British Gymnastics Rise',
+        'Legacy Proficiency Awards',
+      ]);
+      expect(result.schemes[0].levels.map((level) => level.name)).not.toContain('Retired badge');
+      expect(result.latest_award?.scheme_name).toBe('Legacy Proficiency Awards');
+    });
+  });
+
   describe('getChildResults', () => {
     it('should throw NotFoundException when child does not belong to family', async () => {
       mockMembersRepository.findOne.mockResolvedValue(null);
@@ -434,6 +633,8 @@ describe('ParentService', () => {
           { provide: getRepositoryToken(DirectDebitMandate), useValue: mockMandateRepository },
           { provide: GoCardlessService, useValue: mockGoCardlessService },
           { provide: ClubsRepository, useValue: mockClubsRepository },
+          // Awards is not feature-flagged, so it is present in both cases.
+          { provide: AwardsService, useValue: mockAwardsService },
         ],
       }).compile();
 
