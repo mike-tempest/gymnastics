@@ -1,4 +1,4 @@
-import { Swimmer, Session } from '@swim-nexus/shared-types';
+import { Member, Session } from '@club-manager/shared-types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import { ReactElement } from 'react';
@@ -25,7 +25,7 @@ jest.mock('sonner', () => ({
 // Mock API modules
 jest.mock('@/lib/api/parent', () => ({
   fetchParentDashboard: jest.fn(),
-  fetchParentSwimmers: jest.fn(),
+  fetchParentMembers: jest.fn(),
   fetchParentInvoices: jest.fn(),
   fetchParentUpcomingSessions: jest.fn(),
 }));
@@ -40,7 +40,7 @@ jest.mock('@/lib/api/clubs', () => ({
 import { InvoiceWithDetails } from '@/lib/api/finance';
 import {
   fetchParentDashboard,
-  fetchParentSwimmers,
+  fetchParentMembers,
   fetchParentInvoices,
   fetchParentUpcomingSessions,
   ParentDashboardSummary,
@@ -49,7 +49,7 @@ import {
 import ParentPortalPage from '../app/parent/page';
 
 const mockFetchParentDashboard = fetchParentDashboard as jest.MockedFunction<typeof fetchParentDashboard>;
-const mockFetchParentSwimmers = fetchParentSwimmers as jest.MockedFunction<typeof fetchParentSwimmers>;
+const mockFetchParentMembers = fetchParentMembers as jest.MockedFunction<typeof fetchParentMembers>;
 const mockFetchParentInvoices = fetchParentInvoices as jest.MockedFunction<typeof fetchParentInvoices>;
 const mockFetchParentUpcomingSessions = fetchParentUpcomingSessions as jest.MockedFunction<typeof fetchParentUpcomingSessions>;
 
@@ -69,12 +69,12 @@ const mockDashboard = {
   outstandingBalance: 75.0,
 };
 
-const mockSwimmers = [
+const mockMembers = [
   {
-    swimmer_id: 's1',
+    member_id: 's1',
     family_id: 'f1',
     club_id: 'c1',
-    se_number: 'SE001',
+    registration_number: 'SE001',
     first_name: 'Emma',
     last_name: 'Watson',
     dob: '2015-03-15',
@@ -135,7 +135,7 @@ describe('ParentPortalPage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockFetchParentDashboard.mockResolvedValue(mockDashboard as unknown as ParentDashboardSummary);
-    mockFetchParentSwimmers.mockResolvedValue(mockSwimmers as unknown as Swimmer[]);
+    mockFetchParentMembers.mockResolvedValue(mockMembers as unknown as Member[]);
     mockFetchParentUpcomingSessions.mockResolvedValue(mockSessions as unknown as Session[]);
     mockFetchParentInvoices.mockResolvedValue(mockInvoices as unknown as InvoiceWithDetails[]);
   });
@@ -177,7 +177,7 @@ describe('ParentPortalPage', () => {
 
     await waitFor(() => {
       expect(mockFetchParentDashboard).toHaveBeenCalledTimes(1);
-      expect(mockFetchParentSwimmers).toHaveBeenCalledTimes(1);
+      expect(mockFetchParentMembers).toHaveBeenCalledTimes(1);
       expect(mockFetchParentUpcomingSessions).toHaveBeenCalledTimes(1);
       expect(mockFetchParentInvoices).toHaveBeenCalledTimes(1);
     });

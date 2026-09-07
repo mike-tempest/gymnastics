@@ -32,11 +32,11 @@ export class WellbeingRepository {
   }
 
   async upsertWellbeingLog(dto: CreateWellbeingLogDto): Promise<WellbeingLog> {
-    // A wellbeing log is a child of a swimmer. The lookup is scoped so a row
+    // A wellbeing log is a child of a member. The lookup is scoped so a row
     // belonging to another club resolves as not-found and we create afresh.
     const existing = await this.scoped.scopedFindOne(this.wellbeingRepo, {
       where: {
-        swimmer_id: dto.swimmer_id,
+        member_id: dto.member_id,
         log_date: dto.log_date as unknown as Date,
       },
     });
@@ -57,29 +57,29 @@ export class WellbeingRepository {
     return this.createWellbeingLog(dto);
   }
 
-  async findWellbeingBySwimmer(swimmerId: string, limit = 30): Promise<WellbeingLog[]> {
+  async findWellbeingByMember(memberId: string, limit = 30): Promise<WellbeingLog[]> {
     return await this.scoped.scopedFind(this.wellbeingRepo, {
-      where: { swimmer_id: swimmerId },
+      where: { member_id: memberId },
       order: { log_date: 'DESC' },
       take: limit,
     });
   }
 
-  async findWellbeingByDate(swimmerIds: string[], date: string): Promise<WellbeingLog[]> {
-    if (swimmerIds.length === 0) return [];
+  async findWellbeingByDate(memberIds: string[], date: string): Promise<WellbeingLog[]> {
+    if (memberIds.length === 0) return [];
     return await this.scoped.scopedFind(this.wellbeingRepo, {
       where: {
-        swimmer_id: In(swimmerIds),
+        member_id: In(memberIds),
         log_date: date as unknown as Date,
       },
-      relations: ['swimmer'],
+      relations: ['member'],
     });
   }
 
-  async findTodayWellbeing(swimmerId: string): Promise<WellbeingLog | null> {
+  async findTodayWellbeing(memberId: string): Promise<WellbeingLog | null> {
     const today = new Date().toISOString().split('T')[0];
     return await this.scoped.scopedFindOne(this.wellbeingRepo, {
-      where: { swimmer_id: swimmerId, log_date: today as unknown as Date },
+      where: { member_id: memberId, log_date: today as unknown as Date },
     });
   }
 
@@ -94,9 +94,9 @@ export class WellbeingRepository {
     return await this.cycleRepo.save(log);
   }
 
-  async findCycleLogsBySwimmer(swimmerId: string, limit = 12): Promise<CycleLog[]> {
+  async findCycleLogsByMember(memberId: string, limit = 12): Promise<CycleLog[]> {
     return await this.scoped.scopedFind(this.cycleRepo, {
-      where: { swimmer_id: swimmerId },
+      where: { member_id: memberId },
       order: { period_start: 'DESC' },
       take: limit,
     });

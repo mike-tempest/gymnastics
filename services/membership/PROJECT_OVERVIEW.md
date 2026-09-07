@@ -21,19 +21,19 @@ services/membership/
 │   │       └── 1703260000000-CreateSwimmersTable.ts  # Initial migration
 │   │
 │   └── modules/
-│       └── swimmers/                        # Swimmers module
-│           ├── swimmers.module.ts           # Module definition
-│           ├── swimmers.controller.ts       # REST API endpoints
-│           ├── swimmers.service.ts          # Business logic
-│           ├── swimmers.repository.ts       # Database access layer
-│           ├── swimmers.service.spec.ts     # Unit tests
+│       └── members/                        # Members module
+│           ├── members.module.ts           # Module definition
+│           ├── members.controller.ts       # REST API endpoints
+│           ├── members.service.ts          # Business logic
+│           ├── members.repository.ts       # Database access layer
+│           ├── members.service.spec.ts     # Unit tests
 │           │
 │           ├── entities/
-│           │   └── swimmer.entity.ts        # TypeORM entity
+│           │   └── member.entity.ts        # TypeORM entity
 │           │
 │           └── dto/
-│               ├── create-swimmer.dto.ts    # Create validation
-│               └── update-swimmer.dto.ts    # Update validation
+│               ├── create-member.dto.ts    # Create validation
+│               └── update-member.dto.ts    # Update validation
 │
 ├── package.json                             # Dependencies and scripts
 ├── tsconfig.json                            # TypeScript configuration
@@ -64,27 +64,27 @@ services/membership/
 - **Indexed fields** for optimized queries
 - **Environment-based configuration**
 
-### 3. Swimmers Module
+### 3. Members Module
 Complete CRUD operations with advanced features:
 
 #### Endpoints
-- `POST /api/swimmers` - Create swimmer
-- `GET /api/swimmers` - List all swimmers
-- `GET /api/swimmers/:id` - Get swimmer by ID
-- `PATCH /api/swimmers/:id` - Update swimmer
-- `DELETE /api/swimmers/:id` - Delete swimmer
-- `GET /api/swimmers?family_id={id}` - Filter by family
-- `GET /api/swimmers?club_id={id}` - Filter by club
-- `GET /api/swimmers?squad_id={id}` - Filter by squad
-- `GET /api/swimmers/statistics` - Get statistics
+- `POST /api/members` - Create member
+- `GET /api/members` - List all members
+- `GET /api/members/:id` - Get member by ID
+- `PATCH /api/members/:id` - Update member
+- `DELETE /api/members/:id` - Delete member
+- `GET /api/members?family_id={id}` - Filter by family
+- `GET /api/members?club_id={id}` - Filter by club
+- `GET /api/members?squad_id={id}` - Filter by squad
+- `GET /api/members/statistics` - Get statistics
 
 #### Data Model
 ```typescript
-Swimmer {
-  swimmer_id: UUID (Primary Key)
+Member {
+  member_id: UUID (Primary Key)
   family_id: UUID (nullable)
   club_id: UUID (nullable)
-  se_number: string (unique, nullable) - Swimming England number
+  registration_number: string (unique, nullable) - Swimming England number
   first_name: string
   last_name: string
   dob: Date
@@ -103,7 +103,7 @@ Swimmer {
 - SE number must be unique
 - All UUIDs validated
 - Dates validated as ISO 8601 strings
-- Maximum lengths enforced (names: 100, se_number: 20, photo_url: 500)
+- Maximum lengths enforced (names: 100, registration_number: 20, photo_url: 500)
 
 ### 4. Testing Infrastructure
 - **Unit tests** with Jest
@@ -136,8 +136,8 @@ Swimmer {
 | reflect-metadata | ^0.2.1 | Metadata reflection |
 
 ### Workspace Dependencies
-- `@swim-nexus/shared-types` - Shared TypeScript types
-- `@swim-nexus/utils` - Shared utility functions
+- `@club-manager/shared-types` - Shared TypeScript types
+- `@club-manager/utils` - Shared utility functions
 
 ### Development Dependencies
 - TypeScript 5.3.3
@@ -173,13 +173,13 @@ CORS_ORIGIN=http://localhost:3000
 
 ## Database Schema
 
-### Swimmers Table
+### Members Table
 ```sql
-CREATE TABLE swimmers (
-  swimmer_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+CREATE TABLE members (
+  member_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   family_id UUID,
   club_id UUID,
-  se_number VARCHAR(20) UNIQUE,
+  registration_number VARCHAR(20) UNIQUE,
   first_name VARCHAR(100) NOT NULL,
   last_name VARCHAR(100) NOT NULL,
   dob DATE NOT NULL,
@@ -192,10 +192,10 @@ CREATE TABLE swimmers (
 );
 
 -- Indexes
-CREATE INDEX IDX_SWIMMERS_FAMILY_ID ON swimmers(family_id);
-CREATE INDEX IDX_SWIMMERS_CLUB_ID ON swimmers(club_id);
-CREATE INDEX IDX_SWIMMERS_SQUAD_ID ON swimmers(squad_id);
-CREATE INDEX IDX_SWIMMERS_LAST_NAME ON swimmers(last_name);
+CREATE INDEX IDX_SWIMMERS_FAMILY_ID ON members(family_id);
+CREATE INDEX IDX_SWIMMERS_CLUB_ID ON members(club_id);
+CREATE INDEX IDX_SWIMMERS_SQUAD_ID ON members(squad_id);
+CREATE INDEX IDX_SWIMMERS_LAST_NAME ON members(last_name);
 ```
 
 ## Available Scripts
@@ -221,8 +221,8 @@ The service is configured to accept requests from:
 - `http://localhost:3000` (Next.js app)
 
 ### Workspace Integration
-- Uses `@swim-nexus/shared-types` for type safety across services
-- Uses `@swim-nexus/utils` for common utilities
+- Uses `@club-manager/shared-types` for type safety across services
+- Uses `@club-manager/utils` for common utilities
 - Part of pnpm workspace for dependency sharing
 
 ## Future Enhancements
@@ -251,7 +251,7 @@ club: Club;
 @ManyToOne(() => Squad)
 squad: Squad;
 
-@OneToMany(() => Attendance, attendance => attendance.swimmer)
+@OneToMany(() => Attendance, attendance => attendance.member)
 attendances: Attendance[];
 ```
 
@@ -286,8 +286,8 @@ attendances: Attendance[];
 # 1. Health check
 curl http://localhost:3001/api/health
 
-# 2. Create a swimmer
-curl -X POST http://localhost:3001/api/swimmers \
+# 2. Create a member
+curl -X POST http://localhost:3001/api/members \
   -H "Content-Type: application/json" \
   -d '{
     "first_name": "Alice",
@@ -296,11 +296,11 @@ curl -X POST http://localhost:3001/api/swimmers \
     "gender": "F"
   }'
 
-# 3. Get all swimmers
-curl http://localhost:3001/api/swimmers
+# 3. Get all members
+curl http://localhost:3001/api/members
 
 # 4. Get statistics
-curl http://localhost:3001/api/swimmers/statistics
+curl http://localhost:3001/api/members/statistics
 ```
 
 ## Documentation Files

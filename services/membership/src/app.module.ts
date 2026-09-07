@@ -11,7 +11,8 @@ import { TenantInterceptor } from './common/tenancy/tenant.interceptor';
 import { AuditInterceptor } from './common/audit/audit.interceptor';
 import { AuditLogsModule } from './modules/compliance/audit-logs/audit-logs.module';
 import { validate } from './config/env.validation';
-import { SwimmersModule } from './modules/swimmers/swimmers.module';
+import { competitionsEnabled } from './common/features/competitions.feature';
+import { MembersModule } from './modules/members/members.module';
 import { SquadsModule } from './modules/squads/squads.module';
 import { FamiliesModule } from './modules/families/families.module';
 import { UsersModule } from './modules/users/users.module';
@@ -67,7 +68,7 @@ import { AppController } from './app.controller';
     // module once and shares the same provider instance.
     AuditLogsModule,
     ClubsModule,
-    SwimmersModule,
+    MembersModule,
     SquadsModule,
     FamiliesModule,
     UsersModule,
@@ -83,7 +84,11 @@ import { AppController } from './app.controller';
     CommunicationsModule,
     WaitlistModule,
     HealthModule,
-    CompetitionsModule,
+    // Swimming times/strokes module, feature-flagged off by default (TEM-15).
+    // With the flag unset its controllers are never mounted, so /competitions
+    // routes 404. Env files are loaded by config/env.preload.ts (first import
+    // in main.ts), so this spread and ParentModule's agree on the flag.
+    ...(competitionsEnabled() ? [CompetitionsModule] : []),
     WellbeingModule,
     DataImportModule,
     ActivationModule,

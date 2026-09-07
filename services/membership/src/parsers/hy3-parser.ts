@@ -9,7 +9,7 @@
 import {
   FileParser,
   ParsedMeetData,
-  ParsedSwimmer,
+  ParsedMember,
   ParsedEntry,
   ParsedResult,
   ParserValidationOptions,
@@ -70,7 +70,7 @@ export class HY3Parser implements FileParser {
       results: [],
     };
 
-    let currentSwimmer: ParsedSwimmer | null = null;
+    let currentSwimmer: ParsedMember | null = null;
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
@@ -120,7 +120,7 @@ export class HY3Parser implements FileParser {
       results: [],
     };
 
-    let currentSwimmer: ParsedSwimmer | null = null;
+    let currentSwimmer: ParsedMember | null = null;
     let currentResult: ParsedResult | null = null;
 
     for (let i = 0; i < lines.length; i++) {
@@ -187,7 +187,7 @@ export class HY3Parser implements FileParser {
     // Group entries by swimmer
     const swimmerEntries = new Map<string, ParsedEntry[]>();
     for (const entry of data.entries) {
-      const key = entry.swimmer.seNumber;
+      const key = entry.member.registrationNumber;
       if (!swimmerEntries.has(key)) {
         swimmerEntries.set(key, []);
       }
@@ -196,14 +196,14 @@ export class HY3Parser implements FileParser {
 
     // D1 + E1 records per swimmer
     for (const [, entries] of swimmerEntries) {
-      const swimmer = entries[0].swimmer;
+      const swimmer = entries[0].member;
 
       // D1 — Swimmer
       const dob = this.formatHY3Date(swimmer.dateOfBirth);
       const swimmerTeam = swimmer.teamName || teamName;
       lines.push(
         this.padRight(
-          `D1${this.padRight(swimmer.seNumber, 7)}${this.padRight(swimmer.lastName, 20)}${this.padRight(swimmer.firstName, 20)}${swimmer.gender}${dob}${this.padRight(swimmerTeam, 30)}`,
+          `D1${this.padRight(swimmer.registrationNumber, 7)}${this.padRight(swimmer.lastName, 20)}${this.padRight(swimmer.firstName, 20)}${swimmer.gender}${dob}${this.padRight(swimmerTeam, 30)}`,
           80,
         ),
       );
@@ -254,7 +254,7 @@ export class HY3Parser implements FileParser {
     // Group results by swimmer
     const swimmerResults = new Map<string, ParsedResult[]>();
     for (const result of data.results) {
-      const key = result.swimmer.seNumber;
+      const key = result.member.registrationNumber;
       if (!swimmerResults.has(key)) {
         swimmerResults.set(key, []);
       }
@@ -262,13 +262,13 @@ export class HY3Parser implements FileParser {
     }
 
     for (const [, results] of swimmerResults) {
-      const swimmer = results[0].swimmer;
+      const swimmer = results[0].member;
       const dob = this.formatHY3Date(swimmer.dateOfBirth);
       const swimmerTeam = swimmer.teamName || teamName;
 
       lines.push(
         this.padRight(
-          `D1${this.padRight(swimmer.seNumber, 7)}${this.padRight(swimmer.lastName, 20)}${this.padRight(swimmer.firstName, 20)}${swimmer.gender}${dob}${this.padRight(swimmerTeam, 30)}`,
+          `D1${this.padRight(swimmer.registrationNumber, 7)}${this.padRight(swimmer.lastName, 20)}${this.padRight(swimmer.firstName, 20)}${swimmer.gender}${dob}${this.padRight(swimmerTeam, 30)}`,
           80,
         ),
       );
@@ -308,14 +308,14 @@ export class HY3Parser implements FileParser {
 
     // Validate entries
     data.entries.forEach((entry, idx) => {
-      this.validateSwimmer(entry.swimmer, idx + 1, errors, options);
+      this.validateSwimmer(entry.member, idx + 1, errors, options);
       this.validateTime(entry.entryTime, idx + 1, 'entryTime', errors);
       this.validateEvent(entry.distance, entry.stroke, idx + 1, errors);
     });
 
     // Validate results
     data.results.forEach((result, idx) => {
-      this.validateSwimmer(result.swimmer, idx + 1, errors, options);
+      this.validateSwimmer(result.member, idx + 1, errors, options);
       if (!result.dq) {
         this.validateTime(result.time, idx + 1, 'time', errors);
       }
@@ -346,7 +346,7 @@ export class HY3Parser implements FileParser {
     data.country = line.substring(48, 51).trim() || undefined;
   }
 
-  parseSwimmerRecord(line: string, lineNumber: number): ParsedSwimmer {
+  parseSwimmerRecord(line: string, lineNumber: number): ParsedMember {
     const seNumber = line.substring(2, 9).trim();
 
     // Numbers are validated per governing body in validate(); at parse time
@@ -367,7 +367,7 @@ export class HY3Parser implements FileParser {
     }
 
     return {
-      seNumber,
+      registrationNumber: seNumber,
       lastName,
       firstName,
       gender,
@@ -378,7 +378,7 @@ export class HY3Parser implements FileParser {
 
   private parseEntryRecord(
     line: string,
-    swimmer: ParsedSwimmer,
+    swimmer: ParsedMember,
     lineNumber: number,
   ): ParsedEntry | null {
     try {
@@ -396,7 +396,7 @@ export class HY3Parser implements FileParser {
       }
 
       return {
-        swimmer,
+        member: swimmer,
         eventNumber,
         eventName: eventName || undefined,
         distance,
@@ -412,7 +412,7 @@ export class HY3Parser implements FileParser {
 
   private parseResultRecord(
     line: string,
-    swimmer: ParsedSwimmer,
+    swimmer: ParsedMember,
     lineNumber: number,
   ): ParsedResult | null {
     try {
@@ -429,7 +429,7 @@ export class HY3Parser implements FileParser {
       }
 
       return {
-        swimmer,
+        member: swimmer,
         eventName: eventName || undefined,
         distance,
         stroke,
@@ -553,12 +553,12 @@ export class HY3Parser implements FileParser {
   // --- Validation helpers ---
 
   private validateSwimmer(
-    swimmer: ParsedSwimmer,
+    swimmer: ParsedMember,
     row: number,
     errors: ValidationError[],
     options?: ParserValidationOptions,
   ): void {
-    validateRegistrationNumber(swimmer.seNumber, row, errors, options);
+    validateRegistrationNumber(swimmer.registrationNumber, row, errors, options);
 
     if (swimmer.gender !== 'M' && swimmer.gender !== 'F') {
       errors.push({

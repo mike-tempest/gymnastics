@@ -53,27 +53,27 @@ export class ConsentsController {
     return this.consentsService.getExpiringConsents();
   }
 
-  @Get('swimmer/:swimmerId')
+  @Get('member/:memberId')
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH, UserRole.PARENT)
-  findBySwimmer(@Param('swimmerId') swimmerId: string) {
-    return this.consentsService.findBySwimmer(swimmerId);
+  findByMember(@Param('memberId') memberId: string) {
+    return this.consentsService.findByMember(memberId);
   }
 
-  @Get('swimmer/:swimmerId/status')
+  @Get('member/:memberId/status')
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH, UserRole.PARENT)
-  getSwimmerConsentStatus(@Param('swimmerId') swimmerId: string) {
-    return this.consentsService.getSwimmerConsentStatus(swimmerId);
+  getMemberConsentStatus(@Param('memberId') memberId: string) {
+    return this.consentsService.getMemberConsentStatus(memberId);
   }
 
-  @Get('swimmer/:swimmerId/has/:consentType')
+  @Get('member/:memberId/has/:consentType')
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
   async hasConsent(
-    @Param('swimmerId') swimmerId: string,
+    @Param('memberId') memberId: string,
     @Param('consentType') consentType: ConsentType,
   ) {
-    const hasConsent = await this.consentsService.hasConsent(swimmerId, consentType);
+    const hasConsent = await this.consentsService.hasConsent(memberId, consentType);
     return {
-      swimmer_id: swimmerId,
+      member_id: memberId,
       consent_type: consentType,
       has_consent: hasConsent,
     };

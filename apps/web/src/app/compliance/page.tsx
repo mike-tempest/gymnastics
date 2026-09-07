@@ -1,6 +1,6 @@
 'use client';
 
-import { governingBodyConfig, defaultGoverningBodyForCountry, checkNoun } from '@swim-nexus/shared-types';
+import { governingBodyConfig, defaultGoverningBodyForCountry, checkNoun } from '@club-manager/shared-types';
 import {
   ShieldCheck,
   AlertTriangle,
@@ -22,6 +22,7 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useClubRegion } from '@/hooks/useClubRegion';
 import { useFormatters } from '@/hooks/useFormatters';
 import { getComplianceSummary, ComplianceSummary } from '@/lib/api/compliance';
+import { MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
 function getHealthScoreInfo(score: number) {
   if (score >= 80) return { ring: 'text-success', text: 'text-success', label: 'Good' };
@@ -111,7 +112,7 @@ export default function ComplianceDashboardPage() {
                 icon={ShieldCheck}
                 title="Safeguarding starts here"
                 description={`Compliance tracking helps you stay on top of ${noun} checks, parental consent, and ${config.label} ${config.safeguardingFramework} requirements. Your club's compliance health score updates automatically as you add records.`}
-                hint="This is not about paperwork for its own sake. It is about keeping swimmers safe and giving parents peace of mind."
+                hint={`This is not about paperwork for its own sake. It is about keeping ${MEMBER_NOUN_PLURAL_LOWER} safe and giving parents peace of mind.`}
                 features={[
                   `Track ${noun} check expiry dates for all coaches and volunteers`,
                   'Collect and manage photography and medical consent from parents',

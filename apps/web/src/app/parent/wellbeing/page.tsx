@@ -1,6 +1,6 @@
 'use client';
 
-import { Swimmer } from '@swim-nexus/shared-types';
+import { Member } from '@club-manager/shared-types';
 import { Heart, ChevronRight, Battery, Waves } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -9,8 +9,9 @@ import Breadcrumb from '@/components/ui/Breadcrumb';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import { fetchParentSwimmers } from '@/lib/api/parent';
+import { fetchParentMembers } from '@/lib/api/parent';
 import { fetchTodayCheckIn, type WellbeingLog } from '@/lib/api/wellbeing';
+import { MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
 function readinessColour(level: string): string {
   switch (level) {
@@ -38,12 +39,12 @@ function readinessLabel(level: string): string {
   }
 }
 
-interface SwimmerWithWellbeing extends Swimmer {
+interface MemberWithWellbeing extends Member {
   todayLog: WellbeingLog | null;
 }
 
 export default function WellbeingHubPage() {
-  const [swimmers, setSwimmers] = useState<SwimmerWithWellbeing[]>([]);
+  const [members, setMembers] = useState<MemberWithWellbeing[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -51,16 +52,16 @@ export default function WellbeingHubPage() {
     async function load() {
       try {
         setIsLoading(true);
-        const swimmerData = await fetchParentSwimmers();
+        const memberData = await fetchParentMembers();
         const enriched = await Promise.all(
-          swimmerData.map(async (swimmer) => {
-            const todayLog = await fetchTodayCheckIn(swimmer.swimmer_id).catch(
+          memberData.map(async (member) => {
+            const todayLog = await fetchTodayCheckIn(member.member_id).catch(
               () => null,
             );
-            return { ...swimmer, todayLog } as SwimmerWithWellbeing;
+            return { ...member, todayLog } as MemberWithWellbeing;
           }),
         );
-        setSwimmers(enriched);
+        setMembers(enriched);
       } catch {
         setError('We could not load your wellbeing data. Please try again.');
       } finally {
@@ -93,50 +94,50 @@ export default function WellbeingHubPage() {
 
           {error && <ErrorState message={error} onRetry={() => window.location.reload()} />}
 
-          {!error && swimmers.length === 0 ? (
+          {!error && members.length === 0 ? (
             <div className="bg-dark-primary rounded-3xl border border-white/10 shadow-lg">
               <EmptyState
                 icon={Heart}
-                title="No swimmers found"
+                title={`No ${MEMBER_NOUN_PLURAL_LOWER} found`}
                 description="Once your children are registered with the club, you can check in on their wellbeing here."
               />
             </div>
           ) : (
             !error && (
               <div className="space-y-3">
-                {swimmers.map((swimmer) => (
+                {members.map((member) => (
                   <Link
-                    key={swimmer.swimmer_id}
-                    href={`/parent/children/${swimmer.swimmer_id}/wellbeing`}
+                    key={member.member_id}
+                    href={`/parent/children/${member.member_id}/wellbeing`}
                     className="flex items-center gap-4 p-5 bg-dark-primary rounded-2xl border border-white/10 shadow-lg hover:border-brand/40 transition-all group"
                   >
                     <div className="w-12 h-12 rounded-full bg-brand/20 flex items-center justify-center text-brand font-bold">
-                      {swimmer.first_name[0]}
-                      {swimmer.last_name[0]}
+                      {member.first_name[0]}
+                      {member.last_name[0]}
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-white font-semibold">
-                        {swimmer.first_name} {swimmer.last_name}
+                        {member.first_name} {member.last_name}
                       </p>
-                      {swimmer.todayLog ? (
+                      {member.todayLog ? (
                         <div className="flex gap-3 mt-1 text-sm text-text-secondary">
                           <span className="flex items-center gap-1 tabular-nums">
-                            <Battery className="w-3.5 h-3.5" /> {swimmer.todayLog.energy_level}/5
+                            <Battery className="w-3.5 h-3.5" /> {member.todayLog.energy_level}/5
                           </span>
                           <span className="flex items-center gap-1 tabular-nums">
-                            <Waves className="w-3.5 h-3.5" /> {swimmer.todayLog.comfort_in_water}/5
+                            <Waves className="w-3.5 h-3.5" /> {member.todayLog.comfort_in_water}/5
                           </span>
                         </div>
                       ) : (
                         <p className="text-text-secondary text-sm mt-1">No check-in today</p>
                       )}
                     </div>
-                    {swimmer.todayLog ? (
+                    {member.todayLog ? (
                       <span
-                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border ${readinessColour(swimmer.todayLog.readiness)}`}
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border ${readinessColour(member.todayLog.readiness)}`}
                       >
                         <span className="w-2 h-2 rounded-full bg-current" />
-                        {readinessLabel(swimmer.todayLog.readiness)}
+                        {readinessLabel(member.todayLog.readiness)}
                       </span>
                     ) : (
                       <span className="px-3 py-1.5 rounded-full text-xs font-medium bg-white/5 text-white/60 border border-white/10">
@@ -155,13 +156,13 @@ export default function WellbeingHubPage() {
             <h2 className="font-serif text-lg text-white">Why we track wellbeing</h2>
             <div className="space-y-3 text-sm text-text-secondary leading-relaxed">
               <p>
-                A quick daily check-in helps coaches understand how each swimmer is feeling, so they can adapt sessions without needing to ask personal questions.
+                A quick daily check-in helps coaches understand how each {MEMBER_NOUN_LOWER} is feeling, so they can adapt sessions without needing to ask personal questions.
               </p>
               <p>
                 Coaches only ever see a green, amber, or red indicator. They never see individual scores, private notes, or any cycle tracking data.
               </p>
               <p>
-                Research shows that young swimmers, particularly girls, are more likely to stay engaged in the sport when they feel supported and understood. Wellbeing tracking makes that possible without any awkward conversations.
+                Research shows that young {MEMBER_NOUN_PLURAL_LOWER}, particularly girls, are more likely to stay engaged in the sport when they feel supported and understood. Wellbeing tracking makes that possible without any awkward conversations.
               </p>
             </div>
           </div>

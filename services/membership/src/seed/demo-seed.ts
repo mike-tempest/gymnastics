@@ -9,7 +9,7 @@ import * as bcrypt from 'bcrypt';
  * - Club settings
  * - Users (coaches, admins, parents)
  * - Families with realistic British addresses
- * - Swimmers across multiple squads
+ * - Members across multiple squads
  * - Sessions and attendance records
  * - Fee structures and invoices
  */
@@ -30,8 +30,8 @@ async function seedDemoData() {
     await dataSource.query('TRUNCATE TABLE invoices CASCADE');
     await dataSource.query('TRUNCATE TABLE direct_debit_mandates CASCADE');
     await dataSource.query('TRUNCATE TABLE fee_structures CASCADE');
-    await dataSource.query('TRUNCATE TABLE squad_swimmers CASCADE');
-    await dataSource.query('TRUNCATE TABLE swimmers CASCADE');
+    await dataSource.query('TRUNCATE TABLE squad_members CASCADE');
+    await dataSource.query('TRUNCATE TABLE members CASCADE');
     await dataSource.query('TRUNCATE TABLE squads CASCADE');
     await dataSource.query('TRUNCATE TABLE families CASCADE');
     await dataSource.query('TRUNCATE TABLE users CASCADE');
@@ -39,7 +39,7 @@ async function seedDemoData() {
     console.log('✅ Data cleared\n');
 
     // Club Settings
-    console.log('🏊 Creating RTW Monson club settings...');
+    console.log('Creating RTW Monson club settings...');
     const clubResult = await dataSource.query(`
       INSERT INTO club_settings (
         club_name, address, contact_email, phone, website,
@@ -300,7 +300,7 @@ async function seedDemoData() {
     console.log(`✅ Created ${familyIds.length} families\n`);
 
     // Create Squads
-    console.log('🏊 Creating squads...');
+    console.log('Creating squads...');
     const squads = await Promise.all([
       dataSource.query(`
         INSERT INTO squads (squad_name, description, min_age, max_age, coach_name, training_times, max_capacity)
@@ -328,7 +328,7 @@ async function seedDemoData() {
         INSERT INTO squads (squad_name, description, min_age, max_age, coach_name, training_times, max_capacity)
         VALUES (
           'County Squad',
-          'Competitive training for county level swimmers aged 11 to 14',
+          'Competitive training for county level members aged 11 to 14',
           11, 14, 'Mark Wilson',
           'Monday, Wednesday, Friday 18:00-20:00, Saturday 08:00-10:00',
           20
@@ -339,7 +339,7 @@ async function seedDemoData() {
         INSERT INTO squads (squad_name, description, min_age, max_age, coach_name, training_times, max_capacity)
         VALUES (
           'Competition Squad',
-          'Elite training for competitive swimmers aged 14 to 18',
+          'Elite training for competitive members aged 14 to 18',
           14, 18, 'Mark Wilson',
           'Monday, Wednesday, Friday 18:00-20:00, Saturday 08:00-10:00',
           20
@@ -382,8 +382,8 @@ async function seedDemoData() {
       return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
     };
 
-    // Create Swimmers
-    console.log('🏊‍♀️ Creating swimmers...');
+    // Create Members
+    console.log('Creating members...');
 
     const firstNames = [
       'Oliver',
@@ -451,10 +451,10 @@ async function seedDemoData() {
       'Clarke',
     ];
 
-    const swimmers = [];
-    let swimmerCount = 0;
+    const members = [];
+    let memberCount = 0;
 
-    // Learn to Swim (20 swimmers)
+    // Learn to Swim (20 members)
     for (let i = 0; i < 20; i++) {
       const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
       const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
@@ -464,130 +464,130 @@ async function seedDemoData() {
 
       const result = await dataSource.query(
         `
-        INSERT INTO swimmers (family_id, club_id, first_name, last_name, dob, gender, squad_id)
+        INSERT INTO members (family_id, club_id, first_name, last_name, dob, gender, squad_id)
         VALUES ($1, $2, $3, $4, $5, $6, $7)
-        RETURNING swimmer_id
+        RETURNING member_id
       `,
         [familyId, clubId, firstName, lastName, dob, gender, squadIds[0]],
       );
 
-      swimmers.push(result[0].swimmer_id);
-      swimmerCount++;
+      members.push(result[0].member_id);
+      memberCount++;
     }
 
-    // Development Squad (20 swimmers)
+    // Development Squad (20 members)
     for (let i = 0; i < 20; i++) {
       const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
       const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
       const dob = generateDOB(8, 10);
       const gender = Math.random() > 0.5 ? 'M' : 'F';
       const familyId = familyIds[Math.floor(Math.random() * familyIds.length)];
-      const seNumber = `SE${(100000 + i).toString()}`;
+      const registrationNumber = `SE${(100000 + i).toString()}`;
 
       const result = await dataSource.query(
         `
-        INSERT INTO swimmers (family_id, club_id, se_number, first_name, last_name, dob, gender, squad_id)
+        INSERT INTO members (family_id, club_id, registration_number, first_name, last_name, dob, gender, squad_id)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-        RETURNING swimmer_id
+        RETURNING member_id
       `,
-        [familyId, clubId, seNumber, firstName, lastName, dob, gender, squadIds[1]],
+        [familyId, clubId, registrationNumber, firstName, lastName, dob, gender, squadIds[1]],
       );
 
-      swimmers.push(result[0].swimmer_id);
-      swimmerCount++;
+      members.push(result[0].member_id);
+      memberCount++;
     }
 
-    // County Squad (15 swimmers)
+    // County Squad (15 members)
     for (let i = 0; i < 15; i++) {
       const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
       const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
       const dob = generateDOB(11, 14);
       const gender = Math.random() > 0.5 ? 'M' : 'F';
       const familyId = familyIds[Math.floor(Math.random() * familyIds.length)];
-      const seNumber = `SE${(200000 + i).toString()}`;
+      const registrationNumber = `SE${(200000 + i).toString()}`;
 
       const result = await dataSource.query(
         `
-        INSERT INTO swimmers (family_id, club_id, se_number, first_name, last_name, dob, gender, squad_id)
+        INSERT INTO members (family_id, club_id, registration_number, first_name, last_name, dob, gender, squad_id)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-        RETURNING swimmer_id
+        RETURNING member_id
       `,
-        [familyId, clubId, seNumber, firstName, lastName, dob, gender, squadIds[2]],
+        [familyId, clubId, registrationNumber, firstName, lastName, dob, gender, squadIds[2]],
       );
 
-      swimmers.push(result[0].swimmer_id);
-      swimmerCount++;
+      members.push(result[0].member_id);
+      memberCount++;
     }
 
-    // Competition Squad (15 swimmers)
+    // Competition Squad (15 members)
     for (let i = 0; i < 15; i++) {
       const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
       const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
       const dob = generateDOB(14, 18);
       const gender = Math.random() > 0.5 ? 'M' : 'F';
       const familyId = familyIds[Math.floor(Math.random() * familyIds.length)];
-      const seNumber = `SE${(300000 + i).toString()}`;
+      const registrationNumber = `SE${(300000 + i).toString()}`;
 
       const result = await dataSource.query(
         `
-        INSERT INTO swimmers (family_id, club_id, se_number, first_name, last_name, dob, gender, squad_id)
+        INSERT INTO members (family_id, club_id, registration_number, first_name, last_name, dob, gender, squad_id)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-        RETURNING swimmer_id
+        RETURNING member_id
       `,
-        [familyId, clubId, seNumber, firstName, lastName, dob, gender, squadIds[3]],
+        [familyId, clubId, registrationNumber, firstName, lastName, dob, gender, squadIds[3]],
       );
 
-      swimmers.push(result[0].swimmer_id);
-      swimmerCount++;
+      members.push(result[0].member_id);
+      memberCount++;
     }
 
-    // Masters (8 swimmers)
+    // Masters (8 members)
     for (let i = 0; i < 8; i++) {
       const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
       const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
       const dob = generateDOB(25, 60);
       const gender = Math.random() > 0.5 ? 'M' : 'F';
       const familyId = familyIds[Math.floor(Math.random() * familyIds.length)];
-      const seNumber = `SE${(400000 + i).toString()}`;
+      const registrationNumber = `SE${(400000 + i).toString()}`;
 
       const result = await dataSource.query(
         `
-        INSERT INTO swimmers (family_id, club_id, se_number, first_name, last_name, dob, gender, squad_id)
+        INSERT INTO members (family_id, club_id, registration_number, first_name, last_name, dob, gender, squad_id)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-        RETURNING swimmer_id
+        RETURNING member_id
       `,
-        [familyId, clubId, seNumber, firstName, lastName, dob, gender, squadIds[4]],
+        [familyId, clubId, registrationNumber, firstName, lastName, dob, gender, squadIds[4]],
       );
 
-      swimmers.push(result[0].swimmer_id);
-      swimmerCount++;
+      members.push(result[0].member_id);
+      memberCount++;
     }
 
-    // Water Polo (12 swimmers - some overlap with other squads)
-    const waterPoloSwimmers = [];
+    // Water Polo (12 members - some overlap with other squads)
+    const waterPoloMembers = [];
     for (let i = 0; i < 12; i++) {
       const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
       const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
       const dob = generateDOB(10, 18);
       const gender = Math.random() > 0.5 ? 'M' : 'F';
       const familyId = familyIds[Math.floor(Math.random() * familyIds.length)];
-      const seNumber = `SE${(500000 + i).toString()}`;
+      const registrationNumber = `SE${(500000 + i).toString()}`;
 
       const result = await dataSource.query(
         `
-        INSERT INTO swimmers (family_id, club_id, se_number, first_name, last_name, dob, gender, squad_id)
+        INSERT INTO members (family_id, club_id, registration_number, first_name, last_name, dob, gender, squad_id)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-        RETURNING swimmer_id
+        RETURNING member_id
       `,
-        [familyId, clubId, seNumber, firstName, lastName, dob, gender, squadIds[5]],
+        [familyId, clubId, registrationNumber, firstName, lastName, dob, gender, squadIds[5]],
       );
 
-      waterPoloSwimmers.push(result[0].swimmer_id);
-      swimmers.push(result[0].swimmer_id);
-      swimmerCount++;
+      waterPoloMembers.push(result[0].member_id);
+      members.push(result[0].member_id);
+      memberCount++;
     }
 
-    console.log(`✅ Created ${swimmerCount} swimmers\n`);
+    console.log(`✅ Created ${memberCount} members\n`);
 
     // Create Fee Structures
     console.log('💰 Creating fee structures...');
@@ -719,23 +719,23 @@ async function seedDemoData() {
         'SELECT squad_id FROM sessions WHERE session_id = $1',
         [sessionId],
       );
-      const squadSwimmers = await dataSource.query(
-        'SELECT swimmer_id FROM swimmers WHERE squad_id = $1',
+      const squadMembers = await dataSource.query(
+        'SELECT member_id FROM members WHERE squad_id = $1',
         [session[0].squad_id],
       );
 
-      for (const { swimmer_id } of squadSwimmers) {
+      for (const { member_id } of squadMembers) {
         const rand = Math.random();
         const status = rand < 0.85 ? 'present' : rand < 0.95 ? 'absent' : 'late';
 
         await dataSource.query(
           `
-          INSERT INTO attendance (session_id, swimmer_id, status, checked_in_at)
+          INSERT INTO attendance (session_id, member_id, status, checked_in_at)
           VALUES ($1, $2, $3, $4)
         `,
           [
             sessionId,
-            swimmer_id,
+            member_id,
             status,
             status === 'present' || status === 'late' ? new Date().toISOString() : null,
           ],
@@ -767,13 +767,13 @@ async function seedDemoData() {
       const dueDate = new Date(issuedDate);
       dueDate.setDate(dueDate.getDate() + 14);
 
-      const familySwimmers = await dataSource.query(
-        'SELECT squad_id FROM swimmers WHERE family_id = $1 LIMIT 1',
+      const familyMembers = await dataSource.query(
+        'SELECT squad_id FROM members WHERE family_id = $1 LIMIT 1',
         [familyId],
       );
 
-      if (familySwimmers.length > 0) {
-        const squadId = familySwimmers[0].squad_id;
+      if (familyMembers.length > 0) {
+        const squadId = familyMembers[0].squad_id;
         const feeStructure = await dataSource.query(
           'SELECT fee_structure_id, amount FROM fee_structures WHERE applies_to_id = $1 AND applies_to_type = $2',
           [squadId, 'squad'],
@@ -830,7 +830,7 @@ async function seedDemoData() {
     console.log(`  - 1 club`);
     console.log(`  - ${users.length} users`);
     console.log(`  - ${familyIds.length} families`);
-    console.log(`  - ${swimmerCount} swimmers`);
+    console.log(`  - ${memberCount} members`);
     console.log(`  - ${squadIds.length} squads`);
     console.log(`  - ${feeStructureIds.length} fee structures`);
     console.log(`  - ${sessionCount} sessions`);

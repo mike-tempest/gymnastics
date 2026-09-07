@@ -53,7 +53,7 @@ Once the repository is connected:
 2. Builds using `apps/web/Dockerfile`
 3. Multi-stage build:
    - Install dependencies (pnpm workspace)
-   - Build shared packages (@swim-nexus/shared-types, @swim-nexus/utils)
+   - Build shared packages (@club-manager/shared-types, @club-manager/utils)
    - Build Next.js application
    - Create standalone output
 4. Start with `node apps/web/server.js`

@@ -1,4 +1,4 @@
-import { Invoice, InvoiceItem, Payment, InvoiceStatus, PaymentMethod } from '@swim-nexus/shared-types';
+import { Invoice, InvoiceItem, Payment, InvoiceStatus, PaymentMethod } from '@club-manager/shared-types';
 
 import { api, apiDownload } from './api-client';
 
@@ -11,7 +11,7 @@ export interface CreateInvoiceInput {
     description: string;
     amount: number;
     type: 'squad_fee' | 'membership' | 'gala_entry' | 'merchandise' | 'other';
-    swimmer_id?: string | null;
+    member_id?: string | null;
   }[];
   notes?: string;
 }
@@ -23,7 +23,7 @@ export interface UpdateInvoiceInput {
     description: string;
     amount: number;
     type: 'squad_fee' | 'membership' | 'gala_entry' | 'merchandise' | 'other';
-    swimmer_id?: string | null;
+    member_id?: string | null;
   }[];
   notes?: string;
 }
@@ -43,7 +43,7 @@ export interface CreateFeeStructureInput {
   description?: string;
   amount: number;
   frequency: FeeFrequencyValue;
-  applies_to: 'club' | 'squad' | 'swimmer';
+  applies_to: 'club' | 'squad' | 'member';
   squad_id?: string | null;
   is_active: boolean;
 }
@@ -53,7 +53,7 @@ export interface UpdateFeeStructureInput {
   description?: string;
   amount?: number;
   frequency?: FeeFrequencyValue;
-  applies_to?: 'club' | 'squad' | 'swimmer';
+  applies_to?: 'club' | 'squad' | 'member';
   squad_id?: string | null;
   is_active?: boolean;
 }
@@ -67,7 +67,7 @@ export interface FeeStructure {
   /** ISO 4217 currency stamped from the club; optional for older API payloads. */
   currency?: string;
   frequency: FeeFrequencyValue;
-  applies_to: 'club' | 'squad' | 'swimmer';
+  applies_to: 'club' | 'squad' | 'member';
   squad_id: string | null;
   is_active: boolean;
   created_at: string;

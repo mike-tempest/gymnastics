@@ -1,6 +1,6 @@
 'use client';
 
-import { Swimmer } from '@swim-nexus/shared-types';
+import { Member } from '@club-manager/shared-types';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
@@ -12,14 +12,15 @@ import MainLayout from '@/components/layout/MainLayout';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import { useFormatters } from '@/hooks/useFormatters';
 import { updateFamily, deleteFamily, generateInvite, CreateFamilyData } from '@/lib/api/families';
-import { getSwimmersByFamily } from '@/lib/api/swimmers';
+import { getMembersByFamily } from '@/lib/api/members';
+import { MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 import { useFamily } from '@/lib/hooks';
 
 export default function FamilyDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { formatDate } = useFormatters();
   const { data: family, isLoading, error: familyError, refetch: refetchFamily } = useFamily(params.id);
-  const [swimmers, setSwimmers] = useState<Swimmer[]>([]);
+  const [members, setMembers] = useState<Member[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -31,8 +32,8 @@ export default function FamilyDetailPage({ params }: { params: { id: string } })
 
   useEffect(() => {
     if (params.id) {
-      getSwimmersByFamily(params.id)
-        .then(setSwimmers)
+      getMembersByFamily(params.id)
+        .then(setMembers)
         .catch(() => {});
     }
   }, [params.id]);
@@ -40,10 +41,10 @@ export default function FamilyDetailPage({ params }: { params: { id: string } })
   const fetchFamilyData = async () => {
     refetchFamily();
     try {
-      const familySwimmers = await getSwimmersByFamily(params.id);
-      setSwimmers(familySwimmers);
+      const familyMembers = await getMembersByFamily(params.id);
+      setMembers(familyMembers);
     } catch {
-      // Swimmers fetch failed - not critical
+      // Members fetch failed - not critical
     }
   };
 
@@ -366,16 +367,16 @@ export default function FamilyDetailPage({ params }: { params: { id: string } })
             </div>
           )}
 
-          {/* Swimmers List */}
+          {/* Members List */}
           <div className="bg-dark-primary rounded-3xl shadow-lg p-8 border border-white/10">
             <div className="flex items-center justify-between mb-6">
               <h2 className="font-serif text-4xl text-dark-primary tracking-tight">Family Members</h2>
               <span className="text-grey-500 text-lg">
-                {swimmers.length} {swimmers.length === 1 ? 'swimmer' : 'swimmers'}
+                {members.length} {members.length === 1 ? MEMBER_NOUN_LOWER : MEMBER_NOUN_PLURAL_LOWER}
               </span>
             </div>
 
-            {swimmers.length === 0 ? (
+            {members.length === 0 ? (
               <div className="text-center py-16">
                 <svg
                   className="w-20 h-20 text-text-tertiary mx-auto mb-4"
@@ -388,29 +389,29 @@ export default function FamilyDetailPage({ params }: { params: { id: string } })
                 >
                   <path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                 </svg>
-                <p className="text-grey-500 text-lg">No swimmers in this family yet</p>
+                <p className="text-grey-500 text-lg">No {MEMBER_NOUN_PLURAL_LOWER} in this family yet</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {swimmers.map((swimmer) => (
+                {members.map((member) => (
                   <div
-                    key={swimmer.swimmer_id}
+                    key={member.member_id}
                     className="p-6 bg-white/5 rounded-2xl hover:border-brand transition-all group cursor-pointer"
-                    onClick={() => router.push(`/swimmers/${swimmer.swimmer_id}`)}
+                    onClick={() => router.push(`/members/${member.member_id}`)}
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1">
                         <h3 className="font-bold text-xl text-white mb-1">
-                          {swimmer.first_name} {swimmer.last_name}
+                          {member.first_name} {member.last_name}
                         </h3>
-                        {swimmer.dob && (
+                        {member.dob && (
                           <p className="text-sm text-text-secondary">
-                            Born: {formatDate(swimmer.dob, { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                            Born: {formatDate(member.dob, { day: '2-digit', month: '2-digit', year: 'numeric' })}
                           </p>
                         )}
-                        {swimmer.se_number && (
+                        {member.registration_number && (
                           <p className="text-xs text-text-tertiary mt-1">
-                            Reg: {swimmer.se_number}
+                            Reg: {member.registration_number}
                           </p>
                         )}
                       </div>

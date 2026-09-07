@@ -5,7 +5,7 @@ const nextConfig = {
   reactStrictMode: true,
   // Standalone output produces a minimal self-contained build for Docker
   output: 'standalone',
-  transpilePackages: ['@swim-nexus/shared-types', '@swim-nexus/utils'],
+  transpilePackages: ['@club-manager/shared-types', '@club-manager/utils'],
   images: {
     domains: ['localhost'],
   },

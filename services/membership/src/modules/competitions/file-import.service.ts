@@ -1,8 +1,9 @@
 import { Injectable, BadRequestException, Logger } from '@nestjs/common';
-import { governingBodyConfig } from '@swim-nexus/shared-types';
+import { governingBodyConfig } from '@club-manager/shared-types';
 import { CompetitionsRepository } from './competitions.repository';
-import { SwimmersRepository } from '../swimmers/swimmers.repository';
+import { MembersRepository } from '../members/members.repository';
 import { ClubsService } from '../clubs/clubs.service';
+import { MEMBER_NOUN } from '../../common/brand';
 import { ParserFactory } from '../../parsers/parser-factory';
 import {
   FileFormat,
@@ -17,8 +18,8 @@ export interface ImportPreview {
   format: FileFormat;
   meetName: string;
   totalResults: number;
-  matchedSwimmers: number;
-  unmatchedSwimmers: string[];
+  matchedMembers: number;
+  unmatchedMembers: string[];
   validation: ValidationResult;
   results: ParsedResult[];
 }
@@ -36,14 +37,14 @@ export class FileImportService {
 
   constructor(
     private readonly repository: CompetitionsRepository,
-    private readonly swimmersRepository: SwimmersRepository,
+    private readonly membersRepository: MembersRepository,
     private readonly clubsService: ClubsService,
     private readonly personalBests: PersonalBestsService,
   ) {}
 
   /**
    * Preview a results file before committing the import.
-   * Auto-detects file format, parses, validates, and matches swimmers.
+   * Auto-detects file format, parses, validates, and matches members.
    */
   async preview(
     competitionId: string,
@@ -66,20 +67,20 @@ export class FileImportService {
       validationOptionsForGoverningBody(club.governing_body),
     );
 
-    // Match swimmers by registration number
-    const allSwimmers = await this.swimmersRepository.findAll();
-    const swimmerMap = new Map(allSwimmers.map((s) => [s.se_number, s]));
+    // Match members by registration number
+    const allMembers = await this.membersRepository.findAll();
+    const memberMap = new Map(allMembers.map((s) => [s.registration_number, s]));
 
-    const unmatchedSwimmers: string[] = [];
+    const unmatchedMembers: string[] = [];
     let matchedCount = 0;
 
     for (const result of parsed.results) {
-      if (swimmerMap.has(result.swimmer.seNumber)) {
+      if (memberMap.has(result.member.registrationNumber)) {
         matchedCount++;
       } else {
-        const name = `${result.swimmer.firstName} ${result.swimmer.lastName} (${result.swimmer.seNumber})`;
-        if (!unmatchedSwimmers.includes(name)) {
-          unmatchedSwimmers.push(name);
+        const name = `${result.member.firstName} ${result.member.lastName} (${result.member.registrationNumber})`;
+        if (!unmatchedMembers.includes(name)) {
+          unmatchedMembers.push(name);
         }
       }
     }
@@ -88,8 +89,8 @@ export class FileImportService {
       format,
       meetName: parsed.meetName,
       totalResults: parsed.results.length,
-      matchedSwimmers: matchedCount,
-      unmatchedSwimmers,
+      matchedMembers: matchedCount,
+      unmatchedMembers,
       validation,
       results: parsed.results,
     };
@@ -130,26 +131,26 @@ export class FileImportService {
       throw new BadRequestException(`Competition with ID ${competitionId} not found`);
     }
 
-    // Match swimmers
-    const allSwimmers = await this.swimmersRepository.findAll();
-    const swimmerMap = new Map(allSwimmers.map((s) => [s.se_number, s]));
+    // Match members
+    const allMembers = await this.membersRepository.findAll();
+    const memberMap = new Map(allMembers.map((s) => [s.registration_number, s]));
 
     const resultEntities: Partial<CompetitionResult>[] = [];
     const warnings: string[] = [];
 
     const registrationLabel = governingBodyConfig(club.governing_body).registrationNumberLabel;
     for (const result of parsed.results) {
-      const swimmer = swimmerMap.get(result.swimmer.seNumber);
-      if (!swimmer) {
+      const member = memberMap.get(result.member.registrationNumber);
+      if (!member) {
         warnings.push(
-          `Swimmer "${result.swimmer.firstName} ${result.swimmer.lastName}" (${registrationLabel}: ${result.swimmer.seNumber}) not found in club — skipped`,
+          `${MEMBER_NOUN} "${result.member.firstName} ${result.member.lastName}" (${registrationLabel}: ${result.member.registrationNumber}) not found in club, skipped`,
         );
         continue;
       }
 
       resultEntities.push({
         competition_id: competitionId,
-        swimmer_id: swimmer.swimmer_id,
+        member_id: member.member_id,
         event_name: result.eventName,
         distance: result.distance,
         stroke: result.stroke,
@@ -165,13 +166,13 @@ export class FileImportService {
       });
     }
 
-    // Bulk save, then rebuild PBs and is_pb flags for every affected swimmer.
+    // Bulk save, then rebuild PBs and is_pb flags for every affected member.
     let newPBs = 0;
     if (resultEntities.length > 0) {
       const saved = await this.repository.createResults(resultEntities);
-      const affectedSwimmers = new Set(saved.map((r) => r.swimmer_id));
-      for (const swimmerId of affectedSwimmers) {
-        await this.personalBests.recomputeForSwimmer(swimmerId);
+      const affectedMembers = new Set(saved.map((r) => r.member_id));
+      for (const memberId of affectedMembers) {
+        await this.personalBests.recomputeForMember(memberId);
       }
       const refreshed = await this.repository.findResultsByIds(saved.map((r) => r.result_id));
       newPBs = refreshed.filter((r) => r.is_pb).length;

@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 
 import { api } from '@/lib/api/api-client';
+import { BRAND } from '@/lib/brand';
 
 type UnsubscribeState = 'working' | 'done' | 'invalid' | 'error';
 
@@ -30,13 +31,13 @@ function UnsubscribeContent() {
   return (
     <div className="min-h-dvh bg-canvas flex items-center justify-center p-6">
       <div className="max-w-md w-full bg-white rounded-3xl shadow-sm p-10 text-center">
-        <h1 className="font-serif text-3xl text-dark-primary mb-4">Swimly</h1>
+        <h1 className="font-serif text-3xl text-dark-primary mb-4">{BRAND.name}</h1>
         {state === 'working' && <p className="text-grey-600">Updating your email preferences...</p>}
         {state === 'done' && (
           <>
             <p className="text-dark-primary font-semibold mb-2">You are unsubscribed</p>
             <p className="text-grey-600 text-sm">
-              {email} will no longer receive updates or reminders from Swimly. Emails about your
+              {email} will no longer receive updates or reminders from {BRAND.name}. Emails about your
               account, invoices and sessions are unaffected.
             </p>
           </>

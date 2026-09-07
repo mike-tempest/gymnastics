@@ -10,7 +10,7 @@ const COACH_ROLES: string[] = [
   UserRole.WELFARE_OFFICER,
   UserRole.COMPETITION_SECRETARY,
 ];
-const PARENT_ROLES: string[] = [UserRole.PARENT, UserRole.SWIMMER_ADULT];
+const PARENT_ROLES: string[] = [UserRole.PARENT, UserRole.MEMBER_ADULT];
 
 function hasRoleAccess(userRole: string, requiredRole: UserRole): boolean {
   // Direct match

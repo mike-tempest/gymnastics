@@ -21,7 +21,7 @@ describe('FamiliesService', () => {
     address_line2: null,
     city: 'Manchester',
     postcode: 'M1 1AA',
-    swimmers: [],
+    members: [],
     created_at: new Date(),
     updated_at: new Date(),
   };

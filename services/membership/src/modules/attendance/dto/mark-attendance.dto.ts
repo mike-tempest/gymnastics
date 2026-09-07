@@ -5,7 +5,7 @@ export class MarkAttendanceDto {
   @IsNotEmpty()
   @IsArray()
   @IsUUID('4', { each: true })
-  swimmer_ids: string[];
+  member_ids: string[];
 
   @IsNotEmpty()
   @IsEnum(AttendanceStatus)

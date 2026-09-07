@@ -1,22 +1,30 @@
 'use client';
 
-import { Swimmer, Session, Attendance, AttendanceStats } from '@swim-nexus/shared-types';
+import { Member, Session, Attendance, AttendanceStats } from '@club-manager/shared-types';
 import { Calendar, ClipboardList, BookOpen } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { useState, useEffect , use } from 'react';
 
-import PersonalBests from '@/components/swimmers/PersonalBests';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useFormatters } from '@/hooks/useFormatters';
 import {
-  fetchParentSwimmer,
-  fetchSwimmerAttendanceHistory,
-  fetchSwimmerAttendanceStats,
-  fetchSwimmerPersonalBests,
-  fetchSwimmerResults,
-  fetchSwimmerSchedule,
+  fetchParentMember,
+  fetchMemberAttendanceHistory,
+  fetchMemberAttendanceStats,
+  fetchMemberPersonalBests,
+  fetchMemberResults,
+  fetchMemberSchedule,
 } from '@/lib/api/parent';
+import { MEMBER_NOUN, MEMBER_NOUN_LOWER } from '@/lib/brand';
+import { isCompetitionsEnabled } from '@/lib/features';
+
+// Loaded lazily so the recharts-heavy times UI stays out of the route chunk
+// while the competitions module is flagged off (TEM-15).
+const PersonalBests = dynamic(() => import('@/components/members/PersonalBests'), {
+  ssr: false,
+});
 
 function formatTime(time: string): string {
   return time.slice(0, 5);
@@ -72,7 +80,7 @@ interface PageProps {
 export default function ChildDetailPage({ params }: PageProps) {
   const { id } = use(params);
   const { formatDate } = useFormatters();
-  const [swimmer, setSwimmer] = useState<Swimmer | null>(null);
+  const [member, setMember] = useState<Member | null>(null);
   const [attendanceHistory, setAttendanceHistory] = useState<Attendance[]>([]);
   const [attendanceStats, setAttendanceStats] = useState<AttendanceStats | null>(null);
   const [upcomingSessions, setUpcomingSessions] = useState<Session[]>([]);
@@ -85,19 +93,19 @@ export default function ChildDetailPage({ params }: PageProps) {
         setIsLoading(true);
         setError(null);
 
-        const [swimmerData, history, stats, sessions] = await Promise.all([
-          fetchParentSwimmer(id),
-          fetchSwimmerAttendanceHistory(id),
-          fetchSwimmerAttendanceStats(id),
-          fetchSwimmerSchedule(id),
+        const [memberData, history, stats, sessions] = await Promise.all([
+          fetchParentMember(id),
+          fetchMemberAttendanceHistory(id),
+          fetchMemberAttendanceStats(id),
+          fetchMemberSchedule(id),
         ]);
 
-        setSwimmer(swimmerData);
+        setMember(memberData);
         setAttendanceHistory(history);
         setAttendanceStats(stats);
         setUpcomingSessions(sessions);
       } catch (err) {
-        setError('Failed to load swimmer details. Please try again.');
+        setError(`Failed to load ${MEMBER_NOUN_LOWER} details. Please try again.`);
       } finally {
         setIsLoading(false);
       }
@@ -109,22 +117,22 @@ export default function ChildDetailPage({ params }: PageProps) {
   if (isLoading) {
     return (
       <div className="min-h-dvh bg-canvas p-6 sm:p-10 flex items-center justify-center">
-        <LoadingSpinner message="Loading swimmer details..." />
+        <LoadingSpinner message={`Loading ${MEMBER_NOUN_LOWER} details...`} />
       </div>
     );
   }
 
-  if (error || !swimmer) {
+  if (error || !member) {
     return (
       <div className="min-h-dvh bg-canvas p-6 sm:p-10">
         <div className="max-w-7xl mx-auto">
-          <ErrorState message={error || 'Swimmer not found'} onRetry={() => window.location.reload()} />
+          <ErrorState message={error || `${MEMBER_NOUN} not found`} onRetry={() => window.location.reload()} />
         </div>
       </div>
     );
   }
 
-  const age = calculateAge(swimmer.dob);
+  const age = calculateAge(member.dob);
 
   return (
     <div className="min-h-dvh bg-canvas p-6 sm:p-10">
@@ -133,50 +141,50 @@ export default function ChildDetailPage({ params }: PageProps) {
           items={[
             { label: 'Dashboard', href: '/parent' },
             { label: 'My children', href: '/parent/children' },
-            { label: `${swimmer.first_name} ${swimmer.last_name}` },
+            { label: `${member.first_name} ${member.last_name}` },
           ]}
         />
 
         {/* Header */}
         <div className="mb-8">
           <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight mb-2">
-            {swimmer.first_name} {swimmer.last_name}
+            {member.first_name} {member.last_name}
           </h1>
-          <p className="text-text-secondary text-lg">Swimmer profile and attendance</p>
+          <p className="text-text-secondary text-lg">{MEMBER_NOUN} profile and attendance</p>
         </div>
 
         {/* Profile and Stats Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          {/* Swimmer Profile */}
+          {/* Member Profile */}
           <div className="bg-dark-primary rounded-card p-6 md:p-8 shadow-card border border-white/10">
             <div className="flex items-center space-x-4 mb-6">
               <div className="w-16 h-16 bg-brand/20 rounded-full flex items-center justify-center">
                 <span className="text-brand font-bold text-2xl">
-                  {swimmer.first_name[0]}{swimmer.last_name[0]}
+                  {member.first_name[0]}{member.last_name[0]}
                 </span>
               </div>
               <div>
-                <h3 className="font-serif text-2xl text-white">{swimmer.first_name}</h3>
+                <h3 className="font-serif text-2xl text-white">{member.first_name}</h3>
                 <p className="text-text-tertiary text-sm tabular-nums">Age {age}</p>
               </div>
             </div>
             <div className="space-y-3">
               <div>
                 <p className="text-text-tertiary text-xs mb-1">Registration number</p>
-                <p className="text-white font-medium">{swimmer.se_number || 'Not assigned'}</p>
+                <p className="text-white font-medium">{member.registration_number || 'Not assigned'}</p>
               </div>
               <div>
                 <p className="text-text-tertiary text-xs mb-1">Date of birth</p>
-                <p className="text-white font-medium tabular-nums">{formatDate(swimmer.dob)}</p>
+                <p className="text-white font-medium tabular-nums">{formatDate(member.dob)}</p>
               </div>
               <div>
                 <p className="text-text-tertiary text-xs mb-1">Gender</p>
-                <p className="text-white font-medium">{formatGender(swimmer.gender)}</p>
+                <p className="text-white font-medium">{formatGender(member.gender)}</p>
               </div>
-              {swimmer.medical_notes && (
+              {member.medical_notes && (
                 <div className="mt-4 p-3 bg-warning/10 border border-warning/30 rounded-lg">
                   <p className="text-warning text-xs font-semibold mb-1">Medical notes</p>
-                  <p className="text-warning/90 text-sm">{swimmer.medical_notes}</p>
+                  <p className="text-warning/90 text-sm">{member.medical_notes}</p>
                 </div>
               )}
             </div>
@@ -223,7 +231,7 @@ export default function ChildDetailPage({ params }: PageProps) {
             <div className="space-y-4">
               <div>
                 <p className="text-text-tertiary text-xs mb-2">Current squad</p>
-                {swimmer.squad_id ? (
+                {member.squad_id ? (
                   <span className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-brand/10 text-brand border border-brand/20">
                     Assigned to squad
                   </span>
@@ -357,20 +365,22 @@ export default function ChildDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Times and Personal Bests */}
-        <div className="bg-dark-primary rounded-card shadow-card border border-white/10 mb-8">
-          <div className="p-4 md:p-6 border-b border-white/10">
-            <h2 className="font-serif text-2xl text-white">Times and personal bests</h2>
+        {/* Times and Personal Bests: swimming times, feature-flagged off by default (TEM-15) */}
+        {isCompetitionsEnabled() && (
+          <div className="bg-dark-primary rounded-card shadow-card border border-white/10 mb-8">
+            <div className="p-4 md:p-6 border-b border-white/10">
+              <h2 className="font-serif text-2xl text-white">Times and personal bests</h2>
+            </div>
+            <div className="p-4 md:p-6">
+              <PersonalBests
+                memberId={id}
+                fetchPersonalBests={fetchMemberPersonalBests}
+                fetchResults={fetchMemberResults}
+                emptyMessage="No competition times recorded yet. Times will appear here after their first gala, time trial or meet."
+              />
+            </div>
           </div>
-          <div className="p-4 md:p-6">
-            <PersonalBests
-              swimmerId={id}
-              fetchPersonalBests={fetchSwimmerPersonalBests}
-              fetchResults={fetchSwimmerResults}
-              emptyMessage="No competition times recorded yet. Times will appear here after their first gala, time trial or meet."
-            />
-          </div>
-        </div>
+        )}
 
         {/* Progress Notes */}
         <div className="bg-dark-primary rounded-card shadow-card border border-white/10">

@@ -10,8 +10,8 @@ export function buildConsent(overrides?: Partial<Consent>): Consent {
   const defaults: Consent = {
     consent_id: crypto.randomUUID(),
     club_id: crypto.randomUUID(),
-    swimmer_id: crypto.randomUUID(),
-    swimmer: undefined as any,
+    member_id: crypto.randomUUID(),
+    member: undefined as any,
     consent_type: ConsentType.PHOTOGRAPHY,
     status: ConsentStatus.GRANTED,
     granted_by_user_id: crypto.randomUUID(),

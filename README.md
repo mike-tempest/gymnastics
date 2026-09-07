@@ -121,7 +121,7 @@ pnpm build
 
 # Build specific apps
 pnpm build --filter=web
-pnpm build --filter=@swim-nexus/membership-service
+pnpm build --filter=@club-manager/membership-service
 ```
 
 ### Testing

@@ -8,7 +8,7 @@
 import {
   FileParser,
   ParsedMeetData,
-  ParsedSwimmer,
+  ParsedMember,
   ParsedEntry,
   ParsedResult,
   ParserValidationOptions,
@@ -68,8 +68,8 @@ export class SportSystemsParser implements FileParser {
       const record = this.zipRow(headers, row);
       if (!record['SwimmerSENumber']) continue; // Skip empty rows
 
-      const swimmer: ParsedSwimmer = {
-        seNumber: record['SwimmerSENumber'].trim(),
+      const swimmer: ParsedMember = {
+        registrationNumber: record['SwimmerSENumber'].trim(),
         lastName: record['LastName'].trim(),
         firstName: record['FirstName'].trim(),
         gender: record['Gender'].trim().toUpperCase().charAt(0) as 'M' | 'F',
@@ -96,7 +96,7 @@ export class SportSystemsParser implements FileParser {
       }
 
       const entry: ParsedEntry = {
-        swimmer,
+        member: swimmer,
         eventName: eventStr || `${distance} ${stroke}`,
         distance,
         stroke,
@@ -132,8 +132,8 @@ export class SportSystemsParser implements FileParser {
       const record = this.zipRow(headers, row);
       if (!record['SwimmerSENumber']) continue;
 
-      const swimmer: ParsedSwimmer = {
-        seNumber: record['SwimmerSENumber'].trim(),
+      const swimmer: ParsedMember = {
+        registrationNumber: record['SwimmerSENumber'].trim(),
         lastName: record['LastName'].trim(),
         firstName: record['FirstName'].trim(),
         gender: 'M', // Gender not in results file — default, will be resolved during import
@@ -147,7 +147,7 @@ export class SportSystemsParser implements FileParser {
       const isDQ = dqValue === 'Y' || dqValue === 'YES' || dqValue === 'DQ';
 
       const result: ParsedResult = {
-        swimmer,
+        member: swimmer,
         eventName: eventStr,
         distance,
         stroke,
@@ -175,11 +175,11 @@ export class SportSystemsParser implements FileParser {
     lines.push(ENTRY_HEADERS.join(','));
 
     for (const entry of data.entries) {
-      const s = entry.swimmer;
+      const s = entry.member;
       const row = [
         this.csvEscape(s.teamCode || data.teamCode || ''),
         this.csvEscape(s.teamName || data.teamName || ''),
-        this.csvEscape(s.seNumber),
+        this.csvEscape(s.registrationNumber),
         this.csvEscape(s.lastName),
         this.csvEscape(s.firstName),
         s.gender,
@@ -208,9 +208,9 @@ export class SportSystemsParser implements FileParser {
         this.csvEscape(result.eventName || `${result.distance} ${result.stroke}`),
         result.heat != null ? String(result.heat) : '',
         result.lane != null ? String(result.lane) : '',
-        this.csvEscape(result.swimmer.seNumber),
-        this.csvEscape(result.swimmer.lastName),
-        this.csvEscape(result.swimmer.firstName),
+        this.csvEscape(result.member.registrationNumber),
+        this.csvEscape(result.member.lastName),
+        this.csvEscape(result.member.firstName),
         result.dq ? 'DQ' : formatTimeString(result.time),
         result.place != null ? String(result.place) : '',
         result.dq ? 'Y' : 'N',
@@ -229,13 +229,13 @@ export class SportSystemsParser implements FileParser {
     const errors: ValidationError[] = [];
 
     data.entries.forEach((entry, idx) => {
-      this.validateSwimmer(entry.swimmer, idx + 1, errors, options);
+      this.validateSwimmer(entry.member, idx + 1, errors, options);
       this.validateTime(entry.entryTime, idx + 1, 'entryTime', errors);
       this.validateEvent(entry.distance, entry.stroke, idx + 1, errors);
     });
 
     data.results.forEach((result, idx) => {
-      validateRegistrationNumber(result.swimmer.seNumber, idx + 1, errors, options);
+      validateRegistrationNumber(result.member.registrationNumber, idx + 1, errors, options);
       if (!result.dq) {
         this.validateTime(result.time, idx + 1, 'time', errors);
       }
@@ -431,12 +431,12 @@ export class SportSystemsParser implements FileParser {
   // --- Validation helpers ---
 
   private validateSwimmer(
-    swimmer: ParsedSwimmer,
+    swimmer: ParsedMember,
     row: number,
     errors: ValidationError[],
     options?: ParserValidationOptions,
   ): void {
-    validateRegistrationNumber(swimmer.seNumber, row, errors, options);
+    validateRegistrationNumber(swimmer.registrationNumber, row, errors, options);
 
     if (swimmer.gender !== 'M' && swimmer.gender !== 'F') {
       errors.push({

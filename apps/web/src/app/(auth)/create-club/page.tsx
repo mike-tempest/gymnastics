@@ -1,13 +1,13 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import {
   AU_STATES,
   COUNTRY_GOVERNING_BODIES,
   GoverningBody,
   defaultGoverningBodyForCountry,
   governingBodyConfig,
-} from '@swim-nexus/shared-types';
+} from '@club-manager/shared-types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -26,6 +26,7 @@ import {
 } from '@/lib/analytics';
 import { storeBackendToken } from '@/lib/api/api-client';
 import { registerClub } from '@/lib/api/auth';
+import { BRAND } from '@/lib/brand';
 import {
   countryName,
   countyLabel,
@@ -275,13 +276,13 @@ export default function CreateClubPage() {
         <div className="text-center mb-6 sm:mb-10">
           <Image
             src="/swimly-logo.svg"
-            alt="Swimly"
+            alt=""
             width={200}
             height={64}
             className="h-16 w-auto mx-auto mb-6"
             priority
           />
-          <p className="text-white/70 text-lg">Set up your club on Swimly</p>
+          <p className="text-white/70 text-lg">Set up your club on {BRAND.name}</p>
         </div>
 
         {/* Error Message */}
@@ -743,7 +744,7 @@ export default function CreateClubPage() {
 
       {/* Footer */}
       <div className="mt-8 text-center text-sm text-grey-400">
-        <p>2026 Swimly. All rights reserved.</p>
+        <p>{BRAND.copyright}</p>
       </div>
     </>
   );

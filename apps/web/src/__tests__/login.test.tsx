@@ -46,7 +46,9 @@ describe('LoginPage', () => {
   it('renders the brand logo and subtitle', () => {
     render(<LoginPage />);
 
-    expect(screen.getByRole('img', { name: 'Swimly' })).toBeInTheDocument();
+    // The logo is decorative (empty alt) until the placeholder artwork is
+    // replaced with the real brand's wordmark.
+    expect(document.querySelector('img[alt=""]')).toBeInTheDocument();
     expect(screen.getByText('Sign in to your account')).toBeInTheDocument();
   });
 

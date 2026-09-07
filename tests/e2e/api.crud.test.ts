@@ -2,8 +2,8 @@ import { loginAs, authGet, authPost, authPatch, authDelete, ADMIN_EMAIL, ADMIN_P
 
 describe('CRUD Operations API', () => {
   let adminToken: string;
-  const createdIds: { swimmers: string[]; squads: string[]; invoices: string[]; users: string[] } = {
-    swimmers: [],
+  const createdIds: { members: string[]; squads: string[]; invoices: string[]; users: string[] } = {
+    members: [],
     squads: [],
     invoices: [],
     users: [],
@@ -15,8 +15,8 @@ describe('CRUD Operations API', () => {
 
   afterAll(async () => {
     // Clean up created test data
-    for (const swimmerId of createdIds.swimmers) {
-      await authDelete(`/swimmers/${swimmerId}`, adminToken);
+    for (const memberId of createdIds.members) {
+      await authDelete(`/members/${memberId}`, adminToken);
     }
     for (const squadId of createdIds.squads) {
       await authDelete(`/squads/${squadId}`, adminToken);
@@ -29,7 +29,7 @@ describe('CRUD Operations API', () => {
     }
   });
 
-  it('Create a swimmer, verify it appears, then delete it', async () => {
+  it('Create a member, verify it appears, then delete it', async () => {
     // Get a valid family_id and squad_id first
     const familiesRes = await authGet('/families', adminToken);
     const families = await familiesRes.json();
@@ -42,10 +42,10 @@ describe('CRUD Operations API', () => {
     expect(familyId).toBeDefined();
     expect(squadId).toBeDefined();
 
-    // Create swimmer
-    const createRes = await authPost('/swimmers', adminToken, {
+    // Create member
+    const createRes = await authPost('/members', adminToken, {
       first_name: 'Test',
-      last_name: 'Swimmer',
+      last_name: 'Member',
       dob: '2010-01-01',
       gender: 'M',
       family_id: familyId,
@@ -54,24 +54,24 @@ describe('CRUD Operations API', () => {
 
     expect([200, 201]).toContain(createRes.status);
     const created = await createRes.json();
-    expect(created.swimmer_id).toBeDefined();
-    createdIds.swimmers.push(created.swimmer_id);
+    expect(created.member_id).toBeDefined();
+    createdIds.members.push(created.member_id);
 
     // Verify it appears in GET
-    const getRes = await authGet('/swimmers', adminToken);
+    const getRes = await authGet('/members', adminToken);
     expect(getRes.status).toBe(200);
-    const swimmers = await getRes.json();
-    const found = swimmers.find((s: any) => s.swimmer_id === created.swimmer_id);
+    const members = await getRes.json();
+    const found = members.find((s: any) => s.member_id === created.member_id);
     expect(found).toBeDefined();
     expect(found.first_name).toBe('Test');
-    expect(found.last_name).toBe('Swimmer');
+    expect(found.last_name).toBe('Member');
 
     // Delete it
-    const deleteRes = await authDelete(`/swimmers/${created.swimmer_id}`, adminToken);
+    const deleteRes = await authDelete(`/members/${created.member_id}`, adminToken);
     expect([200, 204]).toContain(deleteRes.status);
 
     // Remove from cleanup list
-    createdIds.swimmers = createdIds.swimmers.filter(id => id !== created.swimmer_id);
+    createdIds.members = createdIds.members.filter(id => id !== created.member_id);
   });
 
   it('Create a squad, verify it appears, then delete it', async () => {
@@ -143,32 +143,32 @@ describe('CRUD Operations API', () => {
     createdIds.invoices = createdIds.invoices.filter(id => id !== created.invoice_id);
   });
 
-  it('Update a swimmer via PATCH and verify changes', async () => {
-    // Get an existing swimmer
-    const getRes = await authGet('/swimmers', adminToken);
+  it('Update a member via PATCH and verify changes', async () => {
+    // Get an existing member
+    const getRes = await authGet('/members', adminToken);
     expect(getRes.status).toBe(200);
-    const swimmers = await getRes.json();
-    const swimmer = swimmers[0];
-    expect(swimmer).toBeDefined();
+    const members = await getRes.json();
+    const member = members[0];
+    expect(member).toBeDefined();
 
-    const originalFirstName = swimmer.first_name;
+    const originalFirstName = member.first_name;
     const newFirstName = `Updated_${Date.now()}`;
 
-    // Update the swimmer
-    const patchRes = await authPatch(`/swimmers/${swimmer.swimmer_id}`, adminToken, {
+    // Update the member
+    const patchRes = await authPatch(`/members/${member.member_id}`, adminToken, {
       first_name: newFirstName,
     });
 
     expect([200, 204]).toContain(patchRes.status);
 
     // Verify the change
-    const verifyRes = await authGet(`/swimmers/${swimmer.swimmer_id}`, adminToken);
+    const verifyRes = await authGet(`/members/${member.member_id}`, adminToken);
     expect(verifyRes.status).toBe(200);
     const updated = await verifyRes.json();
     expect(updated.first_name).toBe(newFirstName);
 
     // Restore original name
-    await authPatch(`/swimmers/${swimmer.swimmer_id}`, adminToken, {
+    await authPatch(`/members/${member.member_id}`, adminToken, {
       first_name: originalFirstName,
     });
   });

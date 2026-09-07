@@ -1,5 +1,5 @@
 /**
- * Shared header matching for the swimmer and member import wizards.
+ * Shared header matching for the member import wizards.
  *
  * Clubs import rosters exported from other systems (Swim England lists,
  * Swim Central "Full Members Report", ad-hoc spreadsheets) whose column
@@ -55,13 +55,20 @@ const HEADER_SYNONYMS: Record<string, CanonicalImportField> = {
   givenname: 'first_name',
   preferredname: 'first_name',
   forename: 'first_name',
+  memberfirstname: 'first_name',
+  // Data-facing synonyms: headers in files clubs already have. Legacy
+  // Swimly and Swim Central exports use the old sport-specific noun and
+  // gymnastics rosters use theirs; neither can be renamed in the wild.
   swimmerfirstname: 'first_name',
+  gymnastfirstname: 'first_name',
   childfirstname: 'first_name',
   // Last name
   lastname: 'last_name',
   surname: 'last_name',
   familyname: 'last_name',
+  memberlastname: 'last_name',
   swimmerlastname: 'last_name',
+  gymnastlastname: 'last_name',
   childlastname: 'last_name',
   // Date of birth
   dateofbirth: 'date_of_birth',
@@ -83,7 +90,9 @@ const HEADER_SYNONYMS: Record<string, CanonicalImportField> = {
   membershipid: 'registration_number',
   membernumber: 'registration_number',
   memberno: 'registration_number',
-  memberid: 'registration_number',
+  // Deliberately no 'memberid' synonym: member_id is this platform's own
+  // primary-key column in exports, and auto-mapping its UUIDs onto
+  // registration_number would silently corrupt re-imported rosters.
   usaswimmingid: 'registration_number',
   // Governing body
   governingbody: 'governing_body',

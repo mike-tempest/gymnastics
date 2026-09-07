@@ -16,7 +16,7 @@ export interface QualifyingTime {
 
 export interface RelayLeg {
   leg: number;
-  swimmer_id: string | null;
+  member_id: string | null;
   name: string | null;
   split: number | null;
 }
@@ -43,7 +43,7 @@ export interface Competition {
 export interface CompetitionEntry {
   entry_id: string;
   competition_id: string;
-  swimmer_id: string;
+  member_id: string;
   event_name: string | null;
   distance: number;
   stroke: string;
@@ -57,7 +57,7 @@ export interface CompetitionEntry {
 export interface CompetitionResult {
   result_id: string;
   competition_id: string;
-  swimmer_id: string;
+  member_id: string;
   event_name: string | null;
   distance: number;
   stroke: string;
@@ -80,7 +80,7 @@ export interface CompetitionResult {
 export interface PersonalBest {
   pb_id: string;
   club_id: string | null;
-  swimmer_id: string;
+  member_id: string;
   distance: number;
   stroke: string;
   course: Course;
@@ -100,7 +100,7 @@ export interface SeasonBest {
   achieved_at: string | null;
 }
 
-export interface SwimmerPersonalBests {
+export interface MemberPersonalBests {
   personalBests: PersonalBest[];
   seasonBests: SeasonBest[];
   seasonStart: string;

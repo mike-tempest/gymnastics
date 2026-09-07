@@ -1,6 +1,6 @@
 "use client";
 
-import { defaultGoverningBodyForCountry, governingBodyConfig } from "@swim-nexus/shared-types";
+import { defaultGoverningBodyForCountry, governingBodyConfig } from "@club-manager/shared-types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Papa from "papaparse";
@@ -18,9 +18,10 @@ import {
   onboardingStepViewed,
   type OnboardingStep,
 } from "@/lib/analytics";
+import { createMember } from "@/lib/api/members";
 import { updateClubSettings } from "@/lib/api/settings";
 import { createSquad } from "@/lib/api/squads";
-import { createSwimmer } from "@/lib/api/swimmers";
+import { BRAND, MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from "@/lib/brand";
 import { isValidPhone } from "@/lib/utils/postal";
 import { countyLabel } from "@/lib/utils/region-labels";
 
@@ -29,7 +30,7 @@ const STEP_NAMES: OnboardingStep["name"][] = [
   "club_details",
   "venues",
   "squads",
-  "import_swimmers",
+  "import_members",
   "invite_staff",
   "review",
 ];
@@ -59,7 +60,7 @@ interface Squad {
   trainingTimes: string;
 }
 
-interface Swimmer {
+interface Member {
   id: string;
   firstName: string;
   lastName: string;
@@ -148,7 +149,7 @@ const STEP_LABELS = [
   "Club Details",
   "Venues",
   "Squads",
-  "Import Swimmers",
+  `Import ${MEMBER_NOUN_PLURAL}`,
   "Invite Staff",
   "Review",
 ];
@@ -272,8 +273,8 @@ export default function OnboardingPage() {
   // Step 3: Squads
   const [squads, setSquads] = useState<Squad[]>([]);
 
-  // Step 4: Swimmers
-  const [swimmers, setSwimmers] = useState<Swimmer[]>([]);
+  // Step 4: Members
+  const [members, setMembers] = useState<Member[]>([]);
   const [importTab, setImportTab] = useState<"csv" | "manual">("csv");
   const [csvHeaders, setCsvHeaders] = useState<string[]>([]);
   const [csvRows, setCsvRows] = useState<string[][]>([]);
@@ -283,7 +284,7 @@ export default function OnboardingPage() {
     dob: "",
     gender: "",
   });
-  const [manualSwimmer, setManualSwimmer] = useState({ firstName: "", lastName: "", dob: "", gender: "M" });
+  const [manualMember, setManualMember] = useState({ firstName: "", lastName: "", dob: "", gender: "M" });
 
   // Step 5: Staff
   const [staff, setStaff] = useState<StaffMember[]>([]);
@@ -343,7 +344,7 @@ export default function OnboardingPage() {
       }
     }
 
-    // Step 3 (swimmers) is optional
+    // Step 3 (members) is optional
 
     if (step === 4) {
       let hasError = false;
@@ -435,7 +436,7 @@ export default function OnboardingPage() {
       return;
     }
     const headerIndex = (col: string) => csvHeaders.indexOf(col);
-    const mapped: Swimmer[] = csvRows
+    const mapped: Member[] = csvRows
       .map((row) => ({
         id: genId(),
         firstName: row[headerIndex(csvMapping.first_name)] ?? "",
@@ -445,24 +446,24 @@ export default function OnboardingPage() {
       }))
       .filter((s) => s.firstName || s.lastName);
 
-    setSwimmers((prev) => [...prev, ...mapped]);
-    toast.success(`Imported ${mapped.length} swimmer${mapped.length === 1 ? "" : "s"}.`);
+    setMembers((prev) => [...prev, ...mapped]);
+    toast.success(`Imported ${mapped.length} ${mapped.length === 1 ? MEMBER_NOUN_LOWER : MEMBER_NOUN_PLURAL_LOWER}.`);
     setCsvHeaders([]);
     setCsvRows([]);
   };
 
-  // ---------- Manual swimmer ----------
+  // ---------- Manual member ----------
 
-  const addManualSwimmer = () => {
-    if (!manualSwimmer.firstName || !manualSwimmer.lastName) {
+  const addManualMember = () => {
+    if (!manualMember.firstName || !manualMember.lastName) {
       toast.error("First name and last name are required.");
       return;
     }
-    setSwimmers((prev) => [...prev, { id: genId(), ...manualSwimmer }]);
-    setManualSwimmer({ firstName: "", lastName: "", dob: "", gender: "M" });
+    setMembers((prev) => [...prev, { id: genId(), ...manualMember }]);
+    setManualMember({ firstName: "", lastName: "", dob: "", gender: "M" });
   };
 
-  const removeSwimmer = (id: string) => setSwimmers((prev) => prev.filter((s) => s.id !== id));
+  const removeMember = (id: string) => setMembers((prev) => prev.filter((s) => s.id !== id));
 
   // ---------- Staff helpers ----------
 
@@ -509,13 +510,13 @@ export default function OnboardingPage() {
         });
       }
 
-      // 3. Swimmers
-      for (const swimmer of swimmers) {
-        await createSwimmer({
-          first_name: swimmer.firstName,
-          last_name: swimmer.lastName,
-          dob: swimmer.dob,
-          gender: swimmer.gender,
+      // 3. Members
+      for (const member of members) {
+        await createMember({
+          first_name: member.firstName,
+          last_name: member.lastName,
+          dob: member.dob,
+          gender: member.gender,
         });
       }
 
@@ -715,12 +716,12 @@ export default function OnboardingPage() {
           Add Squad
         </button>
       </div>
-      <p className="text-white/50 text-sm mb-4">Squads help you organise swimmers by age or ability. e.g. Learn to Swim, Development, Competition.</p>
+      <p className="text-white/50 text-sm mb-4">Squads help you organise {MEMBER_NOUN_PLURAL_LOWER} by age or ability. e.g. Learn to Swim, Development, Competition.</p>
 
       {squads.length === 0 && (
         <div className="rounded-xl border border-dashed border-white/20 p-6 text-center">
           <p className="text-white/70 text-sm mb-4">
-            Squads help organise swimmers by age or ability. Common examples: Learn to Swim, Development, Competition, Masters.
+            Squads help organise {MEMBER_NOUN_PLURAL_LOWER} by age or ability. Common examples: Learn to Swim, Development, Competition, Masters.
           </p>
           <button type="button" className={primaryBtnClass} onClick={addSquad}>
             Add Squad
@@ -799,10 +800,10 @@ export default function OnboardingPage() {
     </div>
   );
 
-  const renderImportSwimmers = () => (
+  const renderImportMembers = () => (
     <div className="space-y-4">
-      <h2 className="font-serif text-2xl text-white tracking-tight mb-1">Import Swimmers</h2>
-      <p className="text-white/50 text-sm mb-1">Import your existing member list from a CSV, or add them manually. You can skip this for now and add swimmers later.</p>
+      <h2 className="font-serif text-2xl text-white tracking-tight mb-1">Import {MEMBER_NOUN_PLURAL}</h2>
+      <p className="text-white/50 text-sm mb-1">Import your existing {MEMBER_NOUN_LOWER} list from a CSV, or add them manually. You can skip this for now and add {MEMBER_NOUN_PLURAL_LOWER} later.</p>
       <p className="text-white/50 text-xs mb-4">
         You can also import members, squads, staff and fees later from the{" "}
         <Link
@@ -911,16 +912,16 @@ export default function OnboardingPage() {
               <label className={LABEL_CLASS}>First name *</label>
               <input
                 className={INPUT_CLASS}
-                value={manualSwimmer.firstName}
-                onChange={(e) => setManualSwimmer((s) => ({ ...s, firstName: e.target.value }))}
+                value={manualMember.firstName}
+                onChange={(e) => setManualMember((s) => ({ ...s, firstName: e.target.value }))}
               />
             </div>
             <div>
               <label className={LABEL_CLASS}>Last name *</label>
               <input
                 className={INPUT_CLASS}
-                value={manualSwimmer.lastName}
-                onChange={(e) => setManualSwimmer((s) => ({ ...s, lastName: e.target.value }))}
+                value={manualMember.lastName}
+                onChange={(e) => setManualMember((s) => ({ ...s, lastName: e.target.value }))}
               />
             </div>
           </div>
@@ -931,16 +932,16 @@ export default function OnboardingPage() {
               <input
                 type="date"
                 className={INPUT_CLASS}
-                value={manualSwimmer.dob}
-                onChange={(e) => setManualSwimmer((s) => ({ ...s, dob: e.target.value }))}
+                value={manualMember.dob}
+                onChange={(e) => setManualMember((s) => ({ ...s, dob: e.target.value }))}
               />
             </div>
             <div>
               <label className={LABEL_CLASS}>Gender</label>
               <select
                 className={INPUT_CLASS}
-                value={manualSwimmer.gender}
-                onChange={(e) => setManualSwimmer((s) => ({ ...s, gender: e.target.value }))}
+                value={manualMember.gender}
+                onChange={(e) => setManualMember((s) => ({ ...s, gender: e.target.value }))}
               >
                 <option value="M">Male</option>
                 <option value="F">Female</option>
@@ -949,20 +950,20 @@ export default function OnboardingPage() {
             </div>
           </div>
 
-          <button type="button" className={primaryBtnClass} onClick={addManualSwimmer}>
-            Add Swimmer
+          <button type="button" className={primaryBtnClass} onClick={addManualMember}>
+            Add Member
           </button>
         </div>
       )}
 
-      {/* Swimmer list */}
-      {swimmers.length > 0 && (
+      {/* Member list */}
+      {members.length > 0 && (
         <div className="mt-4">
           <h3 className="text-white font-medium mb-2">
-            Swimmers ({swimmers.length})
+            Members ({members.length})
           </h3>
           <div className="space-y-2 max-h-64 overflow-y-auto">
-            {swimmers.map((s) => (
+            {members.map((s) => (
               <div
                 key={s.id}
                 className="flex items-center justify-between bg-dark-primary rounded-xl px-3 py-2 border border-white/10"
@@ -975,7 +976,7 @@ export default function OnboardingPage() {
                 <button
                   type="button"
                   className="text-danger hover:text-danger/80 text-xs cursor-pointer"
-                  onClick={() => removeSwimmer(s.id)}
+                  onClick={() => removeMember(s.id)}
                 >
                   Remove
                 </button>
@@ -995,7 +996,7 @@ export default function OnboardingPage() {
           Add Staff Member
         </button>
       </div>
-      <p className="text-white/50 text-sm mb-4">Invite coaches and other admins so they can access Swimly too.</p>
+      <p className="text-white/50 text-sm mb-4">Invite coaches and other admins so they can access {BRAND.name} too.</p>
 
       {staff.length === 0 && (
         <p className="text-white/70 text-sm">No staff added yet. You can always invite coaches and admins later from Settings.</p>
@@ -1126,16 +1127,16 @@ export default function OnboardingPage() {
         )}
       </div>
 
-      {/* Swimmers */}
+      {/* Members */}
       <div className="bg-dark-primary rounded-xl p-4 border border-white/10">
         <h3 className="text-brand font-medium mb-3">
-          Swimmers ({swimmers.length})
+          Members ({members.length})
         </h3>
-        {swimmers.length === 0 ? (
+        {members.length === 0 ? (
           <p className="text-white/70 text-sm">None added <span className="text-white/50">(you can add these later from Settings)</span></p>
         ) : (
           <p className="text-white text-sm">
-            {swimmers.length} swimmer{swimmers.length === 1 ? "" : "s"} ready to import
+            {members.length} member{members.length === 1 ? "" : "s"} ready to import
           </p>
         )}
       </div>
@@ -1166,7 +1167,7 @@ export default function OnboardingPage() {
     renderClubDetails,
     renderVenues,
     renderSquads,
-    renderImportSwimmers,
+    renderImportMembers,
     renderInviteStaff,
     renderReview,
   ];
@@ -1177,7 +1178,7 @@ export default function OnboardingPage() {
     <div className="min-h-dvh bg-dark-secondary">
       <div className="max-w-2xl mx-auto px-4 py-10">
         {/* Header */}
-        <h1 className="font-serif text-4xl text-white tracking-tight text-center mb-2">Welcome to Swimly</h1>
+        <h1 className="font-serif text-4xl text-white tracking-tight text-center mb-2">Welcome to {BRAND.name}</h1>
         <p className="text-white/70 text-center text-lg mb-4">
           Let&apos;s get your club up and running. This takes about 5 minutes, and you can change everything later.
         </p>

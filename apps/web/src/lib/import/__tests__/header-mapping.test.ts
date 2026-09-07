@@ -28,8 +28,11 @@ describe('matchHeader', () => {
   it('maps Swim Central style member number headers to registration_number', () => {
     expect(matchHeader('Member Number')).toBe('registration_number');
     expect(matchHeader('Membership Number')).toBe('registration_number');
-    expect(matchHeader('Member ID')).toBe('registration_number');
     expect(matchHeader('Registration Number')).toBe('registration_number');
+  });
+
+  it('leaves Member ID unmapped so re-imported platform exports keep their UUIDs out of registration_number', () => {
+    expect(matchHeader('Member ID')).toBeNull();
   });
 
   it('maps name headers', () => {
@@ -63,13 +66,13 @@ describe('matchHeader', () => {
 });
 
 describe('autoMapHeaders', () => {
-  type Field = 'first_name' | 'last_name' | 'dob' | 'se_number' | 'family';
+  type Field = 'first_name' | 'last_name' | 'dob' | 'registration_number' | 'family';
 
   const fields: readonly AutoMapField<Field>[] = [
     { key: 'first_name', canonical: 'first_name' },
     { key: 'last_name', canonical: 'last_name' },
     { key: 'dob', canonical: 'date_of_birth' },
-    { key: 'se_number', canonical: 'registration_number' },
+    { key: 'registration_number', canonical: 'registration_number' },
     { key: 'family', canonical: 'family' },
   ];
 
@@ -79,7 +82,7 @@ describe('autoMapHeaders', () => {
       fields,
     );
     expect(mapping).toEqual({
-      se_number: 'Member Number',
+      registration_number: 'Member Number',
       first_name: 'Given Name',
       last_name: 'Family Name',
       dob: 'Date of Birth',
@@ -90,7 +93,7 @@ describe('autoMapHeaders', () => {
     // A re-uploaded Swimly template maps to itself even where a header is
     // also a synonym for another concept.
     const mapping = autoMapHeaders(
-      ['first_name', 'Surname', 'dob', 'se_number', 'family'],
+      ['first_name', 'Surname', 'dob', 'registration_number', 'family'],
       fields,
     );
     expect(mapping.family).toBe('family');

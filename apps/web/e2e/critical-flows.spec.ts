@@ -1,5 +1,7 @@
 import { test, expect, Page } from '@playwright/test';
 
+import { BRAND } from '../src/lib/brand';
+
 /**
  * Swimly Critical User Flows - E2E Smoke Tests
  *
@@ -65,7 +67,7 @@ test.describe('Admin Login Page', () => {
     expect(page.url()).toContain('/login');
 
     // Verify the Swimly branding is visible.
-    await expect(page.getByText('Swimly').first()).toBeVisible();
+    await expect(page.getByText(BRAND.name).first()).toBeVisible();
 
     // Verify the email and password fields are present.
     await expect(page.locator('input[type="email"]')).toBeVisible();
@@ -100,7 +102,7 @@ test.describe('Admin Dashboard', () => {
     } else {
       // A redirect to login is a valid unauthenticated response.
       expect(isOnLogin).toBe(true);
-      await expect(page.getByText('Swimly').first()).toBeVisible();
+      await expect(page.getByText(BRAND.name).first()).toBeVisible();
     }
 
     const critical = getCriticalErrors(errors);
@@ -109,30 +111,30 @@ test.describe('Admin Dashboard', () => {
 });
 
 // ---------------------------------------------------------------------------
-// 3. Swimmers List
+// 3. Members List
 // ---------------------------------------------------------------------------
 
-test.describe('Swimmers', () => {
-  test('swimmers list page loads', async ({ page }) => {
+test.describe('Members', () => {
+  test('members list page loads', async ({ page }) => {
     const errors = attachErrorCollector(page);
 
-    await page.goto('/swimmers');
+    await page.goto('/members');
 
-    // Accept either the swimmers page or a login redirect.
+    // Accept either the members page or a login redirect.
     const redirectedToLogin = page.url().includes('/login');
 
     if (!redirectedToLogin) {
       // Verify the page has loaded with some meaningful content.
-      // The swimmers page uses a heading or contains the word "Swimmers".
+      // The members page uses a heading or contains the word "Gymnasts".
       const hasContent = await page
-        .getByText(/swimmers/i)
+        .getByText(/gymnasts/i)
         .first()
         .isVisible()
         .catch(() => false);
       expect(hasContent).toBe(true);
     } else {
       // Redirect to login is fine when unauthenticated.
-      await expect(page.getByText('Swimly').first()).toBeVisible();
+      await expect(page.getByText(BRAND.name).first()).toBeVisible();
     }
 
     const critical = getCriticalErrors(errors);
@@ -205,7 +207,7 @@ test.describe('Attendance', () => {
       const bodyText = await page.locator('body').innerText();
       expect(bodyText.length).toBeGreaterThan(0);
     } else {
-      await expect(page.getByText('Swimly').first()).toBeVisible();
+      await expect(page.getByText(BRAND.name).first()).toBeVisible();
     }
 
     const critical = getCriticalErrors(errors);

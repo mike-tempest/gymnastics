@@ -1,6 +1,6 @@
 'use client';
 
-import { Attendance, AttendanceStatus } from '@swim-nexus/shared-types';
+import { Attendance, AttendanceStatus } from '@club-manager/shared-types';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Check, Users } from 'lucide-react';
 import { useMemo, useState } from 'react';
@@ -11,15 +11,16 @@ import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import {
   getSessionAttendance,
-  checkInSwimmer,
+  checkInMember,
   updateAttendance,
   markAttendance,
 } from '@/lib/api/attendance';
-import { fetchSessionReadiness, type SwimmerReadiness } from '@/lib/api/wellbeing';
+import { fetchSessionReadiness, type MemberReadiness } from '@/lib/api/wellbeing';
+import { MEMBER_NOUN, MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
+import MemberCheckIn from './MemberCheckIn';
 import SessionStats from './SessionStats';
 import StatusSelector from './StatusSelector';
-import SwimmerCheckIn from './SwimmerCheckIn';
 
 interface AttendanceRosterProps {
   sessionId: string;
@@ -36,7 +37,7 @@ const STATUS_LABELS: Record<string, string> = {
 
 export default function AttendanceRoster({ sessionId, sessionName, squadName }: AttendanceRosterProps) {
   const queryClient = useQueryClient();
-  const [selectedSwimmer, setSelectedSwimmer] = useState<Attendance | null>(null);
+  const [selectedMember, setSelectedMember] = useState<Attendance | null>(null);
   const [showBulkSuccess, setShowBulkSuccess] = useState(false);
 
   const {
@@ -51,32 +52,32 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
     refetchInterval: 30_000,
   });
 
-  const swimmerIds = useMemo(
-    () => attendance.map((r) => r.swimmer_id),
+  const memberIds = useMemo(
+    () => attendance.map((r) => r.member_id),
     [attendance],
   );
 
   const today = new Date().toISOString().split('T')[0];
   const { data: readinessData } = useQuery({
     queryKey: ['session-readiness', sessionId, today],
-    queryFn: () => fetchSessionReadiness(swimmerIds, today),
-    enabled: swimmerIds.length > 0,
+    queryFn: () => fetchSessionReadiness(memberIds, today),
+    enabled: memberIds.length > 0,
     refetchInterval: 60_000,
   });
 
   const readinessMap = useMemo(() => {
-    const map = new Map<string, SwimmerReadiness>();
-    if (readinessData?.swimmers) {
-      for (const s of readinessData.swimmers) {
-        map.set(s.swimmer_id, s);
+    const map = new Map<string, MemberReadiness>();
+    if (readinessData?.members) {
+      for (const s of readinessData.members) {
+        map.set(s.member_id, s);
       }
     }
     return map;
   }, [readinessData]);
 
   const checkInMutation = useMutation({
-    mutationFn: ({ swimmerId }: { swimmerId: string }) =>
-      checkInSwimmer(sessionId, swimmerId),
+    mutationFn: ({ memberId }: { memberId: string }) =>
+      checkInMember(sessionId, memberId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['session-attendance', sessionId] });
       toast.success('Attendance recorded');
@@ -106,12 +107,12 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
   });
 
   const bulkMarkMutation = useMutation({
-    mutationFn: ({ swimmerIds, status }: { swimmerIds: string[]; status: AttendanceStatus }) =>
-      markAttendance(sessionId, swimmerIds, status),
+    mutationFn: ({ memberIds, status }: { memberIds: string[]; status: AttendanceStatus }) =>
+      markAttendance(sessionId, memberIds, status),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['session-attendance', sessionId] });
       setShowBulkSuccess(true);
-      toast.success('All swimmers marked as present');
+      toast.success(`All ${MEMBER_NOUN_PLURAL_LOWER} marked as present`);
       setTimeout(() => setShowBulkSuccess(false), 3000);
     },
     onError: () => {
@@ -137,7 +138,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
     return c;
   }, [attendance]);
 
-  const unmarkedSwimmers = useMemo(
+  const unmarkedMembers = useMemo(
     () => attendance.filter((record) => !record.status),
     [attendance]
   );
@@ -150,34 +151,34 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
         notes: null,
       });
     } else {
-      checkInMutation.mutate({ swimmerId: record.swimmer_id });
+      checkInMutation.mutate({ memberId: record.member_id });
     }
   }
 
   function handleLongPress(record: Attendance) {
-    setSelectedSwimmer(record);
+    setSelectedMember(record);
   }
 
   function handleStatusSelect(status: AttendanceStatus, notes: string | null) {
-    if (!selectedSwimmer) return;
+    if (!selectedMember) return;
 
-    if (selectedSwimmer.attendance_id) {
+    if (selectedMember.attendance_id) {
       updateMutation.mutate({
-        attendanceId: selectedSwimmer.attendance_id,
+        attendanceId: selectedMember.attendance_id,
         status,
         notes,
       });
     } else {
-      checkInMutation.mutate({ swimmerId: selectedSwimmer.swimmer_id });
+      checkInMutation.mutate({ memberId: selectedMember.member_id });
     }
 
-    setSelectedSwimmer(null);
+    setSelectedMember(null);
   }
 
   function handleMarkAllPresent() {
-    if (unmarkedSwimmers.length === 0) return;
-    const swimmerIds = unmarkedSwimmers.map((record) => record.swimmer_id);
-    bulkMarkMutation.mutate({ swimmerIds, status: AttendanceStatus.PRESENT });
+    if (unmarkedMembers.length === 0) return;
+    const memberIds = unmarkedMembers.map((record) => record.member_id);
+    bulkMarkMutation.mutate({ memberIds, status: AttendanceStatus.PRESENT });
   }
 
   if (isLoading) {
@@ -197,9 +198,9 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
     return (
       <EmptyState
         icon={Users}
-        title="No swimmers in this session"
-        description="Assign swimmers to this session and they will appear here ready to check in."
-        hint="Add swimmers to the session's squad, then return to take the register."
+        title={`No ${MEMBER_NOUN_PLURAL_LOWER} in this session`}
+        description={`Assign ${MEMBER_NOUN_PLURAL_LOWER} to this session and they will appear here ready to check in.`}
+        hint={`Add ${MEMBER_NOUN_PLURAL_LOWER} to the session's squad, then return to take the register.`}
       />
     );
   }
@@ -246,10 +247,10 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
         <div>
           <p className="text-sm text-white/60 font-medium">{sessionName}</p>
           <p className="text-xs text-white/70 mt-0.5">
-            {attendance.length} swimmer{attendance.length !== 1 ? 's' : ''}
+            {attendance.length} {attendance.length !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER}
           </p>
         </div>
-        {unmarkedSwimmers.length > 0 && (
+        {unmarkedMembers.length > 0 && (
           <button
             type="button"
             onClick={handleMarkAllPresent}
@@ -258,7 +259,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
           >
             {bulkMarkMutation.isPending
               ? 'Marking...'
-              : `Mark All Present (${unmarkedSwimmers.length})`}
+              : `Mark All Present (${unmarkedMembers.length})`}
           </button>
         )}
       </div>
@@ -268,24 +269,24 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
         <div className="p-3 rounded-xl border animate-in slide-in-from-top-2 duration-200 no-print bg-success/15 border-success/30 text-success">
           <p className="text-sm font-medium text-center flex items-center justify-center gap-1.5">
             <Check className="w-4 h-4" />
-            Marked {unmarkedSwimmers.length} swimmer{unmarkedSwimmers.length !== 1 ? 's' : ''} as present
+            Marked {unmarkedMembers.length} {unmarkedMembers.length !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER} as present
           </p>
         </div>
       )}
 
-      {/* Swimmer list (screen only) */}
+      {/* Member list (screen only) */}
       <div className="space-y-3 no-print">
         {attendance.map((record) => (
-          <SwimmerCheckIn
-            key={record.swimmer_id}
-            swimmerId={record.swimmer_id}
-            firstName={record.swimmer?.first_name ?? 'Unknown'}
-            lastName={record.swimmer?.last_name ?? ''}
+          <MemberCheckIn
+            key={record.member_id}
+            memberId={record.member_id}
+            firstName={record.member?.first_name ?? 'Unknown'}
+            lastName={record.member?.last_name ?? ''}
             status={record.status ?? null}
             notes={record.notes ?? null}
-            photoUrl={record.swimmer?.photo_url ?? null}
-            readiness={readinessMap.get(record.swimmer_id)?.readiness ?? null}
-            prefersLandTraining={readinessMap.get(record.swimmer_id)?.prefers_land_training}
+            photoUrl={record.member?.photo_url ?? null}
+            readiness={readinessMap.get(record.member_id)?.readiness ?? null}
+            prefersLandTraining={readinessMap.get(record.member_id)?.prefers_land_training}
             onQuickPresent={() => handleQuickPresent(record)}
             onLongPress={() => handleLongPress(record)}
           />
@@ -298,7 +299,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
           <tr>
             <th className="print-checkbox-cell" aria-label="Tick">&nbsp;</th>
             <th className="w-8">#</th>
-            <th>Swimmer</th>
+            <th>{MEMBER_NOUN}</th>
             {squadName && <th>Squad</th>}
             <th className="print-status-cell">Status</th>
             <th className="print-notes-cell">Notes</th>
@@ -306,7 +307,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
         </thead>
         <tbody>
           {attendance.map((record, index) => (
-            <tr key={record.swimmer_id}>
+            <tr key={record.member_id}>
               <td className="print-checkbox-cell">
                 {record.status === AttendanceStatus.PRESENT || record.status === AttendanceStatus.LATE ? (
                   <span className="print-checkbox-checked">&times;</span>
@@ -316,7 +317,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
               </td>
               <td>{index + 1}</td>
               <td>
-                {record.swimmer?.last_name ?? ''}, {record.swimmer?.first_name ?? 'Unknown'}
+                {record.member?.last_name ?? ''}, {record.member?.first_name ?? 'Unknown'}
               </td>
               {squadName && <td>{squadName}</td>}
               <td className="print-status-cell">
@@ -338,13 +339,13 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
       )}
 
       {/* Status selector modal */}
-      {selectedSwimmer && (
+      {selectedMember && (
         <StatusSelector
-          swimmerName={`${selectedSwimmer.swimmer?.first_name ?? ''} ${selectedSwimmer.swimmer?.last_name ?? ''}`.trim()}
-          currentStatus={selectedSwimmer.status ?? null}
-          currentNotes={selectedSwimmer.notes ?? null}
+          memberName={`${selectedMember.member?.first_name ?? ''} ${selectedMember.member?.last_name ?? ''}`.trim()}
+          currentStatus={selectedMember.status ?? null}
+          currentNotes={selectedMember.notes ?? null}
           onSelect={handleStatusSelect}
-          onClose={() => setSelectedSwimmer(null)}
+          onClose={() => setSelectedMember(null)}
         />
       )}
     </div>

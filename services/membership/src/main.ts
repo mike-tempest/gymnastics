@@ -1,3 +1,6 @@
+// Must stay first: loads .env files before module decorators read flags.
+import './config/env.preload';
+
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';

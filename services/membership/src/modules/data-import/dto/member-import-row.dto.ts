@@ -7,19 +7,19 @@ import {
   IsIn,
   MaxLength,
 } from 'class-validator';
-import { GoverningBody } from '@swim-nexus/shared-types';
+import { GoverningBody } from '@club-manager/shared-types';
 
-// One row of a combined members import (swimmer plus parent/family details).
+// One row of a combined members import (member plus parent/family details).
 export class MemberImportRowDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)
-  swimmer_first_name: string;
+  member_first_name: string;
 
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)
-  swimmer_last_name: string;
+  member_last_name: string;
 
   @IsNotEmpty()
   @IsDateString()
@@ -33,7 +33,7 @@ export class MemberImportRowDto {
   @IsOptional()
   @IsString()
   @MaxLength(20)
-  se_number?: string;
+  registration_number?: string;
 
   @IsOptional()
   @IsIn(Object.values(GoverningBody))

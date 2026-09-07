@@ -10,7 +10,7 @@ import { EmailService } from '../../email/email.service';
 import { ClubsService } from '../../clubs/clubs.service';
 import { CLS_CLUB_ID_KEY } from '../../../common/tenancy/tenant-context.service';
 import { formatClubDate } from '../../../common/region/format.util';
-import { governingBodyConfig } from '@swim-nexus/shared-types';
+import { governingBodyConfig } from '@club-manager/shared-types';
 
 @Injectable()
 export class ConsentsService {
@@ -29,17 +29,17 @@ export class ConsentsService {
 
   async create(createDto: CreateConsentDto): Promise<Consent> {
     this.logger.log(
-      `Creating consent ${createDto.consent_type} for swimmer ${createDto.swimmer_id}`,
+      `Creating consent ${createDto.consent_type} for member ${createDto.member_id}`,
     );
 
-    // Check if swimmer already has this consent type
-    const existing = await this.consentsRepository.findBySwimmerAndType(
-      createDto.swimmer_id,
+    // Check if member already has this consent type
+    const existing = await this.consentsRepository.findByMemberAndType(
+      createDto.member_id,
       createDto.consent_type,
     );
 
     if (existing && existing.status === ConsentStatus.GRANTED) {
-      throw new ConflictException(`Swimmer already has a ${createDto.consent_type} consent`);
+      throw new ConflictException(`Member already has a ${createDto.consent_type} consent`);
     }
 
     return await this.consentsRepository.create(createDto);
@@ -57,12 +57,12 @@ export class ConsentsService {
     return consent;
   }
 
-  async findBySwimmer(swimmerId: string): Promise<Consent[]> {
-    return await this.consentsRepository.findBySwimmer(swimmerId);
+  async findByMember(memberId: string): Promise<Consent[]> {
+    return await this.consentsRepository.findByMember(memberId);
   }
 
-  async getSwimmerConsentStatus(swimmerId: string): Promise<Record<ConsentType, boolean>> {
-    const consents = await this.findBySwimmer(swimmerId);
+  async getMemberConsentStatus(memberId: string): Promise<Record<ConsentType, boolean>> {
+    const consents = await this.findByMember(memberId);
 
     const status: Record<ConsentType, boolean> = {
       [ConsentType.PHOTOGRAPHY]: false,
@@ -89,8 +89,8 @@ export class ConsentsService {
     return status;
   }
 
-  async hasConsent(swimmerId: string, consentType: ConsentType): Promise<boolean> {
-    const consent = await this.consentsRepository.findBySwimmerAndType(swimmerId, consentType);
+  async hasConsent(memberId: string, consentType: ConsentType): Promise<boolean> {
+    const consent = await this.consentsRepository.findByMemberAndType(memberId, consentType);
 
     if (!consent) return false;
 
@@ -210,12 +210,12 @@ export class ConsentsService {
       // Find consents expiring within 30 days
       const expiringConsents = await this.getExpiringConsents(30);
 
-      // Group consents by parent and swimmer
-      const consentsByParentAndSwimmer = this.groupConsentsByParentAndSwimmer(expiringConsents);
+      // Group consents by parent and member
+      const consentsByParentAndMember = this.groupConsentsByParentAndMember(expiringConsents);
 
-      // Send warning emails for each parent-swimmer combination
-      for (const key of Object.keys(consentsByParentAndSwimmer)) {
-        const group = consentsByParentAndSwimmer[key];
+      // Send warning emails for each parent-member combination
+      for (const key of Object.keys(consentsByParentAndMember)) {
+        const group = consentsByParentAndMember[key];
 
         // Check if any consent is at a warning threshold (30, 14, 7 days)
         const shouldSendWarning = group.consents.some((consent) => {
@@ -227,7 +227,7 @@ export class ConsentsService {
         if (shouldSendWarning) {
           this.sendConsentExpiryWarningEmail(group, locale, complianceRequirements, governingBody).catch((error) => {
             this.logger.error(
-              `Failed to send consent expiry email for swimmer ${group.swimmer.swimmer_id}`,
+              `Failed to send consent expiry email for member ${group.member.member_id}`,
               error,
             );
           });
@@ -253,7 +253,7 @@ export class ConsentsService {
         });
 
         this.logger.warn(
-          `Consent ${consent.consent_id} (${consent.consent_type}) for swimmer ${consent.swimmer_id} has expired`,
+          `Consent ${consent.consent_id} (${consent.consent_type}) for member ${consent.member_id} has expired`,
         );
       }
 
@@ -266,13 +266,13 @@ export class ConsentsService {
   }
 
   /**
-   * Group consents by parent (granted_by) and swimmer
+   * Group consents by parent (granted_by) and member
    */
-  private groupConsentsByParentAndSwimmer(consents: Consent[]): Record<
+  private groupConsentsByParentAndMember(consents: Consent[]): Record<
     string,
     {
       parent: Consent['granted_by'];
-      swimmer: Consent['swimmer'];
+      member: Consent['member'];
       consents: Consent[];
     }
   > {
@@ -280,22 +280,22 @@ export class ConsentsService {
       string,
       {
         parent: Consent['granted_by'];
-        swimmer: Consent['swimmer'];
+        member: Consent['member'];
         consents: Consent[];
       }
     > = {};
 
     for (const consent of consents) {
-      if (!consent.granted_by || !consent.swimmer) {
+      if (!consent.granted_by || !consent.member) {
         continue;
       }
 
-      const key = `${consent.granted_by_user_id}-${consent.swimmer_id}`;
+      const key = `${consent.granted_by_user_id}-${consent.member_id}`;
 
       if (!grouped[key]) {
         grouped[key] = {
           parent: consent.granted_by,
-          swimmer: consent.swimmer,
+          member: consent.member,
           consents: [],
         };
       }
@@ -312,15 +312,15 @@ export class ConsentsService {
   private async sendConsentExpiryWarningEmail(
     group: {
       parent: Consent['granted_by'];
-      swimmer: Consent['swimmer'];
+      member: Consent['member'];
       consents: Consent[];
     },
     locale: string,
     complianceRequirements: string,
     governingBody: string | null,
   ): Promise<void> {
-    if (!group.parent || !group.swimmer) {
-      this.logger.warn('Cannot send consent expiry email: missing parent or swimmer data');
+    if (!group.parent || !group.member) {
+      this.logger.warn('Cannot send consent expiry email: missing parent or member data');
       return;
     }
 
@@ -344,8 +344,8 @@ export class ConsentsService {
     await this.emailService.sendConsentExpiryWarning({
       parentName: `${group.parent.first_name} ${group.parent.last_name}`,
       recipientEmail: group.parent.email,
-      swimmerName: `${group.swimmer.first_name} ${group.swimmer.last_name}`,
-      swimmerDOB: this.formatDate(group.swimmer.dob, locale),
+      memberName: `${group.member.first_name} ${group.member.last_name}`,
+      memberDOB: this.formatDate(group.member.dob, locale),
       squadName: 'Squad', // Would need to load squad relation for actual name
       expiringCount: sortedConsents.length,
       multipleExpiring: sortedConsents.length > 1,
@@ -356,7 +356,7 @@ export class ConsentsService {
     });
 
     this.logger.log(
-      `Consent expiry warning email sent to ${group.parent.email} for swimmer ${group.swimmer.first_name} ${group.swimmer.last_name}`,
+      `Consent expiry warning email sent to ${group.parent.email} for member ${group.member.first_name} ${group.member.last_name}`,
     );
   }
 

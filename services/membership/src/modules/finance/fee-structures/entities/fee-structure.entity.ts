@@ -16,7 +16,7 @@ export enum FeeFrequency {
 export enum AppliesToType {
   CLUB = 'club',
   SQUAD = 'squad',
-  SWIMMER = 'swimmer',
+  MEMBER = 'member',
 }
 
 @Entity('fee_structures')

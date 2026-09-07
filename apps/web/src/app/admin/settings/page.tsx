@@ -6,7 +6,7 @@ import {
   GoverningBody,
   defaultGoverningBodyForCountry,
   governingBodyConfig,
-} from '@swim-nexus/shared-types';
+} from '@club-manager/shared-types';
 import {
   Settings,
   Building2,

@@ -1,4 +1,4 @@
-export { buildSwimmer } from './swimmer.factory';
+export { buildMember } from './member.factory';
 export { buildFamily } from './family.factory';
 export { buildSquad } from './squad.factory';
 export { buildSession } from './session.factory';

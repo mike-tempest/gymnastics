@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import * as Handlebars from 'handlebars';
+import { BRAND } from '../../common/brand';
 
 /**
  * Renders the real activation template files (not mocks) so a broken
@@ -13,7 +14,12 @@ describe('activation email templates', () => {
 
   const render = (name: string, context: Record<string, unknown>) => {
     const source = readFileSync(join(templatesDir, `${name}.hbs`), 'utf8');
-    return Handlebars.compile(source)({ year: 2026, appUrl: 'https://app.swimly.uk', ...context });
+    return Handlebars.compile(source)({
+      year: 2026,
+      appUrl: 'https://app.example.com',
+      brandName: BRAND.name,
+      ...context,
+    });
   };
 
   const regions = [
@@ -26,13 +32,14 @@ describe('activation email templates', () => {
       const html = render('activation-schedule-sessions', {
         firstName: region.firstName,
         activationClubName: region.clubName,
-        sessionsUrl: 'https://app.swimly.uk/sessions',
-        unsubscribeUrl: 'https://app.swimly.uk/unsubscribe?email=x&token=y',
+        sessionsUrl: 'https://app.example.com/sessions',
+        unsubscribeUrl: 'https://app.example.com/unsubscribe?email=x&token=y',
       });
 
       expect(html).toContain(`Hi ${region.firstName}`);
       expect(html).toContain(region.clubName);
-      expect(html).toContain('https://app.swimly.uk/sessions');
+      expect(html).toContain(BRAND.name);
+      expect(html).toContain('https://app.example.com/sessions');
       expect(html).toContain('unsubscribe');
       expect(html).not.toMatch(/{{[^}]+}}/);
     });
@@ -41,8 +48,8 @@ describe('activation email templates', () => {
       const html = render('activation-first-register', {
         firstName: region.firstName,
         activationClubName: region.clubName,
-        sessionsUrl: 'https://app.swimly.uk/sessions',
-        unsubscribeUrl: 'https://app.swimly.uk/unsubscribe?email=x&token=y',
+        sessionsUrl: 'https://app.example.com/sessions',
+        unsubscribeUrl: 'https://app.example.com/unsubscribe?email=x&token=y',
       });
 
       expect(html).toContain(region.clubName);
@@ -54,8 +61,8 @@ describe('activation email templates', () => {
   it('falls back to a neutral greeting without a first name', () => {
     const html = render('activation-schedule-sessions', {
       activationClubName: 'Whitby Seals',
-      sessionsUrl: 'https://app.swimly.uk/sessions',
-      unsubscribeUrl: 'https://app.swimly.uk/unsubscribe?email=x&token=y',
+      sessionsUrl: 'https://app.example.com/sessions',
+      unsubscribeUrl: 'https://app.example.com/unsubscribe?email=x&token=y',
     });
     expect(html).toContain('Hi there');
   });

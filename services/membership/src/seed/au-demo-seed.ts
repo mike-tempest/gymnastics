@@ -14,7 +14,7 @@ import * as bcrypt from 'bcrypt';
  *   en-AU, Swimming Australia governing body (NSW region), GST-inclusive
  *   tax configuration and a fictional ABN
  * - Families with Northern Beaches (Sydney) addresses and AU mobile numbers
- * - Swimmers with Swimming Australia style alphanumeric member numbers
+ * - Members with Swimming Australia style alphanumeric member numbers
  * - Squads, AUD fee structures and GST-inclusive invoices
  * - Sessions at Manly Aquatic Centre with attendance history
  * - Working With Children Check (NSW) compliance records, an MPIO
@@ -61,8 +61,8 @@ function prevWeekday(anchor: Date, dayOfWeek: number): Date {
 }
 
 // Deterministic attendance status: roughly 85% present, 8% absent, 7% late.
-function attendanceStatus(swimmerIdx: number, sessionIdx: number): string {
-  const n = (swimmerIdx * 17 + sessionIdx * 7) % 100;
+function attendanceStatus(memberIdx: number, sessionIdx: number): string {
+  const n = (memberIdx * 17 + sessionIdx * 7) % 100;
   if (n < 85) return 'present';
   if (n < 93) return 'absent';
   return 'late';
@@ -108,10 +108,10 @@ async function seedAuDemoData() {
         await dataSource.query(`DELETE FROM ${table} WHERE club_id = $1`, [oldClubId]);
       }
       await dataSource.query(
-        'DELETE FROM squad_swimmers WHERE squad_id IN (SELECT squad_id FROM squads WHERE club_id = $1)',
+        'DELETE FROM squad_members WHERE squad_id IN (SELECT squad_id FROM squads WHERE club_id = $1)',
         [oldClubId],
       );
-      await dataSource.query('DELETE FROM swimmers WHERE club_id = $1', [oldClubId]);
+      await dataSource.query('DELETE FROM members WHERE club_id = $1', [oldClubId]);
       await dataSource.query('DELETE FROM squads WHERE club_id = $1', [oldClubId]);
       await dataSource.query('DELETE FROM users WHERE club_id = $1', [oldClubId]);
       await dataSource.query('DELETE FROM families WHERE club_id = $1', [oldClubId]);
@@ -297,7 +297,7 @@ async function seedAuDemoData() {
         key: 'jd',
         name: 'Junior Development',
         description:
-          'Stroke refinement and race preparation for swimmers aged 9 to 12, building towards club nights and junior carnivals.',
+          'Stroke refinement and race preparation for members aged 9 to 12, building towards club nights and junior carnivals.',
         minAge: 9,
         maxAge: 12,
         coach: 'Priya Raman',
@@ -308,7 +308,7 @@ async function seedAuDemoData() {
         key: 'state',
         name: 'State Squad',
         description:
-          'Competitive training for swimmers aged 12 to 18 targeting NSW state age carnivals and national meets.',
+          'Competitive training for members aged 12 to 18 targeting NSW state age carnivals and national meets.',
         minAge: 12,
         maxAge: 18,
         coach: 'Daniel Nguyen',
@@ -329,12 +329,12 @@ async function seedAuDemoData() {
     }
     console.log(`Created ${squadData.length} squads\n`);
 
-    // Swimmers with Swimming Australia style alphanumeric member numbers
+    // Members with Swimming Australia style alphanumeric member numbers
     // (digits with a check letter, not the 7-digit Swim England format).
-    console.log('Creating swimmers...');
-    type SwimmerRow = [string, string, string, string, string, number, string];
+    console.log('Creating members...');
+    type MemberRow = [string, string, string, string, string, number, string];
     // squadKey, firstName, lastName, dob, gender, familyIndex, memberNumber
-    const swimmerData: SwimmerRow[] = [
+    const memberData: MemberRow[] = [
       ['jd', 'Charlotte', 'Walker', '2016-03-12', 'F', 0, '1084211K'],
       ['state', 'Lachlan', 'Walker', '2012-08-04', 'M', 0, '1084212L'],
       ['lts', 'Mia', 'Nguyen', '2019-05-21', 'F', 1, '1084213M'],
@@ -349,22 +349,22 @@ async function seedAuDemoData() {
       ['lts', 'Ruby', 'Harrington', '2019-10-13', 'F', 6, '1084222W'],
     ];
 
-    const swimmerIds: string[] = [];
-    for (const [squadKey, firstName, lastName, dob, gender, famIdx, memberNumber] of swimmerData) {
+    const memberIds: string[] = [];
+    for (const [squadKey, firstName, lastName, dob, gender, famIdx, memberNumber] of memberData) {
       const result = await dataSource.query(
-        `INSERT INTO swimmers (club_id, family_id, se_number, governing_body, first_name, last_name, dob, gender, squad_id)
+        `INSERT INTO members (club_id, family_id, registration_number, governing_body, first_name, last_name, dob, gender, squad_id)
          VALUES ($1, $2, $3, 'SWIMMING_AUSTRALIA', $4, $5, $6, $7, $8)
-         RETURNING swimmer_id`,
+         RETURNING member_id`,
         [clubId, familyIds[famIdx], memberNumber, firstName, lastName, dob, gender, squadIds[squadKey]],
       );
-      const swimmerId = result[0].swimmer_id;
-      swimmerIds.push(swimmerId);
-      await dataSource.query('INSERT INTO squad_swimmers (squad_id, swimmer_id) VALUES ($1, $2)', [
+      const memberId = result[0].member_id;
+      memberIds.push(memberId);
+      await dataSource.query('INSERT INTO squad_members (squad_id, member_id) VALUES ($1, $2)', [
         squadIds[squadKey],
-        swimmerId,
+        memberId,
       ]);
     }
-    console.log(`Created ${swimmerIds.length} swimmers\n`);
+    console.log(`Created ${memberIds.length} members\n`);
 
     // Fee structures in AUD. Amounts are GST-inclusive (the Australian
     // convention): the price shown is what the family pays and the 10% GST is
@@ -497,21 +497,21 @@ async function seedAuDemoData() {
 
     // Attendance for completed sessions, deterministic so re-runs are stable.
     console.log('Creating attendance records...');
-    const squadSwimmerIdx: Record<string, number[]> = { lts: [], jd: [], state: [] };
-    swimmerData.forEach(([squadKey], idx) => squadSwimmerIdx[squadKey].push(idx));
+    const squadMemberIdx: Record<string, number[]> = { lts: [], jd: [], state: [] };
+    memberData.forEach(([squadKey], idx) => squadMemberIdx[squadKey].push(idx));
 
     let attendanceCount = 0;
     for (const squadKey of ['lts', 'jd', 'state']) {
       for (const { sessionId, sessionIdx } of completedSessionsBySquad[squadKey]) {
-        for (const swimmerIdx of squadSwimmerIdx[squadKey]) {
-          const status = attendanceStatus(swimmerIdx, sessionIdx);
+        for (const memberIdx of squadMemberIdx[squadKey]) {
+          const status = attendanceStatus(memberIdx, sessionIdx);
           await dataSource.query(
-            `INSERT INTO attendance (club_id, session_id, swimmer_id, status, checked_in_at)
+            `INSERT INTO attendance (club_id, session_id, member_id, status, checked_in_at)
              VALUES ($1, $2, $3, $4, $5)`,
             [
               clubId,
               sessionId,
-              swimmerIds[swimmerIdx],
+              memberIds[memberIdx],
               status,
               status === 'absent' ? null : new Date().toISOString(),
             ],
@@ -538,13 +538,13 @@ async function seedAuDemoData() {
     let invoiceCount = 0;
     let paymentCount = 0;
     for (let famIdx = 0; famIdx < familyIds.length; famIdx++) {
-      const famSwimmers = swimmerData
+      const famMembers = memberData
         .map((row, idx) => ({ row, idx }))
         .filter(({ row }) => row[5] === famIdx);
-      if (famSwimmers.length === 0) continue;
+      if (famMembers.length === 0) continue;
 
       const gross = roundTo2dp(
-        famSwimmers.reduce((sum, { row }) => sum + squadFeeByKey[row[0]], 0),
+        famMembers.reduce((sum, { row }) => sum + squadFeeByKey[row[0]], 0),
       );
       const { subtotal, tax } = gstFromGross(gross, GST_RATE);
       const status = invoiceStatuses[famIdx];
@@ -568,7 +568,7 @@ async function seedAuDemoData() {
       );
       const invoiceId = invoiceResult[0].invoice_id;
 
-      for (const { row } of famSwimmers) {
+      for (const { row } of famMembers) {
         const [squadKey, firstName, lastName] = row;
         const fee = squadFeeByKey[squadKey];
         const squadName = squadData.find((s) => s.key === squadKey)?.name ?? squadKey;
@@ -657,8 +657,8 @@ async function seedAuDemoData() {
     // Australia. Deterministic denials give the demo a realistic mix.
     console.log('Creating consent records...');
     let consentCount = 0;
-    for (let i = 0; i < swimmerIds.length; i++) {
-      const famIdx = swimmerData[i][5];
+    for (let i = 0; i < memberIds.length; i++) {
+      const famIdx = memberData[i][5];
       const parentUserId = parentUserIds[famIdx];
       const consents: [string, string][] = [
         ['MEDICAL_TREATMENT', 'GRANTED'],
@@ -667,9 +667,9 @@ async function seedAuDemoData() {
       ];
       for (const [consentType, status] of consents) {
         await dataSource.query(
-          `INSERT INTO consents (club_id, swimmer_id, consent_type, status, granted_by_user_id, granted_date)
+          `INSERT INTO consents (club_id, member_id, consent_type, status, granted_by_user_id, granted_date)
            VALUES ($1, $2, $3, $4, $5, '2026-02-01')`,
-          [clubId, swimmerIds[i], consentType, status, parentUserId],
+          [clubId, memberIds[i], consentType, status, parentUserId],
         );
         consentCount++;
       }
@@ -728,7 +728,7 @@ async function seedAuDemoData() {
     console.log('  - 1 club (AU, AUD, Australia/Sydney, en-AU, Swimming Australia NSW, GST 10% inclusive)');
     console.log(`  - ${staffUserIds.length} staff users, ${parentUserIds.length} parent users`);
     console.log(`  - ${familyIds.length} families`);
-    console.log(`  - ${swimmerIds.length} swimmers`);
+    console.log(`  - ${memberIds.length} members`);
     console.log(`  - ${squadData.length} squads`);
     console.log(`  - ${feeDefs.length} fee structures (AUD, GST-inclusive)`);
     console.log(`  - ${sessionCount} sessions at Manly Aquatic Centre`);

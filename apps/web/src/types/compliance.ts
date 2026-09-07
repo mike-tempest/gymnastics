@@ -1,4 +1,4 @@
-import { BackgroundCheckStatus, BackgroundCheckType } from '@swim-nexus/shared-types';
+import { BackgroundCheckStatus, BackgroundCheckType } from '@club-manager/shared-types';
 
 // Shared-types is the single source of truth for check enums; the DBS names
 // are aliases kept so existing imports compile unchanged.
@@ -53,7 +53,7 @@ export interface DBSCheck {
 
 export interface Consent {
   consent_id: string;
-  swimmer_id: string;
+  member_id: string;
   consent_type: ConsentType;
   status: ConsentStatus;
   granted_by_user_id: string;
@@ -67,8 +67,8 @@ export interface Consent {
   metadata?: Record<string, unknown>;
   created_at: string;
   updated_at: string;
-  swimmer?: {
-    swimmer_id: string;
+  member?: {
+    member_id: string;
     first_name: string;
     last_name: string;
   };
@@ -109,7 +109,7 @@ export interface ComplianceHealthScore {
   consent_coverage: {
     score: number;
     weight: number;
-    total_swimmers: number;
+    total_members: number;
     fully_consented: number;
   };
   safeguarding_officers: {

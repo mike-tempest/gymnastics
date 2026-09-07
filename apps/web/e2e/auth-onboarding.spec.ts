@@ -1,5 +1,7 @@
 import { test, expect, Page } from '@playwright/test';
 
+import { BRAND } from '../src/lib/brand';
+
 /**
  * Swimly Authentication and Onboarding E2E Tests
  *
@@ -76,7 +78,7 @@ test.describe('Protected Routes', () => {
 
     if (isOnLogin) {
       // Verify we are on the login page
-      await expect(page.getByText('Swimly').first()).toBeVisible();
+      await expect(page.getByText(BRAND.name).first()).toBeVisible();
     } else if (isOnDashboard) {
       // If dashboard loads, verify it renders correctly
       const bodyText = await page.locator('body').innerText();
@@ -87,23 +89,23 @@ test.describe('Protected Routes', () => {
     expect(critical, `Unexpected JS errors: ${critical.join(', ')}`).toHaveLength(0);
   });
 
-  test('redirects unauthenticated users from swimmers page', async ({ page }) => {
+  test('redirects unauthenticated users from members page', async ({ page }) => {
     const errors = attachErrorCollector(page);
 
-    await page.goto('/swimmers');
+    await page.goto('/members');
 
     const redirectedToLogin = page.url().includes('/login');
 
     if (!redirectedToLogin) {
-      // If swimmers page loads, verify content is present
+      // If members page loads, verify content is present
       const hasContent = await page
-        .getByText(/swimmers/i)
+        .getByText(/gymnasts/i)
         .first()
         .isVisible()
         .catch(() => false);
       expect(hasContent).toBe(true);
     } else {
-      await expect(page.getByText('Swimly').first()).toBeVisible();
+      await expect(page.getByText(BRAND.name).first()).toBeVisible();
     }
 
     const critical = getCriticalErrors(errors);
@@ -145,7 +147,7 @@ test.describe('Registration Flow', () => {
     expect(page.url()).toContain('/register');
 
     // Verify branding is visible
-    await expect(page.getByText('Swimly').first()).toBeVisible();
+    await expect(page.getByText(BRAND.name).first()).toBeVisible();
 
     // Verify form fields are present
     await expect(page.locator('input[type="email"]')).toBeVisible();
@@ -229,7 +231,7 @@ test.describe('Login Flow', () => {
     expect(page.url()).toContain('/login');
 
     // Verify branding
-    await expect(page.getByText('Swimly').first()).toBeVisible();
+    await expect(page.getByText(BRAND.name).first()).toBeVisible();
 
     // Verify form fields
     await expect(page.locator('input[type="email"]')).toBeVisible();
@@ -393,7 +395,7 @@ test.describe('Complete Happy Path', () => {
 
     // Step 1: Registration page loads
     await page.goto('/register');
-    await expect(page.getByText('Swimly').first()).toBeVisible();
+    await expect(page.getByText(BRAND.name).first()).toBeVisible();
 
     // Fill registration form
     const timestamp = Date.now();
@@ -407,13 +409,13 @@ test.describe('Complete Happy Path', () => {
     expect(critical, `Unexpected JS errors: ${critical.join(', ')}`).toHaveLength(0);
   });
 
-  test('swimmers page loads correctly', async ({ page }) => {
+  test('members page loads correctly', async ({ page }) => {
     const errors = attachErrorCollector(page);
 
-    await page.goto('/swimmers');
+    await page.goto('/members');
 
     // Verify page renders
-    const response = await page.goto('/swimmers');
+    const response = await page.goto('/members');
     expect(response?.status()).toBeLessThan(500);
 
     const critical = getCriticalErrors(errors);

@@ -33,7 +33,7 @@ export enum FeeFrequency {
 export enum AppliesToType {
   CLUB = 'club',
   SQUAD = 'squad',
-  SWIMMER = 'swimmer',
+  MEMBER = 'member',
 }
 
 // Invoice status
@@ -72,8 +72,8 @@ export enum UserRole {
   WELFARE_OFFICER = 'welfare_officer',
   COMPETITION_SECRETARY = 'competition_secretary',
   PARENT = 'parent',
-  SWIMMER_ADULT = 'swimmer_adult',
-  SWIMMER_MINOR = 'swimmer_minor',
+  MEMBER_ADULT = 'member_adult',
+  MEMBER_MINOR = 'member_minor',
 }
 
 // Entry status
@@ -159,7 +159,7 @@ export enum CompetitionEntryStatus {
   WITHDRAWN = 'withdrawn',
 }
 
-// National governing body a swimmer or club is registered with
+// National governing body a member or club is registered with
 export enum GoverningBody {
   SWIM_ENGLAND = 'SWIM_ENGLAND',
   SCOTTISH_SWIMMING = 'SCOTTISH_SWIMMING',

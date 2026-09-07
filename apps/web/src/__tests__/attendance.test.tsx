@@ -21,13 +21,13 @@ jest.mock('sonner', () => ({
 
 // Mock attendance API
 const mockGetSessionAttendance = jest.fn();
-const mockCheckInSwimmer = jest.fn();
+const mockCheckInMember = jest.fn();
 const mockUpdateAttendance = jest.fn();
 const mockMarkAttendance = jest.fn();
 
 jest.mock('@/lib/api/attendance', () => ({
   getSessionAttendance: (...args: unknown[]) => mockGetSessionAttendance(...args),
-  checkInSwimmer: (...args: unknown[]) => mockCheckInSwimmer(...args),
+  checkInMember: (...args: unknown[]) => mockCheckInMember(...args),
   updateAttendance: (...args: unknown[]) => mockUpdateAttendance(...args),
   markAttendance: (...args: unknown[]) => mockMarkAttendance(...args),
 }));
@@ -36,13 +36,13 @@ const mockAttendanceData = [
   {
     attendance_id: 'att-1',
     session_id: 'session-1',
-    swimmer_id: 'swimmer-1',
+    member_id: 'member-1',
     status: null,
     notes: null,
     created_at: '2026-01-01',
     updated_at: '2026-01-01',
-    swimmer: {
-      swimmer_id: 'swimmer-1',
+    member: {
+      member_id: 'member-1',
       first_name: 'Alice',
       last_name: 'Smith',
       photo_url: null,
@@ -51,13 +51,13 @@ const mockAttendanceData = [
   {
     attendance_id: 'att-2',
     session_id: 'session-1',
-    swimmer_id: 'swimmer-2',
+    member_id: 'member-2',
     status: 'present',
     notes: null,
     created_at: '2026-01-01',
     updated_at: '2026-01-01',
-    swimmer: {
-      swimmer_id: 'swimmer-2',
+    member: {
+      member_id: 'member-2',
       first_name: 'Bob',
       last_name: 'Jones',
       photo_url: null,
@@ -66,13 +66,13 @@ const mockAttendanceData = [
   {
     attendance_id: 'att-3',
     session_id: 'session-1',
-    swimmer_id: 'swimmer-3',
+    member_id: 'member-3',
     status: null,
     notes: null,
     created_at: '2026-01-01',
     updated_at: '2026-01-01',
-    swimmer: {
-      swimmer_id: 'swimmer-3',
+    member: {
+      member_id: 'member-3',
       first_name: 'Charlie',
       last_name: 'Brown',
       photo_url: null,
@@ -95,7 +95,7 @@ describe('AttendanceRoster', () => {
     mockGetSessionAttendance.mockResolvedValue(mockAttendanceData);
   });
 
-  it('renders the swimmer list from the attendance data', async () => {
+  it('renders the member list from the attendance data', async () => {
     render(
       <AttendanceRoster sessionId="session-1" sessionName="Monday Training" />,
       { wrapper: createWrapper() },
@@ -108,7 +108,7 @@ describe('AttendanceRoster', () => {
     });
   });
 
-  it('shows the session name and swimmer count', async () => {
+  it('shows the session name and member count', async () => {
     render(
       <AttendanceRoster sessionId="session-1" sessionName="Monday Training" />,
       { wrapper: createWrapper() },
@@ -116,7 +116,7 @@ describe('AttendanceRoster', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Monday Training')).toBeInTheDocument();
-      expect(screen.getByText('3 swimmers')).toBeInTheDocument();
+      expect(screen.getByText('3 gymnasts')).toBeInTheDocument();
     });
   });
 
@@ -142,7 +142,7 @@ describe('AttendanceRoster', () => {
     expect(screen.getByText('Loading roster...')).toBeInTheDocument();
   });
 
-  it('renders an empty state when there are no swimmers', async () => {
+  it('renders an empty state when there are no members', async () => {
     mockGetSessionAttendance.mockResolvedValue([]);
 
     render(
@@ -152,12 +152,12 @@ describe('AttendanceRoster', () => {
 
     await waitFor(() => {
       expect(
-        screen.getByRole('heading', { name: 'No swimmers in this session' }),
+        screen.getByRole('heading', { name: 'No gymnasts in this session' }),
       ).toBeInTheDocument();
     });
   });
 
-  it('calls markAttendance for all unmarked swimmers when Mark All Present is clicked', async () => {
+  it('calls markAttendance for all unmarked members when Mark All Present is clicked', async () => {
     mockMarkAttendance.mockResolvedValue(undefined);
 
     render(
@@ -174,7 +174,7 @@ describe('AttendanceRoster', () => {
     await waitFor(() => {
       expect(mockMarkAttendance).toHaveBeenCalledWith(
         'session-1',
-        ['swimmer-1', 'swimmer-3'],
+        ['member-1', 'member-3'],
         'present',
       );
     });

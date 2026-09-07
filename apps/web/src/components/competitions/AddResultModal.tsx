@@ -8,20 +8,21 @@ import {
   type CreateResultInput,
   type RelayLeg,
 } from '@/lib/api/competitions';
-import { getSwimmers } from '@/lib/api/swimmers';
+import { getMembers } from '@/lib/api/members';
+import { MEMBER_NOUN, MEMBER_NOUN_LOWER } from '@/lib/brand';
 import { formatSwimTime, parseSwimTimeInput } from '@/lib/competitions-utils';
 
 const STROKES = ['Freestyle', 'Backstroke', 'Breaststroke', 'Butterfly', 'Individual Medley'];
 const DISTANCES = [25, 50, 100, 200, 400, 800, 1500];
 
-interface Swimmer {
-  swimmer_id: string;
+interface Member {
+  member_id: string;
   first_name: string;
   last_name: string;
 }
 
 interface RelayLegDraft {
-  swimmer_id: string;
+  member_id: string;
   name: string;
   split: string;
 }
@@ -39,11 +40,11 @@ function timeToInput(seconds: number | null | undefined): string {
 
 export default function AddResultModal({ result, onClose, onSubmit }: AddResultModalProps) {
   const isEditing = !!result;
-  const [swimmers, setSwimmers] = useState<Swimmer[]>([]);
+  const [members, setMembers] = useState<Member[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
-  const [swimmerId, setSwimmerId] = useState(result?.swimmer_id ?? '');
+  const [memberId, setMemberId] = useState(result?.member_id ?? '');
   const [eventName, setEventName] = useState(result?.event_name ?? '');
   const [distance, setDistance] = useState(result?.distance ?? 100);
   const [stroke, setStroke] = useState(result?.stroke ?? 'Freestyle');
@@ -59,19 +60,19 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
   const [isRelay, setIsRelay] = useState(result?.is_relay ?? false);
   const [relayLegs, setRelayLegs] = useState<RelayLegDraft[]>(
     result?.relay_legs?.map((leg) => ({
-      swimmer_id: leg.swimmer_id ?? '',
+      member_id: leg.member_id ?? '',
       name: leg.name ?? '',
       split: timeToInput(leg.split),
     })) ?? [
-      { swimmer_id: '', name: '', split: '' },
-      { swimmer_id: '', name: '', split: '' },
-      { swimmer_id: '', name: '', split: '' },
-      { swimmer_id: '', name: '', split: '' },
+      { member_id: '', name: '', split: '' },
+      { member_id: '', name: '', split: '' },
+      { member_id: '', name: '', split: '' },
+      { member_id: '', name: '', split: '' },
     ],
   );
 
   useEffect(() => {
-    getSwimmers().then(setSwimmers).catch(() => {});
+    getMembers().then(setMembers).catch(() => {});
 
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -89,7 +90,7 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
   }
 
   function addLeg() {
-    setRelayLegs((prev) => [...prev, { swimmer_id: '', name: '', split: '' }]);
+    setRelayLegs((prev) => [...prev, { member_id: '', name: '', split: '' }]);
   }
 
   function removeLeg(index: number) {
@@ -101,8 +102,8 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
     e.preventDefault();
     setFormError(null);
 
-    if (!swimmerId) {
-      setFormError('Select a swimmer.');
+    if (!memberId) {
+      setFormError(`Select a ${MEMBER_NOUN_LOWER}.`);
       return;
     }
 
@@ -125,7 +126,7 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
 
     let parsedLegs: RelayLeg[] | undefined;
     if (isRelay) {
-      const legs = relayLegs.filter((leg) => leg.swimmer_id || leg.name);
+      const legs = relayLegs.filter((leg) => leg.member_id || leg.name);
       if (legs.length < 2) {
         setFormError('A relay needs at least two named legs.');
         return;
@@ -137,11 +138,11 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
           setFormError(`Leg ${i + 1} has an unreadable split time.`);
           return;
         }
-        const legSwimmer = swimmers.find((s) => s.swimmer_id === legs[i].swimmer_id);
+        const legMember = members.find((s) => s.member_id === legs[i].member_id);
         parsedLegs.push({
           leg: i + 1,
-          swimmer_id: legs[i].swimmer_id || null,
-          name: legs[i].name || (legSwimmer ? `${legSwimmer.first_name} ${legSwimmer.last_name}` : null),
+          member_id: legs[i].member_id || null,
+          name: legs[i].name || (legMember ? `${legMember.first_name} ${legMember.last_name}` : null),
           split,
         });
       }
@@ -150,7 +151,7 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
     setIsSubmitting(true);
     try {
       await onSubmit({
-        swimmer_id: swimmerId,
+        member_id: memberId,
         event_name: eventName || undefined,
         distance,
         stroke,
@@ -186,17 +187,17 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className={labelCls}>Swimmer</label>
+              <label className={labelCls}>{MEMBER_NOUN}</label>
               <select
-                value={swimmerId}
-                onChange={(e) => setSwimmerId(e.target.value)}
+                value={memberId}
+                onChange={(e) => setMemberId(e.target.value)}
                 className={inputCls}
                 disabled={isEditing}
                 required
               >
-                <option value="">Select swimmer...</option>
-                {swimmers.map((s) => (
-                  <option key={s.swimmer_id} value={s.swimmer_id}>
+                <option value="">Select {MEMBER_NOUN_LOWER}...</option>
+                {members.map((s) => (
+                  <option key={s.member_id} value={s.member_id}>
                     {s.first_name} {s.last_name}
                   </option>
                 ))}
@@ -287,15 +288,15 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
 
           {isRelay && (
             <div className="bg-white/5 rounded-xl p-4 border border-white/10 space-y-3">
-              <p className="text-xs text-white/40 font-medium">Relay legs (the result is recorded against the lead swimmer above)</p>
+              <p className="text-xs text-white/40 font-medium">Relay legs (the result is recorded against the lead {MEMBER_NOUN_LOWER} above)</p>
               {relayLegs.map((leg, index) => (
                 <div key={index} className="grid grid-cols-[1fr_1fr_auto] gap-2 items-end">
                   <div>
-                    <label className={labelCls}>Leg {index + 1} swimmer</label>
-                    <select value={leg.swimmer_id} onChange={(e) => updateLeg(index, 'swimmer_id', e.target.value)} className={inputCls}>
+                    <label className={labelCls}>Leg {index + 1} {MEMBER_NOUN_LOWER}</label>
+                    <select value={leg.member_id} onChange={(e) => updateLeg(index, 'member_id', e.target.value)} className={inputCls}>
                       <option value="">Name only...</option>
-                      {swimmers.map((s) => (
-                        <option key={s.swimmer_id} value={s.swimmer_id}>
+                      {members.map((s) => (
+                        <option key={s.member_id} value={s.member_id}>
                           {s.first_name} {s.last_name}
                         </option>
                       ))}

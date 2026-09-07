@@ -1,6 +1,6 @@
 'use client';
 
-import { Family } from '@swim-nexus/shared-types';
+import { Family } from '@club-manager/shared-types';
 
 import { getFamilies, getFamily, getFamilyStatistics } from '@/lib/api/families';
 

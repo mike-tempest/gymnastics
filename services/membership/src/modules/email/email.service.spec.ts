@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
 import * as fs from 'fs';
+import { BRAND } from '../../common/brand';
 import { EmailService } from './email.service';
 
 // Node makes the `fs` module's properties non-configurable, so jest.spyOn on
@@ -223,6 +224,20 @@ describe('EmailService', () => {
         }),
       );
     });
+
+    it("renders the caller's clubName, not the CLUB_NAME env fallback", async () => {
+      // Regression: render() must spread the caller context last so a
+      // per-club clubName is never clobbered by the instance-wide fallback.
+      (fs.readFileSync as jest.Mock).mockReturnValue(schemeTemplate);
+      await service.sendMandateSetupRequired({ ...data, clubName: 'Leeds Gymnastics Club' });
+      expect(sendMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          html: expect.stringContaining('Leeds Gymnastics Club'),
+        }),
+      );
+      const html = sendMock.mock.calls[sendMock.mock.calls.length - 1][0].html as string;
+      expect(html).not.toContain('Test Swimming Club');
+    });
   });
 
   describe('sendPaymentFailed', () => {
@@ -381,7 +396,7 @@ describe('EmailService', () => {
       expect(sendMock).toHaveBeenCalledWith(
         expect.objectContaining({
           to: 'admin@club.example',
-          subject: "Put this week's sessions in Swimly",
+          subject: `Put this week's sessions in ${BRAND.name}`,
         }),
       );
     });

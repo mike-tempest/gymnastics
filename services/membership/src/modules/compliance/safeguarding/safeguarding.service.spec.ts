@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { GoverningBody } from '@swim-nexus/shared-types';
+import { GoverningBody } from '@club-manager/shared-types';
 import { SafeguardingService } from './safeguarding.service';
 import { ChecklistItem } from './entities/checklist-item.entity';
 import { SafeguardingOfficer } from './entities/safeguarding-officer.entity';

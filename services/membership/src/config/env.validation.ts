@@ -74,7 +74,7 @@ class EnvironmentVariables {
 
   @IsString()
   @IsOptional()
-  CLUB_NAME?: string = 'Swimming Club';
+  CLUB_NAME?: string = 'Your Club';
 
   // CORS
   @IsString()
@@ -124,6 +124,14 @@ class EnvironmentVariables {
   @IsString()
   @IsOptional()
   LEGACY_GOCARDLESS_ENV_FALLBACK?: string;
+
+  // Swimming times/strokes competitions module gate (TEM-15). The module is
+  // feature-flagged off by default and stays in the tree for a possible
+  // future gymnastics scoring module. Anything other than the exact string
+  // 'true' leaves it off.
+  @IsString()
+  @IsOptional()
+  ENABLE_COMPETITIONS?: string;
 
   // Stripe Connect (optional; the provider is dormant until the platform key is
   // set, so existing GoCardless clubs are unaffected by its absence).

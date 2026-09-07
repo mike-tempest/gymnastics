@@ -157,7 +157,7 @@ export type OnboardingExitType =
 
 export interface OnboardingStep {
   index: number;
-  name: 'club_details' | 'venues' | 'squads' | 'import_swimmers' | 'invite_staff' | 'review';
+  name: 'club_details' | 'venues' | 'squads' | 'import_members' | 'invite_staff' | 'review';
 }
 
 // -----------------------------------------------------------------------

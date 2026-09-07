@@ -11,7 +11,9 @@ export default defineConfig({
   retries: 1,
   workers: 1,
   use: {
-    baseURL: process.env.BASE_URL || 'https://web-app-production-7a4c.up.railway.app',
+    // Local by default. This suite must never default to a deployed
+    // environment; point BASE_URL at a deployment explicitly when needed.
+    baseURL: process.env.BASE_URL || 'http://localhost:3000',
     headless: true,
     screenshot: 'only-on-failure',
     actionTimeout: 15000,

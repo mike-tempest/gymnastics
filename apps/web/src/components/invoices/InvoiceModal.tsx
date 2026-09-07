@@ -1,7 +1,7 @@
 'use client';
 
+import { Family, Member } from '@club-manager/shared-types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Family, Swimmer } from '@swim-nexus/shared-types';
 import { useEffect, useRef, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
@@ -9,7 +9,7 @@ import { z } from 'zod';
 import { useClubRegion } from '@/hooks/useClubRegion';
 import { useFormatters } from '@/hooks/useFormatters';
 import { getFamilies } from '@/lib/api/families';
-import { getSwimmers } from '@/lib/api/swimmers';
+import { getMembers } from '@/lib/api/members';
 import { currencySymbol } from '@/lib/utils/currency';
 
 const invoiceItemSchema = z.object({
@@ -17,7 +17,7 @@ const invoiceItemSchema = z.object({
   quantity: z.coerce.number().min(1, 'Quantity must be at least 1'),
   unit_price: z.coerce.number().min(0.01, 'Unit price must be greater than 0'),
   type: z.enum(['squad_fee', 'membership', 'gala_entry', 'merchandise', 'other']),
-  swimmer_id: z.string().optional().nullable(),
+  member_id: z.string().optional().nullable(),
 });
 
 const invoiceSchema = z.object({
@@ -39,7 +39,7 @@ interface InvoiceModalProps {
       description: string;
       amount: number;
       type: 'squad_fee' | 'membership' | 'gala_entry' | 'merchandise' | 'other';
-      swimmer_id?: string | null;
+      member_id?: string | null;
     }[];
     notes?: string;
   }) => Promise<void>;
@@ -50,7 +50,7 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
   const modalRef = useRef<HTMLDivElement>(null);
   const firstInputRef = useRef<HTMLSelectElement>(null);
   const [families, setFamilies] = useState<Family[]>([]);
-  const [swimmers, setSwimmers] = useState<Swimmer[]>([]);
+  const [members, setMembers] = useState<Member[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const { country, currency, locale } = useClubRegion();
   const { formatCurrency } = useFormatters();
@@ -69,7 +69,7 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
     defaultValues: {
       family_id: '',
       due_date: '',
-      items: [{ description: '', quantity: 1, unit_price: 0, type: 'squad_fee', swimmer_id: null }],
+      items: [{ description: '', quantity: 1, unit_price: 0, type: 'squad_fee', member_id: null }],
       notes: '',
     },
   });
@@ -90,7 +90,7 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
     }, 0);
   };
 
-  // Fetch families and swimmers when modal opens
+  // Fetch families and members when modal opens
   useEffect(() => {
     if (isOpen) {
       fetchData();
@@ -100,9 +100,9 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
   const fetchData = async () => {
     try {
       setIsLoadingData(true);
-      const [familiesData, swimmersData] = await Promise.all([getFamilies(), getSwimmers()]);
+      const [familiesData, membersData] = await Promise.all([getFamilies(), getMembers()]);
       setFamilies(familiesData);
-      setSwimmers(swimmersData);
+      setMembers(membersData);
     } catch {
       // data fetch error - form remains disabled
     } finally {
@@ -116,7 +116,7 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
       reset({
         family_id: '',
         due_date: '',
-        items: [{ description: '', quantity: 1, unit_price: 0, type: 'squad_fee', swimmer_id: null }],
+        items: [{ description: '', quantity: 1, unit_price: 0, type: 'squad_fee', member_id: null }],
         notes: '',
       });
       setTimeout(() => {
@@ -158,7 +158,7 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
         description: item.description,
         amount: Number(item.quantity) * Number(item.unit_price),
         type: item.type,
-        swimmer_id: item.swimmer_id || null,
+        member_id: item.member_id || null,
       }));
 
       await onSubmit({
@@ -267,7 +267,7 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
                 </label>
                 <button
                   type="button"
-                  onClick={() => append({ description: '', quantity: 1, unit_price: 0, type: 'squad_fee', swimmer_id: null })}
+                  onClick={() => append({ description: '', quantity: 1, unit_price: 0, type: 'squad_fee', member_id: null })}
                   className="px-4 py-2 bg-brand text-dark-primary rounded-xl font-semibold hover:bg-brand-light transition-all text-sm"
                   disabled={isSubmitting}
                 >
@@ -330,18 +330,18 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
                       </div>
 
                       <div>
-                        <label htmlFor={`items.${index}.swimmer_id`} className="block text-sm font-medium text-text-secondary mb-2">
-                          Swimmer (Optional)
+                        <label htmlFor={`items.${index}.member_id`} className="block text-sm font-medium text-text-secondary mb-2">
+                          Member (Optional)
                         </label>
                         <select
-                          {...register(`items.${index}.swimmer_id`)}
+                          {...register(`items.${index}.member_id`)}
                           className="w-full px-4 py-2 bg-dark-primary/80 text-white rounded-xl border border-white/10 focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 transition-all outline-none"
                           disabled={isSubmitting}
                         >
                           <option value="">None</option>
-                          {swimmers.map((swimmer) => (
-                            <option key={swimmer.swimmer_id} value={swimmer.swimmer_id}>
-                              {swimmer.first_name} {swimmer.last_name}
+                          {members.map((member) => (
+                            <option key={member.member_id} value={member.member_id}>
+                              {member.first_name} {member.last_name}
                             </option>
                           ))}
                         </select>

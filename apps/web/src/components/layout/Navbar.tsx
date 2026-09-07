@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 
+import { BRAND, MEMBER_NOUN_PLURAL } from '@/lib/brand';
+
 export default function Navbar() {
   const { data: session } = useSession();
 
@@ -12,16 +14,16 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
             <Link href="/" className="text-xl font-bold text-brand">
-              Swimly
+              {BRAND.name}
             </Link>
 
             {session && (
               <div className="hidden md:flex space-x-4">
                 <Link
-                  href="/swimmers"
+                  href="/members"
                   className="text-grey-600 hover:text-brand px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
-                  Swimmers
+                  {MEMBER_NOUN_PLURAL}
                 </Link>
                 <Link
                   href="/families"

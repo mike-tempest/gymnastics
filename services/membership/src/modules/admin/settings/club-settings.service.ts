@@ -12,7 +12,7 @@ import {
   isValidTimezoneForCountry,
   regionForCountry,
 } from '../../../common/region/region.util';
-import { COUNTRY_GOVERNING_BODIES, GoverningBody } from '@swim-nexus/shared-types';
+import { COUNTRY_GOVERNING_BODIES, GoverningBody } from '@club-manager/shared-types';
 
 /**
  * Payment provider credentials must never be stored on the settings row. A

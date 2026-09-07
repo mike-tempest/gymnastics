@@ -1,4 +1,4 @@
-import { InvoiceStatus } from '@swim-nexus/shared-types';
+import { InvoiceStatus } from '@club-manager/shared-types';
 
 import { InvoiceWithDetails } from '@/lib/api/finance';
 

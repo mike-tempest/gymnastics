@@ -1,11 +1,11 @@
 'use client';
 
-import { Attendance, AttendanceStats } from '@swim-nexus/shared-types';
+import { Attendance, AttendanceStats } from '@club-manager/shared-types';
 
 import {
   getSessionAttendance,
-  getSwimmerAttendance,
-  getSwimmerAttendanceStats,
+  getMemberAttendance,
+  getMemberAttendanceStats,
 } from '@/lib/api/attendance';
 
 import { useApi, UseApiResult } from './useApi';
@@ -14,10 +14,10 @@ export function useSessionAttendance(sessionId: string | undefined): UseApiResul
   return useApi(() => getSessionAttendance(sessionId!), [sessionId], { enabled: !!sessionId });
 }
 
-export function useSwimmerAttendance(swimmerId: string | undefined): UseApiResult<Attendance[]> {
-  return useApi(() => getSwimmerAttendance(swimmerId!), [swimmerId], { enabled: !!swimmerId });
+export function useMemberAttendance(memberId: string | undefined): UseApiResult<Attendance[]> {
+  return useApi(() => getMemberAttendance(memberId!), [memberId], { enabled: !!memberId });
 }
 
-export function useSwimmerAttendanceStats(swimmerId: string | undefined): UseApiResult<AttendanceStats> {
-  return useApi(() => getSwimmerAttendanceStats(swimmerId!), [swimmerId], { enabled: !!swimmerId });
+export function useMemberAttendanceStats(memberId: string | undefined): UseApiResult<AttendanceStats> {
+  return useApi(() => getMemberAttendanceStats(memberId!), [memberId], { enabled: !!memberId });
 }

@@ -6,9 +6,9 @@ import { CreateSessionDto } from './dto/create-session.dto';
 import { UpdateSessionDto } from './dto/update-session.dto';
 import { Session, SessionStatus } from './entities/session.entity';
 import { EmailService } from '../email/email.service';
-import { SwimmersRepository } from '../swimmers/swimmers.repository';
+import { MembersRepository } from '../members/members.repository';
 import { FamiliesRepository } from '../families/families.repository';
-import { Swimmer } from '../swimmers/entities/swimmer.entity';
+import { Member } from '../members/entities/member.entity';
 import { Family } from '../families/entities/family.entity';
 import { ClubsRepository } from '../clubs/clubs.repository';
 import { Club } from '../clubs/entities/club.entity';
@@ -18,7 +18,7 @@ import { TenantContextService } from '../../common/tenancy/tenant-context.servic
 /** A session enriched with register totals for dashboard consumption. */
 export type SessionWithAttendance = Session & {
   attendance_count: number;
-  total_swimmers: number;
+  total_members: number;
 };
 
 @Injectable()
@@ -30,7 +30,7 @@ export class SessionsService {
     private readonly sessionsRepository: SessionsRepository,
     private readonly emailService: EmailService,
     private readonly configService: ConfigService,
-    private readonly swimmersRepository: SwimmersRepository,
+    private readonly membersRepository: MembersRepository,
     private readonly familiesRepository: FamiliesRepository,
     private readonly clubsRepository: ClubsRepository,
     private readonly tenantContext: TenantContextService,
@@ -156,7 +156,7 @@ export class SessionsService {
       return {
         ...session,
         attendance_count: row ? parseInt(row.attended, 10) || 0 : 0,
-        total_swimmers: row ? parseInt(row.total, 10) || 0 : 0,
+        total_members: row ? parseInt(row.total, 10) || 0 : 0,
       };
     });
   }
@@ -346,38 +346,38 @@ export class SessionsService {
    * dates and times in the club's locale and timezone.
    */
   private sendRemindersForSession(session: Session, club: Club): void {
-    if (!session.squad?.swimmers || session.squad.swimmers.length === 0) {
-      this.logger.warn(`Session ${session.session_id} has no swimmers - skipping`);
+    if (!session.squad?.members || session.squad.members.length === 0) {
+      this.logger.warn(`Session ${session.session_id} has no members - skipping`);
       return;
     }
 
-    // Group swimmers by family to send one email per family
-    const familyMap = new Map<string, { family: Family; swimmers: Swimmer[] }>();
+    // Group members by family to send one email per family
+    const familyMap = new Map<string, { family: Family; members: Member[] }>();
 
-    for (const swimmer of session.squad.swimmers) {
-      if (!swimmer.family) {
-        this.logger.warn(`Swimmer ${swimmer.swimmer_id} has no family - skipping`);
+    for (const member of session.squad.members) {
+      if (!member.family) {
+        this.logger.warn(`Member ${member.member_id} has no family - skipping`);
         continue;
       }
 
-      const familyId = swimmer.family.family_id;
+      const familyId = member.family.family_id;
       if (!familyMap.has(familyId)) {
         familyMap.set(familyId, {
-          family: swimmer.family,
-          swimmers: [],
+          family: member.family,
+          members: [],
         });
       }
-      familyMap.get(familyId)!.swimmers.push(swimmer);
+      familyMap.get(familyId)!.members.push(member);
     }
 
     // Send email to each family
-    for (const [familyId, { family, swimmers }] of familyMap) {
+    for (const [familyId, { family, members }] of familyMap) {
       if (!family.primary_contact_email) {
         this.logger.warn(`Family ${familyId} has no email - skipping`);
         continue;
       }
 
-      const swimmerNames = swimmers.map((s: Swimmer) => `${s.first_name} ${s.last_name}`).join(', ');
+      const memberNames = members.map((s: Member) => `${s.first_name} ${s.last_name}`).join(', ');
 
       // The session date and start_time are the club's local wall-clock values.
       // Anchor them as a UTC instant carrying exactly those components and
@@ -405,8 +405,8 @@ export class SessionsService {
         .sendSessionReminder({
           recipientEmail: family.primary_contact_email,
           parentName: family.primary_contact_name || family.family_name,
-          swimmerName: swimmers.length === 1 ? swimmers[0].first_name : undefined,
-          multipleSwimmers: swimmers.length > 1,
+          memberName: members.length === 1 ? members[0].first_name : undefined,
+          multipleMembers: members.length > 1,
           sessionType: session.session_name,
           sessionTime: session.start_time,
           sessionDate: formatClubDate(sessionDateTime, club.locale, 'UTC', {
@@ -422,7 +422,7 @@ export class SessionsService {
           poolAddress: session.location || 'TBC',
           duration,
           coachName: session.coach_name ?? undefined,
-          swimmers: swimmers.map((s: Swimmer) => ({ name: `${s.first_name} ${s.last_name}` })),
+          members: members.map((s: Member) => ({ name: `${s.first_name} ${s.last_name}` })),
           sessionNotes: session.description ?? undefined,
           viewSessionUrl: `${this.appUrl}/sessions/${session.session_id}`,
         })
@@ -434,7 +434,7 @@ export class SessionsService {
         });
 
       this.logger.log(
-        `Session reminder sent to ${family.primary_contact_email} for ${swimmerNames}`,
+        `Session reminder sent to ${family.primary_contact_email} for ${memberNames}`,
       );
     }
   }
@@ -443,12 +443,12 @@ export class SessionsService {
     (async () => {
       try {
         if (!session.squad_id) return;
-        const swimmers = await this.swimmersRepository.findBySquadId(session.squad_id);
-        if (swimmers.length === 0) return;
+        const members = await this.membersRepository.findBySquadId(session.squad_id);
+        if (members.length === 0) return;
 
         // Group by family to send one notification per family
         const familyIds = [
-          ...new Set(swimmers.map((s) => s.family_id).filter(Boolean) as string[]),
+          ...new Set(members.map((s) => s.family_id).filter(Boolean) as string[]),
         ];
 
         // Resolve the club so the cancellation date is formatted in the club's

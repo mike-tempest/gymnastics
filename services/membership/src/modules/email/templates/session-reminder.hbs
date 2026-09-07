@@ -109,14 +109,14 @@
       font-weight: 500;
       font-size: 15px;
     }
-    .swimmers-list {
+    .members-list {
       background: #ECFEFF;
       border: 1px solid #A5F3FC;
       border-radius: 6px;
       padding: 18px;
       margin: 20px 0;
     }
-    .swimmers-list h4 {
+    .members-list h4 {
       margin: 0 0 12px 0;
       font-size: 14px;
       color: #0E7490;
@@ -124,7 +124,7 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
-    .swimmer-item {
+    .member-item {
       background: #fff;
       padding: 10px 12px;
       margin: 8px 0;
@@ -133,7 +133,7 @@
       align-items: center;
       border-left: 3px solid #06B6D4;
     }
-    .swimmer-name {
+    .member-name {
       flex: 1;
       font-weight: 600;
       color: #164E63;
@@ -225,7 +225,7 @@
     <div class="content">
       <p>Dear {{parentName}},</p>
 
-      <p>This is a friendly reminder about an upcoming swimming session for {{#if multipleSwimmers}}your swimmers{{else}}{{swimmerName}}{{/if}}.</p>
+      <p>This is a friendly reminder about an upcoming training session for {{#if multipleMembers}}your {{memberNounPluralLower}}{{else}}{{memberName}}{{/if}}.</p>
 
       <div class="reminder-banner">
         <h2>Session in {{timeUntilSession}}</h2>
@@ -279,12 +279,12 @@
         {{/if}}
       </div>
 
-      {{#if swimmers}}
-      <div class="swimmers-list">
-        <h4>Registered Swimmers</h4>
-        {{#each swimmers}}
-        <div class="swimmer-item">
-          <span class="swimmer-name">{{this.name}}</span>
+      {{#if members}}
+      <div class="members-list">
+        <h4>Registered {{memberNounPlural}}</h4>
+        {{#each members}}
+        <div class="member-item">
+          <span class="member-name">{{this.name}}</span>
           {{#if this.lane}}<span style="color: #64748B; font-size: 14px;">Lane {{this.lane}}</span>{{/if}}
         </div>
         {{/each}}
@@ -295,11 +295,11 @@
         <h3>Don't Forget to Bring</h3>
         <div class="checklist-item">
           <div class="checkbox"></div>
-          <div class="text">Swimsuit and towel</div>
+          <div class="text">Training kit</div>
         </div>
         <div class="checklist-item">
           <div class="checkbox"></div>
-          <div class="text">Goggles and swim cap</div>
+          <div class="text">Grips, guards or other equipment</div>
         </div>
         <div class="checklist-item">
           <div class="checkbox"></div>
@@ -337,11 +337,11 @@
       </div>
 
       <p style="margin-top: 30px; font-size: 14px; color: #64748B;">
-        <strong>Can't make it?</strong> Please inform us as soon as possible if your swimmer cannot attend.
+        <strong>Can't make it?</strong> Please inform us as soon as possible if your {{memberNounLower}} cannot attend.
       </p>
 
       <p style="margin-top: 20px;">
-        See you at the pool!<br>
+        See you in the gym!<br>
         <strong>{{clubName}} Team</strong>
       </p>
     </div>

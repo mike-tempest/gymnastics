@@ -7,6 +7,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as Handlebars from 'handlebars';
 import { Resend } from 'resend';
 import { Repository } from 'typeorm';
+import {
+  BRAND,
+  MEMBER_NOUN,
+  MEMBER_NOUN_LOWER,
+  MEMBER_NOUN_PLURAL,
+  MEMBER_NOUN_PLURAL_LOWER,
+} from '../../common/brand';
 import { WaitlistEntry } from '../waitlist/entities/waitlist.entity';
 import { EmailSuppression } from './entities/email-suppression.entity';
 
@@ -143,8 +150,8 @@ export interface DBSExpiryWarningEmailData {
 export interface ConsentExpiryWarningEmailData {
   parentName: string;
   recipientEmail: string;
-  swimmerName: string;
-  swimmerDOB: string;
+  memberName: string;
+  memberDOB: string;
   squadName: string;
   expiringCount: number;
   multipleExpiring: boolean;
@@ -184,8 +191,8 @@ export interface SessionCancelledEmailData {
 export interface SessionReminderEmailData {
   parentName: string;
   recipientEmail: string;
-  swimmerName?: string;
-  multipleSwimmers: boolean;
+  memberName?: string;
+  multipleMembers: boolean;
   sessionType: string;
   sessionTime: string;
   sessionDate: string;
@@ -196,7 +203,7 @@ export interface SessionReminderEmailData {
   poolAddress: string;
   duration: string;
   coachName?: string;
-  swimmers?: Array<{
+  members?: Array<{
     name: string;
     lane?: string;
   }>;
@@ -250,7 +257,7 @@ export class EmailService {
       this.configService.get<string>('EMAIL_PASSWORD');
     this.resend = apiKey ? new Resend(apiKey) : null;
     this.from = this.configService.get<string>('EMAIL_FROM', 'noreply@localhost');
-    this.clubName = this.configService.get<string>('CLUB_NAME', 'Your Swimming Club');
+    this.clubName = this.configService.get<string>('CLUB_NAME', 'Your Club');
     this.appUrl = this.configService.get<string>('APP_URL', 'http://localhost:3000');
     // Internal recipient for platform alerts (e.g. new club signups).
     // No default: alerts are skipped entirely when SIGNUP_ALERT_EMAIL is unset.
@@ -311,11 +318,19 @@ export class EmailService {
       compiled = Handlebars.compile(source);
       this.templateCache.set(name, compiled);
     }
+    // Globals first so a caller's context always wins: senders that pass a
+    // per-club clubName (broadcast, waitlist, session-cancelled) must not be
+    // clobbered by the instance-wide CLUB_NAME fallback.
     return compiled({
-      ...context,
+      brandName: BRAND.name,
       clubName: this.clubName,
       appUrl: this.appUrl,
       year: new Date().getFullYear(),
+      memberNoun: MEMBER_NOUN,
+      memberNounLower: MEMBER_NOUN_LOWER,
+      memberNounPlural: MEMBER_NOUN_PLURAL,
+      memberNounPluralLower: MEMBER_NOUN_PLURAL_LOWER,
+      ...context,
     });
   }
 
@@ -437,7 +452,7 @@ export class EmailService {
   async sendConsentExpiryWarning(data: ConsentExpiryWarningEmailData): Promise<void> {
     await this.send(
       data.recipientEmail,
-      `Consent Renewal Required for ${data.swimmerName} - ${this.clubName}`,
+      `Consent Renewal Required for ${data.memberName} - ${this.clubName}`,
       'consent-expiry-warning',
       data as unknown as Record<string, unknown>,
     );
@@ -455,7 +470,7 @@ export class EmailService {
   async sendWaitlistConfirmation(entry: WaitlistEntry): Promise<void> {
     await this.send(
       entry.email,
-      "You're on the Swimly waitlist!",
+      `You're on the ${BRAND.name} waitlist!`,
       'waitlist-confirmation',
       {
         name: entry.name,
@@ -469,7 +484,7 @@ export class EmailService {
   async sendWaitlistDrip1(entry: WaitlistEntry): Promise<void> {
     await this.send(
       entry.email,
-      "The problem we're solving at Swimly",
+      `The problem we're solving at ${BRAND.name}`,
       'waitlist-drip-1',
       {
         name: entry.name,
@@ -482,7 +497,7 @@ export class EmailService {
   async sendWaitlistDrip2(entry: WaitlistEntry): Promise<void> {
     await this.send(
       entry.email,
-      'What Swimly will do for your club',
+      `What ${BRAND.name} will do for your club`,
       'waitlist-drip-2',
       {
         name: entry.name,
@@ -535,7 +550,7 @@ export class EmailService {
   async sendActivationScheduleSessions(data: ActivationEmailData): Promise<void> {
     await this.send(
       data.recipientEmail,
-      "Put this week's sessions in Swimly",
+      `Put this week's sessions in ${BRAND.name}`,
       'activation-schedule-sessions',
       {
         firstName: data.firstName,
@@ -574,7 +589,7 @@ export class EmailService {
     const text = [
       `Hi ${firstName},`,
       '',
-      `You set up ${data.clubName} on Swimly about ten days ago, and it looks like it has not quite clicked yet.`,
+      `You set up ${data.clubName} on ${BRAND.name} about ten days ago, and it looks like it has not quite clicked yet.`,
       '',
       'That is useful for me to know. If something got in the way, a missing feature, something confusing, or just no time, hit reply and tell me. I read and answer every one of these myself.',
       '',
@@ -582,7 +597,7 @@ export class EmailService {
       '',
       'Thanks,',
       'Mike',
-      'Founder, Swimly',
+      `Founder, ${BRAND.name}`,
       '',
       `Prefer not to hear from me? Unsubscribe: ${this.buildUnsubscribeUrl(data.recipientEmail)}`,
     ].join('\n');

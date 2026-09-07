@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function globalSetup(config: FullConfig) {
-  const baseURL = process.env.BASE_URL || 'https://web-app-production-7a4c.up.railway.app';
+  const baseURL = process.env.BASE_URL || 'http://localhost:3000';
   
   const browser = await chromium.launch();
   const context = await browser.newContext();

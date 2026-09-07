@@ -1,6 +1,6 @@
 'use client';
 
-import type { Family, Squad } from '@swim-nexus/shared-types';
+import type { Family, Squad } from '@club-manager/shared-types';
 import { ArrowLeft, Send, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';

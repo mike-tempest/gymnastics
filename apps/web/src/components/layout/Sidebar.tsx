@@ -1,6 +1,7 @@
 'use client';
 
-import { governingBodyConfig, defaultGoverningBodyForCountry } from '@swim-nexus/shared-types';
+
+import { governingBodyConfig, defaultGoverningBodyForCountry } from '@club-manager/shared-types';
 import {
   Home,
   Users,
@@ -36,6 +37,8 @@ import { signOut } from 'next-auth/react';
 import { useState, useEffect, useMemo } from 'react';
 
 import { useClubRegion } from '@/hooks/useClubRegion';
+import { MEMBER_NOUN_PLURAL } from '@/lib/brand';
+import { isCompetitionsEnabled } from '@/lib/features';
 import { useRole, isAdmin, isCoach, isParent } from '@/lib/hooks/useRole';
 
 interface NavItem {
@@ -59,7 +62,7 @@ function isSection(entry: NavEntry): entry is NavSection {
 // Full navigation entries (admin sees everything)
 const allNavEntries: NavEntry[] = [
   { name: 'Dashboard', href: '/', icon: Home },
-  { name: 'Swimmers', href: '/swimmers', icon: Users },
+  { name: MEMBER_NOUN_PLURAL, href: '/members', icon: Users },
   { name: 'Families', href: '/families', icon: UsersRound },
   { name: 'Squads', href: '/squads', icon: Shield },
   { name: 'Sessions', href: '/sessions', icon: Calendar },
@@ -72,7 +75,10 @@ const allNavEntries: NavEntry[] = [
     ],
   },
   { name: 'Attendance', href: '/attendance', icon: CheckSquare },
-  { name: 'Competitions', href: '/competitions', icon: Trophy },
+  // Swimming times/strokes module, feature-flagged off by default (TEM-15).
+  ...(isCompetitionsEnabled()
+    ? [{ name: 'Competitions', href: '/competitions', icon: Trophy }]
+    : []),
   {
     name: 'Billing',
     icon: CreditCard,
@@ -111,11 +117,13 @@ const allNavEntries: NavEntry[] = [
 // Items visible to coaches
 const COACH_NAV_NAMES = new Set([
   'Dashboard',
-  'Swimmers',
+  MEMBER_NOUN_PLURAL,
   'Squads',
   'Sessions',
   'Communications',
   'Attendance',
+  // 'Competitions' stays a plain member: this set only filters allNavEntries,
+  // which already omits the entry while the module is flagged off (TEM-15).
   'Competitions',
 ]);
 
@@ -238,7 +246,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <div className="p-6 border-b border-white/10">
             <Link href="/" onClick={onClose} className="flex items-center space-x-3 group">
               <div>
-                <Image src="/swimly-logo.svg" alt="Swimly" width={120} height={32} className="h-8 w-auto" />
+                <Image src="/swimly-logo.svg" alt="" width={120} height={32} className="h-8 w-auto" />
                 <p className="text-xs text-grey-300 mt-1">Club Management</p>
               </div>
             </Link>

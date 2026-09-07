@@ -10,7 +10,7 @@ import { FeeStructuresModule } from '../fee-structures/fee-structures.module';
 import { PaymentsModule } from '../payments/payments.module';
 import { EmailModule } from '../../email/email.module';
 import { FamiliesModule } from '../../families/families.module';
-import { SwimmersModule } from '../../swimmers/swimmers.module';
+import { MembersModule } from '../../members/members.module';
 
 @Module({
   imports: [
@@ -19,7 +19,7 @@ import { SwimmersModule } from '../../swimmers/swimmers.module';
     forwardRef(() => PaymentsModule),
     EmailModule,
     FamiliesModule,
-    SwimmersModule,
+    MembersModule,
   ],
   controllers: [InvoicesController],
   providers: [InvoicesService, InvoicesRepository, InvoicePdfService],

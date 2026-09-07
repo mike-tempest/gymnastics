@@ -8,7 +8,7 @@ import { BulkCreateStaffItemDto } from './dto/bulk-create-staff.dto';
 import { User, UserRole } from './entities/user.entity';
 
 // Roles that may be created through the staff bulk import endpoint.
-// Administrative, parent and swimmer accounts must be created through
+// Administrative, parent and member accounts must be created through
 // their own dedicated flows.
 const STAFF_ROLES: ReadonlySet<UserRole> = new Set([
   UserRole.TREASURER,

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ParentController } from './parent.controller';
 import { ParentService } from './parent.service';
-import { Swimmer } from '../swimmers/entities/swimmer.entity';
+import { Member } from '../members/entities/member.entity';
 import { Session } from '../sessions/entities/session.entity';
 import { Invoice } from '../finance/invoices/entities/invoice.entity';
 import { Attendance } from '../attendance/entities/attendance.entity';
@@ -13,21 +13,24 @@ import { GoCardlessModule } from '../gocardless/gocardless.module';
 import { InvoicePdfService } from '../finance/invoices/invoice-pdf.service';
 import { CompetitionsModule } from '../competitions/competitions.module';
 import { CompetitionResult } from '../competitions/entities/competition-result.entity';
+import { competitionsEnabled } from '../../common/features/competitions.feature';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      Swimmer,
+      Member,
       Session,
       Invoice,
       Attendance,
       Family,
       Payment,
       DirectDebitMandate,
-      CompetitionResult,
+      // Only registered while the competitions module is on (TEM-15); the
+      // matching providers in ParentService are @Optional() for the off case.
+      ...(competitionsEnabled() ? [CompetitionResult] : []),
     ]),
     GoCardlessModule,
-    CompetitionsModule,
+    ...(competitionsEnabled() ? [CompetitionsModule] : []),
   ],
   controllers: [ParentController],
   // InvoicePdfService is a stateless renderer whose only dependency

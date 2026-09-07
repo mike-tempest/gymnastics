@@ -7,7 +7,7 @@ export function buildAttendance(overrides?: Partial<Attendance>): Attendance {
     attendance_id: crypto.randomUUID(),
     club_id: crypto.randomUUID(),
     session_id: crypto.randomUUID(),
-    swimmer_id: crypto.randomUUID(),
+    member_id: crypto.randomUUID(),
     status: AttendanceStatus.PRESENT,
     checked_in_at: null,
     notes: null,

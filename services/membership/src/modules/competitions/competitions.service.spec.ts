@@ -42,9 +42,9 @@ describe('CompetitionsService', () => {
   };
 
   const mockPersonalBests = {
-    getForSwimmer: jest.fn(),
+    getForMember: jest.fn(),
     getSeasonBests: jest.fn(),
-    recomputeForSwimmer: jest.fn(),
+    recomputeForMember: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -152,7 +152,7 @@ describe('CompetitionsService', () => {
     it('should add entries to a competition', async () => {
       const entries = [
         {
-          swimmer_id: 'swimmer-1',
+          member_id: 'member-1',
           distance: 50,
           stroke: 'Freestyle',
           entry_time: 35.5,
@@ -183,7 +183,7 @@ describe('CompetitionsService', () => {
         {
           result_id: 'result-1',
           competition_id: mockCompetition.competition_id,
-          swimmer_id: 'swimmer-1',
+          member_id: 'member-1',
           distance: 50,
           stroke: 'Freestyle',
           time: 34.56,

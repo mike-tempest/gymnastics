@@ -1,4 +1,4 @@
-import { Squad, Swimmer } from '@swim-nexus/shared-types';
+import { Squad, Member } from '@club-manager/shared-types';
 
 import { api } from './api-client';
 
@@ -42,16 +42,16 @@ export async function deleteSquad(id: string): Promise<void> {
   return api.delete<void>(`/squads/${id}`);
 }
 
-export async function assignSwimmerToSquad(squadId: string, swimmerId: string): Promise<Squad> {
-  return api.post<Squad>(`/squads/${squadId}/swimmers`, { swimmer_id: swimmerId });
+export async function assignMemberToSquad(squadId: string, memberId: string): Promise<Squad> {
+  return api.post<Squad>(`/squads/${squadId}/members`, { member_id: memberId });
 }
 
-export async function removeSwimmerFromSquad(squadId: string, swimmerId: string): Promise<Squad> {
-  return api.delete<Squad>(`/squads/${squadId}/swimmers/${swimmerId}`);
+export async function removeMemberFromSquad(squadId: string, memberId: string): Promise<Squad> {
+  return api.delete<Squad>(`/squads/${squadId}/members/${memberId}`);
 }
 
-export async function getSquadSwimmers(squadId: string): Promise<Swimmer[]> {
-  return api.get<Swimmer[]>(`/squads/${squadId}/swimmers`, { cache: 'no-store' });
+export async function getSquadMembers(squadId: string): Promise<Member[]> {
+  return api.get<Member[]>(`/squads/${squadId}/members`, { cache: 'no-store' });
 }
 
 export async function bulkImportSquads(

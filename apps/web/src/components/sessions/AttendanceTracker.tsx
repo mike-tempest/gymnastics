@@ -1,11 +1,12 @@
 'use client';
 
-import { AttendanceStatus, Swimmer } from '@swim-nexus/shared-types';
+import { AttendanceStatus, Member } from '@club-manager/shared-types';
 import { useState, useEffect, useCallback } from 'react';
 
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { getSessionAttendance, markAttendance } from '@/lib/api/attendance';
-import { getSquadSwimmers } from '@/lib/api/squads';
+import { getSquadMembers } from '@/lib/api/squads';
+import { MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
 interface AttendanceTrackerProps {
   sessionId: string;
@@ -28,7 +29,7 @@ const statusLabels = {
 };
 
 export default function AttendanceTracker({ sessionId, squadId, onUpdate }: AttendanceTrackerProps) {
-  const [swimmers, setSwimmers] = useState<Swimmer[]>([]);
+  const [members, setMembers] = useState<Member[]>([]);
   const [attendanceRecords, setAttendanceRecords] = useState<Map<string, AttendanceStatus | null>>(new Map());
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -39,19 +40,19 @@ export default function AttendanceTracker({ sessionId, squadId, onUpdate }: Atte
       setIsLoading(true);
       setError(null);
 
-      // Fetch squad swimmers and existing attendance records
-      const [squadSwimmers, existingAttendance] = await Promise.all([
-        getSquadSwimmers(squadId),
+      // Fetch squad members and existing attendance records
+      const [squadMembers, existingAttendance] = await Promise.all([
+        getSquadMembers(squadId),
         getSessionAttendance(sessionId),
       ]);
 
-      setSwimmers(squadSwimmers);
+      setMembers(squadMembers);
 
-      // Create a map of swimmer_id -> attendance status
+      // Create a map of member_id -> attendance status
       const attendanceMap = new Map<string, AttendanceStatus | null>();
-      squadSwimmers.forEach((swimmer) => {
-        const attendance = existingAttendance.find((a) => a.swimmer_id === swimmer.swimmer_id);
-        attendanceMap.set(swimmer.swimmer_id, attendance?.status || null);
+      squadMembers.forEach((member) => {
+        const attendance = existingAttendance.find((a) => a.member_id === member.member_id);
+        attendanceMap.set(member.member_id, attendance?.status || null);
       });
 
       setAttendanceRecords(attendanceMap);
@@ -66,18 +67,18 @@ export default function AttendanceTracker({ sessionId, squadId, onUpdate }: Atte
     fetchData();
   }, [sessionId, squadId, fetchData]);
 
-  const handleStatusChange = async (swimmerId: string, status: AttendanceStatus) => {
+  const handleStatusChange = async (memberId: string, status: AttendanceStatus) => {
     try {
       setIsSaving(true);
       setError(null);
 
-      // Mark attendance for this swimmer
-      await markAttendance(sessionId, [swimmerId], status);
+      // Mark attendance for this member
+      await markAttendance(sessionId, [memberId], status);
 
       // Update local state
       setAttendanceRecords((prev) => {
         const newMap = new Map(prev);
-        newMap.set(swimmerId, status);
+        newMap.set(memberId, status);
         return newMap;
       });
 
@@ -94,22 +95,22 @@ export default function AttendanceTracker({ sessionId, squadId, onUpdate }: Atte
       setIsSaving(true);
       setError(null);
 
-      // Mark all swimmers as present
-      const swimmerIds = swimmers.map((s) => s.swimmer_id);
-      await markAttendance(sessionId, swimmerIds, AttendanceStatus.PRESENT);
+      // Mark all members as present
+      const memberIds = members.map((s) => s.member_id);
+      await markAttendance(sessionId, memberIds, AttendanceStatus.PRESENT);
 
       // Update local state
       setAttendanceRecords((prev) => {
         const newMap = new Map(prev);
-        swimmers.forEach((swimmer) => {
-          newMap.set(swimmer.swimmer_id, AttendanceStatus.PRESENT);
+        members.forEach((member) => {
+          newMap.set(member.member_id, AttendanceStatus.PRESENT);
         });
         return newMap;
       });
 
       onUpdate?.();
     } catch {
-      setError('Failed to check in all swimmers');
+      setError(`Failed to check in all ${MEMBER_NOUN_PLURAL_LOWER}`);
     } finally {
       setIsSaving(false);
     }
@@ -130,7 +131,7 @@ export default function AttendanceTracker({ sessionId, squadId, onUpdate }: Atte
         <div>
           <h3 className="font-serif text-2xl text-white">Attendance Tracker</h3>
           <p className="text-text-secondary mt-1 tabular-nums">
-            {attendanceCount} / {swimmers.length} attended
+            {attendanceCount} / {members.length} attended
           </p>
         </div>
         <button
@@ -150,27 +151,27 @@ export default function AttendanceTracker({ sessionId, squadId, onUpdate }: Atte
       )}
 
       {/* Attendance List */}
-      {swimmers.length === 0 ? (
+      {members.length === 0 ? (
         <div className="text-center py-8 bg-dark-primary/80 rounded-xl border border-white/20">
-          <p className="text-text-secondary">No swimmers in this squad</p>
+          <p className="text-text-secondary">No {MEMBER_NOUN_PLURAL_LOWER} in this squad</p>
         </div>
       ) : (
         <div className="space-y-3">
-          {swimmers.map((swimmer) => {
-            const status = attendanceRecords.get(swimmer.swimmer_id);
+          {members.map((member) => {
+            const status = attendanceRecords.get(member.member_id);
             return (
               <div
-                key={swimmer.swimmer_id}
+                key={member.member_id}
                 className="p-4 bg-dark-primary/80 rounded-xl border border-white/20 hover:border-brand/30 transition-all"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <h4 className="text-white font-semibold">
-                      {swimmer.first_name} {swimmer.last_name}
+                      {member.first_name} {member.last_name}
                     </h4>
-                    {swimmer.dob && (
+                    {member.dob && (
                       <p className="text-text-tertiary text-sm mt-1">
-                        Age: {new Date().getFullYear() - new Date(swimmer.dob).getFullYear()}
+                        Age: {new Date().getFullYear() - new Date(member.dob).getFullYear()}
                       </p>
                     )}
                   </div>
@@ -180,7 +181,7 @@ export default function AttendanceTracker({ sessionId, squadId, onUpdate }: Atte
                     {Object.values(AttendanceStatus).map((statusOption) => (
                       <button
                         key={statusOption}
-                        onClick={() => handleStatusChange(swimmer.swimmer_id, statusOption)}
+                        onClick={() => handleStatusChange(member.member_id, statusOption)}
                         disabled={isSaving}
                         className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all disabled:opacity-50 border ${
                           status === statusOption

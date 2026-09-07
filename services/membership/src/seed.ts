@@ -22,7 +22,7 @@ async function seed() {
     await dataSource.query('TRUNCATE TABLE invoices CASCADE');
     await dataSource.query('TRUNCATE TABLE direct_debit_mandates CASCADE');
     await dataSource.query('TRUNCATE TABLE fee_structures CASCADE');
-    await dataSource.query('TRUNCATE TABLE swimmers CASCADE');
+    await dataSource.query('TRUNCATE TABLE members CASCADE');
     await dataSource.query('TRUNCATE TABLE squads CASCADE');
     await dataSource.query('TRUNCATE TABLE users CASCADE');
     await dataSource.query('TRUNCATE TABLE families CASCADE');
@@ -306,7 +306,7 @@ async function seed() {
     const squads = await Promise.all([
       dataSource.query(`
         INSERT INTO squads (squad_name, description, min_age, max_age, coach_name, training_times)
-        VALUES ('Learn to Swim', 'Beginner swimmers learning basic techniques', 6, 10, 'Coach Emma Davies', 'Mon/Wed/Fri 16:00-17:00')
+        VALUES ('Learn to Swim', 'Beginner members learning basic techniques', 6, 10, 'Coach Emma Davies', 'Mon/Wed/Fri 16:00-17:00')
         RETURNING squad_id
       `),
       dataSource.query(`
@@ -316,12 +316,12 @@ async function seed() {
       `),
       dataSource.query(`
         INSERT INTO squads (squad_name, description, min_age, max_age, coach_name, training_times)
-        VALUES ('Junior Competition', 'Competitive training for junior swimmers', 11, 16, 'Coach Sarah Mitchell', 'Mon/Wed/Fri 17:30-19:00, Sat 09:00-11:00')
+        VALUES ('Junior Competition', 'Competitive training for junior members', 11, 16, 'Coach Sarah Mitchell', 'Mon/Wed/Fri 17:30-19:00, Sat 09:00-11:00')
         RETURNING squad_id
       `),
       dataSource.query(`
         INSERT INTO squads (squad_name, description, min_age, max_age, coach_name, training_times)
-        VALUES ('Senior Competition', 'Elite competitive training for senior swimmers', 15, 25, 'Coach Sarah Mitchell', 'Mon-Fri 06:00-07:30, Tue/Thu 19:00-20:30')
+        VALUES ('Senior Competition', 'Elite competitive training for senior members', 15, 25, 'Coach Sarah Mitchell', 'Mon-Fri 06:00-07:30, Tue/Thu 19:00-20:30')
         RETURNING squad_id
       `),
       dataSource.query(`
@@ -338,9 +338,9 @@ async function seed() {
     const squadIds = squads.map((s) => s[0].squad_id);
     console.log(`Created ${squads.length} squads\n`);
 
-    // Seed Swimmers (40+ swimmers across different age groups)
-    console.log('Creating swimmers...');
-    const swimmerData = [
+    // Seed Members (40+ members across different age groups)
+    console.log('Creating members...');
+    const memberData = [
       // Learn to Swim squad (ages 6-10)
       [familyIds[0], squadIds[0], 'Oliver', 'Thompson', '2017-04-15', 'M', 'SE345001'],
       [familyIds[1], squadIds[0], 'Amelia', 'Williams', '2016-09-22', 'F', 'SE345002'],
@@ -396,18 +396,18 @@ async function seed() {
       [familyIds[19], squadIds[5], 'Sophia', 'Clark', '2011-02-17', 'F', 'SE345042'],
     ];
 
-    const swimmers = await Promise.all(
-      swimmerData.map(([familyId, squadId, firstName, lastName, dob, gender, seNumber]) =>
+    const members = await Promise.all(
+      memberData.map(([familyId, squadId, firstName, lastName, dob, gender, registrationNumber]) =>
         dataSource.query(
-          `INSERT INTO swimmers (family_id, squad_id, first_name, last_name, dob, gender, se_number)
+          `INSERT INTO members (family_id, squad_id, first_name, last_name, dob, gender, registration_number)
            VALUES ($1, $2, $3, $4, $5, $6, $7)
-           RETURNING swimmer_id`,
-          [familyId, squadId, firstName, lastName, dob, gender, seNumber],
+           RETURNING member_id`,
+          [familyId, squadId, firstName, lastName, dob, gender, registrationNumber],
         ),
       ),
     );
-    const swimmerIds = swimmers.map((s) => s[0].swimmer_id);
-    console.log(`Created ${swimmers.length} swimmers\n`);
+    const memberIds = members.map((s) => s[0].member_id);
+    console.log(`Created ${members.length} members\n`);
 
     // Seed Fee Structures
     console.log('Creating fee structures...');
@@ -449,12 +449,12 @@ async function seed() {
       `),
       dataSource.query(`
         INSERT INTO fee_structures (name, description, amount, frequency, applies_to_type, active)
-        VALUES ('Swim England Membership', 'Swim England annual membership', 33.95, 'annual', 'swimmer', true)
+        VALUES ('Swim England Membership', 'Swim England annual membership', 33.95, 'annual', 'member', true)
         RETURNING fee_structure_id
       `),
       dataSource.query(`
         INSERT INTO fee_structures (name, description, amount, frequency, applies_to_type, active)
-        VALUES ('Gala Entry Fee', 'Competition gala entry fee', 15.00, 'one_time', 'swimmer', true)
+        VALUES ('Gala Entry Fee', 'Competition gala entry fee', 15.00, 'one_time', 'member', true)
         RETURNING fee_structure_id
       `),
     ]);
@@ -619,11 +619,11 @@ async function seed() {
 
     for (const session of sessions) {
       const sessionSquadId = session.squad_id;
-      const relevantSwimmers = swimmerData
-        .map((s, idx: number) => ({ data: s, id: swimmerIds[idx] }))
+      const relevantMembers = memberData
+        .map((s, idx: number) => ({ data: s, id: memberIds[idx] }))
         .filter((s) => s.data[1] === sessionSquadId);
 
-      for (const swimmer of relevantSwimmers) {
+      for (const member of relevantMembers) {
         const randomVal = Math.random();
         let status = 'present';
 
@@ -634,19 +634,19 @@ async function seed() {
           status = 'late';
         }
 
-        // Some swimmers have dropoff patterns (skip last 20% of sessions)
-        const isDropoffSwimmer = swimmer.id === swimmerIds[5] || swimmer.id === swimmerIds[12];
+        // Some members have dropoff patterns (skip last 20% of sessions)
+        const isDropoffMember = member.id === memberIds[5] || member.id === memberIds[12];
         const sessionIndex = sessionIds.indexOf(session.session_id);
         const isLateSession = sessionIndex > sessionIds.length * 0.8;
 
-        if (isDropoffSwimmer && isLateSession && Math.random() > 0.3) {
+        if (isDropoffMember && isLateSession && Math.random() > 0.3) {
           status = 'absent';
         }
 
         await dataSource.query(
-          `INSERT INTO attendance (session_id, swimmer_id, status)
+          `INSERT INTO attendance (session_id, member_id, status)
            VALUES ($1, $2, $3)`,
-          [session.session_id, swimmer.id, status],
+          [session.session_id, member.id, status],
         );
         attendanceCount++;
       }
@@ -663,20 +663,20 @@ async function seed() {
 
       for (let i = 0; i < familyIds.length; i++) {
         const familyId = familyIds[i];
-        const familySwimmers = swimmerData
+        const familyMembers = memberData
           .map((s, idx: number) => ({ data: s, idx }))
           .filter((s) => s.data[0] === familyId);
 
-        if (familySwimmers.length === 0) continue;
+        if (familyMembers.length === 0) continue;
 
         let subtotal = 0;
         const items: (string | number)[][] = [];
 
-        familySwimmers.forEach((swimmer) => {
-          const squadIndex = squadIds.indexOf(swimmer.data[1]);
+        familyMembers.forEach((member) => {
+          const squadIndex = squadIds.indexOf(member.data[1]);
           const fee = [35, 45, 55, 65, 40, 50][squadIndex];
           subtotal += fee;
-          items.push([swimmer.data[2], swimmer.data[3], squadIndex, fee]);
+          items.push([member.data[2], member.data[3], squadIndex, fee]);
         });
 
         // Determine payment status based on family (realistic mix)
@@ -793,37 +793,37 @@ async function seed() {
     ]);
     console.log(`Created ${dbsChecks.length} DBS checks\n`);
 
-    // Seed Consents for all swimmers
+    // Seed Consents for all members
     console.log('Creating consent records...');
     let consentCount = 0;
 
-    for (let i = 0; i < swimmerIds.length; i++) {
-      const swimmerId = swimmerIds[i];
-      const familySwimmer = swimmerData[i];
-      const familyIndex = familyIds.indexOf(familySwimmer[0]);
+    for (let i = 0; i < memberIds.length; i++) {
+      const memberId = memberIds[i];
+      const familyMember = memberData[i];
+      const familyIndex = familyIds.indexOf(familyMember[0]);
       const parentUserId = parentUsers[familyIndex][0].user_id;
 
       // Medical treatment consent (everyone granted)
       await dataSource.query(
-        `INSERT INTO consents (swimmer_id, consent_type, status, granted_by_user_id, granted_date)
+        `INSERT INTO consents (member_id, consent_type, status, granted_by_user_id, granted_date)
          VALUES ($1, $2, $3, $4, $5)`,
-        [swimmerId, 'MEDICAL_TREATMENT', 'GRANTED', parentUserId, '2025-09-01'],
+        [memberId, 'MEDICAL_TREATMENT', 'GRANTED', parentUserId, '2025-09-01'],
       );
 
       // Photography consent (90% granted, 10% denied)
       const photoStatus = Math.random() > 0.1 ? 'GRANTED' : 'DENIED';
       await dataSource.query(
-        `INSERT INTO consents (swimmer_id, consent_type, status, granted_by_user_id, granted_date)
+        `INSERT INTO consents (member_id, consent_type, status, granted_by_user_id, granted_date)
          VALUES ($1, $2, $3, $4, $5)`,
-        [swimmerId, 'PHOTOGRAPHY', photoStatus, parentUserId, '2025-09-01'],
+        [memberId, 'PHOTOGRAPHY', photoStatus, parentUserId, '2025-09-01'],
       );
 
       // Data sharing consent (95% granted)
       const dataStatus = Math.random() > 0.05 ? 'GRANTED' : 'DENIED';
       await dataSource.query(
-        `INSERT INTO consents (swimmer_id, consent_type, status, granted_by_user_id, granted_date)
+        `INSERT INTO consents (member_id, consent_type, status, granted_by_user_id, granted_date)
          VALUES ($1, $2, $3, $4, $5)`,
-        [swimmerId, 'DATA_SHARING', dataStatus, parentUserId, '2025-09-01'],
+        [memberId, 'DATA_SHARING', dataStatus, parentUserId, '2025-09-01'],
       );
 
       consentCount += 3;
@@ -838,7 +838,7 @@ async function seed() {
         INSERT INTO communications (subject, body, recipient_type, squad_id, family_id, recipient_count, sent_date)
         VALUES (
           'Welcome to the 2025/26 Season',
-          'Welcome back to RTW Monson Swimming Club! We are delighted to start the new season with such a fantastic group of swimmers. Training schedules have been sent to your email addresses. Please ensure all membership fees are paid by the end of September.',
+          'Welcome back to RTW Monson Swimming Club! We are delighted to start the new season with such a fantastic group of members. Training schedules have been sent to your email addresses. Please ensure all membership fees are paid by the end of September.',
           'all', NULL, NULL, ${familyIds.length},
           '2025-09-01 10:00:00'
         )
@@ -876,7 +876,7 @@ async function seed() {
         INSERT INTO communications (subject, body, recipient_type, squad_id, family_id, recipient_count, sent_date)
         VALUES (
           'Junior Competition Squad - Extra Session',
-          'An additional training session has been scheduled for Saturday 7th December at 14:00 to prepare for the upcoming county championships. Attendance is strongly encouraged for all competitive swimmers.',
+          'An additional training session has been scheduled for Saturday 7th December at 14:00 to prepare for the upcoming county championships. Attendance is strongly encouraged for all competitive members.',
           'squad', '${squadIds[2]}', NULL, 8,
           '2025-11-28 11:00:00'
         )
@@ -910,7 +910,7 @@ async function seed() {
     console.log('===========================================');
     console.log(`Club: RTW Monson Swimming Club`);
     console.log(`Families: ${families.length}`);
-    console.log(`Swimmers: ${swimmers.length}`);
+    console.log(`Members: ${members.length}`);
     console.log(`Squads: ${squads.length}`);
     console.log(`Users: ${adminUsers.length} admin, ${parentUsers.length} parents`);
     console.log(`Sessions: ${sessions.length} (Oct-Dec 2025)`);

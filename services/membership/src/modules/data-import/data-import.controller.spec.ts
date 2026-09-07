@@ -16,8 +16,8 @@ describe('DataImportController', () => {
   const dto: ImportMembersDto = {
     rows: [
       {
-        swimmer_first_name: 'Amelia',
-        swimmer_last_name: 'Jones',
+        member_first_name: 'Amelia',
+        member_last_name: 'Jones',
         dob: '2012-04-01',
         gender: 'F',
         parent_name: 'Sarah Jones',

@@ -11,7 +11,7 @@ const PARENT_ROLE = 'PARENT';
 const COACH_ROUTES = [
   '/attendance',
   '/sessions',
-  '/swimmers',
+  '/members',
   '/squads',
   '/communications',
 ];
@@ -98,7 +98,7 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/',
-    '/swimmers/:path*',
+    '/members/:path*',
     '/families/:path*',
     '/squads/:path*',
     '/invoices/:path*',

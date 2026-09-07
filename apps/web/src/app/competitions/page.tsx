@@ -1,6 +1,6 @@
 'use client';
 
-import { Competition, CompetitionStatus } from '@swim-nexus/shared-types';
+import { Competition, CompetitionStatus } from '@club-manager/shared-types';
 import { Trophy } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -19,6 +19,7 @@ import {
   CreateCompetitionInput,
   UpdateCompetitionInput,
 } from '@/lib/api/competitions';
+import { MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 import {
   COMPETITION_STATUS_STYLES,
   COMPETITION_STATUS_LABELS,
@@ -179,7 +180,7 @@ export default function CompetitionsPage() {
               <EmptyState
                 icon={Trophy}
                 title="No competitions yet"
-                description={`Competitions track meets, ${eventNoun}, and events your swimmers enter.`}
+                description={`Competitions track meets, ${eventNoun}, and events your ${MEMBER_NOUN_PLURAL_LOWER} enter.`}
                 hint="Add your first competition to start managing entries and results."
                 actionLabel="Add Competition"
                 actionOnClick={handleOpenAddModal}

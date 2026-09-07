@@ -4,7 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { getMetadataArgsStorage } from 'typeorm';
 import { ClsService } from 'nestjs-cls';
 import { ParentService } from './parent.service';
-import { Swimmer } from '../swimmers/entities/swimmer.entity';
+import { Member } from '../members/entities/member.entity';
 import { Session } from '../sessions/entities/session.entity';
 import { Invoice } from '../finance/invoices/entities/invoice.entity';
 import { Attendance } from '../attendance/entities/attendance.entity';
@@ -40,7 +40,7 @@ describe('ParentService', () => {
 
   const clubId = 'club-uuid-1';
   const familyId = 'family-uuid-1';
-  const childId = 'swimmer-uuid-1';
+  const childId = 'member-uuid-1';
   const invoiceId = 'invoice-uuid-1';
 
   const mockFamily = {
@@ -50,8 +50,8 @@ describe('ParentService', () => {
     updated_at: new Date(),
   };
 
-  const mockSwimmer = {
-    swimmer_id: childId,
+  const mockMember = {
+    member_id: childId,
     first_name: 'Alice',
     last_name: 'Smith',
     family_id: familyId,
@@ -92,7 +92,7 @@ describe('ParentService', () => {
     update: jest.fn(),
   };
 
-  const mockSwimmersRepository = {
+  const mockMembersRepository = {
     find: jest.fn(),
     findOne: jest.fn(),
     count: jest.fn(),
@@ -127,7 +127,7 @@ describe('ParentService', () => {
   };
 
   const mockPersonalBestsService = {
-    getForSwimmer: jest.fn(),
+    getForMember: jest.fn(),
     getSeasonBests: jest.fn(),
   };
 
@@ -153,7 +153,7 @@ describe('ParentService', () => {
         TenantContextService,
         { provide: ClsService, useValue: cls },
         { provide: getRepositoryToken(Family), useValue: mockFamilyRepository },
-        { provide: getRepositoryToken(Swimmer), useValue: mockSwimmersRepository },
+        { provide: getRepositoryToken(Member), useValue: mockMembersRepository },
         { provide: getRepositoryToken(Session), useValue: mockSessionsRepository },
         { provide: getRepositoryToken(Invoice), useValue: mockInvoicesRepository },
         { provide: getRepositoryToken(Attendance), useValue: mockAttendanceRepository },
@@ -178,17 +178,17 @@ describe('ParentService', () => {
   });
 
   describe('getProfile', () => {
-    it('should return the family and its swimmers', async () => {
+    it('should return the family and its members', async () => {
       mockFamilyRepository.findOne.mockResolvedValue(mockFamily);
-      mockSwimmersRepository.find.mockResolvedValue([mockSwimmer]);
+      mockMembersRepository.find.mockResolvedValue([mockMember]);
 
       const result = await service.getProfile(familyId);
 
-      expect(result).toEqual({ family: mockFamily, swimmers: [mockSwimmer] });
+      expect(result).toEqual({ family: mockFamily, members: [mockMember] });
       expect(mockFamilyRepository.findOne).toHaveBeenCalledWith({
         where: { family_id: familyId, club_id: clubId },
       });
-      expect(mockSwimmersRepository.find).toHaveBeenCalledWith({
+      expect(mockMembersRepository.find).toHaveBeenCalledWith({
         where: { family_id: familyId, club_id: clubId },
         relations: ['squad'],
       });
@@ -203,7 +203,7 @@ describe('ParentService', () => {
 
   describe('getDashboard', () => {
     it('should return dashboard data with children count, sessions, invoices and total', async () => {
-      mockSwimmersRepository.count.mockResolvedValue(2);
+      mockMembersRepository.count.mockResolvedValue(2);
 
       const qb = createQueryBuilderMock([]);
       mockSessionsRepository.createQueryBuilder.mockReturnValue(qb);
@@ -224,31 +224,31 @@ describe('ParentService', () => {
 
   describe('getChildren', () => {
     it('should return all children for a family', async () => {
-      mockSwimmersRepository.find.mockResolvedValue([mockSwimmer]);
+      mockMembersRepository.find.mockResolvedValue([mockMember]);
 
       const result = await service.getChildren(familyId);
 
-      expect(result).toEqual([mockSwimmer]);
-      expect(mockSwimmersRepository.find).toHaveBeenCalledWith({
+      expect(result).toEqual([mockMember]);
+      expect(mockMembersRepository.find).toHaveBeenCalledWith({
         where: { family_id: familyId, club_id: clubId },
         relations: ['squad', 'family'],
       });
     });
 
     it('should return children that have no squad assigned', async () => {
-      const squadlessSwimmer = { ...mockSwimmer, squad_id: null, squad: null };
-      mockSwimmersRepository.find.mockResolvedValue([squadlessSwimmer]);
+      const squadlessMember = { ...mockMember, squad_id: null, squad: null };
+      mockMembersRepository.find.mockResolvedValue([squadlessMember]);
 
       const result = await service.getChildren(familyId);
 
-      expect(result).toEqual([squadlessSwimmer]);
+      expect(result).toEqual([squadlessMember]);
     });
 
-    it('requests only relations that exist on the Swimmer entity', () => {
+    it('requests only relations that exist on the Member entity', () => {
       // Regression: relations: ['squad'] used to reference a relation the
       // entity did not declare, making TypeORM throw for every family.
       const declaredRelations = getMetadataArgsStorage()
-        .relations.filter((relation) => relation.target === Swimmer)
+        .relations.filter((relation) => relation.target === Member)
         .map((relation) => relation.propertyName);
 
       expect(declaredRelations).toEqual(expect.arrayContaining(['squad', 'family']));
@@ -257,19 +257,19 @@ describe('ParentService', () => {
 
   describe('getChild', () => {
     it('should return a single child belonging to the family', async () => {
-      mockSwimmersRepository.findOne.mockResolvedValue(mockSwimmer);
+      mockMembersRepository.findOne.mockResolvedValue(mockMember);
 
       const result = await service.getChild(familyId, childId);
 
-      expect(result).toEqual(mockSwimmer);
-      expect(mockSwimmersRepository.findOne).toHaveBeenCalledWith({
-        where: { swimmer_id: childId, family_id: familyId, club_id: clubId },
+      expect(result).toEqual(mockMember);
+      expect(mockMembersRepository.findOne).toHaveBeenCalledWith({
+        where: { member_id: childId, family_id: familyId, club_id: clubId },
         relations: ['squad', 'family'],
       });
     });
 
     it('should throw NotFoundException when child is not found', async () => {
-      mockSwimmersRepository.findOne.mockResolvedValue(null);
+      mockMembersRepository.findOne.mockResolvedValue(null);
 
       await expect(service.getChild(familyId, 'bad-id')).rejects.toThrow(NotFoundException);
     });
@@ -277,7 +277,7 @@ describe('ParentService', () => {
 
   describe('getChildAttendance', () => {
     it('should throw NotFoundException when child does not belong to family', async () => {
-      mockSwimmersRepository.findOne.mockResolvedValue(null);
+      mockMembersRepository.findOne.mockResolvedValue(null);
 
       await expect(service.getChildAttendance(familyId, childId)).rejects.toThrow(
         NotFoundException,
@@ -285,7 +285,7 @@ describe('ParentService', () => {
     });
 
     it('should return attendance records without date filters', async () => {
-      mockSwimmersRepository.findOne.mockResolvedValue(mockSwimmer);
+      mockMembersRepository.findOne.mockResolvedValue(mockMember);
       const qb = createQueryBuilderMock([{ attendance_id: 'att-1' }]);
       mockAttendanceRepository.createQueryBuilder.mockReturnValue(qb);
 
@@ -298,22 +298,22 @@ describe('ParentService', () => {
       expect(qb.where).toHaveBeenCalledWith('attendance.club_id = :clubId', {
         clubId,
       });
-      // The swimmer_id filter is appended via andWhere on the scoped builder.
-      expect(qb.andWhere).toHaveBeenCalledWith('attendance.swimmer_id = :swimmerId', {
-        swimmerId: childId,
+      // The member_id filter is appended via andWhere on the scoped builder.
+      expect(qb.andWhere).toHaveBeenCalledWith('attendance.member_id = :memberId', {
+        memberId: childId,
       });
-      // Only the swimmer_id andWhere; no date-filter andWhere calls.
+      // Only the member_id andWhere; no date-filter andWhere calls.
       expect(qb.andWhere).toHaveBeenCalledTimes(1);
     });
 
     it('should apply date filters when from and to are provided', async () => {
-      mockSwimmersRepository.findOne.mockResolvedValue(mockSwimmer);
+      mockMembersRepository.findOne.mockResolvedValue(mockMember);
       const qb = createQueryBuilderMock([]);
       mockAttendanceRepository.createQueryBuilder.mockReturnValue(qb);
 
       await service.getChildAttendance(familyId, childId, '2025-01-01', '2025-06-30');
 
-      // swimmer_id + from + to = three andWhere calls on the club-scoped builder.
+      // member_id + from + to = three andWhere calls on the club-scoped builder.
       expect(qb.andWhere).toHaveBeenCalledTimes(3);
       expect(qb.andWhere).toHaveBeenCalledWith('session.session_date >= :from', {
         from: new Date('2025-01-01'),
@@ -326,13 +326,13 @@ describe('ParentService', () => {
 
   describe('getChildSchedule', () => {
     it('should throw NotFoundException when child does not belong to family', async () => {
-      mockSwimmersRepository.findOne.mockResolvedValue(null);
+      mockMembersRepository.findOne.mockResolvedValue(null);
 
       await expect(service.getChildSchedule(familyId, childId)).rejects.toThrow(NotFoundException);
     });
 
     it('should return an empty array when the child has no squad', async () => {
-      mockSwimmersRepository.findOne.mockResolvedValue({ ...mockSwimmer, squad_id: null });
+      mockMembersRepository.findOne.mockResolvedValue({ ...mockMember, squad_id: null });
 
       const result = await service.getChildSchedule(familyId, childId);
 
@@ -341,7 +341,7 @@ describe('ParentService', () => {
     });
 
     it('should return upcoming sessions for the child squad', async () => {
-      mockSwimmersRepository.findOne.mockResolvedValue(mockSwimmer);
+      mockMembersRepository.findOne.mockResolvedValue(mockMember);
       const mockSessions = [{ session_id: 's-1', squad_id: 'squad-uuid-1' }];
       mockSessionsRepository.find.mockResolvedValue(mockSessions);
 
@@ -360,15 +360,15 @@ describe('ParentService', () => {
 
   describe('getChildResults', () => {
     it('should throw NotFoundException when child does not belong to family', async () => {
-      mockSwimmersRepository.findOne.mockResolvedValue(null);
+      mockMembersRepository.findOne.mockResolvedValue(null);
 
       await expect(service.getChildResults(familyId, childId)).rejects.toThrow(NotFoundException);
       expect(mockResultsRepository.find).not.toHaveBeenCalled();
     });
 
     it('should return the child results with their competitions', async () => {
-      mockSwimmersRepository.findOne.mockResolvedValue(mockSwimmer);
-      const mockResults = [{ result_id: 'result-1', swimmer_id: childId, time: 68.5 }];
+      mockMembersRepository.findOne.mockResolvedValue(mockMember);
+      const mockResults = [{ result_id: 'result-1', member_id: childId, time: 68.5 }];
       mockResultsRepository.find.mockResolvedValue(mockResults);
 
       const result = await service.getChildResults(familyId, childId);
@@ -376,7 +376,7 @@ describe('ParentService', () => {
       expect(result).toEqual(mockResults);
       expect(mockResultsRepository.find).toHaveBeenCalledWith(
         expect.objectContaining({
-          where: expect.objectContaining({ swimmer_id: childId, club_id: clubId }),
+          where: expect.objectContaining({ member_id: childId, club_id: clubId }),
           relations: ['competition'],
         }),
       );
@@ -385,18 +385,18 @@ describe('ParentService', () => {
 
   describe('getChildPersonalBests', () => {
     it('should throw NotFoundException when child does not belong to family', async () => {
-      mockSwimmersRepository.findOne.mockResolvedValue(null);
+      mockMembersRepository.findOne.mockResolvedValue(null);
 
       await expect(service.getChildPersonalBests(familyId, childId)).rejects.toThrow(
         NotFoundException,
       );
-      expect(mockPersonalBestsService.getForSwimmer).not.toHaveBeenCalled();
+      expect(mockPersonalBestsService.getForMember).not.toHaveBeenCalled();
     });
 
     it('should return stored and season bests for the child', async () => {
-      mockSwimmersRepository.findOne.mockResolvedValue(mockSwimmer);
-      const pbs = [{ pb_id: 'pb-1', swimmer_id: childId, time: 68.5 }];
-      mockPersonalBestsService.getForSwimmer.mockResolvedValue(pbs);
+      mockMembersRepository.findOne.mockResolvedValue(mockMember);
+      const pbs = [{ pb_id: 'pb-1', member_id: childId, time: 68.5 }];
+      mockPersonalBestsService.getForMember.mockResolvedValue(pbs);
       mockPersonalBestsService.getSeasonBests.mockResolvedValue({
         seasonStart: '2025-09-01',
         bests: [],
@@ -409,6 +409,53 @@ describe('ParentService', () => {
         seasonBests: [],
         seasonStart: '2025-09-01',
       });
+    });
+  });
+
+  describe('with the competitions module flagged off (TEM-15)', () => {
+    // ParentModule omits the CompetitionResult repository and
+    // CompetitionsModule when ENABLE_COMPETITIONS is not 'true', so the
+    // service must compile without them and 404 the two results methods.
+    let gatedService: ParentService;
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          ParentService,
+          TenantScopedHelper,
+          TenantContextService,
+          { provide: ClsService, useValue: cls },
+          { provide: getRepositoryToken(Family), useValue: mockFamilyRepository },
+          { provide: getRepositoryToken(Member), useValue: mockMembersRepository },
+          { provide: getRepositoryToken(Session), useValue: mockSessionsRepository },
+          { provide: getRepositoryToken(Invoice), useValue: mockInvoicesRepository },
+          { provide: getRepositoryToken(Attendance), useValue: mockAttendanceRepository },
+          { provide: getRepositoryToken(Payment), useValue: mockPaymentRepository },
+          { provide: getRepositoryToken(DirectDebitMandate), useValue: mockMandateRepository },
+          { provide: GoCardlessService, useValue: mockGoCardlessService },
+          { provide: ClubsRepository, useValue: mockClubsRepository },
+        ],
+      }).compile();
+
+      gatedService = module.get<ParentService>(ParentService);
+    });
+
+    it('boots without the competitions providers', () => {
+      expect(gatedService).toBeDefined();
+    });
+
+    it('404s getChildResults instead of failing at DI time', async () => {
+      await expect(gatedService.getChildResults(familyId, childId)).rejects.toThrow(
+        NotFoundException,
+      );
+      expect(mockMembersRepository.findOne).not.toHaveBeenCalled();
+    });
+
+    it('404s getChildPersonalBests instead of failing at DI time', async () => {
+      await expect(gatedService.getChildPersonalBests(familyId, childId)).rejects.toThrow(
+        NotFoundException,
+      );
+      expect(mockPersonalBestsService.getForMember).not.toHaveBeenCalled();
     });
   });
 
@@ -486,8 +533,8 @@ describe('ParentService', () => {
   });
 
   describe('getUpcomingSessions', () => {
-    it('should return upcoming sessions for family swimmers squads', async () => {
-      mockSwimmersRepository.find.mockResolvedValue([{ squad_id: 'sq-1' }, { squad_id: 'sq-2' }]);
+    it('should return upcoming sessions for family members squads', async () => {
+      mockMembersRepository.find.mockResolvedValue([{ squad_id: 'sq-1' }, { squad_id: 'sq-2' }]);
       const mockSessions = [{ session_id: 's-1' }];
       mockSessionsRepository.find.mockResolvedValue(mockSessions);
 
@@ -496,8 +543,8 @@ describe('ParentService', () => {
       expect(result).toEqual(mockSessions);
     });
 
-    it('should return an empty array when no swimmers have squads', async () => {
-      mockSwimmersRepository.find.mockResolvedValue([{ squad_id: null }]);
+    it('should return an empty array when no members have squads', async () => {
+      mockMembersRepository.find.mockResolvedValue([{ squad_id: null }]);
 
       const result = await service.getUpcomingSessions(familyId);
 

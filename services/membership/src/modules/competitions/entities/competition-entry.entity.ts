@@ -27,7 +27,7 @@ export class CompetitionEntry {
   competition_id: string;
 
   @Column({ type: 'uuid' })
-  swimmer_id: string;
+  member_id: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
   event_name: string | null;

@@ -13,7 +13,7 @@ export enum AuditAction {
 
 export enum AuditEntityType {
   USER = 'USER',
-  SWIMMER = 'SWIMMER',
+  MEMBER = 'MEMBER',
   FAMILY = 'FAMILY',
   SQUAD = 'SQUAD',
   SESSION = 'SESSION',

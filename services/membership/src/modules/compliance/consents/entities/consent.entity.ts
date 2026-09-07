@@ -7,7 +7,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Swimmer } from '../../../swimmers/entities/swimmer.entity';
+import { Member } from '../../../members/entities/member.entity';
 import { User } from '../../../users/entities/user.entity';
 
 export enum ConsentType {
@@ -39,11 +39,11 @@ export class Consent {
   club_id: string;
 
   @Column({ type: 'uuid' })
-  swimmer_id: string;
+  member_id: string;
 
-  @ManyToOne(() => Swimmer, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'swimmer_id' })
-  swimmer: Swimmer;
+  @ManyToOne(() => Member, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'member_id' })
+  member: Member;
 
   @Column({
     type: 'enum',

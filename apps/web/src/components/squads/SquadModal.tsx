@@ -1,13 +1,13 @@
 'use client';
 
+import { Squad, Member } from '@club-manager/shared-types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Squad, Swimmer } from '@swim-nexus/shared-types';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { assignSwimmerToSquad, removeSwimmerFromSquad } from '@/lib/api/squads';
-import { getSwimmers } from '@/lib/api/swimmers';
+import { getMembers } from '@/lib/api/members';
+import { assignMemberToSquad, removeMemberFromSquad } from '@/lib/api/squads';
 
 const squadSchema = z.object({
   squad_name: z.string().min(1, 'Squad name is required').max(100, 'Squad name too long'),
@@ -50,10 +50,10 @@ export default function SquadModal({
 }: SquadModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const firstInputRef = useRef<HTMLInputElement>(null);
-  const [allSwimmers, setAllSwimmers] = useState<Swimmer[]>([]);
-  const [squadSwimmers, setSquadSwimmers] = useState<Swimmer[]>([]);
-  const [isLoadingSwimmers, setIsLoadingSwimmers] = useState(false);
-  const [showSwimmerManagement, setShowSwimmerManagement] = useState(false);
+  const [allMembers, setAllMembers] = useState<Member[]>([]);
+  const [squadMembers, setSquadMembers] = useState<Member[]>([]);
+  const [isLoadingMembers, setIsLoadingMembers] = useState(false);
+  const [showMemberManagement, setShowMemberManagement] = useState(false);
 
   const {
     register,
@@ -84,50 +84,50 @@ export default function SquadModal({
         },
   });
 
-  // Fetch swimmers when editing an existing squad
+  // Fetch members when editing an existing squad
   useEffect(() => {
     if (isOpen && squad) {
-      setShowSwimmerManagement(true);
-      const loadSwimmers = async () => {
+      setShowMemberManagement(true);
+      const loadMembers = async () => {
         try {
-          setIsLoadingSwimmers(true);
-          const swimmers = await getSwimmers();
-          setAllSwimmers(swimmers);
-          setSquadSwimmers(squad.swimmers || []);
+          setIsLoadingMembers(true);
+          const members = await getMembers();
+          setAllMembers(members);
+          setSquadMembers(squad.members || []);
         } catch {
-          // swimmer load failed - assignment panel will be empty
+          // member load failed - assignment panel will be empty
         } finally {
-          setIsLoadingSwimmers(false);
+          setIsLoadingMembers(false);
         }
       };
-      loadSwimmers();
+      loadMembers();
     } else {
-      setShowSwimmerManagement(false);
+      setShowMemberManagement(false);
     }
   }, [isOpen, squad]);
 
-  const handleAddSwimmer = async (swimmerId: string) => {
+  const handleAddMember = async (memberId: string) => {
     if (!squad) return;
 
     try {
-      await assignSwimmerToSquad(squad.squad_id, swimmerId);
-      const swimmer = allSwimmers.find(s => s.swimmer_id === swimmerId);
-      if (swimmer) {
-        setSquadSwimmers([...squadSwimmers, swimmer]);
+      await assignMemberToSquad(squad.squad_id, memberId);
+      const member = allMembers.find(s => s.member_id === memberId);
+      if (member) {
+        setSquadMembers([...squadMembers, member]);
       }
     } catch {
-      // add swimmer failed silently
+      // add member failed silently
     }
   };
 
-  const handleRemoveSwimmer = async (swimmerId: string) => {
+  const handleRemoveMember = async (memberId: string) => {
     if (!squad) return;
 
     try {
-      await removeSwimmerFromSquad(squad.squad_id, swimmerId);
-      setSquadSwimmers(squadSwimmers.filter(s => s.swimmer_id !== swimmerId));
+      await removeMemberFromSquad(squad.squad_id, memberId);
+      setSquadMembers(squadMembers.filter(s => s.member_id !== memberId));
     } catch {
-      // remove swimmer failed silently
+      // remove member failed silently
     }
   };
 
@@ -206,8 +206,8 @@ export default function SquadModal({
         : 'border-white/10 focus:border-brand focus:ring-brand'
     } focus:ring-2 focus:ring-opacity-50 transition-all outline-none`;
 
-  const availableSwimmers = allSwimmers.filter(
-    swimmer => !squadSwimmers.some(s => s.swimmer_id === swimmer.swimmer_id)
+  const availableMembers = allMembers.filter(
+    member => !squadMembers.some(s => s.member_id === member.member_id)
   );
 
   return (
@@ -390,12 +390,12 @@ export default function SquadModal({
               )}
             </div>
 
-            {/* Swimmer Management (only for existing squads) */}
-            {showSwimmerManagement && squad && (
+            {/* Member Management (only for existing squads) */}
+            {showMemberManagement && squad && (
               <div className="border-t border-white/10 pt-6">
                 <h3 className="text-xl font-bold text-white mb-4">Squad Members</h3>
 
-                {isLoadingSwimmers ? (
+                {isLoadingMembers ? (
                   <div className="text-center py-8">
                     <div className="inline-block animate-spin h-8 w-8 border-4 border-brand border-t-transparent rounded-full"></div>
                   </div>
@@ -404,23 +404,23 @@ export default function SquadModal({
                     {/* Current Members */}
                     <div>
                       <h4 className="text-sm font-semibold text-text-secondary mb-3">
-                        Current Members ({squadSwimmers.length})
+                        Current Members ({squadMembers.length})
                       </h4>
                       <div className="space-y-2 max-h-64 overflow-y-auto">
-                        {squadSwimmers.length === 0 ? (
+                        {squadMembers.length === 0 ? (
                           <p className="text-text-secondary text-sm py-4 text-center">No members yet</p>
                         ) : (
-                          squadSwimmers.map((swimmer) => (
+                          squadMembers.map((member) => (
                             <div
-                              key={swimmer.swimmer_id}
+                              key={member.member_id}
                               className="flex items-center justify-between p-3 bg-dark-primary/80 rounded-xl"
                             >
                               <span className="text-white text-sm">
-                                {swimmer.first_name} {swimmer.last_name}
+                                {member.first_name} {member.last_name}
                               </span>
                               <button
                                 type="button"
-                                onClick={() => handleRemoveSwimmer(swimmer.swimmer_id)}
+                                onClick={() => handleRemoveMember(member.member_id)}
                                 className="text-red-400 hover:text-red-300 text-sm font-semibold"
                               >
                                 Remove
@@ -431,28 +431,28 @@ export default function SquadModal({
                       </div>
                     </div>
 
-                    {/* Available Swimmers */}
+                    {/* Available Members */}
                     <div>
                       <h4 className="text-sm font-semibold text-text-secondary mb-3">
-                        Available Swimmers ({availableSwimmers.length})
+                        Available Members ({availableMembers.length})
                       </h4>
                       <div className="space-y-2 max-h-64 overflow-y-auto">
-                        {availableSwimmers.length === 0 ? (
+                        {availableMembers.length === 0 ? (
                           <p className="text-text-secondary text-sm py-4 text-center">
-                            All swimmers assigned
+                            All members assigned
                           </p>
                         ) : (
-                          availableSwimmers.map((swimmer) => (
+                          availableMembers.map((member) => (
                             <div
-                              key={swimmer.swimmer_id}
+                              key={member.member_id}
                               className="flex items-center justify-between p-3 bg-dark-primary/80 rounded-xl"
                             >
                               <span className="text-white text-sm">
-                                {swimmer.first_name} {swimmer.last_name}
+                                {member.first_name} {member.last_name}
                               </span>
                               <button
                                 type="button"
-                                onClick={() => handleAddSwimmer(swimmer.swimmer_id)}
+                                onClick={() => handleAddMember(member.member_id)}
                                 className="text-brand hover:text-brand-light text-sm font-semibold"
                               >
                                 Add

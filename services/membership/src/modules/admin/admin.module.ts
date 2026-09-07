@@ -4,7 +4,7 @@ import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
 import { ClubSettings } from './settings/club-settings.entity';
 import { ClubSettingsService } from './settings/club-settings.service';
-import { Swimmer } from '../swimmers/entities/swimmer.entity';
+import { Member } from '../members/entities/member.entity';
 import { Family } from '../families/entities/family.entity';
 import { Squad } from '../squads/entities/squad.entity';
 import { Session } from '../sessions/entities/session.entity';
@@ -16,7 +16,7 @@ import { Club } from '../clubs/entities/club.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      Swimmer,
+      Member,
       Family,
       Squad,
       Session,

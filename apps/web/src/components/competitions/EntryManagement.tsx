@@ -13,6 +13,7 @@ import {
   type CompetitionEntry,
   type CreateEntryInput,
 } from '@/lib/api/competitions';
+import { MEMBER_NOUN, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 import { formatSwimTime, findQualifyingTime } from '@/lib/competitions-utils';
 import { useCompetition } from '@/lib/hooks/useCompetitions';
 
@@ -125,7 +126,7 @@ export default function EntryManagement({ competitionId }: EntryManagementProps)
         <EmptyState
           icon={Users}
           title="No entries yet"
-          description="Add swimmers to this competition to get started."
+          description={`Add ${MEMBER_NOUN_PLURAL_LOWER} to this competition to get started.`}
           actionLabel="Add Entries"
           actionOnClick={() => setShowAddModal(true)}
         />
@@ -137,7 +138,7 @@ export default function EntryManagement({ competitionId }: EntryManagementProps)
               <div key={entry.entry_id} className="bg-white/5 rounded-xl p-4 border border-white/10">
                 <div className="flex items-center justify-between mb-2">
                   <p className="text-white font-medium">
-                    {entry.swimmer?.first_name} {entry.swimmer?.last_name}
+                    {entry.member?.first_name} {entry.member?.last_name}
                   </p>
                   <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium border ${STATUS_STYLES[entry.status] || STATUS_STYLES.PENDING}`}>
                     {entry.status}
@@ -162,7 +163,7 @@ export default function EntryManagement({ competitionId }: EntryManagementProps)
             <table className="w-full">
               <thead>
                 <tr className="text-left text-xs text-white/50 border-b border-white/10">
-                  <th className="pb-3 font-medium">Swimmer</th>
+                  <th className="pb-3 font-medium">{MEMBER_NOUN}</th>
                   <th className="pb-3 font-medium">Event</th>
                   <th className="pb-3 font-medium">Distance</th>
                   <th className="pb-3 font-medium">Stroke</th>
@@ -176,7 +177,7 @@ export default function EntryManagement({ competitionId }: EntryManagementProps)
                 {entries.map((entry) => (
                   <tr key={entry.entry_id} className="text-sm">
                     <td className="py-3 text-white font-medium">
-                      {entry.swimmer?.first_name} {entry.swimmer?.last_name}
+                      {entry.member?.first_name} {entry.member?.last_name}
                     </td>
                     <td className="py-3 text-white/70">{entry.event_name || '-'}</td>
                     <td className="py-3 text-white/70">{entry.distance}m</td>

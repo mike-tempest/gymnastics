@@ -2,6 +2,8 @@
 
 import { AlertTriangle, ArrowRight, FileSpreadsheet } from 'lucide-react';
 
+import { BRAND } from '@/lib/brand';
+
 export interface MappingField {
   key: string;
   label: string;
@@ -23,8 +25,8 @@ interface ColumnMappingStepProps {
 }
 
 /**
- * The "match your columns" step shared by the swimmer and member import
- * wizards: an auto-guessed mapping from Swimly fields to uploaded columns
+ * The "match your columns" step shared by the member and member import
+ * wizards: an auto-guessed mapping from our canonical fields to uploaded columns
  * that the user can adjust before validation runs.
  */
 export default function ColumnMappingStep({
@@ -66,7 +68,7 @@ export default function ColumnMappingStep({
       </div>
 
       <div>
-        <h3 className="text-lg font-semibold text-white mb-1">Match your columns to Swimly fields</h3>
+        <h3 className="text-lg font-semibold text-white mb-1">Match your columns to {BRAND.name} fields</h3>
         <p className="text-text-secondary text-sm">
           We matched columns automatically where we could. Check them and fill in any gaps.
           Fields marked with * are required.

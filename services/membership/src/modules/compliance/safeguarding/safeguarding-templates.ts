@@ -1,4 +1,4 @@
-import { GoverningBody, governingBodyConfig } from '@swim-nexus/shared-types';
+import { GoverningBody, governingBodyConfig } from '@club-manager/shared-types';
 
 /**
  * A single safeguarding checklist requirement, before it is persisted for a

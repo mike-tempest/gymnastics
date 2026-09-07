@@ -1,4 +1,4 @@
-import { Family } from '@swim-nexus/shared-types';
+import { Family } from '@club-manager/shared-types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { type ReactElement } from 'react';
@@ -33,8 +33,8 @@ const mockFamilies = [
     postcode: 'M1 1AA',
     created_at: '2026-01-01',
     updated_at: '2026-01-01',
-    swimmers: [
-      { swimmer_id: 's1', first_name: 'Alice', last_name: 'Smith' },
+    members: [
+      { member_id: 's1', first_name: 'Alice', last_name: 'Smith' },
     ],
   },
   {
@@ -47,9 +47,9 @@ const mockFamilies = [
     postcode: 'SW1A 1AA',
     created_at: '2026-01-01',
     updated_at: '2026-01-01',
-    swimmers: [
-      { swimmer_id: 's2', first_name: 'Bob', last_name: 'Jones' },
-      { swimmer_id: 's3', first_name: 'Carol', last_name: 'Jones' },
+    members: [
+      { member_id: 's2', first_name: 'Bob', last_name: 'Jones' },
+      { member_id: 's3', first_name: 'Carol', last_name: 'Jones' },
     ],
   },
   {
@@ -62,7 +62,7 @@ const mockFamilies = [
     postcode: null,
     created_at: '2026-01-01',
     updated_at: '2026-01-01',
-    swimmers: [],
+    members: [],
   },
 ];
 

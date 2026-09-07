@@ -1,8 +1,8 @@
 'use client';
 
-import { Squad, Swimmer } from '@swim-nexus/shared-types';
+import { Squad, Member } from '@club-manager/shared-types';
 
-import { getSquads, getSquad, getSquadSwimmers } from '@/lib/api/squads';
+import { getSquads, getSquad, getSquadMembers } from '@/lib/api/squads';
 
 import { useApi, UseApiResult } from './useApi';
 
@@ -14,6 +14,6 @@ export function useSquad(id: string | undefined): UseApiResult<Squad> {
   return useApi(() => getSquad(id!), [id], { enabled: !!id });
 }
 
-export function useSquadSwimmers(squadId: string | undefined): UseApiResult<Swimmer[]> {
-  return useApi(() => getSquadSwimmers(squadId!), [squadId], { enabled: !!squadId });
+export function useSquadMembers(squadId: string | undefined): UseApiResult<Member[]> {
+  return useApi(() => getSquadMembers(squadId!), [squadId], { enabled: !!squadId });
 }

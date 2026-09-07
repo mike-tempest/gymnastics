@@ -1,10 +1,10 @@
 # Membership Service
 
-The Membership Service manages swimmers, families, and club memberships for Swim Nexus.
+The Membership Service manages members, families, and club memberships for Swim Nexus.
 
 ## Features
 
-- Complete CRUD operations for swimmers
+- Complete CRUD operations for members
 - TypeORM with PostgreSQL database
 - Automatic validation using class-validator
 - Database migrations support
@@ -87,31 +87,31 @@ The service will be available at `http://localhost:3001/api`
 
 ## API Endpoints
 
-### Swimmers
+### Members
 
-- `POST /api/swimmers` - Create a new swimmer
-- `GET /api/swimmers` - Get all swimmers
-- `GET /api/swimmers?family_id={id}` - Get swimmers by family
-- `GET /api/swimmers?club_id={id}` - Get swimmers by club
-- `GET /api/swimmers?squad_id={id}` - Get swimmers by squad
-- `GET /api/swimmers/statistics` - Get swimmer statistics
-- `GET /api/swimmers/:id` - Get a specific swimmer
-- `PATCH /api/swimmers/:id` - Update a swimmer
-- `DELETE /api/swimmers/:id` - Delete a swimmer
+- `POST /api/members` - Create a new member
+- `GET /api/members` - Get all members
+- `GET /api/members?family_id={id}` - Get members by family
+- `GET /api/members?club_id={id}` - Get members by club
+- `GET /api/members?squad_id={id}` - Get members by squad
+- `GET /api/members/statistics` - Get member statistics
+- `GET /api/members/:id` - Get a specific member
+- `PATCH /api/members/:id` - Update a member
+- `DELETE /api/members/:id` - Delete a member
 
 ### Example Request
 
-Create a swimmer:
+Create a member:
 
 ```bash
-curl -X POST http://localhost:3001/api/swimmers \
+curl -X POST http://localhost:3001/api/members \
   -H "Content-Type: application/json" \
   -d '{
     "first_name": "John",
     "last_name": "Smith",
     "dob": "2010-05-15",
     "gender": "M",
-    "se_number": "1234567"
+    "registration_number": "1234567"
   }'
 ```
 
@@ -145,13 +145,13 @@ services/membership/
 │   ├── database/
 │   │   └── migrations/            # Database migrations
 │   ├── modules/
-│   │   └── swimmers/
+│   │   └── members/
 │   │       ├── dto/               # Data Transfer Objects
 │   │       ├── entities/          # TypeORM entities
-│   │       ├── swimmers.controller.ts
-│   │       ├── swimmers.service.ts
-│   │       ├── swimmers.repository.ts
-│   │       └── swimmers.module.ts
+│   │       ├── members.controller.ts
+│   │       ├── members.service.ts
+│   │       ├── members.repository.ts
+│   │       └── members.module.ts
 │   ├── app.module.ts              # Root module
 │   └── main.ts                    # Application entry point
 ├── .env.example                   # Environment template

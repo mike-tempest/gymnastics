@@ -32,7 +32,7 @@ function pad(value: number, width: number): string {
  * Expand a two-digit year with a pivot on the current year: values up to
  * the current two-digit year are 20xx, later values are 19xx. In 2026,
  * "08" is 2008 and "98" is 1998, which is the sensible reading for a
- * swimmer's date of birth.
+ * member's date of birth.
  */
 export function expandTwoDigitYear(twoDigit: number, referenceYear: number = new Date().getFullYear()): number {
   const pivot = referenceYear % 100;

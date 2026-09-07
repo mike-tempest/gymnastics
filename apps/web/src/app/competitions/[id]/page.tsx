@@ -1,6 +1,6 @@
 'use client';
 
-import { CompetitionStatus } from '@swim-nexus/shared-types';
+import { CompetitionStatus } from '@club-manager/shared-types';
 import { ArrowLeft, Trophy, ClipboardList, Medal } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';

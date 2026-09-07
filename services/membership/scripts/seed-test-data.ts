@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '../src/app.module';
 import { FamiliesService } from '../src/modules/families/families.service';
-import { SwimmersService } from '../src/modules/swimmers/swimmers.service';
+import { MembersService } from '../src/modules/members/members.service';
 import { SquadsService } from '../src/modules/squads/squads.service';
 import { SessionsService } from '../src/modules/sessions/sessions.service';
 import { UsersService } from '../src/modules/users/users.service';
@@ -14,7 +14,7 @@ async function seedTestData() {
   const app = await NestFactory.createApplicationContext(AppModule);
 
   const familiesService = app.get(FamiliesService);
-  const swimmersService = app.get(SwimmersService);
+  const membersService = app.get(MembersService);
   const squadsService = app.get(SquadsService);
   const sessionsService = app.get(SessionsService);
   const usersService = app.get(UsersService);
@@ -47,7 +47,7 @@ async function seedTestData() {
     console.log(`✅ Created ${family1.family_name} and ${family2.family_name}\n`);
 
     // 2. Create test squads
-    console.log('🏊 Creating squads...');
+    console.log('Creating squads...');
     const squad1 = await squadsService.create({
       squad_name: 'Junior Squad',
       description: 'Ages 8-12',
@@ -70,44 +70,44 @@ async function seedTestData() {
 
     console.log(`✅ Created ${squad1.squad_name} and ${squad2.squad_name}\n`);
 
-    // 3. Create test swimmers
-    console.log('👶 Creating swimmers...');
-    const swimmer1 = await swimmersService.create({
+    // 3. Create test members
+    console.log('Creating members...');
+    const member1 = await membersService.create({
       family_id: family1.family_id,
       first_name: 'Emily',
       last_name: 'Smith',
       dob: '2013-05-15',
       gender: 'Female',
-      se_number: 'SE123456',
+      registration_number: 'SE123456',
       medical_notes: 'No known allergies',
     });
 
-    const swimmer2 = await swimmersService.create({
+    const member2 = await membersService.create({
       family_id: family1.family_id,
       first_name: 'James',
       last_name: 'Smith',
       dob: '2015-09-22',
       gender: 'Male',
-      se_number: 'SE123457',
+      registration_number: 'SE123457',
     });
 
-    const swimmer3 = await swimmersService.create({
+    const member3 = await membersService.create({
       family_id: family2.family_id,
       first_name: 'Olivia',
       last_name: 'Johnson',
       dob: '2011-03-10',
       gender: 'Female',
-      se_number: 'SE123458',
+      registration_number: 'SE123458',
     });
 
-    console.log(`✅ Created swimmers: Emily, James, and Olivia\n`);
+    console.log(`✅ Created members: Emily, James, and Olivia\n`);
 
-    // 4. Add swimmers to squads
-    console.log('🔗 Adding swimmers to squads...');
-    await squadsService.addSwimmer(squad1.squad_id, swimmer1.swimmer_id);
-    await squadsService.addSwimmer(squad1.squad_id, swimmer2.swimmer_id);
-    await squadsService.addSwimmer(squad2.squad_id, swimmer3.swimmer_id);
-    console.log('✅ Swimmers assigned to squads\n');
+    // 4. Add members to squads
+    console.log('🔗 Adding members to squads...');
+    await squadsService.addMember(squad1.squad_id, member1.member_id);
+    await squadsService.addMember(squad1.squad_id, member2.member_id);
+    await squadsService.addMember(squad2.squad_id, member3.member_id);
+    console.log('✅ Members assigned to squads\n');
 
     // 5. Create sessions for TOMORROW (so reminder emails will trigger)
     console.log('📅 Creating sessions for tomorrow...');
@@ -198,7 +198,7 @@ async function seedTestData() {
     consentExpiry20Days.setDate(consentExpiry20Days.getDate() + 20);
 
     await consentsService.create({
-      swimmer_id: swimmer1.swimmer_id,
+      member_id: member1.member_id,
       consent_type: 'photography',
       granted_by: 'Sarah Smith',
       granted_date: '2024-01-15',
@@ -211,7 +211,7 @@ async function seedTestData() {
     consentExpiry10Days.setDate(consentExpiry10Days.getDate() + 10);
 
     await consentsService.create({
-      swimmer_id: swimmer2.swimmer_id,
+      member_id: member2.member_id,
       consent_type: 'medical',
       granted_by: 'Sarah Smith',
       granted_date: '2024-02-01',
@@ -220,7 +220,7 @@ async function seedTestData() {
     });
 
     await consentsService.create({
-      swimmer_id: swimmer3.swimmer_id,
+      member_id: member3.member_id,
       consent_type: 'photography',
       granted_by: 'Michael Johnson',
       granted_date: '2024-01-20',
@@ -233,7 +233,7 @@ async function seedTestData() {
     console.log('✨ Test data seeding completed successfully!\n');
     console.log('📊 Summary:');
     console.log('  - 2 families created');
-    console.log('  - 3 swimmers created');
+    console.log('  - 3 members created');
     console.log('  - 2 squads created');
     console.log(`  - 2 sessions created for ${tomorrowStr}`);
     console.log('  - 2 coaches with DBS records (expiring soon)');

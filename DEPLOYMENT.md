@@ -230,7 +230,7 @@ openssl rand -base64 32
 - Check database provider status
 - Whitelist Vercel IPs if required (most providers allow all by default)
 
-### "Cannot find module '@swim-nexus/shared-types'"
+### "Cannot find module '@club-manager/shared-types'"
 
 **Issue:** Monorepo packages not built  
 **Solution:** Update vercel.json to build from root with Turborepo:

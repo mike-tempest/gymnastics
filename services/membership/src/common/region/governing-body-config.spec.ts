@@ -10,7 +10,7 @@ import {
   defaultGoverningBodyForCountry,
   governingBodyConfig,
   orderedBackgroundCheckTypes,
-} from '@swim-nexus/shared-types';
+} from '@club-manager/shared-types';
 
 describe('GOVERNING_BODY_CONFIG', () => {
   it('covers every governing body with a complete entry', () => {

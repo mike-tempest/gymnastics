@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 
+import { BRAND } from '../src/lib/brand';
+
 /**
  * Swimly E2E Smoke Tests
  * 
@@ -15,7 +17,8 @@ test.describe('Public Pages', () => {
     expect(page.url()).toContain('/login');
     
     // Verify some expected content is present
-    await expect(page).toHaveTitle(/Swimly|Login/i);
+    const escapedBrand = BRAND.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    await expect(page).toHaveTitle(new RegExp(`${escapedBrand}|Login`, 'i'));
   });
 });
 
@@ -31,9 +34,9 @@ test.describe('Admin Dashboard', () => {
   });
 });
 
-test.describe('Swimmers Section', () => {
-  test('swimmers list page renders', async ({ page }) => {
-    const response = await page.goto('/swimmers');
+test.describe('Members Section', () => {
+  test('members list page renders', async ({ page }) => {
+    const response = await page.goto('/members');
     expect(response?.status()).toBeLessThan(500);
   });
 });

@@ -1,6 +1,6 @@
 'use client';
 
-import { Squad } from '@swim-nexus/shared-types';
+import { Squad } from '@club-manager/shared-types';
 import { Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -13,6 +13,7 @@ import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useConfirm } from '@/hooks/useConfirm';
 import { createSquad, updateSquad, deleteSquad } from '@/lib/api/squads';
+import { MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 import { useSquads } from '@/lib/hooks/useSquads';
 
 export default function SquadsPage() {
@@ -102,7 +103,7 @@ export default function SquadsPage() {
     }
   };
 
-  const totalSwimmers = squads.reduce((sum, squad) => sum + (squad.swimmer_count || 0), 0);
+  const totalMembers = squads.reduce((sum, squad) => sum + (squad.member_count || 0), 0);
 
   return (
     <MainLayout>
@@ -150,13 +151,13 @@ export default function SquadsPage() {
               </div>
               <div className="flex flex-row sm:flex-col gap-4">
                 <div className="bg-brand rounded-3xl p-4 sm:p-6 text-center flex-1 sm:min-w-[180px] shadow-sm">
-                  <p className="text-dark-primary text-sm font-semibold mb-1">Total Swimmers</p>
-                  <p className="text-dark-primary text-2xl sm:text-4xl font-bold">{displayError ? '—' : totalSwimmers}</p>
+                  <p className="text-dark-primary text-sm font-semibold mb-1">Total {MEMBER_NOUN_PLURAL}</p>
+                  <p className="text-dark-primary text-2xl sm:text-4xl font-bold">{displayError ? '—' : totalMembers}</p>
                 </div>
                 <div className="bg-white rounded-3xl p-4 sm:p-6 text-center flex-1 sm:min-w-[180px]">
                   <p className="text-dark-primary text-sm font-semibold mb-1">Avg per Squad</p>
                   <p className="text-dark-primary text-2xl sm:text-4xl font-bold">
-                    {displayError ? '—' : squads.length > 0 ? Math.round(totalSwimmers / squads.length) : 0}
+                    {displayError ? '—' : squads.length > 0 ? Math.round(totalMembers / squads.length) : 0}
                   </p>
                 </div>
               </div>
@@ -175,7 +176,7 @@ export default function SquadsPage() {
               <EmptyState
                 icon={Users}
                 title="No squads yet"
-                description="Squads group swimmers by age or ability, like Learn to Swim, Development, or Competition."
+                description={`Squads group ${MEMBER_NOUN_PLURAL_LOWER} by age or ability, like Learn to Swim, Development, or Competition.`}
                 hint="Most clubs start with 2-4 squads. You can reorganise later."
                 actionLabel="Create Squad"
                 actionHref="/squads/new"
@@ -258,7 +259,7 @@ export default function SquadsPage() {
                       <div className="flex items-center justify-between text-sm mb-2">
                         <span className="text-text-secondary">Capacity</span>
                         <span className="text-white font-semibold">
-                          {squad.swimmer_count || 0}
+                          {squad.member_count || 0}
                           {squad.max_capacity ? ` / ${squad.max_capacity}` : ''}
                         </span>
                       </div>
@@ -268,7 +269,7 @@ export default function SquadsPage() {
                             className="bg-brand rounded-full h-2 transition-all"
                             style={{
                               width: `${Math.min(
-                                ((squad.swimmer_count || 0) / squad.max_capacity) * 100,
+                                ((squad.member_count || 0) / squad.max_capacity) * 100,
                                 100
                               )}%`,
                             }}

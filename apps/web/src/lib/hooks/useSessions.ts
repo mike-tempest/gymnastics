@@ -1,6 +1,6 @@
 'use client';
 
-import { Session } from '@swim-nexus/shared-types';
+import { Session } from '@club-manager/shared-types';
 
 import {
   getSessions,

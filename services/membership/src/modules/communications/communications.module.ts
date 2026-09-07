@@ -5,11 +5,11 @@ import { CommunicationsService } from './communications.service';
 import { CommunicationsRepository } from './communications.repository';
 import { Communication } from './entities/communication.entity';
 import { Family } from '../families/entities/family.entity';
-import { Swimmer } from '../swimmers/entities/swimmer.entity';
+import { Member } from '../members/entities/member.entity';
 import { EmailModule } from '../email/email.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Communication, Family, Swimmer]), EmailModule],
+  imports: [TypeOrmModule.forFeature([Communication, Family, Member]), EmailModule],
   controllers: [CommunicationsController],
   providers: [CommunicationsService, CommunicationsRepository],
   exports: [CommunicationsService, CommunicationsRepository],
