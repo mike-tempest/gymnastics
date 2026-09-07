@@ -43,6 +43,24 @@ const STATUS_LABELS: Record<string, string> = {
   awarded: 'Awarded',
 };
 
+/**
+ * Says what a badge costs. Either fee can be unset, including the case where a
+ * club charges only for the certificate, so the sentence is built rather than
+ * concatenated from optional fragments.
+ */
+function feeSentence(
+  badgeFee: number | null,
+  certificateFee: number | null,
+  formatCurrency: (amount: number) => string,
+): string {
+  const parts: string[] = [];
+  if (badgeFee !== null) parts.push(`${formatCurrency(badgeFee)} per badge`);
+  if (certificateFee !== null) parts.push(`${formatCurrency(certificateFee)} per certificate`);
+
+  if (parts.length === 0) return 'has no fee, so awarding it does not invoice anyone.';
+  return `costs ${parts.join(' plus ')}.`;
+}
+
 export default function AssessAwardsPage() {
   const { formatCurrency } = useFormatters();
 
@@ -303,13 +321,11 @@ export default function AssessAwardsPage() {
 
                 {selectedLevel && (
                   <p className="mt-6 text-text-secondary text-sm">
-                    {selectedLevel.schemeName} {selectedLevel.name}
-                    {selectedBadgeFee === null
-                      ? ' has no badge fee.'
-                      : ` costs ${formatCurrency(selectedBadgeFee)} per badge`}
-                    {selectedCertificateFee !== null &&
-                      ` plus ${formatCurrency(selectedCertificateFee)} per certificate`}
-                    {selectedBadgeFee !== null && '.'}
+                    {`${selectedLevel.schemeName} ${selectedLevel.name} ${feeSentence(
+                      selectedBadgeFee,
+                      selectedCertificateFee,
+                      formatCurrency,
+                    )}`}
                   </p>
                 )}
               </div>

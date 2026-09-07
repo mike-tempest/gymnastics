@@ -289,19 +289,27 @@ export class AwardsService {
       });
 
       const isAwarded = outcomeDto.outcome === AssessmentOutcomeResult.AWARDED;
-      let invoiceId: string | null = null;
+      // Any invoice already raised for this gymnast on this badge. A coach
+      // re-recording a sitting, or a double submit, must not charge a family
+      // twice for one badge, and must not lose the link to the first invoice.
+      const existing = await this.awardsRepository.findOneProgress(
+        outcomeDto.member_id,
+        dto.level_id,
+      );
+      let invoiceId: string | null = existing?.invoice_id ?? null;
 
       if (isAwarded) {
         awarded++;
-        if (billFees) {
+        if (billFees && !invoiceId) {
           const billing = await this.billBadgeFee(member, level, dto.assessed_at);
           invoiceId = billing.invoiceId;
           if (billing.warning) warnings.push(billing.warning);
-          if (invoiceId) {
-            invoicesRaised++;
-            await this.awardsRepository.updateOutcomeInvoice(outcome.outcome_id, invoiceId);
-          }
+          if (invoiceId) invoicesRaised++;
         }
+      }
+
+      if (invoiceId) {
+        await this.awardsRepository.updateOutcomeInvoice(outcome.outcome_id, invoiceId);
       }
 
       await this.awardsRepository.upsertProgress(outcomeDto.member_id, dto.level_id, {
@@ -309,7 +317,9 @@ export class AwardsService {
         assessed_on: dto.assessed_at as unknown as Date,
         awarded_on: isAwarded ? (dto.assessed_at as unknown as Date) : null,
         notes: outcomeDto.notes ?? null,
-        invoice_id: invoiceId,
+        // Only ever set the link, never clear it: the invoice still exists
+        // whatever a later assessment concludes.
+        ...(invoiceId ? { invoice_id: invoiceId } : {}),
       });
     }
 

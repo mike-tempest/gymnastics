@@ -38,7 +38,10 @@ const levelSchema = z.object({
   active: z.boolean(),
 });
 
+/** What the inputs hold: a fee is a string while it is being typed. */
 export type LevelFormData = z.input<typeof levelSchema>;
+/** What the resolver hands the submit handler: fees already coerced. */
+type LevelFormValues = z.output<typeof levelSchema>;
 
 interface LevelModalProps {
   isOpen: boolean;
@@ -68,7 +71,10 @@ export default function LevelModal({
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<LevelFormData>({
+    // The resolver returns the schema's transformed output, so the submit
+    // handler receives fees already coerced to a number or null. Parsing again
+    // here would reject a blank fee, which is the documented default.
+  } = useForm<LevelFormData, unknown, LevelFormValues>({
     resolver: zodResolver(levelSchema),
     mode: 'onTouched',
   });
@@ -88,14 +94,13 @@ export default function LevelModal({
   if (!isOpen) return null;
 
   const submit = handleSubmit(async (data) => {
-    const parsed = levelSchema.parse(data);
     await onSubmit({
-      name: parsed.name,
-      description: parsed.description?.trim() ? parsed.description : null,
-      sort_order: parsed.sort_order,
-      badge_fee: parsed.badge_fee,
-      certificate_fee: parsed.certificate_fee,
-      active: parsed.active,
+      name: data.name,
+      description: data.description?.trim() ? data.description : null,
+      sort_order: data.sort_order,
+      badge_fee: data.badge_fee,
+      certificate_fee: data.certificate_fee,
+      active: data.active,
     });
   });
 

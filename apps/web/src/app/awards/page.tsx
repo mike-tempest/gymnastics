@@ -1,5 +1,6 @@
 'use client';
 
+import { UserRole } from '@club-manager/shared-types';
 import { Award, ClipboardCheck, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
@@ -30,8 +31,8 @@ import {
   updateAwardLevel,
   updateAwardScheme,
 } from '@/lib/api/awards';
-import { MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
-import { isAdmin, useRole } from '@/lib/hooks/useRole';
+import { MEMBER_NOUN_LOWER } from '@/lib/brand';
+import { useRole } from '@/lib/hooks/useRole';
 
 const SOURCE_LABELS: Record<string, string> = {
   'bg-rise': 'British Gymnastics Rise',
@@ -43,7 +44,10 @@ export default function AwardsPage() {
   const { confirm, ConfirmDialog } = useConfirm();
   const { formatCurrency } = useFormatters();
   const { role } = useRole();
-  const canManage = isAdmin(role);
+  // Deliberately SUPER_ADMIN alone rather than the broader isAdmin (which also
+  // covers a treasurer): every write below is @Roles(SUPER_ADMIN) on the API,
+  // so showing these controls to anyone else offers buttons that only 403.
+  const canManage = role === UserRole.SUPER_ADMIN;
 
   const [schemes, setSchemes] = useState<AwardScheme[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -267,7 +271,7 @@ export default function AwardsPage() {
                 features={[
                   'Rise Discover, Explore and Excel as editable badges',
                   'A badge fee that invoices the family and collects by Direct Debit',
-                  `A badge history on every ${MEMBER_NOUN_PLURAL_LOWER.slice(0, -1)} record`,
+                  `A badge history on every ${MEMBER_NOUN_LOWER} record`,
                 ]}
               />
             </div>

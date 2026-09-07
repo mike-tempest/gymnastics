@@ -51,12 +51,20 @@ export interface RiseCsvRow {
   award_date: string;
 }
 
-/** Quotes a single CSV field, doubling any embedded quote. */
+/**
+ * Quotes a single CSV field, doubling any embedded quote.
+ *
+ * A field starting with =, +, - or @ is also prefixed with an apostrophe. The
+ * export exists to be opened in a spreadsheet before being keyed into Rise
+ * Hub, and a name or membership number is club-entered text, so a leading =
+ * would otherwise be evaluated as a formula when the file is opened.
+ */
 function quoteField(value: string): string {
-  if (/[",\r\n]/.test(value)) {
-    return `"${value.replace(/"/g, '""')}"`;
+  const guarded = /^[=+\-@\t\r]/.test(value) ? `'${value}` : value;
+  if (/[",\r\n]/.test(guarded)) {
+    return `"${guarded.replace(/"/g, '""')}"`;
   }
-  return value;
+  return guarded;
 }
 
 /** Serialises rows to a CSV string with the Rise column headers. */
@@ -72,6 +80,9 @@ export function toRiseCsv(rows: RiseCsvRow[]): string {
  * Splits CSV text into rows of fields. Handles quoted fields containing
  * commas, newlines and doubled quotes, which covers every export the founding
  * clubs have produced so far. Anything more exotic belongs in a real parser.
+ *
+ * Blank rows are kept rather than dropped, so a caller can report a problem
+ * against the line number the club actually sees in its spreadsheet.
  */
 export function splitCsv(text: string): string[][] {
   const rows: string[][] = [];
@@ -119,7 +130,12 @@ export function splitCsv(text: string): string[][] {
     rows.push(row);
   }
 
-  return rows.filter((entry) => entry.some((value) => value.trim() !== ''));
+  return rows;
+}
+
+/** Whether a split row holds nothing but empty cells. */
+function isBlankRow(cells: string[]): boolean {
+  return cells.every((value) => value.trim() === '');
 }
 
 /** Maps a raw header cell onto one of the Rise column names, or null. */
@@ -131,8 +147,17 @@ function normaliseHeader(raw: string): string | null {
   return HEADER_ALIASES[cleaned] ?? null;
 }
 
+export interface ParsedRiseCsvRow extends RiseCsvRow {
+  /**
+   * The row's 1-based line in the source file, header included. This is the
+   * number a club needs to find the row in its own spreadsheet, so it counts
+   * blank lines rather than the position among the rows that carried data.
+   */
+  lineNumber: number;
+}
+
 export interface ParsedRiseCsv {
-  rows: RiseCsvRow[];
+  rows: ParsedRiseCsvRow[];
   /** Headers that were not recognised, reported back so a club can fix them. */
   unknownHeaders: string[];
   /** Recognised Rise columns the file did not supply. */
@@ -142,11 +167,13 @@ export interface ParsedRiseCsv {
 /** Parses Rise CSV text into typed rows, reporting unusable headers. */
 export function parseRiseCsv(text: string): ParsedRiseCsv {
   const grid = splitCsv(text);
-  if (grid.length === 0) {
+  // A leading blank line would otherwise be read as the header row.
+  const headerIndex = grid.findIndex((cells) => !isBlankRow(cells));
+  if (headerIndex === -1) {
     return { rows: [], unknownHeaders: [], missingHeaders: [...RISE_CSV_COLUMNS] };
   }
 
-  const headerCells = grid[0];
+  const headerCells = grid[headerIndex];
   const unknownHeaders: string[] = [];
   const columnIndex = new Map<string, number>();
 
@@ -163,12 +190,18 @@ export function parseRiseCsv(text: string): ParsedRiseCsv {
 
   const missingHeaders = RISE_CSV_COLUMNS.filter((column) => !columnIndex.has(column));
 
-  const rows: RiseCsvRow[] = grid.slice(1).map((cells) => {
+  const rows: ParsedRiseCsvRow[] = [];
+  for (let index = headerIndex + 1; index < grid.length; index++) {
+    const cells = grid[index];
+    if (isBlankRow(cells)) continue;
+
     const read = (column: string): string => {
-      const index = columnIndex.get(column);
-      return index === undefined ? '' : (cells[index] ?? '').trim();
+      const columnAt = columnIndex.get(column);
+      return columnAt === undefined ? '' : (cells[columnAt] ?? '').trim();
     };
-    return {
+
+    rows.push({
+      lineNumber: index + 1,
       first_name: read('first_name'),
       last_name: read('last_name'),
       dob: read('dob'),
@@ -176,8 +209,8 @@ export function parseRiseCsv(text: string): ParsedRiseCsv {
       scheme: read('scheme'),
       level: read('level'),
       award_date: read('award_date'),
-    };
-  });
+    });
+  }
 
   return { rows, unknownHeaders, missingHeaders: [...missingHeaders] };
 }
