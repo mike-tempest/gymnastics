@@ -90,6 +90,34 @@ describe('BadgeProgress (TEM-21)', () => {
     expect(screen.getAllByText('Discover 1').length).toBeGreaterThan(0);
   });
 
+  it('still celebrates an award that carries no award date', () => {
+    // A badge set straight to awarded has no awarded_on, and the headline must
+    // not then claim nothing has been awarded while the ladder says otherwise.
+    const dateless = level({ level_id: 'level-1', name: 'Discover 1', status: 'awarded' });
+    renderWithProviders(
+      <BadgeProgress
+        badges={{
+          schemes: [
+            {
+              scheme_id: 'scheme-1',
+              name: 'British Gymnastics Rise',
+              description: null,
+              levels: [dateless],
+              awarded_count: 1,
+              current_level: null,
+              latest_award: dateless,
+            },
+          ],
+          total_awarded: 1,
+          latest_award: { ...dateless, scheme_name: 'British Gymnastics Rise' },
+        }}
+      />
+    );
+
+    expect(screen.getByText(/awarded in British Gymnastics Rise/)).toBeInTheDocument();
+    expect(screen.queryByText(/No badges awarded yet/)).not.toBeInTheDocument();
+  });
+
   it('names the gymnast while nothing has been awarded yet', () => {
     const untouched: BadgeLadder = {
       schemes: [

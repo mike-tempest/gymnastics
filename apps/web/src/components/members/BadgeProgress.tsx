@@ -117,13 +117,23 @@ export default function BadgeProgress({
 
   return (
     <div className="space-y-8">
-      {badges?.latest_award?.awarded_on ? (
+      {/*
+        Keyed off the award itself, not its date: a badge recorded straight to
+        awarded carries no award date, and the headline must still celebrate it
+        rather than contradict the ladder below.
+      */}
+      {badges?.latest_award ? (
         <div className="flex items-start gap-3 p-4 rounded-2xl bg-success/10 border border-success/25">
           <Award aria-hidden="true" className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
           <p className="text-white text-sm">
-            <span className="font-semibold">{badges.latest_award.name}</span> awarded on{' '}
-            <span className="tabular-nums">{formatDate(badges.latest_award.awarded_on)}</span>, in{' '}
-            {badges.latest_award.scheme_name}.
+            <span className="font-semibold">{badges.latest_award.name}</span> awarded
+            {badges.latest_award.awarded_on ? (
+              <>
+                {' on '}
+                <span className="tabular-nums">{formatDate(badges.latest_award.awarded_on)}</span>
+              </>
+            ) : null}{' '}
+            in {badges.latest_award.scheme_name}.
           </p>
         </div>
       ) : (

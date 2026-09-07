@@ -17,6 +17,9 @@ import { ClubsRepository } from '../clubs/clubs.repository';
 import { CompetitionResult } from '../competitions/entities/competition-result.entity';
 import { PersonalBestsService } from '../competitions/personal-bests.service';
 import { AwardsService } from '../awards/awards.service';
+// The awards module's own date normaliser, reused rather than duplicated so
+// the portal and the Rise CSV export can never disagree about an award date.
+import { toDateKey } from '../awards/awards.csv';
 import { UpdateParentProfileDto } from './dto/update-parent-profile.dto';
 import { TenantScopedHelper } from '../../common/tenancy/tenant-scoped.helper';
 import { TenantContextService } from '../../common/tenancy/tenant-context.service';
@@ -304,9 +307,9 @@ export class ParentService {
             description: level.description,
             sort_order: level.sort_order,
             status: progress?.status ?? null,
-            started_on: this.toDateString(progress?.started_on),
-            assessed_on: this.toDateString(progress?.assessed_on),
-            awarded_on: this.toDateString(progress?.awarded_on),
+            started_on: toDateKey(progress?.started_on),
+            assessed_on: toDateKey(progress?.assessed_on),
+            awarded_on: toDateKey(progress?.awarded_on),
           };
         });
 
@@ -323,13 +326,28 @@ export class ParentService {
         null,
       );
 
+      // The badge this gymnast is on now. A level a coach has actually started
+      // wins over a lower one nobody has touched, because a gymnast who joined
+      // mid-scheme is working on the badge that was recorded, not on the first
+      // rung of the ladder. Only then does the lowest un-started badge stand in
+      // as the next thing to aim at. A scheme the club has retired has no next
+      // badge at all: it is kept purely as history.
+      const inProgress = levels.find(
+        (level) =>
+          level.status === AwardProgressStatus.WORKING_TOWARDS ||
+          level.status === AwardProgressStatus.ASSESSED,
+      );
+      const currentLevel = scheme.active
+        ? (inProgress ?? levels.find((level) => level.status === null) ?? null)
+        : null;
+
       ladders.push({
         scheme_id: scheme.scheme_id,
         name: scheme.name,
         description: scheme.description,
         levels,
         awarded_count: awarded.length,
-        current_level: levels.find((level) => level.status !== AwardProgressStatus.AWARDED) ?? null,
+        current_level: currentLevel,
         latest_award: latestAward,
       });
     }
@@ -348,18 +366,6 @@ export class ParentService {
       total_awarded: ladders.reduce((sum, scheme) => sum + scheme.awarded_count, 0),
       latest_award: latestAward,
     };
-  }
-
-  /**
-   * Award dates are `date` columns, which the Postgres driver hands back as
-   * YYYY-MM-DD strings but which the entity types as Date. Normalise both to
-   * the date-only string the portal renders, so the response shape does not
-   * depend on which the driver happens to give.
-   */
-  private toDateString(value: Date | string | null | undefined): string | null {
-    if (!value) return null;
-    if (value instanceof Date) return value.toISOString().split('T')[0];
-    return String(value).split('T')[0];
   }
 
   async getChildResults(familyId: string, childId: string) {

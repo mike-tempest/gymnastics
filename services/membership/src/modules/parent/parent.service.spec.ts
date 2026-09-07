@@ -475,6 +475,42 @@ describe('ParentService', () => {
       expect(result.schemes[0].current_level?.name).toBe('Discover 1');
     });
 
+    it('names the badge actually being worked on, not the lowest un-started one', async () => {
+      // A gymnast who joins mid-scheme has no rows against the early badges.
+      // The badge the coach recorded is the one they are on.
+      mockMembersRepository.findOne.mockResolvedValue(mockMember);
+      mockAwardsService.getMemberProgress.mockResolvedValue([
+        {
+          level_id: 'level-3',
+          status: 'working_towards',
+          started_on: '2026-02-11',
+          assessed_on: null,
+          awarded_on: null,
+        },
+      ]);
+
+      const result = await service.getChildBadges(familyId, childId);
+
+      expect(result.schemes[0].current_level?.name).toBe('Explore 1');
+    });
+
+    it('treats a badge awaiting its result as the current level', async () => {
+      mockMembersRepository.findOne.mockResolvedValue(mockMember);
+      mockAwardsService.getMemberProgress.mockResolvedValue([
+        {
+          level_id: 'level-2',
+          status: 'assessed',
+          started_on: null,
+          assessed_on: '2026-03-01',
+          awarded_on: null,
+        },
+      ]);
+
+      const result = await service.getChildBadges(familyId, childId);
+
+      expect(result.schemes[0].current_level?.name).toBe('Discover 2');
+    });
+
     it('leaves current_level null once every badge in a scheme is awarded', async () => {
       mockMembersRepository.findOne.mockResolvedValue(mockMember);
       mockAwardsService.getMemberProgress.mockResolvedValue(
@@ -516,6 +552,13 @@ describe('ParentService', () => {
               sort_order: 1,
               active: true,
             },
+            {
+              level_id: 'legacy-2',
+              name: 'Award 2',
+              description: null,
+              sort_order: 2,
+              active: true,
+            },
           ],
         },
         {
@@ -554,6 +597,9 @@ describe('ParentService', () => {
       ]);
       expect(result.schemes[0].levels.map((level) => level.name)).not.toContain('Retired badge');
       expect(result.latest_award?.scheme_name).toBe('Legacy Proficiency Awards');
+      // A retired scheme is history: it must never offer a next badge to work
+      // towards, even though Award 2 is still un-started on its ladder.
+      expect(result.schemes[1].current_level).toBeNull();
     });
   });
 
