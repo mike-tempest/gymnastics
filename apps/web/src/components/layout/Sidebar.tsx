@@ -5,6 +5,7 @@ import { governingBodyConfig, defaultGoverningBodyForCountry } from '@club-manag
 import {
   Home,
   Users,
+  Award,
   UsersRound,
   Shield,
   Calendar,
@@ -75,6 +76,7 @@ const allNavEntries: NavEntry[] = [
     ],
   },
   { name: 'Attendance', href: '/attendance', icon: CheckSquare },
+  { name: 'Badges', href: '/awards', icon: Award },
   // Swimming times/strokes module, feature-flagged off by default (TEM-15).
   ...(isCompetitionsEnabled()
     ? [{ name: 'Competitions', href: '/competitions', icon: Trophy }]
@@ -122,6 +124,8 @@ const COACH_NAV_NAMES = new Set([
   'Sessions',
   'Communications',
   'Attendance',
+  // Coaches assess and award badges (TEM-18).
+  'Badges',
   // 'Competitions' stays a plain member: this set only filters allNavEntries,
   // which already omits the entry while the module is flagged off (TEM-15).
   'Competitions',

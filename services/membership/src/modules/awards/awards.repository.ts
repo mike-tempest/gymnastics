@@ -106,7 +106,10 @@ export class AwardsRepository {
 
   async updateLevel(levelId: string, dto: UpdateAwardLevelDto): Promise<AwardLevel | null> {
     const { club_id: _ignored, ...rest } = dto as UpdateAwardLevelDto & { club_id?: string };
-    await this.levelRepo.update({ level_id: levelId, club_id: this.tenantContext.getClubId() }, rest);
+    await this.levelRepo.update(
+      { level_id: levelId, club_id: this.tenantContext.getClubId() },
+      rest,
+    );
     return this.findOneLevel(levelId);
   }
 

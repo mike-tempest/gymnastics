@@ -69,7 +69,12 @@ describe('AwardsService', () => {
       findProgressByMembers: jest.fn().mockResolvedValue([]),
       findOneProgress: jest.fn().mockResolvedValue(null),
       upsertProgress: jest.fn().mockImplementation((memberId, levelId, fields) =>
-        Promise.resolve({ progress_id: 'progress-1', member_id: memberId, level_id: levelId, ...fields }),
+        Promise.resolve({
+          progress_id: 'progress-1',
+          member_id: memberId,
+          level_id: levelId,
+          ...fields,
+        }),
       ),
       createEvent: jest.fn().mockResolvedValue({ event_id: 'event-1' }),
       createOutcome: jest.fn().mockResolvedValue({ outcome_id: 'outcome-1' }),
@@ -106,9 +111,9 @@ describe('AwardsService', () => {
     it('rejects a scheme whose name is already taken in this club', async () => {
       awardsRepository.findSchemeByName.mockResolvedValue({ scheme_id: SCHEME_ID } as never);
 
-      await expect(service.createScheme({ name: 'British Gymnastics Rise' })).rejects.toBeInstanceOf(
-        BadRequestException,
-      );
+      await expect(
+        service.createScheme({ name: 'British Gymnastics Rise' }),
+      ).rejects.toBeInstanceOf(BadRequestException);
       expect(awardsRepository.createScheme).not.toHaveBeenCalled();
     });
 
@@ -320,7 +325,9 @@ describe('AwardsService', () => {
         service.recordAssessment({
           level_id: LEVEL_ID,
           assessed_at: '2026-09-01',
-          outcomes: [{ member_id: 'someone-elses-member', outcome: AssessmentOutcomeResult.AWARDED }],
+          outcomes: [
+            { member_id: 'someone-elses-member', outcome: AssessmentOutcomeResult.AWARDED },
+          ],
         }),
       ).rejects.toBeInstanceOf(NotFoundException);
       expect(awardsRepository.createEvent).not.toHaveBeenCalled();
@@ -374,8 +381,12 @@ describe('AwardsService', () => {
       const csv = await service.exportRiseCsv();
       const lines = csv.trim().split('\n');
 
-      expect(lines[0]).toBe('first_name,last_name,dob,bg_membership_number,scheme,level,award_date');
-      expect(lines[1]).toBe('Ava,Nolan,2016-04-02,1234567,British Gymnastics Rise,Explore 3,2026-09-01');
+      expect(lines[0]).toBe(
+        'first_name,last_name,dob,bg_membership_number,scheme,level,award_date',
+      );
+      expect(lines[1]).toBe(
+        'Ava,Nolan,2016-04-02,1234567,British Gymnastics Rise,Explore 3,2026-09-01',
+      );
     });
 
     it('leaves out badges that are only assessed unless asked for them', async () => {
@@ -470,7 +481,9 @@ describe('AwardsService', () => {
 
     it('bills on import only when asked, and never twice for the same badge', async () => {
       awardsRepository.findOneLevel.mockResolvedValue(makeLevel());
-      awardsRepository.findOneProgress.mockResolvedValue({ invoice_id: 'invoice-earlier' } as never);
+      awardsRepository.findOneProgress.mockResolvedValue({
+        invoice_id: 'invoice-earlier',
+      } as never);
 
       const result = await service.importRiseCsv({ csv, bill_fees: true });
 

@@ -125,9 +125,10 @@ describe('Rise CSV helpers', () => {
 
   it('accepts common header spellings a club spreadsheet uses', () => {
     const parsed = parseRiseCsv(
-      ['First Name,Surname,Date of Birth,BG Number,Scheme,Badge,Award Date', 'Ava,Nolan,02/04/2016,1234567,Rise,Explore 3,01/09/2026'].join(
-        '\n',
-      ),
+      [
+        'First Name,Surname,Date of Birth,BG Number,Scheme,Badge,Award Date',
+        'Ava,Nolan,02/04/2016,1234567,Rise,Explore 3,01/09/2026',
+      ].join('\n'),
     );
 
     expect(parsed.missingHeaders).toEqual([]);

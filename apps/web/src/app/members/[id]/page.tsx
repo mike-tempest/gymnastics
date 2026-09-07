@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import MainLayout from '@/components/layout/MainLayout';
 import AttendanceHistory from '@/components/members/AttendanceHistory';
 import DeleteConfirmModal from '@/components/members/DeleteConfirmModal';
+import MemberAwards from '@/components/members/MemberAwards';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/ErrorState';
@@ -366,6 +367,11 @@ export default function MemberDetailPage({ params }: { params: { id: string } })
               <PersonalBests memberId={params.id} />
             </div>
           )}
+
+          {/* Badges (TEM-18) */}
+          <div className="bg-dark-primary rounded-3xl shadow-lg p-6 border border-white/20 mb-8">
+            <MemberAwards memberId={params.id} />
+          </div>
 
           {/* Attendance History */}
           <div className="bg-dark-primary rounded-3xl shadow-lg p-6 border border-white/20">

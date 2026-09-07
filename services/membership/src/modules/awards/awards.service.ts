@@ -239,7 +239,10 @@ export class AwardsService {
    * gymnast assessed, and the resulting progress rows. Members judged to have
    * earned a priced badge are billed through the normal finance path.
    */
-  async recordAssessment(dto: RecordAssessmentDto, assessedByUserId?: string): Promise<AssessmentResult> {
+  async recordAssessment(
+    dto: RecordAssessmentDto,
+    assessedByUserId?: string,
+  ): Promise<AssessmentResult> {
     const level = await this.awardsRepository.findOneLevel(dto.level_id);
     if (!level) {
       throw new NotFoundException('Award level not found');
@@ -248,7 +251,9 @@ export class AwardsService {
     const memberIds = dto.outcomes.map((outcome) => outcome.member_id);
     const uniqueIds = new Set(memberIds);
     if (uniqueIds.size !== memberIds.length) {
-      throw new BadRequestException(`Each ${MEMBER_NOUN_LOWER} may only appear once per assessment`);
+      throw new BadRequestException(
+        `Each ${MEMBER_NOUN_LOWER} may only appear once per assessment`,
+      );
     }
 
     // Resolve every member up front through the tenant-scoped repository, so an
@@ -427,7 +432,9 @@ export class AwardsService {
    * Every awarded (and optionally assessed) badge as a Rise-compatible CSV.
    * The club keys this into Rise Hub by hand, because Rise Hub has no API.
    */
-  async exportRiseCsv(options: { schemeId?: string; includeAssessed?: boolean } = {}): Promise<string> {
+  async exportRiseCsv(
+    options: { schemeId?: string; includeAssessed?: boolean } = {},
+  ): Promise<string> {
     const schemes = await this.listSchemes(true);
     const schemesById = new Map(schemes.map((scheme) => [scheme.scheme_id, scheme]));
     const levels = await this.awardsRepository.findAllLevels();
