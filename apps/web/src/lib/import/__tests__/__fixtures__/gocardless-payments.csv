@@ -1,0 +1,5 @@
+id,created_at,charge_date,amount,currency,status,description,mandate
+PM0001,2024-07-25T06:00:00.000Z,2024-08-01,32.50,GBP,paid_out,Monthly gymnastics fees,MD0001
+PM0002,2024-07-25T06:00:00.000Z,2024-08-01,44.00,GBP,paid_out,Monthly gymnastics fees,MD0002
+PM0003,2024-08-25T06:00:00.000Z,2024-09-02,32.50,GBP,confirmed,Monthly gymnastics fees,MD0001
+PM0004,2024-08-25T06:00:00.000Z,2024-09-02,28.00,GBP,failed,Monthly gymnastics fees,MD0900
