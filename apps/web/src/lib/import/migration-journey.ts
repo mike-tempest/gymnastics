@@ -50,8 +50,6 @@ export interface MigrationStep {
 export type MigrationCountKey =
   | 'families'
   | 'members'
-  | 'squadsCreated'
-  | 'squadsMatched'
   | 'staff'
   | 'feeStructures'
   | 'mandates'
@@ -61,6 +59,12 @@ export interface MigrationStepOutcome {
   /** ISO timestamp of when the step finished. */
   completedAt: string;
   counts: Partial<Record<MigrationCountKey, number>>;
+  /**
+   * Squad names rather than tallies: two people imports commonly touch the
+   * same squads, and adding their counts would report squads a club does not
+   * have. Names let the totals count each squad once.
+   */
+  squads?: { created: string[]; matched: string[] };
   errorCount: number;
   warningCount: number;
 }
@@ -321,6 +325,10 @@ export function reopenStep(journey: MigrationJourney, stepId: MigrationStepId): 
 
 export interface MigrationTotals {
   counts: Record<MigrationCountKey, number>;
+  /** Distinct squads created across every step. */
+  squadsCreated: number;
+  /** Distinct squads matched, excluding any this migration created itself. */
+  squadsMatched: number;
   errorCount: number;
   warningCount: number;
   /** True when no step recorded a single row, so the finish page can say so. */
@@ -330,19 +338,24 @@ export interface MigrationTotals {
 const COUNT_KEYS: MigrationCountKey[] = [
   'families',
   'members',
-  'squadsCreated',
-  'squadsMatched',
   'staff',
   'feeStructures',
   'mandates',
   'activeMandates',
 ];
 
+/** Squad names differ in case and spacing between exports of the same club. */
+function squadKey(name: string): string {
+  return name.trim().toLowerCase();
+}
+
 export function journeyTotals(journey: MigrationJourney): MigrationTotals {
   const counts = Object.fromEntries(COUNT_KEYS.map((key) => [key, 0])) as Record<
     MigrationCountKey,
     number
   >;
+  const created = new Set<string>();
+  const matched = new Set<string>();
   let errorCount = 0;
   let warningCount = 0;
 
@@ -354,13 +367,29 @@ export function journeyTotals(journey: MigrationJourney): MigrationTotals {
     for (const key of COUNT_KEYS) {
       counts[key] += outcome.counts[key] ?? 0;
     }
+    for (const name of outcome.squads?.created ?? []) {
+      if (name.trim()) created.add(squadKey(name));
+    }
+    for (const name of outcome.squads?.matched ?? []) {
+      if (name.trim()) matched.add(squadKey(name));
+    }
   }
+
+  // A squad an earlier step created and a later one matched is one squad, and
+  // this migration is what put it there.
+  let squadsMatched = 0;
+  matched.forEach((name) => {
+    if (!created.has(name)) squadsMatched += 1;
+  });
 
   return {
     counts,
+    squadsCreated: created.size,
+    squadsMatched,
     errorCount,
     warningCount,
-    isEmpty: COUNT_KEYS.every((key) => counts[key] === 0),
+    isEmpty:
+      COUNT_KEYS.every((key) => counts[key] === 0) && created.size === 0 && squadsMatched === 0,
   };
 }
 
@@ -381,10 +410,13 @@ export function parseJourney(raw: unknown): MigrationJourney | null {
   );
   if (sources.length === 0) return null;
 
+  // The stored order is kept as written: this journey was sequenced when the
+  // club started it, and a later change to STEP_ORDER must not reshuffle a
+  // migration somebody is halfway through.
   const storedSteps = (Array.isArray(value.steps) ? value.steps : []).filter(
     (id): id is MigrationStepId => typeof id === 'string' && id in MIGRATION_STEPS
   );
-  const steps = STEP_ORDER.filter((stepId) => storedSteps.includes(stepId));
+  const steps = storedSteps.filter((stepId, index) => storedSteps.indexOf(stepId) === index);
   if (steps.length === 0) return null;
 
   const outcomes: MigrationJourney['outcomes'] = {};
@@ -427,9 +459,18 @@ function parseOutcome(raw: unknown): MigrationStepOutcome | null {
     completedAt:
       typeof value.completedAt === 'string' ? value.completedAt : new Date(0).toISOString(),
     counts,
+    squads: parseSquadNames(value.squads),
     errorCount: typeof value.errorCount === 'number' ? value.errorCount : 0,
     warningCount: typeof value.warningCount === 'number' ? value.warningCount : 0,
   };
+}
+
+function parseSquadNames(raw: unknown): { created: string[]; matched: string[] } | undefined {
+  if (typeof raw !== 'object' || raw === null) return undefined;
+  const value = raw as Record<string, unknown>;
+  const names = (input: unknown) =>
+    (Array.isArray(input) ? input : []).filter((name): name is string => typeof name === 'string');
+  return { created: names(value.created), matched: names(value.matched) };
 }
 
 /**

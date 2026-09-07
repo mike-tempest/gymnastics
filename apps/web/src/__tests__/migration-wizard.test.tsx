@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 
 import MigrationJourneyPage from '@/app/admin/import/migration/page';
 import ImportHubPage from '@/app/admin/import/page';
@@ -89,6 +89,34 @@ describe('Migration wizard entry step', () => {
     );
   });
 
+  it('adds a source to a journey in progress without losing what it imported', async () => {
+    let journey = createJourney(['spreadsheet']);
+    journey = recordStepOutcome(journey, 'members', {
+      completedAt: '2026-09-07T09:00:00.000Z',
+      counts: { members: 60 },
+      errorCount: 0,
+      warningCount: 0,
+    });
+    saveJourney(journey);
+
+    render(<ImportHubPage />);
+
+    // The club's own sources come back ticked, so this is an edit, not a restart.
+    await waitFor(() =>
+      expect(
+        screen.getByRole('button', { name: /Spreadsheets or form responses/ })
+      ).toHaveAttribute('aria-pressed', 'true')
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: /GoCardless/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Update your journey/ }));
+
+    const saved = storedJourney();
+    expect(saved.sources).toEqual(['spreadsheet', 'gocardless']);
+    expect(saved.steps).toContain('gocardless');
+    expect(saved.outcomes.members.counts.members).toBe(60);
+  });
+
   it('forgets the journey when the club starts again', () => {
     saveJourney(createJourney(['gocardless']));
 
@@ -132,7 +160,8 @@ describe('Migration journey page', () => {
     let journey = createJourney(['spreadsheet', 'gocardless']);
     journey = recordStepOutcome(journey, 'squads', {
       completedAt: '2026-09-07T09:00:00.000Z',
-      counts: { squadsCreated: 4 },
+      counts: {},
+      squads: { created: ['Recreational', 'Development', 'Performance', 'Tumbling'], matched: [] },
       errorCount: 0,
       warningCount: 0,
     });
@@ -162,7 +191,8 @@ describe('Migration journey page', () => {
     let journey = createJourney(['spreadsheet', 'gocardless']);
     journey = recordStepOutcome(journey, 'members', {
       completedAt: '2026-09-07T09:00:00.000Z',
-      counts: { members: 118, families: 74, squadsCreated: 5, squadsMatched: 2 },
+      counts: { members: 118, families: 74 },
+      squads: { created: ['Tumbling', 'Trampoline'], matched: ['Recreational'] },
       errorCount: 3,
       warningCount: 0,
     });
@@ -182,6 +212,8 @@ describe('Migration journey page', () => {
     expect(screen.getByText('76')).toBeInTheDocument(); // families from both steps
     expect(screen.getByText('68')).toBeInTheDocument();
     expect(screen.getByText(/3 rows could not be imported/)).toBeInTheDocument();
+    expect(screen.getByText('Squads created').previousElementSibling).toHaveTextContent('2');
+    expect(screen.getByText('Squads matched').previousElementSibling).toHaveTextContent('1');
     expect(screen.getByRole('link', { name: /Go to families/ })).toHaveAttribute(
       'href',
       '/families'

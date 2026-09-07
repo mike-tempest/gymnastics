@@ -3,7 +3,7 @@
 import { ArrowLeft, ArrowRight, Check, Route } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import ImportTemplateCards from '@/components/import/ImportTemplateCards';
 import MainLayout from '@/components/layout/MainLayout';
@@ -21,8 +21,17 @@ import {
 
 export default function ImportHubPage() {
   const router = useRouter();
-  const { journey, loaded, start, abandon } = useMigrationJourney();
+  const { journey, loaded, start, update, abandon } = useMigrationJourney();
   const [selected, setSelected] = useState<MigrationSourceId[]>([]);
+  const hydrated = useRef(false);
+
+  // A club coming back mid-migration sees its own sources ticked, so adding a
+  // system it forgot changes the journey instead of silently replacing it.
+  useEffect(() => {
+    if (!loaded || hydrated.current) return;
+    hydrated.current = true;
+    if (journey) setSelected(journey.sources);
+  }, [loaded, journey]);
 
   const plannedSteps = orderStepsForSources(selected);
   const progress = journey ? journeyProgress(journey) : null;
@@ -36,7 +45,13 @@ export default function ImportHubPage() {
 
   const handleStart = () => {
     if (selected.length === 0) return;
-    start(selected);
+    if (journey) {
+      // Keeps every step the new selection still needs, along with what it has
+      // already imported. Only a dropped source loses its progress.
+      update(selected);
+    } else {
+      start(selected);
+    }
     router.push(MIGRATION_JOURNEY_HREF);
   };
 
@@ -185,9 +200,15 @@ export default function ImportHubPage() {
               disabled={selected.length === 0}
               className="min-h-[48px] px-8 py-3 bg-brand text-dark-primary rounded-xl font-bold hover:bg-brand-light transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <span>Start migration</span>
+              <span>{journey ? 'Update your journey' : 'Start migration'}</span>
               <ArrowRight className="w-5 h-5" />
             </button>
+            {journey && (
+              <p className="text-white/50 text-sm mt-3">
+                Steps you keep hold on to what they have already imported. Removing a source drops
+                its steps and forgets what they recorded here.
+              </p>
+            )}
           </div>
 
           {/* File-by-file route */}

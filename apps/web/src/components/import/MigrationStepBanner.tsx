@@ -17,19 +17,22 @@ interface MigrationStepBannerProps {
  * Shown at the top of an importer page that a club reached through the
  * migration wizard, so it always knows where it is and how to get back.
  * Renders nothing when there is no journey covering this importer.
+ *
+ * It sits on the light canvas above each importer's dark card, so the text is
+ * dark: the same treatment as the resume panel on the wizard's entry page.
  */
 export default function MigrationStepBanner({ active, position, total }: MigrationStepBannerProps) {
   if (!active || position < 1) return null;
 
   return (
-    <div className="mb-6 rounded-xl border border-brand border-opacity-30 bg-brand bg-opacity-10 p-4 flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
+    <div className="mb-6 rounded-xl border border-dark-primary/20 bg-brand bg-opacity-20 p-4 flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
       <div className="flex items-start gap-3">
-        <Route className="w-5 h-5 text-brand flex-shrink-0 mt-0.5" />
+        <Route className="w-5 h-5 text-dark-primary flex-shrink-0 mt-0.5" />
         <div>
-          <p className="text-brand text-sm font-semibold">
+          <p className="text-dark-primary text-sm font-semibold">
             Step {position} of {total} of your migration
           </p>
-          <p className="text-text-secondary text-sm">
+          <p className="text-grey-600 text-sm">
             Finish this import and you come straight back to the rest of the journey. Leaving now
             keeps your progress.
           </p>
@@ -37,7 +40,7 @@ export default function MigrationStepBanner({ active, position, total }: Migrati
       </div>
       <Link
         href={MIGRATION_JOURNEY_HREF}
-        className="min-h-[48px] px-5 py-3 rounded-xl border border-white/20 text-white font-semibold hover:bg-white/5 transition-all flex items-center justify-center gap-2 flex-shrink-0"
+        className="min-h-[48px] px-5 py-3 rounded-xl border border-dark-primary/20 text-dark-primary font-semibold hover:bg-dark-primary/5 transition-all flex items-center justify-center gap-2 flex-shrink-0"
       >
         <span>Back to migration</span>
         <ArrowRight className="w-4 h-4" />

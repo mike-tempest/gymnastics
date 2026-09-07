@@ -393,14 +393,14 @@ export default function MembersImportPage() {
     setSubmittedEntries(validEntries.map(({ row, originalRow }) => ({ raw: row.raw, originalRow })));
 
     // The import response carries no squad detail, so the migration checklist
-    // takes its squad counts from the preview the club has just approved.
-    const squadCounts =
+    // takes the squad names from the preview the club has just approved.
+    const squads =
       dryRun.status === 'done'
         ? {
-            matched: dryRun.data.summary.squads_matched.length,
-            created: createMissingSquads ? dryRun.data.summary.squads_missing.length : 0,
+            matched: dryRun.data.summary.squads_matched,
+            created: createMissingSquads ? dryRun.data.summary.squads_missing : [],
           }
-        : { matched: 0, created: 0 };
+        : { matched: [], created: [] };
 
     setStep('importing');
 
@@ -416,9 +416,8 @@ export default function MembersImportPage() {
         counts: {
           families: result.summary.families_created,
           members: result.summary.members_created,
-          squadsMatched: squadCounts.matched,
-          squadsCreated: squadCounts.created,
         },
+        squads,
         errorCount: (result.errors || []).length,
         warningCount: 0,
       });

@@ -28,8 +28,8 @@ export default function MigrationChecklist({ journey }: { journey: MigrationJour
   const tiles: { label: string; value: number; emphasis?: boolean }[] = [
     { label: MEMBER_NOUN_PLURAL, value: counts.members, emphasis: true },
     { label: 'Families', value: counts.families, emphasis: true },
-    { label: 'Squads created', value: counts.squadsCreated },
-    { label: 'Squads matched', value: counts.squadsMatched },
+    { label: 'Squads created', value: totals.squadsCreated },
+    { label: 'Squads matched', value: totals.squadsMatched },
     { label: 'Coaches and committee', value: counts.staff },
     { label: 'Fee structures', value: counts.feeStructures },
     { label: 'Mandates imported', value: counts.mandates, emphasis: true },
@@ -87,7 +87,7 @@ export default function MigrationChecklist({ journey }: { journey: MigrationJour
             <h2 className="font-serif text-3xl text-white tracking-tight mb-1">
               {totals.isEmpty ? 'Nothing has been imported yet' : 'What came across'}
             </h2>
-            <p className="text-text-secondary text-sm">
+            <p className="text-white/70 text-sm">
               {totals.isEmpty
                 ? 'Every step was skipped, or the imports that ran brought no rows across. Reopen a step below and run it again, or check the errors the importer reported.'
                 : 'Counted from what each importer reported as it finished. Rows that failed are not counted here.'}
@@ -105,7 +105,7 @@ export default function MigrationChecklist({ journey }: { journey: MigrationJour
                 <p className={`text-2xl font-bold ${tile.emphasis ? 'text-brand' : 'text-white'}`}>
                   {tile.value}
                 </p>
-                <p className="text-text-secondary text-xs">{tile.label}</p>
+                <p className="text-white/70 text-xs">{tile.label}</p>
               </div>
             ))}
           </div>
@@ -144,7 +144,7 @@ export default function MigrationChecklist({ journey }: { journey: MigrationJour
 
       <div className="rounded-3xl bg-dark-primary border border-white/10 p-6 sm:p-8">
         <h2 className="font-serif text-3xl text-white tracking-tight mb-2">What to do next</h2>
-        <p className="text-text-secondary text-sm mb-6">
+        <p className="text-white/70 text-sm mb-6">
           Four things no import can do for you. None of them takes long.
         </p>
         <ul className="space-y-4">
@@ -155,7 +155,7 @@ export default function MigrationChecklist({ journey }: { journey: MigrationJour
             >
               <div>
                 <p className="text-white font-semibold mb-1">{action.title}</p>
-                <p className="text-text-secondary text-sm">{action.detail}</p>
+                <p className="text-white/70 text-sm">{action.detail}</p>
               </div>
               <Link
                 href={action.href}

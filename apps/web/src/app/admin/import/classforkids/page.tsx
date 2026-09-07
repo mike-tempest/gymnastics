@@ -184,14 +184,14 @@ export default function ClassForKidsImportPage() {
   const handleImport = async () => {
     if (readyRows.length === 0) return;
     // The import response carries no squad detail, so the migration checklist
-    // takes its squad counts from the preview the club has just approved.
-    const squadCounts =
+    // takes the squad names from the preview the club has just approved.
+    const squads =
       dryRun.status === 'done'
         ? {
-            matched: dryRun.data.summary.squads_matched.length,
-            created: createMissingSquads ? dryRun.data.summary.squads_missing.length : 0,
+            matched: dryRun.data.summary.squads_matched,
+            created: createMissingSquads ? dryRun.data.summary.squads_missing : [],
           }
-        : { matched: 0, created: 0 };
+        : { matched: [], created: [] };
     setStep('importing');
     try {
       const result = await importMembers(readyRows.map(toApiRow), {
@@ -202,9 +202,8 @@ export default function ClassForKidsImportPage() {
         counts: {
           families: result.summary.families_created,
           members: result.summary.members_created,
-          squadsMatched: squadCounts.matched,
-          squadsCreated: squadCounts.created,
         },
+        squads,
         errorCount: result.errors.length,
         warningCount: incompleteRows.length,
       });

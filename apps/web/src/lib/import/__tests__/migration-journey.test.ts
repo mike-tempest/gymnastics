@@ -18,9 +18,15 @@ import {
   withSources,
 } from '../migration-journey';
 
-const outcome = (counts: Record<string, number>, errorCount = 0, warningCount = 0) => ({
+const outcome = (
+  counts: Record<string, number>,
+  errorCount = 0,
+  warningCount = 0,
+  squads?: { created: string[]; matched: string[] }
+) => ({
   completedAt: '2026-09-07T09:00:00.000Z',
   counts,
+  squads,
   errorCount,
   warningCount,
 });
@@ -70,7 +76,14 @@ describe('migration journey progress', () => {
     expect(journey.steps).toEqual(['squads', 'members', 'staff', 'fees', 'gocardless']);
     expect(currentStepId(journey)).toBe('squads');
 
-    journey = recordStepOutcome(journey, 'squads', outcome({ squadsCreated: 3 }));
+    journey = recordStepOutcome(
+      journey,
+      'squads',
+      outcome({}, 0, 0, {
+        created: ['Recreational', 'Development', 'Performance'],
+        matched: [],
+      })
+    );
     expect(currentStepId(journey)).toBe('members');
     expect(stepStatus(journey, 'squads')).toBe('done');
     expect(stepStatus(journey, 'members')).toBe('current');
@@ -95,10 +108,14 @@ describe('migration journey progress', () => {
     journey = reopenStep(journey, 'squads');
     expect(stepStatus(journey, 'squads')).toBe('current');
 
-    journey = recordStepOutcome(journey, 'squads', outcome({ squadsCreated: 2 }));
+    journey = recordStepOutcome(
+      journey,
+      'squads',
+      outcome({}, 0, 0, { created: ['Recreational', 'Development'], matched: [] })
+    );
     journey = reopenStep(journey, 'squads');
     expect(stepStatus(journey, 'squads')).toBe('current');
-    expect(journeyTotals(journey).counts.squadsCreated).toBe(0);
+    expect(journeyTotals(journey).squadsCreated).toBe(0);
   });
 
   it('clears a skip when the step is run after all', () => {
@@ -118,11 +135,18 @@ describe('migration journey progress', () => {
 describe('migration journey totals', () => {
   it('adds up what every step reported', () => {
     let journey = createJourney(['spreadsheet', 'gocardless']);
-    journey = recordStepOutcome(journey, 'squads', outcome({ squadsCreated: 3 }));
+    journey = recordStepOutcome(
+      journey,
+      'squads',
+      outcome({}, 0, 0, { created: ['Recreational', 'Development', 'Performance'], matched: [] })
+    );
     journey = recordStepOutcome(
       journey,
       'members',
-      outcome({ members: 120, families: 78, squadsMatched: 3 }, 2)
+      outcome({ members: 120, families: 78 }, 2, 0, {
+        created: [],
+        matched: ['Recreational', 'Development', 'Performance'],
+      })
     );
     journey = recordStepOutcome(
       journey,
@@ -134,9 +158,30 @@ describe('migration journey totals', () => {
     expect(totals.counts.members).toBe(120);
     expect(totals.counts.families).toBe(82);
     expect(totals.counts.activeMandates).toBe(71);
+    // The three squads were created here and then matched, so they count once.
+    expect(totals.squadsCreated).toBe(3);
+    expect(totals.squadsMatched).toBe(0);
     expect(totals.errorCount).toBe(3);
     expect(totals.warningCount).toBe(3);
     expect(totals.isEmpty).toBe(false);
+  });
+
+  it('counts a squad two people imports both matched only once', () => {
+    let journey = createJourney(['classforkids', 'thrive4']);
+    journey = recordStepOutcome(
+      journey,
+      'classforkids',
+      outcome({ members: 40 }, 0, 0, { created: ['Tumbling'], matched: ['Pre-school'] })
+    );
+    journey = recordStepOutcome(
+      journey,
+      'members',
+      outcome({ members: 12 }, 0, 0, { created: [], matched: ['pre-school ', 'Tumbling'] })
+    );
+
+    const totals = journeyTotals(journey);
+    expect(totals.squadsCreated).toBe(1);
+    expect(totals.squadsMatched).toBe(1);
   });
 
   it('reports an empty migration honestly', () => {
@@ -223,7 +268,12 @@ describe('migration journey storage', () => {
       sources: ['gocardless'],
       steps: ['gocardless', 'competitions'],
       outcomes: {
-        gocardless: { completedAt: 'x', counts: { mandates: 12, moons: 3 }, errorCount: 'lots' },
+        gocardless: {
+          completedAt: 'x',
+          counts: { mandates: 12, moons: 3 },
+          squads: { created: ['Tumbling', 7], matched: 'all of them' },
+          errorCount: 'lots',
+        },
         competitions: { completedAt: 'x', counts: { members: 5 }, errorCount: 0 },
       },
       skipped: ['competitions'],
@@ -232,8 +282,23 @@ describe('migration journey storage', () => {
 
     expect(parsed.steps).toEqual(['gocardless']);
     expect(parsed.outcomes.gocardless?.counts).toEqual({ mandates: 12 });
+    expect(parsed.outcomes.gocardless?.squads).toEqual({ created: ['Tumbling'], matched: [] });
     expect(parsed.outcomes.gocardless?.errorCount).toBe(0);
     expect(parsed.skipped).toEqual([]);
+  });
+
+  it('keeps the step order a journey was started with', () => {
+    // A future release could reorder the catalogue; a club halfway through a
+    // migration keeps the sequence it was shown.
+    const parsed = parseJourney({
+      version: 1,
+      startedAt: '2026-09-07T09:00:00.000Z',
+      sources: ['spreadsheet'],
+      steps: ['fees', 'members', 'squads'],
+      outcomes: {},
+      skipped: [],
+    });
+    expect(parsed?.steps).toEqual(['fees', 'members', 'squads']);
   });
 
   it('rejects a journey from a future version', () => {

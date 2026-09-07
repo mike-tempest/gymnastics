@@ -260,7 +260,8 @@ export default function SquadsImportPage() {
         errors: result.errors || [],
       });
       migration.record({
-        counts: { squadsCreated: result.created.length },
+        counts: {},
+        squads: { created: result.created.map((squad) => squad.squad_name), matched: [] },
         errorCount: (result.errors || []).length,
         warningCount: 0,
       });
