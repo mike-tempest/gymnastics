@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, BadRequestException, Logger } from '@nestjs/common';
 import { MEMBER_NOUN_LOWER } from '../../common/brand';
-import { MembersRepository } from './members.repository';
+import { MemberFilters, MembersRepository } from './members.repository';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { Member } from './entities/member.entity';
@@ -25,8 +25,13 @@ export class MembersService {
     }
   }
 
-  async findAll(): Promise<Member[]> {
-    return await this.membersRepository.findAll();
+  /**
+   * Lists members for the active club. Supplied filters compose: family,
+   * squad and discipline all narrow the same query rather than picking one
+   * branch, so a caller can ask for the WAG gymnasts in one squad.
+   */
+  async findAll(filters: MemberFilters = {}): Promise<Member[]> {
+    return await this.membersRepository.findAll(filters);
   }
 
   async findOne(id: string): Promise<Member> {

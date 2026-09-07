@@ -1,12 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
+import { Discipline, SquadType } from '@club-manager/shared-types';
 import { Squad } from './entities/squad.entity';
 import { Member } from '../members/entities/member.entity';
 import { CreateSquadDto } from './dto/create-squad.dto';
 import { UpdateSquadDto } from './dto/update-squad.dto';
 import { TenantScopedHelper } from '../../common/tenancy/tenant-scoped.helper';
 import { TenantContextService } from '../../common/tenancy/tenant-context.service';
+
+/**
+ * Optional narrowing applied to a squad listing. A club runs its recreational
+ * classes and its competitive squads out of the same table, so type is the
+ * filter that separates the two, and discipline narrows within either.
+ */
+export interface SquadFilters {
+  type?: SquadType;
+  discipline?: Discipline;
+}
+
+/**
+ * Turn the supplied filters into a single TypeORM `where`. Unset filters are
+ * left out entirely: including a key with an undefined value would make
+ * TypeORM match on NULL rather than skip the column.
+ */
+function buildSquadWhere(filters: SquadFilters): FindOptionsWhere<Squad> {
+  const where: FindOptionsWhere<Squad> = {};
+
+  if (filters.type) {
+    where.squad_type = filters.type;
+  }
+  if (filters.discipline) {
+    where.discipline = filters.discipline;
+  }
+
+  return where;
+}
 
 @Injectable()
 export class SquadsRepository {
@@ -28,8 +57,16 @@ export class SquadsRepository {
     return await this.repository.save(squad);
   }
 
-  async findAll(): Promise<Squad[]> {
+  /**
+   * Returns squads for the active tenant, narrowed by any supplied filters.
+   *
+   * The filters are composed into one `where` object that `scoped.scopedFind`
+   * then adds club scoping to, so they can only narrow the result set and
+   * never reach outside the active club.
+   */
+  async findAll(filters: SquadFilters = {}): Promise<Squad[]> {
     return await this.scoped.scopedFind(this.repository, {
+      where: buildSquadWhere(filters),
       relations: ['members'],
       order: {
         squad_name: 'ASC',
@@ -45,6 +82,24 @@ export class SquadsRepository {
       order: {
         squad_name: 'ASC',
       },
+    });
+  }
+
+  /**
+   * Squad type and discipline for every squad in the active club, for the
+   * statistics roll-up. Deliberately skips the members relation that findAll()
+   * loads, since the counts do not need it.
+   *
+   * squad_id is selected even though the caller never reads it: TypeORM groups
+   * raw rows by the primary key when building entities, so leaving it out of an
+   * explicit `select` folds every squad into a single result and the counts
+   * come back as 1. findAllNames() above selects it for the same reason.
+   */
+  async findAllClassifications(): Promise<
+    Array<Pick<Squad, 'squad_id' | 'squad_type' | 'discipline'>>
+  > {
+    return await this.scoped.scopedFind(this.repository, {
+      select: ['squad_id', 'squad_type', 'discipline'],
     });
   }
 

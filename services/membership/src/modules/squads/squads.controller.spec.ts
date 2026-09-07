@@ -1,4 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { BadRequestException } from '@nestjs/common';
+import { Discipline, SquadType } from '@club-manager/shared-types';
 import { SquadsController } from './squads.controller';
 import { SquadsService } from './squads.service';
 import { CreateSquadDto } from './dto/create-squad.dto';
@@ -109,7 +111,42 @@ describe('SquadsController', () => {
       const result = await controller.findAll();
 
       expect(result).toEqual([mockSquad]);
-      expect(mockService.findAll).toHaveBeenCalled();
+      expect(mockService.findAll).toHaveBeenCalledWith({
+        type: undefined,
+        discipline: undefined,
+      });
+    });
+
+    it('should compose the type and discipline filters into one query', async () => {
+      mockService.findAll.mockResolvedValue([mockSquad]);
+
+      await controller.findAll(SquadType.RECREATIONAL, Discipline.TRAMPOLINE);
+
+      expect(mockService.findAll).toHaveBeenCalledWith({
+        type: SquadType.RECREATIONAL,
+        discipline: Discipline.TRAMPOLINE,
+      });
+    });
+
+    it('should reject an unrecognised squad type', () => {
+      expect(() => controller.findAll('elite')).toThrow(BadRequestException);
+      expect(mockService.findAll).not.toHaveBeenCalled();
+    });
+
+    it('should reject an unrecognised discipline', () => {
+      expect(() => controller.findAll(undefined, 'VAULT')).toThrow(BadRequestException);
+      expect(mockService.findAll).not.toHaveBeenCalled();
+    });
+
+    it('should treat empty filter params as no filter', async () => {
+      mockService.findAll.mockResolvedValue([mockSquad]);
+
+      await controller.findAll('', '');
+
+      expect(mockService.findAll).toHaveBeenCalledWith({
+        type: undefined,
+        discipline: undefined,
+      });
     });
   });
 

@@ -1,3 +1,4 @@
+import { Discipline, SquadType } from '@club-manager/shared-types';
 import { Squad } from '../../modules/squads/entities/squad.entity';
 
 let counter = 0;
@@ -16,6 +17,10 @@ export function buildSquad(overrides?: Partial<Squad>): Squad {
     coach_name: `Coach ${counter}`,
     training_times: 'Monday 18:00-19:00, Wednesday 18:00-19:00',
     max_capacity: 24,
+    squad_type: SquadType.COMPETITIVE,
+    level: null,
+    discipline: Discipline.WOMENS_ARTISTIC,
+    programme_flags: null,
     created_at: now,
     updated_at: now,
     members: [],

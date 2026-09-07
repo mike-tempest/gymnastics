@@ -1,4 +1,4 @@
-import { GoverningBody } from '@club-manager/shared-types';
+import { Discipline, GoverningBody } from '@club-manager/shared-types';
 import { Member } from '../../modules/members/entities/member.entity';
 
 let counter = 0;
@@ -18,6 +18,7 @@ export function buildMember(overrides?: Partial<Member>): Member {
     dob: new Date('2014-06-15'),
     gender: 'female',
     squad_id: crypto.randomUUID(),
+    discipline: Discipline.WOMENS_ARTISTIC,
     medical_notes: null,
     emergency_contact: null,
     photo_url: null,
