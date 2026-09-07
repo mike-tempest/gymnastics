@@ -19,9 +19,11 @@ import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 import ColumnMappingStep from '@/components/import/ColumnMappingStep';
+import MigrationStepBanner, { MigrationStepReturn } from '@/components/import/MigrationStepBanner';
 import SwimCentralHint from '@/components/import/SwimCentralHint';
 import MainLayout from '@/components/layout/MainLayout';
 import { useClubRegion } from '@/hooks/useClubRegion';
+import { useMigrationStepReporter } from '@/hooks/useMigrationJourney';
 import {
   type MemberImportError,
   type MemberImportPreviewResponse,
@@ -229,6 +231,7 @@ type DryRunState =
 
 export default function MembersImportPage() {
   const { country } = useClubRegion();
+  const migration = useMigrationStepReporter('members');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dryRunSeq = useRef(0);
   const [step, setStep] = useState<ImportStep>('upload');
@@ -389,6 +392,16 @@ export default function MembersImportPage() {
     const apiRows = validEntries.map(({ row, validation }) => toApiRow(row, validation));
     setSubmittedEntries(validEntries.map(({ row, originalRow }) => ({ raw: row.raw, originalRow })));
 
+    // The import response carries no squad detail, so the migration checklist
+    // takes its squad counts from the preview the club has just approved.
+    const squadCounts =
+      dryRun.status === 'done'
+        ? {
+            matched: dryRun.data.summary.squads_matched.length,
+            created: createMissingSquads ? dryRun.data.summary.squads_missing.length : 0,
+          }
+        : { matched: 0, created: 0 };
+
     setStep('importing');
 
     try {
@@ -398,6 +411,16 @@ export default function MembersImportPage() {
         membersCreated: result.summary.members_created,
         membersUpdated: result.summary.members_updated,
         errors: result.errors || [],
+      });
+      migration.record({
+        counts: {
+          families: result.summary.families_created,
+          members: result.summary.members_created,
+          squadsMatched: squadCounts.matched,
+          squadsCreated: squadCounts.created,
+        },
+        errorCount: (result.errors || []).length,
+        warningCount: 0,
       });
 
       const total = result.summary.members_created + result.summary.members_updated;
@@ -506,6 +529,12 @@ export default function MembersImportPage() {
               </p>
             </div>
           </div>
+
+          <MigrationStepBanner
+            active={migration.active}
+            position={migration.position}
+            total={migration.total}
+          />
 
           {/* Step Indicator */}
           <div className="flex flex-wrap items-center gap-2 mb-6">
@@ -1030,6 +1059,7 @@ export default function MembersImportPage() {
                     <FileCheck className="w-5 h-5" />
                     <span>Import Another File</span>
                   </button>
+                  <MigrationStepReturn active={migration.active} />
                   <Link
                     href="/admin/import"
                     className="px-8 py-3 bg-brand text-dark-primary rounded-xl font-bold hover:bg-brand-light transition-all shadow-sm min-h-[48px] flex items-center justify-center space-x-2"

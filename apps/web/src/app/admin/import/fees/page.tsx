@@ -6,8 +6,10 @@ import Papa from 'papaparse';
 import { useCallback, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
+import MigrationStepBanner, { MigrationStepReturn } from '@/components/import/MigrationStepBanner';
 import MainLayout from '@/components/layout/MainLayout';
 import { useClubRegion } from '@/hooks/useClubRegion';
+import { useMigrationStepReporter } from '@/hooks/useMigrationJourney';
 import { type BulkFeeStructureInput, bulkImportFeeStructures } from '@/lib/api/finance';
 import { downloadCsv } from '@/lib/csv-export';
 
@@ -101,6 +103,7 @@ function progressWidthClass(progress: number): string {
 }
 
 export default function FeeStructuresImportPage() {
+  const migration = useMigrationStepReporter('fees');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { currency } = useClubRegion();
   const [step, setStep] = useState<ImportStep>('upload');
@@ -236,6 +239,11 @@ export default function FeeStructuresImportPage() {
         successCount: result.created.length,
         errors: result.errors || [],
       });
+      migration.record({
+        counts: { feeStructures: result.created.length },
+        errorCount: (result.errors || []).length,
+        warningCount: 0,
+      });
       if (result.created.length > 0 && (!result.errors || result.errors.length === 0)) {
         toast.success(`${result.created.length} fee structure${result.created.length !== 1 ? 's' : ''} imported successfully`);
       } else if (result.created.length > 0) {
@@ -307,6 +315,12 @@ export default function FeeStructuresImportPage() {
               </p>
             </div>
           </div>
+
+          <MigrationStepBanner
+            active={migration.active}
+            position={migration.position}
+            total={migration.total}
+          />
 
           {/* Main Content */}
           <div className="bg-dark-primary rounded-3xl shadow-lg p-4 sm:p-8 border border-white/20">
@@ -651,6 +665,7 @@ export default function FeeStructuresImportPage() {
                     <FileCheck className="w-5 h-5" />
                     <span>Import Another File</span>
                   </button>
+                  <MigrationStepReturn active={migration.active} />
                   <Link
                     href="/fee-structures"
                     className="px-8 py-3 bg-brand text-dark-primary rounded-xl font-bold hover:bg-brand-light transition-all shadow-sm min-h-[48px] flex items-center justify-center space-x-2"

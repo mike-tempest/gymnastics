@@ -1,159 +1,50 @@
 'use client';
 
-import {
-  ArrowLeft,
-  ArrowRight,
-  Banknote,
-  Download,
-  Layers,
-  PoundSterling,
-  Repeat,
-  UserCog,
-  Users,
-  type LucideIcon,
-} from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Route } from 'lucide-react';
 import Link from 'next/link';
-import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
+import ImportTemplateCards from '@/components/import/ImportTemplateCards';
 import MainLayout from '@/components/layout/MainLayout';
-import { Card, CardContent } from '@/components/ui/card';
-import { BRAND, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
-
-const SQUADS_TEMPLATE_CSV = `squad_name,description,min_age,max_age,coach_name,training_times,max_capacity
-Recreational,Beginners building confidence and fundamental movement skills,5,8,Emma Clarke,Mon/Wed 17:00-17:45,20
-Development,Improving technique across all four strokes,8,12,Tom Barker,Tue/Thu 18:00-19:00,24
-Competition,Squad training for county and regional galas,11,17,Rachel Hughes,Mon/Wed/Fri 19:00-20:30,30`;
-
-const MEMBERS_TEMPLATE_CSV = `member_first_name,member_last_name,date_of_birth,gender,registration_number,governing_body,squad,medical_notes,emergency_contact,parent_name,parent_email,parent_phone,family_name,address_line1,address_line2,city,postcode
-Olivia,Thompson,2015-03-14,F,1234567,BRITISH_GYMNASTICS,Development,Mild asthma (inhaler kept in kit bag),Sarah Thompson 07700 900123,Sarah Thompson,sarah.thompson@example.co.uk,07700 900123,Thompson,14 Riverside Close,,Tunbridge Wells,TN1 2AB
-Harry,Thompson,2013-08-22,M,1234568,BRITISH_GYMNASTICS,Competition,,Sarah Thompson 07700 900123,Sarah Thompson,sarah.thompson@example.co.uk,07700 900123,Thompson,14 Riverside Close,,Tunbridge Wells,TN1 2AB
-Amelia,Patel,2014-05-09,F,2345678,BRITISH_GYMNASTICS,Development,,Priya Patel 07700 900456,Priya Patel,priya.patel@example.co.uk,07700 900456,Patel,7 Orchard Way,Flat 2,Maidstone,ME14 5XY`;
-
-const STAFF_TEMPLATE_CSV = `first_name,last_name,email,role
-Emma,Clarke,emma.clarke@example.co.uk,head_coach
-Tom,Barker,tom.barker@example.co.uk,squad_coach
-Janet,Osei,janet.osei@example.co.uk,treasurer`;
-
-const FEES_TEMPLATE_CSV = `name,description,amount,frequency,applies_to,squad_name
-Club Membership,Annual club membership for all ${MEMBER_NOUN_PLURAL_LOWER},45.00,annual,club,
-Development Squad Fees,Monthly training fees for the Development squad,32.50,monthly,squad,Development
-Competition Squad Fees,Monthly training fees for the Competition squad,44.00,monthly,squad,Competition`;
-
-interface ImportCard {
-  step: number;
-  title: string;
-  description: string;
-  hint: string;
-  icon: LucideIcon;
-  templateCsv: string;
-  templateFileName: string;
-  importHref: string;
-}
-
-const IMPORT_CARDS: ImportCard[] = [
-  {
-    step: 1,
-    title: 'Squads',
-    description:
-      'Set up your training squads first so members and fee structures can be matched to them.',
-    hint: 'Columns: squad_name, description, min_age, max_age, coach_name, training_times, max_capacity. Only squad_name is required.',
-    icon: Layers,
-    templateCsv: SQUADS_TEMPLATE_CSV,
-    templateFileName: 'squads_import_template.csv',
-    importHref: '/admin/import/squads',
-  },
-  {
-    step: 2,
-    title: 'Members',
-    description:
-      `Import ${MEMBER_NOUN_PLURAL_LOWER} together with their parent and family details. Rows sharing a parent email are grouped into one family.`,
-    hint: 'Columns include member_first_name, member_last_name, date_of_birth, gender, registration_number, governing_body, squad, plus parent, family and address details. Dates can be YYYY-MM-DD or DD/MM/YYYY.',
-    icon: Users,
-    templateCsv: MEMBERS_TEMPLATE_CSV,
-    templateFileName: 'members_import_template.csv',
-    importHref: '/admin/import/members',
-  },
-  {
-    step: 3,
-    title: 'Staff',
-    description:
-      'Add your coaches, committee members and volunteers along with their club roles.',
-    hint: 'Columns: first_name, last_name, email, role. Roles: treasurer, head_coach, squad_coach, welfare_officer, competition_secretary.',
-    icon: UserCog,
-    templateCsv: STAFF_TEMPLATE_CSV,
-    templateFileName: 'staff_import_template.csv',
-    importHref: '/admin/import/staff',
-  },
-  {
-    step: 4,
-    title: 'Fee structures',
-    description:
-      'Set up your membership and squad fees so billing is ready from day one.',
-    hint: 'Columns: name, description, amount, frequency (monthly, annual or one_time), applies_to (club or squad), squad_name.',
-    icon: PoundSterling,
-    templateCsv: FEES_TEMPLATE_CSV,
-    templateFileName: 'fee_structures_import_template.csv',
-    importHref: '/admin/import/fees',
-  },
-];
-
-interface SourceCard {
-  title: string;
-  description: string;
-  hint: string;
-  icon: LucideIcon;
-  href: string;
-  cta: string;
-}
-
-/**
- * Switching from a specific system. Ordered by how much of a club's data
- * each route rescues, per docs/05-Build-Brief-Positioning-and-Product-Rules.md
- * section 4: the GoCardless takeover first, because it is the only one that
- * saves every family from re-mandating.
- */
-const SOURCE_CARDS: SourceCard[] = [
-  {
-    title: 'GoCardless',
-    description:
-      'Take over your existing GoCardless organisation. Every live Direct Debit comes across, so no parent sets one up again.',
-    hint: 'Upload the Customers and Mandates CSV exports from your GoCardless dashboard, and the Payments export if you want the history summarised.',
-    icon: Repeat,
-    href: '/admin/import/gocardless',
-    cta: 'Start takeover',
-  },
-  {
-    title: 'ClassForKids',
-    description:
-      'Assemble your families and classes from the spreadsheets ClassForKids does let you download. Upload as many as you have at once.',
-    hint: 'Contacts, class registers and financial reports together. Card payments cannot be transferred, so families will set up a Direct Debit here instead.',
-    icon: Users,
-    href: '/admin/import/classforkids',
-    cta: 'Import spreadsheets',
-  },
-  {
-    title: 'Thrive4 or LoveAdmin',
-    description:
-      `Their contact and payment reports let you choose the columns. Export what you have and the ${MEMBER_NOUN_PLURAL_LOWER} import will recognise it.`,
-    hint: 'Contact First Name, Account Holder, Groups and the rest are matched automatically; anything unusual you can map by hand.',
-    icon: Banknote,
-    href: '/admin/import/members',
-    cta: `Import ${MEMBER_NOUN_PLURAL_LOWER}`,
-  },
-];
-
-function downloadTemplate(csv: string, fileName: string) {
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = fileName;
-  a.click();
-  URL.revokeObjectURL(url);
-  toast.success(`${fileName} downloaded`);
-}
+import { useMigrationJourney } from '@/hooks/useMigrationJourney';
+import { BRAND } from '@/lib/brand';
+import {
+  MIGRATION_JOURNEY_HREF,
+  MIGRATION_SOURCES,
+  MIGRATION_STEPS,
+  type MigrationSourceId,
+  isJourneyComplete,
+  journeyProgress,
+  orderStepsForSources,
+} from '@/lib/import/migration-journey';
 
 export default function ImportHubPage() {
+  const router = useRouter();
+  const { journey, loaded, start, abandon } = useMigrationJourney();
+  const [selected, setSelected] = useState<MigrationSourceId[]>([]);
+
+  const plannedSteps = orderStepsForSources(selected);
+  const progress = journey ? journeyProgress(journey) : null;
+  const finished = journey ? isJourneyComplete(journey) : false;
+
+  const toggleSource = (id: MigrationSourceId) => {
+    setSelected((current) =>
+      current.includes(id) ? current.filter((s) => s !== id) : [...current, id]
+    );
+  };
+
+  const handleStart = () => {
+    if (selected.length === 0) return;
+    start(selected);
+    router.push(MIGRATION_JOURNEY_HREF);
+  };
+
+  const handleStartOver = () => {
+    abandon();
+    setSelected([]);
+  };
+
   return (
     <MainLayout>
       <div className="min-h-dvh bg-canvas p-6 sm:p-10">
@@ -168,106 +59,147 @@ export default function ImportHubPage() {
               <span>Back to Admin Dashboard</span>
             </Link>
             <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight mb-2">
-              Import your club&apos;s data
+              Where is your club&apos;s data today?
             </h1>
             <p className="text-grey-600 text-lg max-w-3xl">
-              Bring your existing records into {BRAND.name} from CSV files. Work through the
-              four steps in order: squads first, then members, staff and fee structures.
-              Each step has a template you can download and fill in. Switching from another
-              system? Start with the source you are leaving, further down this page.
+              Pick everything that applies. Most clubs keep people in one place and money in
+              another, so choose as many as you need and {BRAND.name} puts the imports in a sensible
+              order: people first, then Direct Debits. You can stop after any step and come back.
             </p>
           </div>
 
-          {/* Import cards */}
+          {/* Resume an existing journey */}
+          {loaded && journey && progress && (
+            <div className="mb-8 rounded-3xl border border-brand border-opacity-30 bg-brand bg-opacity-10 p-6 sm:p-8">
+              <div className="flex flex-col lg:flex-row lg:items-center gap-4 justify-between">
+                <div className="flex items-start gap-3">
+                  <Route className="w-6 h-6 text-brand flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h2 className="font-serif text-2xl text-dark-primary tracking-tight mb-1">
+                      {finished ? 'Your migration is finished' : 'You have a migration in progress'}
+                    </h2>
+                    <p className="text-grey-600 text-sm">
+                      {progress.settled} of {progress.total} step
+                      {progress.total !== 1 ? 's' : ''} done. Starting again clears what the wizard
+                      remembers. It does not remove anything already imported.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
+                  <button
+                    type="button"
+                    onClick={handleStartOver}
+                    className="min-h-[48px] px-6 py-3 rounded-xl border border-dark-primary/20 text-dark-primary font-semibold hover:bg-dark-primary/5 transition-all"
+                  >
+                    Start again
+                  </button>
+                  <Link
+                    href={MIGRATION_JOURNEY_HREF}
+                    className="min-h-[48px] px-6 py-3 bg-brand text-dark-primary rounded-xl font-bold hover:bg-brand-dark transition-all flex items-center justify-center gap-2"
+                  >
+                    <span>{finished ? 'View your checklist' : 'Continue migration'}</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Source selection */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {IMPORT_CARDS.map((card) => {
-              const Icon = card.icon;
+            {MIGRATION_SOURCES.map((source) => {
+              const isSelected = selected.includes(source.id);
               return (
-                <Card key={card.title} className="bg-dark-primary border-white/10">
-                  <CardContent className="p-6 sm:p-8 flex flex-col h-full">
-                    <div className="flex items-start gap-4 mb-4">
-                      <div className="p-3 rounded-lg bg-lime/20 shrink-0">
-                        <Icon className="w-6 h-6 text-lime" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-medium text-white/60 uppercase tracking-wider mb-1">
-                          Step {card.step} of 4
-                        </p>
-                        <h2 className="font-serif text-2xl text-white tracking-tight">
-                          {card.title}
-                        </h2>
-                      </div>
-                    </div>
-
-                    <p className="text-white/70 text-sm mb-4">{card.description}</p>
-
-                    <p className="text-white/50 text-xs leading-relaxed mb-6">{card.hint}</p>
-
-                    <div className="mt-auto flex flex-col sm:flex-row gap-3">
-                      <button
-                        type="button"
-                        onClick={() => downloadTemplate(card.templateCsv, card.templateFileName)}
-                        className="min-h-[48px] px-6 py-3 bg-transparent text-white rounded-xl font-semibold hover:bg-white/5 transition-all border border-white/20 flex items-center justify-center gap-2 cursor-pointer"
-                      >
-                        <Download className="w-5 h-5" />
-                        <span>Download template</span>
-                      </button>
-                      <Link
-                        href={card.importHref}
-                        className="min-h-[48px] px-6 py-3 bg-brand text-dark-primary rounded-xl font-bold hover:bg-brand-dark transition-all flex items-center justify-center gap-2"
-                      >
-                        <span>Import {card.title.toLowerCase()}</span>
-                        <ArrowRight className="w-5 h-5" />
-                      </Link>
-                    </div>
-                  </CardContent>
-                </Card>
+                <button
+                  key={source.id}
+                  type="button"
+                  aria-pressed={isSelected}
+                  onClick={() => toggleSource(source.id)}
+                  className={`text-left rounded-3xl border p-6 sm:p-8 transition-all min-h-[48px] ${
+                    isSelected
+                      ? 'bg-dark-primary border-brand ring-2 ring-brand'
+                      : 'bg-dark-primary border-white/10 hover:border-white/30'
+                  }`}
+                >
+                  <div className="flex items-start gap-4 mb-3">
+                    <span
+                      aria-hidden="true"
+                      className={`w-6 h-6 rounded-md border flex items-center justify-center flex-shrink-0 mt-1 ${
+                        isSelected ? 'bg-brand border-brand' : 'border-white/30'
+                      }`}
+                    >
+                      {isSelected && <Check className="w-4 h-4 text-dark-primary" />}
+                    </span>
+                    <h2 className="font-serif text-2xl text-white tracking-tight">
+                      {source.title}
+                    </h2>
+                  </div>
+                  <p className="text-white/70 text-sm leading-relaxed">{source.summary}</p>
+                </button>
               );
             })}
           </div>
 
-          {/* Switching from another system */}
+          {/* The resulting journey */}
+          <div className="mt-8 rounded-3xl bg-dark-primary border border-white/10 p-6 sm:p-8">
+            <h2 className="font-serif text-2xl text-white tracking-tight mb-2">Your journey</h2>
+            {plannedSteps.length === 0 ? (
+              <p className="text-white/60 text-sm">
+                Choose at least one source above and the steps appear here.
+              </p>
+            ) : (
+              <>
+                <ol className="space-y-3 mb-6">
+                  {plannedSteps.map((stepId, index) => {
+                    const step = MIGRATION_STEPS[stepId];
+                    return (
+                      <li key={stepId} className="flex items-start gap-3">
+                        <span className="w-7 h-7 rounded-full bg-brand bg-opacity-20 text-brand text-sm font-bold flex items-center justify-center flex-shrink-0">
+                          {index + 1}
+                        </span>
+                        <div>
+                          <p className="text-white font-semibold">
+                            {step.title}
+                            {step.optional && (
+                              <span className="text-white/50 font-normal text-sm"> (optional)</span>
+                            )}
+                          </p>
+                          <p className="text-white/60 text-sm">{step.description}</p>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ol>
+                {plannedSteps.includes('gocardless') && plannedSteps.length > 1 && (
+                  <p className="text-white/50 text-sm mb-6">
+                    The GoCardless takeover comes last on purpose. A mandate attaches to a family,
+                    so the families have to be here before the Direct Debits arrive.
+                  </p>
+                )}
+              </>
+            )}
+
+            <button
+              type="button"
+              onClick={handleStart}
+              disabled={selected.length === 0}
+              className="min-h-[48px] px-8 py-3 bg-brand text-dark-primary rounded-xl font-bold hover:bg-brand-light transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <span>Start migration</span>
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* File-by-file route */}
           <div className="mt-12">
             <h2 className="font-serif text-3xl text-dark-primary tracking-tight mb-2">
-              Coming from another system
+              Or import one file at a time
             </h2>
             <p className="text-grey-600 max-w-3xl mb-6">
-              These routes read the exports your current provider gives you, so you do not have to
-              retype anything into a template.
+              The same importers, without the guided journey. Each has a template you can download
+              and fill in.
             </p>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {SOURCE_CARDS.map((card) => {
-                const Icon = card.icon;
-                return (
-                  <Card key={card.title} className="bg-dark-primary border-white/10">
-                    <CardContent className="p-6 sm:p-8 flex flex-col h-full">
-                      <div className="flex items-start gap-4 mb-4">
-                        <div className="p-3 rounded-lg bg-lime/20 shrink-0">
-                          <Icon className="w-6 h-6 text-lime" />
-                        </div>
-                        <h3 className="font-serif text-2xl text-white tracking-tight">
-                          {card.title}
-                        </h3>
-                      </div>
-
-                      <p className="text-white/70 text-sm mb-4">{card.description}</p>
-                      <p className="text-white/50 text-xs leading-relaxed mb-6">{card.hint}</p>
-
-                      <div className="mt-auto">
-                        <Link
-                          href={card.href}
-                          className="min-h-[48px] px-6 py-3 bg-brand text-dark-primary rounded-xl font-bold hover:bg-brand-dark transition-all flex items-center justify-center gap-2"
-                        >
-                          <span>{card.cta}</span>
-                          <ArrowRight className="w-5 h-5" />
-                        </Link>
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
+            <ImportTemplateCards />
           </div>
         </div>
       </div>

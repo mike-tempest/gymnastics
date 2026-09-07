@@ -184,7 +184,7 @@ function MembersPageInner() {
             </div>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <Link
-                href="/members/import"
+                href="/admin/import/members"
                 className="px-6 py-3 sm:px-8 sm:py-4 min-h-[44px] bg-dark-primary/80 text-white rounded-button font-bold hover:bg-white/5 transition-all flex items-center justify-center space-x-3 text-base sm:text-lg border border-white/20"
               >
                 <Upload className="w-6 h-6" />
