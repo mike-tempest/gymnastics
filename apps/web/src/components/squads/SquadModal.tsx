@@ -1,6 +1,16 @@
 'use client';
 
-import { Squad, Member } from '@club-manager/shared-types';
+import {
+  Squad,
+  Member,
+  Discipline,
+  DISCIPLINE_LABELS,
+  ORDERED_DISCIPLINES,
+  ProgrammeFlag,
+  PROGRAMME_FLAG_LABELS,
+  SquadType,
+  SQUAD_TYPE_LABELS,
+} from '@club-manager/shared-types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -8,6 +18,7 @@ import { z } from 'zod';
 
 import { getMembers } from '@/lib/api/members';
 import { assignMemberToSquad, removeMemberFromSquad } from '@/lib/api/squads';
+import { MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
 const squadSchema = z.object({
   squad_name: z.string().min(1, 'Squad name is required').max(100, 'Squad name too long'),
@@ -17,6 +28,12 @@ const squadSchema = z.object({
   coach_name: z.string().max(100, 'Coach name too long').optional(),
   training_times: z.string().optional(),
   max_capacity: z.coerce.number().min(1, 'Capacity must be at least 1').optional().nullable(),
+  // Empty string is the "nothing selected" value of a native select; it is
+  // normalised to null on submit so the column stores NULL, not ''.
+  squad_type: z.nativeEnum(SquadType).or(z.literal('')).optional(),
+  level: z.string().max(100, 'Level too long').optional().or(z.literal('')),
+  discipline: z.nativeEnum(Discipline).or(z.literal('')).optional(),
+  programme_flags: z.array(z.nativeEnum(ProgrammeFlag)).optional(),
 }).refine(
   (data) => {
     if (data.min_age !== undefined && data.min_age !== null &&
@@ -33,10 +50,46 @@ const squadSchema = z.object({
 
 type SquadFormData = z.infer<typeof squadSchema>;
 
+// What the modal hands back to its parent. The select fields are normalised
+// from empty string to null so they are stored as NULL rather than ''.
+export interface SquadSubmitData {
+  squad_name: string;
+  description?: string;
+  min_age?: number | null;
+  max_age?: number | null;
+  coach_name?: string;
+  training_times?: string;
+  max_capacity?: number | null;
+  squad_type?: SquadType | null;
+  level?: string | null;
+  discipline?: Discipline | null;
+  programme_flags?: ProgrammeFlag[] | null;
+}
+
+/**
+ * Form values for a squad, or the blank form when adding one. Kept in one
+ * place because the modal seeds the form here and again on every open.
+ */
+function toFormValues(squad?: Squad | null): SquadFormData {
+  return {
+    squad_name: squad?.squad_name ?? '',
+    description: squad?.description || '',
+    min_age: squad?.min_age ?? undefined,
+    max_age: squad?.max_age ?? undefined,
+    coach_name: squad?.coach_name || '',
+    training_times: squad?.training_times || '',
+    max_capacity: squad?.max_capacity ?? undefined,
+    squad_type: squad?.squad_type || '',
+    level: squad?.level || '',
+    discipline: squad?.discipline || '',
+    programme_flags: squad?.programme_flags ?? [],
+  };
+}
+
 interface SquadModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: SquadFormData) => Promise<void>;
+  onSubmit: (data: SquadSubmitData) => Promise<void>;
   squad?: Squad | null;
   isLoading?: boolean;
 }
@@ -58,30 +111,13 @@ export default function SquadModal({
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
     reset,
   } = useForm<SquadFormData>({
     resolver: zodResolver(squadSchema),
     mode: 'onTouched',
-    defaultValues: squad
-      ? {
-          squad_name: squad.squad_name,
-          description: squad.description || '',
-          min_age: squad.min_age ?? undefined,
-          max_age: squad.max_age ?? undefined,
-          coach_name: squad.coach_name || '',
-          training_times: squad.training_times || '',
-          max_capacity: squad.max_capacity ?? undefined,
-        }
-      : {
-          squad_name: '',
-          description: '',
-          min_age: undefined,
-          max_age: undefined,
-          coach_name: '',
-          training_times: '',
-          max_capacity: undefined,
-        },
+    defaultValues: toFormValues(squad),
   });
 
   // Fetch members when editing an existing squad
@@ -134,27 +170,7 @@ export default function SquadModal({
   // Reset form when squad changes or modal opens
   useEffect(() => {
     if (isOpen) {
-      reset(
-        squad
-          ? {
-              squad_name: squad.squad_name,
-              description: squad.description || '',
-              min_age: squad.min_age ?? undefined,
-              max_age: squad.max_age ?? undefined,
-              coach_name: squad.coach_name || '',
-              training_times: squad.training_times || '',
-              max_capacity: squad.max_capacity ?? undefined,
-            }
-          : {
-              squad_name: '',
-              description: '',
-              min_age: undefined,
-              max_age: undefined,
-              coach_name: '',
-              training_times: '',
-              max_capacity: undefined,
-            }
-      );
+      reset(toFormValues(squad));
       // Focus first input after a short delay to ensure modal is rendered
       setTimeout(() => {
         firstInputRef.current?.focus();
@@ -189,8 +205,15 @@ export default function SquadModal({
   };
 
   const handleFormSubmit = async (data: SquadFormData) => {
+    const payload: SquadSubmitData = {
+      ...data,
+      squad_type: data.squad_type ? data.squad_type : null,
+      level: data.level ? data.level : null,
+      discipline: data.discipline ? data.discipline : null,
+      programme_flags: data.programme_flags?.length ? data.programme_flags : null,
+    };
     try {
-      await onSubmit(data);
+      await onSubmit(payload);
       reset();
     } catch {
       // submission error handled by caller
@@ -209,6 +232,15 @@ export default function SquadModal({
   const availableMembers = allMembers.filter(
     member => !squadMembers.some(s => s.member_id === member.member_id)
   );
+
+  // A level is a recreational idea: it names where a class sits in a badge
+  // pathway. Competitive squads have grades and age groups instead. Clubs
+  // still label things their own way, so this only warns.
+  const selectedSquadType = watch('squad_type');
+  const enteredLevel = watch('level');
+  const showLevelMismatchWarning =
+    !!enteredLevel && !!selectedSquadType && selectedSquadType !== SquadType.RECREATIONAL;
+  const isRecreational = selectedSquadType === SquadType.RECREATIONAL;
 
   return (
     <div
@@ -294,6 +326,117 @@ export default function SquadModal({
                 <p className="mt-2 text-sm text-red-400">{errors.description.message}</p>
               )}
             </div>
+
+            {/* Squad Type and Discipline Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label htmlFor="squad_type" className="block text-sm font-semibold text-white mb-2">
+                  Squad Type <span className="text-text-tertiary font-normal">(Optional)</span>
+                </label>
+                <select
+                  {...register('squad_type')}
+                  id="squad_type"
+                  className={inputCls(!!errors.squad_type)}
+                  disabled={isSubmitting}
+                >
+                  <option value="">Not set</option>
+                  {Object.values(SquadType).map((type) => (
+                    <option key={type} value={type}>
+                      {SQUAD_TYPE_LABELS[type]}
+                    </option>
+                  ))}
+                </select>
+                {errors.squad_type && (
+                  <p className="mt-2 text-sm text-red-400">{errors.squad_type.message}</p>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="discipline" className="block text-sm font-semibold text-white mb-2">
+                  Discipline <span className="text-text-tertiary font-normal">(Optional)</span>
+                </label>
+                <select
+                  {...register('discipline')}
+                  id="discipline"
+                  className={inputCls(!!errors.discipline)}
+                  disabled={isSubmitting}
+                >
+                  <option value="">All disciplines</option>
+                  {ORDERED_DISCIPLINES.map((discipline) => (
+                    <option key={discipline} value={discipline}>
+                      {DISCIPLINE_LABELS[discipline]}
+                    </option>
+                  ))}
+                </select>
+                {errors.discipline && (
+                  <p className="mt-2 text-sm text-red-400">{errors.discipline.message}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Level: a recreational idea, so it appears for recreational
+                squads. It also stays visible whenever a level has already been
+                entered, so an existing value never becomes uneditable. */}
+            {(isRecreational || !!enteredLevel) && (
+              <div>
+                <label htmlFor="level" className="block text-sm font-semibold text-white mb-2">
+                  Level <span className="text-text-tertiary font-normal">(Optional)</span>
+                </label>
+                <input
+                  {...register('level')}
+                  id="level"
+                  type="text"
+                  className={inputCls(!!errors.level)}
+                  placeholder="e.g. Rise Explore, Badge 4, Bronze"
+                  disabled={isSubmitting}
+                />
+                <p className="mt-2 text-sm text-text-tertiary">
+                  Use your club&apos;s own wording. Rise stages and club badge levels both work.
+                </p>
+                {showLevelMismatchWarning && (
+                  <p className="mt-2 text-sm text-amber-400">
+                    Levels usually describe recreational classes. This squad is marked{' '}
+                    {SQUAD_TYPE_LABELS[SquadType.COMPETITIVE].toLowerCase()}, so check that is what
+                    you meant. You can still save it.
+                  </p>
+                )}
+                {errors.level && (
+                  <p className="mt-2 text-sm text-red-400">{errors.level.message}</p>
+                )}
+              </div>
+            )}
+
+            {/* Programme Flags */}
+            <fieldset>
+              <legend className="block text-sm font-semibold text-white mb-2">
+                Programmes <span className="text-text-tertiary font-normal">(Optional)</span>
+              </legend>
+              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
+                {Object.values(ProgrammeFlag).map((flag) => (
+                  <label
+                    key={flag}
+                    htmlFor={`programme_flag_${flag}`}
+                    className="flex items-center gap-3 px-4 py-3 min-h-[48px] bg-white/10 border border-white/10 rounded-xl text-white cursor-pointer hover:border-brand transition-all"
+                  >
+                    <input
+                      {...register('programme_flags')}
+                      id={`programme_flag_${flag}`}
+                      type="checkbox"
+                      value={flag}
+                      className="w-5 h-5 accent-brand"
+                      disabled={isSubmitting}
+                    />
+                    <span className="text-sm font-semibold">{PROGRAMME_FLAG_LABELS[flag]}</span>
+                  </label>
+                ))}
+              </div>
+              <p className="mt-2 text-sm text-text-tertiary">
+                Who the sessions are for. A squad can serve more than one programme.
+              </p>
+              {errors.programme_flags && (
+                <p className="mt-2 text-sm text-red-400">{errors.programme_flags.message}</p>
+              )}
+            </fieldset>
 
             {/* Age Range and Capacity Row */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -393,7 +536,7 @@ export default function SquadModal({
             {/* Member Management (only for existing squads) */}
             {showMemberManagement && squad && (
               <div className="border-t border-white/10 pt-6">
-                <h3 className="text-xl font-bold text-white mb-4">Squad Members</h3>
+                <h3 className="text-xl font-bold text-white mb-4">Squad {MEMBER_NOUN_PLURAL}</h3>
 
                 {isLoadingMembers ? (
                   <div className="text-center py-8">
@@ -401,14 +544,14 @@ export default function SquadModal({
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Current Members */}
+                    {/* Current squad members */}
                     <div>
                       <h4 className="text-sm font-semibold text-text-secondary mb-3">
-                        Current Members ({squadMembers.length})
+                        Current {MEMBER_NOUN_PLURAL} ({squadMembers.length})
                       </h4>
                       <div className="space-y-2 max-h-64 overflow-y-auto">
                         {squadMembers.length === 0 ? (
-                          <p className="text-text-secondary text-sm py-4 text-center">No members yet</p>
+                          <p className="text-text-secondary text-sm py-4 text-center">No {MEMBER_NOUN_PLURAL_LOWER} yet</p>
                         ) : (
                           squadMembers.map((member) => (
                             <div
@@ -431,15 +574,15 @@ export default function SquadModal({
                       </div>
                     </div>
 
-                    {/* Available Members */}
+                    {/* Available members */}
                     <div>
                       <h4 className="text-sm font-semibold text-text-secondary mb-3">
-                        Available Members ({availableMembers.length})
+                        Available {MEMBER_NOUN_PLURAL} ({availableMembers.length})
                       </h4>
                       <div className="space-y-2 max-h-64 overflow-y-auto">
                         {availableMembers.length === 0 ? (
                           <p className="text-text-secondary text-sm py-4 text-center">
-                            All members assigned
+                            All {MEMBER_NOUN_PLURAL_LOWER} assigned
                           </p>
                         ) : (
                           availableMembers.map((member) => (

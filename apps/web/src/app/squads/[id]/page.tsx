@@ -1,19 +1,24 @@
 'use client';
 
+import {
+  DISCIPLINE_LABELS,
+  PROGRAMME_FLAG_LABELS,
+  SQUAD_TYPE_LABELS,
+} from '@club-manager/shared-types';
 import { Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 import MainLayout from '@/components/layout/MainLayout';
-import SquadModal from '@/components/squads/SquadModal';
+import SquadModal, { type SquadSubmitData } from '@/components/squads/SquadModal';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useConfirm } from '@/hooks/useConfirm';
 import { deleteSquad, updateSquad } from '@/lib/api/squads';
-import { MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
+import { MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 import { useSquad, useSquadMembers } from '@/lib/hooks';
 
 export default function SquadDetailPage({ params }: { params: { id: string } }) {
@@ -40,15 +45,7 @@ export default function SquadDetailPage({ params }: { params: { id: string } }) 
     setIsModalOpen(false);
   };
 
-  const handleSubmit = async (data: {
-    squad_name: string;
-    description?: string;
-    min_age?: number | null;
-    max_age?: number | null;
-    coach_name?: string;
-    training_times?: string;
-    max_capacity?: number | null;
-  }) => {
+  const handleSubmit = async (data: SquadSubmitData) => {
     if (!squad) return;
 
     try {
@@ -283,6 +280,57 @@ export default function SquadDetailPage({ params }: { params: { id: string } }) 
             </div>
           </div>
 
+          {/* Programme: where this squad sits in the club. Rendered only when
+              the club has classified it, so an unclassified squad shows no
+              empty card. */}
+          {(squad.squad_type ||
+            squad.level ||
+            squad.discipline ||
+            (squad.programme_flags && squad.programme_flags.length > 0)) && (
+            <div className="bg-dark-primary rounded-3xl shadow-lg p-6 border border-white/10 mb-8">
+              <h2 className="font-serif text-2xl text-white mb-4">Programme</h2>
+              <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {squad.squad_type && (
+                  <div>
+                    <dt className="text-text-secondary text-sm font-semibold mb-1">Type</dt>
+                    <dd className="text-white text-xl font-bold">
+                      {SQUAD_TYPE_LABELS[squad.squad_type]}
+                    </dd>
+                  </div>
+                )}
+                {squad.level && (
+                  <div>
+                    <dt className="text-text-secondary text-sm font-semibold mb-1">Level</dt>
+                    <dd className="text-white text-xl font-bold">{squad.level}</dd>
+                  </div>
+                )}
+                {squad.discipline && (
+                  <div>
+                    <dt className="text-text-secondary text-sm font-semibold mb-1">Discipline</dt>
+                    <dd className="text-white text-xl font-bold">
+                      {DISCIPLINE_LABELS[squad.discipline]}
+                    </dd>
+                  </div>
+                )}
+                {squad.programme_flags && squad.programme_flags.length > 0 && (
+                  <div>
+                    <dt className="text-text-secondary text-sm font-semibold mb-1">Programmes</dt>
+                    <dd className="flex flex-wrap gap-2 pt-1">
+                      {squad.programme_flags.map((flag) => (
+                        <span
+                          key={flag}
+                          className="px-3 py-1 bg-white/10 text-white text-xs font-bold rounded-full border border-white/20"
+                        >
+                          {PROGRAMME_FLAG_LABELS[flag]}
+                        </span>
+                      ))}
+                    </dd>
+                  </div>
+                )}
+              </dl>
+            </div>
+          )}
+
           {/* Training Times */}
           {squad.training_times && (
             <div className="bg-dark-primary rounded-3xl shadow-lg p-6 border border-white/10 mb-8">
@@ -307,7 +355,7 @@ export default function SquadDetailPage({ params }: { params: { id: string } }) 
           {/* Members List */}
           <div className="bg-dark-primary rounded-3xl shadow-lg p-4 sm:p-8 border border-white/20">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="font-serif text-2xl sm:text-4xl text-white tracking-tight">Squad Members</h2>
+              <h2 className="font-serif text-2xl sm:text-4xl text-white tracking-tight">Squad {MEMBER_NOUN_PLURAL}</h2>
               <span className="text-text-secondary text-lg tabular-nums">
                 {members.length} {members.length === 1 ? MEMBER_NOUN_LOWER : MEMBER_NOUN_PLURAL_LOWER}
               </span>

@@ -1,13 +1,20 @@
 'use client';
 
-import { Squad } from '@club-manager/shared-types';
+import {
+  Squad,
+  DISCIPLINE_LABELS,
+  DISCIPLINE_SHORT_LABELS,
+  ORDERED_DISCIPLINES,
+  SquadType,
+  SQUAD_TYPE_LABELS,
+} from '@club-manager/shared-types';
 import { Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
 import MainLayout from '@/components/layout/MainLayout';
-import SquadModal from '@/components/squads/SquadModal';
+import SquadModal, { type SquadSubmitData } from '@/components/squads/SquadModal';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
@@ -27,7 +34,27 @@ export default function SquadsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mutationError, setMutationError] = useState<string | null>(null);
 
+  // Filters. A club runs its recreational classes and its competitive squads
+  // from this one list, so type is usually the first thing an admin narrows by.
+  const [typeFilter, setTypeFilter] = useState('');
+  const [disciplineFilter, setDisciplineFilter] = useState('');
+
   const displayError = error || mutationError;
+
+  const filteredSquads = useMemo(() => {
+    return squads.filter((squad) => {
+      if (typeFilter && squad.squad_type !== typeFilter) return false;
+      if (disciplineFilter && squad.discipline !== disciplineFilter) return false;
+      return true;
+    });
+  }, [squads, typeFilter, disciplineFilter]);
+
+  const hasFilters = !!typeFilter || !!disciplineFilter;
+
+  const clearFilters = () => {
+    setTypeFilter('');
+    setDisciplineFilter('');
+  };
 
   const handleOpenAddModal = () => {
     setSelectedSquad(null);
@@ -44,15 +71,7 @@ export default function SquadsPage() {
     setSelectedSquad(null);
   };
 
-  const handleSubmit = async (data: {
-    squad_name: string;
-    description?: string;
-    min_age?: number | null;
-    max_age?: number | null;
-    coach_name?: string;
-    training_times?: string;
-    max_capacity?: number | null;
-  }) => {
+  const handleSubmit = async (data: SquadSubmitData) => {
     try {
       setIsSubmitting(true);
       setMutationError(null);
@@ -166,8 +185,38 @@ export default function SquadsPage() {
 
           {/* Squads List */}
           <div className="bg-dark-primary rounded-3xl shadow-lg p-4 sm:p-8 border border-white/20">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
               <h2 className="font-serif text-2xl sm:text-4xl text-white tracking-tight">All Squads</h2>
+            </div>
+
+            {/* Filter Bar */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-6">
+              <select
+                value={typeFilter}
+                onChange={(e) => setTypeFilter(e.target.value)}
+                aria-label="Filter by squad type"
+                className="w-full sm:w-auto px-4 py-3 bg-white/5 text-white rounded-xl border border-white/20 focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 transition-all outline-none min-h-[44px] sm:min-w-[200px]"
+              >
+                <option value="">All Types</option>
+                {Object.values(SquadType).map((type) => (
+                  <option key={type} value={type}>
+                    {SQUAD_TYPE_LABELS[type]}
+                  </option>
+                ))}
+              </select>
+              <select
+                value={disciplineFilter}
+                onChange={(e) => setDisciplineFilter(e.target.value)}
+                aria-label="Filter by discipline"
+                className="w-full sm:w-auto px-4 py-3 bg-white/5 text-white rounded-xl border border-white/20 focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 transition-all outline-none min-h-[44px] sm:min-w-[240px]"
+              >
+                <option value="">All Disciplines</option>
+                {ORDERED_DISCIPLINES.map((discipline) => (
+                  <option key={discipline} value={discipline}>
+                    {DISCIPLINE_LABELS[discipline]}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {isLoading ? (
@@ -176,14 +225,28 @@ export default function SquadsPage() {
               <EmptyState
                 icon={Users}
                 title="No squads yet"
-                description={`Squads group ${MEMBER_NOUN_PLURAL_LOWER} by age or ability, like Learn to Swim, Development, or Competition.`}
+                description={`Squads group ${MEMBER_NOUN_PLURAL_LOWER} by age, discipline or ability, from recreational badge classes through to the competitive pathway.`}
                 hint="Most clubs start with 2-4 squads. You can reorganise later."
                 actionLabel="Create Squad"
                 actionHref="/squads/new"
               />
+            ) : filteredSquads.length === 0 ? (
+              <EmptyState
+                icon={Users}
+                title="No squads found"
+                description="No squads match your filters"
+                actionLabel="Clear Filters"
+                actionOnClick={clearFilters}
+              />
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {squads.map((squad) => (
+                {hasFilters && (
+                  <p className="text-text-secondary text-sm md:col-span-2 lg:col-span-3">
+                    Showing {filteredSquads.length} of {squads.length} squad
+                    {squads.length !== 1 ? 's' : ''}
+                  </p>
+                )}
+                {filteredSquads.map((squad) => (
                   <div
                     key={squad.squad_id}
                     className="p-6 bg-white/8 rounded-2xl border border-white/10 hover:border-brand transition-all group"
@@ -191,6 +254,28 @@ export default function SquadsPage() {
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
                         <h3 className="font-bold text-xl text-white mb-2">{squad.squad_name}</h3>
+                        {(squad.squad_type || squad.level || squad.discipline) && (
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            {squad.squad_type && (
+                              <span className="px-3 py-1 bg-brand/20 text-brand text-xs font-bold rounded-full border border-brand">
+                                {SQUAD_TYPE_LABELS[squad.squad_type]}
+                              </span>
+                            )}
+                            {squad.level && (
+                              <span className="px-3 py-1 bg-white/10 text-white text-xs font-bold rounded-full border border-white/20">
+                                {squad.level}
+                              </span>
+                            )}
+                            {squad.discipline && (
+                              <span
+                                className="px-3 py-1 bg-white/10 text-white text-xs font-bold rounded-full border border-white/20"
+                                title={DISCIPLINE_LABELS[squad.discipline]}
+                              >
+                                {DISCIPLINE_SHORT_LABELS[squad.discipline]}
+                              </span>
+                            )}
+                          </div>
+                        )}
                         {squad.description && (
                           <p className="text-sm text-text-secondary mb-3 line-clamp-2">
                             {squad.description}
