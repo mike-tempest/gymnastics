@@ -92,6 +92,13 @@ UI primitives in `apps/web/src/components/ui/`. Feature components by domain: at
 - Muted palette, generous whitespace, clear typography. Brand tokens live in one config (TEM-12) once the name is decided.
 - Accessibility: WCAG AA minimum, touch targets >= 48x48px
 
+## Positioning and Product Rules (READ THIS)
+Full brief: `docs/05-Build-Brief-Positioning-and-Product-Rules.md`. Read it before any feature work.
+- **We are:** the operations and compliance platform for gymnastics clubs -- waiting list to enrolled, Direct-Debit-billed, safeguarding-compliant member in one click. Works alongside My BG.
+- **Positioned against:** JustGo for Clubs (British Gymnastics' official club tool, free, My BG sync, but no Direct Debit documented, manual waitlists, no badges, no club-level safeguarding), ClassForKids (card-only, +0.5%, no exports), Thrive4 (opaque pricing, proprietary DD rail), and DIY spreadsheets.
+- **Rules:** Direct Debit first with GoCardless in the club's own organisation (never our own rail); compliance is a first-class module with expiry alerts and a Welfare Officer view; the hero flow is auto-offer waiting list -> one-click enrolled member; badges are data (Rise / Proficiency / club schemes) with a CSV bridge, no API dependency; BG membership number is a first-class reconcilable field; full export + API are product features; Wales runs on Sport:80, not JustGo.
+- **Do not build:** competition scoring, a booking marketplace / directory, a payment rail, or anything duplicating My BG membership administration.
+
 ## Working Method
 - **One Linear issue per session.** Open with the issue ID (e.g. "Implement TEM-14"), read the issue and the relevant `docs/` file, do the work, run the gates, then update the issue status.
 - Respect Linear blocking relations. Do not start an issue that is blocked.
@@ -125,3 +132,6 @@ UI primitives in `apps/web/src/components/ui/`. Feature components by domain: at
 - `docs/01-British-Gymnastics-Compliance-Brief.md` -- NGB facts and the proposed config entry
 - `docs/02-Founding-Club-Shortlist.md` -- target clubs and the outreach angle
 - `docs/03-Swimmer-to-Member-Codemod-Spec.md` -- the rename, executable as written
+- `docs/04-UK-Gymnastics-Competitive-Analysis.md` -- market structure, the NGB-endorsed tier (JustGo), positioning, plan changes
+- `docs/04-Incumbent-Landscape-Pricing-and-Exports.md` -- vendor-by-vendor pricing and export formats for the importers
+- `docs/05-Build-Brief-Positioning-and-Product-Rules.md` -- what to build and what not to; read before feature work
