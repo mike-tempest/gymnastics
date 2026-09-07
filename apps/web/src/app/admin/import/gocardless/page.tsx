@@ -15,7 +15,9 @@ import Link from 'next/link';
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 
+import MigrationStepBanner, { MigrationStepReturn } from '@/components/import/MigrationStepBanner';
 import MainLayout from '@/components/layout/MainLayout';
+import { useMigrationStepReporter } from '@/hooks/useMigrationJourney';
 import {
   type GoCardlessImportResponse,
   type GoCardlessPreviewResponse,
@@ -81,6 +83,7 @@ function mappedCounts(file: UploadedFile): { mapped: number; dropped: number } {
 }
 
 export default function GoCardlessImportPage() {
+  const migration = useMigrationStepReporter('gocardless');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const previewSeq = useRef(0);
   const [step, setStep] = useState<Step>('upload');
@@ -180,6 +183,15 @@ export default function GoCardlessImportPage() {
         create_missing_families: createMissingFamilies,
       });
       setResults(result);
+      migration.record({
+        counts: {
+          families: result.summary.families_created,
+          mandates: result.summary.mandates_created,
+          activeMandates: result.summary.active_mandates_created,
+        },
+        errorCount: result.errors.length,
+        warningCount: result.warnings.length,
+      });
       const created = result.summary.mandates_created;
       if (created > 0 && result.errors.length === 0) {
         toast.success(`${created} mandate${created !== 1 ? 's' : ''} imported successfully`);
@@ -243,6 +255,12 @@ export default function GoCardlessImportPage() {
               dashboard, and optionally the payments export for reconciliation.
             </p>
           </div>
+
+          <MigrationStepBanner
+            active={migration.active}
+            position={migration.position}
+            total={migration.total}
+          />
 
           {/* Step indicator */}
           <div className="flex flex-wrap items-center gap-2 mb-6">
@@ -682,7 +700,7 @@ export default function GoCardlessImportPage() {
                     </div>
                   </div>
                   <Link
-                    href="/settings"
+                    href="/admin/settings"
                     className="px-6 py-3 bg-brand text-dark-primary rounded-xl font-bold hover:bg-brand-light transition-all shadow-sm min-h-[48px] flex items-center justify-center flex-shrink-0"
                   >
                     Go to Settings
@@ -696,6 +714,7 @@ export default function GoCardlessImportPage() {
                   >
                     Import more exports
                   </button>
+                  <MigrationStepReturn active={migration.active} />
                   <Link
                     href="/admin/import"
                     className="px-8 py-3 bg-brand text-dark-primary rounded-xl font-bold hover:bg-brand-light transition-all shadow-sm min-h-[48px] flex items-center justify-center space-x-2"

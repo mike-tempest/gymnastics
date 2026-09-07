@@ -62,12 +62,6 @@ export async function deleteMember(id: string): Promise<void> {
   return api.delete<void>(`/members/${id}`);
 }
 
-export async function bulkImportMembers(
-  members: CreateMemberInput[],
-): Promise<{ created: Member[]; errors: Array<{ row: number; message: string }> }> {
-  return api.post('/members/bulk', { members });
-}
-
 // ==================== Filtered Queries ====================
 
 export async function getMembersByFamily(familyId: string): Promise<Member[]> {

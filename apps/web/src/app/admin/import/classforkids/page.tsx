@@ -17,7 +17,9 @@ import Papa from 'papaparse';
 import { useMemo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
+import MigrationStepBanner, { MigrationStepReturn } from '@/components/import/MigrationStepBanner';
 import MainLayout from '@/components/layout/MainLayout';
+import { useMigrationStepReporter } from '@/hooks/useMigrationJourney';
 import {
   type MemberImportPreviewResponse,
   type MemberImportResponse,
@@ -106,6 +108,7 @@ function downloadCsv(fileName: string, content: string): void {
 }
 
 export default function ClassForKidsImportPage() {
+  const migration = useMigrationStepReporter('classforkids');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dryRunSeq = useRef(0);
   const [step, setStep] = useState<Step>('upload');
@@ -180,12 +183,30 @@ export default function ClassForKidsImportPage() {
 
   const handleImport = async () => {
     if (readyRows.length === 0) return;
+    // The import response carries no squad detail, so the migration checklist
+    // takes the squad names from the preview the club has just approved.
+    const squads =
+      dryRun.status === 'done'
+        ? {
+            matched: dryRun.data.summary.squads_matched,
+            created: createMissingSquads ? dryRun.data.summary.squads_missing : [],
+          }
+        : { matched: [], created: [] };
     setStep('importing');
     try {
       const result = await importMembers(readyRows.map(toApiRow), {
         create_missing_squads: createMissingSquads,
       });
       setResults(result);
+      migration.record({
+        counts: {
+          families: result.summary.families_created,
+          members: result.summary.members_created,
+        },
+        squads,
+        errorCount: result.errors.length,
+        warningCount: incompleteRows.length,
+      });
       const total = result.summary.members_created + result.summary.members_updated;
       if (total > 0 && result.errors.length === 0) {
         toast.success(
@@ -264,6 +285,12 @@ export default function ClassForKidsImportPage() {
               the duplicates.
             </p>
           </div>
+
+          <MigrationStepBanner
+            active={migration.active}
+            position={migration.position}
+            total={migration.total}
+          />
 
           <div className="flex flex-wrap items-center gap-2 mb-6">
             {STEP_LABELS.map((s, idx) => (
@@ -773,6 +800,7 @@ export default function ClassForKidsImportPage() {
                   >
                     Import more files
                   </button>
+                  <MigrationStepReturn active={migration.active} />
                   <Link
                     href="/admin/import"
                     className="px-8 py-3 bg-brand text-dark-primary rounded-xl font-bold hover:bg-brand-light transition-all shadow-sm min-h-[48px] flex items-center justify-center space-x-2"

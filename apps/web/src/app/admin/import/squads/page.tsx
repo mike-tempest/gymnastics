@@ -6,7 +6,9 @@ import Papa from 'papaparse';
 import { useCallback, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
+import MigrationStepBanner, { MigrationStepReturn } from '@/components/import/MigrationStepBanner';
 import MainLayout from '@/components/layout/MainLayout';
+import { useMigrationStepReporter } from '@/hooks/useMigrationJourney';
 import { type CreateSquadInput, bulkImportSquads } from '@/lib/api/squads';
 
 interface ParsedRow {
@@ -98,6 +100,7 @@ function findDuplicateNames(rows: ParsedRow[]): Set<string> {
 }
 
 export default function SquadsImportPage() {
+  const migration = useMigrationStepReporter('squads');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [step, setStep] = useState<ImportStep>('upload');
   const [isDragging, setIsDragging] = useState(false);
@@ -256,6 +259,12 @@ export default function SquadsImportPage() {
         successCount: result.created.length,
         errors: result.errors || [],
       });
+      migration.record({
+        counts: {},
+        squads: { created: result.created.map((squad) => squad.squad_name), matched: [] },
+        errorCount: (result.errors || []).length,
+        warningCount: 0,
+      });
       if (result.created.length > 0 && (!result.errors || result.errors.length === 0)) {
         toast.success(`${result.created.length} squad${result.created.length !== 1 ? 's' : ''} imported successfully`);
       } else if (result.created.length > 0) {
@@ -312,6 +321,12 @@ export default function SquadsImportPage() {
               </p>
             </div>
           </div>
+
+          <MigrationStepBanner
+            active={migration.active}
+            position={migration.position}
+            total={migration.total}
+          />
 
           {/* Main Content */}
           <div className="bg-dark-primary rounded-3xl shadow-lg p-4 sm:p-8 border border-white/20">
@@ -651,6 +666,7 @@ export default function SquadsImportPage() {
                     <FileCheck className="w-5 h-5" />
                     <span>Import Another File</span>
                   </button>
+                  <MigrationStepReturn active={migration.active} />
                   <Link
                     href="/squads"
                     className="px-8 py-3 bg-brand text-dark-primary rounded-xl font-bold hover:bg-brand-light transition-all shadow-sm min-h-[48px] flex items-center justify-center space-x-2"

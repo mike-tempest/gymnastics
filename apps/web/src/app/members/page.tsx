@@ -23,6 +23,7 @@ import { useFormatters } from '@/hooks/useFormatters';
 import { getMember, createMember, updateMember, deleteMember } from '@/lib/api/members';
 import { MEMBER_NOUN, MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 import { useMembers } from '@/lib/hooks/useMembers';
+import { isCoach, useRole } from '@/lib/hooks/useRole';
 import { useSquads } from '@/lib/hooks/useSquads';
 
 export default function MembersPage() {
@@ -35,6 +36,11 @@ export default function MembersPage() {
 
 function MembersPageInner() {
   const { formatDate } = useFormatters();
+  const { role } = useRole();
+  // The importer moved under /admin, which the middleware closes to coaches.
+  // They can still see this list, so the link is hidden from them rather than
+  // bouncing them onto the dashboard with no explanation.
+  const canImport = !isCoach(role);
   const { data: membersData, isLoading, error, refetch: refetchMembers } = useMembers();
   const { data: squadsData } = useSquads();
   const members = useMemo(() => membersData ?? [], [membersData]);
@@ -183,13 +189,15 @@ function MembersPageInner() {
               <p className="text-grey-600 text-lg">Manage your club&apos;s {MEMBER_NOUN_PLURAL_LOWER}</p>
             </div>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <Link
-                href="/members/import"
-                className="px-6 py-3 sm:px-8 sm:py-4 min-h-[44px] bg-dark-primary/80 text-white rounded-button font-bold hover:bg-white/5 transition-all flex items-center justify-center space-x-3 text-base sm:text-lg border border-white/20"
-              >
-                <Upload className="w-6 h-6" />
-                <span>Import CSV</span>
-              </Link>
+              {canImport && (
+                <Link
+                  href="/admin/import/members"
+                  className="px-6 py-3 sm:px-8 sm:py-4 min-h-[44px] bg-dark-primary/80 text-white rounded-button font-bold hover:bg-white/5 transition-all flex items-center justify-center space-x-3 text-base sm:text-lg border border-white/20"
+                >
+                  <Upload className="w-6 h-6" />
+                  <span>Import CSV</span>
+                </Link>
+              )}
               <button
                 onClick={handleOpenAddModal}
                 className="px-6 py-3 sm:px-8 sm:py-4 min-h-[44px] bg-brand text-dark-primary rounded-button font-bold hover:bg-brand-light transition-all shadow-sm flex items-center justify-center space-x-3 text-base sm:text-lg"
