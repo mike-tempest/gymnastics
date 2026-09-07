@@ -23,6 +23,11 @@ describe('ParentController', () => {
     getChild: jest.fn().mockResolvedValue({}),
     getChildAttendance: jest.fn().mockResolvedValue([]),
     getChildSchedule: jest.fn().mockResolvedValue([]),
+    getChildBadges: jest.fn().mockResolvedValue({
+      schemes: [],
+      total_awarded: 0,
+      latest_award: null,
+    }),
     getInvoices: jest.fn().mockResolvedValue([]),
     getInvoice: jest.fn().mockResolvedValue({}),
     getPayments: jest.fn().mockResolvedValue([]),
@@ -135,6 +140,63 @@ describe('ParentController', () => {
     });
   });
 
+  describe('getChildBadges', () => {
+    it("returns exactly the calling parent's own child's badge progress", async () => {
+      const badges = {
+        schemes: [
+          {
+            scheme_id: 'scheme-1',
+            name: 'British Gymnastics Rise',
+            description: null,
+            levels: [
+              {
+                level_id: 'level-1',
+                name: 'Discover 1',
+                description: null,
+                sort_order: 1,
+                status: 'awarded',
+                started_on: '2026-01-05',
+                assessed_on: '2026-02-10',
+                awarded_on: '2026-02-10',
+              },
+            ],
+            awarded_count: 1,
+            current_level: null,
+            latest_award: null,
+          },
+        ],
+        total_awarded: 1,
+        latest_award: null,
+      };
+      mockParentService.getChildBadges.mockResolvedValue(badges);
+
+      const result = await controller.getChildBadges(reqWithFamily, 'child-1');
+
+      // The family id comes from the authenticated request, never the client,
+      // so the service can only ever be asked about this family's children.
+      expect(service.getChildBadges).toHaveBeenCalledWith(familyId, 'child-1');
+      expect(result).toEqual(badges);
+    });
+
+    it('404s for a child in another family and returns nothing', async () => {
+      mockParentService.getChildBadges.mockRejectedValue(
+        new NotFoundException('Child not found or not associated with your family'),
+      );
+
+      await expect(controller.getChildBadges(reqWithFamily, 'other-family-child')).rejects.toThrow(
+        NotFoundException,
+      );
+      expect(service.getChildBadges).toHaveBeenCalledWith(familyId, 'other-family-child');
+    });
+
+    it('should throw NotFoundException when family_id is missing', async () => {
+      await expect(controller.getChildBadges(reqWithoutFamily, 'child-1')).rejects.toThrow(
+        NotFoundException,
+      );
+      expect(service.getChildBadges).not.toHaveBeenCalled();
+    });
+  });
+
   describe('getInvoices', () => {
     it('should delegate to ParentService.getInvoices with family_id and optional status', async () => {
       await controller.getInvoices(reqWithFamily, 'paid');
@@ -200,9 +262,9 @@ describe('ParentController', () => {
     });
 
     it('should throw NotFoundException when family_id is missing', async () => {
-      await expect(
-        controller.getInvoicePdf(reqWithoutFamily, 'inv-1', mockRes()),
-      ).rejects.toThrow(NotFoundException);
+      await expect(controller.getInvoicePdf(reqWithoutFamily, 'inv-1', mockRes())).rejects.toThrow(
+        NotFoundException,
+      );
       expect(mockParentService.getInvoice).not.toHaveBeenCalled();
     });
   });

@@ -1,6 +1,7 @@
 import { Injectable, Logger, NotFoundException, Optional } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, MoreThanOrEqual, Between, In, FindOptionsWhere } from 'typeorm';
+import { AwardProgressStatus } from '@club-manager/shared-types';
 import { Member } from '../members/entities/member.entity';
 import { Session } from '../sessions/entities/session.entity';
 import { Invoice, InvoiceStatus } from '../finance/invoices/entities/invoice.entity';
@@ -15,9 +16,50 @@ import { GoCardlessService } from '../gocardless/gocardless.service';
 import { ClubsRepository } from '../clubs/clubs.repository';
 import { CompetitionResult } from '../competitions/entities/competition-result.entity';
 import { PersonalBestsService } from '../competitions/personal-bests.service';
+import { AwardsService } from '../awards/awards.service';
+// The awards module's own date normaliser, reused rather than duplicated so
+// the portal and the Rise CSV export can never disagree about an award date.
+import { toDateKey } from '../awards/awards.csv';
 import { UpdateParentProfileDto } from './dto/update-parent-profile.dto';
 import { TenantScopedHelper } from '../../common/tenancy/tenant-scoped.helper';
 import { TenantContextService } from '../../common/tenancy/tenant-context.service';
+
+/** One badge on the ladder, with where this gymnast has got to on it. */
+export interface ChildBadgeLevel {
+  level_id: string;
+  name: string;
+  description: string | null;
+  sort_order: number;
+  /** Null when the gymnast has not started this badge yet. */
+  status: AwardProgressStatus | null;
+  started_on: string | null;
+  assessed_on: string | null;
+  awarded_on: string | null;
+}
+
+/** One award scheme as a ladder of badges for a single gymnast. */
+export interface ChildBadgeScheme {
+  scheme_id: string;
+  name: string;
+  description: string | null;
+  levels: ChildBadgeLevel[];
+  awarded_count: number;
+  /**
+   * The badge this gymnast is on now: the lowest badge not yet awarded, so a
+   * parent sees the next thing to look forward to rather than having to read
+   * the whole ladder. Null only when every badge in the scheme is awarded.
+   */
+  current_level: ChildBadgeLevel | null;
+  /** The most recent badge awarded in this scheme, if any. */
+  latest_award: ChildBadgeLevel | null;
+}
+
+/** Every scheme's ladder for one gymnast, plus the club-wide headline. */
+export interface ChildBadges {
+  schemes: ChildBadgeScheme[];
+  total_awarded: number;
+  latest_award: (ChildBadgeLevel & { scheme_name: string }) | null;
+}
 
 @Injectable()
 export class ParentService {
@@ -42,6 +84,9 @@ export class ParentService {
     private readonly clubsRepository: ClubsRepository,
     private readonly scoped: TenantScopedHelper,
     private readonly tenantContext: TenantContextService,
+    // Required, unlike the competitions dependencies below: badges are not
+    // feature-flagged, so ParentModule always imports AwardsModule.
+    private readonly awardsService: AwardsService,
     // Both competitions dependencies are absent when the competitions module
     // is flagged off (TEM-15): ParentModule then registers neither the entity
     // nor CompetitionsModule, and the results endpoints 404 via
@@ -219,6 +264,108 @@ export class ParentService {
     });
 
     return sessions;
+  }
+
+  /**
+   * The badge ladder for one of the calling parent's children.
+   *
+   * Reads the club's schemes and this gymnast's progress from the awards
+   * module, then stitches them into one ladder per scheme so the portal can
+   * show what has been earned, what is being worked towards and what comes
+   * next without any further round trips.
+   */
+  async getChildBadges(familyId: string, childId: string): Promise<ChildBadges> {
+    // Verify child belongs to family (scoped to the active club). Everything
+    // below is club-scoped in turn, so a child id from another family or
+    // another club is not-found rather than a leak.
+    const child = await this.scoped.scopedFindOne(this.membersRepository, {
+      where: { member_id: childId, family_id: familyId },
+    });
+
+    if (!child) {
+      throw new NotFoundException('Child not found or not associated with your family');
+    }
+
+    // Inactive schemes and levels are fetched too, then filtered below: a club
+    // that has retired a scheme must not erase badges a gymnast already holds.
+    const [schemes, progressRows] = await Promise.all([
+      this.awardsService.listSchemes(true),
+      this.awardsService.getMemberProgress(childId),
+    ]);
+
+    const progressByLevel = new Map(progressRows.map((row) => [row.level_id, row]));
+
+    const ladders: ChildBadgeScheme[] = [];
+    for (const scheme of schemes) {
+      const levels: ChildBadgeLevel[] = scheme.levels
+        .filter((level) => level.active || progressByLevel.has(level.level_id))
+        .map((level) => {
+          const progress = progressByLevel.get(level.level_id);
+          return {
+            level_id: level.level_id,
+            name: level.name,
+            description: level.description,
+            sort_order: level.sort_order,
+            status: progress?.status ?? null,
+            started_on: toDateKey(progress?.started_on),
+            assessed_on: toDateKey(progress?.assessed_on),
+            awarded_on: toDateKey(progress?.awarded_on),
+          };
+        });
+
+      const hasProgress = levels.some((level) => level.status !== null);
+      // A scheme the club has switched off is only worth showing while this
+      // gymnast still has something recorded against it.
+      if (!scheme.active && !hasProgress) continue;
+      if (levels.length === 0) continue;
+
+      const awarded = levels.filter((level) => level.status === AwardProgressStatus.AWARDED);
+      const latestAward = awarded.reduce<ChildBadgeLevel | null>(
+        (latest, level) =>
+          !latest || (level.awarded_on ?? '') > (latest.awarded_on ?? '') ? level : latest,
+        null,
+      );
+
+      // The badge this gymnast is on now. A level a coach has actually started
+      // wins over a lower one nobody has touched, because a gymnast who joined
+      // mid-scheme is working on the badge that was recorded, not on the first
+      // rung of the ladder. Only then does the lowest un-started badge stand in
+      // as the next thing to aim at. A scheme the club has retired has no next
+      // badge at all: it is kept purely as history.
+      const inProgress = levels.find(
+        (level) =>
+          level.status === AwardProgressStatus.WORKING_TOWARDS ||
+          level.status === AwardProgressStatus.ASSESSED,
+      );
+      const currentLevel = scheme.active
+        ? (inProgress ?? levels.find((level) => level.status === null) ?? null)
+        : null;
+
+      ladders.push({
+        scheme_id: scheme.scheme_id,
+        name: scheme.name,
+        description: scheme.description,
+        levels,
+        awarded_count: awarded.length,
+        current_level: currentLevel,
+        latest_award: latestAward,
+      });
+    }
+
+    const allAwards = ladders.flatMap((scheme) =>
+      scheme.latest_award ? [{ ...scheme.latest_award, scheme_name: scheme.name }] : [],
+    );
+    const latestAward = allAwards.reduce<(ChildBadgeLevel & { scheme_name: string }) | null>(
+      (latest, award) =>
+        !latest || (award.awarded_on ?? '') > (latest.awarded_on ?? '') ? award : latest,
+      null,
+    );
+
+    return {
+      schemes: ladders,
+      total_awarded: ladders.reduce((sum, scheme) => sum + scheme.awarded_count, 0),
+      latest_award: latestAward,
+    };
   }
 
   async getChildResults(familyId: string, childId: string) {

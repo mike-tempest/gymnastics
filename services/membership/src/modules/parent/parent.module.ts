@@ -13,6 +13,7 @@ import { GoCardlessModule } from '../gocardless/gocardless.module';
 import { InvoicePdfService } from '../finance/invoices/invoice-pdf.service';
 import { CompetitionsModule } from '../competitions/competitions.module';
 import { CompetitionResult } from '../competitions/entities/competition-result.entity';
+import { AwardsModule } from '../awards/awards.module';
 import { competitionsEnabled } from '../../common/features/competitions.feature';
 
 @Module({
@@ -30,6 +31,9 @@ import { competitionsEnabled } from '../../common/features/competitions.feature'
       ...(competitionsEnabled() ? [CompetitionResult] : []),
     ]),
     GoCardlessModule,
+    // Required, never conditional: badges are not feature-flagged, so
+    // GET parent/children/:id/badges is always available.
+    AwardsModule,
     ...(competitionsEnabled() ? [CompetitionsModule] : []),
   ],
   controllers: [ParentController],

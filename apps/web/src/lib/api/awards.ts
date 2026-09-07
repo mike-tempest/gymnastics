@@ -49,6 +49,42 @@ export interface MemberAwardProgress {
   level?: AwardLevel & { scheme?: AwardScheme };
 }
 
+/**
+ * One badge on a scheme's ladder with where a single gymnast has got to on it.
+ * Served pre-stitched by the parent portal's badges endpoint (TEM-21), so the
+ * ladder needs no client-side joining of schemes against progress rows.
+ */
+export interface BadgeLadderLevel {
+  level_id: string;
+  name: string;
+  description: string | null;
+  sort_order: number;
+  /** Null when this gymnast has not started the badge yet. */
+  status: AwardProgressStatus | null;
+  started_on: string | null;
+  assessed_on: string | null;
+  awarded_on: string | null;
+}
+
+/** One scheme as a ladder of badges for a single gymnast. */
+export interface BadgeLadderScheme {
+  scheme_id: string;
+  name: string;
+  description: string | null;
+  levels: BadgeLadderLevel[];
+  awarded_count: number;
+  /** The lowest badge not yet awarded, or null once the ladder is complete. */
+  current_level: BadgeLadderLevel | null;
+  latest_award: BadgeLadderLevel | null;
+}
+
+/** Every scheme's ladder for one gymnast, plus the headline across them all. */
+export interface BadgeLadder {
+  schemes: BadgeLadderScheme[];
+  total_awarded: number;
+  latest_award: (BadgeLadderLevel & { scheme_name: string }) | null;
+}
+
 export interface CreateAwardSchemeInput {
   name: string;
   description?: string | null;

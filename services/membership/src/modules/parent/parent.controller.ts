@@ -104,6 +104,18 @@ export class ParentController {
     return this.parentService.getChildSchedule(familyId, childId, days);
   }
 
+  @Get('children/:id/badges')
+  async getChildBadges(
+    @Request() req: { user?: { family_id?: string } },
+    @Param('id') childId: string,
+  ) {
+    const familyId = req.user?.family_id;
+    if (!familyId) {
+      throw new NotFoundException('User not associated with a family');
+    }
+    return this.parentService.getChildBadges(familyId, childId);
+  }
+
   // 404s while the competitions module is flagged off (TEM-15).
   @Get('children/:id/results')
   @UseGuards(CompetitionsEnabledGuard)
