@@ -43,6 +43,25 @@ describe('detectGoCardlessFileRole', () => {
     );
   });
 
+  it('is not fooled by an id column carrying its own table name', () => {
+    // A mandates export whose id column reads "Mandate ID" must not look like
+    // a payments file just because payments also name a mandate.
+    expect(
+      detectGoCardlessFileRole(['Mandate ID', 'Customer ID', 'Mandate Status', 'Scheme', 'Reference'])
+    ).toBe('mandates');
+    expect(detectGoCardlessFileRole(['Customer ID', 'Email', 'Given Name', 'Family Name'])).toBe(
+      'customers'
+    );
+    expect(
+      detectGoCardlessFileRole(['Payment ID', 'Mandate ID', 'Amount', 'Currency', 'Charge Date'])
+    ).toBe('payments');
+  });
+
+  it('falls back to the link column when nothing distinctive is present', () => {
+    expect(detectGoCardlessFileRole(['id', 'mandate'])).toBe('payments');
+    expect(detectGoCardlessFileRole(['id', 'customer'])).toBe('mandates');
+  });
+
   it('reports an unrelated spreadsheet rather than guessing', () => {
     expect(detectGoCardlessFileRole(['Wibble', 'Wobble'])).toBe('unknown');
   });

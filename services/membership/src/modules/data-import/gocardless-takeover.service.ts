@@ -29,6 +29,7 @@ export interface GoCardlessCustomerResult {
   gocardless_customer_id: string;
   email: string | null;
   action: GoCardlessCustomerAction;
+  warnings: string[];
   errors: string[];
 }
 
@@ -90,6 +91,11 @@ interface CustomerPlan {
   data: GoCardlessCustomerRowDto;
   email: string | null; // lowercase, null when missing
   errors: string[];
+  // A deliberately skipped customer (a duplicated export row, or an unmatched
+  // one when the club chose not to create families) is not a failure, so it
+  // warns rather than erroring. Only a customer the club cannot act on, such
+  // as one with no email at all, is an error.
+  warnings: string[];
   action: GoCardlessCustomerAction;
   familyPlan: FamilyPlan | null;
 }
@@ -188,6 +194,7 @@ export class GoCardlessTakeoverService {
         gocardless_customer_id: customerPlan.data.id,
         email: customerPlan.email,
         action: customerPlan.action,
+        warnings: customerPlan.warnings,
         errors: customerPlan.errors,
       })),
       mandate_results: plan.mandatePlans.map((mandatePlan) => ({
@@ -220,6 +227,9 @@ export class GoCardlessTakeoverService {
     for (const customerPlan of plan.customerPlans) {
       for (const message of customerPlan.errors) {
         errors.push({ scope: 'customer', row: customerPlan.row, message });
+      }
+      for (const message of customerPlan.warnings) {
+        warnings.push({ scope: 'customer', row: customerPlan.row, message });
       }
     }
     for (const mandatePlan of plan.mandatePlans) {
@@ -317,6 +327,7 @@ export class GoCardlessTakeoverService {
         data,
         email: null,
         errors: [],
+        warnings: [],
         action: 'error',
         familyPlan: null,
       };
@@ -327,7 +338,7 @@ export class GoCardlessTakeoverService {
         // A repeated customer id is a duplicated export row, not a second
         // payer. Its mandates still resolve through the first occurrence.
         customerPlan.action = 'skip';
-        customerPlan.errors.push(
+        customerPlan.warnings.push(
           `GoCardless customer ${customerId} appears more than once in this export`,
         );
         continue;
@@ -375,8 +386,11 @@ export class GoCardlessTakeoverService {
       } else if (dto.options.create_missing_families) {
         customerPlan.action = 'create';
       } else {
+        // The club asked for exactly this: attach mandates only to families it
+        // has already imported. Reporting it as an error would tell a club that
+        // the takeover half failed when it did what was asked.
         customerPlan.action = 'skip';
-        customerPlan.errors.push(
+        customerPlan.warnings.push(
           `No family matches ${email} and creating missing families is disabled`,
         );
       }

@@ -126,10 +126,29 @@ export interface GoCardlessPaymentRow {
 }
 
 /**
+ * Columns that belong to exactly one of the three exports. The id and link
+ * columns are deliberately not here: a mandates export that names its own id
+ * column "Mandate ID" would otherwise look like a payments file, which names
+ * a mandate too.
+ */
+const DISTINCTIVE_COLUMNS: Array<{
+  role: Exclude<GoCardlessFileRole, 'unknown'>;
+  canonicals: CanonicalImportField[];
+}> = [
+  { role: 'payments', canonicals: ['charge_date', 'currency', 'payment_status', 'provider_payment_id'] },
+  { role: 'mandates', canonicals: ['mandate_scheme', 'mandate_reference', 'mandate_status'] },
+  { role: 'customers', canonicals: ['parent_email', 'first_name', 'last_name'] },
+];
+
+/**
  * Work out which of the three exports a spreadsheet is, from its headers.
  *
- * All three carry a bare "id" column, so the discriminator is the link
- * column: only payments name a mandate, and only mandates name a customer.
+ * All three carry a bare "id" column and two of them carry a link column, so
+ * the decision is made on columns unique to one file first: a charge date or
+ * currency means payments, a scheme or reference means mandates, a payer name
+ * or email means customers. Only when none of those appear does the link
+ * column decide, and a file with nothing recognisable is reported as unknown
+ * rather than guessed at.
  */
 export function detectGoCardlessFileRole(headers: readonly string[]): GoCardlessFileRole {
   const canonicals = new Set<CanonicalImportField>();
@@ -138,9 +157,14 @@ export function detectGoCardlessFileRole(headers: readonly string[]): GoCardless
     if (canonical) canonicals.add(canonical);
   }
 
-  if (canonicals.has('provider_mandate_id') || canonicals.has('charge_date')) return 'payments';
-  if (canonicals.has('provider_customer_id') || canonicals.has('mandate_scheme')) return 'mandates';
-  if (canonicals.has('parent_email') || canonicals.has('first_name')) return 'customers';
+  for (const { role, canonicals: distinctive } of DISTINCTIVE_COLUMNS) {
+    if (distinctive.some((canonical) => canonicals.has(canonical))) return role;
+  }
+
+  // Nothing distinctive: fall back to the link column, which at least tells
+  // us which of the other two files this one points at.
+  if (canonicals.has('provider_mandate_id')) return 'payments';
+  if (canonicals.has('provider_customer_id')) return 'mandates';
   return 'unknown';
 }
 

@@ -309,9 +309,25 @@ describe('GoCardlessTakeoverService', () => {
       expect(result.summary.families_to_create).toBe(0);
       expect(result.summary.mandates_to_create).toBe(0);
       expect(result.customer_results[0].action).toBe('skip');
-      expect(result.customer_results[0].errors[0]).toContain(
+      // A warning, not an error: the club asked for exactly this, so the
+      // results screen must not report a partly failed takeover.
+      expect(result.customer_results[0].warnings[0]).toContain(
         'creating missing families is disabled',
       );
+      expect(result.customer_results[0].errors).toEqual([]);
+      expect(result.summary.customers_with_errors).toBe(1);
+    });
+
+    it('warns rather than errors on a duplicated customer row', async () => {
+      const customers = fixtureCustomers();
+      customers.push({ ...customers[0] });
+
+      const result = await service.previewGoCardless(makeDto({ customers }));
+      const duplicate = result.customer_results[result.customer_results.length - 1];
+
+      expect(duplicate.action).toBe('skip');
+      expect(duplicate.warnings[0]).toContain('appears more than once');
+      expect(duplicate.errors).toEqual([]);
     });
 
     it('summarises payments for reconciliation without importing any', async () => {
@@ -347,6 +363,17 @@ describe('GoCardlessTakeoverService', () => {
       );
       expect(outcome.summary.mandates_skipped).toBe(preview.summary.mandates_skipped);
       expect(mockMandatesRepository.create).toHaveBeenCalledTimes(4);
+    });
+
+    it('does not report a failed takeover when the club chose not to create families', async () => {
+      const outcome = await service.importGoCardless(makeDto({}, false));
+
+      expect(outcome.summary.families_created).toBe(0);
+      expect(outcome.summary.mandates_created).toBe(0);
+      // Only CU0004, which has no email at all, is a genuine error. The three
+      // deliberately skipped customers are warnings.
+      expect(outcome.errors.filter((e) => e.scope === 'customer')).toHaveLength(1);
+      expect(outcome.warnings.filter((w) => w.scope === 'customer')).toHaveLength(3);
     });
 
     it('never writes payment history', async () => {

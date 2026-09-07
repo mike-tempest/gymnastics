@@ -186,20 +186,42 @@ function key(value: string): string {
   return value.replace(/\s+/g, ' ').trim().toLowerCase();
 }
 
+interface ClassForKidsIdentity {
+  member_first_name: string;
+  member_last_name: string;
+  parent_email: string;
+  parent_name: string;
+}
+
 /**
  * The identity two rows must share to be treated as the same gymnast.
  * Parent email is the strongest signal and matches how the members import
  * groups families; parent name is the fallback for files that carry no
  * email, which is common in ClassForKids register downloads.
  */
-export function classForKidsRowKey(row: {
-  member_first_name: string;
-  member_last_name: string;
-  parent_email: string;
-  parent_name: string;
-}): string {
+export function classForKidsRowKey(row: ClassForKidsIdentity): string {
   const parent = key(row.parent_email) || key(row.parent_name);
   return `${parent}|${key(row.member_first_name)}|${key(row.member_last_name)}`;
+}
+
+/**
+ * Every key a row can be recognised by.
+ *
+ * A contacts export carries a parent email and a register download usually
+ * does not, so keying on one or the other alone would leave the same child
+ * appearing twice, which is exactly the merge this mapper exists to do. Each
+ * row is therefore indexed under both its email key and its name key, and a
+ * later row matches if either key has been seen.
+ */
+function classForKidsRowKeys(row: ClassForKidsIdentity): string[] {
+  const child = `${key(row.member_first_name)}|${key(row.member_last_name)}`;
+  const keys: string[] = [];
+  if (key(row.parent_email)) keys.push(`${key(row.parent_email)}|${child}`);
+  if (key(row.parent_name)) keys.push(`${key(row.parent_name)}|${child}`);
+  // A file with neither a parent email nor a parent name still needs an
+  // identity, so the child's own name has to carry it.
+  if (keys.length === 0) keys.push(`|${child}`);
+  return keys;
 }
 
 function parseAmount(value: string): number | null {
@@ -228,9 +250,18 @@ export function extractClassForKidsRows(
 ): ClassForKidsExtraction {
   const files: ClassForKidsFileSummary[] = [];
   const amounts: ClassForKidsAmountSummary[] = [];
-  const merged = new Map<string, ClassForKidsRow>();
-  const order: string[] = [];
+  // Several keys can point at the same row object, so the output order is
+  // tracked separately rather than read off the index.
+  const rowsByKey = new Map<string, ClassForKidsRow>();
+  const extracted: ClassForKidsRow[] = [];
   let mergedRows = 0;
+
+  /** Index a row under every key it can now be recognised by. */
+  const indexRow = (row: ClassForKidsRow) => {
+    for (const rowKey of classForKidsRowKeys(row)) {
+      rowsByKey.set(rowKey, row);
+    }
+  };
 
   for (const upload of uploads) {
     const { headers, rows } = upload.sheet;
@@ -283,16 +314,18 @@ export function extractClassForKidsRows(
         const parentName = value('parent_name');
         const squadName = value('squad_name');
 
-        const rowKey = classForKidsRowKey({
+        const identity = {
           member_first_name: first,
           member_last_name: last,
           parent_email: parentEmail,
           parent_name: parentName,
-        });
+        };
 
         peopleRows++;
 
-        const existing = merged.get(rowKey);
+        const existing = classForKidsRowKeys(identity)
+          .map((rowKey) => rowsByKey.get(rowKey))
+          .find((candidate) => candidate !== undefined);
         if (existing) {
           mergedRows++;
           existing.member_first_name = fill(existing.member_first_name, first);
@@ -323,10 +356,13 @@ export function extractClassForKidsRows(
           if (!existing.sources.includes(upload.name)) {
             existing.sources.push(upload.name);
           }
+          // The merged row may have gained an email or a parent name it did
+          // not have before, so re-index it under its new keys too.
+          indexRow(existing);
           continue;
         }
 
-        merged.set(rowKey, {
+        const row: ClassForKidsRow = {
           member_first_name: first,
           member_last_name: last,
           date_of_birth: parseDateOfBirth(value('date_of_birth')) ?? '',
@@ -343,8 +379,9 @@ export function extractClassForKidsRows(
           additional_classes: [],
           sources: [upload.name],
           missing: [],
-        });
-        order.push(rowKey);
+        };
+        extracted.push(row);
+        indexRow(row);
       }
     }
 
@@ -358,7 +395,6 @@ export function extractClassForKidsRows(
     });
   }
 
-  const extracted = order.map((rowKey) => merged.get(rowKey) as ClassForKidsRow);
   for (const row of extracted) {
     row.missing = missingFields(row);
   }
