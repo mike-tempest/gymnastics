@@ -51,7 +51,7 @@ const STATUS_LABELS: Record<string, string> = {
 function feeSentence(
   badgeFee: number | null,
   certificateFee: number | null,
-  formatCurrency: (amount: number) => string,
+  formatCurrency: (amount: number) => string
 ): string {
   const parts: string[] = [];
   if (badgeFee !== null) parts.push(`${formatCurrency(badgeFee)} per badge`);
@@ -324,7 +324,7 @@ export default function AssessAwardsPage() {
                     {`${selectedLevel.schemeName} ${selectedLevel.name} ${feeSentence(
                       selectedBadgeFee,
                       selectedCertificateFee,
-                      formatCurrency,
+                      formatCurrency
                     )}`}
                   </p>
                 )}

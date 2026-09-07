@@ -41,6 +41,11 @@ export interface AssessmentResult {
 }
 
 export interface RiseImportPreviewRow extends RiseCsvRow {
+  /**
+   * The row's line in the uploaded file, header and any blank lines counted,
+   * so a warning points at the line the club sees in its own spreadsheet
+   * rather than at a position among the rows that happened to carry data.
+   */
   row_number: number;
   member_id: string | null;
   matched_on: 'registration_number' | 'name_and_dob' | null;
@@ -502,7 +507,7 @@ export class AwardsService {
     const schemes = await this.listSchemes(true);
     const rows: RiseImportPreviewRow[] = [];
 
-    parsed.rows.forEach((row, index) => {
+    for (const { lineNumber, ...row } of parsed.rows) {
       const errors: string[] = [];
       const match = this.matchMember(row, members);
       if (!match.member) {
@@ -522,13 +527,13 @@ export class AwardsService {
 
       rows.push({
         ...row,
-        row_number: index + 2, // +1 for the header, +1 for a 1-based count
+        row_number: lineNumber,
         member_id: match.member?.member_id ?? null,
         matched_on: match.matchedOn,
         level_id: level?.level_id ?? null,
         errors,
       });
-    });
+    }
 
     const matched = rows.filter((row) => row.errors.length === 0).length;
 

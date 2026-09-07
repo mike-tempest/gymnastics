@@ -506,6 +506,33 @@ describe('AwardsService', () => {
       expect(result.warnings[0]).toContain('Row 2');
       expect(awardsRepository.upsertProgress).not.toHaveBeenCalled();
     });
+
+    it('reports the line a club sees in its own spreadsheet, blank lines included', async () => {
+      membersRepository.findAll.mockResolvedValue([]);
+      // A blank leading line and a blank line between the rows, which a club's
+      // export routinely has. The unmatched row is on line 5 of the file.
+      const padded = [
+        '',
+        'first_name,last_name,dob,bg_membership_number,scheme,level,award_date',
+        'Ava,Nolan,02/04/2016,1234567,British Gymnastics Rise,Explore 3,01/09/2026',
+        '',
+        'Beth,Doyle,05/05/2015,7654321,British Gymnastics Rise,Explore 3,01/09/2026',
+      ].join('\n');
+
+      const preview = await service.previewRiseImport({ csv: padded });
+
+      expect(preview.rows.map((row) => row.row_number)).toEqual([3, 5]);
+      expect(preview.missing_headers).toEqual([]);
+
+      const result = await service.importRiseCsv({ csv: padded });
+      expect(result.warnings.some((warning) => warning.startsWith('Row 5:'))).toBe(true);
+    });
+
+    it('keeps the parser line number out of the preview payload', async () => {
+      const preview = await service.previewRiseImport({ csv });
+
+      expect(preview.rows[0]).not.toHaveProperty('lineNumber');
+    });
   });
 
   describe('getMemberProgress', () => {

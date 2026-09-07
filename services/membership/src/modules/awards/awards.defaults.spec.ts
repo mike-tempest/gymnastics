@@ -101,9 +101,29 @@ describe('Rise CSV helpers', () => {
 
     const parsed = parseRiseCsv(toRiseCsv(rows));
 
-    expect(parsed.rows).toEqual(rows);
+    // The header is line 1, so the single data row is line 2.
+    expect(parsed.rows).toEqual([{ ...rows[0], lineNumber: 2 }]);
     expect(parsed.missingHeaders).toEqual([]);
     expect(parsed.unknownHeaders).toEqual([]);
+  });
+
+  it('prefixes a field that a spreadsheet would read as a formula', () => {
+    const csv = toRiseCsv([
+      {
+        first_name: '=cmd|calc',
+        last_name: 'Nolan',
+        dob: '2016-04-02',
+        bg_membership_number: '+1234567',
+        scheme: 'Rise',
+        level: 'Explore 3',
+        award_date: '2026-09-01',
+      },
+    ]);
+
+    // The guard is an apostrophe, which the spreadsheet consumes on open, so
+    // the value a club sees is unchanged while the formula never evaluates.
+    expect(csv).toContain("'=cmd|calc");
+    expect(csv).toContain("'+1234567");
   });
 
   it('quotes a field containing a comma and reads it back intact', () => {
@@ -143,11 +163,41 @@ describe('Rise CSV helpers', () => {
     expect(parsed.missingHeaders).toContain('dob');
   });
 
-  it('handles Windows line endings and a trailing blank line', () => {
+  it('handles Windows line endings, keeping a blank line so it can be counted', () => {
     const grid = splitCsv('a,b\r\n1,2\r\n\r\n');
-    expect(grid).toEqual([
-      ['a', 'b'],
-      ['1', '2'],
+    expect(grid).toEqual([['a', 'b'], ['1', '2'], ['']]);
+  });
+
+  it('numbers rows by their line in the file, blank lines and all', () => {
+    const parsed = parseRiseCsv(
+      [
+        '',
+        'first_name,last_name,dob,bg_membership_number,scheme,level,award_date',
+        'Ava,Nolan,02/04/2016,1234567,Rise,Explore 3,01/09/2026',
+        '',
+        'Beth,Doyle,05/05/2015,7654321,Rise,Explore 3,01/09/2026',
+      ].join('\n'),
+    );
+
+    // A blank first line must not be mistaken for the header, and the blank
+    // line between the rows still counts towards the second row's number.
+    expect(parsed.missingHeaders).toEqual([]);
+    expect(parsed.rows.map((row) => row.lineNumber)).toEqual([3, 5]);
+    expect(parsed.rows.map((row) => row.first_name)).toEqual(['Ava', 'Beth']);
+  });
+
+  it('reports every column as missing when the file is empty', () => {
+    const parsed = parseRiseCsv('\n\n');
+
+    expect(parsed.rows).toEqual([]);
+    expect(parsed.missingHeaders).toEqual([
+      'first_name',
+      'last_name',
+      'dob',
+      'bg_membership_number',
+      'scheme',
+      'level',
+      'award_date',
     ]);
   });
 

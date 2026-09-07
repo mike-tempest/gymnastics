@@ -9,17 +9,28 @@ import { useClubRegion } from '@/hooks/useClubRegion';
 import { AwardLevel, CreateAwardLevelInput, feeAmount } from '@/lib/api/awards';
 import { currencySymbol } from '@/lib/utils/currency';
 
+/**
+ * A blank fee means free, so a fee field is validated as the string the input
+ * actually holds and converted on submit. Transforming inside the schema would
+ * make the form's input and output types differ, which the resolver typing
+ * does not carry through to the submit handler.
+ */
+function feeNumber(value: string | undefined): number | null {
+  if (value === undefined || value.trim() === '') return null;
+  const amount = Number(value);
+  return Number.isFinite(amount) ? amount : null;
+}
+
 const optionalFee = z
-  .union([z.string(), z.number()])
+  .string()
   .optional()
-  .transform((value) => {
-    if (value === undefined || value === '' || value === null) return null;
-    return Number(value);
+  .refine((value) => value === undefined || value.trim() === '' || feeNumber(value) !== null, {
+    message: 'Please enter an amount, or leave it blank',
   })
-  .refine((value) => value === null || (Number.isFinite(value) && value >= 0), {
+  .refine((value) => (feeNumber(value) ?? 0) >= 0, {
     message: 'Please enter an amount of zero or more, or leave it blank',
   })
-  .refine((value) => value === null || value <= 10000, {
+  .refine((value) => (feeNumber(value) ?? 0) <= 10000, {
     message: 'A badge fee cannot exceed 10,000. Please check the value entered.',
   });
 
@@ -38,10 +49,8 @@ const levelSchema = z.object({
   active: z.boolean(),
 });
 
-/** What the inputs hold: a fee is a string while it is being typed. */
-export type LevelFormData = z.input<typeof levelSchema>;
-/** What the resolver hands the submit handler: fees already coerced. */
-type LevelFormValues = z.output<typeof levelSchema>;
+/** What the inputs hold. A fee stays a string here and is converted on submit. */
+type LevelFormData = z.infer<typeof levelSchema>;
 
 interface LevelModalProps {
   isOpen: boolean;
@@ -71,10 +80,7 @@ export default function LevelModal({
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-    // The resolver returns the schema's transformed output, so the submit
-    // handler receives fees already coerced to a number or null. Parsing again
-    // here would reject a blank fee, which is the documented default.
-  } = useForm<LevelFormData, unknown, LevelFormValues>({
+  } = useForm<LevelFormData>({
     resolver: zodResolver(levelSchema),
     mode: 'onTouched',
   });
@@ -85,8 +91,8 @@ export default function LevelModal({
       name: level?.name ?? '',
       description: level?.description ?? '',
       sort_order: level?.sort_order ?? nextSortOrder,
-      badge_fee: feeAmount(level?.badge_fee) ?? '',
-      certificate_fee: feeAmount(level?.certificate_fee) ?? '',
+      badge_fee: String(feeAmount(level?.badge_fee) ?? ''),
+      certificate_fee: String(feeAmount(level?.certificate_fee) ?? ''),
       active: level?.active ?? true,
     });
   }, [isOpen, level, nextSortOrder, reset]);
@@ -98,8 +104,8 @@ export default function LevelModal({
       name: data.name,
       description: data.description?.trim() ? data.description : null,
       sort_order: data.sort_order,
-      badge_fee: data.badge_fee,
-      certificate_fee: data.certificate_fee,
+      badge_fee: feeNumber(data.badge_fee),
+      certificate_fee: feeNumber(data.certificate_fee),
       active: data.active,
     });
   });
