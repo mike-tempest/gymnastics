@@ -1,12 +1,12 @@
 /**
- * End-to-end tests for Swimly API endpoints
+ * End-to-end tests for the membership API.
  *
- * These tests verify that all API endpoints work correctly against the deployed
- * staging environment or local development server.
+ * These run against a locally running API backed by a database seeded with the
+ * demo gymnastics club (docs/demos/gym-demo-club.md). Seed the club first, or
+ * every authenticated test fails at login.
  *
  * Usage:
- *   npm run test:e2e                    # Test against staging (Railway)
- *   API_BASE_URL=http://localhost:3001 npm run test:e2e  # Test against local
+ *   API_BASE_URL=http://localhost:3001 npm run test:e2e
  */
 
 import * as dotenv from 'dotenv';
@@ -17,15 +17,29 @@ dotenv.config({ path: join(__dirname, '../../../../.env.test') });
 
 const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:3001';
 
-// Test credentials
+// Demo club credentials, overridable for a differently seeded database.
 const VALID_CREDENTIALS = {
-  email: 'admin@rtwmonson.co.uk',
-  password: 'Demo2024!',
+  email: process.env.TEST_ADMIN_EMAIL || 'admin@kestrelvalegym.org.uk',
+  password: process.env.TEST_ADMIN_PASSWORD || 'Demo2024!',
 };
 
 const INVALID_CREDENTIALS = {
   email: 'invalid@example.com',
   password: 'WrongPassword123',
+};
+
+/**
+ * Row counts the demo gymnastics club seeds. They live in one place because
+ * they track src/seed/gym-demo-seed.ts: change the seed, change these.
+ */
+const DEMO_COUNTS = {
+  users: 13, // 5 staff plus 8 parents
+  members: 16,
+  squads: 8,
+  sessions: 90, // 15 weekly templates over 6 weeks
+  families: 8,
+  feeStructures: 10, // one per squad, plus club membership and the badge fee
+  invoices: 8, // one per family
 };
 
 // Shared authentication token
@@ -61,7 +75,7 @@ async function authenticatedRequest(
   });
 }
 
-describe('Swimly API E2E Tests', () => {
+describe('Membership API E2E Tests', () => {
   describe('Authentication Endpoints', () => {
     it('should successfully log in with valid credentials', async () => {
       const response = await apiRequest('/api/auth/login', {
@@ -119,50 +133,50 @@ describe('Swimly API E2E Tests', () => {
   });
 
   describe('Users Endpoints', () => {
-    it('should return array of 15 users', async () => {
+    it('should return every user in the club', async () => {
       const response = await authenticatedRequest('/api/users');
 
       expect(response.status).toBe(200);
 
       const data = (await response.json()) as unknown[];
       expect(Array.isArray(data)).toBe(true);
-      expect(data.length).toBe(15);
+      expect(data.length).toBe(DEMO_COUNTS.users);
     });
   });
 
   describe('Members Endpoints', () => {
-    it('should return array of 30 members', async () => {
+    it('should return every member in the club', async () => {
       const response = await authenticatedRequest('/api/members');
 
       expect(response.status).toBe(200);
 
       const data = (await response.json()) as unknown[];
       expect(Array.isArray(data)).toBe(true);
-      expect(data.length).toBe(30);
+      expect(data.length).toBe(DEMO_COUNTS.members);
     });
   });
 
   describe('Squads Endpoints', () => {
-    it('should return array of 4 squads', async () => {
+    it('should return every squad in the club', async () => {
       const response = await authenticatedRequest('/api/squads');
 
       expect(response.status).toBe(200);
 
       const data = (await response.json()) as unknown[];
       expect(Array.isArray(data)).toBe(true);
-      expect(data.length).toBe(4);
+      expect(data.length).toBe(DEMO_COUNTS.squads);
     });
   });
 
   describe('Sessions Endpoints', () => {
-    it('should return array of 78 sessions', async () => {
+    it('should return every session in the club', async () => {
       const response = await authenticatedRequest('/api/sessions');
 
       expect(response.status).toBe(200);
 
       const data = (await response.json()) as unknown[];
       expect(Array.isArray(data)).toBe(true);
-      expect(data.length).toBe(78);
+      expect(data.length).toBe(DEMO_COUNTS.sessions);
     });
   });
 
@@ -178,36 +192,36 @@ describe('Swimly API E2E Tests', () => {
   });
 
   describe('Families Endpoints', () => {
-    it('should return array of 10 families', async () => {
+    it('should return every family in the club', async () => {
       const response = await authenticatedRequest('/api/families');
 
       expect(response.status).toBe(200);
 
       const data = (await response.json()) as unknown[];
       expect(Array.isArray(data)).toBe(true);
-      expect(data.length).toBe(10);
+      expect(data.length).toBe(DEMO_COUNTS.families);
     });
   });
 
   describe('Finance Endpoints', () => {
-    it('should return array of 6 fee structures', async () => {
+    it('should return every fee structure in the club', async () => {
       const response = await authenticatedRequest('/api/fee-structures');
 
       expect(response.status).toBe(200);
 
       const data = (await response.json()) as unknown[];
       expect(Array.isArray(data)).toBe(true);
-      expect(data.length).toBe(6);
+      expect(data.length).toBe(DEMO_COUNTS.feeStructures);
     });
 
-    it('should return array of 10 invoices', async () => {
+    it('should return every invoice in the club', async () => {
       const response = await authenticatedRequest('/api/invoices');
 
       expect(response.status).toBe(200);
 
       const data = (await response.json()) as unknown[];
       expect(Array.isArray(data)).toBe(true);
-      expect(data.length).toBe(10);
+      expect(data.length).toBe(DEMO_COUNTS.invoices);
     });
 
     it('should return payments array', async () => {

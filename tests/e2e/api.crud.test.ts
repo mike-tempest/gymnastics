@@ -92,7 +92,9 @@ describe('CRUD Operations API', () => {
     const squads = await getRes.json();
     const found = squads.find((s: any) => s.squad_id === created.squad_id);
     expect(found).toBeDefined();
-    expect(found.name).toBe('Test Squad');
+    // The API returns squad_name, not name, and the squad created above is
+    // "Test Squad CRUD": this assertion checked neither.
+    expect(found.squad_name).toBe('Test Squad CRUD');
 
     // Delete it
     const deleteRes = await authDelete(`/squads/${created.squad_id}`, adminToken);

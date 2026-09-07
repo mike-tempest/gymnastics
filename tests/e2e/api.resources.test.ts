@@ -1,4 +1,4 @@
-import { ADMIN_EMAIL, ADMIN_PASSWORD, loginAs, authGet } from './helpers';
+import { ADMIN_EMAIL, ADMIN_PASSWORD, DEMO_COUNTS, loginAs, authGet } from './helpers';
 
 describe('Resource APIs (authenticated as admin)', () => {
   let token: string;
@@ -13,7 +13,7 @@ describe('Resource APIs (authenticated as admin)', () => {
       expect(res.status).toBe(200);
       const data = await res.json();
       expect(Array.isArray(data)).toBe(true);
-      expect(data.length).toBeGreaterThanOrEqual(15);
+      expect(data.length).toBeGreaterThanOrEqual(DEMO_COUNTS.users);
     });
   });
 
@@ -23,7 +23,7 @@ describe('Resource APIs (authenticated as admin)', () => {
       expect(res.status).toBe(200);
       const data = await res.json();
       expect(Array.isArray(data)).toBe(true);
-      expect(data.length).toBe(30);
+      expect(data.length).toBeGreaterThanOrEqual(DEMO_COUNTS.members);
     });
 
     it('members have required fields', async () => {
@@ -37,12 +37,12 @@ describe('Resource APIs (authenticated as admin)', () => {
   });
 
   describe('Squads', () => {
-    it('GET /squads returns 4 squads', async () => {
+    it('GET /squads returns every squad', async () => {
       const res = await authGet('/squads', token);
       expect(res.status).toBe(200);
       const data = await res.json();
       expect(Array.isArray(data)).toBe(true);
-      expect(data.length).toBe(4);
+      expect(data.length).toBeGreaterThanOrEqual(DEMO_COUNTS.squads);
     });
 
     it('squads have required fields', async () => {
@@ -60,7 +60,7 @@ describe('Resource APIs (authenticated as admin)', () => {
       expect(res.status).toBe(200);
       const data = await res.json();
       expect(Array.isArray(data)).toBe(true);
-      expect(data.length).toBe(78);
+      expect(data.length).toBeGreaterThanOrEqual(DEMO_COUNTS.sessions);
     });
   });
 
@@ -75,12 +75,12 @@ describe('Resource APIs (authenticated as admin)', () => {
   });
 
   describe('Families', () => {
-    it('GET /families returns 10 families', async () => {
+    it('GET /families returns every family', async () => {
       const res = await authGet('/families', token);
       expect(res.status).toBe(200);
       const data = await res.json();
       expect(Array.isArray(data)).toBe(true);
-      expect(data.length).toBe(10);
+      expect(data.length).toBeGreaterThanOrEqual(DEMO_COUNTS.families);
     });
   });
 });

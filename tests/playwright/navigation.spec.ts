@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const EMAIL = process.env.ADMIN_EMAIL || 'admin@rtwmonson.co.uk';
+const EMAIL = process.env.ADMIN_EMAIL || 'admin@kestrelvalegym.org.uk';
 const PASSWORD = process.env.ADMIN_PASSWORD || 'Demo2024!';
 
 async function login(page: any) {
@@ -23,7 +23,12 @@ test.describe('Page Navigation', () => {
 
   test('dashboard loads with stats', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('text=Total Gymnasts')).toBeVisible({ timeout: 10000 });
+    // The dashboard heads its stat cards with the gymnast noun on its own;
+    // "Total Gymnasts" is the members and admin pages' wording.
+    await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('Gymnasts', { exact: true }).first()).toBeVisible({
+      timeout: 10000,
+    });
   });
 
   test('members page loads', async ({ page }) => {

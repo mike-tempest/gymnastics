@@ -1,16 +1,30 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 
-async function login(page) {
+// Defaults are the demo gymnastics club (docs/demos/gym-demo-club.md), which
+// seeds 16 gymnasts across eight squads.
+const EMAIL = process.env.TEST_EMAIL || 'admin@kestrelvalegym.org.uk';
+const PASSWORD = process.env.TEST_PASSWORD || 'Demo2024!';
+
+/**
+ * The members page renders each gymnast as a card linking to their detail
+ * page, not as a table row. Filtering on the card's name heading keeps the
+ * "Import CSV" link, which is also under /members/, out of the list.
+ */
+function memberCards(page: Page) {
+  return page.locator('a[href^="/members/"]').filter({ has: page.locator('h3') });
+}
+
+async function login(page: Page) {
   await page.goto('/login');
-  await page.fill('input[type="email"]', process.env.TEST_EMAIL || 'admin@rtwmonson.co.uk');
-  await page.fill('input[type="password"]', process.env.TEST_PASSWORD || 'Demo2024!');
+  await page.fill('input[type="email"]', EMAIL);
+  await page.fill('input[type="password"]', PASSWORD);
   const loginResponse = page.waitForResponse(
-    resp => resp.url().includes('/auth/login') && resp.status() === 201,
+    (resp) => resp.url().includes('/auth/login') && resp.status() === 201,
     { timeout: 15000 }
   );
   await page.click('button[type="submit"]');
   await loginResponse;
-  await page.waitForURL(url => !url.pathname.includes('/login'), { timeout: 15000 });
+  await page.waitForURL((url) => !url.pathname.includes('/login'), { timeout: 15000 });
 }
 
 test.describe('Member Interactions', () => {
@@ -20,87 +34,57 @@ test.describe('Member Interactions', () => {
 
   test('should display members page with list of members', async ({ page }) => {
     await page.goto('/members');
-    await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {});
-    
-    // Verify page loads (look for table or content)
-    await page.waitForTimeout(2000); // Allow data to load
-    
-    // Count member rows or cards (at least 10 visible)
-    const memberRows = page.locator('tbody tr');
-    const count = await memberRows.count();
+    await expect(memberCards(page).first()).toBeVisible({ timeout: 10000 });
+
+    const count = await memberCards(page).count();
     expect(count).toBeGreaterThanOrEqual(10);
   });
 
   test('should navigate to member detail page when clicking on member', async ({ page }) => {
     await page.goto('/members');
-    await page.waitForTimeout(1000);
+    const firstMember = memberCards(page).first();
+    await expect(firstMember).toBeVisible({ timeout: 10000 });
 
-    // Click on first member name or row
-    const firstMember = page.locator('tbody tr a, [data-testid="member-link"], tbody tr').first();
+    const name = ((await firstMember.locator('h3').textContent()) ?? '').trim();
+    expect(name.length).toBeGreaterThan(0);
     await firstMember.click();
 
-    // Verify detail page loads (URL changes and member info visible)
-    await page.waitForURL(url => url.pathname.includes('/member'), { timeout: 10000 });
-    
-    // Verify member information is displayed
-    const memberInfo = page.locator('text=/first.*name|last.*name|date.*birth/i').first();
-    await expect(memberInfo).toBeVisible({ timeout: 5000 });
+    // Detail pages live at /members/<member_id>.
+    await page.waitForURL(/\/members\/[^/]+$/, { timeout: 10000 });
+    await expect(page.getByText(name).first()).toBeVisible({ timeout: 10000 });
   });
 
   test('should filter members using search functionality', async ({ page }) => {
     await page.goto('/members');
-    await page.waitForTimeout(1000);
+    await expect(memberCards(page).first()).toBeVisible({ timeout: 10000 });
+    const initialCount = await memberCards(page).count();
+    expect(initialCount).toBeGreaterThan(1);
 
-    // Get initial count
-    const allRows = page.locator('tbody tr');
-    const initialCount = await allRows.count();
+    // The page search, not the global one in the header, which also has a
+    // placeholder starting "Search".
+    // The demo club seeds exactly one gymnast called Emma.
+    await page.fill('input[placeholder*="registration number" i]', 'Emma');
+    await expect(memberCards(page)).toHaveCount(1, { timeout: 10000 });
 
-    // Type 'Emma' in search input
-    const searchInput = page.locator('input[type="search"], input[placeholder*="search" i], input[name*="search"]').first();
-    await searchInput.fill('Emma');
-    await page.waitForTimeout(1500); // Allow filtering to complete
-
-    // Verify results are filtered
-    const filteredRows = page.locator('tbody tr');
-    const filteredCount = await filteredRows.count();
-    
-    // Filtered results should be different from initial and contain 'Emma'
-    expect(filteredCount).toBeLessThanOrEqual(initialCount);
-    
-    // Check if any visible row contains 'Emma'
-    if (filteredCount > 0) {
-      const firstRowText = await filteredRows.first().textContent();
-      expect(firstRowText.toLowerCase()).toContain('emma');
-    }
+    const firstRowText = (await memberCards(page).first().textContent()) ?? '';
+    expect(firstRowText.toLowerCase()).toContain('emma');
   });
 
-  test('should filter members by squad if dropdown exists', async ({ page }) => {
+  test('should filter members by squad', async ({ page }) => {
     await page.goto('/members');
-    await page.waitForTimeout(1000);
+    await expect(memberCards(page).first()).toBeVisible({ timeout: 10000 });
+    const initialCount = await memberCards(page).count();
 
-    // Check if squad filter dropdown exists
-    const squadFilter = page.locator('select[name*="squad"], [data-testid="squad-filter"], select').first();
-    const isVisible = await squadFilter.isVisible().catch(() => false);
+    // The first select on the page is the squad filter.
+    const squadFilter = page.locator('select').first();
+    const options = await squadFilter.locator('option').all();
+    expect(options.length).toBeGreaterThan(1);
 
-    if (isVisible) {
-      // Get initial count
-      const initialRows = page.locator('tbody tr');
-      const initialCount = await initialRows.count();
+    await squadFilter.selectOption({ index: 1 });
+    await expect(page.getByText(/Showing \d+ of \d+/)).toBeVisible({ timeout: 10000 });
 
-      // Select first squad option (skip empty/default option)
-      const options = await squadFilter.locator('option').all();
-      if (options.length > 1) {
-        await squadFilter.selectOption({ index: 1 });
-        await page.waitForTimeout(1500);
-
-        // Verify results changed
-        const filteredRows = page.locator('tbody tr');
-        const filteredCount = await filteredRows.count();
-        expect(filteredCount).toBeLessThanOrEqual(initialCount);
-      }
-    } else {
-      // Skip test if squad filter not found
-      test.skip();
-    }
+    const filteredCount = await memberCards(page).count();
+    expect(filteredCount).toBeLessThan(initialCount);
+    expect(filteredCount).toBeGreaterThan(0);
   });
 });

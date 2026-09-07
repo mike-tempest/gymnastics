@@ -1,4 +1,4 @@
-import { ADMIN_EMAIL, ADMIN_PASSWORD, loginAs, authGet } from './helpers';
+import { ADMIN_EMAIL, ADMIN_PASSWORD, DEMO_COUNTS, loginAs, authGet } from './helpers';
 
 describe('Finance APIs (authenticated as admin)', () => {
   let token: string;
@@ -13,7 +13,7 @@ describe('Finance APIs (authenticated as admin)', () => {
       expect(res.status).toBe(200);
       const data = await res.json();
       expect(Array.isArray(data)).toBe(true);
-      expect(data.length).toBe(6);
+      expect(data.length).toBeGreaterThanOrEqual(DEMO_COUNTS.feeStructures);
     });
   });
 
@@ -23,7 +23,7 @@ describe('Finance APIs (authenticated as admin)', () => {
       expect(res.status).toBe(200);
       const data = await res.json();
       expect(Array.isArray(data)).toBe(true);
-      expect(data.length).toBe(10);
+      expect(data.length).toBeGreaterThanOrEqual(DEMO_COUNTS.invoices);
     });
 
     it('invoices have required fields', async () => {

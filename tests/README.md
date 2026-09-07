@@ -64,12 +64,14 @@ npm run test:e2e -- tests/frontend-smoke.e2e.test.ts
 
 ## Test Credentials
 
-The tests use the following credentials for the staging environment:
+The tests use the demo gymnastics club's admin account:
 
-- **Email:** admin@rtwmonson.co.uk
+- **Email:** admin@kestrelvalegym.org.uk
 - **Password:** Demo2024!
 
-These credentials are configured in the test files and should match the demo data seeded in the staging database.
+Seed it into a local database with `pnpm seed:demo:gym` from
+`services/membership` before running the suite. See
+`docs/demos/gym-demo-club.md`.
 
 ## Configuration
 
