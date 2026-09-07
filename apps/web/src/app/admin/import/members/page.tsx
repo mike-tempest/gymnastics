@@ -557,6 +557,16 @@ export default function MembersImportPage() {
                     <Download className="w-5 h-5" />
                     <span>Download CSV Template</span>
                   </button>
+                  <p className="text-text-tertiary text-xs mt-3">
+                    A vendor export usually needs no template at all. Thrive4 and LoveAdmin contact
+                    reports (Contact First Name, Account Holder, Groups), Coacha and Gymcatch member
+                    exports and My BG membership numbers are all recognised automatically. Leaving
+                    ClassForKids or GoCardless? Those have{' '}
+                    <Link href="/admin/import" className="text-brand hover:underline">
+                      their own routes
+                    </Link>
+                    .
+                  </p>
                 </div>
 
                 {/* File Upload Area */}

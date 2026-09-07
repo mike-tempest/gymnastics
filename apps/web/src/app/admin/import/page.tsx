@@ -3,9 +3,11 @@
 import {
   ArrowLeft,
   ArrowRight,
+  Banknote,
   Download,
   Layers,
   PoundSterling,
+  Repeat,
   UserCog,
   Users,
   type LucideIcon,
@@ -95,6 +97,51 @@ const IMPORT_CARDS: ImportCard[] = [
   },
 ];
 
+interface SourceCard {
+  title: string;
+  description: string;
+  hint: string;
+  icon: LucideIcon;
+  href: string;
+  cta: string;
+}
+
+/**
+ * Switching from a specific system. Ordered by how much of a club's data
+ * each route rescues, per docs/05-Build-Brief-Positioning-and-Product-Rules.md
+ * section 4: the GoCardless takeover first, because it is the only one that
+ * saves every family from re-mandating.
+ */
+const SOURCE_CARDS: SourceCard[] = [
+  {
+    title: 'GoCardless',
+    description:
+      'Take over your existing GoCardless organisation. Every live Direct Debit comes across, so no parent sets one up again.',
+    hint: 'Upload the Customers and Mandates CSV exports from your GoCardless dashboard, and the Payments export if you want the history summarised.',
+    icon: Repeat,
+    href: '/admin/import/gocardless',
+    cta: 'Start takeover',
+  },
+  {
+    title: 'ClassForKids',
+    description:
+      'Assemble your families and classes from the spreadsheets ClassForKids does let you download. Upload as many as you have at once.',
+    hint: 'Contacts, class registers and financial reports together. Card payments cannot be transferred, so families will set up a Direct Debit here instead.',
+    icon: Users,
+    href: '/admin/import/classforkids',
+    cta: 'Import spreadsheets',
+  },
+  {
+    title: 'Thrive4 or LoveAdmin',
+    description:
+      `Their contact and payment reports let you choose the columns. Export what you have and the ${MEMBER_NOUN_PLURAL_LOWER} import will recognise it.`,
+    hint: 'Contact First Name, Account Holder, Groups and the rest are matched automatically; anything unusual you can map by hand.',
+    icon: Banknote,
+    href: '/admin/import/members',
+    cta: `Import ${MEMBER_NOUN_PLURAL_LOWER}`,
+  },
+];
+
 function downloadTemplate(csv: string, fileName: string) {
   const blob = new Blob([csv], { type: 'text/csv' });
   const url = URL.createObjectURL(blob);
@@ -126,7 +173,8 @@ export default function ImportHubPage() {
             <p className="text-grey-600 text-lg max-w-3xl">
               Bring your existing records into {BRAND.name} from CSV files. Work through the
               four steps in order: squads first, then members, staff and fee structures.
-              Each step has a template you can download and fill in.
+              Each step has a template you can download and fill in. Switching from another
+              system? Start with the source you are leaving, further down this page.
             </p>
           </div>
 
@@ -176,6 +224,50 @@ export default function ImportHubPage() {
                 </Card>
               );
             })}
+          </div>
+
+          {/* Switching from another system */}
+          <div className="mt-12">
+            <h2 className="font-serif text-3xl text-dark-primary tracking-tight mb-2">
+              Coming from another system
+            </h2>
+            <p className="text-grey-600 max-w-3xl mb-6">
+              These routes read the exports your current provider gives you, so you do not have to
+              retype anything into a template.
+            </p>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {SOURCE_CARDS.map((card) => {
+                const Icon = card.icon;
+                return (
+                  <Card key={card.title} className="bg-dark-primary border-white/10">
+                    <CardContent className="p-6 sm:p-8 flex flex-col h-full">
+                      <div className="flex items-start gap-4 mb-4">
+                        <div className="p-3 rounded-lg bg-lime/20 shrink-0">
+                          <Icon className="w-6 h-6 text-lime" />
+                        </div>
+                        <h3 className="font-serif text-2xl text-white tracking-tight">
+                          {card.title}
+                        </h3>
+                      </div>
+
+                      <p className="text-white/70 text-sm mb-4">{card.description}</p>
+                      <p className="text-white/50 text-xs leading-relaxed mb-6">{card.hint}</p>
+
+                      <div className="mt-auto">
+                        <Link
+                          href={card.href}
+                          className="min-h-[48px] px-6 py-3 bg-brand text-dark-primary rounded-xl font-bold hover:bg-brand-dark transition-all flex items-center justify-center gap-2"
+                        >
+                          <span>{card.cta}</span>
+                          <ArrowRight className="w-5 h-5" />
+                        </Link>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

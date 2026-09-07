@@ -1,0 +1,5 @@
+id,created_at,email,given_name,family_name,company_name,address_line1,address_line2,city,region,postal_code,country_code,phone_number
+CU0001,2023-09-04T09:12:44.000Z,sarah.hartley@example.co.uk,Sarah,Hartley,,14 Meadow Lane,,Leeds,West Yorkshire,LS6 3AB,GB,07700 900123
+CU0002,2023-09-06T18:02:10.000Z,d.rhysjones@example.co.uk,David,Rhys-Jones,,7 Castle View,Pontcanna,Cardiff,,CF11 9LJ,GB,07700 900456
+CU0003,2024-01-15T11:41:02.000Z,priya.patel@example.co.uk,Priya,Patel,,7 Orchard Way,Flat 2,Maidstone,Kent,ME14 5XY,GB,
+CU0004,2024-02-02T08:30:00.000Z,,Jordan,Okafor,,22 Bridge Street,,Bristol,,BS1 4ST,GB,

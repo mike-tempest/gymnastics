@@ -1,5 +1,5 @@
 /**
- * Shared header matching for the member import wizards.
+ * Shared header matching for the import wizards.
  *
  * Clubs import rosters exported from other systems (Swim England lists,
  * Swim Central "Full Members Report", ad-hoc spreadsheets) whose column
@@ -7,6 +7,12 @@
  * ignoring spaces, underscores, hyphens and a leading BOM, against a
  * dictionary of known synonyms. Unknown columns are never an error; they
  * are simply left unmapped and ignored.
+ *
+ * The dictionary also covers the incumbent exports catalogued in
+ * docs/04-Incumbent-Landscape-Pricing-and-Exports.md: a club's own
+ * GoCardless dashboard exports, the per-screen ClassForKids spreadsheets
+ * (that vendor publishes no customer or family export at all), and the
+ * field-selectable Thrive4 / LoveAdmin contact and payment reports.
  */
 
 /**
@@ -17,6 +23,7 @@
 export type CanonicalImportField =
   | 'first_name'
   | 'last_name'
+  | 'member_full_name'
   | 'date_of_birth'
   | 'gender'
   | 'registration_number'
@@ -31,7 +38,22 @@ export type CanonicalImportField =
   | 'address_line1'
   | 'address_line2'
   | 'city'
-  | 'postcode';
+  | 'postcode'
+  | 'venue'
+  | 'day'
+  // Payment-provider concepts, used by the GoCardless takeover wizard.
+  | 'provider_customer_id'
+  | 'provider_mandate_id'
+  | 'provider_payment_id'
+  | 'mandate_status'
+  | 'mandate_scheme'
+  | 'mandate_reference'
+  | 'payment_status'
+  | 'amount'
+  | 'currency'
+  | 'charge_date'
+  | 'created_at'
+  | 'description';
 
 /**
  * Normalise a header for matching: strip any BOM, lowercase, and drop
@@ -62,6 +84,10 @@ const HEADER_SYNONYMS: Record<string, CanonicalImportField> = {
   swimmerfirstname: 'first_name',
   gymnastfirstname: 'first_name',
   childfirstname: 'first_name',
+  // Thrive4 / LoveAdmin contact exports name the participant "Contact";
+  // the payer is a separate "Account holder" column (mapped below).
+  contactfirstname: 'first_name',
+  participantfirstname: 'first_name',
   // Last name
   lastname: 'last_name',
   surname: 'last_name',
@@ -70,6 +96,21 @@ const HEADER_SYNONYMS: Record<string, CanonicalImportField> = {
   swimmerlastname: 'last_name',
   gymnastlastname: 'last_name',
   childlastname: 'last_name',
+  contactlastname: 'last_name',
+  participantlastname: 'last_name',
+  // Combined member name in one column. ClassForKids register and financial
+  // spreadsheets carry the child as a single "Child Name" cell, so the
+  // importer has to split it rather than read separate name columns.
+  // Deliberately no bare 'name' synonym: it is ambiguous in every export
+  // that also carries a class, venue or parent name column.
+  childname: 'member_full_name',
+  childsname: 'member_full_name',
+  participantname: 'member_full_name',
+  attendeename: 'member_full_name',
+  studentname: 'member_full_name',
+  pupilname: 'member_full_name',
+  gymnastname: 'member_full_name',
+  membername: 'member_full_name',
   // Date of birth
   dateofbirth: 'date_of_birth',
   dob: 'date_of_birth',
@@ -98,12 +139,22 @@ const HEADER_SYNONYMS: Record<string, CanonicalImportField> = {
   governingbody: 'governing_body',
   nationalgoverningbody: 'governing_body',
   ngb: 'governing_body',
-  // Squad
+  // Squad. ClassForKids and Thrive4 organise gymnasts by class or group
+  // rather than squad; both land on the same concept, and the members
+  // import can create a missing squad from the name.
   squad: 'squad',
   squadname: 'squad',
   group: 'squad',
+  groups: 'squad',
+  groupname: 'squad',
+  membergroup: 'squad',
   traininggroup: 'squad',
   trainingsquad: 'squad',
+  class: 'squad',
+  classname: 'squad',
+  classtitle: 'squad',
+  session: 'squad',
+  sessionname: 'squad',
   // Family / household grouping
   family: 'family',
   household: 'family',
@@ -125,6 +176,14 @@ const HEADER_SYNONYMS: Record<string, CanonicalImportField> = {
   guardianname: 'parent_name',
   parentguardianname: 'parent_name',
   contactname: 'parent_name',
+  // Thrive4 / LoveAdmin and GoCardless call the bill payer the account
+  // holder or payer; ClassForKids financial spreadsheets say "Parent".
+  accountholder: 'parent_name',
+  accountholdername: 'parent_name',
+  payer: 'parent_name',
+  payername: 'parent_name',
+  billingcontact: 'parent_name',
+  billingcontactname: 'parent_name',
   // Parent email
   parentemail: 'parent_email',
   email: 'parent_email',
@@ -132,6 +191,9 @@ const HEADER_SYNONYMS: Record<string, CanonicalImportField> = {
   contactemail: 'parent_email',
   guardianemail: 'parent_email',
   parentemailaddress: 'parent_email',
+  accountholderemail: 'parent_email',
+  payeremail: 'parent_email',
+  billingemail: 'parent_email',
   // Parent phone
   parentphone: 'parent_phone',
   phone: 'parent_phone',
@@ -142,6 +204,11 @@ const HEADER_SYNONYMS: Record<string, CanonicalImportField> = {
   telephone: 'parent_phone',
   contactnumber: 'parent_phone',
   parentmobile: 'parent_phone',
+  accountholdermobile: 'parent_phone',
+  payermobile: 'parent_phone',
+  homephone: 'parent_phone',
+  homephonenumber: 'parent_phone',
+  daytimephone: 'parent_phone',
   // Address
   addressline1: 'address_line1',
   address1: 'address_line1',
@@ -159,6 +226,55 @@ const HEADER_SYNONYMS: Record<string, CanonicalImportField> = {
   postalcode: 'postcode',
   zip: 'postcode',
   zipcode: 'postcode',
+  // Venue and day. ClassForKids spreadsheets carry both; neither maps onto
+  // a field yet, so they are surfaced in the preview as context that helps
+  // a club recognise its own classes.
+  venue: 'venue',
+  location: 'venue',
+  centre: 'venue',
+  venuename: 'venue',
+  day: 'day',
+  dayofweek: 'day',
+  classday: 'day',
+  // GoCardless dashboard exports. The bare "id" column means a different
+  // thing in each of the three files, so it is deliberately absent here and
+  // resolved per file by the takeover wizard instead.
+  customerid: 'provider_customer_id',
+  customersid: 'provider_customer_id',
+  gocardlesscustomerid: 'provider_customer_id',
+  customer: 'provider_customer_id',
+  mandateid: 'provider_mandate_id',
+  mandatesid: 'provider_mandate_id',
+  gocardlessmandateid: 'provider_mandate_id',
+  mandate: 'provider_mandate_id',
+  paymentid: 'provider_payment_id',
+  paymentsid: 'provider_payment_id',
+  mandatestatus: 'mandate_status',
+  scheme: 'mandate_scheme',
+  mandatescheme: 'mandate_scheme',
+  reference: 'mandate_reference',
+  mandatereference: 'mandate_reference',
+  paymentstatus: 'payment_status',
+  createdat: 'created_at',
+  datecreated: 'created_at',
+  created: 'created_at',
+  chargedate: 'charge_date',
+  paymentdate: 'charge_date',
+  datepaid: 'charge_date',
+  currency: 'currency',
+  description: 'description',
+  paymentdescription: 'description',
+  // Money columns. ClassForKids financial spreadsheets carry several; they
+  // feed no field yet (there is no fee import) and are shown as
+  // informational totals only.
+  amount: 'amount',
+  amountpaid: 'amount',
+  amountdue: 'amount',
+  totalpaid: 'amount',
+  outstanding: 'amount',
+  balance: 'amount',
+  income: 'amount',
+  price: 'amount',
 };
 
 /** The canonical concept a header refers to, or null when unknown. */

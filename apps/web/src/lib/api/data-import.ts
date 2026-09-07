@@ -1,3 +1,9 @@
+import type {
+  GoCardlessCustomerRow,
+  GoCardlessMandateRow,
+  GoCardlessPaymentRow,
+} from '@/lib/import/gocardless';
+
 import { api } from './api-client';
 
 /**
@@ -87,6 +93,104 @@ export async function importMembers(
 ): Promise<MemberImportResponse> {
   return api.post<MemberImportResponse>('/import/members?preview=false', {
     rows,
+    options,
+  });
+}
+
+// ---------------------------------------------------------------------------
+// GoCardless organisation takeover
+// ---------------------------------------------------------------------------
+
+export interface GoCardlessImportOptions {
+  create_missing_families: boolean;
+}
+
+export interface GoCardlessImportPayload {
+  customers: GoCardlessCustomerRow[];
+  mandates: GoCardlessMandateRow[];
+  payments?: GoCardlessPaymentRow[];
+}
+
+export interface GoCardlessPaymentsSummary {
+  rows: number;
+  rows_without_matching_mandate: number;
+  totals_by_currency: Array<{ currency: string; rows: number; total_amount: number }>;
+  earliest_charge_date: string | null;
+  latest_charge_date: string | null;
+  /** Always false: payment history is a stated non-goal of the takeover. */
+  imported: boolean;
+}
+
+export interface GoCardlessCustomerResult {
+  row: number;
+  gocardless_customer_id: string;
+  email: string | null;
+  action: 'create' | 'match' | 'skip' | 'error';
+  errors: string[];
+}
+
+export interface GoCardlessMandateResult {
+  row: number;
+  gocardless_mandate_id: string;
+  gocardless_customer_id: string;
+  action: 'create' | 'skip' | 'error';
+  status: 'pending' | 'active' | 'cancelled' | 'failed' | 'expired' | null;
+  warnings: string[];
+  errors: string[];
+}
+
+export interface GoCardlessPreviewResponse {
+  summary: {
+    families_to_create: number;
+    families_matched: number;
+    customers_with_errors: number;
+    mandates_to_create: number;
+    active_mandates_to_create: number;
+    mandates_skipped: number;
+    mandates_with_errors: number;
+    payments: GoCardlessPaymentsSummary | null;
+  };
+  customer_results: GoCardlessCustomerResult[];
+  mandate_results: GoCardlessMandateResult[];
+}
+
+export interface GoCardlessImportMessage {
+  scope: 'customer' | 'mandate';
+  row: number;
+  message: string;
+}
+
+export interface GoCardlessImportResponse {
+  summary: {
+    families_created: number;
+    families_matched: number;
+    mandates_created: number;
+    active_mandates_created: number;
+    mandates_skipped: number;
+    payments_imported: number;
+  };
+  errors: GoCardlessImportMessage[];
+  warnings: GoCardlessImportMessage[];
+}
+
+/** Dry run of the takeover: matches and validates server-side, writes nothing. */
+export async function previewGoCardlessImport(
+  payload: GoCardlessImportPayload,
+  options: GoCardlessImportOptions,
+): Promise<GoCardlessPreviewResponse> {
+  return api.post<GoCardlessPreviewResponse>('/import/gocardless?preview=true', {
+    ...payload,
+    options,
+  });
+}
+
+/** Real takeover: creates or matches families and writes their mandates. */
+export async function importGoCardless(
+  payload: GoCardlessImportPayload,
+  options: GoCardlessImportOptions,
+): Promise<GoCardlessImportResponse> {
+  return api.post<GoCardlessImportResponse>('/import/gocardless?preview=false', {
+    ...payload,
     options,
   });
 }

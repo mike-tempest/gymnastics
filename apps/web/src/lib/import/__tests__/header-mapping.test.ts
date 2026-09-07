@@ -65,6 +65,109 @@ describe('matchHeader', () => {
   });
 });
 
+/**
+ * Vendor vocabularies for the incumbents catalogued in
+ * docs/04-Incumbent-Landscape-Pricing-and-Exports.md. Header names follow
+ * that document's description of each export.
+ */
+describe('matchHeader for incumbent exports', () => {
+  describe('GoCardless dashboard exports', () => {
+    it('maps the customers export columns', () => {
+      expect(matchHeader('email')).toBe('parent_email');
+      expect(matchHeader('given_name')).toBe('first_name');
+      expect(matchHeader('family_name')).toBe('last_name');
+      expect(matchHeader('address_line1')).toBe('address_line1');
+      expect(matchHeader('postal_code')).toBe('postcode');
+      expect(matchHeader('phone_number')).toBe('parent_phone');
+      expect(matchHeader('created_at')).toBe('created_at');
+    });
+
+    it('maps the mandates export columns', () => {
+      expect(matchHeader('customer')).toBe('provider_customer_id');
+      expect(matchHeader('Customer ID')).toBe('provider_customer_id');
+      expect(matchHeader('scheme')).toBe('mandate_scheme');
+      expect(matchHeader('reference')).toBe('mandate_reference');
+      expect(matchHeader('Mandate Status')).toBe('mandate_status');
+    });
+
+    it('maps the payments export columns', () => {
+      expect(matchHeader('mandate')).toBe('provider_mandate_id');
+      expect(matchHeader('charge_date')).toBe('charge_date');
+      expect(matchHeader('amount')).toBe('amount');
+      expect(matchHeader('currency')).toBe('currency');
+      expect(matchHeader('description')).toBe('description');
+    });
+
+    it('leaves the bare id column unmapped, because it means a different thing per file', () => {
+      // customers.csv, mandates.csv and payments.csv all have an "id"
+      // column; the takeover wizard resolves it from the detected file role.
+      expect(matchHeader('id')).toBeNull();
+    });
+  });
+
+  describe('ClassForKids spreadsheets', () => {
+    it('maps the child name column that the register and financial sheets share', () => {
+      expect(matchHeader('Child Name')).toBe('member_full_name');
+      expect(matchHeader("Child's Name")).toBe('member_full_name');
+      expect(matchHeader('Participant Name')).toBe('member_full_name');
+    });
+
+    it('maps a class column onto the squad concept', () => {
+      expect(matchHeader('Class')).toBe('squad');
+      expect(matchHeader('Class Name')).toBe('squad');
+      expect(matchHeader('Session')).toBe('squad');
+    });
+
+    it('maps the venue and day context columns', () => {
+      expect(matchHeader('Venue')).toBe('venue');
+      expect(matchHeader('Location')).toBe('venue');
+      expect(matchHeader('Day')).toBe('day');
+      expect(matchHeader('Day of Week')).toBe('day');
+    });
+
+    it('maps the financial money columns onto one informational amount concept', () => {
+      expect(matchHeader('Amount')).toBe('amount');
+      expect(matchHeader('Amount Paid')).toBe('amount');
+      expect(matchHeader('Outstanding')).toBe('amount');
+      expect(matchHeader('Income')).toBe('amount');
+    });
+
+    it('maps the parent column on a financial summary', () => {
+      expect(matchHeader('Parent')).toBe('parent_name');
+      expect(matchHeader('Parent Email')).toBe('parent_email');
+    });
+  });
+
+  describe('Thrive4 / LoveAdmin contact exports', () => {
+    it('maps the participant name columns', () => {
+      expect(matchHeader('Contact First Name')).toBe('first_name');
+      expect(matchHeader('Contact Last Name')).toBe('last_name');
+    });
+
+    it('maps the account holder as the parent, not the gymnast', () => {
+      expect(matchHeader('Account Holder')).toBe('parent_name');
+      expect(matchHeader('Account Holder Email')).toBe('parent_email');
+      expect(matchHeader('Payer Name')).toBe('parent_name');
+      expect(matchHeader('Home Phone')).toBe('parent_phone');
+    });
+
+    it('maps its group columns onto the squad concept', () => {
+      expect(matchHeader('Groups')).toBe('squad');
+      expect(matchHeader('Group Name')).toBe('squad');
+      expect(matchHeader('Member Group')).toBe('squad');
+    });
+
+    it('still maps the membership number it shares with My BG', () => {
+      expect(matchHeader('Membership Number')).toBe('registration_number');
+    });
+  });
+
+  it('keeps the deliberate Member ID exclusion', () => {
+    expect(matchHeader('Member ID')).toBeNull();
+    expect(matchHeader('member_id')).toBeNull();
+  });
+});
+
 describe('autoMapHeaders', () => {
   type Field = 'first_name' | 'last_name' | 'dob' | 'registration_number' | 'family';
 
@@ -110,6 +213,59 @@ describe('autoMapHeaders', () => {
   it('leaves unknown headers unmapped without error', () => {
     const mapping = autoMapHeaders(['Wibble', 'Wobble'], fields);
     expect(mapping).toEqual({});
+  });
+
+  it('auto-maps a Thrive4 contact export onto the members wizard fields', () => {
+    type MemberField =
+      | 'member_first_name'
+      | 'member_last_name'
+      | 'date_of_birth'
+      | 'gender'
+      | 'squad_name'
+      | 'parent_name'
+      | 'parent_email'
+      | 'parent_phone'
+      | 'postcode';
+
+    const memberFields: readonly AutoMapField<MemberField>[] = [
+      { key: 'member_first_name', canonical: 'first_name' },
+      { key: 'member_last_name', canonical: 'last_name' },
+      { key: 'date_of_birth', canonical: 'date_of_birth' },
+      { key: 'gender', canonical: 'gender' },
+      { key: 'squad_name', canonical: 'squad' },
+      { key: 'parent_name', canonical: 'parent_name' },
+      { key: 'parent_email', canonical: 'parent_email' },
+      { key: 'parent_phone', canonical: 'parent_phone' },
+      { key: 'postcode', canonical: 'postcode' },
+    ];
+
+    const mapping = autoMapHeaders(
+      [
+        'Contact First Name',
+        'Contact Last Name',
+        'Date of Birth',
+        'Gender',
+        'Groups',
+        'Account Holder',
+        'Account Holder Email',
+        'Home Phone',
+        'Postcode',
+        'Balance',
+      ],
+      memberFields,
+    );
+
+    expect(mapping).toEqual({
+      member_first_name: 'Contact First Name',
+      member_last_name: 'Contact Last Name',
+      date_of_birth: 'Date of Birth',
+      gender: 'Gender',
+      squad_name: 'Groups',
+      parent_name: 'Account Holder',
+      parent_email: 'Account Holder Email',
+      parent_phone: 'Home Phone',
+      postcode: 'Postcode',
+    });
   });
 });
 
