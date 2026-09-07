@@ -1,12 +1,13 @@
 import { test, expect } from '@playwright/test';
 
-const EMAIL = process.env.ADMIN_EMAIL || 'admin@rtwmonson.co.uk';
+// Defaults are the demo gymnastics club (docs/demos/gym-demo-club.md).
+const EMAIL = process.env.ADMIN_EMAIL || 'admin@kestrelvalegym.org.uk';
 const PASSWORD = process.env.ADMIN_PASSWORD || 'Demo2024!';
 
 test.describe('Login Flow', () => {
   test('login page loads correctly', async ({ page }) => {
     await page.goto('/login');
-    await expect(page.getByRole('heading', { name: 'Swimly' })).toBeVisible();
+    await expect(page.getByText('Sign in to your account')).toBeVisible();
     await expect(page.locator('input[type="email"]')).toBeVisible();
     await expect(page.locator('input[type="password"]')).toBeVisible();
   });
@@ -42,7 +43,7 @@ test.describe('Login Flow', () => {
 
   test('demo credentials displayed on login page', async ({ page }) => {
     await page.goto('/login');
-    await expect(page.locator('text=admin@rtwmonson.co.uk')).toBeVisible();
-    await expect(page.locator('text=Demo2024!')).toBeVisible();
+    await expect(page.getByText(EMAIL)).toBeVisible();
+    await expect(page.getByText(PASSWORD)).toBeVisible();
   });
 });

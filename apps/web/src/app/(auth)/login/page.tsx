@@ -21,6 +21,12 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
+// Credentials shown on the demo login hint. They match the demo club seed
+// (docs/demos/gym-demo-club.md) and can be overridden per deployment. The hint
+// itself is hidden entirely when NEXT_PUBLIC_DEMO_MODE is "false".
+const DEMO_EMAIL = process.env.NEXT_PUBLIC_DEMO_EMAIL || 'admin@kestrelvalegym.org.uk';
+const DEMO_PASSWORD = process.env.NEXT_PUBLIC_DEMO_PASSWORD || 'Demo2024!';
+
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -195,11 +201,11 @@ export default function LoginPage() {
             <p className="text-sm text-white/60 font-semibold">
               Demo:{' '}
               <span className="font-mono bg-white/10 px-3 py-1.5 rounded-button border border-white/20 text-white">
-                admin@rtwmonson.co.uk
+                {DEMO_EMAIL}
               </span>{' '}
               /{' '}
               <span className="font-mono bg-white/10 px-3 py-1.5 rounded-button border border-white/20 text-white">
-                Demo2024!
+                {DEMO_PASSWORD}
               </span>
             </p>
           </div>

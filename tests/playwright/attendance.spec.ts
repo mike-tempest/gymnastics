@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 async function login(page) {
   await page.goto('/login');
-  await page.fill('input[type="email"]', process.env.TEST_EMAIL || 'admin@rtwmonson.co.uk');
+  await page.fill('input[type="email"]', process.env.TEST_EMAIL || 'admin@kestrelvalegym.org.uk');
   await page.fill('input[type="password"]', process.env.TEST_PASSWORD || 'Demo2024!');
   const loginResponse = page.waitForResponse(
     resp => resp.url().includes('/auth/login') && resp.status() === 201,

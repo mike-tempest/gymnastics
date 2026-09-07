@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const EMAIL = process.env.ADMIN_EMAIL || 'admin@rtwmonson.co.uk';
+const EMAIL = process.env.ADMIN_EMAIL || 'admin@kestrelvalegym.org.uk';
 const PASSWORD = process.env.ADMIN_PASSWORD || 'Demo2024!';
 
 async function login(page: any) {

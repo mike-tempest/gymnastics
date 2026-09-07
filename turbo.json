@@ -62,9 +62,6 @@
     },
     "db:migrate": {
       "cache": false
-    },
-    "db:seed": {
-      "cache": false
     }
   }
 }

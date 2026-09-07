@@ -157,8 +157,8 @@ docker exec swim-nexus-db pg_isready -U postgres
 # Run migrations
 pnpm run db:migrate
 
-# Seed database
-pnpm run db:seed
+# Seed the demo gymnastics club
+pnpm --filter @club-manager/membership-service seed:demo:gym
 ```
 
 ### 5. Verify Setup
@@ -559,33 +559,45 @@ export class AddPhotoUrlToSwimmers1234567890 implements MigrationInterface {
 
 ### Seeding Data
 
-```bash
-# Seed database with test data
-pnpm db:seed
+Seeds are standalone scripts in `services/membership/src/seed/`, run by name.
+Each one inserts its own club row and stamps `club_id` on every record, so a
+seed only ever touches its own tenant.
 
-# Seed specific seeder
-pnpm db:seed --file=1234567890-SeedTestSwimmers.ts
+```bash
+cd services/membership
+
+# Demo gymnastics club (British Gymnastics, GBP). See docs/demos/gym-demo-club.md.
+DB_DATABASE=your_local_db pnpm seed:demo:gym
+
+# Demo Australian swimming club, kept as the non-UK example
+DB_DATABASE=your_local_db pnpm seed:demo:au
 ```
 
-**Creating a seeder:**
+Always pass `DB_*` explicitly: the repository root `.env` points at a
+deployed database and a seed must never reach it.
+
+**Creating a seeder:** copy `src/seed/gym-demo-seed.ts` and change the club.
+The pattern every seed must keep is the tenancy contract:
 
 ```typescript
-// services/membership/src/database/seeds/1234567890-SeedTestSwimmers.ts
-export async function seed(dataSource: DataSource) {
-  const swimmersRepo = dataSource.getRepository(Swimmer);
+// services/membership/src/seed/my-demo-seed.ts
+const clubResult = await dataSource.query(
+  `INSERT INTO clubs (name, slug, country, currency, governing_body, status)
+   VALUES ($1, $2, 'GB', 'GBP', 'BRITISH_GYMNASTICS', 'active')
+   RETURNING id`,
+  ['My Demo Club', CLUB_SLUG],
+);
+const clubId = clubResult[0].id;
 
-  await swimmersRepo.save([
-    {
-      first_name: 'Emma',
-      last_name: 'Thompson',
-      dob: '2010-05-15',
-      gender: 'F',
-      family_id: 'test-family-1',
-    },
-    // ... more test swimmers
-  ]);
-}
+// Every child row carries club_id, and the seed clears only its own club.
+await dataSource.query(
+  `INSERT INTO members (club_id, family_id, first_name, last_name, dob, gender)
+   VALUES ($1, $2, $3, $4, $5, $6)`,
+  [clubId, familyId, 'Emma', 'Novak', '2017-07-30', 'F'],
+);
 ```
+
+Then add a `seed:demo:<name>` script to `services/membership/package.json`.
 
 ### Database Access
 
@@ -835,10 +847,10 @@ pnpm build --filter='./packages/*'
 # Run migrations
 pnpm db:migrate
 
-# If still failing, reset database
-pnpm db:reset  # ⚠️ Destroys data
+# If still failing, drop and recreate the local database (destroys data)
+dropdb swim_nexus_dev && createdb swim_nexus_dev
 pnpm db:migrate
-pnpm db:seed
+pnpm --filter @club-manager/membership-service seed:demo:gym
 ```
 
 **Problem:** "Connection refused"

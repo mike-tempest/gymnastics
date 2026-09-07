@@ -148,8 +148,7 @@ pnpm test --filter=membership  # Test a specific service
 
 # Database
 pnpm db:migrate             # Run migrations
-pnpm db:seed                # Seed test data
-pnpm db:reset               # Reset database (destroys data)
+pnpm --filter @club-manager/membership-service seed:demo:gym  # Seed the demo club
 
 # Code Quality
 pnpm lint                   # Lint all code

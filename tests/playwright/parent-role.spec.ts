@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const PARENT_EMAIL = 'sarah.johnson@gmail.com';
+const PARENT_EMAIL = 'claire.ashworth@example.com';
 const PARENT_PASSWORD = 'Demo2024!';
 
 async function loginAsParent(page) {
