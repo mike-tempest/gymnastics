@@ -30,6 +30,7 @@ import { WaitlistModule } from './modules/waitlist/waitlist.module';
 import { HealthModule } from './modules/health/health.module';
 import { CompetitionsModule } from './modules/competitions/competitions.module';
 import { WellbeingModule } from './modules/wellbeing/wellbeing.module';
+import { AwardsModule } from './modules/awards/awards.module';
 import { ClubsModule } from './modules/clubs/clubs.module';
 import { DataImportModule } from './modules/data-import/data-import.module';
 import { ActivationModule } from './modules/activation/activation.module';
@@ -90,6 +91,7 @@ import { AppController } from './app.controller';
     // in main.ts), so this spread and ParentModule's agree on the flag.
     ...(competitionsEnabled() ? [CompetitionsModule] : []),
     WellbeingModule,
+    AwardsModule,
     DataImportModule,
     ActivationModule,
   ],
