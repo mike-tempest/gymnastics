@@ -34,6 +34,8 @@ BG calls a member's identifier their **"membership number."** BG's own "How to l
 
 **Recommended `registrationNumberLabel` value: "BG membership number"** (or simply "Membership number"). Note: an informal shorthand "BG number" appears in community usage but "membership number" is the term BG uses in its own documentation.
 
+**Format: no published format** (checked September 2026 against british-gymnastics.org, BG's "How do I log in to My BG?" guide and the My BG portal). BG documents the number only as a login identifier that doubles as a My BG username; no length, digit count or character set is published anywhere in BG's primary sources, and members who do not know their number are told to retrieve it from BG emails. **Do not apply the Swim England 7-digit format (or zero-padding) to BG numbers.** The platform validates BG membership numbers as non-empty, at most 20 characters (`BRITISH_GYMNASTICS` is excluded from `UK_GOVERNING_BODIES`, which gates the strict 7-digit import check). Tighten only if BG ever publishes a format.
+
 ---
 
 ## 3. Safeguarding framework

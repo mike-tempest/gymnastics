@@ -507,9 +507,11 @@ export function governingBodyConfig(body?: GoverningBody | string | null): Gover
 /**
  * Governing bodies on UK background-check regimes. Data-import applies the
  * strict 7-digit SE-style registration-number format to every body listed
- * here. British Gymnastics is deliberately excluded: its membership number
- * format is unverified, and listing it would reject valid BG numbers on
- * import. Add it only once the 7-digit format is confirmed for BG.
+ * here. British Gymnastics is deliberately excluded: BG publishes no
+ * membership number format (checked against british-gymnastics.org and BG's
+ * own "How do I log in to My BG?" guide, September 2026 -- the number doubles
+ * as a My BG username and no length or character set is documented), so
+ * listing it would reject valid BG numbers on import.
  */
 export const UK_GOVERNING_BODIES: GoverningBody[] = [
   GoverningBody.SWIM_ENGLAND,
