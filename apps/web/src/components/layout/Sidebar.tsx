@@ -66,6 +66,8 @@ const allNavEntries: NavEntry[] = [
   { name: MEMBER_NOUN_PLURAL, href: '/members', icon: Users },
   { name: 'Families', href: '/families', icon: UsersRound },
   { name: 'Squads', href: '/squads', icon: Shield },
+  // The club's own waiting list (TEM-22), not the launch waitlist under Admin.
+  { name: 'Waiting list', href: '/waiting-list', icon: ClipboardList },
   { name: 'Sessions', href: '/sessions', icon: Calendar },
   {
     name: 'Communications',

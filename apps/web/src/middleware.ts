@@ -101,6 +101,10 @@ export const config = {
     '/members/:path*',
     '/families/:path*',
     '/squads/:path*',
+    // The club's own waiting list. The public join and offer pages
+    // (/join, /offer) are deliberately left out: a family answers an offer
+    // without an account.
+    '/waiting-list/:path*',
     '/invoices/:path*',
     '/dashboard/:path*',
     '/attendance/:path*',
