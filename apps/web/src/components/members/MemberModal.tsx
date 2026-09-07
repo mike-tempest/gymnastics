@@ -8,6 +8,9 @@ import {
   GOVERNING_BODY_LABELS,
   COUNTRY_GOVERNING_BODIES,
   governingBodyConfig,
+  Discipline,
+  DISCIPLINE_LABELS,
+  ORDERED_DISCIPLINES,
 } from '@club-manager/shared-types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useRef, useState } from 'react';
@@ -31,6 +34,7 @@ const memberSchema = z
     governing_body: z.nativeEnum(GoverningBody).or(z.literal('')).optional(),
     registration_number: z.string().max(20, 'Registration number must be under 20 characters').optional().or(z.literal('')),
     squad_id: z.string().min(1, 'Please select a squad'),
+    discipline: z.nativeEnum(Discipline).or(z.literal('')).optional(),
     medical_notes: z.string().max(2000, 'Medical notes must be under 2000 characters').optional().or(z.literal('')),
     emergency_contact: z.string().max(200, 'Emergency contact must be under 200 characters').optional().or(z.literal('')),
   })
@@ -64,6 +68,7 @@ export interface MemberSubmitData {
   governing_body?: string | null;
   registration_number?: string | null;
   squad_id?: string;
+  discipline?: Discipline | null;
   medical_notes?: string;
   emergency_contact?: string;
 }
@@ -107,6 +112,7 @@ export default function MemberModal({
           governing_body: member.governing_body || '',
           registration_number: member.registration_number || '',
           squad_id: member.squad_id || '',
+          discipline: member.discipline || '',
           medical_notes: member.medical_notes || '',
           emergency_contact: member.emergency_contact || '',
         }
@@ -118,6 +124,7 @@ export default function MemberModal({
           governing_body: '',
           registration_number: '',
           squad_id: '',
+          discipline: '',
           medical_notes: '',
           emergency_contact: '',
         },
@@ -147,6 +154,7 @@ export default function MemberModal({
               governing_body: member.governing_body || '',
               registration_number: member.registration_number || '',
               squad_id: member.squad_id || '',
+              discipline: member.discipline || '',
               medical_notes: member.medical_notes || '',
               emergency_contact: member.emergency_contact || '',
             }
@@ -158,6 +166,7 @@ export default function MemberModal({
               governing_body: '',
               registration_number: '',
               squad_id: '',
+              discipline: '',
               medical_notes: '',
               emergency_contact: '',
             }
@@ -199,6 +208,7 @@ export default function MemberModal({
       ...data,
       registration_number: data.registration_number ? data.registration_number : null,
       governing_body: data.governing_body ? data.governing_body : null,
+      discipline: data.discipline ? data.discipline : null,
     };
     try {
       await onSubmit(payload);
@@ -417,6 +427,29 @@ export default function MemberModal({
               </select>
               {errors.squad_id && (
                 <p className="mt-2 text-sm text-red-400">{errors.squad_id.message}</p>
+              )}
+            </div>
+
+            {/* Discipline */}
+            <div>
+              <label htmlFor="discipline" className="block text-sm font-semibold text-white mb-2">
+                Discipline <span className="text-text-tertiary font-normal">(Optional)</span>
+              </label>
+              <select
+                {...register('discipline')}
+                id="discipline"
+                className={inputClassName(!!errors.discipline)}
+                disabled={isSubmitting}
+              >
+                <option value="">Not set</option>
+                {ORDERED_DISCIPLINES.map((discipline) => (
+                  <option key={discipline} value={discipline}>
+                    {DISCIPLINE_LABELS[discipline]}
+                  </option>
+                ))}
+              </select>
+              {errors.discipline && (
+                <p className="mt-2 text-sm text-red-400">{errors.discipline.message}</p>
               )}
             </div>
 

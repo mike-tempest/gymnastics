@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { SquadsRepository } from './squads.repository';
+import { Discipline, SquadType } from '@club-manager/shared-types';
+import { SquadFilters, SquadsRepository } from './squads.repository';
 import { CreateSquadDto } from './dto/create-squad.dto';
 import { UpdateSquadDto } from './dto/update-squad.dto';
 import { Squad } from './entities/squad.entity';
@@ -71,8 +72,12 @@ export class SquadsService {
     return { created, errors };
   }
 
-  async findAll(): Promise<Squad[]> {
-    const squads = await this.squadsRepository.findAll();
+  /**
+   * Lists squads for the active club. Type and discipline compose, so a
+   * request can ask for the recreational trampoline classes specifically.
+   */
+  async findAll(filters: SquadFilters = {}): Promise<Squad[]> {
+    const squads = await this.squadsRepository.findAll(filters);
 
     // Add member_count to each squad
     return squads.map((squad) => ({
@@ -168,10 +173,41 @@ export class SquadsService {
     return await this.squadsRepository.getMembersBySquad(squadId);
   }
 
+  /**
+   * Squad counts for the club: the total, the recreational/competitive split,
+   * and the spread across disciplines.
+   *
+   * Every squad type and every discipline is present as a key, zero included,
+   * so a caller can render a full breakdown without having to know the lists.
+   * Squads with nothing recorded are counted under `unclassified` and
+   * `noDiscipline` rather than being dropped, so the parts always sum to the
+   * total.
+   */
   async getStatistics() {
-    const total = await this.squadsRepository.count();
+    const classifications = await this.squadsRepository.findAllClassifications();
+
+    const byType: Record<string, number> = { unclassified: 0 };
+    for (const type of Object.values(SquadType)) {
+      byType[type] = 0;
+    }
+
+    const byDiscipline: Record<string, number> = { noDiscipline: 0 };
+    for (const discipline of Object.values(Discipline)) {
+      byDiscipline[discipline] = 0;
+    }
+
+    for (const squad of classifications) {
+      const typeKey = squad.squad_type ?? 'unclassified';
+      byType[typeKey] = (byType[typeKey] ?? 0) + 1;
+
+      const disciplineKey = squad.discipline ?? 'noDiscipline';
+      byDiscipline[disciplineKey] = (byDiscipline[disciplineKey] ?? 0) + 1;
+    }
+
     return {
-      total,
+      total: classifications.length,
+      by_type: byType,
+      by_discipline: byDiscipline,
     };
   }
 }

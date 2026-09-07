@@ -1,6 +1,6 @@
 'use client';
 
-import { InvoiceStatus } from '@club-manager/shared-types';
+import { InvoiceStatus, DISCIPLINE_LABELS, isDiscipline } from '@club-manager/shared-types';
 import {
   BarChart3,
   Download,
@@ -36,6 +36,10 @@ import { MEMBER_NOUN, MEMBER_NOUN_PLURAL } from '@/lib/brand';
 // defined in tailwind.config. Recharts-style inline fills need concrete values.
 // ---------------------------------------------------------------------------
 const SQUAD_COLOURS = ['#85FFC7', '#4D9FFF', '#FF8552', '#3A9E9E', '#B2FFE0', '#FFB020', '#5CEFAA'];
+
+// Grouping key for squads that have no discipline recorded. Not a Discipline
+// value, so it can never collide with a real one.
+const UNSET_DISCIPLINE_KEY = 'none';
 
 function getSquadColour(index: number): string {
   return SQUAD_COLOURS[index % SQUAD_COLOURS.length];
@@ -163,6 +167,24 @@ export default function ReportsPage() {
   const totalOutstanding = pendingInvoices.reduce((sum, inv) => sum + (inv.total_amount ?? 0), 0);
 
   const totalDistribution = squadDistribution.reduce((sum, s) => sum + s.memberCount, 0);
+
+  // The same squad distribution read along the discipline dimension. Squads
+  // with no discipline recorded are grouped under one heading rather than
+  // dropped, so the totals still add up to the squad view above. Ordered by
+  // size so the club's largest disciplines lead.
+  const disciplineDistribution = Object.entries(
+    squadDistribution.reduce<Record<string, number>>((counts, squad) => {
+      const key = squad.discipline ?? UNSET_DISCIPLINE_KEY;
+      counts[key] = (counts[key] ?? 0) + squad.memberCount;
+      return counts;
+    }, {})
+  )
+    .map(([key, memberCount]) => ({
+      key,
+      label: isDiscipline(key) ? DISCIPLINE_LABELS[key] : 'No discipline recorded',
+      memberCount,
+    }))
+    .sort((a, b) => b.memberCount - a.memberCount);
 
   // Average attendance from the weekly trend
   const avgAttendance =
@@ -921,6 +943,24 @@ export default function ReportsPage() {
                       </div>
                     ))}
                   </div>
+
+                  {/* The same numbers grouped by discipline. Additive: the
+                      squad legend above is unchanged. */}
+                  {disciplineDistribution.length > 0 && (
+                    <div className="mt-6 pt-4 border-t border-white/10">
+                      <p className="text-sm font-semibold text-white/80 mb-3">By discipline</p>
+                      <div className="space-y-3">
+                        {disciplineDistribution.map((entry) => (
+                          <div key={entry.key} className="flex items-center justify-between">
+                            <span className="text-sm text-white/80">{entry.label}</span>
+                            <span className="text-sm font-semibold text-white tabular-nums">
+                              {entry.memberCount}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
                     <span className="text-sm text-white/60">Total</span>

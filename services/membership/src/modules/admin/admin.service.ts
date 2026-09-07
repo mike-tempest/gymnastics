@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Discipline, SquadType } from '@club-manager/shared-types';
 import { Member } from '../members/entities/member.entity';
 import { Family } from '../families/entities/family.entity';
 import { Squad } from '../squads/entities/squad.entity';
@@ -357,8 +358,19 @@ export class AdminService {
     return results;
   }
 
+  /**
+   * Members per squad, carrying each squad's discipline and type so the report
+   * can be read along either dimension. Both are nullable: a club that has not
+   * classified its squads still gets the distribution, just without the split.
+   */
   private async getSquadDistribution(): Promise<
-    Array<{ squadId: string; squadName: string; memberCount: number }>
+    Array<{
+      squadId: string;
+      squadName: string;
+      memberCount: number;
+      discipline: Discipline | null;
+      squadType: SquadType | null;
+    }>
   > {
     const squads = await this.squadRepository
       .createQueryBuilder('squad')
@@ -370,6 +382,8 @@ export class AdminService {
       squadId: squad.squad_id,
       squadName: squad.squad_name,
       memberCount: ((squad as Record<string, unknown> & typeof squad).memberCount as number) || 0,
+      discipline: squad.discipline ?? null,
+      squadType: squad.squad_type ?? null,
     }));
   }
 

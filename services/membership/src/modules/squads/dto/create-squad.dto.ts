@@ -1,4 +1,16 @@
-import { IsString, IsNotEmpty, IsOptional, IsInt, Min, Max, MaxLength } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsInt,
+  Min,
+  Max,
+  MaxLength,
+  IsIn,
+  IsArray,
+  ArrayUnique,
+} from 'class-validator';
+import { Discipline, ProgrammeFlag, SquadType } from '@club-manager/shared-types';
 
 export class CreateSquadDto {
   @IsNotEmpty()
@@ -35,4 +47,23 @@ export class CreateSquadDto {
   @IsInt()
   @Min(1)
   max_capacity?: number;
+
+  @IsOptional()
+  @IsIn(Object.values(SquadType))
+  squad_type?: SquadType | null;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
+  level?: string | null;
+
+  @IsOptional()
+  @IsIn(Object.values(Discipline))
+  discipline?: Discipline | null;
+
+  @IsOptional()
+  @IsArray()
+  @ArrayUnique()
+  @IsIn(Object.values(ProgrammeFlag), { each: true })
+  programme_flags?: ProgrammeFlag[] | null;
 }

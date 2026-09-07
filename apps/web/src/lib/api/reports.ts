@@ -1,3 +1,5 @@
+import { Discipline, SquadType } from '@club-manager/shared-types';
+
 import { api } from './api-client';
 
 export interface WeeklyAttendanceTrend {
@@ -36,6 +38,9 @@ export interface SquadDistributionItem {
   squadId: string;
   squadName: string;
   memberCount: number;
+  /** Null until the club classifies the squad; the row still reports counts. */
+  discipline: Discipline | null;
+  squadType: SquadType | null;
 }
 
 export interface AdminReportsData {

@@ -1,11 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
+import { Discipline } from '@club-manager/shared-types';
 import { Member } from './entities/member.entity';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { TenantScopedHelper } from '../../common/tenancy/tenant-scoped.helper';
 import { TenantContextService } from '../../common/tenancy/tenant-context.service';
+
+/**
+ * Optional narrowing applied to a member listing. Each filter is independent
+ * and they compose: passing a squad and a discipline returns the members that
+ * match both. None of them can reach outside the active club, which is added
+ * afterwards by the tenant-scoped helper.
+ */
+export interface MemberFilters {
+  familyId?: string;
+  squadId?: string;
+  discipline?: Discipline;
+}
+
+/**
+ * Turn the supplied filters into a single TypeORM `where`. Unset filters are
+ * left out entirely: including a key with an undefined value would make
+ * TypeORM match on NULL rather than skip the column.
+ */
+function buildMemberWhere(filters: MemberFilters): FindOptionsWhere<Member> {
+  const where: FindOptionsWhere<Member> = {};
+
+  if (filters.familyId) {
+    where.family_id = filters.familyId;
+  }
+  if (filters.squadId) {
+    where.squad_id = filters.squadId;
+  }
+  if (filters.discipline) {
+    where.discipline = filters.discipline;
+  }
+
+  return where;
+}
 
 @Injectable()
 export class MembersRepository {
@@ -23,12 +57,28 @@ export class MembersRepository {
     return await this.repository.save(member);
   }
 
-  async findAll(): Promise<Member[]> {
+  /**
+   * Returns members for the active tenant, narrowed by any supplied filters.
+   *
+   * Every filter is composed into one `where` object which is then handed to
+   * `scoped.scopedFind`, so club scoping is applied last and on top of whatever
+   * the caller asked for. Filters can only ever narrow the result set; none of
+   * them can widen it past the active club. Omitted filters are dropped rather
+   * than matched against undefined.
+   *
+   * Ordering follows the question being asked. A family listing is a list of
+   * siblings, which reads naturally oldest first; every other listing is a
+   * roll call and reads by name.
+   */
+  async findAll(filters: MemberFilters = {}): Promise<Member[]> {
     return await this.scoped.scopedFind(this.repository, {
-      order: {
-        last_name: 'ASC',
-        first_name: 'ASC',
-      },
+      where: buildMemberWhere(filters),
+      order: filters.familyId
+        ? { dob: 'ASC' }
+        : {
+            last_name: 'ASC',
+            first_name: 'ASC',
+          },
     });
   }
 
@@ -39,13 +89,9 @@ export class MembersRepository {
     });
   }
 
+  /** Siblings within one family, oldest first. */
   async findByFamilyId(familyId: string): Promise<Member[]> {
-    return await this.scoped.scopedFind(this.repository, {
-      where: { family_id: familyId },
-      order: {
-        dob: 'ASC',
-      },
-    });
+    return await this.findAll({ familyId });
   }
 
   /**
@@ -54,22 +100,11 @@ export class MembersRepository {
    * club by passing its id). Kept for backwards-compatible call sites.
    */
   async findByClubId(_clubId?: string): Promise<Member[]> {
-    return await this.scoped.scopedFind(this.repository, {
-      order: {
-        last_name: 'ASC',
-        first_name: 'ASC',
-      },
-    });
+    return await this.findAll();
   }
 
   async findBySquadId(squadId: string): Promise<Member[]> {
-    return await this.scoped.scopedFind(this.repository, {
-      where: { squad_id: squadId },
-      order: {
-        last_name: 'ASC',
-        first_name: 'ASC',
-      },
-    });
+    return await this.findAll({ squadId });
   }
 
   async update(id: string, updateMemberDto: UpdateMemberDto): Promise<Member | null> {

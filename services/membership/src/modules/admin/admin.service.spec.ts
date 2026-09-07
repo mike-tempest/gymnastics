@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { Discipline, SquadType } from '@club-manager/shared-types';
 import { AdminService } from './admin.service';
 import { Member } from '../members/entities/member.entity';
 import { Family } from '../families/entities/family.entity';
@@ -277,7 +278,13 @@ describe('AdminService', () => {
       squadRepo.createQueryBuilder.mockReturnValue({
         ...createMockQueryBuilder(),
         getMany: jest.fn().mockResolvedValue([
-          { squad_id: 'sq-1', squad_name: 'Junior', memberCount: 10 },
+          {
+            squad_id: 'sq-1',
+            squad_name: 'Junior',
+            memberCount: 10,
+            discipline: Discipline.WOMENS_ARTISTIC,
+            squad_type: SquadType.RECREATIONAL,
+          },
           { squad_id: 'sq-2', squad_name: 'Senior', memberCount: 8 },
         ]),
       });
@@ -289,6 +296,27 @@ describe('AdminService', () => {
         squadId: 'sq-1',
         squadName: 'Junior',
         memberCount: 10,
+        discipline: Discipline.WOMENS_ARTISTIC,
+        squadType: SquadType.RECREATIONAL,
+      });
+    });
+
+    it('should report an unclassified squad with nulls rather than omitting it', async () => {
+      squadRepo.createQueryBuilder.mockReturnValue({
+        ...createMockQueryBuilder(),
+        getMany: jest
+          .fn()
+          .mockResolvedValue([{ squad_id: 'sq-2', squad_name: 'Senior', memberCount: 8 }]),
+      });
+
+      const result = await service.getReportsData();
+
+      expect(result.squadDistribution[0]).toEqual({
+        squadId: 'sq-2',
+        squadName: 'Senior',
+        memberCount: 8,
+        discipline: null,
+        squadType: null,
       });
     });
   });
