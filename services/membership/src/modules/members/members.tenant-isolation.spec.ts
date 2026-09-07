@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ClsService } from 'nestjs-cls';
 import { ObjectLiteral, Repository } from 'typeorm';
+import { Discipline } from '@club-manager/shared-types';
 import { CLS_CLUB_ID_KEY, TenantContextService } from '../../common/tenancy/tenant-context.service';
 import { TenantScopedHelper } from '../../common/tenancy/tenant-scoped.helper';
 import { MembersRepository } from './members.repository';
@@ -22,6 +23,7 @@ import { CreateMemberDto } from './dto/create-member.dto';
  *  - create stamps the context club_id
  *  - a club_id supplied in the input is overridden by the context
  *  - update/delete scope the affected-row predicate by club_id
+ *  - listing filters compose inside club scoping and can only narrow it
  */
 
 /** Minimal in-memory fake of ClsService, matching tenant-scoped.helper.spec.ts. */
@@ -48,6 +50,7 @@ describe('MembersRepository tenant isolation', () => {
 
   // Records of what the fake TypeORM repository was asked to do.
   let findCalls: ObjectLiteral[];
+  let findOptionCalls: ObjectLiteral[];
   let findOneCalls: ObjectLiteral[];
   let updateCalls: Array<{ criteria: ObjectLiteral; partial: ObjectLiteral }>;
   let deleteCalls: ObjectLiteral[];
@@ -64,9 +67,15 @@ describe('MembersRepository tenant isolation', () => {
     return Object.entries(where).every(([key, value]) => row[key as keyof Member] === value);
   }
 
+  /** The `order` passed to the nth recorded find(). */
+  function orderOf(index: number): ObjectLiteral {
+    return findOptionCalls[index].order as ObjectLiteral;
+  }
+
   beforeEach(async () => {
     cls = new FakeClsService();
     findCalls = [];
+    findOptionCalls = [];
     findOneCalls = [];
     updateCalls = [];
     deleteCalls = [];
@@ -75,6 +84,7 @@ describe('MembersRepository tenant isolation', () => {
     const fakeTypeOrmRepo = {
       find: jest.fn((options: ObjectLiteral) => {
         findCalls.push(options.where);
+        findOptionCalls.push(options);
         return Promise.resolve(rows.filter((r) => matches(r, options.where)));
       }),
       findOne: jest.fn((options: ObjectLiteral) => {
@@ -137,6 +147,98 @@ describe('MembersRepository tenant isolation', () => {
 
       expect(findCalls[0]).toEqual({ club_id: CLUB_A });
       expect(result.every((r) => r.club_id === CLUB_A)).toBe(true);
+    });
+  });
+
+  describe('the listing filters compose inside club scoping', () => {
+    it('a discipline filter narrows within the club rather than replacing it', async () => {
+      cls.set(CLS_CLUB_ID_KEY, CLUB_A);
+
+      await repo.findAll({ discipline: Discipline.TRAMPOLINE });
+
+      expect(findCalls[0]).toEqual({
+        discipline: Discipline.TRAMPOLINE,
+        club_id: CLUB_A,
+      });
+    });
+
+    it('family, squad and discipline filters all land in one where', async () => {
+      cls.set(CLS_CLUB_ID_KEY, CLUB_A);
+
+      await repo.findAll({
+        familyId: 'family-x',
+        squadId: 'squad-y',
+        discipline: Discipline.TEAMGYM,
+      });
+
+      // One composed predicate, not a branch per parameter, and club_id is
+      // still present alongside every filter.
+      expect(findCalls[0]).toEqual({
+        family_id: 'family-x',
+        squad_id: 'squad-y',
+        discipline: Discipline.TEAMGYM,
+        club_id: CLUB_A,
+      });
+    });
+
+    it('omits unset filters instead of matching them against undefined', async () => {
+      cls.set(CLS_CLUB_ID_KEY, CLUB_A);
+
+      await repo.findAll({ squadId: 'squad-y' });
+
+      // A `discipline: undefined` key would make TypeORM match on NULL and
+      // silently hide every member that has a discipline recorded.
+      expect(findCalls[0]).toEqual({ squad_id: 'squad-y', club_id: CLUB_A });
+      expect(findCalls[0]).not.toHaveProperty('discipline');
+      expect(findCalls[0]).not.toHaveProperty('family_id');
+    });
+
+    it('a filter cannot be used to reach another club', async () => {
+      cls.set(CLS_CLUB_ID_KEY, CLUB_A);
+
+      // MEMBER_IN_B is in CLUB_B. Filtering on the squad it would sit in still
+      // returns nothing, because club scoping is applied on top of the filter.
+      const result = await repo.findAll({
+        squadId: 'squad-in-club-b',
+        discipline: Discipline.TUMBLING,
+      });
+
+      expect(findCalls[0]).toMatchObject({ club_id: CLUB_A });
+      expect(result).toHaveLength(0);
+    });
+
+    it('an empty filter set still scopes to the active club', async () => {
+      cls.set(CLS_CLUB_ID_KEY, CLUB_A);
+
+      const result = await repo.findAll({});
+
+      expect(findCalls[0]).toEqual({ club_id: CLUB_A });
+      expect(result).toHaveLength(1);
+      expect(result[0].member_id).toBe(MEMBER_IN_A);
+    });
+
+    it('findBySquadId routes through the composed filter and stays scoped', async () => {
+      cls.set(CLS_CLUB_ID_KEY, CLUB_A);
+
+      await repo.findBySquadId('squad-y');
+
+      expect(findCalls[0]).toEqual({ squad_id: 'squad-y', club_id: CLUB_A });
+    });
+
+    it('keeps a family listing ordered oldest first, and every other by name', async () => {
+      cls.set(CLS_CLUB_ID_KEY, CLUB_A);
+
+      // A family listing is a sibling list, so it reads oldest first. This
+      // survives composing another filter on top of the family.
+      await repo.findByFamilyId('family-x');
+      expect(orderOf(0)).toEqual({ dob: 'ASC' });
+
+      await repo.findAll({ familyId: 'family-x', discipline: Discipline.TUMBLING });
+      expect(orderOf(1)).toEqual({ dob: 'ASC' });
+
+      // Any other listing is a roll call and reads by name.
+      await repo.findAll({ discipline: Discipline.TUMBLING });
+      expect(orderOf(2)).toEqual({ last_name: 'ASC', first_name: 'ASC' });
     });
   });
 

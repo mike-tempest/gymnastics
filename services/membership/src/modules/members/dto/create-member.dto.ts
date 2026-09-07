@@ -7,7 +7,7 @@ import {
   MaxLength,
   IsIn,
 } from 'class-validator';
-import { GoverningBody } from '@club-manager/shared-types';
+import { Discipline, GoverningBody } from '@club-manager/shared-types';
 
 export class CreateMemberDto {
   @IsOptional()
@@ -49,6 +49,10 @@ export class CreateMemberDto {
   @IsOptional()
   @IsUUID()
   squad_id?: string;
+
+  @IsOptional()
+  @IsIn(Object.values(Discipline))
+  discipline?: Discipline | null;
 
   @IsOptional()
   @IsString()

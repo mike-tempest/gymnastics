@@ -8,7 +8,7 @@ import {
   JoinColumn,
   Unique,
 } from 'typeorm';
-import { GoverningBody } from '@club-manager/shared-types';
+import { Discipline, GoverningBody } from '@club-manager/shared-types';
 import { Family } from '../../families/entities/family.entity';
 import { Squad } from '../../squads/entities/squad.entity';
 
@@ -47,6 +47,10 @@ export class Member {
 
   @Column({ type: 'uuid', nullable: true })
   squad_id: string | null;
+
+  // Primary discipline this gymnast trains in. Filtering and reporting only.
+  @Column({ type: 'varchar', length: 40, nullable: true })
+  discipline: Discipline | null;
 
   @Column({ type: 'text', nullable: true })
   medical_notes: string | null;

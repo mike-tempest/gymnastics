@@ -1,4 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { BadRequestException } from '@nestjs/common';
+import { Discipline } from '@club-manager/shared-types';
 import { MembersController } from './members.controller';
 import { MembersService } from './members.service';
 import { CreateMemberDto } from './dto/create-member.dto';
@@ -122,13 +124,16 @@ describe('MembersController', () => {
 
     it('should filter by family_id when provided', async () => {
       const familyId = 'family-001';
-      mockService.findByFamilyId.mockResolvedValue([mockMember]);
+      mockService.findAll.mockResolvedValue([mockMember]);
 
       const result = await controller.findAll(familyId);
 
       expect(result).toEqual([mockMember]);
-      expect(mockService.findByFamilyId).toHaveBeenCalledWith(familyId);
-      expect(mockService.findAll).not.toHaveBeenCalled();
+      expect(mockService.findAll).toHaveBeenCalledWith({
+        familyId,
+        squadId: undefined,
+        discipline: undefined,
+      });
     });
 
     it('should ignore a club_id query param and use the tenant context instead', async () => {
@@ -146,12 +151,47 @@ describe('MembersController', () => {
 
     it('should filter by squad_id when provided', async () => {
       const squadId = 'squad-001';
-      mockService.findBySquadId.mockResolvedValue([mockMember]);
+      mockService.findAll.mockResolvedValue([mockMember]);
 
       const result = await controller.findAll(undefined, squadId);
 
       expect(result).toEqual([mockMember]);
-      expect(mockService.findBySquadId).toHaveBeenCalledWith(squadId);
+      expect(mockService.findAll).toHaveBeenCalledWith({
+        familyId: undefined,
+        squadId,
+        discipline: undefined,
+      });
+    });
+
+    it('should compose squad and discipline into one query rather than picking one', async () => {
+      mockService.findAll.mockResolvedValue([mockMember]);
+
+      await controller.findAll(undefined, 'squad-001', Discipline.TRAMPOLINE);
+
+      expect(mockService.findAll).toHaveBeenCalledWith({
+        familyId: undefined,
+        squadId: 'squad-001',
+        discipline: Discipline.TRAMPOLINE,
+      });
+    });
+
+    it('should reject an unrecognised discipline instead of ignoring it', () => {
+      // Silently dropping a bad filter would return every member and read as
+      // if the filter had matched everything.
+      expect(() => controller.findAll(undefined, undefined, 'VAULT')).toThrow(BadRequestException);
+      expect(mockService.findAll).not.toHaveBeenCalled();
+    });
+
+    it('should treat an empty discipline param as no filter', async () => {
+      mockService.findAll.mockResolvedValue([mockMember]);
+
+      await controller.findAll(undefined, undefined, '');
+
+      expect(mockService.findAll).toHaveBeenCalledWith({
+        familyId: undefined,
+        squadId: undefined,
+        discipline: undefined,
+      });
     });
   });
 

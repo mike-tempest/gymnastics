@@ -10,7 +10,9 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
+  BadRequestException,
 } from '@nestjs/common';
+import { isDiscipline } from '@club-manager/shared-types';
 import { MembersService } from './members.service';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
@@ -39,19 +41,32 @@ export class MembersController {
     return this.membersService.bulkCreate(bulkCreateDto.members);
   }
 
+  /**
+   * GET /members?family_id=&squad_id=&discipline=
+   *
+   * The filters compose rather than taking one branch each, so a request can
+   * ask for a single discipline within a single squad.
+   *
+   * Note: any `?club_id=` query param is intentionally ignored. The club is
+   * always taken from the authenticated tenant context, so a caller cannot
+   * request another club's members by supplying its id. Every read below is
+   * already scoped to the active club, and these filters only narrow further.
+   */
   @Get()
-  findAll(@Query('family_id') familyId?: string, @Query('squad_id') squadId?: string) {
-    // Note: any `?club_id=` query param is intentionally ignored. The club is
-    // always taken from the authenticated tenant context, so a caller cannot
-    // request another club's members by supplying its id. findAll() and all
-    // other reads below are already scoped to the active club.
-    if (familyId) {
-      return this.membersService.findByFamilyId(familyId);
+  findAll(
+    @Query('family_id') familyId?: string,
+    @Query('squad_id') squadId?: string,
+    @Query('discipline') discipline?: string,
+  ) {
+    if (discipline !== undefined && discipline !== '' && !isDiscipline(discipline)) {
+      throw new BadRequestException(`Unknown discipline "${discipline}"`);
     }
-    if (squadId) {
-      return this.membersService.findBySquadId(squadId);
-    }
-    return this.membersService.findAll();
+
+    return this.membersService.findAll({
+      familyId: familyId || undefined,
+      squadId: squadId || undefined,
+      discipline: isDiscipline(discipline) ? discipline : undefined,
+    });
   }
 
   @Get('statistics')

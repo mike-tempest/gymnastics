@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
+import { Discipline, SquadType } from '@club-manager/shared-types';
 import { SquadsService } from './squads.service';
 import { SquadsRepository } from './squads.repository';
 import { CreateSquadDto } from './dto/create-squad.dto';
@@ -33,6 +34,7 @@ describe('SquadsService', () => {
     create: jest.fn(),
     findAll: jest.fn(),
     findAllNames: jest.fn(),
+    findAllClassifications: jest.fn(),
     findOne: jest.fn(),
     update: jest.fn(),
     remove: jest.fn(),
@@ -367,13 +369,50 @@ describe('SquadsService', () => {
   });
 
   describe('getStatistics', () => {
-    it('should return squad statistics', async () => {
-      mockRepository.count.mockResolvedValue(5);
+    it('should split the total across squad type and discipline', async () => {
+      mockRepository.findAllClassifications.mockResolvedValue([
+        { squad_type: SquadType.RECREATIONAL, discipline: Discipline.WOMENS_ARTISTIC },
+        { squad_type: SquadType.RECREATIONAL, discipline: Discipline.TRAMPOLINE },
+        { squad_type: SquadType.COMPETITIVE, discipline: Discipline.WOMENS_ARTISTIC },
+      ]);
 
       const result = await service.getStatistics();
 
-      expect(result).toEqual({ total: 5 });
-      expect(mockRepository.count).toHaveBeenCalled();
+      expect(mockRepository.findAllClassifications).toHaveBeenCalled();
+      expect(result.total).toBe(3);
+      expect(result.by_type[SquadType.RECREATIONAL]).toBe(2);
+      expect(result.by_type[SquadType.COMPETITIVE]).toBe(1);
+      expect(result.by_discipline[Discipline.WOMENS_ARTISTIC]).toBe(2);
+      expect(result.by_discipline[Discipline.TRAMPOLINE]).toBe(1);
+    });
+
+    it('should list every squad type and discipline, zero included', async () => {
+      mockRepository.findAllClassifications.mockResolvedValue([]);
+
+      const result = await service.getStatistics();
+
+      expect(result.total).toBe(0);
+      for (const type of Object.values(SquadType)) {
+        expect(result.by_type[type]).toBe(0);
+      }
+      for (const discipline of Object.values(Discipline)) {
+        expect(result.by_discipline[discipline]).toBe(0);
+      }
+    });
+
+    it('should count unclassified squads rather than dropping them', async () => {
+      mockRepository.findAllClassifications.mockResolvedValue([
+        { squad_type: null, discipline: null },
+        { squad_type: SquadType.COMPETITIVE, discipline: null },
+      ]);
+
+      const result = await service.getStatistics();
+
+      // The parts must always add up to the total, or a club whose squads are
+      // half-classified sees numbers that do not reconcile.
+      expect(result.total).toBe(2);
+      expect(result.by_type.unclassified).toBe(1);
+      expect(result.by_discipline.noDiscipline).toBe(2);
     });
   });
 });

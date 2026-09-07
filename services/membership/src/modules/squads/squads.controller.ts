@@ -9,7 +9,10 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
+  Query,
+  BadRequestException,
 } from '@nestjs/common';
+import { isDiscipline, isSquadType } from '@club-manager/shared-types';
 import { SquadsService } from './squads.service';
 import { CreateSquadDto } from './dto/create-squad.dto';
 import { UpdateSquadDto } from './dto/update-squad.dto';
@@ -39,9 +42,25 @@ export class SquadsController {
     return this.squadsService.bulkCreate(bulkCreateDto.squads);
   }
 
+  /**
+   * GET /squads?type=&discipline=
+   *
+   * Both filters are optional and compose. As with members, the club comes
+   * from the tenant context and these filters can only narrow within it.
+   */
   @Get()
-  findAll() {
-    return this.squadsService.findAll();
+  findAll(@Query('type') type?: string, @Query('discipline') discipline?: string) {
+    if (type !== undefined && type !== '' && !isSquadType(type)) {
+      throw new BadRequestException(`Unknown squad type "${type}"`);
+    }
+    if (discipline !== undefined && discipline !== '' && !isDiscipline(discipline)) {
+      throw new BadRequestException(`Unknown discipline "${discipline}"`);
+    }
+
+    return this.squadsService.findAll({
+      type: isSquadType(type) ? type : undefined,
+      discipline: isDiscipline(discipline) ? discipline : undefined,
+    });
   }
 
   @Get('statistics')

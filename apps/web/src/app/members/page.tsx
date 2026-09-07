@@ -1,6 +1,12 @@
 'use client';
 
-import { Member, GOVERNING_BODY_LABELS } from '@club-manager/shared-types';
+import {
+  Member,
+  GOVERNING_BODY_LABELS,
+  DISCIPLINE_LABELS,
+  DISCIPLINE_SHORT_LABELS,
+  ORDERED_DISCIPLINES,
+} from '@club-manager/shared-types';
 import { Upload, Users } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -43,6 +49,7 @@ function MembersPageInner() {
   // Search and filter state
   const [searchQuery, setSearchQuery] = useState('');
   const [squadFilter, setSquadFilter] = useState('');
+  const [disciplineFilter, setDisciplineFilter] = useState('');
 
   // Delete state
   const [memberToDelete, setMemberToDelete] = useState<Member | null>(null);
@@ -92,8 +99,20 @@ function MembersPageInner() {
       result = result.filter((s) => s.squad_id === squadFilter);
     }
 
+    if (disciplineFilter) {
+      result = result.filter((s) => s.discipline === disciplineFilter);
+    }
+
     return result;
-  }, [members, searchQuery, squadFilter]);
+  }, [members, searchQuery, squadFilter, disciplineFilter]);
+
+  const hasFilters = !!searchQuery || !!squadFilter || !!disciplineFilter;
+
+  const clearFilters = () => {
+    setSearchQuery('');
+    setSquadFilter('');
+    setDisciplineFilter('');
+  };
 
   const handleOpenAddModal = () => {
     setSelectedMember(null);
@@ -285,6 +304,19 @@ function MembersPageInner() {
                   </option>
                 ))}
               </select>
+              <select
+                value={disciplineFilter}
+                onChange={(e) => setDisciplineFilter(e.target.value)}
+                aria-label="Filter by discipline"
+                className="w-full sm:w-auto px-4 py-3 bg-white/5 text-white rounded-xl border border-white/20 focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 transition-all outline-none min-h-[44px] sm:min-w-[200px]"
+              >
+                <option value="">All Disciplines</option>
+                {ORDERED_DISCIPLINES.map((discipline) => (
+                  <option key={discipline} value={discipline}>
+                    {DISCIPLINE_LABELS[discipline]}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {isLoading ? (
@@ -304,13 +336,14 @@ function MembersPageInner() {
                 title={`No ${MEMBER_NOUN_PLURAL_LOWER} found`}
                 description={`No ${MEMBER_NOUN_PLURAL_LOWER} match your search criteria`}
                 actionLabel="Clear Filters"
-                actionOnClick={() => { setSearchQuery(''); setSquadFilter(''); }}
+                actionOnClick={clearFilters}
               />
             ) : (
               <div className="space-y-4">
-                {(searchQuery || squadFilter) && (
+                {hasFilters && (
                   <p className="text-text-secondary text-sm mb-2">
-                    Showing {filteredMembers.length} of {members.length} member{members.length !== 1 ? 's' : ''}
+                    Showing {filteredMembers.length} of {members.length}{' '}
+                    {members.length === 1 ? MEMBER_NOUN_LOWER : MEMBER_NOUN_PLURAL_LOWER}
                   </p>
                 )}
                 {filteredMembers.map((member, index) => (
@@ -342,6 +375,7 @@ function MembersPageInner() {
                             : ' Other'}
                           {member.registration_number &&
                             ` • ${member.governing_body ? `${GOVERNING_BODY_LABELS[member.governing_body]} ` : ''}${member.registration_number}`}
+                          {member.discipline && ` • ${DISCIPLINE_SHORT_LABELS[member.discipline]}`}
                         </p>
                       </div>
                     </div>

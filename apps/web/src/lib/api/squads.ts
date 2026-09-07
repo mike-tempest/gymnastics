@@ -1,4 +1,4 @@
-import { Squad, Member } from '@club-manager/shared-types';
+import { Squad, Member, Discipline, ProgrammeFlag, SquadType } from '@club-manager/shared-types';
 
 import { api } from './api-client';
 
@@ -10,6 +10,10 @@ export interface CreateSquadInput {
   coach_name?: string;
   training_times?: string;
   max_capacity?: number | null;
+  squad_type?: SquadType | null;
+  level?: string | null;
+  discipline?: Discipline | null;
+  programme_flags?: ProgrammeFlag[] | null;
 }
 
 export interface UpdateSquadInput {
@@ -20,6 +24,16 @@ export interface UpdateSquadInput {
   coach_name?: string;
   training_times?: string;
   max_capacity?: number | null;
+  squad_type?: SquadType | null;
+  level?: string | null;
+  discipline?: Discipline | null;
+  programme_flags?: ProgrammeFlag[] | null;
+}
+
+/** Server-side narrowing for the squads list. Both filters are optional. */
+export interface SquadQuery {
+  type?: SquadType;
+  discipline?: Discipline;
 }
 
 export async function createSquad(data: CreateSquadInput): Promise<Squad> {
@@ -30,8 +44,12 @@ export async function updateSquad(id: string, data: UpdateSquadInput): Promise<S
   return api.patch<Squad>(`/squads/${id}`, data);
 }
 
-export async function getSquads(): Promise<Squad[]> {
-  return api.get<Squad[]>('/squads', { cache: 'no-store' });
+export async function getSquads(query: SquadQuery = {}): Promise<Squad[]> {
+  const params = new URLSearchParams();
+  if (query.type) params.set('type', query.type);
+  if (query.discipline) params.set('discipline', query.discipline);
+  const suffix = params.toString() ? `?${params.toString()}` : '';
+  return api.get<Squad[]>(`/squads${suffix}`, { cache: 'no-store' });
 }
 
 export async function getSquad(id: string): Promise<Squad> {

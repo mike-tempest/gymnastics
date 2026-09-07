@@ -1,4 +1,5 @@
 import { Gender, GoverningBody } from '../enums';
+import { Discipline } from '../enums/disciplines';
 
 export interface Member {
   member_id: string;
@@ -11,6 +12,8 @@ export interface Member {
   dob: string; // ISO date
   gender: Gender;
   squad_id: string | null;
+  /** Primary discipline this gymnast trains in. Filtering only. */
+  discipline?: Discipline | null;
   medical_notes: string | null;
   emergency_contact: string | null;
   photo_url: string | null;
