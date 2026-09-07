@@ -14,6 +14,13 @@ import {
 } from '@/lib/api/awards';
 import { MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
+/**
+ * Kept in step with MAX_RISE_CSV_CHARS on the import DTO. Checking here means a
+ * club is told to split the file before the upload is attempted, rather than
+ * after a request that would be refused.
+ */
+const MAX_RISE_CSV_CHARS = 90_000;
+
 interface RiseBridgeCardProps {
   schemes: AwardScheme[];
   onImported: () => void;
@@ -45,6 +52,14 @@ export default function RiseBridgeCard({ schemes, onImported }: RiseBridgeCardPr
 
   const handleFile = async (file: File) => {
     const text = await file.text();
+    if (text.length > MAX_RISE_CSV_CHARS) {
+      toast.error(
+        'That file is too large to import in one go. Please split it into smaller files and import them one at a time.'
+      );
+      setCsv('');
+      setPreview(null);
+      return;
+    }
     setCsv(text);
     setPreview(null);
   };

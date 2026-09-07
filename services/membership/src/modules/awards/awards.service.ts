@@ -23,6 +23,9 @@ import { MEMBER_NOUN_LOWER } from '../../common/brand';
 /** Days between raising a badge invoice and its due date. */
 const BADGE_INVOICE_TERMS_DAYS = 14;
 
+/** Ceiling on one page of assessment history, whatever a caller asks for. */
+const MAX_EVENT_PAGE = 200;
+
 export interface SchemeWithLevels extends AwardScheme {
   levels: AwardLevel[];
 }
@@ -118,6 +121,14 @@ export class AwardsService {
     const existing = await this.awardsRepository.findOneScheme(schemeId);
     if (!existing) {
       throw new NotFoundException('Award scheme not found');
+    }
+    // Renaming onto a name this club already uses would otherwise surface the
+    // (club_id, name) unique constraint as an unreadable driver error.
+    if (dto.name && dto.name !== existing.name) {
+      const clash = await this.awardsRepository.findSchemeByName(dto.name);
+      if (clash) {
+        throw new BadRequestException(`An award scheme named "${dto.name}" already exists`);
+      }
     }
     const updated = await this.awardsRepository.updateScheme(schemeId, dto);
     return updated!;
@@ -317,10 +328,19 @@ export class AwardsService {
         await this.awardsRepository.updateOutcomeInvoice(outcome.outcome_id, invoiceId);
       }
 
+      // A badge already awarded stands. A coach re-running a sitting for the
+      // whole squad must not take it back from the gymnasts who already have
+      // it, above all when the club has issued the badge and invoiced for it.
+      const keepsEarlierAward = !isAwarded && existing?.status === AwardProgressStatus.AWARDED;
+
       await this.awardsRepository.upsertProgress(outcomeDto.member_id, dto.level_id, {
-        status: this.statusForOutcome(outcomeDto.outcome),
+        status: keepsEarlierAward
+          ? AwardProgressStatus.AWARDED
+          : this.statusForOutcome(outcomeDto.outcome),
         assessed_on: dto.assessed_at as unknown as Date,
-        awarded_on: isAwarded ? (dto.assessed_at as unknown as Date) : null,
+        // Set on an award, otherwise left exactly as it was, so an earlier
+        // award date survives a later sitting.
+        ...(isAwarded ? { awarded_on: dto.assessed_at as unknown as Date } : {}),
         notes: outcomeDto.notes ?? null,
         // Only ever set the link, never clear it: the invoice still exists
         // whatever a later assessment concludes.
@@ -430,7 +450,9 @@ export class AwardsService {
   // --- Assessment history ---
 
   async listEvents(levelId?: string, limit = 50): Promise<AssessmentEvent[]> {
-    return this.awardsRepository.findEvents(levelId, limit);
+    // Clamped here rather than at the controller, so no caller can ask this
+    // joined query for an unbounded page.
+    return this.awardsRepository.findEvents(levelId, Math.min(Math.max(limit, 1), MAX_EVENT_PAGE));
   }
 
   async getEvent(eventId: string): Promise<AssessmentEvent> {
@@ -504,12 +526,13 @@ export class AwardsService {
   async previewRiseImport(dto: RiseCsvImportDto): Promise<RiseImportPreview> {
     const parsed = parseRiseCsv(dto.csv);
     const members = await this.membersRepository.findAll();
+    const memberIndex = this.indexMembers(members);
     const schemes = await this.listSchemes(true);
     const rows: RiseImportPreviewRow[] = [];
 
     for (const { lineNumber, ...row } of parsed.rows) {
       const errors: string[] = [];
-      const match = this.matchMember(row, members);
+      const match = this.matchMember(row, memberIndex);
       if (!match.member) {
         errors.push(
           `No ${MEMBER_NOUN_LOWER} matched this row by BG membership number or by name and date of birth`,
@@ -567,33 +590,85 @@ export class AwardsService {
       const awardDate = toDateKey(row.award_date) ?? new Date().toISOString().split('T')[0];
       let invoiceId: string | null = null;
 
-      if (dto.bill_fees) {
-        const member = await this.membersRepository.findOne(row.member_id);
-        const level = await this.awardsRepository.findOneLevel(row.level_id);
-        if (member && level) {
-          const existing = await this.awardsRepository.findOneProgress(row.member_id, row.level_id);
-          // Never bill twice for a badge this club has already awarded.
-          if (existing?.invoice_id) {
-            invoiceId = existing.invoice_id;
-          } else {
-            const billing = await this.billBadgeFee(member, level, awardDate);
-            invoiceId = billing.invoiceId;
-            if (billing.warning) warnings.push(`Row ${row.row_number}: ${billing.warning}`);
-            if (invoiceId) invoicesRaised++;
+      // One unhappy row must not abandon the rest of the file part-written.
+      // The club gets the rows that did land plus a line-numbered note about
+      // the one that did not, which is what it needs to fix and re-run.
+      try {
+        if (dto.bill_fees) {
+          const member = await this.membersRepository.findOne(row.member_id);
+          const level = await this.awardsRepository.findOneLevel(row.level_id);
+          if (member && level) {
+            const existing = await this.awardsRepository.findOneProgress(
+              row.member_id,
+              row.level_id,
+            );
+            // Never bill twice for a badge this club has already awarded.
+            if (existing?.invoice_id) {
+              invoiceId = existing.invoice_id;
+            } else {
+              const billing = await this.billBadgeFee(member, level, awardDate);
+              invoiceId = billing.invoiceId;
+              if (billing.warning) warnings.push(`Row ${row.row_number}: ${billing.warning}`);
+              if (invoiceId) invoicesRaised++;
+            }
           }
         }
-      }
 
-      await this.awardsRepository.upsertProgress(row.member_id, row.level_id, {
-        status: AwardProgressStatus.AWARDED,
-        assessed_on: awardDate as unknown as Date,
-        awarded_on: awardDate as unknown as Date,
-        ...(invoiceId ? { invoice_id: invoiceId } : {}),
-      });
-      imported++;
+        await this.awardsRepository.upsertProgress(row.member_id, row.level_id, {
+          status: AwardProgressStatus.AWARDED,
+          assessed_on: awardDate as unknown as Date,
+          awarded_on: awardDate as unknown as Date,
+          ...(invoiceId ? { invoice_id: invoiceId } : {}),
+        });
+        imported++;
+      } catch (error) {
+        const err = error as Error;
+        this.logger.error(
+          `Rise import row ${row.row_number} failed for member ${row.member_id}: ${err.message}`,
+          err.stack,
+        );
+        skipped++;
+        warnings.push(`Row ${row.row_number}: could not be imported: ${err.message}`);
+      }
     }
 
     return { imported, skipped, invoices_raised: invoicesRaised, warnings };
+  }
+
+  /**
+   * The club's members keyed the two ways an import row identifies a gymnast.
+   * Built once per import rather than rescanning the roll for every row, which
+   * on a season's worth of Rise records is the difference between a fast
+   * preview and one that walks the whole roll thousands of times.
+   */
+  private indexMembers(members: Member[]): {
+    byRegistration: Map<string, Member[]>;
+    byNameAndDob: Map<string, Member[]>;
+  } {
+    const byRegistration = new Map<string, Member[]>();
+    const byNameAndDob = new Map<string, Member[]>();
+
+    const add = (index: Map<string, Member[]>, key: string, member: Member) => {
+      const existing = index.get(key);
+      if (existing) existing.push(member);
+      else index.set(key, [member]);
+    };
+
+    for (const member of members) {
+      const registrationNumber = (member.registration_number ?? '').trim();
+      if (registrationNumber) {
+        add(byRegistration, registrationNumber, member);
+      }
+
+      const dob = toDateKey(member.dob);
+      const firstName = member.first_name.trim().toLowerCase();
+      const lastName = member.last_name.trim().toLowerCase();
+      if (dob && firstName && lastName) {
+        add(byNameAndDob, `${firstName}|${lastName}|${dob}`, member);
+      }
+    }
+
+    return { byRegistration, byNameAndDob };
   }
 
   /**
@@ -604,13 +679,11 @@ export class AwardsService {
    */
   private matchMember(
     row: RiseCsvRow,
-    members: Member[],
+    index: ReturnType<AwardsService['indexMembers']>,
   ): { member: Member | null; matchedOn: 'registration_number' | 'name_and_dob' | null } {
     const registrationNumber = row.bg_membership_number.trim();
     if (registrationNumber) {
-      const candidates = members.filter(
-        (member) => (member.registration_number ?? '').trim() === registrationNumber,
-      );
+      const candidates = index.byRegistration.get(registrationNumber) ?? [];
       if (candidates.length === 1) {
         return { member: candidates[0], matchedOn: 'registration_number' };
       }
@@ -626,12 +699,7 @@ export class AwardsService {
       return { member: null, matchedOn: null };
     }
 
-    const matched = members.filter(
-      (member) =>
-        member.first_name.trim().toLowerCase() === firstName &&
-        member.last_name.trim().toLowerCase() === lastName &&
-        toDateKey(member.dob) === dob,
-    );
+    const matched = index.byNameAndDob.get(`${firstName}|${lastName}|${dob}`) ?? [];
 
     return matched.length === 1
       ? { member: matched[0], matchedOn: 'name_and_dob' }

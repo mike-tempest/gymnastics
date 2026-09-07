@@ -40,10 +40,14 @@ const levelSchema = z.object({
     .min(1, 'Please give this badge a name')
     .max(200, 'The name must be under 200 characters'),
   description: z.string().max(1000, 'The description must be under 1000 characters').optional(),
-  sort_order: z.coerce
-    .number()
-    .int('The order must be a whole number')
-    .min(0, 'The order cannot be negative'),
+  // A string for the same reason as the fees. Coercing here would read an
+  // emptied number input as zero and silently move the badge to the front of
+  // the scheme, rather than asking the club what it meant.
+  sort_order: z
+    .string()
+    .min(1, 'Please give this badge a position in the scheme')
+    .refine((value) => Number.isInteger(Number(value)), 'The order must be a whole number')
+    .refine((value) => Number(value) >= 0, 'The order cannot be negative'),
   badge_fee: optionalFee,
   certificate_fee: optionalFee,
   active: z.boolean(),
@@ -90,7 +94,7 @@ export default function LevelModal({
     reset({
       name: level?.name ?? '',
       description: level?.description ?? '',
-      sort_order: level?.sort_order ?? nextSortOrder,
+      sort_order: String(level?.sort_order ?? nextSortOrder),
       badge_fee: String(feeAmount(level?.badge_fee) ?? ''),
       certificate_fee: String(feeAmount(level?.certificate_fee) ?? ''),
       active: level?.active ?? true,
@@ -103,7 +107,7 @@ export default function LevelModal({
     await onSubmit({
       name: data.name,
       description: data.description?.trim() ? data.description : null,
-      sort_order: data.sort_order,
+      sort_order: Number(data.sort_order),
       badge_fee: feeNumber(data.badge_fee),
       certificate_fee: feeNumber(data.certificate_fee),
       active: data.active,

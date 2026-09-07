@@ -76,19 +76,32 @@ export function toRiseCsv(rows: RiseCsvRow[]): string {
   return `${lines.join('\n')}\n`;
 }
 
+export interface CsvRow {
+  cells: string[];
+  /**
+   * The 1-based line the row starts on in the source file. A quoted field may
+   * hold newlines of its own, so a row can span several lines and this is not
+   * the row's position in the list.
+   */
+  lineNumber: number;
+}
+
 /**
  * Splits CSV text into rows of fields. Handles quoted fields containing
  * commas, newlines and doubled quotes, which covers every export the founding
  * clubs have produced so far. Anything more exotic belongs in a real parser.
  *
- * Blank rows are kept rather than dropped, so a caller can report a problem
- * against the line number the club actually sees in its spreadsheet.
+ * Blank rows are kept rather than dropped, and every row carries the line it
+ * starts on, so a caller can report a problem against the line number the club
+ * actually sees in its spreadsheet.
  */
-export function splitCsv(text: string): string[][] {
-  const rows: string[][] = [];
-  let row: string[] = [];
+export function splitCsv(text: string): CsvRow[] {
+  const rows: CsvRow[] = [];
+  let cells: string[] = [];
   let field = '';
   let inQuotes = false;
+  let line = 1;
+  let rowStartLine = 1;
   // Normalise line endings so a Windows-authored file parses identically.
   const source = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
 
@@ -104,6 +117,9 @@ export function splitCsv(text: string): string[][] {
           inQuotes = false;
         }
       } else {
+        // A newline inside quotes belongs to the value, but it still moves the
+        // file on a line, which is what the club counts.
+        if (char === '\n') line++;
         field += char;
       }
       continue;
@@ -112,22 +128,24 @@ export function splitCsv(text: string): string[][] {
     if (char === '"') {
       inQuotes = true;
     } else if (char === ',') {
-      row.push(field);
+      cells.push(field);
       field = '';
     } else if (char === '\n') {
-      row.push(field);
-      rows.push(row);
-      row = [];
+      cells.push(field);
+      rows.push({ cells, lineNumber: rowStartLine });
+      cells = [];
       field = '';
+      line++;
+      rowStartLine = line;
     } else {
       field += char;
     }
   }
 
   // Flush the trailing field/row unless the file ended on a clean newline.
-  if (field.length > 0 || row.length > 0) {
-    row.push(field);
-    rows.push(row);
+  if (field.length > 0 || cells.length > 0) {
+    cells.push(field);
+    rows.push({ cells, lineNumber: rowStartLine });
   }
 
   return rows;
@@ -151,7 +169,8 @@ export interface ParsedRiseCsvRow extends RiseCsvRow {
   /**
    * The row's 1-based line in the source file, header included. This is the
    * number a club needs to find the row in its own spreadsheet, so it counts
-   * blank lines rather than the position among the rows that carried data.
+   * blank lines and the extra lines a quoted field spans, rather than the
+   * position among the rows that carried data.
    */
   lineNumber: number;
 }
@@ -168,12 +187,12 @@ export interface ParsedRiseCsv {
 export function parseRiseCsv(text: string): ParsedRiseCsv {
   const grid = splitCsv(text);
   // A leading blank line would otherwise be read as the header row.
-  const headerIndex = grid.findIndex((cells) => !isBlankRow(cells));
+  const headerIndex = grid.findIndex((row) => !isBlankRow(row.cells));
   if (headerIndex === -1) {
     return { rows: [], unknownHeaders: [], missingHeaders: [...RISE_CSV_COLUMNS] };
   }
 
-  const headerCells = grid[headerIndex];
+  const headerCells = grid[headerIndex].cells;
   const unknownHeaders: string[] = [];
   const columnIndex = new Map<string, number>();
 
@@ -191,8 +210,7 @@ export function parseRiseCsv(text: string): ParsedRiseCsv {
   const missingHeaders = RISE_CSV_COLUMNS.filter((column) => !columnIndex.has(column));
 
   const rows: ParsedRiseCsvRow[] = [];
-  for (let index = headerIndex + 1; index < grid.length; index++) {
-    const cells = grid[index];
+  for (const { cells, lineNumber } of grid.slice(headerIndex + 1)) {
     if (isBlankRow(cells)) continue;
 
     const read = (column: string): string => {
@@ -201,7 +219,7 @@ export function parseRiseCsv(text: string): ParsedRiseCsv {
     };
 
     rows.push({
-      lineNumber: index + 1,
+      lineNumber,
       first_name: read('first_name'),
       last_name: read('last_name'),
       dob: read('dob'),

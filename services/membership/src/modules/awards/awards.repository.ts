@@ -62,10 +62,14 @@ export class AwardsRepository {
     // Scope the affected-row predicate by club_id and never allow club_id to be
     // reassigned via the DTO.
     const { club_id: _ignored, ...rest } = dto as UpdateAwardSchemeDto & { club_id?: string };
-    await this.schemeRepo.update(
-      { scheme_id: schemeId, club_id: this.tenantContext.getClubId() },
-      rest,
-    );
+    // Every field is optional, so an empty body is a legitimate request. TypeORM
+    // throws on an update with no values, so treat it as the no-op it is.
+    if (Object.keys(rest).length > 0) {
+      await this.schemeRepo.update(
+        { scheme_id: schemeId, club_id: this.tenantContext.getClubId() },
+        rest,
+      );
+    }
     return this.findOneScheme(schemeId);
   }
 
@@ -106,10 +110,13 @@ export class AwardsRepository {
 
   async updateLevel(levelId: string, dto: UpdateAwardLevelDto): Promise<AwardLevel | null> {
     const { club_id: _ignored, ...rest } = dto as UpdateAwardLevelDto & { club_id?: string };
-    await this.levelRepo.update(
-      { level_id: levelId, club_id: this.tenantContext.getClubId() },
-      rest,
-    );
+    // As above: an empty body is a no-op, not a driver error.
+    if (Object.keys(rest).length > 0) {
+      await this.levelRepo.update(
+        { level_id: levelId, club_id: this.tenantContext.getClubId() },
+        rest,
+      );
+    }
     return this.findOneLevel(levelId);
   }
 
@@ -164,10 +171,12 @@ export class AwardsRepository {
     const existing = await this.findOneProgress(memberId, levelId);
     if (existing) {
       const { club_id: _ignored, ...rest } = fields;
-      await this.progressRepo.update(
-        { progress_id: existing.progress_id, club_id: this.tenantContext.getClubId() },
-        rest,
-      );
+      if (Object.keys(rest).length > 0) {
+        await this.progressRepo.update(
+          { progress_id: existing.progress_id, club_id: this.tenantContext.getClubId() },
+          rest,
+        );
+      }
       return (await this.scoped.scopedFindOne(this.progressRepo, {
         where: { progress_id: existing.progress_id },
       }))!;

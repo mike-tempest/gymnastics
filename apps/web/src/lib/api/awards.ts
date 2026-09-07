@@ -178,11 +178,30 @@ export async function getMemberAwardProgress(memberId: string): Promise<MemberAw
   });
 }
 
+/**
+ * Ids per request. Member ids are UUIDs, so a large club's whole roll in one
+ * query string would exceed the server's header limit and fail the request
+ * outright. Batching keeps every URL comfortably short.
+ */
+const PROGRESS_BATCH_SIZE = 100;
+
 export async function getProgressForMembers(memberIds: string[]): Promise<MemberAwardProgress[]> {
   if (memberIds.length === 0) return [];
-  return api.get<MemberAwardProgress[]>(`/awards/progress?member_ids=${memberIds.join(',')}`, {
-    cache: 'no-store',
-  });
+
+  const batches: string[][] = [];
+  for (let index = 0; index < memberIds.length; index += PROGRESS_BATCH_SIZE) {
+    batches.push(memberIds.slice(index, index + PROGRESS_BATCH_SIZE));
+  }
+
+  const results = await Promise.all(
+    batches.map((batch) =>
+      api.get<MemberAwardProgress[]>(`/awards/progress?member_ids=${batch.join(',')}`, {
+        cache: 'no-store',
+      })
+    )
+  );
+
+  return results.flat();
 }
 
 export async function recordAssessment(data: RecordAssessmentInput): Promise<AssessmentResult> {

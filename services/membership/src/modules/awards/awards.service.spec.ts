@@ -125,6 +125,40 @@ describe('AwardsService', () => {
       ).rejects.toBeInstanceOf(NotFoundException);
       expect(awardsRepository.createLevel).not.toHaveBeenCalled();
     });
+
+    it('refuses a rename onto a name this club already uses', async () => {
+      awardsRepository.findOneScheme.mockResolvedValue({
+        scheme_id: SCHEME_ID,
+        name: 'Our own badges',
+      } as never);
+      awardsRepository.findSchemeByName.mockResolvedValue({ scheme_id: 'scheme-2' } as never);
+
+      await expect(
+        service.updateScheme(SCHEME_ID, { name: 'British Gymnastics Rise' }),
+      ).rejects.toBeInstanceOf(BadRequestException);
+      expect(awardsRepository.updateScheme).not.toHaveBeenCalled();
+    });
+
+    it('allows a save that leaves the name as it is', async () => {
+      awardsRepository.findOneScheme.mockResolvedValue({
+        scheme_id: SCHEME_ID,
+        name: 'British Gymnastics Rise',
+      } as never);
+      awardsRepository.findSchemeByName.mockResolvedValue({ scheme_id: SCHEME_ID } as never);
+      awardsRepository.updateScheme.mockResolvedValue({ scheme_id: SCHEME_ID } as never);
+
+      await service.updateScheme(SCHEME_ID, { name: 'British Gymnastics Rise', active: false });
+
+      expect(awardsRepository.updateScheme).toHaveBeenCalled();
+    });
+  });
+
+  describe('listEvents', () => {
+    it('clamps an outsized page request', async () => {
+      await service.listEvents(undefined, 1_000_000);
+
+      expect(awardsRepository.findEvents).toHaveBeenCalledWith(undefined, 200);
+    });
   });
 
   describe('installDefaultSchemes', () => {
@@ -301,8 +335,38 @@ describe('AwardsService', () => {
       expect(awardsRepository.upsertProgress).toHaveBeenCalledWith(
         'member-1',
         LEVEL_ID,
-        expect.objectContaining({ status: AwardProgressStatus.ASSESSED, awarded_on: null }),
+        expect.objectContaining({ status: AwardProgressStatus.ASSESSED }),
       );
+      // An outcome that did not award the badge leaves the award date alone
+      // rather than writing a null over it.
+      expect(awardsRepository.upsertProgress.mock.calls[0][2]).not.toHaveProperty('awarded_on');
+    });
+
+    it('never takes back a badge a gymnast has already been awarded', async () => {
+      awardsRepository.findOneProgress.mockResolvedValue({
+        status: AwardProgressStatus.AWARDED,
+        invoice_id: 'invoice-earlier',
+        awarded_on: '2026-05-01',
+      } as never);
+
+      // The coach re-runs the sitting for the whole squad, and this gymnast is
+      // marked "not yet" a second time by mistake.
+      const result = await service.recordAssessment({
+        level_id: LEVEL_ID,
+        assessed_at: '2026-09-01',
+        outcomes: [{ member_id: 'member-1', outcome: AssessmentOutcomeResult.NOT_YET }],
+      });
+
+      expect(result.awarded).toBe(0);
+      expect(awardsRepository.upsertProgress).toHaveBeenCalledWith(
+        'member-1',
+        LEVEL_ID,
+        expect.objectContaining({
+          status: AwardProgressStatus.AWARDED,
+          invoice_id: 'invoice-earlier',
+        }),
+      );
+      expect(awardsRepository.upsertProgress.mock.calls[0][2]).not.toHaveProperty('awarded_on');
     });
 
     it('rejects a level the club cannot see before writing anything', async () => {
@@ -526,6 +590,29 @@ describe('AwardsService', () => {
 
       const result = await service.importRiseCsv({ csv: padded });
       expect(result.warnings.some((warning) => warning.startsWith('Row 5:'))).toBe(true);
+    });
+
+    it('keeps going and reports the line when one row fails to write', async () => {
+      membersRepository.findAll.mockResolvedValue([
+        makeMember({ member_id: 'member-1' }),
+        makeMember({ member_id: 'member-2', first_name: 'Beth', registration_number: '7654321' }),
+      ]);
+      awardsRepository.upsertProgress
+        .mockRejectedValueOnce(new Error('violates foreign key constraint'))
+        .mockResolvedValueOnce({ progress_id: 'progress-2' } as never);
+
+      const twoRows = [
+        csv,
+        'Beth,Nolan,02/04/2016,7654321,British Gymnastics Rise,Explore 3,01/09/2026',
+      ].join('\n');
+
+      const result = await service.importRiseCsv({ csv: twoRows });
+
+      // The second row still lands, and the failure is reported against the
+      // line the club can go and look at.
+      expect(result.imported).toBe(1);
+      expect(result.skipped).toBe(1);
+      expect(result.warnings.some((warning) => warning.startsWith('Row 2:'))).toBe(true);
     });
 
     it('keeps the parser line number out of the preview payload', async () => {

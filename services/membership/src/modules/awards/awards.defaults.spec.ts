@@ -164,8 +164,26 @@ describe('Rise CSV helpers', () => {
   });
 
   it('handles Windows line endings, keeping a blank line so it can be counted', () => {
-    const grid = splitCsv('a,b\r\n1,2\r\n\r\n');
-    expect(grid).toEqual([['a', 'b'], ['1', '2'], ['']]);
+    expect(splitCsv('a,b\r\n1,2\r\n\r\n')).toEqual([
+      { cells: ['a', 'b'], lineNumber: 1 },
+      { cells: ['1', '2'], lineNumber: 2 },
+      { cells: [''], lineNumber: 3 },
+    ]);
+  });
+
+  it('counts the extra lines a quoted field spans', () => {
+    const parsed = parseRiseCsv(
+      [
+        'first_name,last_name,dob,bg_membership_number,scheme,level,award_date',
+        '"Ava',
+        'Marie",Nolan,02/04/2016,1234567,Rise,Explore 3,01/09/2026',
+        'Beth,Doyle,05/05/2015,7654321,Rise,Explore 3,01/09/2026',
+      ].join('\n'),
+    );
+
+    // The first record spans lines 2 and 3, so Beth is on line 4 of the file.
+    expect(parsed.rows.map((row) => row.lineNumber)).toEqual([2, 4]);
+    expect(parsed.rows[0].first_name).toBe('Ava\nMarie');
   });
 
   it('numbers rows by their line in the file, blank lines and all', () => {
