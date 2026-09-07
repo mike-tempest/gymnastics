@@ -40,10 +40,20 @@ async function bootstrap() {
     maxAge: isProduction ? 86400 : undefined,
   });
 
-  // Rate limiting on auth endpoints (login, register)
+  // Rate limiting on auth endpoints (login, register, profile).
+  //
+  // The defaults are the production values and should not be raised there. The
+  // window and cap are configurable because the limit is low enough to block
+  // legitimate local work: the e2e suite makes more than 15 requests to
+  // /api/auth in one run, so every run after the first fifteen returns 429.
+  // Set AUTH_RATE_LIMIT_MAX higher in a local .env when running that suite.
+  const authRateLimitWindowMs = Number(
+    configService.get('AUTH_RATE_LIMIT_WINDOW_MS', 15 * 60 * 1000),
+  );
+  const authRateLimitMax = Number(configService.get('AUTH_RATE_LIMIT_MAX', 15));
   const authLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 15, // 15 attempts per window
+    windowMs: Number.isFinite(authRateLimitWindowMs) ? authRateLimitWindowMs : 15 * 60 * 1000,
+    max: Number.isFinite(authRateLimitMax) ? authRateLimitMax : 15,
     standardHeaders: true,
     legacyHeaders: false,
     message: { statusCode: 429, message: 'Too many requests, please try again later' },
