@@ -16,6 +16,7 @@ import {
   CreditCard,
   KeyRound,
   Bell,
+  Download,
   ExternalLink,
   Plus,
   Trash2,
@@ -31,6 +32,7 @@ import { toast } from 'sonner';
 
 import MainLayout from '@/components/layout/MainLayout';
 import { ApiKeysCard } from '@/components/settings/ApiKeysCard';
+import { DataExportCard } from '@/components/settings/DataExportCard';
 import { PaymentsConnectionCard } from '@/components/settings/PaymentsConnectionCard';
 import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
@@ -989,6 +991,17 @@ export default function SettingsPage() {
                 Save Changes
               </button>
             </div>
+          </div>
+
+          {/* Export your data. The id anchors links from anywhere that
+              promises a club its data is portable. */}
+          <div id="export" className={SECTION_CARD}>
+            <div className="flex items-center gap-3 mb-6">
+              <Download className="w-6 h-6 text-brand" />
+              <h2 className={SECTION_HEADING}>Export your data</h2>
+            </div>
+
+            <DataExportCard />
           </div>
         </div>
       </div>

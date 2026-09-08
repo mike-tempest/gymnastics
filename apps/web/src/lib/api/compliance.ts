@@ -46,27 +46,48 @@ export interface Incident {
   reportedBy: string;
 }
 
+/** State of an officer's own background check relative to today. */
+export type CheckExpiryStatus = 'valid' | 'expiring' | 'expired' | 'unknown';
+
+export interface SafeguardingOfficerSummary {
+  id: string;
+  name: string;
+  role: string;
+  email: string;
+  phone: string;
+  dbsNumber: string;
+  dbsExpiry: string;
+  /** Days until the officer's own check expires; negative once it has. */
+  daysRemaining: number | null;
+  checkStatus: CheckExpiryStatus;
+}
+
 export interface ComplianceSummary {
   healthScore: number;
+  /** Members in the club, counted from the member records themselves. */
   totalMembers: number;
+  /** Background check records the club holds, whatever their state. */
+  dbsChecks: number;
   dbsValid: number;
   dbsExpiringSoon: number;
   dbsExpired: number;
+  /** Consent records the club holds, whatever their state. */
+  consentRecords: number;
+  /** Members holding every required consent, live and granted. */
   consentComplete: number;
+  /** Members holding some but not all of the required consents. */
   consentPartial: number;
+  /** Members with none of the required consents on file. */
   consentMissing: number;
-  safeguardingOfficer: {
-    name: string;
-    role: string;
-    email: string;
-    phone: string;
-    dbsNumber: string;
-    dbsExpiry: string;
-  } | null;
+  /** The first officer, for callers that only show one. */
+  safeguardingOfficer: SafeguardingOfficerSummary | null;
+  /** Every safeguarding officer the club has appointed. */
+  safeguardingOfficers: SafeguardingOfficerSummary[];
   expiringDbsChecks: {
     name: string;
     role: string;
     expiryDate: string;
+    /** Negative once the check has lapsed. */
     daysRemaining: number;
   }[];
 }

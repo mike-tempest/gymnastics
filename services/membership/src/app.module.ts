@@ -36,6 +36,7 @@ import { WellbeingModule } from './modules/wellbeing/wellbeing.module';
 import { AwardsModule } from './modules/awards/awards.module';
 import { ClubsModule } from './modules/clubs/clubs.module';
 import { DataImportModule } from './modules/data-import/data-import.module';
+import { ExportModule } from './modules/export/export.module';
 import { ActivationModule } from './modules/activation/activation.module';
 import { ApiKeysModule } from './modules/api-keys/api-keys.module';
 import { AppController } from './app.controller';
@@ -103,6 +104,7 @@ import { AppController } from './app.controller';
     WellbeingModule,
     AwardsModule,
     DataImportModule,
+    ExportModule,
     ActivationModule,
     // Club-scoped read API keys, the guard that authenticates them, and the
     // published read surface they unlock (TEM-32).
