@@ -1,17 +1,19 @@
 'use client';
 
-import { Attendance, AttendanceStats } from '@club-manager/shared-types';
+import { Attendance, AttendanceStats, SessionRosterEntry } from '@club-manager/shared-types';
 
 import {
-  getSessionAttendance,
+  getSessionRoster,
   getMemberAttendance,
   getMemberAttendanceStats,
 } from '@/lib/api/attendance';
 
 import { useApi, UseApiResult } from './useApi';
 
-export function useSessionAttendance(sessionId: string | undefined): UseApiResult<Attendance[]> {
-  return useApi(() => getSessionAttendance(sessionId!), [sessionId], { enabled: !!sessionId });
+export function useSessionRoster(
+  sessionId: string | undefined,
+): UseApiResult<SessionRosterEntry[]> {
+  return useApi(() => getSessionRoster(sessionId!), [sessionId], { enabled: !!sessionId });
 }
 
 export function useMemberAttendance(memberId: string | undefined): UseApiResult<Attendance[]> {
