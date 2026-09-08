@@ -40,7 +40,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useClubRegion } from '@/hooks/useClubRegion';
 import { MEMBER_NOUN_PLURAL } from '@/lib/brand';
 import { isCompetitionsEnabled } from '@/lib/features';
-import { useRole, isAdmin, isCoach, isParent } from '@/lib/hooks/useRole';
+import { useRole, isAdmin, isCoach, isParent, isWelfareOfficer } from '@/lib/hooks/useRole';
 
 interface NavItem {
   name: string;
@@ -136,6 +136,13 @@ const COACH_NAV_NAMES = new Set([
   'Competitions',
 ]);
 
+// The Welfare Officer's navigation, in the order they need it: compliance is
+// the job, the gymnast list is the context for it. Every entry here is backed
+// by an endpoint the role can already read, so none of them leads to a 403.
+// There is deliberately no wellbeing entry: the only wellbeing screens in the
+// app are the parent ones, and a staff link would lead nowhere.
+const WELFARE_NAV_ORDER = ['Compliance', MEMBER_NOUN_PLURAL];
+
 // Parent navigation (entirely separate set of routes)
 const parentNavEntries: NavEntry[] = [
   { name: 'Dashboard', href: '/parent', icon: Home },
@@ -184,6 +191,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     if (isAdmin(role)) return localiseCheckItem(allNavEntries);
     if (isCoach(role)) {
       return localiseCheckItem(allNavEntries.filter((entry) => COACH_NAV_NAMES.has(entry.name)));
+    }
+    if (isWelfareOfficer(role)) {
+      const byName = new Map(allNavEntries.map((entry) => [entry.name, entry]));
+      const welfareEntries = WELFARE_NAV_ORDER.map((name) => byName.get(name)).filter(
+        (entry): entry is NavEntry => entry !== undefined,
+      );
+      return localiseCheckItem(welfareEntries);
     }
     return [];
   }, [role, checkShortLabel]);

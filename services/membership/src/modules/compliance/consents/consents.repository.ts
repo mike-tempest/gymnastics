@@ -137,6 +137,41 @@ export class ConsentsRepository {
     });
   }
 
+  /**
+   * Counts, per member, how many of `consentTypes` the member currently holds
+   * a live granted consent for. Live means status GRANTED and either no expiry
+   * or an expiry that has not passed, so a lapsed consent stops counting the
+   * day it lapses rather than when the nightly sweep marks it EXPIRED.
+   *
+   * Members with no matching consent at all do not appear in the result. The
+   * caller knows the club's member total and treats the difference as members
+   * with nothing on file.
+   */
+  async countGrantedConsentTypesPerMember(
+    consentTypes: ConsentType[],
+  ): Promise<{ memberId: string; grantedTypes: number }[]> {
+    if (consentTypes.length === 0) {
+      return [];
+    }
+
+    const rows = await this.scoped
+      .scopedQueryBuilder(this.consentRepository, 'consent')
+      .select('consent.member_id', 'member_id')
+      .addSelect('COUNT(DISTINCT consent.consent_type)', 'granted_types')
+      .andWhere('consent.status = :status', { status: ConsentStatus.GRANTED })
+      .andWhere('consent.consent_type IN (:...consentTypes)', { consentTypes })
+      .andWhere('(consent.expiry_date IS NULL OR consent.expiry_date >= :today)', {
+        today: new Date(),
+      })
+      .groupBy('consent.member_id')
+      .getRawMany<{ member_id: string; granted_types: string }>();
+
+    return rows.map((row) => ({
+      memberId: row.member_id,
+      grantedTypes: Number(row.granted_types),
+    }));
+  }
+
   async countByStatus(status: ConsentStatus): Promise<number> {
     return await this.consentRepository.count({
       where: { status, club_id: this.tenantContext.getClubId() },

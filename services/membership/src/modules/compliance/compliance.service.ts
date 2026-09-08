@@ -2,6 +2,25 @@ import { Injectable, Logger } from '@nestjs/common';
 import { DBSService } from './dbs/dbs.service';
 import { ConsentsService } from './consents/consents.service';
 import { SafeguardingService } from './safeguarding/safeguarding.service';
+import { MembersService } from '../members/members.service';
+
+/** Window, in days, within which an expiry counts as needing attention. */
+const EXPIRY_WARNING_DAYS = 90;
+
+/** State of a single background check relative to today. */
+export type CheckExpiryStatus = 'valid' | 'expiring' | 'expired' | 'unknown';
+
+export interface SafeguardingOfficerSummary {
+  name: string;
+  role: string;
+  email: string;
+  phone: string;
+  dbsNumber: string;
+  dbsExpiry: string;
+  /** Days until the officer's own check expires; negative once it has. */
+  daysRemaining: number | null;
+  checkStatus: CheckExpiryStatus;
+}
 
 export interface ComplianceSummary {
   healthScore: number;
@@ -12,14 +31,10 @@ export interface ComplianceSummary {
   consentComplete: number;
   consentPartial: number;
   consentMissing: number;
-  safeguardingOfficer: {
-    name: string;
-    role: string;
-    email: string;
-    phone: string;
-    dbsNumber: string;
-    dbsExpiry: string;
-  } | null;
+  /** The first officer, kept for callers that only show one. */
+  safeguardingOfficer: SafeguardingOfficerSummary | null;
+  /** Every safeguarding officer the club has appointed, in creation order. */
+  safeguardingOfficers: SafeguardingOfficerSummary[];
   expiringDbsChecks: {
     name: string;
     role: string;
@@ -36,22 +51,35 @@ export class ComplianceService {
     private readonly dbsService: DBSService,
     private readonly consentsService: ConsentsService,
     private readonly safeguardingService: SafeguardingService,
+    private readonly membersService: MembersService,
   ) {}
 
   /**
    * Get compliance summary with aggregated statistics
    * Provides overall health score and key metrics from DBS, Consents, and Safeguarding
+   *
+   * Every figure here is counted from stored records. Nothing is estimated or
+   * extrapolated: a club acting on this screen is acting on its own data.
    */
   async getSummary(): Promise<ComplianceSummary> {
     this.logger.log('Generating compliance summary');
 
     try {
       // Fetch data from all compliance services in parallel
-      const [dbsStats, consentStats, safeguardingOfficers, expiringDbs] = await Promise.all([
+      const [
+        dbsStats,
+        consentStats,
+        consentCoverage,
+        memberStats,
+        safeguardingOfficers,
+        expiringDbs,
+      ] = await Promise.all([
         this.dbsService.getStatistics(),
         this.consentsService.getStatistics(),
+        this.consentsService.getCoverage(),
+        this.membersService.getStatistics(),
         this.safeguardingService.getOfficers(),
-        this.dbsService.getExpiringSoon(90), // Get checks expiring within 90 days
+        this.dbsService.getExpiringSoon(EXPIRY_WARNING_DAYS),
       ]);
 
       // Calculate health score based on compliance metrics
@@ -68,52 +96,79 @@ export class ComplianceService {
           name: fullName,
           role: check.user?.role || 'Unknown',
           expiryDate: check.expiry_date?.toISOString() || '',
-          daysRemaining,
+          daysRemaining: Math.max(0, daysRemaining),
         };
       });
 
-      // Get primary safeguarding officer (first in list, typically Club Welfare Officer)
-      const primaryOfficer = safeguardingOfficers[0];
-      const safeguardingOfficer = primaryOfficer
-        ? {
-            name: primaryOfficer.name,
-            role: primaryOfficer.role,
-            email: primaryOfficer.email,
-            phone: primaryOfficer.phone || '',
-            dbsNumber: primaryOfficer.dbs_number || '',
-            // dbs_expiry is a date-only column and hydrates as a YYYY-MM-DD
-            // string under the pg driver; normalise via Date for both shapes.
-            dbsExpiry: primaryOfficer.dbs_expiry
-              ? new Date(primaryOfficer.dbs_expiry).toISOString()
-              : '',
-          }
-        : null;
+      // Safeguarding officers are appointed rows in their own table, so their
+      // own checks are outside the DBS expiry sweep. Surface each officer's
+      // expiry state here so a lapsed welfare officer is visible rather than
+      // quietly displayed as a date nobody reads.
+      const officerSummaries = safeguardingOfficers.map((officer) =>
+        this.toOfficerSummary(officer),
+      );
 
-      // Calculate consent metrics
-      // Complete: all 3 consent types granted
-      // Partial: at least 1 consent type granted
-      // Missing: no consents granted
-      const totalMembers = consentStats.total / 3; // Assuming 3 consent types per member
-      const consentComplete = Math.floor(totalMembers * 0.7); // Mock calculation
-      const consentPartial = Math.floor(totalMembers * 0.2);
-      const consentMissing = Math.floor(totalMembers * 0.1);
+      // Consent coverage, counted per member rather than per consent row:
+      // complete means every required consent is on file and live, partial
+      // means some are, missing means the member has none at all.
+      const totalMembers = memberStats.total;
+      const consentComplete = consentCoverage.complete;
+      const consentPartial = consentCoverage.partial;
+      const consentMissing = Math.max(0, totalMembers - consentComplete - consentPartial);
 
       return {
         healthScore,
-        totalMembers: dbsStats.total,
+        totalMembers,
         dbsValid: dbsStats.valid,
         dbsExpiringSoon: dbsStats.expiringSoon,
         dbsExpired: dbsStats.expired,
         consentComplete,
         consentPartial,
         consentMissing,
-        safeguardingOfficer,
+        safeguardingOfficer: officerSummaries[0] ?? null,
+        safeguardingOfficers: officerSummaries,
         expiringDbsChecks,
       };
     } catch (error) {
       this.logger.error('Error generating compliance summary', error);
       throw error;
     }
+  }
+
+  /**
+   * Map a stored officer to its summary shape, including the state of the
+   * officer's own background check.
+   */
+  private toOfficerSummary(officer: {
+    name: string;
+    role: string;
+    email: string;
+    phone: string | null;
+    dbs_number: string | null;
+    dbs_expiry: Date | string | null;
+  }): SafeguardingOfficerSummary {
+    // dbs_expiry is a date-only column and hydrates as a YYYY-MM-DD
+    // string under the pg driver; normalise via Date for both shapes.
+    const expiry = officer.dbs_expiry ? new Date(officer.dbs_expiry) : null;
+    const daysRemaining = expiry ? this.calculateDaysRemaining(expiry) : null;
+
+    return {
+      name: officer.name,
+      role: officer.role,
+      email: officer.email,
+      phone: officer.phone || '',
+      dbsNumber: officer.dbs_number || '',
+      dbsExpiry: expiry ? expiry.toISOString() : '',
+      daysRemaining,
+      checkStatus: this.checkStatusFor(daysRemaining),
+    };
+  }
+
+  private checkStatusFor(daysRemaining: number | null): CheckExpiryStatus {
+    if (daysRemaining === null) return 'unknown';
+    if (daysRemaining < 0) return 'expired';
+    if (daysRemaining <= EXPIRY_WARNING_DAYS) return 'expiring';
+    return 'valid';
   }
 
   /**
@@ -146,7 +201,8 @@ export class ComplianceService {
   }
 
   /**
-   * Calculate days remaining until expiry date
+   * Days remaining until an expiry date. Negative once the date has passed,
+   * so a caller can tell "expired last month" from "expires tomorrow".
    */
   private calculateDaysRemaining(expiryDate: Date | null): number {
     if (!expiryDate) {
@@ -156,8 +212,7 @@ export class ComplianceService {
     const today = new Date();
     const expiry = new Date(expiryDate);
     const diffTime = expiry.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    return Math.max(0, diffDays);
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   }
 }

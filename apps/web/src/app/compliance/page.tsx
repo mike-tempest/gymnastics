@@ -14,20 +14,61 @@ import {
 import Link from 'next/link';
 import { useState, useEffect, useCallback } from 'react';
 
-import ComplianceStatusBadge from '@/components/compliance/ComplianceStatusBadge';
+import ComplianceStatusBadge, {
+  type ComplianceStatus,
+} from '@/components/compliance/ComplianceStatusBadge';
 import MainLayout from '@/components/layout/MainLayout';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useClubRegion } from '@/hooks/useClubRegion';
 import { useFormatters } from '@/hooks/useFormatters';
-import { getComplianceSummary, ComplianceSummary } from '@/lib/api/compliance';
+import {
+  getComplianceSummary,
+  ComplianceSummary,
+  SafeguardingOfficerSummary,
+} from '@/lib/api/compliance';
 import { MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
 function getHealthScoreInfo(score: number) {
   if (score >= 80) return { ring: 'text-success', text: 'text-success', label: 'Good' };
   if (score >= 60) return { ring: 'text-warning', text: 'text-warning', label: 'Needs attention' };
   return { ring: 'text-danger', text: 'text-danger', label: 'Action required' };
+}
+
+/**
+ * The badge for an officer's own background check. The officer sits in their
+ * own record rather than the check register, so this is the only place their
+ * expiry is shown; it reports what the date actually says.
+ */
+function officerCheckBadge(officer: SafeguardingOfficerSummary): {
+  status: ComplianceStatus;
+  label: string;
+} {
+  const days = officer.daysRemaining;
+
+  switch (officer.checkStatus) {
+    case 'valid':
+      return { status: 'compliant', label: 'Valid' };
+    case 'expiring':
+      if (days === 0) return { status: 'expiring-soon', label: 'Expires today' };
+      return {
+        status: 'expiring-soon',
+        label: `${days} ${days === 1 ? 'day' : 'days'} remaining`,
+      };
+    case 'expired':
+      return { status: 'expired', label: 'Expired' };
+    default:
+      return { status: 'not-required', label: 'No expiry recorded' };
+  }
+}
+
+function officerInitials(name: string): string {
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .map((part) => part[0])
+    .join('');
 }
 
 export default function ComplianceDashboardPage() {
@@ -80,6 +121,13 @@ export default function ComplianceDashboardPage() {
   }
 
   const scoreInfo = getHealthScoreInfo(data.healthScore);
+  // Fall back to the single-officer field so the page still renders against an
+  // API that has not been redeployed yet.
+  const officers =
+    data.safeguardingOfficers ?? (data.safeguardingOfficer ? [data.safeguardingOfficer] : []);
+  const officersNeedingAttention = officers.filter(
+    (officer) => officer.checkStatus === 'expiring' || officer.checkStatus === 'expired',
+  );
 
   const hasNoRecords =
     data.healthScore === 0 &&
@@ -262,13 +310,25 @@ export default function ComplianceDashboardPage() {
                   </div>
                   <div className="space-y-3">
                     <div>
-                      <p className="text-sm text-white/60 mb-1">{officerLabel}</p>
-                      <p className="text-sm font-bold text-white">{data.safeguardingOfficer?.name ?? 'Not assigned'}</p>
+                      <p className="text-sm text-white/60 mb-1">
+                        {officers.length > 1 ? `${officerLabel}s` : officerLabel}
+                      </p>
+                      <p className="text-sm font-bold text-white">
+                        {officers.length === 0
+                          ? 'Not assigned'
+                          : officers.map((officer) => officer.name).join(', ')}
+                      </p>
                     </div>
-                    {data.safeguardingOfficer && (
+                    {officers.length > 0 && (
                       <div>
                         <p className="text-sm text-white/60 mb-1">{shortLabel} status</p>
-                        <ComplianceStatusBadge status="compliant" label="Valid" />
+                        {officersNeedingAttention.length > 0 ? (
+                          <ComplianceStatusBadge
+                            {...officerCheckBadge(officersNeedingAttention[0])}
+                          />
+                        ) : (
+                          <ComplianceStatusBadge {...officerCheckBadge(officers[0])} />
+                        )}
                       </div>
                     )}
                   </div>
@@ -318,45 +378,73 @@ export default function ComplianceDashboardPage() {
               <div className="bg-dark-primary rounded-3xl shadow-lg p-6 border border-white/10">
                 <div className="flex items-center gap-3 mb-6">
                   <ShieldCheck className="w-6 h-6 text-brand" />
-                  <h2 className="font-serif text-2xl sm:text-3xl text-white">{officerLabel}</h2>
+                  <h2 className="font-serif text-2xl sm:text-3xl text-white">
+                    {officers.length > 1 ? `${officerLabel}s` : officerLabel}
+                  </h2>
                 </div>
 
-                {data.safeguardingOfficer ? (
-                  <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-4 rounded-xl bg-white/5 border border-white/10">
-                    <div className="w-16 h-16 rounded-full flex-shrink-0 flex items-center justify-center font-bold text-xl bg-brand text-dark-primary shadow-sm">
-                      {data.safeguardingOfficer.name.split(' ').map((n) => n[0]).join('')}
-                    </div>
-                    <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-white/60 text-sm">Name</p>
-                        <p className="text-white font-semibold">{data.safeguardingOfficer.name}</p>
-                      </div>
-                      <div>
-                        <p className="text-white/60 text-sm">Role</p>
-                        <p className="text-white font-semibold">{data.safeguardingOfficer.role}</p>
-                      </div>
-                      <div>
-                        <p className="text-white/60 text-sm">Email</p>
-                        <p className="text-white font-semibold">{data.safeguardingOfficer.email}</p>
-                      </div>
-                      <div>
-                        <p className="text-white/60 text-sm">Phone</p>
-                        <p className="text-white font-semibold tabular-nums">{data.safeguardingOfficer.phone}</p>
-                      </div>
-                      <div>
-                        <p className="text-white/60 text-sm">{shortLabel} number</p>
-                        <p className="text-white font-semibold tabular-nums">{data.safeguardingOfficer.dbsNumber}</p>
-                      </div>
-                      <div>
-                        <p className="text-white/60 text-sm">{shortLabel} expiry</p>
-                        <p className="text-white font-semibold tabular-nums">
-                          {formatDate(data.safeguardingOfficer.dbsExpiry, { day: '2-digit', month: '2-digit', year: 'numeric' })}
-                        </p>
-                      </div>
-                    </div>
+                {officers.length > 0 ? (
+                  <div className="space-y-4">
+                    {officers.map((officer) => {
+                      const badge = officerCheckBadge(officer);
+                      return (
+                        <article
+                          key={officer.email}
+                          aria-label={officer.name}
+                          className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-4 rounded-xl bg-white/5 border border-white/10"
+                        >
+                          <div className="w-16 h-16 rounded-full flex-shrink-0 flex items-center justify-center font-bold text-xl bg-brand text-dark-primary shadow-sm">
+                            {officerInitials(officer.name)}
+                          </div>
+                          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <p className="text-white/60 text-sm">Name</p>
+                              <p className="text-white font-semibold">{officer.name}</p>
+                            </div>
+                            <div>
+                              <p className="text-white/60 text-sm">Role</p>
+                              <p className="text-white font-semibold">{officer.role}</p>
+                            </div>
+                            <div>
+                              <p className="text-white/60 text-sm">Email</p>
+                              <p className="text-white font-semibold">{officer.email}</p>
+                            </div>
+                            <div>
+                              <p className="text-white/60 text-sm">Phone</p>
+                              <p className="text-white font-semibold tabular-nums">
+                                {officer.phone || 'Not recorded'}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-white/60 text-sm">{shortLabel} number</p>
+                              <p className="text-white font-semibold tabular-nums">
+                                {officer.dbsNumber || 'Not recorded'}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-white/60 text-sm">{shortLabel} expiry</p>
+                              <div className="flex flex-wrap items-center gap-2">
+                                <p className="text-white font-semibold tabular-nums">
+                                  {officer.dbsExpiry
+                                    ? formatDate(officer.dbsExpiry, {
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric',
+                                      })
+                                    : 'Not recorded'}
+                                </p>
+                                <ComplianceStatusBadge status={badge.status} label={badge.label} />
+                              </div>
+                            </div>
+                          </div>
+                        </article>
+                      );
+                    })}
                   </div>
                 ) : (
-                  <p className="text-white/60 text-center py-8">No welfare officer assigned.</p>
+                  <p className="text-white/60 text-center py-8">
+                    No {officerLabel.toLowerCase()} assigned.
+                  </p>
                 )}
               </div>
             </>
