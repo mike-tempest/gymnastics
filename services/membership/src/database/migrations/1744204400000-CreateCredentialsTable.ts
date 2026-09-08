@@ -20,12 +20,10 @@ import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm
  * migration.
  */
 export class CreateCredentialsTable1744204400000 implements MigrationInterface {
-  private static readonly TABLE = 'compliance_credentials';
-
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: CreateCredentialsTable1744204400000.TABLE,
+        name: 'compliance_credentials',
         columns: [
           {
             name: 'credential_id',
@@ -70,7 +68,7 @@ export class CreateCredentialsTable1744204400000 implements MigrationInterface {
 
     // A credential belongs to a person, and to exactly one kind of person.
     await queryRunner.query(
-      `ALTER TABLE "${CreateCredentialsTable1744204400000.TABLE}"
+      `ALTER TABLE "compliance_credentials"
        ADD CONSTRAINT "CHK_CREDENTIAL_SUBJECT"
        CHECK (("user_id" IS NOT NULL AND "member_id" IS NULL)
            OR ("user_id" IS NULL AND "member_id" IS NOT NULL))`,
@@ -81,7 +79,7 @@ export class CreateCredentialsTable1744204400000 implements MigrationInterface {
     // reference, and a credential need not carry a number at all.
     await queryRunner.query(
       `CREATE UNIQUE INDEX "UQ_CREDENTIALS_CLUB_TYPE_REFERENCE"
-       ON "${CreateCredentialsTable1744204400000.TABLE}" ("club_id", "credential_type", "reference_number")
+       ON "compliance_credentials" ("club_id", "credential_type", "reference_number")
        WHERE "reference_number" IS NOT NULL`,
     );
 
@@ -110,15 +108,15 @@ export class CreateCredentialsTable1744204400000 implements MigrationInterface {
     ];
 
     for (const key of foreignKeys) {
-      await queryRunner.createForeignKey(CreateCredentialsTable1744204400000.TABLE, key);
+      await queryRunner.createForeignKey('compliance_credentials', key);
     }
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     // Dropping the table takes its indices, check constraint and foreign keys
     // with it.
-    if (await queryRunner.hasTable(CreateCredentialsTable1744204400000.TABLE)) {
-      await queryRunner.dropTable(CreateCredentialsTable1744204400000.TABLE);
+    if (await queryRunner.hasTable('compliance_credentials')) {
+      await queryRunner.dropTable('compliance_credentials');
     }
   }
 }
