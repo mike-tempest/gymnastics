@@ -6,9 +6,19 @@ import { CredentialsModule } from './credentials/credentials.module';
 import { SafeguardingModule } from './safeguarding/safeguarding.module';
 import { ComplianceController } from './compliance.controller';
 import { ComplianceService } from './compliance.service';
+import { MembersModule } from '../members/members.module';
 
 @Module({
-  imports: [DBSModule, ConsentsModule, AuditLogsModule, CredentialsModule, SafeguardingModule],
+  // MembersModule supplies the club's real member total, which the summary
+  // needs to say how many members have no consent on file at all.
+  imports: [
+    DBSModule,
+    ConsentsModule,
+    AuditLogsModule,
+    CredentialsModule,
+    SafeguardingModule,
+    MembersModule,
+  ],
   controllers: [ComplianceController],
   providers: [ComplianceService],
   exports: [

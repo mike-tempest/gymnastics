@@ -38,16 +38,21 @@ function createWrapper() {
   };
 }
 
+// A club that has recorded nothing yet, which is what puts the dashboard into
+// its onboarding empty state.
 const emptySummary = {
   healthScore: 0,
   totalMembers: 0,
+  dbsChecks: 0,
   dbsValid: 0,
   dbsExpiringSoon: 0,
   dbsExpired: 0,
+  consentRecords: 0,
   consentComplete: 0,
   consentPartial: 0,
   consentMissing: 0,
   safeguardingOfficer: null,
+  safeguardingOfficers: [],
   expiringDbsChecks: [],
 };
 

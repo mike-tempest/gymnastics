@@ -5,7 +5,12 @@
  * as a spreadsheet. Parsing stays here, server-side and deliberately small:
  * a club exports its awarded badges, keys them into Rise Hub by hand, and
  * imports whatever Rise gives back.
+ *
+ * Writing is delegated to the shared CSV writer in `common/csv`, which the
+ * full club export (TEM-31) also uses. The column set and header aliasing
+ * below stay here: they are this bridge's contract with Rise Hub.
  */
+import { toCsv } from '../../common/csv/csv-writer';
 
 /** Column headers written on export and expected (case-insensitively) on import. */
 export const RISE_CSV_COLUMNS = [
@@ -52,28 +57,13 @@ export interface RiseCsvRow {
 }
 
 /**
- * Quotes a single CSV field, doubling any embedded quote.
+ * Serialises rows to a CSV string with the Rise column headers.
  *
- * A field starting with =, +, - or @ is also prefixed with an apostrophe. The
- * export exists to be opened in a spreadsheet before being keyed into Rise
- * Hub, and a name or membership number is club-entered text, so a leading =
- * would otherwise be evaluated as a formula when the file is opened.
+ * Formula-injection guarding and quoting live in the shared writer; this file
+ * only decides which columns are written and in what order.
  */
-function quoteField(value: string): string {
-  const guarded = /^[=+\-@\t\r]/.test(value) ? `'${value}` : value;
-  if (/[",\r\n]/.test(guarded)) {
-    return `"${guarded.replace(/"/g, '""')}"`;
-  }
-  return guarded;
-}
-
-/** Serialises rows to a CSV string with the Rise column headers. */
 export function toRiseCsv(rows: RiseCsvRow[]): string {
-  const lines = [RISE_CSV_COLUMNS.join(',')];
-  for (const row of rows) {
-    lines.push(RISE_CSV_COLUMNS.map((column) => quoteField(row[column] ?? '')).join(','));
-  }
-  return `${lines.join('\n')}\n`;
+  return toCsv(RISE_CSV_COLUMNS, rows);
 }
 
 export interface CsvRow {

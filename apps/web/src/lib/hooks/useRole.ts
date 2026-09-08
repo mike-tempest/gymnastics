@@ -7,6 +7,13 @@ const ADMIN_ROLES: UserRole[] = [UserRole.SUPER_ADMIN, UserRole.TREASURER];
 
 const COACH_ROLES: UserRole[] = [UserRole.HEAD_COACH, UserRole.SQUAD_COACH];
 
+// The club's Welfare Officer. Not a coach and not an admin: they get the
+// compliance and safeguarding side of the club and nothing else. The backend
+// grants them coach-level read access to the compliance endpoints, so this
+// role is kept separate here rather than folded into COACH_ROLES, which would
+// hand them squads, sessions, attendance and the waiting list as well.
+const WELFARE_ROLES: UserRole[] = [UserRole.WELFARE_OFFICER];
+
 const PARENT_ROLES: UserRole[] = [UserRole.PARENT];
 
 /**
@@ -39,6 +46,10 @@ export function isCoach(role: UserRole | null | undefined): boolean {
   return role != null && COACH_ROLES.includes(role);
 }
 
+export function isWelfareOfficer(role: UserRole | null | undefined): boolean {
+  return role != null && WELFARE_ROLES.includes(role);
+}
+
 export function isParent(role: UserRole | null | undefined): boolean {
   return role != null && PARENT_ROLES.includes(role);
 }
@@ -47,4 +58,4 @@ export function isAdminOrCoach(role: UserRole | null | undefined): boolean {
   return isAdmin(role) || isCoach(role);
 }
 
-export { ADMIN_ROLES, COACH_ROLES, PARENT_ROLES };
+export { ADMIN_ROLES, COACH_ROLES, WELFARE_ROLES, PARENT_ROLES };
