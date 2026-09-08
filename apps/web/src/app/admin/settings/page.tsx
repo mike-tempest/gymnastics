@@ -13,6 +13,7 @@ import {
   Globe,
   MapPin,
   CreditCard,
+  KeyRound,
   Bell,
   ExternalLink,
   Plus,
@@ -28,6 +29,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 import MainLayout from '@/components/layout/MainLayout';
+import { ApiKeysCard } from '@/components/settings/ApiKeysCard';
 import { PaymentsConnectionCard } from '@/components/settings/PaymentsConnectionCard';
 import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
@@ -735,6 +737,16 @@ export default function SettingsPage() {
             </div>
 
             <PaymentsConnectionCard />
+          </div>
+
+          {/* API Access Section. The id anchors links from the API docs. */}
+          <div id="api-access" className={SECTION_CARD}>
+            <div className="flex items-center gap-3 mb-6">
+              <KeyRound className="w-6 h-6 text-brand" />
+              <h2 className={SECTION_HEADING}>API Access</h2>
+            </div>
+
+            <ApiKeysCard />
           </div>
 
           {/* Tax Section */}

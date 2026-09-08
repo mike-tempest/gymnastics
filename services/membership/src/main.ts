@@ -5,8 +5,12 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 import { AppModule } from './app.module';
+import { API_KEY_HEADER } from './modules/api-keys/guards/api-key.guard';
+import { apiKeyPrefixOf } from './modules/api-keys/api-key-crypto';
+import { OPENAPI_DOCS_PATH } from './modules/api-keys/openapi.constants';
+import { setupOpenApi } from './modules/api-keys/openapi';
 
 async function bootstrap() {
   // rawBody: true retains the exact request bytes as `req.rawBody`. Webhook
@@ -78,6 +82,34 @@ async function bootstrap() {
   app.use('/api/waiting-list/join', waitingListJoinLimiter);
   app.use('/api/waiting-list/offers/token', waitingListJoinLimiter);
 
+  // Rate limiting on the club read API, bucketed per key rather than per IP.
+  //
+  // Same express-rate-limit mechanism and the same configurable-with-safe-
+  // defaults shape as the two limiters above, with one difference that
+  // matters: the bucket key. Per-IP would be wrong in both directions here.
+  // Two clubs whose integrations run from the same cloud region would share
+  // a bucket and throttle each other, while one club running from a range of
+  // addresses would sidestep the limit entirely. The credential is the
+  // identity that should be limited, so that is what it buckets on.
+  //
+  // Only the non-secret prefix is used, never the secret, so nothing derived
+  // from a raw key ends up in the limiter store. A request with no usable key
+  // falls back to its IP; those requests are rejected by ApiKeyGuard moments
+  // later anyway, and the fallback stops an unauthenticated flood from
+  // sharing one bucket.
+  const readApiLimiter = rateLimit({
+    windowMs: positiveNumber(configService.get('READ_API_RATE_LIMIT_WINDOW_MS'), 60 * 1000),
+    max: positiveNumber(configService.get('READ_API_RATE_LIMIT_MAX'), 120),
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => {
+      const prefix = apiKeyPrefixOf(req.header(API_KEY_HEADER));
+      return prefix ? `key:${prefix}` : `ip:${ipKeyGenerator(req.ip ?? '')}`;
+    },
+    message: { statusCode: 429, message: 'Too many requests, please try again later' },
+  });
+  app.use('/api/public', readApiLimiter);
+
   // Enable global validation pipe
   app.useGlobalPipes(
     new ValidationPipe({
@@ -96,10 +128,16 @@ async function bootstrap() {
     exclude: ['health', 'health/live'],
   });
 
+  // Published documentation for the club read API. Registered after the
+  // global prefix so the decorated routes carry their real paths, and
+  // restricted to the read surface: see modules/api-keys/openapi.ts.
+  setupOpenApi(app);
+
   const port = configService.get('PORT', 3001);
   await app.listen(port);
 
   console.log(`\n🚀 Membership Service is running on: http://localhost:${port}/api`);
+  console.log(`📖 Club read API docs: http://localhost:${port}/${OPENAPI_DOCS_PATH}`);
   console.log(`📊 Environment: ${configService.get('NODE_ENV', 'development')}\n`);
 }
 
