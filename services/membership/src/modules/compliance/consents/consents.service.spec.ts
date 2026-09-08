@@ -43,6 +43,7 @@ describe('ConsentsService', () => {
     count: jest.fn(),
     countByStatus: jest.fn(),
     countByType: jest.fn(),
+    countGrantedConsentTypesPerMember: jest.fn(),
   };
 
   const mockEmailService = {
@@ -337,6 +338,44 @@ describe('ConsentsService', () => {
       expect(result.pending).toBe(20);
       expect(result.revoked).toBe(10);
       expect(result.byType).toBeDefined();
+    });
+  });
+
+  describe('getCoverage', () => {
+    it('should ask the repository about the required consent types only', async () => {
+      mockRepository.countGrantedConsentTypesPerMember.mockResolvedValue([]);
+
+      const result = await service.getCoverage();
+
+      expect(mockRepository.countGrantedConsentTypesPerMember).toHaveBeenCalledWith([
+        ConsentType.MEDICAL_TREATMENT,
+        ConsentType.PHOTOGRAPHY,
+        ConsentType.DATA_SHARING,
+      ]);
+      expect(result.requiredTypes).toBe(3);
+    });
+
+    it('should split members into complete and partial by how many they hold', async () => {
+      mockRepository.countGrantedConsentTypesPerMember.mockResolvedValue([
+        { memberId: 'member-1', grantedTypes: 3 },
+        { memberId: 'member-2', grantedTypes: 3 },
+        { memberId: 'member-3', grantedTypes: 2 },
+        { memberId: 'member-4', grantedTypes: 1 },
+      ]);
+
+      const result = await service.getCoverage();
+
+      expect(result.complete).toBe(2);
+      expect(result.partial).toBe(2);
+    });
+
+    it('should count no members when nothing is on file', async () => {
+      mockRepository.countGrantedConsentTypesPerMember.mockResolvedValue([]);
+
+      const result = await service.getCoverage();
+
+      expect(result.complete).toBe(0);
+      expect(result.partial).toBe(0);
     });
   });
 
