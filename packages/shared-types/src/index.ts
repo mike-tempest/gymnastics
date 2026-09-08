@@ -18,3 +18,6 @@ export * from './entities/waiting-list.entity';
 
 // Club-scoped read API keys (TEM-32)
 export * from './entities/api-key.entity';
+
+// Staff and gymnast credentials with expiry alerts (TEM-30)
+export * from './entities/credential.entity';
