@@ -19,6 +19,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
+import { OptionalUuidParam, UuidParam } from '../../common/validation/parse-uuid.pipe';
 
 @Controller('sessions')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -34,7 +35,7 @@ export class SessionsController {
 
   @Get()
   findAll(
-    @Query('squad_id') squadId?: string,
+    @Query('squad_id', OptionalUuidParam) squadId?: string,
     @Query('start_date') startDate?: string,
     @Query('end_date') endDate?: string,
   ) {
@@ -60,7 +61,7 @@ export class SessionsController {
   }
 
   @Get('squad/:squadId')
-  getBySquad(@Param('squadId') squadId: string) {
+  getBySquad(@Param('squadId', UuidParam) squadId: string) {
     return this.sessionsService.getSessionsBySquad(squadId);
   }
 
@@ -70,26 +71,26 @@ export class SessionsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', UuidParam) id: string) {
     return this.sessionsService.findOne(id);
   }
 
   @Patch(':id')
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  update(@Param('id') id: string, @Body() updateSessionDto: UpdateSessionDto) {
+  update(@Param('id', UuidParam) id: string, @Body() updateSessionDto: UpdateSessionDto) {
     return this.sessionsService.update(id, updateSessionDto);
   }
 
   @Patch(':id/status')
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  updateStatus(@Param('id') id: string, @Body('status') status: SessionStatus) {
+  updateStatus(@Param('id', UuidParam) id: string, @Body('status') status: SessionStatus) {
     return this.sessionsService.updateSessionStatus(id, status);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @Roles(UserRole.SUPER_ADMIN)
-  remove(@Param('id') id: string) {
+  remove(@Param('id', UuidParam) id: string) {
     return this.sessionsService.remove(id);
   }
 }

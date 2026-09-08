@@ -74,8 +74,11 @@ describe('AwardsController', () => {
       expect(mockAwardsService.getMemberProgress).toHaveBeenCalledWith('member-1');
     });
 
-    it('splits a comma separated member id list', async () => {
-      await controller.getProgressForMembers('member-1,member-2');
+    // The `?member_ids=` list is split and UUID-checked by UuidListParam
+    // before it reaches the handler, so the handler only passes it through.
+    // ParseUuidListPipe owns the splitting tests.
+    it('passes the member id list through', async () => {
+      await controller.getProgressForMembers(['member-1', 'member-2']);
       expect(mockAwardsService.getProgressForMembers).toHaveBeenCalledWith([
         'member-1',
         'member-2',
@@ -83,7 +86,7 @@ describe('AwardsController', () => {
     });
 
     it('handles a missing member id list', async () => {
-      await controller.getProgressForMembers();
+      await controller.getProgressForMembers([]);
       expect(mockAwardsService.getProgressForMembers).toHaveBeenCalledWith([]);
     });
 

@@ -16,6 +16,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Roles } from '../../auth/decorators/roles.decorator';
 import { UserRole } from '../../users/entities/user.entity';
+import { UuidParam } from '../../../common/validation/parse-uuid.pipe';
 
 @Controller('compliance/dbs')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -54,33 +55,33 @@ export class DBSController {
 
   @Get('user/:userId')
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  findByUser(@Param('userId') userId: string) {
+  findByUser(@Param('userId', UuidParam) userId: string) {
     return this.dbsService.findByUser(userId);
   }
 
   @Get('user/:userId/latest')
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  getLatestForUser(@Param('userId') userId: string) {
+  getLatestForUser(@Param('userId', UuidParam) userId: string) {
     return this.dbsService.getLatestForUser(userId);
   }
 
   @Get('user/:userId/is-valid')
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  async isUserValid(@Param('userId') userId: string) {
+  async isUserValid(@Param('userId', UuidParam) userId: string) {
     const isValid = await this.dbsService.isUserDBSValid(userId);
     return { user_id: userId, is_dbs_valid: isValid };
   }
 
   @Get(':id')
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', UuidParam) id: string) {
     return this.dbsService.findOne(id);
   }
 
   @Put(':id')
   @Roles(UserRole.SUPER_ADMIN)
   update(
-    @Param('id') id: string,
+    @Param('id', UuidParam) id: string,
     @Body() updateDto: UpdateDBSCheckDto,
     @Request() req: { user: { user_id: string } },
   ) {
@@ -89,7 +90,7 @@ export class DBSController {
 
   @Delete(':id')
   @Roles(UserRole.SUPER_ADMIN)
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id', UuidParam) id: string) {
     await this.dbsService.remove(id);
     return { message: 'DBS check deleted successfully' };
   }

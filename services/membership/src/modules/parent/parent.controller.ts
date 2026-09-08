@@ -20,6 +20,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { InvoicePdfService } from '../finance/invoices/invoice-pdf.service';
 import { UpdateParentProfileDto } from './dto/update-parent-profile.dto';
 import { CompetitionsEnabledGuard } from '../../common/features/competitions.feature';
+import { UuidParam } from '../../common/validation/parse-uuid.pipe';
 
 @Controller('parent')
 @UseGuards(JwtAuthGuard)
@@ -69,7 +70,10 @@ export class ParentController {
   }
 
   @Get('children/:id')
-  async getChild(@Request() req: { user?: { family_id?: string } }, @Param('id') childId: string) {
+  async getChild(
+    @Request() req: { user?: { family_id?: string } },
+    @Param('id', UuidParam) childId: string,
+  ) {
     const familyId = req.user?.family_id;
     if (!familyId) {
       throw new NotFoundException('User not associated with a family');
@@ -80,7 +84,7 @@ export class ParentController {
   @Get('children/:id/attendance')
   async getChildAttendance(
     @Request() req: { user?: { family_id?: string } },
-    @Param('id') childId: string,
+    @Param('id', UuidParam) childId: string,
     @Query('from') from?: string,
     @Query('to') to?: string,
   ) {
@@ -94,7 +98,7 @@ export class ParentController {
   @Get('children/:id/schedule')
   async getChildSchedule(
     @Request() req: { user?: { family_id?: string } },
-    @Param('id') childId: string,
+    @Param('id', UuidParam) childId: string,
     @Query('days') days?: number,
   ) {
     const familyId = req.user?.family_id;
@@ -107,7 +111,7 @@ export class ParentController {
   @Get('children/:id/badges')
   async getChildBadges(
     @Request() req: { user?: { family_id?: string } },
-    @Param('id') childId: string,
+    @Param('id', UuidParam) childId: string,
   ) {
     const familyId = req.user?.family_id;
     if (!familyId) {
@@ -121,7 +125,7 @@ export class ParentController {
   @UseGuards(CompetitionsEnabledGuard)
   async getChildResults(
     @Request() req: { user?: { family_id?: string } },
-    @Param('id') childId: string,
+    @Param('id', UuidParam) childId: string,
   ) {
     const familyId = req.user?.family_id;
     if (!familyId) {
@@ -135,7 +139,7 @@ export class ParentController {
   @UseGuards(CompetitionsEnabledGuard)
   async getChildPersonalBests(
     @Request() req: { user?: { family_id?: string } },
-    @Param('id') childId: string,
+    @Param('id', UuidParam) childId: string,
   ) {
     const familyId = req.user?.family_id;
     if (!familyId) {
@@ -159,7 +163,7 @@ export class ParentController {
   @Get('invoices/:id')
   async getInvoice(
     @Request() req: { user?: { family_id?: string } },
-    @Param('id') invoiceId: string,
+    @Param('id', UuidParam) invoiceId: string,
   ) {
     const familyId = req.user?.family_id;
     if (!familyId) {
@@ -171,7 +175,7 @@ export class ParentController {
   @Get('invoices/:id/pdf')
   async getInvoicePdf(
     @Request() req: { user?: { family_id?: string } },
-    @Param('id') invoiceId: string,
+    @Param('id', UuidParam) invoiceId: string,
     @Res({ passthrough: true }) res: Response,
   ): Promise<StreamableFile> {
     const familyId = req.user?.family_id;
@@ -213,7 +217,7 @@ export class ParentController {
   @HttpCode(HttpStatus.OK)
   async payInvoice(
     @Request() req: { user?: { family_id?: string } },
-    @Param('id') invoiceId: string,
+    @Param('id', UuidParam) invoiceId: string,
   ) {
     const familyId = req.user?.family_id;
     if (!familyId) {

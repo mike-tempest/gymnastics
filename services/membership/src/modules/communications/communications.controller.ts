@@ -14,6 +14,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
+import { UuidParam } from '../../common/validation/parse-uuid.pipe';
 
 @Controller('communications')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -33,7 +34,7 @@ export class CommunicationsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', UuidParam) id: string) {
     return this.communicationsService.findOne(id);
   }
 }

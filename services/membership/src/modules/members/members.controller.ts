@@ -21,6 +21,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
+import { OptionalUuidParam, UuidParam } from '../../common/validation/parse-uuid.pipe';
 
 @Controller('members')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -54,8 +55,8 @@ export class MembersController {
    */
   @Get()
   findAll(
-    @Query('family_id') familyId?: string,
-    @Query('squad_id') squadId?: string,
+    @Query('family_id', OptionalUuidParam) familyId?: string,
+    @Query('squad_id', OptionalUuidParam) squadId?: string,
     @Query('discipline') discipline?: string,
   ) {
     if (discipline !== undefined && discipline !== '' && !isDiscipline(discipline)) {
@@ -75,20 +76,20 @@ export class MembersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', UuidParam) id: string) {
     return this.membersService.findOne(id);
   }
 
   @Patch(':id')
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  update(@Param('id') id: string, @Body() updateMemberDto: UpdateMemberDto) {
+  update(@Param('id', UuidParam) id: string, @Body() updateMemberDto: UpdateMemberDto) {
     return this.membersService.update(id, updateMemberDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @Roles(UserRole.SUPER_ADMIN)
-  remove(@Param('id') id: string) {
+  remove(@Param('id', UuidParam) id: string) {
     return this.membersService.remove(id);
   }
 }

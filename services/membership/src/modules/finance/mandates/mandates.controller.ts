@@ -17,6 +17,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Roles } from '../../auth/decorators/roles.decorator';
 import { UserRole } from '../../users/entities/user.entity';
+import { UuidParam } from '../../../common/validation/parse-uuid.pipe';
 
 @Controller('mandates')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -36,37 +37,37 @@ export class MandatesController {
   }
 
   @Get('family/:familyId')
-  findByFamily(@Param('familyId') familyId: string) {
+  findByFamily(@Param('familyId', UuidParam) familyId: string) {
     return this.mandatesService.findByFamily(familyId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', UuidParam) id: string) {
     return this.mandatesService.findOne(id);
   }
 
   @Patch(':id')
   @Roles(UserRole.SUPER_ADMIN)
-  update(@Param('id') id: string, @Body() updateMandateDto: UpdateMandateDto) {
+  update(@Param('id', UuidParam) id: string, @Body() updateMandateDto: UpdateMandateDto) {
     return this.mandatesService.update(id, updateMandateDto);
   }
 
   @Patch(':id/cancel')
   @Roles(UserRole.SUPER_ADMIN)
-  cancel(@Param('id') id: string) {
+  cancel(@Param('id', UuidParam) id: string) {
     return this.mandatesService.cancel(id);
   }
 
   @Patch(':id/sync')
   @Roles(UserRole.SUPER_ADMIN)
-  syncStatus(@Param('id') id: string) {
+  syncStatus(@Param('id', UuidParam) id: string) {
     return this.mandatesService.syncMandateStatus(id);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @Roles(UserRole.SUPER_ADMIN)
-  remove(@Param('id') id: string) {
+  remove(@Param('id', UuidParam) id: string) {
     return this.mandatesService.remove(id);
   }
 

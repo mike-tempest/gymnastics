@@ -31,6 +31,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
+import { UuidParam } from '../../common/validation/parse-uuid.pipe';
 
 @Controller('competitions')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -55,30 +56,30 @@ export class CompetitionsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', UuidParam) id: string) {
     return this.competitionsService.findOne(id);
   }
 
   @Patch(':id')
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  update(@Param('id') id: string, @Body() dto: UpdateCompetitionDto) {
+  update(@Param('id', UuidParam) id: string, @Body() dto: UpdateCompetitionDto) {
     return this.competitionsService.update(id, dto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @Roles(UserRole.SUPER_ADMIN)
-  remove(@Param('id') id: string) {
+  remove(@Param('id', UuidParam) id: string) {
     return this.competitionsService.remove(id);
   }
 
   @Get('member/:memberId/results')
-  getMemberResults(@Param('memberId') memberId: string) {
+  getMemberResults(@Param('memberId', UuidParam) memberId: string) {
     return this.competitionsService.getMemberResults(memberId);
   }
 
   @Get('member/:memberId/personal-bests')
-  getMemberPersonalBests(@Param('memberId') memberId: string) {
+  getMemberPersonalBests(@Param('memberId', UuidParam) memberId: string) {
     return this.competitionsService.getMemberPersonalBests(memberId);
   }
 
@@ -87,34 +88,34 @@ export class CompetitionsController {
   @Post(':id/entries')
   @HttpCode(HttpStatus.CREATED)
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  addEntries(@Param('id') id: string, @Body() entries: CreateEntryDto[]) {
+  addEntries(@Param('id', UuidParam) id: string, @Body() entries: CreateEntryDto[]) {
     return this.competitionsService.addEntries(id, entries);
   }
 
   @Get(':id/entries')
-  getEntries(@Param('id') id: string) {
+  getEntries(@Param('id', UuidParam) id: string) {
     return this.competitionsService.getEntries(id);
   }
 
   // --- Results ---
 
   @Get(':id/results')
-  getResults(@Param('id') id: string) {
+  getResults(@Param('id', UuidParam) id: string) {
     return this.competitionsService.getResults(id);
   }
 
   @Post(':id/results')
   @HttpCode(HttpStatus.CREATED)
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  addResult(@Param('id') id: string, @Body() dto: CreateResultDto) {
+  addResult(@Param('id', UuidParam) id: string, @Body() dto: CreateResultDto) {
     return this.competitionsService.addResult(id, dto);
   }
 
   @Patch(':id/results/:resultId')
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
   updateResult(
-    @Param('id') id: string,
-    @Param('resultId') resultId: string,
+    @Param('id', UuidParam) id: string,
+    @Param('resultId', UuidParam) resultId: string,
     @Body() dto: UpdateResultDto,
   ) {
     return this.competitionsService.updateResult(id, resultId, dto);
@@ -123,7 +124,7 @@ export class CompetitionsController {
   @Delete(':id/results/:resultId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  removeResult(@Param('id') id: string, @Param('resultId') resultId: string) {
+  removeResult(@Param('id', UuidParam) id: string, @Param('resultId', UuidParam) resultId: string) {
     return this.competitionsService.removeResult(id, resultId);
   }
 
@@ -134,7 +135,7 @@ export class CompetitionsController {
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
   @UseInterceptors(FileInterceptor('file'))
   async importResults(
-    @Param('id') id: string,
+    @Param('id', UuidParam) id: string,
     @UploadedFile() file: { buffer: Buffer; originalname: string },
     @Query('format') format?: string,
     @Query('preview') preview?: string,
@@ -163,7 +164,7 @@ export class CompetitionsController {
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
   @UseInterceptors(FileInterceptor('file'))
   async importTimes(
-    @Param('id') id: string,
+    @Param('id', UuidParam) id: string,
     @UploadedFile() file: { buffer: Buffer; originalname: string },
     @Query('preview') preview?: string,
   ) {
@@ -183,7 +184,7 @@ export class CompetitionsController {
   @Post(':id/export')
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
   async exportEntries(
-    @Param('id') id: string,
+    @Param('id', UuidParam) id: string,
     @Query('format') format?: string,
     @Res() res?: Response,
   ) {

@@ -22,6 +22,11 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
+import {
+  OptionalUuidParam,
+  UuidListParam,
+  UuidParam,
+} from '../../common/validation/parse-uuid.pipe';
 
 /** Roles allowed to read the badge catalogue and progress. */
 const READ_ROLES = [
@@ -55,7 +60,7 @@ export class AwardsController {
   @Get('schemes/:schemeId')
   @UseGuards(RolesGuard)
   @Roles(...READ_ROLES)
-  getScheme(@Param('schemeId') schemeId: string) {
+  getScheme(@Param('schemeId', UuidParam) schemeId: string) {
     return this.awardsService.getScheme(schemeId);
   }
 
@@ -82,7 +87,7 @@ export class AwardsController {
   @Patch('schemes/:schemeId')
   @UseGuards(RolesGuard)
   @Roles(UserRole.SUPER_ADMIN)
-  updateScheme(@Param('schemeId') schemeId: string, @Body() dto: UpdateAwardSchemeDto) {
+  updateScheme(@Param('schemeId', UuidParam) schemeId: string, @Body() dto: UpdateAwardSchemeDto) {
     return this.awardsService.updateScheme(schemeId, dto);
   }
 
@@ -90,7 +95,7 @@ export class AwardsController {
   @UseGuards(RolesGuard)
   @Roles(UserRole.SUPER_ADMIN)
   @HttpCode(HttpStatus.NO_CONTENT)
-  removeScheme(@Param('schemeId') schemeId: string) {
+  removeScheme(@Param('schemeId', UuidParam) schemeId: string) {
     return this.awardsService.removeScheme(schemeId);
   }
 
@@ -107,7 +112,7 @@ export class AwardsController {
   @Patch('levels/:levelId')
   @UseGuards(RolesGuard)
   @Roles(UserRole.SUPER_ADMIN)
-  updateLevel(@Param('levelId') levelId: string, @Body() dto: UpdateAwardLevelDto) {
+  updateLevel(@Param('levelId', UuidParam) levelId: string, @Body() dto: UpdateAwardLevelDto) {
     return this.awardsService.updateLevel(levelId, dto);
   }
 
@@ -115,7 +120,7 @@ export class AwardsController {
   @UseGuards(RolesGuard)
   @Roles(UserRole.SUPER_ADMIN)
   @HttpCode(HttpStatus.NO_CONTENT)
-  removeLevel(@Param('levelId') levelId: string) {
+  removeLevel(@Param('levelId', UuidParam) levelId: string) {
     return this.awardsService.removeLevel(levelId);
   }
 
@@ -124,15 +129,14 @@ export class AwardsController {
   @Get('member/:memberId/progress')
   @UseGuards(RolesGuard)
   @Roles(...READ_ROLES)
-  getMemberProgress(@Param('memberId') memberId: string) {
+  getMemberProgress(@Param('memberId', UuidParam) memberId: string) {
     return this.awardsService.getMemberProgress(memberId);
   }
 
   @Get('progress')
   @UseGuards(RolesGuard)
   @Roles(...READ_ROLES)
-  getProgressForMembers(@Query('member_ids') memberIdsRaw?: string) {
-    const memberIds = memberIdsRaw ? memberIdsRaw.split(',').filter(Boolean) : [];
+  getProgressForMembers(@Query('member_ids', UuidListParam) memberIds: string[]) {
     return this.awardsService.getProgressForMembers(memberIds);
   }
 
@@ -157,7 +161,10 @@ export class AwardsController {
   @Get('assessments')
   @UseGuards(RolesGuard)
   @Roles(...READ_ROLES)
-  listAssessments(@Query('level_id') levelId?: string, @Query('limit') limit?: string) {
+  listAssessments(
+    @Query('level_id', OptionalUuidParam) levelId?: string,
+    @Query('limit') limit?: string,
+  ) {
     const parsed = limit ? Number(limit) : undefined;
     return this.awardsService.listEvents(
       levelId,
@@ -168,7 +175,7 @@ export class AwardsController {
   @Get('assessments/:eventId')
   @UseGuards(RolesGuard)
   @Roles(...READ_ROLES)
-  getAssessment(@Param('eventId') eventId: string) {
+  getAssessment(@Param('eventId', UuidParam) eventId: string) {
     return this.awardsService.getEvent(eventId);
   }
 
@@ -180,7 +187,7 @@ export class AwardsController {
   @Header('Content-Type', 'text/csv; charset=utf-8')
   @Header('Content-Disposition', 'attachment; filename="rise-awards.csv"')
   exportRiseCsv(
-    @Query('scheme_id') schemeId?: string,
+    @Query('scheme_id', OptionalUuidParam) schemeId?: string,
     @Query('include_assessed') includeAssessed?: string,
   ) {
     return this.awardsService.exportRiseCsv({

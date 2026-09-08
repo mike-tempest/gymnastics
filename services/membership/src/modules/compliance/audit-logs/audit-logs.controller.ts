@@ -5,6 +5,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Roles } from '../../auth/decorators/roles.decorator';
 import { UserRole } from '../../users/entities/user.entity';
+import { UuidParam } from '../../../common/validation/parse-uuid.pipe';
 
 @Controller('compliance/audit-logs')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -28,14 +29,14 @@ export class AuditLogsController {
   }
 
   @Get('user/:userId')
-  findByUser(@Param('userId') userId: string, @Query('limit') limit?: number) {
+  findByUser(@Param('userId', UuidParam) userId: string, @Query('limit') limit?: number) {
     return this.auditLogsService.findByUser(userId, limit || 100);
   }
 
   @Get('entity/:entityType/:entityId')
   findByEntity(
     @Param('entityType') entityType: AuditEntityType,
-    @Param('entityId') entityId: string,
+    @Param('entityId', UuidParam) entityId: string,
     @Query('limit') limit?: number,
   ) {
     return this.auditLogsService.findByEntity(entityType, entityId, limit || 100);
@@ -52,7 +53,7 @@ export class AuditLogsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', UuidParam) id: string) {
     return this.auditLogsService.findOne(id);
   }
 }

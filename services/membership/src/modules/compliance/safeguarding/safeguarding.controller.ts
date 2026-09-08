@@ -20,6 +20,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Roles } from '../../auth/decorators/roles.decorator';
 import { UserRole } from '../../users/entities/user.entity';
+import { UuidParam } from '../../../common/validation/parse-uuid.pipe';
 
 @Controller('compliance/safeguarding')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -34,7 +35,7 @@ export class SafeguardingController {
 
   @Patch('checklist/:id')
   @Roles(UserRole.SUPER_ADMIN)
-  updateChecklistItem(@Param('id') id: string, @Body() dto: UpdateChecklistItemDto) {
+  updateChecklistItem(@Param('id', UuidParam) id: string, @Body() dto: UpdateChecklistItemDto) {
     return this.safeguardingService.updateChecklistItem(id, dto.completed);
   }
 
@@ -52,14 +53,14 @@ export class SafeguardingController {
 
   @Put('officers/:id')
   @Roles(UserRole.SUPER_ADMIN)
-  updateOfficer(@Param('id') id: string, @Body() dto: UpdateOfficerDto) {
+  updateOfficer(@Param('id', UuidParam) id: string, @Body() dto: UpdateOfficerDto) {
     return this.safeguardingService.updateOfficer(id, dto);
   }
 
   @Delete('officers/:id')
   @Roles(UserRole.SUPER_ADMIN)
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteOfficer(@Param('id') id: string) {
+  deleteOfficer(@Param('id', UuidParam) id: string) {
     return this.safeguardingService.deleteOfficer(id);
   }
 
