@@ -85,7 +85,9 @@ describe('EnrolmentService', () => {
     consents = { create: jest.fn().mockResolvedValue({}) };
     users = {
       findByFamily: jest.fn().mockResolvedValue([]),
-      findByRole: jest.fn().mockResolvedValue([{ user_id: 'admin-1', role: UserRole.SUPER_ADMIN }]),
+      findByRole: jest
+        .fn()
+        .mockResolvedValue([{ user_id: 'admin-1', club_id: 'club-1', role: UserRole.SUPER_ADMIN }]),
     };
     mandates = { findActiveByFamily: jest.fn().mockResolvedValue(null) };
     email = {
@@ -173,11 +175,32 @@ describe('EnrolmentService', () => {
     });
 
     it('attributes consent requests to the family parent account when there is one', async () => {
-      users.findByFamily.mockResolvedValue([{ user_id: 'parent-1', role: UserRole.PARENT }]);
+      users.findByFamily.mockResolvedValue([
+        { user_id: 'parent-1', club_id: 'club-1', role: UserRole.PARENT },
+      ]);
 
       await service.enrol(entry(), 'squad-1');
 
       expect(consents.create.mock.calls[0][0]).toMatchObject({ granted_by_user_id: 'parent-1' });
+    });
+
+    it('never attributes a consent request to another club', async () => {
+      // UsersRepository queries by role and by family without a club
+      // predicate, so an unfiltered fallback would write the newest
+      // administrator in the whole database into granted_by_user_id on a
+      // compliance record belonging to this club.
+      users.findByFamily.mockResolvedValue([
+        { user_id: 'other-parent', club_id: 'club-2', role: UserRole.PARENT },
+      ]);
+      users.findByRole.mockResolvedValue([
+        { user_id: 'other-admin', club_id: 'club-2', role: UserRole.SUPER_ADMIN },
+      ]);
+
+      const result = await service.enrol(entry(), 'squad-1');
+
+      expect(consents.create).not.toHaveBeenCalled();
+      expect(result.consents_requested).toBe(0);
+      expect(result.needs_attention.join(' ')).toContain('No consent requests were raised');
     });
 
     it('marks the entry enrolled and points it at the new member', async () => {

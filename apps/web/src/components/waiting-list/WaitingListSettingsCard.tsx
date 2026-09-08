@@ -29,13 +29,21 @@ export default function WaitingListSettingsCard({
     setWindowDays(settings.offer_window_days);
   }, [settings]);
 
+  // An emptied number input reads back as NaN, which is neither a change worth
+  // saving nor a value the server can store, so it is treated as untouched.
+  const windowDaysIsUsable = Number.isInteger(windowDays);
+
   const dirty =
-    autoOffer !== settings.auto_offer_enabled || windowDays !== settings.offer_window_days;
+    autoOffer !== settings.auto_offer_enabled ||
+    (windowDaysIsUsable && windowDays !== settings.offer_window_days);
 
   const handleSave = async () => {
     try {
       setIsSaving(true);
-      await onSave({ auto_offer_enabled: autoOffer, offer_window_days: windowDays });
+      await onSave({
+        auto_offer_enabled: autoOffer,
+        ...(windowDaysIsUsable ? { offer_window_days: windowDays } : {}),
+      });
     } catch {
       // The page reports the failure; leave the edited values on screen.
     } finally {

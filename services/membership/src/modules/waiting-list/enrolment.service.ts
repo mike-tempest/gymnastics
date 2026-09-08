@@ -177,7 +177,7 @@ export class EnrolmentService {
     // the portal. granted_by_user_id is not null in the schema, so a pending
     // request is attributed to the family's parent account where one exists
     // and otherwise to a club administrator, and is rewritten when granted.
-    const consentActorId = await this.resolveConsentActor(familyId);
+    const consentActorId = await this.resolveConsentActor(familyId, entry.club_id);
     let consentsRequested = 0;
     if (consentActorId) {
       for (const consentType of ENROLMENT_CONSENT_TYPES) {
@@ -299,14 +299,24 @@ export class EnrolmentService {
    * account when it has one, otherwise a club administrator, so the request
    * exists and is visible rather than being skipped. Returns null only when the
    * club has no user at all, which the caller reports.
+   *
+   * Both user lookups are filtered to the enrolling club here. UsersRepository
+   * queries by role and by family without a club predicate, which is harmless
+   * where it is called from an already club-scoped admin screen but would let
+   * another club's administrator end up in granted_by_user_id on a compliance
+   * record. Filtering at this call site keeps the shared users module as it is.
    */
-  private async resolveConsentActor(familyId: string): Promise<string | null> {
-    const familyUsers = await this.usersService.findByFamily(familyId).catch(() => []);
+  private async resolveConsentActor(familyId: string, clubId: string): Promise<string | null> {
+    const familyUsers = (await this.usersService.findByFamily(familyId).catch(() => [])).filter(
+      (user) => user.club_id === clubId,
+    );
     const parent = familyUsers.find((user) => user.role === UserRole.PARENT) ?? familyUsers[0];
     if (parent) {
       return parent.user_id;
     }
-    const admins = await this.usersService.findByRole(UserRole.SUPER_ADMIN).catch(() => []);
+    const admins = (
+      await this.usersService.findByRole(UserRole.SUPER_ADMIN).catch(() => [])
+    ).filter((user) => user.club_id === clubId);
     return admins[0]?.user_id ?? null;
   }
 }

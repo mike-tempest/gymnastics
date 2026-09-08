@@ -132,6 +132,14 @@ export class WaitingListOffersService implements OnModuleInit {
     }
 
     const pending = await this.waitingList.findPendingOffersForSquad(squad.squad_id);
+    // squad.members is the squad_members join table, which is what the squads
+    // module itself treats as the roster: assignMember's own capacity guard
+    // counts it, and removeMember is what frees a place. The members.squad_id
+    // column is a second, looser record of the same thing that the member form
+    // and the importers write without touching the join table; counting it too
+    // would mean a member removed from the squad never released their place,
+    // because their stale squad_id would still be there. So the join table is
+    // the one source used here, and auto-offer agrees with the squad screen.
     const places = freePlaces(squad.max_capacity, squad.members?.length ?? 0, pending.length);
     if (places === null || places <= 0) {
       return [];
@@ -260,6 +268,13 @@ export class WaitingListOffersService implements OnModuleInit {
       throw new NotFoundException('The waiting list entry behind this offer no longer exists');
     }
 
+    // Enrol first, then spend the offer. Marking it accepted up front would
+    // burn the single-use link before the enrolment could refuse the entry
+    // (a missing gender, say), leaving the family with a dead link and the
+    // entry stranded in `offered`: no pending offer to answer, and no way
+    // back into the auto-offer pool, which only looks at waiting entries.
+    const result = await this.enrolmentService.enrol(entry, offer.squad_id);
+
     await this.waitingList.updateOffer(offer.offer_id, {
       status: WaitingListOfferStatus.ACCEPTED,
       responded_at: new Date(),
@@ -267,7 +282,7 @@ export class WaitingListOffersService implements OnModuleInit {
       accept_token: null,
     });
 
-    return await this.enrolmentService.enrol(entry, offer.squad_id);
+    return result;
   }
 
   /**
@@ -334,7 +349,12 @@ export class WaitingListOffersService implements OnModuleInit {
         accept_token: null,
       });
       // The child keeps their place on the list and their position with it.
-      await this.waitingList.updateEntry(offer.entry_id, { status: WaitingListStatus.WAITING });
+      // Only an entry still holding the offer goes back to waiting: if it has
+      // moved on since (enrolled through the admin screen, or withdrawn from
+      // the list), that later state is the true one and must not be undone.
+      if ((offer.entry?.status ?? WaitingListStatus.OFFERED) === WaitingListStatus.OFFERED) {
+        await this.waitingList.updateEntry(offer.entry_id, { status: WaitingListStatus.WAITING });
+      }
       squadsToRefill.add(offer.squad_id);
       this.logger.log(
         `Offer ${offer.offer_id} lapsed; the place in squad ${offer.squad_id} falls through`,

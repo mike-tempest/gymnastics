@@ -356,6 +356,19 @@ describe('WaitingListOffersService', () => {
       ).rejects.toBeInstanceOf(BadRequestException);
     });
 
+    it('leaves the offer live when the enrolment behind it fails', async () => {
+      // Spending the token first would leave the family with a dead link and
+      // the entry stuck in `offered`: no offer to answer, and invisible to
+      // auto-offer, which only looks at waiting entries. The place would be
+      // unrecoverable without a database edit.
+      waitingList.findEntry.mockResolvedValue(entry());
+      enrolment.enrol.mockRejectedValue(new BadRequestException('No gender recorded'));
+
+      await expect(service.accept(pendingOffer)).rejects.toBeInstanceOf(BadRequestException);
+
+      expect(waitingList.updateOffer).not.toHaveBeenCalled();
+    });
+
     it('declining puts the child back on the list and offers the place on', async () => {
       await service.decline(pendingOffer, 'Clashes with school');
 
@@ -380,6 +393,24 @@ describe('WaitingListOffersService', () => {
 
       expect(waitingList.updateEntry).not.toHaveBeenCalled();
       expect(waitingList.findPendingOffersForSquad).toHaveBeenCalledWith('squad-1');
+    });
+
+    it('does not hand a withdrawn place straight back to the same family', async () => {
+      // The entry is back at the top of the queue the moment the club pulls
+      // the offer, so without the passed-over guard the refill pass would mint
+      // a new offer of the same place, to the same child, with another email,
+      // and withdrawing could never release a place at all.
+      waitingList.findOffer.mockResolvedValue(pendingOffer);
+      waitingList.findEntriesByStatuses.mockResolvedValue([entry({ entry_id: 'entry-1' })]);
+      waitingList.findEntryIdsPassedOverForSquad.mockResolvedValue(new Set(['entry-1']));
+      squads.findOne.mockResolvedValue(squad({ max_capacity: 1 }));
+
+      await service.withdraw('offer-1');
+
+      expect(waitingList.updateEntry).toHaveBeenCalledWith('entry-1', {
+        status: WaitingListStatus.WAITING,
+      });
+      expect(waitingList.createOffer).not.toHaveBeenCalled();
     });
   });
 

@@ -25,11 +25,11 @@ export interface WaitingListEntryFilters {
  * stamped with the active club or predicated on it, so an id belonging to
  * another club behaves as not-found rather than leaking or mutating a row.
  *
- * Two methods are deliberate exceptions and say so on the tin:
- * findOfferByTokenAcrossClubs and findEntryByIdAcrossClubs serve the public
- * offer links, which arrive with no tenant context at all. They are safe
- * because the token is a 64-character random secret that identifies exactly
- * one offer; the caller establishes the tenant from the row it finds.
+ * One method is a deliberate exception and says so on the tin:
+ * findOfferByTokenAcrossClubs serves the public offer links, which arrive
+ * with no tenant context at all. It is safe because the token is a
+ * 64-character random secret that identifies exactly one offer; the caller
+ * establishes the tenant from the row it finds.
  */
 @Injectable()
 export class WaitingListRepository {
@@ -105,7 +105,11 @@ export class WaitingListRepository {
         status: In([WaitingListStatus.WAITING, WaitingListStatus.OFFERED]),
       },
     });
-    const target = `${firstName.trim().toLowerCase()}|${lastName.trim().toLowerCase()}|${dob}`;
+    // Both sides go through toDateKey: @IsDateString accepts a full timestamp
+    // as readily as a plain date, and a client that posts one would otherwise
+    // never match a stored row and would add the same child to the list twice.
+    const target =
+      `${firstName.trim().toLowerCase()}|${lastName.trim().toLowerCase()}|` + toDateKey(dob);
     return (
       candidates.find(
         (entry) =>
@@ -186,17 +190,26 @@ export class WaitingListRepository {
   }
 
   /**
-   * Entries that have already turned down, or failed to answer, an offer of a
-   * place in this squad. Auto-offer skips them for this squad so a family is
-   * not asked the same question twice by a machine; a club can still offer
-   * manually, and the entry keeps its place in the queue for every other
-   * squad.
+   * Entries that have already had, and lost, an offer of a place in this
+   * squad: turned it down, failed to answer it, or had the club pull it back.
+   * Auto-offer skips them for this squad so a family is not asked the same
+   * question twice by a machine; a club can still offer manually, and the
+   * entry keeps its place in the queue for every other squad.
+   *
+   * A withdrawn offer counts for the same reason a declined one does. Without
+   * it the entry is still top of the queue the instant the club pulls the
+   * offer, so the refill pass would mint a fresh offer of the same place to
+   * the same family, and "withdraw" could never release a place at all.
    */
   async findEntryIdsPassedOverForSquad(squadId: string): Promise<Set<string>> {
     const offers = await this.scoped.scopedFind(this.offerRepo, {
       where: {
         squad_id: squadId,
-        status: In([WaitingListOfferStatus.DECLINED, WaitingListOfferStatus.EXPIRED]),
+        status: In([
+          WaitingListOfferStatus.DECLINED,
+          WaitingListOfferStatus.EXPIRED,
+          WaitingListOfferStatus.WITHDRAWN,
+        ]),
       },
       select: ['offer_id', 'entry_id'],
     });
@@ -262,7 +275,14 @@ export class WaitingListRepository {
 
   async upsertSettings(fields: Partial<WaitingListSettings>): Promise<WaitingListSettings> {
     const clubId = this.tenantContext.getClubId();
-    const { club_id: _ignored, ...rest } = fields;
+    const { club_id: _ignored, ...supplied } = fields;
+    // Both settings columns are NOT NULL, and class-validator's @IsOptional
+    // waves a null through untouched, so a cleared field would arrive here as
+    // null and the write would fail. A field nobody set is a field to leave
+    // exactly as it is.
+    const rest = Object.fromEntries(
+      Object.entries(supplied).filter(([, value]) => value !== null && value !== undefined),
+    ) as Partial<WaitingListSettings>;
     const existing = await this.settingsRepo.findOne({ where: { club_id: clubId } });
     if (existing) {
       if (Object.keys(rest).length > 0) {

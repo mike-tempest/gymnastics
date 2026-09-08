@@ -126,6 +126,9 @@ const COACH_NAV_NAMES = new Set([
   'Sessions',
   'Communications',
   'Attendance',
+  // Head coaches offer places and enrol from the waiting list (TEM-22), so
+  // they get the link rather than having to know the URL.
+  'Waiting list',
   // Coaches assess and award badges (TEM-18).
   'Badges',
   // 'Competitions' stays a plain member: this set only filters allNavEntries,
