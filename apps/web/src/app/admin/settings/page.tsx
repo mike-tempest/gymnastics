@@ -35,8 +35,8 @@ import { PaymentsConnectionCard } from '@/components/settings/PaymentsConnection
 import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useClubRegion } from '@/hooks/useClubRegion';
-import { useRole } from '@/lib/hooks/useRole';
 import { getClubSettings, updateClubSettings, type ClubSettingsData } from '@/lib/api/settings';
+import { useRole } from '@/lib/hooks/useRole';
 
 interface Location {
   id: string;
