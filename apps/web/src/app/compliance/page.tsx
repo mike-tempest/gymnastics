@@ -4,6 +4,7 @@ import { governingBodyConfig, defaultGoverningBodyForCountry, checkNoun } from '
 import {
   ShieldCheck,
   AlertTriangle,
+  Award,
   CheckCircle,
   XCircle,
   Clock,
@@ -173,7 +174,7 @@ export default function ComplianceDashboardPage() {
               </div>
 
               {/* Summary Stats Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
                 {/* DBS Summary */}
                 <Link
                   href="/compliance/dbs"
@@ -272,6 +273,26 @@ export default function ComplianceDashboardPage() {
                       </div>
                     )}
                   </div>
+                </Link>
+
+                {/* Credentials Summary (TEM-30). Counts live on the
+                    credentials page itself, so this card stays a signpost and
+                    needs nothing added to the compliance summary endpoint. */}
+                <Link
+                  href="/compliance/credentials"
+                  className="bg-dark-primary rounded-card p-6 border border-white/10 hover:border-brand shadow-card hover:shadow-card-hover transition-all group cursor-pointer"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <Award className="w-6 h-6 text-brand" />
+                      <h3 className="font-serif text-2xl text-white">Credentials</h3>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-white/40 group-hover:text-brand transition-colors" />
+                  </div>
+                  <p className="text-sm text-white/60">
+                    First aid, coaching qualifications and safeguarding training, with expiry
+                    warnings before anything lapses.
+                  </p>
                 </Link>
               </div>
 
