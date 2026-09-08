@@ -4,6 +4,7 @@ import {
   AU_STATES,
   COUNTRY_GOVERNING_BODIES,
   GoverningBody,
+  UserRole,
   defaultGoverningBodyForCountry,
   governingBodyConfig,
 } from '@club-manager/shared-types';
@@ -34,11 +35,8 @@ import { PaymentsConnectionCard } from '@/components/settings/PaymentsConnection
 import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useClubRegion } from '@/hooks/useClubRegion';
-import {
-  getClubSettings,
-  updateClubSettings,
-  type ClubSettingsData,
-} from '@/lib/api/settings';
+import { useRole } from '@/lib/hooks/useRole';
+import { getClubSettings, updateClubSettings, type ClubSettingsData } from '@/lib/api/settings';
 
 interface Location {
   id: string;
@@ -49,7 +47,8 @@ interface Location {
 
 type SaveStatus = 'idle' | 'saving' | 'saved' | 'error';
 
-const SECTION_CARD = 'mb-8 rounded-card bg-dark-primary border border-white/10 p-6 sm:p-8 shadow-card';
+const SECTION_CARD =
+  'mb-8 rounded-card bg-dark-primary border border-white/10 p-6 sm:p-8 shadow-card';
 const SECTION_HEADING = 'font-serif text-2xl sm:text-3xl text-white';
 const FIELD_LABEL = 'block text-sm font-medium text-white/70 mb-2';
 const FIELD_INPUT =
@@ -95,6 +94,8 @@ export default function SettingsPage() {
   // timezone options, falling back to GB defaults when the backend does not
   // return regional fields yet.
   const clubRegion = useClubRegion();
+  // Gates the API Access section: only super admins can mint or revoke keys.
+  const { role } = useRole();
   const [timezone, setTimezone] = useState('');
 
   // Club Details State
@@ -250,7 +251,7 @@ export default function SettingsPage() {
     } catch (err) {
       showSaveResult(
         'error',
-        err instanceof Error ? err.message : `Failed to save ${governingBodyLabel} details`,
+        err instanceof Error ? err.message : `Failed to save ${governingBodyLabel} details`
       );
     }
   };
@@ -258,10 +259,7 @@ export default function SettingsPage() {
   const handleAddLocation = async () => {
     if (!newLocation.name || !newLocation.address) return;
 
-    const updatedLocations = [
-      ...locations,
-      { id: Date.now().toString(), ...newLocation },
-    ];
+    const updatedLocations = [...locations, { id: Date.now().toString(), ...newLocation }];
 
     try {
       setSaveStatus('saving');
@@ -294,7 +292,10 @@ export default function SettingsPage() {
     const trimmedRate = taxRate.trim();
     const trimmedLabel = taxLabel.trim();
     const parsedRate = trimmedRate === '' ? null : Number(trimmedRate);
-    if (parsedRate !== null && (!Number.isFinite(parsedRate) || parsedRate < 0 || parsedRate > 100)) {
+    if (
+      parsedRate !== null &&
+      (!Number.isFinite(parsedRate) || parsedRate < 0 || parsedRate > 100)
+    ) {
       showSaveResult('error', 'Tax rate must be a number between 0 and 100');
       return;
     }
@@ -330,7 +331,10 @@ export default function SettingsPage() {
       populateFromData(data);
       showSaveResult('saved', 'Notification preferences saved successfully');
     } catch (err) {
-      showSaveResult('error', err instanceof Error ? err.message : 'Failed to save notification preferences');
+      showSaveResult(
+        'error',
+        err instanceof Error ? err.message : 'Failed to save notification preferences'
+      );
     }
   };
 
@@ -364,11 +368,15 @@ export default function SettingsPage() {
         <div className="max-w-7xl mx-auto">
           {/* Save Status Toast */}
           {saveStatus !== 'idle' && (
-            <div className={`fixed top-4 right-4 z-50 flex items-center gap-2 px-4 py-3 rounded-button text-sm font-medium shadow-card-hover transition-all ${
-              saveStatus === 'saving' ? 'bg-dark-primary text-white/80 border border-white/10' :
-              saveStatus === 'saved' ? 'bg-dark-primary text-success border border-success/40' :
-              'bg-dark-primary text-danger border border-danger/40'
-            }`}>
+            <div
+              className={`fixed top-4 right-4 z-50 flex items-center gap-2 px-4 py-3 rounded-button text-sm font-medium shadow-card-hover transition-all ${
+                saveStatus === 'saving'
+                  ? 'bg-dark-primary text-white/80 border border-white/10'
+                  : saveStatus === 'saved'
+                    ? 'bg-dark-primary text-success border border-success/40'
+                    : 'bg-dark-primary text-danger border border-danger/40'
+              }`}
+            >
               {saveStatus === 'saving' && <Loader2 className="w-4 h-4 animate-spin" />}
               {saveStatus === 'saved' && <CheckCircle2 className="w-4 h-4" />}
               {saveStatus === 'error' && <AlertCircle className="w-4 h-4" />}
@@ -380,7 +388,9 @@ export default function SettingsPage() {
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-2">
               <Settings className="w-9 h-9 text-brand hidden sm:block" />
-              <h1 className="font-serif text-4xl text-dark-primary tracking-tight">Club Configuration</h1>
+              <h1 className="font-serif text-4xl text-dark-primary tracking-tight">
+                Club Configuration
+              </h1>
             </div>
             <p className="text-grey-600 text-lg">Manage your swim club settings and preferences</p>
           </div>
@@ -412,7 +422,9 @@ export default function SettingsPage() {
               </p>
 
               <div>
-                <label className={FIELD_LABEL} htmlFor="club-timezone">Timezone</label>
+                <label className={FIELD_LABEL} htmlFor="club-timezone">
+                  Timezone
+                </label>
                 <select
                   id="club-timezone"
                   value={timezone || clubRegion.timezone}
@@ -429,8 +441,16 @@ export default function SettingsPage() {
             </div>
 
             <div className="flex gap-3 mt-6">
-              <button onClick={handleSaveTimezone} disabled={saveStatus === 'saving'} className={SAVE_BUTTON}>
-                {saveStatus === 'saving' ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+              <button
+                onClick={handleSaveTimezone}
+                disabled={saveStatus === 'saving'}
+                className={SAVE_BUTTON}
+              >
+                {saveStatus === 'saving' ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <Save className="w-5 h-5" />
+                )}
                 Save Changes
               </button>
             </div>
@@ -500,8 +520,16 @@ export default function SettingsPage() {
             </div>
 
             <div className="flex gap-3 mt-6">
-              <button onClick={handleSaveClubDetails} disabled={saveStatus === 'saving'} className={SAVE_BUTTON}>
-                {saveStatus === 'saving' ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+              <button
+                onClick={handleSaveClubDetails}
+                disabled={saveStatus === 'saving'}
+                className={SAVE_BUTTON}
+              >
+                {saveStatus === 'saving' ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <Save className="w-5 h-5" />
+                )}
                 Save Changes
               </button>
             </div>
@@ -520,7 +548,9 @@ export default function SettingsPage() {
             <div className="space-y-4">
               {governingBodyOptions.length > 1 && (
                 <div>
-                  <label className={FIELD_LABEL} htmlFor="governing-body">Governing body</label>
+                  <label className={FIELD_LABEL} htmlFor="governing-body">
+                    Governing body
+                  </label>
                   <select
                     id="governing-body"
                     value={effectiveGoverningBody}
@@ -537,7 +567,9 @@ export default function SettingsPage() {
               )}
 
               <div>
-                <label className={FIELD_LABEL} htmlFor="affiliation-number">Affiliation Number</label>
+                <label className={FIELD_LABEL} htmlFor="affiliation-number">
+                  Affiliation Number
+                </label>
                 <input
                   id="affiliation-number"
                   type="text"
@@ -596,7 +628,9 @@ export default function SettingsPage() {
 
               {isSwimEngland && (
                 <div>
-                  <label className={FIELD_LABEL} htmlFor="governing-body-county">County</label>
+                  <label className={FIELD_LABEL} htmlFor="governing-body-county">
+                    County
+                  </label>
                   <input
                     id="governing-body-county"
                     type="text"
@@ -610,8 +644,16 @@ export default function SettingsPage() {
             </div>
 
             <div className="flex gap-3 mt-6">
-              <button onClick={handleSaveAffiliation} disabled={saveStatus === 'saving'} className={SAVE_BUTTON}>
-                {saveStatus === 'saving' ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+              <button
+                onClick={handleSaveAffiliation}
+                disabled={saveStatus === 'saving'}
+                className={SAVE_BUTTON}
+              >
+                {saveStatus === 'saving' ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <Save className="w-5 h-5" />
+                )}
                 Save Changes
               </button>
             </div>
@@ -647,9 +689,7 @@ export default function SettingsPage() {
                   <input
                     type="text"
                     value={newLocation.address}
-                    onChange={(e) =>
-                      setNewLocation({ ...newLocation, address: e.target.value })
-                    }
+                    onChange={(e) => setNewLocation({ ...newLocation, address: e.target.value })}
                     className={FIELD_INPUT}
                     placeholder="Address"
                   />
@@ -684,7 +724,9 @@ export default function SettingsPage() {
 
             <div className="space-y-3">
               {locations.length === 0 && (
-                <p className="text-white/60 text-sm py-4">No locations configured yet. Add your first training venue above.</p>
+                <p className="text-white/60 text-sm py-4">
+                  No locations configured yet. Add your first training venue above.
+                </p>
               )}
               {locations.map((location) => (
                 <div
@@ -739,15 +781,20 @@ export default function SettingsPage() {
             <PaymentsConnectionCard />
           </div>
 
-          {/* API Access Section. The id anchors links from the API docs. */}
-          <div id="api-access" className={SECTION_CARD}>
-            <div className="flex items-center gap-3 mb-6">
-              <KeyRound className="w-6 h-6 text-brand" />
-              <h2 className={SECTION_HEADING}>API Access</h2>
-            </div>
+          {/* API Access Section. The id anchors links from the API docs.
+              Only super admins may mint or revoke a key, so the section is
+              hidden from other admin-level roles rather than shown and then
+              failing every request behind it with a 403. */}
+          {role === UserRole.SUPER_ADMIN && (
+            <div id="api-access" className={SECTION_CARD}>
+              <div className="flex items-center gap-3 mb-6">
+                <KeyRound className="w-6 h-6 text-brand" />
+                <h2 className={SECTION_HEADING}>API Access</h2>
+              </div>
 
-            <ApiKeysCard />
-          </div>
+              <ApiKeysCard />
+            </div>
+          )}
 
           {/* Tax Section */}
           <div className={SECTION_CARD}>
@@ -758,7 +805,9 @@ export default function SettingsPage() {
 
             <div className="space-y-4">
               <div>
-                <label className={FIELD_LABEL} htmlFor="tax-rate">Tax rate (%)</label>
+                <label className={FIELD_LABEL} htmlFor="tax-rate">
+                  Tax rate (%)
+                </label>
                 <input
                   id="tax-rate"
                   type="number"
@@ -779,7 +828,9 @@ export default function SettingsPage() {
               </div>
 
               <div>
-                <label className={FIELD_LABEL} htmlFor="tax-label">Tax name</label>
+                <label className={FIELD_LABEL} htmlFor="tax-label">
+                  Tax name
+                </label>
                 <input
                   id="tax-label"
                   type="text"
@@ -803,8 +854,7 @@ export default function SettingsPage() {
                   placeholder={`Enter ${TAX_REGISTRATION_LABEL[clubRegion.country] ?? 'tax registration number'}`}
                 />
                 <p className="text-white/60 text-sm mt-2">
-                  Shown on invoices when tax is applied. Leave blank if your club is not
-                  registered.
+                  Shown on invoices when tax is applied. Leave blank if your club is not registered.
                 </p>
               </div>
 
@@ -814,8 +864,8 @@ export default function SettingsPage() {
                     Prices include {taxLabel.trim() || TAX_NAME_HINT[clubRegion.country] || 'tax'}
                   </h3>
                   <p className="text-white/60 text-sm">
-                    When on, your fees are treated as the final price and the tax portion is
-                    shown within the total. When off, tax is added on top of the subtotal.
+                    When on, your fees are treated as the final price and the tax portion is shown
+                    within the total. When off, tax is added on top of the subtotal.
                   </p>
                 </div>
                 <button
@@ -834,14 +884,20 @@ export default function SettingsPage() {
                 </button>
               </div>
 
-              <p className="text-white/60 text-sm">
-                Leave blank to issue invoices without tax.
-              </p>
+              <p className="text-white/60 text-sm">Leave blank to issue invoices without tax.</p>
             </div>
 
             <div className="flex gap-3 mt-6">
-              <button onClick={handleSaveTax} disabled={saveStatus === 'saving'} className={SAVE_BUTTON}>
-                {saveStatus === 'saving' ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+              <button
+                onClick={handleSaveTax}
+                disabled={saveStatus === 'saving'}
+                className={SAVE_BUTTON}
+              >
+                {saveStatus === 'saving' ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <Save className="w-5 h-5" />
+                )}
                 Save Changes
               </button>
             </div>
@@ -858,9 +914,7 @@ export default function SettingsPage() {
               <div className="flex items-center justify-between p-4 rounded-button bg-white/5 border border-white/10">
                 <div>
                   <h3 className="text-white font-semibold">New Member Registration</h3>
-                  <p className="text-white/60 text-sm">
-                    Receive email when a new member registers
-                  </p>
+                  <p className="text-white/60 text-sm">Receive email when a new member registers</p>
                 </div>
                 <button
                   onClick={() => setNotifyNewMember(!notifyNewMember)}
@@ -881,9 +935,7 @@ export default function SettingsPage() {
               <div className="flex items-center justify-between p-4 rounded-button bg-white/5 border border-white/10">
                 <div>
                   <h3 className="text-white font-semibold">Payment Received</h3>
-                  <p className="text-white/60 text-sm">
-                    Receive email when a payment is received
-                  </p>
+                  <p className="text-white/60 text-sm">Receive email when a payment is received</p>
                 </div>
                 <button
                   onClick={() => setNotifyPaymentReceived(!notifyPaymentReceived)}
@@ -904,9 +956,7 @@ export default function SettingsPage() {
               <div className="flex items-center justify-between p-4 rounded-button bg-white/5 border border-white/10">
                 <div>
                   <h3 className="text-white font-semibold">Attendance Alerts</h3>
-                  <p className="text-white/60 text-sm">
-                    Receive email for low attendance warnings
-                  </p>
+                  <p className="text-white/60 text-sm">Receive email for low attendance warnings</p>
                 </div>
                 <button
                   onClick={() => setNotifyAttendanceAlerts(!notifyAttendanceAlerts)}
@@ -926,8 +976,16 @@ export default function SettingsPage() {
             </div>
 
             <div className="flex gap-3 mt-6">
-              <button onClick={handleSaveNotifications} disabled={saveStatus === 'saving'} className={SAVE_BUTTON}>
-                {saveStatus === 'saving' ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+              <button
+                onClick={handleSaveNotifications}
+                disabled={saveStatus === 'saving'}
+                className={SAVE_BUTTON}
+              >
+                {saveStatus === 'saving' ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <Save className="w-5 h-5" />
+                )}
                 Save Changes
               </button>
             </div>

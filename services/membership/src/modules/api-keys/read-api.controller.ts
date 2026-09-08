@@ -189,8 +189,8 @@ export class ReadApiController {
   @ApiOperation({
     summary: 'List attendance records',
     description:
-      'Filter by session or by gymnast. Without a filter this returns the club whole ' +
-      'attendance history, which for an established club is a large response.',
+      'Filter by session, by gymnast, or by both together. Without a filter this returns ' +
+      'the club whole attendance history, which for an established club is a large response.',
   })
   @ApiQuery({ name: 'session_id', required: false, schema: { type: 'string', format: 'uuid' } })
   @ApiQuery({ name: 'member_id', required: false, schema: { type: 'string', format: 'uuid' } })
@@ -205,6 +205,7 @@ export class ReadApiController {
       // for those and they are dropped here, so the API publishes rows only.
       const roster = await this.attendanceService.getSessionRoster(sessionId);
       return roster
+        .filter((entry) => !memberId || entry.member_id === memberId)
         .map(toApiAttendanceFromRoster)
         .filter((entry): entry is ApiAttendanceDto => entry !== null);
     }

@@ -40,7 +40,10 @@ async function bootstrap() {
     origin: isProduction ? corsOrigins : true,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+    // X-API-Key is the club read API credential header. Without it here, a
+    // browser-based consumer of that API fails preflight in production and
+    // can never send the credential the whole API is built around.
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-API-Key'],
     maxAge: isProduction ? 86400 : undefined,
   });
 
@@ -82,33 +85,48 @@ async function bootstrap() {
   app.use('/api/waiting-list/join', waitingListJoinLimiter);
   app.use('/api/waiting-list/offers/token', waitingListJoinLimiter);
 
-  // Rate limiting on the club read API, bucketed per key rather than per IP.
+  // Rate limiting on the club read API. Two limiters, both needed.
   //
-  // Same express-rate-limit mechanism and the same configurable-with-safe-
-  // defaults shape as the two limiters above, with one difference that
-  // matters: the bucket key. Per-IP would be wrong in both directions here.
-  // Two clubs whose integrations run from the same cloud region would share
-  // a bucket and throttle each other, while one club running from a range of
+  // The per-key limiter is the one clubs care about, and it buckets on the
+  // key prefix rather than the IP because per-IP would be wrong in both
+  // directions: two clubs whose integrations run from the same cloud region
+  // would throttle each other, while one club running from a range of
   // addresses would sidestep the limit entirely. The credential is the
-  // identity that should be limited, so that is what it buckets on.
+  // identity that should be limited. Only the non-secret prefix reaches the
+  // limiter store, never the secret.
   //
-  // Only the non-secret prefix is used, never the secret, so nothing derived
-  // from a raw key ends up in the limiter store. A request with no usable key
-  // falls back to its IP; those requests are rejected by ApiKeyGuard moments
-  // later anyway, and the fallback stops an unauthenticated flood from
-  // sharing one bucket.
-  const readApiLimiter = rateLimit({
+  // On its own, though, that bucket is trivially escaped. The prefix is read
+  // before ApiKeyGuard has verified anything, and `apiKeyPrefixOf` only
+  // checks the shape of the value, so an attacker sending a fresh random
+  // prefix on each request would land in a fresh bucket every time and never
+  // meet the cap, while still costing a database lookup apiece. The IP
+  // limiter in front closes that: it is bucketed on the address, so it holds
+  // whatever the header says. Its cap is the more generous of the two,
+  // because a single club legitimately runs several keys from one host and
+  // must not be throttled by its own neighbour.
+  const readApiIpLimiter = rateLimit({
+    windowMs: positiveNumber(configService.get('READ_API_RATE_LIMIT_WINDOW_MS'), 60 * 1000),
+    max: positiveNumber(configService.get('READ_API_IP_RATE_LIMIT_MAX'), 600),
+    standardHeaders: false,
+    legacyHeaders: false,
+    keyGenerator: (req) => ipKeyGenerator(req.ip ?? ''),
+    message: { statusCode: 429, message: 'Too many requests, please try again later' },
+  });
+  const readApiKeyLimiter = rateLimit({
     windowMs: positiveNumber(configService.get('READ_API_RATE_LIMIT_WINDOW_MS'), 60 * 1000),
     max: positiveNumber(configService.get('READ_API_RATE_LIMIT_MAX'), 120),
     standardHeaders: true,
     legacyHeaders: false,
+    // Requests with no usable key share one bucket rather than falling back
+    // to the IP: the IP limiter above already covers them, and giving each
+    // malformed header its own bucket is exactly the hole being closed.
     keyGenerator: (req) => {
       const prefix = apiKeyPrefixOf(req.header(API_KEY_HEADER));
-      return prefix ? `key:${prefix}` : `ip:${ipKeyGenerator(req.ip ?? '')}`;
+      return prefix ? `key:${prefix}` : 'key:unauthenticated';
     },
     message: { statusCode: 429, message: 'Too many requests, please try again later' },
   });
-  app.use('/api/public', readApiLimiter);
+  app.use('/api/public', readApiIpLimiter, readApiKeyLimiter);
 
   // Enable global validation pipe
   app.useGlobalPipes(

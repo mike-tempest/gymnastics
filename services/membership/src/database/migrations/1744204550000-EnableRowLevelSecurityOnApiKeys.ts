@@ -16,6 +16,15 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
  * This matters more here than elsewhere: api_keys is the table an attacker
  * would most want to read across clubs, so it must not be the one table the
  * backstop misses.
+ *
+ * One thing to know before RLS is ever switched from ENABLE to FORCE, or
+ * before the application moves off the owner role: ApiKeysService.authenticate
+ * looks a key up by prefix with no club in context, because resolving the club
+ * is precisely what that query is for. It is the one read in the codebase that
+ * cannot be tenant-scoped, so it would match zero rows under an enforced
+ * policy and every API-key request would start failing. That path needs an
+ * explicit exemption (a BYPASSRLS role, a SECURITY DEFINER function, or a
+ * policy allowing the lookup) as part of that migration, not after it.
  */
 export class EnableRowLevelSecurityOnApiKeys1744204550000 implements MigrationInterface {
   private static readonly TABLE = 'api_keys';

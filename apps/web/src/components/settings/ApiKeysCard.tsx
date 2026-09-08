@@ -242,7 +242,13 @@ export function ApiKeysCard() {
         one can change your records, and each key only ever sees this club.
       </p>
 
-      {newKey && <NewKeyReveal plaintextKey={newKey} onDismiss={() => setNewKey(null)} />}
+      {/* Keyed on the credential so a second key remounts the panel. Without
+          that, the "Copied" state from the previous key would persist and an
+          admin could dismiss a key they had never actually copied, losing a
+          credential that by design cannot be shown again. */}
+      {newKey && (
+        <NewKeyReveal key={newKey} plaintextKey={newKey} onDismiss={() => setNewKey(null)} />
+      )}
 
       <div className="mb-8 rounded-card border border-white/10 bg-white/5 p-4 sm:p-6">
         <h3 className="mb-4 font-semibold text-white">Create a key</h3>
