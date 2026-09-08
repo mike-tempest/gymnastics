@@ -4,6 +4,7 @@ import { Response } from 'express';
 import { ParentController } from './parent.controller';
 import { ParentService } from './parent.service';
 import { InvoicePdfService } from '../finance/invoices/invoice-pdf.service';
+import { ParentMandateService } from './parent-mandate.service';
 
 describe('ParentController', () => {
   let controller: ParentController;
@@ -39,6 +40,11 @@ describe('ParentController', () => {
     pdfForInvoice: jest.fn(),
   };
 
+  const mockParentMandateService = {
+    startSetup: jest.fn(),
+    completeSetup: jest.fn(),
+  };
+
   const reqWithFamily = { user: { family_id: familyId } };
   const reqWithoutFamily = { user: {} } as { user?: { family_id?: string } };
 
@@ -48,6 +54,7 @@ describe('ParentController', () => {
       providers: [
         { provide: ParentService, useValue: mockParentService },
         { provide: InvoicePdfService, useValue: mockInvoicePdfService },
+        { provide: ParentMandateService, useValue: mockParentMandateService },
       ],
     }).compile();
 

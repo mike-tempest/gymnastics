@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException, BadRequestException, Logger } from '@nestjs/common';
 import { MEMBER_NOUN_LOWER } from '../../common/brand';
+import { SquadCapacityEvents } from '../../common/capacity/squad-capacity.events';
 import { MemberFilters, MembersRepository } from './members.repository';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
@@ -9,7 +10,10 @@ import { Member } from './entities/member.entity';
 export class MembersService {
   private readonly logger = new Logger(MembersService.name);
 
-  constructor(private readonly membersRepository: MembersRepository) {}
+  constructor(
+    private readonly membersRepository: MembersRepository,
+    private readonly capacityEvents: SquadCapacityEvents,
+  ) {}
 
   async create(createMemberDto: CreateMemberDto): Promise<Member> {
     try {
@@ -55,12 +59,21 @@ export class MembersService {
   }
 
   async update(id: string, updateMemberDto: UpdateMemberDto): Promise<Member> {
-    await this.findOne(id); // This will throw if not found
+    const before = await this.findOne(id); // This will throw if not found
 
     try {
       const updated = await this.membersRepository.update(id, updateMemberDto);
       if (!updated) {
         throw new NotFoundException(`Member with ID ${id} not found`);
+      }
+      // Moving to a different squad leaves a place behind in the old one, so
+      // the waiting list gets a chance to fill it.
+      if (
+        updateMemberDto.squad_id !== undefined &&
+        before.squad_id &&
+        updateMemberDto.squad_id !== before.squad_id
+      ) {
+        await this.capacityEvents.emitPlaceMayHaveOpened(before.squad_id);
       }
       return updated;
     } catch (error: unknown) {
@@ -74,8 +87,10 @@ export class MembersService {
   }
 
   async remove(id: string): Promise<void> {
-    await this.findOne(id); // This will throw if not found
+    const member = await this.findOne(id); // This will throw if not found
     await this.membersRepository.remove(id);
+    // A departing member frees their place for whoever is next on the list.
+    await this.capacityEvents.emitPlaceMayHaveOpened(member.squad_id);
   }
 
   async getStatistics() {

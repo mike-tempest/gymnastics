@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { Discipline, SquadType } from '@club-manager/shared-types';
+import { SquadCapacityEvents } from '../../common/capacity/squad-capacity.events';
 import { SquadFilters, SquadsRepository } from './squads.repository';
 import { CreateSquadDto } from './dto/create-squad.dto';
 import { UpdateSquadDto } from './dto/update-squad.dto';
@@ -8,7 +9,10 @@ import { Member } from '../members/entities/member.entity';
 
 @Injectable()
 export class SquadsService {
-  constructor(private readonly squadsRepository: SquadsRepository) {}
+  constructor(
+    private readonly squadsRepository: SquadsRepository,
+    private readonly capacityEvents: SquadCapacityEvents,
+  ) {}
 
   async create(createSquadDto: CreateSquadDto): Promise<Squad> {
     // Validate age range if both min and max are provided
@@ -115,6 +119,14 @@ export class SquadsService {
       if (!updated) {
         throw new NotFoundException(`Squad with ID ${id} not found`);
       }
+      // Raising the capacity opens places, so the waiting list gets to fill
+      // them. The signal is advisory; the subscriber recounts for itself.
+      const capacityRaised =
+        updateSquadDto.max_capacity !== undefined &&
+        (squad.max_capacity === null || updateSquadDto.max_capacity > squad.max_capacity);
+      if (capacityRaised) {
+        await this.capacityEvents.emitPlaceMayHaveOpened(id);
+      }
       return {
         ...updated,
         member_count: updated.members ? updated.members.length : 0,
@@ -161,6 +173,9 @@ export class SquadsService {
     if (!updatedSquad) {
       throw new NotFoundException(`Squad with ID ${squadId} not found`);
     }
+
+    // A member leaving is the commonest way a place opens.
+    await this.capacityEvents.emitPlaceMayHaveOpened(squadId);
 
     return {
       ...updatedSquad,

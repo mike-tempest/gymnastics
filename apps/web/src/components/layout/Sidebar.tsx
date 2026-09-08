@@ -66,6 +66,8 @@ const allNavEntries: NavEntry[] = [
   { name: MEMBER_NOUN_PLURAL, href: '/members', icon: Users },
   { name: 'Families', href: '/families', icon: UsersRound },
   { name: 'Squads', href: '/squads', icon: Shield },
+  // The club's own waiting list (TEM-22), not the launch waitlist under Admin.
+  { name: 'Waiting list', href: '/waiting-list', icon: ClipboardList },
   { name: 'Sessions', href: '/sessions', icon: Calendar },
   {
     name: 'Communications',
@@ -124,6 +126,9 @@ const COACH_NAV_NAMES = new Set([
   'Sessions',
   'Communications',
   'Attendance',
+  // Head coaches offer places and enrol from the waiting list (TEM-22), so
+  // they get the link rather than having to know the URL.
+  'Waiting list',
   // Coaches assess and award badges (TEM-18).
   'Badges',
   // 'Competitions' stays a plain member: this set only filters allNavEntries,
