@@ -1,4 +1,9 @@
-import { Attendance, AttendanceStatus, AttendanceStats } from '@club-manager/shared-types';
+import {
+  Attendance,
+  AttendanceStatus,
+  AttendanceStats,
+  SessionRosterEntry,
+} from '@club-manager/shared-types';
 
 import { api } from './api-client';
 
@@ -12,8 +17,13 @@ export interface UpdateAttendanceInput {
   notes?: string | null;
 }
 
-export async function getSessionAttendance(sessionId: string): Promise<Attendance[]> {
-  return api.get<Attendance[]>(`/attendance/session/${sessionId}`, { cache: 'no-store' });
+/**
+ * The register for a session: everyone expected, marked or not. Entries with a
+ * null status are gymnasts nobody has marked yet and have no attendance row
+ * behind them, so they carry a null attendance_id.
+ */
+export async function getSessionRoster(sessionId: string): Promise<SessionRosterEntry[]> {
+  return api.get<SessionRosterEntry[]>(`/attendance/session/${sessionId}`, { cache: 'no-store' });
 }
 
 export async function getMemberAttendance(memberId: string): Promise<Attendance[]> {
@@ -35,6 +45,26 @@ export async function markAttendance(
     session_id: sessionId,
     member_ids: memberIds,
     status,
+  });
+}
+
+/**
+ * Records a status for a gymnast who has no attendance row yet, which is every
+ * gymnast on a session nobody has taken the register for. Unlike check-in this
+ * carries the status the coach chose and any note with it, so marking somebody
+ * absent does not quietly record them present.
+ */
+export async function createAttendance(
+  sessionId: string,
+  memberId: string,
+  status: AttendanceStatus,
+  notes: string | null,
+): Promise<Attendance> {
+  return api.post<Attendance>('/attendance', {
+    session_id: sessionId,
+    member_id: memberId,
+    status,
+    ...(notes ? { notes } : {}),
   });
 }
 

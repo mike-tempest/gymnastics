@@ -32,7 +32,7 @@ describe('AttendanceController', () => {
     remove: jest.fn(),
     markAttendance: jest.fn(),
     checkInMember: jest.fn(),
-    getSessionAttendance: jest.fn(),
+    getSessionRoster: jest.fn(),
     getMemberAttendance: jest.fn(),
     getMemberAttendanceStats: jest.fn(),
   };
@@ -131,14 +131,14 @@ describe('AttendanceController', () => {
     });
   });
 
-  describe('getSessionAttendance', () => {
-    it('should return attendance for a specific session', async () => {
-      mockAttendanceService.getSessionAttendance.mockResolvedValue([mockAttendance]);
+  describe('getSessionRoster', () => {
+    it('should return the register for a specific session', async () => {
+      mockAttendanceService.getSessionRoster.mockResolvedValue([mockAttendance]);
 
-      const result = await controller.getSessionAttendance(mockAttendance.session_id);
+      const result = await controller.getSessionRoster(mockAttendance.session_id);
 
       expect(result).toEqual([mockAttendance]);
-      expect(mockAttendanceService.getSessionAttendance).toHaveBeenCalledWith(
+      expect(mockAttendanceService.getSessionRoster).toHaveBeenCalledWith(
         mockAttendance.session_id,
       );
     });

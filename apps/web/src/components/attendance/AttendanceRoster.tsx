@@ -1,6 +1,6 @@
 'use client';
 
-import { Attendance, AttendanceStatus } from '@club-manager/shared-types';
+import { AttendanceStatus, SessionRosterEntry } from '@club-manager/shared-types';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Check, Users } from 'lucide-react';
 import { useMemo, useState } from 'react';
@@ -10,8 +10,9 @@ import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import {
-  getSessionAttendance,
+  getSessionRoster,
   checkInMember,
+  createAttendance,
   updateAttendance,
   markAttendance,
 } from '@/lib/api/attendance';
@@ -37,24 +38,26 @@ const STATUS_LABELS: Record<string, string> = {
 
 export default function AttendanceRoster({ sessionId, sessionName, squadName }: AttendanceRosterProps) {
   const queryClient = useQueryClient();
-  const [selectedMember, setSelectedMember] = useState<Attendance | null>(null);
+  const [selectedMember, setSelectedMember] = useState<SessionRosterEntry | null>(null);
   const [showBulkSuccess, setShowBulkSuccess] = useState(false);
 
+  // The roster is everyone expected at the session, not only those already
+  // marked, so an upcoming session lists its squad ready to be marked.
   const {
-    data: attendance = [],
+    data: roster = [],
     isLoading,
     isError,
     error,
     refetch,
-  } = useQuery<Attendance[]>({
+  } = useQuery<SessionRosterEntry[]>({
     queryKey: ['session-attendance', sessionId],
-    queryFn: () => getSessionAttendance(sessionId),
+    queryFn: () => getSessionRoster(sessionId),
     refetchInterval: 30_000,
   });
 
   const memberIds = useMemo(
-    () => attendance.map((r) => r.member_id),
-    [attendance],
+    () => roster.map((r) => r.member_id),
+    [roster],
   );
 
   const today = new Date().toISOString().split('T')[0];
@@ -78,6 +81,25 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
   const checkInMutation = useMutation({
     mutationFn: ({ memberId }: { memberId: string }) =>
       checkInMember(sessionId, memberId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['session-attendance', sessionId] });
+      toast.success('Attendance recorded');
+    },
+    onError: () => {
+      toast.error('Failed to record attendance');
+    },
+  });
+
+  const createMutation = useMutation({
+    mutationFn: ({
+      memberId,
+      status,
+      notes,
+    }: {
+      memberId: string;
+      status: AttendanceStatus;
+      notes: string | null;
+    }) => createAttendance(sessionId, memberId, status, notes),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['session-attendance', sessionId] });
       toast.success('Attendance recorded');
@@ -128,7 +150,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
       [AttendanceStatus.EXCUSED]: 0,
       unmarked: 0,
     };
-    for (const record of attendance) {
+    for (const record of roster) {
       if (record.status && c[record.status] !== undefined) {
         c[record.status]++;
       } else {
@@ -136,14 +158,14 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
       }
     }
     return c;
-  }, [attendance]);
+  }, [roster]);
 
   const unmarkedMembers = useMemo(
-    () => attendance.filter((record) => !record.status),
-    [attendance]
+    () => roster.filter((record) => !record.status),
+    [roster]
   );
 
-  function handleQuickPresent(record: Attendance) {
+  function handleQuickPresent(record: SessionRosterEntry) {
     if (record.attendance_id) {
       updateMutation.mutate({
         attendanceId: record.attendance_id,
@@ -155,7 +177,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
     }
   }
 
-  function handleLongPress(record: Attendance) {
+  function handleLongPress(record: SessionRosterEntry) {
     setSelectedMember(record);
   }
 
@@ -169,7 +191,9 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
         notes,
       });
     } else {
-      checkInMutation.mutate({ memberId: selectedMember.member_id });
+      // No row yet, so create one carrying the chosen status rather than
+      // checking the gymnast in, which would record present whatever was picked.
+      createMutation.mutate({ memberId: selectedMember.member_id, status, notes });
     }
 
     setSelectedMember(null);
@@ -194,7 +218,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
     );
   }
 
-  if (attendance.length === 0) {
+  if (roster.length === 0) {
     return (
       <EmptyState
         icon={Users}
@@ -239,7 +263,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
 
       {/* Stats */}
       <div className="no-print">
-        <SessionStats counts={counts} total={attendance.length} />
+        <SessionStats counts={counts} total={roster.length} />
       </div>
 
       {/* Session info bar with bulk action */}
@@ -247,7 +271,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
         <div>
           <p className="text-sm text-white/60 font-medium">{sessionName}</p>
           <p className="text-xs text-white/70 mt-0.5">
-            {attendance.length} {attendance.length !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER}
+            {roster.length} {roster.length !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER}
           </p>
         </div>
         {unmarkedMembers.length > 0 && (
@@ -276,7 +300,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
 
       {/* Member list (screen only) */}
       <div className="space-y-3 no-print">
-        {attendance.map((record) => (
+        {roster.map((record) => (
           <MemberCheckIn
             key={record.member_id}
             memberId={record.member_id}
@@ -306,7 +330,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
           </tr>
         </thead>
         <tbody>
-          {attendance.map((record, index) => (
+          {roster.map((record, index) => (
             <tr key={record.member_id}>
               <td className="print-checkbox-cell">
                 {record.status === AttendanceStatus.PRESENT || record.status === AttendanceStatus.LATE ? (
@@ -330,7 +354,10 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
       </table>
 
       {/* Mutation error feedback */}
-      {(checkInMutation.isError || updateMutation.isError || bulkMarkMutation.isError) && (
+      {(checkInMutation.isError ||
+        createMutation.isError ||
+        updateMutation.isError ||
+        bulkMarkMutation.isError) && (
         <div className="p-4 rounded-xl border border-danger/20 text-center no-print bg-danger/10">
           <p className="text-danger text-sm">
             Failed to update attendance. Please try again.
