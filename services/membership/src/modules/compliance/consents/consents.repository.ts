@@ -172,6 +172,46 @@ export class ConsentsRepository {
     }));
   }
 
+  /**
+   * The live granted consents each member holds among `consentTypes`, one row
+   * per member per consent type, with the date that record last changed.
+   *
+   * Liveness is the same rule as countGrantedConsentTypesPerMember: status
+   * GRANTED, and either no expiry or an expiry that has not passed. Both
+   * methods therefore describe the same consents, which is what keeps the
+   * consent register and the compliance dashboard agreeing with each other.
+   *
+   * Members with nothing live on file do not appear here at all; the caller
+   * lists the club's members and treats a member with no rows as having none.
+   */
+  async findGrantedConsentsPerMember(
+    consentTypes: ConsentType[],
+  ): Promise<{ memberId: string; consentType: ConsentType; lastUpdated: Date }[]> {
+    if (consentTypes.length === 0) {
+      return [];
+    }
+
+    const rows = await this.scoped
+      .scopedQueryBuilder(this.consentRepository, 'consent')
+      .select('consent.member_id', 'member_id')
+      .addSelect('consent.consent_type', 'consent_type')
+      .addSelect('MAX(consent.updated_at)', 'last_updated')
+      .andWhere('consent.status = :status', { status: ConsentStatus.GRANTED })
+      .andWhere('consent.consent_type IN (:...consentTypes)', { consentTypes })
+      .andWhere('(consent.expiry_date IS NULL OR consent.expiry_date >= :today)', {
+        today: new Date(),
+      })
+      .groupBy('consent.member_id')
+      .addGroupBy('consent.consent_type')
+      .getRawMany<{ member_id: string; consent_type: ConsentType; last_updated: string | Date }>();
+
+    return rows.map((row) => ({
+      memberId: row.member_id,
+      consentType: row.consent_type,
+      lastUpdated: new Date(row.last_updated),
+    }));
+  }
+
   async countByStatus(status: ConsentStatus): Promise<number> {
     return await this.consentRepository.count({
       where: { status, club_id: this.tenantContext.getClubId() },

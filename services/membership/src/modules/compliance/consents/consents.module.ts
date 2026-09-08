@@ -5,11 +5,18 @@ import { ConsentsService } from './consents.service';
 import { ConsentsController } from './consents.controller';
 import { ConsentsRepository } from './consents.repository';
 import { MembersModule } from '../../members/members.module';
+import { SquadsModule } from '../../squads/squads.module';
 import { UsersModule } from '../../users/users.module';
 import { EmailModule } from '../../email/email.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Consent]), MembersModule, UsersModule, EmailModule],
+  imports: [
+    TypeOrmModule.forFeature([Consent]),
+    MembersModule,
+    SquadsModule,
+    UsersModule,
+    EmailModule,
+  ],
   controllers: [ConsentsController],
   providers: [ConsentsService, ConsentsRepository],
   exports: [ConsentsService],

@@ -10,14 +10,22 @@ export interface DbsCheck {
   status: 'valid' | 'expiring' | 'expired';
 }
 
+/**
+ * One row of the consent register, as returned by the per-member aggregate.
+ * There is a row for every member of the club, including members with nothing
+ * on file, so the register's totals match the compliance dashboard.
+ */
 export interface MemberConsent {
+  /** The member's id. */
   id: string;
   name: string;
+  /** Squad name, or empty when the member is not in a squad yet. */
   squad: string;
   medicalConsent: boolean;
   photoConsent: boolean;
   dataConsent: boolean;
-  lastUpdated: string;
+  /** ISO date the consents were last granted or renewed; null when none are. */
+  lastUpdated: string | null;
 }
 
 export interface ChecklistItem {
@@ -126,7 +134,7 @@ export async function createSafeguardingOfficer(
 }
 
 export async function getConsentData(): Promise<MemberConsent[]> {
-  return api.get<MemberConsent[]>('/compliance/consents', { cache: 'no-store' });
+  return api.get<MemberConsent[]>('/compliance/consents/register', { cache: 'no-store' });
 }
 
 export async function getChecklist(): Promise<ChecklistItem[]> {

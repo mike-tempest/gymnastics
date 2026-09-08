@@ -8,6 +8,8 @@ import { UpdateConsentDto } from './dto/update-consent.dto';
 import { Consent, ConsentType, ConsentStatus } from './entities/consent.entity';
 import { EmailService } from '../../email/email.service';
 import { ClubsService } from '../../clubs/clubs.service';
+import { MembersService } from '../../members/members.service';
+import { SquadsService } from '../../squads/squads.service';
 import { CLS_CLUB_ID_KEY } from '../../../common/tenancy/tenant-context.service';
 import { formatClubDate } from '../../../common/region/format.util';
 import { governingBodyConfig } from '@club-manager/shared-types';
@@ -37,6 +39,32 @@ export interface ConsentCoverage {
   partial: number;
 }
 
+/**
+ * One row of the consent register: a member, and whether each of the required
+ * consents is on file and live for them today.
+ *
+ * The register is member-driven rather than consent-driven, so a member with
+ * nothing on file still appears (with three "no" flags) instead of vanishing.
+ * That is what makes the register's totals match the compliance dashboard,
+ * which counts the same members through ConsentsService.getCoverage().
+ */
+export interface MemberConsentRegisterEntry {
+  /** The member's id, so the caller can link straight to their record. */
+  id: string;
+  name: string;
+  /** The member's squad name, or empty when they are not in a squad yet. */
+  squad: string;
+  medicalConsent: boolean;
+  photoConsent: boolean;
+  dataConsent: boolean;
+  /**
+   * When the member's consents were last granted or renewed, as an ISO
+   * string. Null when they hold none of the required consents, so the caller
+   * can say so rather than printing an invalid date.
+   */
+  lastUpdated: string | null;
+}
+
 @Injectable()
 export class ConsentsService {
   private readonly logger = new Logger(ConsentsService.name);
@@ -48,6 +76,8 @@ export class ConsentsService {
     private readonly configService: ConfigService,
     private readonly clubsService: ClubsService,
     private readonly cls: ClsService,
+    private readonly membersService: MembersService,
+    private readonly squadsService: SquadsService,
   ) {
     this.appUrl = this.configService.get<string>('APP_URL', 'http://localhost:3000');
   }
@@ -219,6 +249,52 @@ export class ConsentsService {
     }
 
     return { requiredTypes: REQUIRED_MEMBER_CONSENT_TYPES.length, complete, partial };
+  }
+
+  /**
+   * The consent register: one row per member of the club, carrying the three
+   * required consents and when they were last granted or renewed.
+   *
+   * Built from the club's members outward, not from its consent rows, so the
+   * row count is the club's member count and a member with nothing on file is
+   * visible as incomplete. The consent flags come from the same live-granted
+   * query that feeds getCoverage(), so the register and the compliance
+   * dashboard cannot disagree about who is complete.
+   */
+  async getRegister(): Promise<MemberConsentRegisterEntry[]> {
+    const [members, squads, grantedConsents] = await Promise.all([
+      this.membersService.findAll(),
+      this.squadsService.findAll(),
+      this.consentsRepository.findGrantedConsentsPerMember(REQUIRED_MEMBER_CONSENT_TYPES),
+    ]);
+
+    const squadNames = new Map(squads.map((squad) => [squad.squad_id, squad.squad_name]));
+
+    const consentsByMember = new Map<string, { types: Set<ConsentType>; lastUpdated: Date }>();
+    for (const { memberId, consentType, lastUpdated } of grantedConsents) {
+      const existing = consentsByMember.get(memberId);
+      if (!existing) {
+        consentsByMember.set(memberId, { types: new Set([consentType]), lastUpdated });
+        continue;
+      }
+      existing.types.add(consentType);
+      if (lastUpdated > existing.lastUpdated) {
+        existing.lastUpdated = lastUpdated;
+      }
+    }
+
+    return members.map((member) => {
+      const held = consentsByMember.get(member.member_id);
+      return {
+        id: member.member_id,
+        name: `${member.first_name} ${member.last_name}`,
+        squad: (member.squad_id && squadNames.get(member.squad_id)) || '',
+        medicalConsent: held?.types.has(ConsentType.MEDICAL_TREATMENT) ?? false,
+        photoConsent: held?.types.has(ConsentType.PHOTOGRAPHY) ?? false,
+        dataConsent: held?.types.has(ConsentType.DATA_SHARING) ?? false,
+        lastUpdated: held ? held.lastUpdated.toISOString() : null,
+      };
+    });
   }
 
   /**

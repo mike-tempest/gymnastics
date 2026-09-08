@@ -23,6 +23,12 @@ import { downloadCsv } from '@/lib/csv-export';
 
 type FilterTab = 'all' | 'complete' | 'incomplete';
 
+/** Shown in the squad column for a gymnast who has not been placed yet. */
+const NO_SQUAD_LABEL = 'Not assigned';
+
+/** Shown in the last-updated column when no consent has ever been granted. */
+const NO_CONSENT_DATE_LABEL = 'Never';
+
 function isConsentComplete(member: MemberConsent): boolean {
   return member.medicalConsent && member.photoConsent && member.dataConsent;
 }
@@ -46,6 +52,15 @@ function ConsentBadge({ granted }: { granted: boolean }) {
 
 export default function ConsentManagementPage() {
   const { formatDate } = useFormatters();
+  // A gymnast with no consents on file has no date to show, so say so rather
+  // than handing an empty value to the formatter.
+  const formatLastUpdated = useCallback(
+    (lastUpdated: string | null) =>
+      lastUpdated
+        ? formatDate(lastUpdated, { day: '2-digit', month: '2-digit', year: 'numeric' })
+        : NO_CONSENT_DATE_LABEL,
+    [formatDate]
+  );
   const { country, club } = useClubRegion();
   // Data-sharing consent names the governing body the data actually goes to.
   const { dataSharingRecipient } = governingBodyConfig(
@@ -146,11 +161,11 @@ export default function ConsentManagementPage() {
                   'consent-records.csv',
                   filteredMembers.map((s) => ({
                     Name: s.name,
-                    Squad: s.squad,
+                    Squad: s.squad || NO_SQUAD_LABEL,
                     'Medical Consent': s.medicalConsent ? 'Yes' : 'No',
                     'Photo Consent': s.photoConsent ? 'Yes' : 'No',
                     'Data Consent': s.dataConsent ? 'Yes' : 'No',
-                    'Last Updated': s.lastUpdated,
+                    'Last Updated': formatLastUpdated(s.lastUpdated),
                   }))
                 )
               }
@@ -226,8 +241,8 @@ export default function ConsentManagementPage() {
             {consentData.length === 0 ? (
               <EmptyState
                 icon={Users}
-                title="No consent records yet"
-                description={`Collect medical, photography, and data consent from parents so you have a clear record for every ${MEMBER_NOUN_LOWER}.`}
+                title={`No ${MEMBER_NOUN_PLURAL_LOWER} yet`}
+                description={`The register lists every ${MEMBER_NOUN_LOWER} on the club's books, with the medical, photography, and data consent held for each of them.`}
                 actionLabel={null}
               />
             ) : filteredMembers.length === 0 ? (
@@ -250,10 +265,10 @@ export default function ConsentManagementPage() {
                       <div className="flex items-start justify-between mb-3">
                         <div>
                           <p className="text-white font-semibold">{member.name}</p>
-                          <p className="text-white/60 text-sm">{member.squad}</p>
+                          <p className="text-white/60 text-sm">{member.squad || NO_SQUAD_LABEL}</p>
                         </div>
                         <p className="text-white/60 text-xs tabular-nums">
-                          {formatDate(member.lastUpdated, { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                          {formatLastUpdated(member.lastUpdated)}
                         </p>
                       </div>
                       <div className="flex flex-wrap gap-2">
@@ -297,7 +312,7 @@ export default function ConsentManagementPage() {
                             <p className="text-white font-semibold">{member.name}</p>
                           </td>
                           <td className="py-4 px-4">
-                            <p className="text-white/80 text-sm">{member.squad}</p>
+                            <p className="text-white/80 text-sm">{member.squad || NO_SQUAD_LABEL}</p>
                           </td>
                           <td className="py-4 px-4">
                             <ConsentBadge granted={member.medicalConsent} />
@@ -310,7 +325,7 @@ export default function ConsentManagementPage() {
                           </td>
                           <td className="py-4 px-4">
                             <p className="text-white/80 text-sm tabular-nums">
-                              {formatDate(member.lastUpdated, { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                              {formatLastUpdated(member.lastUpdated)}
                             </p>
                           </td>
                         </tr>

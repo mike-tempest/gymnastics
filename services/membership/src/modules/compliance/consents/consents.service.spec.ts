@@ -7,6 +7,8 @@ import { Consent, ConsentType, ConsentStatus } from './entities/consent.entity';
 import { EmailService } from '../../email/email.service';
 import { ClsService } from 'nestjs-cls';
 import { ClubsService } from '../../clubs/clubs.service';
+import { MembersService } from '../../members/members.service';
+import { SquadsService } from '../../squads/squads.service';
 
 describe('ConsentsService', () => {
   let service: ConsentsService;
@@ -44,6 +46,15 @@ describe('ConsentsService', () => {
     countByStatus: jest.fn(),
     countByType: jest.fn(),
     countGrantedConsentTypesPerMember: jest.fn(),
+    findGrantedConsentsPerMember: jest.fn(),
+  };
+
+  const mockMembersService = {
+    findAll: jest.fn(),
+  };
+
+  const mockSquadsService = {
+    findAll: jest.fn(),
   };
 
   const mockEmailService = {
@@ -62,6 +73,8 @@ describe('ConsentsService', () => {
         { provide: EmailService, useValue: mockEmailService },
         { provide: ConfigService, useValue: mockConfigService },
         { provide: ClubsService, useValue: mockClubsService },
+        { provide: MembersService, useValue: mockMembersService },
+        { provide: SquadsService, useValue: mockSquadsService },
         {
           provide: ClsService,
           useValue: {
@@ -376,6 +389,150 @@ describe('ConsentsService', () => {
 
       expect(result.complete).toBe(0);
       expect(result.partial).toBe(0);
+    });
+  });
+
+  describe('getRegister', () => {
+    const SQUAD_ID = '423e4567-e89b-12d3-a456-426614174010';
+
+    function member(overrides: Record<string, unknown> = {}) {
+      return {
+        member_id: 'member-1',
+        first_name: 'Nia',
+        last_name: 'Hopkins',
+        squad_id: SQUAD_ID,
+        ...overrides,
+      };
+    }
+
+    beforeEach(() => {
+      mockSquadsService.findAll.mockResolvedValue([
+        { squad_id: SQUAD_ID, squad_name: 'Rise Explore' },
+      ]);
+    });
+
+    it('should ask the repository about the required consent types only', async () => {
+      mockMembersService.findAll.mockResolvedValue([]);
+      mockRepository.findGrantedConsentsPerMember.mockResolvedValue([]);
+
+      await service.getRegister();
+
+      expect(mockRepository.findGrantedConsentsPerMember).toHaveBeenCalledWith([
+        ConsentType.MEDICAL_TREATMENT,
+        ConsentType.PHOTOGRAPHY,
+        ConsentType.DATA_SHARING,
+      ]);
+    });
+
+    it('should return one row per member with their name and squad', async () => {
+      const lastUpdated = new Date('2026-03-04T09:30:00.000Z');
+      mockMembersService.findAll.mockResolvedValue([member()]);
+      mockRepository.findGrantedConsentsPerMember.mockResolvedValue([
+        {
+          memberId: 'member-1',
+          consentType: ConsentType.MEDICAL_TREATMENT,
+          lastUpdated: new Date('2026-01-02T09:30:00.000Z'),
+        },
+        { memberId: 'member-1', consentType: ConsentType.PHOTOGRAPHY, lastUpdated },
+        {
+          memberId: 'member-1',
+          consentType: ConsentType.DATA_SHARING,
+          lastUpdated: new Date('2026-02-03T09:30:00.000Z'),
+        },
+      ]);
+
+      const result = await service.getRegister();
+
+      expect(result).toEqual([
+        {
+          id: 'member-1',
+          name: 'Nia Hopkins',
+          squad: 'Rise Explore',
+          medicalConsent: true,
+          photoConsent: true,
+          dataConsent: true,
+          // The most recent of the member's consents, not the first one seen.
+          lastUpdated: lastUpdated.toISOString(),
+        },
+      ]);
+    });
+
+    it('should list a member with nothing on file rather than dropping them', async () => {
+      mockMembersService.findAll.mockResolvedValue([member()]);
+      mockRepository.findGrantedConsentsPerMember.mockResolvedValue([]);
+
+      const result = await service.getRegister();
+
+      expect(result).toHaveLength(1);
+      expect(result[0]).toMatchObject({
+        medicalConsent: false,
+        photoConsent: false,
+        dataConsent: false,
+        lastUpdated: null,
+      });
+    });
+
+    it('should mark only the consents a member actually holds', async () => {
+      mockMembersService.findAll.mockResolvedValue([member()]);
+      mockRepository.findGrantedConsentsPerMember.mockResolvedValue([
+        {
+          memberId: 'member-1',
+          consentType: ConsentType.MEDICAL_TREATMENT,
+          lastUpdated: new Date('2026-03-04T09:30:00.000Z'),
+        },
+      ]);
+
+      const result = await service.getRegister();
+
+      expect(result[0].medicalConsent).toBe(true);
+      expect(result[0].photoConsent).toBe(false);
+      expect(result[0].dataConsent).toBe(false);
+    });
+
+    it('should leave the squad empty for a member who has not been placed', async () => {
+      mockMembersService.findAll.mockResolvedValue([member({ squad_id: null })]);
+      mockRepository.findGrantedConsentsPerMember.mockResolvedValue([]);
+
+      const result = await service.getRegister();
+
+      expect(result[0].squad).toBe('');
+    });
+
+    it('should agree with getCoverage about who is complete', async () => {
+      // The same three members, counted both ways: the register's complete
+      // rows and the dashboard's coverage figure have to be the same number.
+      mockMembersService.findAll.mockResolvedValue([
+        member({ member_id: 'member-1' }),
+        member({ member_id: 'member-2' }),
+        member({ member_id: 'member-3' }),
+      ]);
+      const granted = new Date('2026-03-04T09:30:00.000Z');
+      mockRepository.findGrantedConsentsPerMember.mockResolvedValue([
+        { memberId: 'member-1', consentType: ConsentType.MEDICAL_TREATMENT, lastUpdated: granted },
+        { memberId: 'member-1', consentType: ConsentType.PHOTOGRAPHY, lastUpdated: granted },
+        { memberId: 'member-1', consentType: ConsentType.DATA_SHARING, lastUpdated: granted },
+        { memberId: 'member-2', consentType: ConsentType.MEDICAL_TREATMENT, lastUpdated: granted },
+      ]);
+      mockRepository.countGrantedConsentTypesPerMember.mockResolvedValue([
+        { memberId: 'member-1', grantedTypes: 3 },
+        { memberId: 'member-2', grantedTypes: 1 },
+      ]);
+
+      const register = await service.getRegister();
+      const coverage = await service.getCoverage();
+
+      const complete = register.filter(
+        (row) => row.medicalConsent && row.photoConsent && row.dataConsent,
+      );
+      const partial = register.filter(
+        (row) =>
+          !(row.medicalConsent && row.photoConsent && row.dataConsent) &&
+          (row.medicalConsent || row.photoConsent || row.dataConsent),
+      );
+
+      expect(register).toHaveLength(3);
+      expect(complete).toHaveLength(coverage.complete);
+      expect(partial).toHaveLength(coverage.partial);
     });
   });
 

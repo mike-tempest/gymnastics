@@ -36,6 +36,17 @@ export class ConsentsController {
     return this.consentsService.findAll();
   }
 
+  /**
+   * The consent register: one row per member with the three required consents.
+   * Same roles as the raw listing above, which the roles guard's coach-level
+   * hierarchy already grants the Welfare Officer.
+   */
+  @Get('register')
+  @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
+  getRegister() {
+    return this.consentsService.getRegister();
+  }
+
   @Get('statistics')
   @Roles(UserRole.SUPER_ADMIN)
   getStatistics() {
