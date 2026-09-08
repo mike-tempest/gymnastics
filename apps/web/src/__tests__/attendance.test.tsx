@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 
 import AttendanceRoster from '../components/attendance/AttendanceRoster';
 
@@ -20,27 +20,35 @@ jest.mock('sonner', () => ({
 }));
 
 // Mock attendance API
-const mockGetSessionAttendance = jest.fn();
+const mockGetSessionRoster = jest.fn();
 const mockCheckInMember = jest.fn();
+const mockCreateAttendance = jest.fn();
 const mockUpdateAttendance = jest.fn();
 const mockMarkAttendance = jest.fn();
 
 jest.mock('@/lib/api/attendance', () => ({
-  getSessionAttendance: (...args: unknown[]) => mockGetSessionAttendance(...args),
+  getSessionRoster: (...args: unknown[]) => mockGetSessionRoster(...args),
   checkInMember: (...args: unknown[]) => mockCheckInMember(...args),
+  createAttendance: (...args: unknown[]) => mockCreateAttendance(...args),
   updateAttendance: (...args: unknown[]) => mockUpdateAttendance(...args),
   markAttendance: (...args: unknown[]) => mockMarkAttendance(...args),
 }));
 
-const mockAttendanceData = [
+/**
+ * A register part-way through being taken: Bob has been marked, Alice and
+ * Charlie have not. An unmarked gymnast has no attendance row behind them, so
+ * they carry a null attendance_id, which is what the roster endpoint returns
+ * for a session nobody has taken the register for yet.
+ */
+const mockRosterData = [
   {
-    attendance_id: 'att-1',
+    attendance_id: null,
     session_id: 'session-1',
     member_id: 'member-1',
     status: null,
     notes: null,
-    created_at: '2026-01-01',
-    updated_at: '2026-01-01',
+    created_at: null,
+    updated_at: null,
     member: {
       member_id: 'member-1',
       first_name: 'Alice',
@@ -64,13 +72,13 @@ const mockAttendanceData = [
     },
   },
   {
-    attendance_id: 'att-3',
+    attendance_id: null,
     session_id: 'session-1',
     member_id: 'member-3',
     status: null,
     notes: null,
-    created_at: '2026-01-01',
-    updated_at: '2026-01-01',
+    created_at: null,
+    updated_at: null,
     member: {
       member_id: 'member-3',
       first_name: 'Charlie',
@@ -92,7 +100,7 @@ function createWrapper() {
 describe('AttendanceRoster', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockGetSessionAttendance.mockResolvedValue(mockAttendanceData);
+    mockGetSessionRoster.mockResolvedValue(mockRosterData);
   });
 
   it('renders the member list from the attendance data', async () => {
@@ -132,7 +140,7 @@ describe('AttendanceRoster', () => {
   });
 
   it('shows a loading state before data arrives', () => {
-    mockGetSessionAttendance.mockReturnValue(new Promise(() => {}));
+    mockGetSessionRoster.mockReturnValue(new Promise(() => {}));
 
     render(
       <AttendanceRoster sessionId="session-1" sessionName="Monday Training" />,
@@ -143,7 +151,7 @@ describe('AttendanceRoster', () => {
   });
 
   it('renders an empty state when there are no members', async () => {
-    mockGetSessionAttendance.mockResolvedValue([]);
+    mockGetSessionRoster.mockResolvedValue([]);
 
     render(
       <AttendanceRoster sessionId="session-1" sessionName="Monday Training" />,
@@ -178,5 +186,57 @@ describe('AttendanceRoster', () => {
         'present',
       );
     });
+  });
+
+  it('checks in an unmarked gymnast when their row is tapped', async () => {
+    mockCheckInMember.mockResolvedValue(undefined);
+
+    render(<AttendanceRoster sessionId="session-1" sessionName="Monday Training" />, {
+      wrapper: createWrapper(),
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Alice Smith')).toBeInTheDocument();
+    });
+
+    const alice = screen.getByRole('button', { name: 'Alice Smith: not yet marked' });
+    fireEvent.mouseDown(alice);
+    fireEvent.mouseUp(alice);
+
+    await waitFor(() => {
+      expect(mockCheckInMember).toHaveBeenCalledWith('session-1', 'member-1');
+    });
+  });
+
+  // An unmarked gymnast has no row to update, so a chosen status has to create
+  // one. Checking them in instead would record present whatever was picked.
+  it('creates a row with the chosen status for an unmarked gymnast', async () => {
+    mockCreateAttendance.mockResolvedValue(undefined);
+
+    render(<AttendanceRoster sessionId="session-1" sessionName="Monday Training" />, {
+      wrapper: createWrapper(),
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Alice Smith')).toBeInTheDocument();
+    });
+
+    // A long press opens the status selector rather than marking present.
+    jest.useFakeTimers();
+    const alice = screen.getByRole('button', { name: 'Alice Smith: not yet marked' });
+    fireEvent.mouseDown(alice);
+    act(() => {
+      jest.advanceTimersByTime(600);
+    });
+    fireEvent.mouseUp(alice);
+    jest.useRealTimers();
+
+    fireEvent.click(await screen.findByRole('button', { name: 'Absent' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Confirm' }));
+
+    await waitFor(() => {
+      expect(mockCreateAttendance).toHaveBeenCalledWith('session-1', 'member-1', 'absent', null);
+    });
+    expect(mockCheckInMember).not.toHaveBeenCalled();
   });
 });

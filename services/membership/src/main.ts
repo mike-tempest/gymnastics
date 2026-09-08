@@ -64,6 +64,20 @@ async function bootstrap() {
   });
   app.use('/api/auth', authLimiter);
 
+  // The waiting list join page is public and unauthenticated, so it gets the
+  // same treatment as the auth endpoints. The cap is higher because a busy
+  // club's open day genuinely produces a run of sign-ups from one network,
+  // and it is configurable for the same reason the auth one is.
+  const waitingListJoinLimiter = rateLimit({
+    windowMs: positiveNumber(configService.get('JOIN_RATE_LIMIT_WINDOW_MS'), 15 * 60 * 1000),
+    max: positiveNumber(configService.get('JOIN_RATE_LIMIT_MAX'), 30),
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { statusCode: 429, message: 'Too many requests, please try again later' },
+  });
+  app.use('/api/waiting-list/join', waitingListJoinLimiter);
+  app.use('/api/waiting-list/offers/token', waitingListJoinLimiter);
+
   // Enable global validation pipe
   app.useGlobalPipes(
     new ValidationPipe({

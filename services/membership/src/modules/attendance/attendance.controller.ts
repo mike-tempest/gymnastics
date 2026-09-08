@@ -52,9 +52,14 @@ export class AttendanceController {
     return this.attendanceService.findAll();
   }
 
+  /**
+   * The register for a session: every gymnast expected, whether or not anyone
+   * has marked them. Unmarked gymnasts come back with a null attendance_id and
+   * a null status.
+   */
   @Get('session/:sessionId')
-  getSessionAttendance(@Param('sessionId', UuidParam) sessionId: string) {
-    return this.attendanceService.getSessionAttendance(sessionId);
+  getSessionRoster(@Param('sessionId', UuidParam) sessionId: string) {
+    return this.attendanceService.getSessionRoster(sessionId);
   }
 
   @Get('member/:memberId')

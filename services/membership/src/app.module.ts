@@ -8,6 +8,7 @@ import { ClsModule } from 'nestjs-cls';
 import { typeOrmConfigAsync } from './config/typeorm.config';
 import { TenantModule } from './common/tenancy/tenant.module';
 import { TenantInterceptor } from './common/tenancy/tenant.interceptor';
+import { SquadCapacityModule } from './common/capacity/squad-capacity.events';
 import { AuditInterceptor } from './common/audit/audit.interceptor';
 import { QueryFailedErrorFilter } from './common/validation/query-failed-error.filter';
 import { AuditLogsModule } from './modules/compliance/audit-logs/audit-logs.module';
@@ -28,6 +29,7 @@ import { TestingModule } from './modules/testing/testing.module';
 import { ParentModule } from './modules/parent/parent.module';
 import { CommunicationsModule } from './modules/communications/communications.module';
 import { WaitlistModule } from './modules/waitlist/waitlist.module';
+import { WaitingListModule } from './modules/waiting-list/waiting-list.module';
 import { HealthModule } from './modules/health/health.module';
 import { CompetitionsModule } from './modules/competitions/competitions.module';
 import { WellbeingModule } from './modules/wellbeing/wellbeing.module';
@@ -65,6 +67,9 @@ import { AppController } from './app.controller';
     ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync(typeOrmConfigAsync),
     TenantModule,
+    // Tiny global bus carrying "a place may have opened in this squad" from
+    // squads and members to the waiting list, without a circular import.
+    SquadCapacityModule,
     // Imported at the root so the global AuditInterceptor below can inject
     // AuditLogsService. ComplianceModule also imports it; Nest resolves the
     // module once and shares the same provider instance.
@@ -85,6 +90,9 @@ import { AppController } from './app.controller';
     ParentModule,
     CommunicationsModule,
     WaitlistModule,
+    // The club's own waiting list and one-click enrolment (TEM-22). Not the
+    // same thing as WaitlistModule above, which is the product launch list.
+    WaitingListModule,
     HealthModule,
     // Swimming times/strokes module, feature-flagged off by default (TEM-15).
     // With the flag unset its controllers are never mounted, so /competitions

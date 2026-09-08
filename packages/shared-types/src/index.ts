@@ -12,3 +12,6 @@ export * from './enums/disciplines';
 
 // Awards (TEM-18)
 export * from './entities/award.entity';
+
+// Waiting list to enrolled member, the hero flow (TEM-22)
+export * from './entities/waiting-list.entity';

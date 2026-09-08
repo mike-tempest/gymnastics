@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A place for {{childName}} at {{clubName}}</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .header {
+      background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+      color: #fff;
+      padding: 30px 20px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .content {
+      padding: 30px 20px;
+    }
+    .details {
+      background: #F5F3FF;
+      border-left: 4px solid #8B5CF6;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .details h3 {
+      margin: 0 0 10px 0;
+      color: #6D28D9;
+      font-size: 16px;
+    }
+    .details table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .details td {
+      padding: 6px 0;
+      vertical-align: top;
+      font-size: 14px;
+    }
+    .details td.label {
+      color: #6B7280;
+      width: 40%;
+    }
+    .deadline {
+      background: #FEF3C7;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .deadline p {
+      margin: 0;
+      color: #92400E;
+      font-weight: 600;
+    }
+    .button {
+      display: inline-block;
+      background: #8B5CF6;
+      color: #fff;
+      padding: 14px 28px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      margin: 10px 0;
+      text-align: center;
+      font-size: 16px;
+    }
+    .secondary-link {
+      display: inline-block;
+      color: #6B7280;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .footer {
+      background: #F8FAFC;
+      padding: 20px;
+      text-align: center;
+      color: #64748B;
+      font-size: 14px;
+    }
+    .footer p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>A place has come up</h1>
+    </div>
+
+    <div class="content">
+      <p>Dear {{parentName}},</p>
+
+      <p>A place has come up for {{childName}} at {{clubName}}, and {{childName}} is next on our waiting list for it.</p>
+
+      <div class="details">
+        <h3>The place</h3>
+        <table>
+          <tr>
+            <td class="label">Class or squad</td>
+            <td>{{squadName}}</td>
+          </tr>
+{{#if trainingTimes}}
+          <tr>
+            <td class="label">Training times</td>
+            <td>{{trainingTimes}}</td>
+          </tr>
+{{/if}}
+{{#if coachName}}
+          <tr>
+            <td class="label">Coach</td>
+            <td>{{coachName}}</td>
+          </tr>
+{{/if}}
+        </table>
+      </div>
+
+      <div class="deadline">
+        <p>Please reply by {{expiresOn}}</p>
+      </div>
+
+      <p>We hold the place for you until then. If we have not heard from you by that date it passes to the next family on the list, and {{childName}} stays on the waiting list for other classes. Get in touch if you would like us to look at this one again.</p>
+
+      <div style="text-align: center;">
+        <a href="{{acceptUrl}}" class="button">Accept the place</a>
+        <br>
+        <a href="{{declineUrl}}" class="secondary-link">No thank you, not this time</a>
+      </div>
+
+      <p>Accepting sets everything up in one step: {{memberNounLower}} record, register place, consent forms and the Direct Debit for fees. We will email you what to do next.</p>
+
+      <p style="margin-top: 20px;">
+        Best wishes,<br>
+        <strong>{{clubName}}</strong>
+      </p>
+    </div>
+
+    <div class="footer">
+      <p>&copy; {{year}} {{clubName}}. All rights reserved.</p>
+      <p>This is an automated email. Please do not reply to this message.</p>
+    </div>
+  </div>
+</body>
+</html>

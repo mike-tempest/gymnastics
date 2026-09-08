@@ -11,6 +11,7 @@ import { getFamilies } from '@/lib/api/families';
 import { getFinanceDashboard, FinanceDashboard, getOverdueInvoices, InvoiceWithDetails } from '@/lib/api/finance';
 import { getMembers } from '@/lib/api/members';
 import { getUpcomingSessions, getRecentSessions } from '@/lib/api/sessions';
+import { getWaitingListSummary, type WaitingListSummary } from '@/lib/api/waiting-list';
 import { MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
 // Activity Feed Types
@@ -128,6 +129,7 @@ export default function Home() {
   const [recentSessions, setRecentSessions] = useState<Session[]>([]);
   const [financeDashboard, setFinanceDashboard] = useState<FinanceDashboard | null>(null);
   const [overdueInvoices, setOverdueInvoices] = useState<InvoiceWithDetails[]>([]);
+  const [waitingList, setWaitingList] = useState<WaitingListSummary | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -135,7 +137,7 @@ export default function Home() {
     async function fetchDashboardData() {
       try {
         setIsLoading(true);
-        const [membersData, familiesData, sessionsData, recentData, financeDashboardData, overdueData] = await Promise.all([
+        const [membersData, familiesData, sessionsData, recentData, financeDashboardData, overdueData, waitingListData] = await Promise.all([
           getMembers(),
           getFamilies(),
           getUpcomingSessions(),
@@ -148,6 +150,9 @@ export default function Home() {
             console.error('Failed to load overdue invoices', err);
             return [] as InvoiceWithDetails[];
           }),
+          // A coach or treasurer may not be allowed to read the waiting list,
+          // so a refusal here hides the card rather than breaking the page.
+          getWaitingListSummary().catch(() => null),
         ]);
         setMembers(membersData);
         setFamilies(familiesData);
@@ -155,6 +160,7 @@ export default function Home() {
         setRecentSessions(recentData);
         setFinanceDashboard(financeDashboardData);
         setOverdueInvoices(overdueData);
+        setWaitingList(waitingListData);
         setError(null);
       } catch {
         setError('Failed to load dashboard data. Please try again later.');
@@ -282,7 +288,25 @@ export default function Home() {
           </div>
 
           {/* Secondary Metrics - Light Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {/* Waiting list. The club's own list of children waiting for a
+                place, not the product launch waitlist under Admin. */}
+            <div className="bg-surface rounded-3xl p-8 border border-grey-200">
+              <p className="text-grey-400 text-sm font-medium uppercase tracking-wider mb-3">Waiting list</p>
+              {isLoading ? (
+                <div className="animate-pulse bg-canvas-dark/20 rounded h-12 w-16" />
+              ) : (
+                <p className="text-dark-primary text-5xl font-serif tabular-nums">
+                  {waitingList ? waitingList.waiting : unavailable}
+                </p>
+              )}
+              <Link href="/waiting-list" className="mt-3 inline-block text-grey-400 text-sm hover:text-dark-primary transition-colors">
+                {waitingList && waitingList.offered > 0
+                  ? `${waitingList.offered} place${waitingList.offered === 1 ? '' : 's'} on offer →`
+                  : 'Offer places →'}
+              </Link>
+            </div>
+
             {/* Attendance */}
             <div className="bg-surface rounded-3xl p-8 border border-grey-200">
               <p className="text-grey-400 text-sm font-medium uppercase tracking-wider mb-3">Attendance</p>

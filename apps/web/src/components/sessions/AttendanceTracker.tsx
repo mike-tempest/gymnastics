@@ -4,7 +4,7 @@ import { AttendanceStatus, Member } from '@club-manager/shared-types';
 import { useState, useEffect, useCallback } from 'react';
 
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import { getSessionAttendance, markAttendance } from '@/lib/api/attendance';
+import { getSessionRoster, markAttendance } from '@/lib/api/attendance';
 import { getSquadMembers } from '@/lib/api/squads';
 import { MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
@@ -40,10 +40,11 @@ export default function AttendanceTracker({ sessionId, squadId, onUpdate }: Atte
       setIsLoading(true);
       setError(null);
 
-      // Fetch squad members and existing attendance records
+      // The squad listing carries fields the register does not, such as dob for
+      // the age shown against each gymnast, so both are fetched here.
       const [squadMembers, existingAttendance] = await Promise.all([
         getSquadMembers(squadId),
-        getSessionAttendance(sessionId),
+        getSessionRoster(sessionId),
       ]);
 
       setMembers(squadMembers);

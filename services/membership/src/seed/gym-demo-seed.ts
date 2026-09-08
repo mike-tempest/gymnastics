@@ -208,6 +208,12 @@ const CLUB_SCOPED_TABLES_CHILD_FIRST = [
   'member_wellbeing_logs',
   'communications',
   'family_invites',
+  // The club's own waiting list (TEM-22). Offers reference entries, so they go
+  // first. Both must go before members and squads, which entries point at.
+  'waiting_list_offers',
+  'waiting_list_entries',
+  'waiting_list_settings',
+  // The product's launch waiting list, which is a different thing entirely.
   'waitlist',
   'sessions',
   'fee_structures',
@@ -1449,6 +1455,333 @@ async function seedGymDemoData() {
     }
     console.log(`Created ${consentCount} consent records\n`);
 
+    // The waiting list, which is the club's own list of children waiting for a
+    // place, not the product's launch waitlist. This is the wedge, so the demo
+    // shows the whole shape of it: a queue with real priority, one place
+    // currently on offer and counting down, and one child who came off the
+    // list a fortnight ago and is now a billed member.
+    console.log('Creating the waiting list...');
+
+    // A waiting list only makes sense when the classes are full, so set every
+    // squad's capacity to the roll it actually has. The trampoline class gets
+    // one place more than its roll, and that single free place is the one the
+    // pending offer below is holding. Without this the demo club would have
+    // dozens of empty places and the auto-offer engine would, correctly,
+    // empty the waiting list the moment anything touched it.
+    await dataSource.query(
+      `UPDATE squads SET max_capacity = counts.roll + CASE WHEN squads.squad_id = $2 THEN 1 ELSE 0 END
+       FROM (
+         SELECT s.squad_id, COUNT(sm.member_id) AS roll
+         FROM squads s
+         LEFT JOIN squad_members sm ON sm.squad_id = s.squad_id
+         WHERE s.club_id = $1
+         GROUP BY s.squad_id
+       ) AS counts
+       WHERE squads.squad_id = counts.squad_id AND squads.club_id = $1`,
+      [clubId, squadIds.tramp],
+    );
+
+    await dataSource.query(
+      `INSERT INTO waiting_list_settings (club_id, auto_offer_enabled, offer_window_days)
+       VALUES ($1, true, 7)`,
+      [clubId],
+    );
+
+    const waitingListData: Array<{
+      firstName: string;
+      lastName: string;
+      dob: string;
+      gender: string;
+      parentName: string;
+      parentEmail: string;
+      parentPhone: string;
+      squadKey: string | null;
+      discipline: Discipline | null;
+      squadType: SquadType | null;
+      joinedDaysAgo: number;
+      /** Set on the two entries whose parent already has a child at the club. */
+      existingFamily?: boolean;
+      sibling?: boolean;
+      boost?: number;
+      notes?: string;
+    }> = [
+      {
+        firstName: 'Martha',
+        lastName: 'Ashworth',
+        dob: '2020-06-14',
+        gender: 'F',
+        // Claire already has Sophie at the club, so Martha is a sibling and
+        // goes ahead of families the club does not know.
+        parentName: 'Claire Ashworth',
+        parentEmail: 'claire.ashworth@example.com',
+        parentPhone: '07700 900101',
+        squadKey: 'tots',
+        discipline: null,
+        squadType: SquadType.RECREATIONAL,
+        joinedDaysAgo: 34,
+        existingFamily: true,
+        sibling: true,
+        notes: 'Younger sister of Sophie. Happy with either the Wednesday or the Saturday class.',
+      },
+      {
+        firstName: 'Rowan',
+        lastName: 'Okonkwo',
+        dob: '2019-02-08',
+        gender: 'M',
+        parentName: 'Chidi Okonkwo',
+        parentEmail: 'chidi.okonkwo@example.com',
+        parentPhone: '07700 900103',
+        squadKey: 'boys',
+        discipline: Discipline.MENS_ARTISTIC,
+        squadType: SquadType.RECREATIONAL,
+        joinedDaysAgo: 21,
+        existingFamily: true,
+        sibling: true,
+      },
+      {
+        firstName: 'Elsie',
+        lastName: 'Hartley',
+        dob: '2018-11-30',
+        gender: 'F',
+        parentName: 'Dawn Hartley',
+        parentEmail: 'dawn.hartley@example.com',
+        parentPhone: '07700 900211',
+        squadKey: null,
+        discipline: Discipline.WOMENS_ARTISTIC,
+        squadType: SquadType.RECREATIONAL,
+        joinedDaysAgo: 96,
+        boost: 5,
+        notes: 'Moving from a club in Nottingham. Head coach has seen her train and wants her in.',
+      },
+      {
+        firstName: 'Isaac',
+        lastName: 'Trelawney',
+        dob: '2017-09-19',
+        gender: 'M',
+        parentName: 'Beth Trelawney',
+        parentEmail: 'beth.trelawney@example.com',
+        parentPhone: '07700 900212',
+        squadKey: null,
+        discipline: Discipline.TRAMPOLINE,
+        squadType: null,
+        joinedDaysAgo: 128,
+      },
+      {
+        firstName: 'Nadia',
+        lastName: 'Karim',
+        dob: '2019-04-02',
+        gender: 'F',
+        parentName: 'Yusuf Karim',
+        parentEmail: 'yusuf.karim@example.com',
+        parentPhone: '07700 900213',
+        squadKey: null,
+        discipline: null,
+        squadType: SquadType.RECREATIONAL,
+        joinedDaysAgo: 112,
+      },
+      {
+        firstName: 'Freddie',
+        lastName: 'Mulholland',
+        dob: '2016-01-25',
+        gender: 'M',
+        parentName: 'Kate Mulholland',
+        parentEmail: 'kate.mulholland@example.com',
+        parentPhone: '07700 900214',
+        squadKey: null,
+        discipline: Discipline.MENS_ARTISTIC,
+        squadType: SquadType.RECREATIONAL,
+        joinedDaysAgo: 87,
+      },
+      {
+        firstName: 'Cerys',
+        lastName: 'Pemberton',
+        dob: '2018-07-11',
+        gender: 'F',
+        parentName: 'Rhian Pemberton',
+        parentEmail: 'rhian.pemberton@example.com',
+        parentPhone: '07700 900215',
+        squadKey: null,
+        discipline: null,
+        squadType: null,
+        joinedDaysAgo: 63,
+        notes: 'Any weekday after four works. No experience, keen to try.',
+      },
+      {
+        firstName: 'Otis',
+        lastName: 'Brannigan',
+        dob: '2020-10-05',
+        gender: 'M',
+        parentName: 'Shona Brannigan',
+        parentEmail: 'shona.brannigan@example.com',
+        parentPhone: '07700 900216',
+        squadKey: 'tots',
+        discipline: null,
+        squadType: SquadType.RECREATIONAL,
+        joinedDaysAgo: 51,
+      },
+      {
+        firstName: 'Amara',
+        lastName: 'Diallo',
+        dob: '2017-03-22',
+        gender: 'F',
+        parentName: 'Fatou Diallo',
+        parentEmail: 'fatou.diallo@example.com',
+        parentPhone: '07700 900217',
+        squadKey: null,
+        discipline: Discipline.TEAMGYM,
+        squadType: SquadType.COMPETITIVE,
+        joinedDaysAgo: 44,
+        notes: 'Two years at a TeamGym club in Derby. Asked about the competitive pathway.',
+      },
+      {
+        firstName: 'Leo',
+        lastName: 'Winstanley',
+        dob: '2019-08-17',
+        gender: 'M',
+        parentName: 'Marcus Winstanley',
+        parentEmail: 'marcus.winstanley@example.com',
+        parentPhone: '07700 900218',
+        squadKey: null,
+        discipline: null,
+        squadType: SquadType.RECREATIONAL,
+        joinedDaysAgo: 29,
+      },
+      {
+        firstName: 'Sana',
+        lastName: 'Qureshi',
+        dob: '2018-12-03',
+        gender: 'F',
+        parentName: 'Imran Qureshi',
+        parentEmail: 'imran.qureshi@example.com',
+        parentPhone: '07700 900219',
+        squadKey: null,
+        discipline: Discipline.WOMENS_ARTISTIC,
+        squadType: SquadType.RECREATIONAL,
+        joinedDaysAgo: 16,
+      },
+      {
+        firstName: 'Jonah',
+        lastName: 'Rutter',
+        dob: '2015-05-29',
+        gender: 'M',
+        parentName: 'Helen Rutter',
+        parentEmail: 'helen.rutter@example.com',
+        parentPhone: '07700 900220',
+        squadKey: 'tramp',
+        discipline: Discipline.TRAMPOLINE,
+        squadType: SquadType.RECREATIONAL,
+        joinedDaysAgo: 9,
+      },
+    ];
+
+    let waitingListCount = 0;
+    // The trampoline entry gets the live offer: it names a class, which makes
+    // the countdown on the admin screen easy to read.
+    const offeredIndex = waitingListData.findIndex((row) => row.firstName === 'Jonah');
+    let offeredEntryId: string | null = null;
+
+    for (let i = 0; i < waitingListData.length; i++) {
+      const row = waitingListData[i];
+      const result = await dataSource.query(
+        `INSERT INTO waiting_list_entries (
+           club_id, child_first_name, child_last_name, child_dob, child_gender,
+           parent_name, parent_email, parent_phone,
+           desired_discipline, desired_squad_type, preferred_squad_id, notes,
+           joined_at, is_existing_member_family, is_sibling, priority_boost, status
+         )
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
+         RETURNING entry_id`,
+        [
+          clubId,
+          row.firstName,
+          row.lastName,
+          row.dob,
+          row.gender,
+          row.parentName,
+          row.parentEmail,
+          row.parentPhone,
+          row.discipline,
+          row.squadType,
+          row.squadKey ? squadIds[row.squadKey] : null,
+          row.notes ?? null,
+          daysBefore(today, row.joinedDaysAgo).toISOString(),
+          row.existingFamily ?? false,
+          row.sibling ?? false,
+          row.boost ?? 0,
+          i === offeredIndex ? 'offered' : 'waiting',
+        ],
+      );
+      if (i === offeredIndex) {
+        offeredEntryId = result[0].entry_id;
+      }
+      waitingListCount++;
+    }
+
+    // One place currently on offer, with four days left to answer.
+    if (offeredEntryId) {
+      const offeredAt = daysBefore(today, 3);
+      const expiresAt = new Date(offeredAt);
+      expiresAt.setDate(expiresAt.getDate() + 7);
+      await dataSource.query(
+        `INSERT INTO waiting_list_offers (
+           club_id, entry_id, squad_id, offered_at, expires_at, status, accept_token
+         )
+         VALUES ($1, $2, $3, $4, $5, 'pending', $6)`,
+        [
+          clubId,
+          offeredEntryId,
+          squadIds.tramp,
+          offeredAt.toISOString(),
+          expiresAt.toISOString(),
+          // Fixed rather than random so a demo link keeps working across
+          // re-runs. Real offers use 32 random bytes.
+          'demoofferkestrelvale0000000000000000000000000000000000000000tram',
+        ],
+      );
+    }
+
+    // And one child who came off the list a fortnight ago. Pointing the entry
+    // at a member the seed already created is what makes the story land: the
+    // list is where the club's newest billed member came from.
+    const enrolledMemberIndex = memberData.findIndex((m) => m.squadKey === 'rec_a');
+    if (enrolledMemberIndex >= 0) {
+      const enrolled = memberData[enrolledMemberIndex];
+      const family = familyData[enrolled.familyIndex];
+      await dataSource.query(
+        `INSERT INTO waiting_list_entries (
+           club_id, child_first_name, child_last_name, child_dob, child_gender,
+           parent_name, parent_email, parent_phone,
+           desired_discipline, desired_squad_type, preferred_squad_id,
+           joined_at, is_existing_member_family, is_sibling, priority_boost,
+           status, enrolled_member_id
+         )
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, 'enrolled', $16)`,
+        [
+          clubId,
+          enrolled.firstName,
+          enrolled.lastName,
+          enrolled.dob,
+          enrolled.gender,
+          family.contact,
+          family.email,
+          family.phone,
+          enrolled.discipline,
+          SquadType.RECREATIONAL,
+          squadIds[enrolled.squadKey],
+          daysBefore(today, 71).toISOString(),
+          false,
+          false,
+          0,
+          memberIds[enrolledMemberIndex],
+        ],
+      );
+      waitingListCount++;
+    }
+
+    console.log(
+      `Created ${waitingListCount} waiting list entries, 1 place on offer, 1 already enrolled\n`,
+    );
+
     console.log('Kestrel Vale Gymnastics Club demo seed complete\n');
     console.log('Summary:');
     console.log('  - 1 club (GB, GBP, Europe/London, en-GB, British Gymnastics, England)');
@@ -1467,6 +1800,9 @@ async function seedGymDemoData() {
     console.log(`  - ${mandateFamilies} Bacs direct debit mandates`);
     console.log(
       `  - ${backgroundChecks.length} background checks, 1 Welfare Officer, ${consentCount} consents`,
+    );
+    console.log(
+      `  - ${waitingListCount} waiting list entries, 1 place on offer, 1 enrolled off the list`,
     );
     console.log(`\nDefault password for all users: ${DEMO_PASSWORD}`);
     console.log(`Admin login: admin@${CLUB_DOMAIN}`);

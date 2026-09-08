@@ -64,6 +64,7 @@ function getInitials(firstName: string, lastName: string): string {
 }
 
 export default function MemberCheckIn({
+  memberId,
   firstName,
   lastName,
   status,
@@ -128,6 +129,10 @@ export default function MemberCheckIn({
   return (
     <button
       type="button"
+      data-testid="roster-member"
+      data-member-id={memberId}
+      data-status={status ?? 'unmarked'}
+      aria-label={`${fullName}: ${display ? display.label : 'not yet marked'}`}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       onMouseDown={handleMouseDown}
