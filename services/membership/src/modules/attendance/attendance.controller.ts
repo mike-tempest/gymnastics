@@ -18,6 +18,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
+import { UuidParam } from '../../common/validation/parse-uuid.pipe';
 
 @Controller('attendance')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -57,35 +58,35 @@ export class AttendanceController {
    * a null status.
    */
   @Get('session/:sessionId')
-  getSessionRoster(@Param('sessionId') sessionId: string) {
+  getSessionRoster(@Param('sessionId', UuidParam) sessionId: string) {
     return this.attendanceService.getSessionRoster(sessionId);
   }
 
   @Get('member/:memberId')
-  getMemberAttendance(@Param('memberId') memberId: string) {
+  getMemberAttendance(@Param('memberId', UuidParam) memberId: string) {
     return this.attendanceService.getMemberAttendance(memberId);
   }
 
   @Get('member/:memberId/stats')
-  getMemberStats(@Param('memberId') memberId: string) {
+  getMemberStats(@Param('memberId', UuidParam) memberId: string) {
     return this.attendanceService.getMemberAttendanceStats(memberId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', UuidParam) id: string) {
     return this.attendanceService.findOne(id);
   }
 
   @Patch(':id')
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  update(@Param('id') id: string, @Body() updateAttendanceDto: UpdateAttendanceDto) {
+  update(@Param('id', UuidParam) id: string, @Body() updateAttendanceDto: UpdateAttendanceDto) {
     return this.attendanceService.update(id, updateAttendanceDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  remove(@Param('id') id: string) {
+  remove(@Param('id', UuidParam) id: string) {
     return this.attendanceService.remove(id);
   }
 }

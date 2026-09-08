@@ -19,6 +19,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Public } from '../auth/decorators/public.decorator';
 import { UserRole } from '../users/entities/user.entity';
+import { UuidParam } from '../../common/validation/parse-uuid.pipe';
 
 @Controller('families')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -58,27 +59,27 @@ export class FamiliesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', UuidParam) id: string) {
     return this.familiesService.findOne(id);
   }
 
   @Post(':familyId/invite')
   @HttpCode(HttpStatus.CREATED)
   @Roles(UserRole.SUPER_ADMIN)
-  generateInvite(@Param('familyId') familyId: string) {
+  generateInvite(@Param('familyId', UuidParam) familyId: string) {
     return this.familiesService.generateInvite(familyId);
   }
 
   @Patch(':id')
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  update(@Param('id') id: string, @Body() updateFamilyDto: UpdateFamilyDto) {
+  update(@Param('id', UuidParam) id: string, @Body() updateFamilyDto: UpdateFamilyDto) {
     return this.familiesService.update(id, updateFamilyDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @Roles(UserRole.SUPER_ADMIN)
-  remove(@Param('id') id: string) {
+  remove(@Param('id', UuidParam) id: string) {
     return this.familiesService.remove(id);
   }
 }

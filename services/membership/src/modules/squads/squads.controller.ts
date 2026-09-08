@@ -22,6 +22,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
+import { UuidParam } from '../../common/validation/parse-uuid.pipe';
 
 @Controller('squads')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -69,39 +70,39 @@ export class SquadsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', UuidParam) id: string) {
     return this.squadsService.findOne(id);
   }
 
   @Get(':id/members')
-  getMembers(@Param('id') id: string) {
+  getMembers(@Param('id', UuidParam) id: string) {
     return this.squadsService.getMembersBySquad(id);
   }
 
   @Patch(':id')
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  update(@Param('id') id: string, @Body() updateSquadDto: UpdateSquadDto) {
+  update(@Param('id', UuidParam) id: string, @Body() updateSquadDto: UpdateSquadDto) {
     return this.squadsService.update(id, updateSquadDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @Roles(UserRole.SUPER_ADMIN)
-  remove(@Param('id') id: string) {
+  remove(@Param('id', UuidParam) id: string) {
     return this.squadsService.remove(id);
   }
 
   @Post(':id/members')
   @HttpCode(HttpStatus.OK)
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  assignMember(@Param('id') id: string, @Body() assignMemberDto: AssignMemberDto) {
+  assignMember(@Param('id', UuidParam) id: string, @Body() assignMemberDto: AssignMemberDto) {
     return this.squadsService.assignMember(id, assignMemberDto.member_id);
   }
 
   @Delete(':id/members/:memberId')
   @HttpCode(HttpStatus.OK)
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
-  removeMember(@Param('id') id: string, @Param('memberId') memberId: string) {
+  removeMember(@Param('id', UuidParam) id: string, @Param('memberId', UuidParam) memberId: string) {
     return this.squadsService.removeMember(id, memberId);
   }
 }

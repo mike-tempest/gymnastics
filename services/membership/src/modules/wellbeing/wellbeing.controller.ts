@@ -20,6 +20,11 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
+import {
+  OptionalUuidParam,
+  UuidListParam,
+  UuidParam,
+} from '../../common/validation/parse-uuid.pipe';
 
 @Controller('wellbeing')
 @UseGuards(JwtAuthGuard)
@@ -35,12 +40,12 @@ export class WellbeingController {
   }
 
   @Get('member/:memberId/history')
-  getMemberHistory(@Param('memberId') memberId: string, @Query('limit') limit?: number) {
+  getMemberHistory(@Param('memberId', UuidParam) memberId: string, @Query('limit') limit?: number) {
     return this.wellbeingService.getMemberHistory(memberId, limit);
   }
 
   @Get('member/:memberId/today')
-  getTodayCheckIn(@Param('memberId') memberId: string) {
+  getTodayCheckIn(@Param('memberId', UuidParam) memberId: string) {
     return this.wellbeingService.getTodayCheckIn(memberId);
   }
 
@@ -53,12 +58,12 @@ export class WellbeingController {
   }
 
   @Get('cycle/:memberId/history')
-  getCycleHistory(@Param('memberId') memberId: string, @Query('limit') limit?: number) {
+  getCycleHistory(@Param('memberId', UuidParam) memberId: string, @Query('limit') limit?: number) {
     return this.wellbeingService.getCycleHistory(memberId, limit);
   }
 
   @Patch('cycle/:logId')
-  updateCycleLog(@Param('logId') logId: string, @Body() dto: UpdateCycleLogDto) {
+  updateCycleLog(@Param('logId', UuidParam) logId: string, @Body() dto: UpdateCycleLogDto) {
     if (!dto.member_id) {
       throw new NotFoundException('member_id is required');
     }
@@ -67,7 +72,10 @@ export class WellbeingController {
 
   @Delete('cycle/:logId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  removeCycleLog(@Param('logId') logId: string, @Query('member_id') memberId: string) {
+  removeCycleLog(
+    @Param('logId', UuidParam) logId: string,
+    @Query('member_id', OptionalUuidParam) memberId: string,
+  ) {
     return this.wellbeingService.removeCycleLog(logId, memberId);
   }
 
@@ -76,8 +84,10 @@ export class WellbeingController {
   @Get('readiness')
   @UseGuards(RolesGuard)
   @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH, UserRole.SQUAD_COACH, UserRole.WELFARE_OFFICER)
-  getSessionReadiness(@Query('member_ids') memberIdsRaw: string, @Query('date') date: string) {
-    const memberIds = memberIdsRaw ? memberIdsRaw.split(',') : [];
+  getSessionReadiness(
+    @Query('member_ids', UuidListParam) memberIds: string[],
+    @Query('date') date: string,
+  ) {
     return this.wellbeingService.getSessionReadiness(memberIds, date);
   }
 }

@@ -24,6 +24,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Roles } from '../../auth/decorators/roles.decorator';
 import { UserRole } from '../../users/entities/user.entity';
+import { OptionalUuidParam, UuidParam } from '../../../common/validation/parse-uuid.pipe';
 
 @Controller('invoices')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -43,7 +44,7 @@ export class InvoicesController {
   @Post('generate-monthly')
   @HttpCode(HttpStatus.CREATED)
   @Roles(UserRole.SUPER_ADMIN)
-  generateMonthly(@Query('squad_id') squadId?: string) {
+  generateMonthly(@Query('squad_id', OptionalUuidParam) squadId?: string) {
     return this.invoicesService.generateMonthlyInvoices(squadId);
   }
 
@@ -60,7 +61,7 @@ export class InvoicesController {
   @Post(':id/send-reminder')
   @HttpCode(HttpStatus.OK)
   @Roles(UserRole.SUPER_ADMIN)
-  sendReminder(@Param('id') id: string) {
+  sendReminder(@Param('id', UuidParam) id: string) {
     return this.invoicesService.sendReminder(id);
   }
 
@@ -78,18 +79,18 @@ export class InvoicesController {
   }
 
   @Get('family/:familyId')
-  findByFamily(@Param('familyId') familyId: string) {
+  findByFamily(@Param('familyId', UuidParam) familyId: string) {
     return this.invoicesService.findByFamily(familyId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', UuidParam) id: string) {
     return this.invoicesService.findOne(id);
   }
 
   @Get(':id/pdf')
   async downloadPdf(
-    @Param('id') id: string,
+    @Param('id', UuidParam) id: string,
     @Res({ passthrough: true }) res: Response,
   ): Promise<StreamableFile> {
     // Same guards as the other read routes (class-level JwtAuthGuard and
@@ -106,14 +107,14 @@ export class InvoicesController {
 
   @Patch(':id')
   @Roles(UserRole.SUPER_ADMIN)
-  update(@Param('id') id: string, @Body() updateInvoiceDto: UpdateInvoiceDto) {
+  update(@Param('id', UuidParam) id: string, @Body() updateInvoiceDto: UpdateInvoiceDto) {
     return this.invoicesService.update(id, updateInvoiceDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @Roles(UserRole.SUPER_ADMIN)
-  remove(@Param('id') id: string) {
+  remove(@Param('id', UuidParam) id: string) {
     return this.invoicesService.remove(id);
   }
 }

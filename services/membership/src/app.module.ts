@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule } from '@nestjs/throttler';
@@ -10,6 +10,7 @@ import { TenantModule } from './common/tenancy/tenant.module';
 import { TenantInterceptor } from './common/tenancy/tenant.interceptor';
 import { SquadCapacityModule } from './common/capacity/squad-capacity.events';
 import { AuditInterceptor } from './common/audit/audit.interceptor';
+import { QueryFailedErrorFilter } from './common/validation/query-failed-error.filter';
 import { AuditLogsModule } from './modules/compliance/audit-logs/audit-logs.module';
 import { validate } from './config/env.validation';
 import { competitionsEnabled } from './common/features/competitions.feature';
@@ -118,6 +119,14 @@ import { AppController } from './app.controller';
     {
       provide: APP_INTERCEPTOR,
       useClass: AuditInterceptor,
+    },
+    // Turns a failed value parse (a non-UUID id reaching a uuid column) into a
+    // 400 and keeps every other database error's driver text in the log rather
+    // than the response body. Registered here, not in main.ts, so the e2e
+    // suites that build the app from AppModule get it too.
+    {
+      provide: APP_FILTER,
+      useClass: QueryFailedErrorFilter,
     },
   ],
 })

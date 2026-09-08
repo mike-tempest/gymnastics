@@ -7,6 +7,7 @@ import { UserRole } from './entities/user.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
+import { UuidParam } from '../../common/validation/parse-uuid.pipe';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -38,23 +39,23 @@ export class UsersController {
   }
 
   @Get('family/:familyId')
-  findByFamily(@Param('familyId') familyId: string) {
+  findByFamily(@Param('familyId', UuidParam) familyId: string) {
     return this.usersService.findByFamily(familyId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', UuidParam) id: string) {
     return this.usersService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(@Param('id', UuidParam) id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
   @Roles(UserRole.SUPER_ADMIN, UserRole.TREASURER)
-  remove(@Param('id') id: string) {
+  remove(@Param('id', UuidParam) id: string) {
     return this.usersService.remove(id);
   }
 }

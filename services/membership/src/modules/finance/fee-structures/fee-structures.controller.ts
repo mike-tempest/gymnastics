@@ -18,6 +18,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Roles } from '../../auth/decorators/roles.decorator';
 import { UserRole } from '../../users/entities/user.entity';
+import { UuidParam } from '../../../common/validation/parse-uuid.pipe';
 
 @Controller('fee-structures')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -44,20 +45,20 @@ export class FeeStructuresController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', UuidParam) id: string) {
     return this.feeStructuresService.findOne(id);
   }
 
   @Patch(':id')
   @Roles(UserRole.SUPER_ADMIN)
-  update(@Param('id') id: string, @Body() updateFeeStructureDto: UpdateFeeStructureDto) {
+  update(@Param('id', UuidParam) id: string, @Body() updateFeeStructureDto: UpdateFeeStructureDto) {
     return this.feeStructuresService.update(id, updateFeeStructureDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @Roles(UserRole.SUPER_ADMIN)
-  remove(@Param('id') id: string) {
+  remove(@Param('id', UuidParam) id: string) {
     return this.feeStructuresService.remove(id);
   }
 }

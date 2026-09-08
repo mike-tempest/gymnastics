@@ -17,6 +17,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Roles } from '../../auth/decorators/roles.decorator';
 import { UserRole } from '../../users/entities/user.entity';
+import { UuidParam } from '../../../common/validation/parse-uuid.pipe';
 
 @Controller('payments')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -36,32 +37,32 @@ export class PaymentsController {
   }
 
   @Get('invoice/:invoiceId')
-  findByInvoice(@Param('invoiceId') invoiceId: string) {
+  findByInvoice(@Param('invoiceId', UuidParam) invoiceId: string) {
     return this.paymentsService.findByInvoice(invoiceId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', UuidParam) id: string) {
     return this.paymentsService.findOne(id);
   }
 
   @Patch(':id')
   @Roles(UserRole.SUPER_ADMIN)
-  update(@Param('id') id: string, @Body() updatePaymentDto: UpdatePaymentDto) {
+  update(@Param('id', UuidParam) id: string, @Body() updatePaymentDto: UpdatePaymentDto) {
     return this.paymentsService.update(id, updatePaymentDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @Roles(UserRole.SUPER_ADMIN)
-  remove(@Param('id') id: string) {
+  remove(@Param('id', UuidParam) id: string) {
     return this.paymentsService.remove(id);
   }
 
   @Post('collect-invoice/:invoiceId')
   @HttpCode(HttpStatus.OK)
   @Roles(UserRole.SUPER_ADMIN)
-  async collectInvoicePayment(@Param('invoiceId') invoiceId: string) {
+  async collectInvoicePayment(@Param('invoiceId', UuidParam) invoiceId: string) {
     const payment = await this.paymentsService.collectDirectDebitPayment(invoiceId);
     return {
       success: !!payment,
