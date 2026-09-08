@@ -37,6 +37,20 @@ function getHealthScoreInfo(score: number) {
 }
 
 /**
+ * How long a check has left, or how long ago it lapsed. A negative count is a
+ * check that expired while nobody was looking, which the expiry query returns
+ * alongside the ones still running down.
+ */
+function expiryCountdown(days: number): string {
+  if (days === 0) return 'Expires today';
+  if (days < 0) {
+    const elapsed = Math.abs(days);
+    return `Expired ${elapsed} ${elapsed === 1 ? 'day' : 'days'} ago`;
+  }
+  return `${days} ${days === 1 ? 'day' : 'days'} remaining`;
+}
+
+/**
  * The badge for an officer's own background check. The officer sits in their
  * own record rather than the check register, so this is the only place their
  * expiry is shown; it reports what the date actually says.
@@ -51,11 +65,7 @@ function officerCheckBadge(officer: SafeguardingOfficerSummary): {
     case 'valid':
       return { status: 'compliant', label: 'Valid' };
     case 'expiring':
-      if (days === 0) return { status: 'expiring-soon', label: 'Expires today' };
-      return {
-        status: 'expiring-soon',
-        label: `${days} ${days === 1 ? 'day' : 'days'} remaining`,
-      };
+      return { status: 'expiring-soon', label: expiryCountdown(days ?? 0) };
     case 'expired':
       return { status: 'expired', label: 'Expired' };
     default:
@@ -129,14 +139,11 @@ export default function ComplianceDashboardPage() {
     (officer) => officer.checkStatus === 'expiring' || officer.checkStatus === 'expired',
   );
 
-  const hasNoRecords =
-    data.healthScore === 0 &&
-    data.dbsValid === 0 &&
-    data.dbsExpiringSoon === 0 &&
-    data.dbsExpired === 0 &&
-    data.consentComplete === 0 &&
-    data.consentPartial === 0 &&
-    data.consentMissing === 0;
+  // The onboarding empty state is for a club that has recorded nothing yet, so
+  // it keys on the record counts rather than on the consent figures, which now
+  // count members: any club with members reports some as missing, which is the
+  // point of the screen and not a reason to hide it.
+  const hasNoRecords = data.dbsChecks === 0 && data.consentRecords === 0;
 
   return (
     <MainLayout>
@@ -348,12 +355,20 @@ export default function ComplianceDashboardPage() {
                   <div className="space-y-3">
                     {data.expiringDbsChecks.map((check) => (
                       <div
-                        key={check.name}
+                        key={`${check.name}-${check.expiryDate}`}
                         className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10"
                       >
                         <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 bg-warning/20 rounded-full flex items-center justify-center">
-                            <Clock className="w-5 h-5 text-warning" />
+                          <div
+                            className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                              check.daysRemaining < 0 ? 'bg-danger/20' : 'bg-warning/20'
+                            }`}
+                          >
+                            {check.daysRemaining < 0 ? (
+                              <XCircle className="w-5 h-5 text-danger" />
+                            ) : (
+                              <Clock className="w-5 h-5 text-warning" />
+                            )}
                           </div>
                           <div>
                             <p className="text-white font-semibold">{check.name}</p>
@@ -361,8 +376,12 @@ export default function ComplianceDashboardPage() {
                           </div>
                         </div>
                         <div className="text-right">
-                          <p className="text-warning font-semibold text-sm tabular-nums">
-                            {check.daysRemaining} days remaining
+                          <p
+                            className={`font-semibold text-sm tabular-nums ${
+                              check.daysRemaining < 0 ? 'text-danger' : 'text-warning'
+                            }`}
+                          >
+                            {expiryCountdown(check.daysRemaining)}
                           </p>
                           <p className="text-white/40 text-xs tabular-nums">
                             Expires {formatDate(check.expiryDate, { day: '2-digit', month: '2-digit', year: 'numeric' })}
@@ -389,7 +408,7 @@ export default function ComplianceDashboardPage() {
                       const badge = officerCheckBadge(officer);
                       return (
                         <article
-                          key={officer.email}
+                          key={officer.id}
                           aria-label={officer.name}
                           className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-4 rounded-xl bg-white/5 border border-white/10"
                         >

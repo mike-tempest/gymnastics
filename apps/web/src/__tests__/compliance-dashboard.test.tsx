@@ -40,6 +40,7 @@ const mockGetSummary = getComplianceSummary as jest.MockedFunction<typeof getCom
 
 function officer(overrides: Partial<SafeguardingOfficerSummary> = {}): SafeguardingOfficerSummary {
   return {
+    id: 'officer-1',
     name: 'Gemma Laird',
     role: 'Welfare Officer',
     email: 'gemma.laird@example.org',
@@ -56,9 +57,11 @@ function summary(overrides: Partial<ComplianceSummary> = {}): ComplianceSummary 
   return {
     healthScore: 72,
     totalMembers: 40,
+    dbsChecks: 9,
     dbsValid: 8,
     dbsExpiringSoon: 1,
     dbsExpired: 0,
+    consentRecords: 114,
     consentComplete: 30,
     consentPartial: 8,
     consentMissing: 2,
@@ -139,6 +142,7 @@ describe('ComplianceDashboardPage', () => {
 
   it('lists every safeguarding officer, not only the first', async () => {
     const deputy = officer({
+      id: 'officer-2',
       name: 'Aled Prosser',
       role: 'Deputy Welfare Officer',
       email: 'aled.prosser@example.org',
@@ -155,6 +159,70 @@ describe('ComplianceDashboardPage', () => {
     expect(screen.getByText('Deputy Welfare Officer')).toBeInTheDocument();
     // The summary tile leads with the officer who needs attention.
     expect(screen.getAllByText('10 days remaining').length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('says how long ago a check lapsed instead of "0 days remaining"', async () => {
+    mockGetSummary.mockResolvedValue(
+      summary({
+        expiringDbsChecks: [
+          {
+            name: 'Ruth Kelleher',
+            role: 'head_coach',
+            expiryDate: '2025-01-01T00:00:00.000Z',
+            daysRemaining: -400,
+          },
+        ],
+      })
+    );
+
+    renderPage();
+
+    expect(await screen.findByText('Expired 400 days ago')).toBeInTheDocument();
+    expect(screen.queryByText('0 days remaining')).not.toBeInTheDocument();
+  });
+
+  it('offers the onboarding empty state only when nothing has been recorded', async () => {
+    // A club with members but no records at all: still the onboarding case,
+    // even though every one of those members now counts as consent missing.
+    mockGetSummary.mockResolvedValue(
+      summary({
+        healthScore: 0,
+        dbsChecks: 0,
+        dbsValid: 0,
+        dbsExpiringSoon: 0,
+        dbsExpired: 0,
+        consentRecords: 0,
+        consentComplete: 0,
+        consentPartial: 0,
+        consentMissing: 40,
+      })
+    );
+
+    renderPage();
+
+    expect(await screen.findByText('Safeguarding starts here')).toBeInTheDocument();
+  });
+
+  it('shows the real figures once the club has recorded anything', async () => {
+    mockGetSummary.mockResolvedValue(
+      summary({
+        healthScore: 0,
+        dbsChecks: 0,
+        dbsValid: 0,
+        dbsExpiringSoon: 0,
+        dbsExpired: 0,
+        consentRecords: 12,
+        consentComplete: 4,
+        consentPartial: 0,
+        consentMissing: 36,
+      })
+    );
+
+    renderPage();
+
+    const consentCard = (await screen.findByText('Consent status')).closest('a') as HTMLElement;
+    expect(within(consentCard).getByText('36')).toBeInTheDocument();
+    expect(screen.queryByText('Safeguarding starts here')).not.toBeInTheDocument();
   });
 
   it('says no officer is assigned when the club has none', async () => {

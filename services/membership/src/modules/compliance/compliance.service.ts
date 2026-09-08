@@ -11,6 +11,7 @@ const EXPIRY_WARNING_DAYS = 90;
 export type CheckExpiryStatus = 'valid' | 'expiring' | 'expired' | 'unknown';
 
 export interface SafeguardingOfficerSummary {
+  id: string;
   name: string;
   role: string;
   email: string;
@@ -25,9 +26,13 @@ export interface SafeguardingOfficerSummary {
 export interface ComplianceSummary {
   healthScore: number;
   totalMembers: number;
+  /** Background check records the club holds, whatever their state. */
+  dbsChecks: number;
   dbsValid: number;
   dbsExpiringSoon: number;
   dbsExpired: number;
+  /** Consent records the club holds, whatever their state. */
+  consentRecords: number;
   consentComplete: number;
   consentPartial: number;
   consentMissing: number;
@@ -39,6 +44,7 @@ export interface ComplianceSummary {
     name: string;
     role: string;
     expiryDate: string;
+    /** Negative once the check has lapsed, so the caller can say so. */
     daysRemaining: number;
   }[];
 }
@@ -82,13 +88,11 @@ export class ComplianceService {
         this.dbsService.getExpiringSoon(EXPIRY_WARNING_DAYS),
       ]);
 
-      // Calculate health score based on compliance metrics
-      // Factors: valid DBS (40%), granted consents (40%), expiring DBS (20% penalty)
-      const healthScore = this.calculateHealthScore(dbsStats, consentStats);
-
-      // Map expiring DBS checks to summary format
+      // Map expiring DBS checks to summary format. The underlying query has no
+      // lower bound, so a check that lapsed before anyone noticed comes back
+      // here too; its day count stays negative rather than being flattened to
+      // zero, which would read as "expires today".
       const expiringDbsChecks = expiringDbs.map((check) => {
-        const daysRemaining = this.calculateDaysRemaining(check.expiry_date);
         const fullName = check.user
           ? `${check.user.first_name} ${check.user.last_name}`
           : 'Unknown';
@@ -96,7 +100,7 @@ export class ComplianceService {
           name: fullName,
           role: check.user?.role || 'Unknown',
           expiryDate: check.expiry_date?.toISOString() || '',
-          daysRemaining: Math.max(0, daysRemaining),
+          daysRemaining: this.calculateDaysRemaining(check.expiry_date),
         };
       });
 
@@ -116,12 +120,24 @@ export class ComplianceService {
       const consentPartial = consentCoverage.partial;
       const consentMissing = Math.max(0, totalMembers - consentComplete - consentPartial);
 
+      // Health score: valid checks (40%), members fully consented (40%),
+      // expiring and expired checks (20% penalty). The consent half counts
+      // members, matching the figures shown beside it, so a club cannot score
+      // well on consent while most of its members have nothing on file.
+      const healthScore = this.calculateHealthScore(dbsStats, {
+        consentRecords: consentStats.total,
+        consentComplete,
+        totalMembers,
+      });
+
       return {
         healthScore,
         totalMembers,
+        dbsChecks: dbsStats.total,
         dbsValid: dbsStats.valid,
         dbsExpiringSoon: dbsStats.expiringSoon,
         dbsExpired: dbsStats.expired,
+        consentRecords: consentStats.total,
         consentComplete,
         consentPartial,
         consentMissing,
@@ -140,6 +156,7 @@ export class ComplianceService {
    * officer's own background check.
    */
   private toOfficerSummary(officer: {
+    id: string;
     name: string;
     role: string;
     email: string;
@@ -153,6 +170,7 @@ export class ComplianceService {
     const daysRemaining = expiry ? this.calculateDaysRemaining(expiry) : null;
 
     return {
+      id: officer.id,
       name: officer.name,
       role: officer.role,
       email: officer.email,
@@ -173,22 +191,25 @@ export class ComplianceService {
 
   /**
    * Calculate overall compliance health score (0-100)
-   * Based on percentage of valid DBS checks, granted consents, and expiring checks
+   * Based on valid background checks, members fully consented, and expiring checks
    */
   private calculateHealthScore(
     dbsStats: { total: number; valid: number; expiringSoon: number; expired: number },
-    consentStats: { total: number; granted: number },
+    consent: { consentRecords: number; consentComplete: number; totalMembers: number },
   ): number {
-    if (dbsStats.total === 0 && consentStats.total === 0) {
+    if (dbsStats.total === 0 && consent.consentRecords === 0) {
       return 0;
     }
 
     // DBS compliance (40% weight)
     const dbsScore = dbsStats.total > 0 ? (dbsStats.valid / dbsStats.total) * 40 : 0;
 
-    // Consent compliance (40% weight)
+    // Consent compliance (40% weight). Measured against the club's members
+    // rather than its consent rows: a member with nothing on file has to count
+    // against the club, or a single fully consented member would score full
+    // marks for a club of hundreds.
     const consentScore =
-      consentStats.total > 0 ? (consentStats.granted / consentStats.total) * 40 : 0;
+      consent.totalMembers > 0 ? (consent.consentComplete / consent.totalMembers) * 40 : 0;
 
     // Penalty for expiring and expired checks (20% weight)
     const expiringPenalty =

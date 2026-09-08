@@ -50,6 +50,7 @@ export interface Incident {
 export type CheckExpiryStatus = 'valid' | 'expiring' | 'expired' | 'unknown';
 
 export interface SafeguardingOfficerSummary {
+  id: string;
   name: string;
   role: string;
   email: string;
@@ -65,9 +66,13 @@ export interface ComplianceSummary {
   healthScore: number;
   /** Members in the club, counted from the member records themselves. */
   totalMembers: number;
+  /** Background check records the club holds, whatever their state. */
+  dbsChecks: number;
   dbsValid: number;
   dbsExpiringSoon: number;
   dbsExpired: number;
+  /** Consent records the club holds, whatever their state. */
+  consentRecords: number;
   /** Members holding every required consent, live and granted. */
   consentComplete: number;
   /** Members holding some but not all of the required consents. */
@@ -82,6 +87,7 @@ export interface ComplianceSummary {
     name: string;
     role: string;
     expiryDate: string;
+    /** Negative once the check has lapsed. */
     daysRemaining: number;
   }[];
 }

@@ -143,6 +143,43 @@ describe('ComplianceService', () => {
       expect(mockMembersService.getStatistics).toHaveBeenCalled();
     });
 
+    it('should report how many records the club actually holds', async () => {
+      stubHappyPath();
+
+      const result = await service.getSummary();
+
+      expect(result.dbsChecks).toBe(mockDbsStats.total);
+      expect(result.consentRecords).toBe(mockConsentStats.total);
+    });
+
+    it('should score consent against members rather than consent rows', async () => {
+      stubHappyPath();
+      // One member of a hundred, fully consented. Scoring the three consent
+      // rows on their own would award full marks for the consent half.
+      mockMembersService.getStatistics.mockResolvedValue({ total: 100 });
+      mockConsentsService.getCoverage.mockResolvedValue({
+        requiredTypes: 3,
+        complete: 1,
+        partial: 0,
+      });
+      mockConsentsService.getStatistics.mockResolvedValue({
+        total: 3,
+        granted: 3,
+        denied: 0,
+        pending: 0,
+        revoked: 0,
+        byType: {},
+      });
+
+      const result = await service.getSummary();
+
+      // DBS contributes 30 of its 40 and costs 5 of the 20 penalty; consent
+      // contributes 0.4 of its 40. Anything near the full 40 would mean the
+      // score is still counting rows.
+      expect(result.consentMissing).toBe(99);
+      expect(result.healthScore).toBeLessThan(30);
+    });
+
     it('should count consent complete and partial from per-member coverage', async () => {
       stubHappyPath();
 
@@ -274,6 +311,19 @@ describe('ComplianceService', () => {
       expect(result.expiringDbsChecks.length).toBe(1);
       expect(result.expiringDbsChecks[0].name).toBe('John Smith');
       expect(result.expiringDbsChecks[0].daysRemaining).toBeGreaterThanOrEqual(0);
+    });
+
+    it('should not report a check that has already lapsed as expiring today', async () => {
+      stubHappyPath();
+      // The expiry query has no lower bound, so a check nobody renewed comes
+      // back in this list; flattening it to zero would read as "expires today".
+      mockDBSService.getExpiringSoon.mockResolvedValue([
+        { ...mockExpiringDbs[0], expiry_date: daysFromNow(-400) },
+      ]);
+
+      const result = await service.getSummary();
+
+      expect(result.expiringDbsChecks[0].daysRemaining).toBeLessThan(-390);
     });
 
     it('should calculate a health score of 0 when there are no records', async () => {
