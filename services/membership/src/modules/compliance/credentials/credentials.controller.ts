@@ -14,7 +14,7 @@ import { CreateCredentialDto } from './dto/create-credential.dto';
 import { UpdateCredentialDto } from './dto/update-credential.dto';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
-import { Roles } from '../../auth/decorators/roles.decorator';
+import { ExactRoles, Roles } from '../../auth/decorators/roles.decorator';
 import { UserRole } from '../../users/entities/user.entity';
 import { UuidParam } from '../../../common/validation/parse-uuid.pipe';
 
@@ -29,7 +29,7 @@ export class CredentialsController {
   constructor(private readonly credentialsService: CredentialsService) {}
 
   @Post()
-  @Roles(UserRole.SUPER_ADMIN, UserRole.WELFARE_OFFICER)
+  @ExactRoles(UserRole.SUPER_ADMIN, UserRole.TREASURER, UserRole.WELFARE_OFFICER)
   create(@Body() createDto: CreateCredentialDto, @Request() req: { user: { user_id: string } }) {
     return this.credentialsService.create(createDto, req.user.user_id);
   }
@@ -77,13 +77,13 @@ export class CredentialsController {
   }
 
   @Put(':id')
-  @Roles(UserRole.SUPER_ADMIN, UserRole.WELFARE_OFFICER)
+  @ExactRoles(UserRole.SUPER_ADMIN, UserRole.TREASURER, UserRole.WELFARE_OFFICER)
   update(@Param('id', UuidParam) id: string, @Body() updateDto: UpdateCredentialDto) {
     return this.credentialsService.update(id, updateDto);
   }
 
   @Delete(':id')
-  @Roles(UserRole.SUPER_ADMIN, UserRole.WELFARE_OFFICER)
+  @ExactRoles(UserRole.SUPER_ADMIN, UserRole.TREASURER, UserRole.WELFARE_OFFICER)
   async remove(@Param('id', UuidParam) id: string) {
     await this.credentialsService.remove(id);
     return { message: 'Credential deleted successfully' };

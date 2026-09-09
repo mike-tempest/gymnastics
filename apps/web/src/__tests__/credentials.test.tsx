@@ -36,18 +36,18 @@ jest.mock('@/lib/api/compliance', () => ({
   updateCredential: jest.fn(),
 }));
 
-jest.mock('@/lib/api/staff', () => ({ listUsers: jest.fn() }));
+jest.mock('@/lib/api/staff', () => ({ listStaffDirectory: jest.fn() }));
 jest.mock('@/lib/api/members', () => ({ getMembers: jest.fn() }));
 
 // Imports after mocking so the mocks are applied.
 import CredentialsPage from '@/app/compliance/credentials/page';
 import { createCredential, getCredentials } from '@/lib/api/compliance';
 import { getMembers } from '@/lib/api/members';
-import { listUsers } from '@/lib/api/staff';
+import { listStaffDirectory } from '@/lib/api/staff';
 
 const mockGetCredentials = getCredentials as jest.MockedFunction<typeof getCredentials>;
 const mockCreateCredential = createCredential as jest.MockedFunction<typeof createCredential>;
-const mockListUsers = listUsers as jest.MockedFunction<typeof listUsers>;
+const mockListUsers = listStaffDirectory as jest.MockedFunction<typeof listStaffDirectory>;
 const mockGetMembers = getMembers as jest.MockedFunction<typeof getMembers>;
 
 const COACH = {

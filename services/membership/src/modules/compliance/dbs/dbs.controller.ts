@@ -14,7 +14,7 @@ import { CreateDBSCheckDto } from './dto/create-dbs-check.dto';
 import { UpdateDBSCheckDto } from './dto/update-dbs-check.dto';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
-import { Roles } from '../../auth/decorators/roles.decorator';
+import { ExactRoles, Roles } from '../../auth/decorators/roles.decorator';
 import { UserRole } from '../../users/entities/user.entity';
 import { UuidParam } from '../../../common/validation/parse-uuid.pipe';
 
@@ -24,7 +24,7 @@ export class DBSController {
   constructor(private readonly dbsService: DBSService) {}
 
   @Post()
-  @Roles(UserRole.SUPER_ADMIN)
+  @ExactRoles(UserRole.SUPER_ADMIN, UserRole.TREASURER, UserRole.WELFARE_OFFICER)
   create(@Body() createDto: CreateDBSCheckDto, @Request() req: { user: { user_id: string } }) {
     return this.dbsService.create(createDto, req.user.user_id);
   }

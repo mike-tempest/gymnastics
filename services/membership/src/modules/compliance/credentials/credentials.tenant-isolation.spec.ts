@@ -106,6 +106,22 @@ describe('CredentialsRepository tenant isolation', () => {
     savedEntities = [];
 
     const fakeRepo = {
+      manager: {
+        getRepository: () => ({
+          findOne: ({ where }: ObjectLiteral) =>
+            Promise.resolve(
+              [
+                { user_id: USER_IN_A, club_id: CLUB_A },
+                { user_id: USER_IN_B, club_id: CLUB_B },
+                { member_id: MEMBER_IN_A, club_id: CLUB_A },
+              ].find((row) =>
+                Object.entries(where).every(
+                  ([key, value]) => (row as ObjectLiteral)[key] === value,
+                ),
+              ) ?? null,
+            ),
+        }),
+      },
       find: jest.fn((options: ObjectLiteral) => {
         findCalls.push(options.where ?? {});
         return Promise.resolve(rows.filter((r) => matches(r, options.where ?? {})));
@@ -258,6 +274,20 @@ describe('CredentialsRepository tenant isolation', () => {
 
       expect(savedEntities[0]).toMatchObject({ club_id: CLUB_A });
       expect(savedEntities[0].club_id).not.toBe(CLUB_B);
+    });
+
+    it('rejects a holder from another club before saving', async () => {
+      cls.set(CLS_CLUB_ID_KEY, CLUB_A);
+      await expect(repo.create({ ...dto, user_id: USER_IN_B }, USER_IN_A)).rejects.toThrow(
+        'Credential holder not found',
+      );
+      expect(savedEntities).toHaveLength(0);
+    });
+
+    it('accepts a gymnast from the active club', async () => {
+      cls.set(CLS_CLUB_ID_KEY, CLUB_A);
+      await repo.create({ ...dto, user_id: undefined, member_id: MEMBER_IN_A }, USER_IN_A);
+      expect(savedEntities[0]).toMatchObject({ member_id: MEMBER_IN_A, club_id: CLUB_A });
     });
 
     it('update scopes the affected-row predicate and drops a supplied club_id', async () => {

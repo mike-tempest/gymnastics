@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsSelect, LessThan, LessThanOrEqual, Not, Repository } from 'typeorm';
 import { CredentialStatus, CredentialType } from '@club-manager/shared-types';
+import { User } from '../../users/entities/user.entity';
+import { Member } from '../../members/entities/member.entity';
 import { Credential } from './entities/credential.entity';
 import { CreateCredentialDto } from './dto/create-credential.dto';
 import { UpdateCredentialDto } from './dto/update-credential.dto';
@@ -48,6 +50,16 @@ export class CredentialsRepository {
   ) {}
 
   async create(createDto: CreateCredentialDto, createdBy: string | null): Promise<Credential> {
+    const subject = createDto.user_id
+      ? await this.scoped.scopedFindOne(this.credentialRepository.manager.getRepository(User), {
+          where: { user_id: createDto.user_id },
+          select: { user_id: true },
+        })
+      : await this.scoped.scopedFindOne(this.credentialRepository.manager.getRepository(Member), {
+          where: { member_id: createDto.member_id },
+          select: { member_id: true },
+        });
+    if (!subject) throw new NotFoundException('Credential holder not found');
     // Stamp club_id from the active tenant; never trust any club_id in the DTO.
     const { club_id: _ignored, ...rest } = createDto as CreateCredentialDto & { club_id?: string };
     const credential = this.credentialRepository.create(

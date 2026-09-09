@@ -6,7 +6,7 @@ import { BulkCreateStaffDto } from './dto/bulk-create-staff.dto';
 import { UserRole } from './entities/user.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
-import { Roles } from '../auth/decorators/roles.decorator';
+import { ExactRoles, Roles } from '../auth/decorators/roles.decorator';
 import { UuidParam } from '../../common/validation/parse-uuid.pipe';
 
 @Controller('users')
@@ -30,6 +30,17 @@ export class UsersController {
   @Roles(UserRole.SUPER_ADMIN, UserRole.TREASURER)
   findAll() {
     return this.usersService.findAll();
+  }
+
+  @Get('staff-directory')
+  @ExactRoles(
+    UserRole.SUPER_ADMIN,
+    UserRole.TREASURER,
+    UserRole.WELFARE_OFFICER,
+    UserRole.HEAD_COACH,
+  )
+  findStaffDirectory() {
+    return this.usersService.findStaffDirectory();
   }
 
   @Get('role/:role')

@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, LessThan } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
 import { DBSCheck, DBSStatus } from './entities/dbs-check.entity';
 import { CreateDBSCheckDto } from './dto/create-dbs-check.dto';
 import { UpdateDBSCheckDto } from './dto/update-dbs-check.dto';
@@ -17,6 +18,14 @@ export class DBSRepository {
   ) {}
 
   async create(createDto: CreateDBSCheckDto, createdBy: string): Promise<DBSCheck> {
+    const subject = await this.scoped.scopedFindOne(
+      this.dbsCheckRepository.manager.getRepository(User),
+      {
+        where: { user_id: createDto.user_id },
+        select: { user_id: true },
+      },
+    );
+    if (!subject) throw new NotFoundException('Staff member not found');
     // Stamp club_id from the active tenant; never trust any club_id in the DTO.
     const { club_id: _ignored, ...rest } = createDto as CreateDBSCheckDto & { club_id?: string };
     const dbsCheck = this.dbsCheckRepository.create(
