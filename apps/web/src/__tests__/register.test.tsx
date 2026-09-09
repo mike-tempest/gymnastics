@@ -39,6 +39,7 @@ describe('RegisterPage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
+    mockGet.mockReturnValue('a'.repeat(64));
   });
 
   it('renders the registration form with all fields', () => {
@@ -47,7 +48,7 @@ describe('RegisterPage', () => {
     expect(screen.getByLabelText('First Name')).toBeInTheDocument();
     expect(screen.getByLabelText('Last Name')).toBeInTheDocument();
     expect(screen.getByLabelText('Email Address')).toBeInTheDocument();
-    expect(screen.getByLabelText('I am a...')).toBeInTheDocument();
+    expect(screen.queryByLabelText('I am a...')).not.toBeInTheDocument();
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
     expect(screen.getByLabelText('Confirm Password')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /create account/i })).toBeInTheDocument();
@@ -68,11 +69,16 @@ describe('RegisterPage', () => {
     expect(screen.getByRole('link', { name: /sign in/i })).toHaveAttribute('href', '/login');
   });
 
-  it('has role dropdown defaulting to Parent / Guardian', () => {
+  it('offers club signup and sign-in without an invitation', () => {
+    mockGet.mockReturnValue(null);
     render(<RegisterPage />);
-
-    const roleSelect = screen.getByLabelText('I am a...') as HTMLSelectElement;
-    expect(roleSelect.value).toBe('PARENT');
+    expect(screen.getByRole('link', { name: /set up a new club/i })).toHaveAttribute(
+      'href',
+      '/create-club'
+    );
+    expect(screen.getByText(/need an invitation from their club/i)).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /create account/i })).not.toBeInTheDocument();
+    expect(mockRegisterUser).not.toHaveBeenCalled();
   });
 
   it('shows validation errors when submitting an empty form', async () => {
@@ -154,7 +160,7 @@ describe('RegisterPage', () => {
         password: 'password123',
         first_name: 'Jane',
         last_name: 'Doe',
-        role: 'PARENT',
+        invite_token: 'a'.repeat(64),
       });
       expect(mockStoreBackendToken).toHaveBeenCalledWith('test-token');
       expect(mockSignIn).toHaveBeenCalledWith('credentials', {

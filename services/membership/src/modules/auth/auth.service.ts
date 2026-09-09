@@ -1,4 +1,10 @@
-import { Injectable, UnauthorizedException, ConflictException, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+  BadRequestException,
+  Logger,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { InjectDataSource } from '@nestjs/typeorm';
@@ -13,7 +19,8 @@ import { User, UserRole } from '../users/entities/user.entity';
 import { Club, ClubStatus } from '../clubs/entities/club.entity';
 import { ClubSettings } from '../admin/settings/club-settings.entity';
 import { AuditLogsService } from '../compliance/audit-logs/audit-logs.service';
-import { mapRole } from './role-mapping';
+import { FamilyInvite } from '../families/entities/family-invite.entity';
+import { Family } from '../families/entities/family.entity';
 import { generateUniqueSlug } from './slug.util';
 import {
   defaultTaxLabelForCountry,
@@ -45,10 +52,53 @@ export class AuthService {
   }
 
   async register(registerDto: RegisterDto): Promise<{ access_token: string; user: User }> {
-    // The web app sends coarse uppercase roles (PARENT/COACH/ADMIN); map them to
-    // the lowercase UserRole enum. Defaults to PARENT when absent or unmapped.
-    const role = mapRole(registerDto.role) ?? UserRole.PARENT;
-    const user = await this.usersService.create({ ...registerDto, role });
+    if (!registerDto.invite_token) {
+      throw new BadRequestException(
+        'A family invitation is required. Ask your club for an invitation or use club signup.',
+      );
+    }
+
+    const passwordHash = await bcrypt.hash(registerDto.password, this.SALT_ROUNDS);
+    let user: User;
+    try {
+      user = await this.dataSource.transaction(async (manager) => {
+        // Serialise consumers of this single-use invitation. Club and family
+        // identity come only from the invitation, never from the request.
+        const invite = await manager.findOne(FamilyInvite, {
+          where: { token: registerDto.invite_token },
+          lock: { mode: 'pessimistic_write' },
+        });
+        if (!invite || invite.expires_at.getTime() <= Date.now()) {
+          throw new BadRequestException('Invitation is invalid or has expired');
+        }
+        const family = await manager.findOne(Family, {
+          where: { family_id: invite.family_id, club_id: invite.club_id },
+        });
+        if (!family) {
+          throw new BadRequestException('Invitation is invalid or has expired');
+        }
+        const userRepository = manager.getRepository(User);
+        const created = await userRepository.save(
+          userRepository.create({
+            email: registerDto.email.trim().toLowerCase(),
+            first_name: registerDto.first_name,
+            last_name: registerDto.last_name,
+            password_hash: passwordHash,
+            role: UserRole.PARENT,
+            club_id: invite.club_id,
+            family_id: invite.family_id,
+          }),
+        );
+        await manager.delete(FamilyInvite, { invite_id: invite.invite_id });
+        return created;
+      });
+    } catch (error) {
+      if ((error as { code?: string }).code === '23505') {
+        throw new ConflictException('An account with this email already exists. Please sign in.');
+      }
+      throw error;
+    }
+    delete user.password_hash;
     const payload = {
       sub: user.user_id,
       email: user.email,
