@@ -1,6 +1,6 @@
 # =============================================================================
-# Swimly Membership Service — Fly.io Production Dockerfile
-# Multi-stage build optimised for NestJS on Fly.io.
+# Gymnastics platform membership service production Dockerfile
+# Multi-stage build optimised for NestJS on Railway.
 # =============================================================================
 
 # ---------------------------------------------------------------------------
@@ -45,10 +45,10 @@ COPY packages/ ./packages/
 COPY services/membership/ ./services/membership/
 
 # Build everything the membership service depends on, then the service itself
-RUN pnpm turbo build --filter=@swim-nexus/membership-service
+RUN pnpm turbo build --filter=@club-manager/membership-service
 
 # Prune devDependencies for a leaner production image
-RUN pnpm install --frozen-lockfile --prod
+RUN pnpm install --frozen-lockfile --prod --ignore-scripts
 
 # ---------------------------------------------------------------------------
 # Stage 3: Production
@@ -83,8 +83,10 @@ USER swimly
 EXPOSE 3001
 
 ENV PORT=3001
+ENV TYPEORM_MIGRATIONS_RUN=true
+ENV TYPEORM_SYNCHRONIZE=false
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:3001/api/health || exit 1
+    CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT:-3001}/health/live || exit 1
 
 CMD ["node", "services/membership/dist/main.js"]

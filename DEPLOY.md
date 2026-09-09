@@ -1,420 +1,80 @@
-# Swimly Deployment Guide (Railway)
+# Deploy the gymnastics platform on Railway
 
-This guide covers deploying Swimly to Railway for both staging and production environments. The stack is a pnpm monorepo with a NestJS membership service and a Next.js web application, backed by PostgreSQL.
+Work is tracked in TEM-16. Use only the private [Gymnastics project](https://railway.com/project/dd7721ab-fcc4-4de9-8518-2eee17bc0f34). Its production environment and empty `membership` and `web` services were created on 9 September 2026. Databases, provider accounts, domains and deployed smoke tests are still outstanding. Nothing is shared with the original swimming platform.
 
----
+## Connect the services
 
-## Table of Contents
+Connect `mike-tempest/gymnastics`, branch `main`, to each existing service through the Railway dashboard. Keep the repository root as the build context so workspace packages are available.
 
-1. [Prerequisites](#1-prerequisites)
-2. [Architecture Overview](#2-architecture-overview)
-3. [First-time Project Setup](#3-first-time-project-setup)
-4. [Environment Variables](#4-environment-variables)
-5. [Database Setup (PostgreSQL Plugin)](#5-database-setup-postgresql-plugin)
-6. [Deploying the Services](#6-deploying-the-services)
-7. [Custom Domain Setup for swimly.uk](#7-custom-domain-setup-for-swimlyuk)
-8. [Staging vs Production](#8-staging-vs-production)
-9. [Common Troubleshooting](#9-common-troubleshooting)
+Set these values directly in each service's settings:
 
----
+| Setting              | membership                            | web                           |
+| -------------------- | ------------------------------------- | ----------------------------- |
+| Builder              | Dockerfile                            | Dockerfile                    |
+| Dockerfile path      | `services/membership/Dockerfile.prod` | `apps/web/Dockerfile`         |
+| Root directory       | `/`                                   | `/`                           |
+| Port                 | `3001`                                | `3000`                        |
+| Health check         | `/health`                             | `/`                           |
+| Health check timeout | `300` seconds                         | `300` seconds                 |
+| Restart policy       | On failure, maximum 3 retries         | On failure, maximum 3 retries |
 
-## 1. Prerequisites
+The old config files have been removed. Railway's [current configuration guidance](https://docs.railway.com/config-as-code) says new services cannot opt into legacy `railway.json` / `railway.toml` configuration. Use dashboard settings for this initial setup; a future infrastructure-as-code change can capture the complete project after its resources are verified.
 
-### Install the Railway CLI
+Do not use the generic root Dockerfile or `services/membership/entrypoint.sh` for this deployment. The production membership image starts the compiled application directly. It defaults to `TYPEORM_MIGRATIONS_RUN=true` and `TYPEORM_SYNCHRONIZE=false`: versioned migrations run before the application serves requests, and failed migrations prevent startup. No demo accounts are created automatically.
 
-```bash
-# Via npm (recommended)
-npm install -g @railway/cli
+## Data and secrets
 
-# Or via Homebrew on macOS
-brew install railway
+Create PostgreSQL and Redis inside this project using Railway's database templates, with persistent volumes and backups. Keep their endpoints private. Do not copy an existing project's variables or connect the application before its own database is ready.
+
+Set membership variables using references to those new services:
+
+| Variable                                                                 | Value                                                      |
+| ------------------------------------------------------------------------ | ---------------------------------------------------------- |
+| `NODE_ENV`                                                               | `production`                                               |
+| `PORT`                                                                   | `3001`                                                     |
+| `DB_HOST`, `DB_PORT`                                                     | New PostgreSQL private host and port                       |
+| `DB_USERNAME`, `DB_PASSWORD`, `DB_DATABASE`                              | New PostgreSQL credentials and database                    |
+| `REDIS_HOST`, `REDIS_PORT`, `REDIS_PASSWORD`                             | New Redis private connection values                        |
+| `JWT_SECRET`                                                             | Fresh random secret, at least 32 characters                |
+| `APP_URL`, `CORS_ORIGINS`                                                | Exact public web origin                                    |
+| `API_URL`                                                                | Public API origin                                          |
+| `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USER`, `EMAIL_PASSWORD`, `EMAIL_FROM` | The gymnastics platform's mail service and verified sender |
+| `GOCARDLESS_ENVIRONMENT`                                                 | `sandbox` until payment testing is complete                |
+| `ENABLE_COMPETITIONS`                                                    | `false`                                                    |
+
+The API reads `DB_USERNAME` and `DB_DATABASE`, not `DB_USER` or `DB_NAME`. A standalone `DATABASE_URL` does not satisfy its configuration validation. Keep schema synchronisation disabled and do not set `SEED_DEMO_CLUB` on the running production service.
+
+Set web variables:
+
+| Variable              | Value                                                                         |
+| --------------------- | ----------------------------------------------------------------------------- |
+| `NODE_ENV`, `PORT`    | `production`, `3000`                                                          |
+| `NEXTAUTH_SECRET`     | Fresh random secret                                                           |
+| `NEXTAUTH_URL`        | Exact public web origin                                                       |
+| `NEXT_PUBLIC_API_URL` | Public API URL **including `/api`**, supplied at build time                   |
+| `MEMBERSHIP_API_URL`  | API origin or base URL reachable from the web service for server-side sign-in |
+
+Changing `NEXT_PUBLIC_API_URL` requires rebuilding the web image because Next.js includes it in the browser bundle. Generate Railway service domains first if the final product domain has not been decided. Do not invent a product name or buy a domain without the naming decision in TEM-5.
+
+Mike owns creation of the separate GoCardless sandbox organisation and Stripe account. Connect GoCardless through the club's own organisation and configure its webhook secret using the existing provider setup. Never enable `LEGACY_GOCARDLESS_ENV_FALLBACK` in production. Configure Stripe test credentials and webhooks only for the separate account. A healthy API response with `gocardless.notConfigured=true` is not evidence that Direct Debit works.
+
+## Verify the deployment (TEM-17)
+
+1. Confirm both deployed services use the intended commit and answer their health checks. Check `/health` reports the database as up.
+2. Confirm the database starts without demo users and migrations have completed.
+3. For demo seeding, use a separate non-production environment in this project with explicit database settings. Follow [the demo guide](docs/demos/gym-demo-club.md). The seed rejects `NODE_ENV=production`; never change that guard. Do not run it against a real club's database.
+4. Exercise sign-in as admin, Welfare Officer, coach and parent. Check staff attribution for DBS and credentials, gymnast/family/squad/session/attendance flows, billing and the parent dashboard.
+5. Exercise waiting-list enrolment and an actual sandbox Direct Debit flow. Seeded mandate rows are fixtures, not proof of a successful provider connection. Verify the sandbox webhook round trip separately.
+6. Record deployment URLs, commit, test results and outstanding failures in TEM-16/TEM-17. Keep TEM-17 open until the deployed checks pass.
+
+## Local image validation
+
+Run from the repository root:
+
+```sh
+docker build -f services/membership/Dockerfile.prod -t gymnastics-membership:local .
+docker build -f apps/web/Dockerfile -t gymnastics-web:local \
+  --build-arg NEXT_PUBLIC_API_URL=http://localhost:3001/api .
 ```
 
-Verify the installation:
-
-```bash
-railway --version
-```
-
-### Authenticate
-
-```bash
-railway login
-```
-
-This opens a browser window. Log in with your Railway account (or create one at railway.com).
-
-### Other tools required
-
-| Tool    | Minimum version | Purpose                       |
-| ------- | --------------- | ----------------------------- |
-| Node.js | 20 LTS          | Local builds and scripts      |
-| pnpm    | 8.15+           | Monorepo package manager      |
-| Docker  | Any recent      | Local image builds (optional) |
-| Git     | Any             | Source control                |
-
----
-
-## 2. Architecture Overview
-
-Swimly is deployed as three Railway services within a single project, backed by a Railway-managed PostgreSQL database:
-
-| Service      | Description           | Port | Dockerfile                            |
-| ------------ | --------------------- | ---- | ------------------------------------- |
-| `web`        | Next.js frontend      | 3000 | `apps/web/Dockerfile`                 |
-| `membership` | NestJS membership API | 3001 | `services/membership/Dockerfile.prod` |
-| `postgres`   | PostgreSQL database   | 5432 | Railway Plugin (managed)              |
-
-The `notifications` service exists in the repository as a template store but has no deployable source code yet. It is excluded from the Railway deployment.
-
-### Railway service config files
-
-Each service has a `railway.toml` that tells Railway which Dockerfile to use and how to health-check the running container:
-
-- `apps/web/railway.toml` - web service config
-- `services/membership/railway.toml` - membership service config
-
-The root `railway.json` defines the project-level schema version.
-
----
-
-## 3. First-time Project Setup
-
-### Create a Railway project
-
-1. Go to [railway.com](https://railway.com) and create a new project.
-2. Name it `swimly` (or `swimly-staging` for staging).
-
-### Link the repository
-
-1. Inside the Railway project, click **New Service** and choose **GitHub Repo**.
-2. Select the `swim-team` repository.
-3. Railway will auto-detect the monorepo. You will create one service per deployable component.
-
-### Add the web service
-
-1. In the Railway project, add a GitHub service.
-2. Set **Root Directory** to `/` (repo root).
-3. Railway will use `apps/web/railway.toml` to find the Dockerfile.
-4. Name this service `web`.
-
-### Add the membership service
-
-1. Add another GitHub service from the same repo.
-2. Set **Root Directory** to `/`.
-3. Railway will use `services/membership/railway.toml` to find the Dockerfile.
-4. Name this service `membership`.
-
-### Add the PostgreSQL database
-
-1. Click **New Service** and choose **Database**, then **PostgreSQL**.
-2. Railway provisions a managed PostgreSQL instance and exposes `DATABASE_URL` automatically.
-
----
-
-## 4. Environment Variables
-
-Set variables in the Railway dashboard under each service's **Variables** tab. Never commit real secrets.
-
-### Membership service variables
-
-| Variable                    | Required | Description                                      | How to generate                                                            |
-| --------------------------- | -------- | ------------------------------------------------ | -------------------------------------------------------------------------- |
-| `DATABASE_URL`              | Yes      | Railway PostgreSQL connection string             | Set automatically when you link the PostgreSQL plugin                      |
-| `NODE_ENV`                  | Yes      | Set to `production`                              | -                                                                          |
-| `PORT`                      | Yes      | Set to `3001`                                    | -                                                                          |
-| `JWT_SECRET`                | Yes      | Signs authentication tokens                      | `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` |
-| `JWT_EXPIRES_IN`            | Yes      | Token expiry, e.g. `24h`                         | -                                                                          |
-| `CORS_ORIGINS`              | Yes      | Comma-separated list of allowed frontend origins | e.g. `https://swimly.uk,https://www.swimly.uk`                             |
-| `EMAIL_HOST`                | No       | SMTP hostname                                    | Your SMTP provider                                                         |
-| `EMAIL_PORT`                | No       | SMTP port                                        | Usually `587`                                                              |
-| `EMAIL_USER`                | No       | SMTP username                                    | Your SMTP provider                                                         |
-| `EMAIL_PASSWORD`            | No       | SMTP password                                    | Your SMTP provider                                                         |
-| `EMAIL_FROM`                | No       | Sender address                                   | e.g. `noreply@swimly.uk`                                                   |
-| `GOCARDLESS_ACCESS_TOKEN`   | No       | GoCardless API key                               | GoCardless dashboard                                                       |
-| `GOCARDLESS_ENVIRONMENT`    | No       | `sandbox` or `live`                              | -                                                                          |
-| `GOCARDLESS_WEBHOOK_SECRET` | No       | Verifies GoCardless webhooks                     | GoCardless dashboard                                                       |
-| `LOG_LEVEL`                 | No       | `warn` for production                            | -                                                                          |
-
-### Web service variables
-
-| Variable              | Required | Description                                   | Notes                                                                     |
-| --------------------- | -------- | --------------------------------------------- | ------------------------------------------------------------------------- |
-| `NODE_ENV`            | Yes      | Set to `production`                           | -                                                                         |
-| `NEXTAUTH_URL`        | Yes      | Public URL of the web app                     | e.g. `https://swimly.uk`                                                  |
-| `NEXTAUTH_SECRET`     | Yes      | NextAuth session secret                       | `openssl rand -base64 32`                                                 |
-| `NEXT_PUBLIC_API_URL` | Yes      | Public URL of the membership API              | e.g. `https://membership.swimly.uk` or the Railway-generated URL          |
-| `MEMBERSHIP_API_URL`  | Yes      | Private server-side URL of the membership API | Use Railway private networking: `http://membership.railway.internal:3001` |
-
-> **Note on `NEXT_PUBLIC_API_URL` vs `MEMBERSHIP_API_URL`:** The `NEXT_PUBLIC_` prefix makes a variable available in the browser bundle at build time. Use `MEMBERSHIP_API_URL` for server-side calls (e.g. NextAuth) so they go over Railway's private network rather than the public internet.
-
-### Linking services via Railway reference variables
-
-Railway allows services to reference each other's variables using `${{ServiceName.VARIABLE_NAME}}` syntax. In the Railway dashboard you can set:
-
-```
-# On the web service
-MEMBERSHIP_API_URL = ${{membership.RAILWAY_PRIVATE_DOMAIN}}
-```
-
-This automatically fills in the private hostname of the membership service.
-
----
-
-## 5. Database Setup (PostgreSQL Plugin)
-
-### Provision the database
-
-1. In the Railway project, click **New Service** and choose **Database**, then **PostgreSQL**.
-2. Railway creates a managed PostgreSQL instance and sets `DATABASE_URL` on it automatically.
-3. In the membership service Variables tab, add a reference variable:
-   ```
-   DATABASE_URL = ${{Postgres.DATABASE_URL}}
-   ```
-
-### Run database migrations
-
-After the first deployment, run migrations via the Railway CLI:
-
-```bash
-# Open a shell inside the running membership service
-railway run --service membership node services/membership/dist/migration-runner.js
-```
-
-Alternatively, connect via the Railway database proxy:
-
-```bash
-# Start a local proxy to the Railway PostgreSQL instance
-railway connect --service postgres
-
-# In another terminal, run migrations pointing at the proxy
-cd services/membership
-DATABASE_URL="postgresql://..." pnpm db:migrate
-```
-
-### Seed demo data (optional)
-
-```bash
-railway run --service membership node services/membership/dist/scripts/seed-demo.js
-```
-
----
-
-## 6. Deploying the Services
-
-### Automatic deploys (recommended)
-
-Railway deploys automatically whenever you push to the connected GitHub branch. No manual steps are needed after initial setup.
-
-1. Push your changes to the connected branch (e.g. `main`).
-2. Railway detects the push and triggers a build for each linked service.
-3. Builds run in parallel. Railway routes traffic to the new instances only after health checks pass.
-
-### Manual deploy via CLI
-
-```bash
-# Deploy all services in the current project
-railway up
-
-# Deploy a specific service
-railway up --service web
-railway up --service membership
-```
-
-### Verify the deployment
-
-```bash
-# Tail logs for the membership service
-railway logs --service membership
-
-# Tail logs for the web service
-railway logs --service web
-
-# Check service status
-railway status
-```
-
-Expected health check response for membership:
-
-```bash
-curl https://<your-membership-url>/api/health
-# {"status":"ok"}
-```
-
----
-
-## 7. Custom Domain Setup for swimly.uk
-
-### Add the domain in Railway
-
-1. In the Railway dashboard, open the `web` service.
-2. Go to **Settings** and find the **Domains** section.
-3. Click **Custom Domain** and enter `swimly.uk`.
-4. Repeat for `www.swimly.uk`.
-
-For the membership API, add `api.swimly.uk` (optional but recommended for production).
-
-### Configure DNS at your registrar
-
-Railway will display the DNS records to add. Typically:
-
-**Apex domain (swimly.uk):**
-
-| Type    | Name | Value               |
-| ------- | ---- | ------------------- |
-| `CNAME` | `@`  | Provided by Railway |
-
-> Some registrars do not support CNAME on the apex. In that case, use Railway's IP addresses with `A` records.
-
-**www subdomain:**
-
-| Type    | Name  | Value               |
-| ------- | ----- | ------------------- |
-| `CNAME` | `www` | Provided by Railway |
-
-**API subdomain (optional):**
-
-| Type    | Name  | Value                          |
-| ------- | ----- | ------------------------------ |
-| `CNAME` | `api` | Membership service Railway URL |
-
-Railway provisions TLS certificates via Let's Encrypt automatically once DNS resolves.
-
-### Update environment variables after DNS is live
-
-```bash
-# Update NEXTAUTH_URL on the web service
-railway variables set NEXTAUTH_URL=https://swimly.uk --service web
-
-# Update CORS_ORIGINS on the membership service
-railway variables set CORS_ORIGINS=https://swimly.uk,https://www.swimly.uk --service membership
-```
-
----
-
-## 8. Staging vs Production
-
-Use separate Railway projects for staging and production.
-
-| Setting                  | Staging                              | Production                                |
-| ------------------------ | ------------------------------------ | ----------------------------------------- |
-| Project name             | `swimly-staging`                     | `swimly`                                  |
-| Branch                   | `develop` or `staging`               | `main`                                    |
-| `GOCARDLESS_ENVIRONMENT` | `sandbox`                            | `live`                                    |
-| `NEXTAUTH_URL`           | Railway-generated URL                | `https://swimly.uk`                       |
-| `CORS_ORIGINS`           | Railway-generated web URL            | `https://swimly.uk,https://www.swimly.uk` |
-| Database                 | Separate Railway PostgreSQL instance | Separate Railway PostgreSQL instance      |
-| Secrets                  | Test values                          | Production-grade values only              |
-
-### Create a staging project
-
-1. Create a new Railway project named `swimly-staging`.
-2. Connect the same GitHub repo but point to your staging branch.
-3. Add the same services and repeat the variable setup with staging values.
-
----
-
-## 9. Common Troubleshooting
-
-### Build fails: "Cannot find module '@club-manager/shared-types'"
-
-The Dockerfiles copy shared packages before the service source. Verify the `packages/` directory is not excluded by `.dockerignore`.
-
-```bash
-cat .dockerignore | grep packages
-```
-
-### Health check fails after deploy
-
-Railway only routes traffic after health checks pass. If the membership service fails its health check at `/api/health`, check the logs:
-
-```bash
-railway logs --service membership
-```
-
-Common causes:
-
-- `DATABASE_URL` not set or incorrect (check Variables tab in Railway dashboard)
-- Migrations have not been run yet (run them after first deploy)
-- The container is still starting (the health check timeout is 300 seconds)
-
-### "Invalid JWT" or authentication errors
-
-Ensure `NEXTAUTH_SECRET` is the same value on both services:
-
-```bash
-railway variables --service web
-railway variables --service membership
-```
-
-If they differ, update the web service to match the membership service value.
-
-### CORS errors in the browser
-
-The `CORS_ORIGINS` variable on the membership service must include the exact origin the browser is sending (protocol + host + port):
-
-```bash
-railway variables set CORS_ORIGINS=https://swimly.uk,https://www.swimly.uk --service membership
-```
-
-### Next.js can reach the API on the server but not in the browser
-
-This is usually a misconfiguration of `NEXT_PUBLIC_API_URL` vs `MEMBERSHIP_API_URL`:
-
-- `MEMBERSHIP_API_URL` is used by the Next.js server (e.g. NextAuth) and should point to the Railway private network address.
-- `NEXT_PUBLIC_API_URL` is used by the browser and must be a public HTTPS URL.
-
-Make sure both are set correctly in the Railway web service Variables tab.
-
-### Deployment stuck in "Building" state
-
-Check the build logs in the Railway dashboard for errors. Common causes:
-
-- Docker build layer cache issue (trigger a fresh build by clicking **Redeploy** with cache cleared)
-- pnpm lockfile mismatch (run `pnpm install` locally and commit the updated `pnpm-lock.yaml`)
-
-### Rolling back a bad deploy
-
-In the Railway dashboard, navigate to the service, open **Deployments**, and click **Rollback** on any previous successful deployment.
-
----
-
-## Quick Reference
-
-```bash
-# Log in to Railway
-railway login
-
-# Link to an existing project
-railway link
-
-# Deploy all services
-railway up
-
-# Deploy a specific service
-railway up --service membership
-
-# Tail logs
-railway logs --service membership
-railway logs --service web
-
-# Run a command inside a service
-railway run --service membership node services/membership/dist/migration-runner.js
-
-# Set a variable
-railway variables set KEY=value --service membership
-
-# Open the Railway dashboard
-railway open
-```
-
----
-
-## Further Reading
-
-- [Railway documentation](https://docs.railway.com)
-- [Railway monorepo guide](https://docs.railway.com/guides/monorepo)
-- [Railway environment variables](https://docs.railway.com/guides/variables)
-- [Railway private networking](https://docs.railway.com/guides/private-networking)
-- [NestJS production deployment](https://docs.nestjs.com/faq/serverless)
-- [Next.js standalone output](https://nextjs.org/docs/app/api-reference/next-config-js/output)
+The production-image CI workflow builds both images on Linux. Runtime checks must use a disposable local database with explicit `DB_*` values, never the repository's saved environment file.

@@ -1,5 +1,5 @@
 # =============================================================================
-# Swimly Next.js Web Application Dockerfile
+# Gymnastics platform Next.js web application Dockerfile
 # Multi-stage build optimised for production with standalone output.
 # Usage (dev): docker build --target development .
 # Usage (prod): docker build .
@@ -38,8 +38,8 @@ COPY packages/ ./packages/
 COPY apps/web/ ./apps/web/
 
 # Build shared packages
-RUN pnpm --filter @swim-nexus/shared-types build && \
-    pnpm --filter @swim-nexus/utils build
+RUN pnpm --filter @club-manager/shared-types build && \
+    pnpm --filter @club-manager/utils build
 
 EXPOSE 3000
 
@@ -50,29 +50,19 @@ CMD ["pnpm", "--filter", "web", "dev"]
 # Stage 3: Builder
 # Build shared packages then the Next.js application.
 # ---------------------------------------------------------------------------
-FROM node:20-alpine AS builder
-
-RUN corepack enable && corepack prepare pnpm@9.12.1 --activate
-
-WORKDIR /app
-
-# Copy everything from deps stage
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/packages ./packages
-COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
-COPY --from=deps /app/pnpm-workspace.yaml /app/pnpm-lock.yaml /app/package.json /app/turbo.json /app/tsconfig.json ./
+FROM deps AS builder
 
 # Copy source code
 COPY packages/ ./packages/
 COPY apps/web/ ./apps/web/
 
 # Build shared packages first
-RUN pnpm --filter @swim-nexus/shared-types build && \
-    pnpm --filter @swim-nexus/utils build
+RUN pnpm --filter @club-manager/shared-types build && \
+    pnpm --filter @club-manager/utils build
 
 # Set build-time environment variables
 # NEXT_PUBLIC_ vars must be available at build time for Next.js to inline them
-ARG NEXT_PUBLIC_API_URL=http://localhost:3001
+ARG NEXT_PUBLIC_API_URL=http://localhost:3001/api
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 
 # PostHog analytics. Empty defaults make the build succeed without the keys;
