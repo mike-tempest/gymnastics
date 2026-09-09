@@ -1,12 +1,5 @@
-import {
-  IsString,
-  IsNotEmpty,
-  IsOptional,
-  IsDateString,
-  IsUUID,
-  MaxLength,
-  IsIn,
-} from 'class-validator';
+import { IsDateOfBirth } from '../../../common/validation/date-of-birth.validator';
+import { IsString, IsNotEmpty, IsOptional, IsUUID, MaxLength, IsIn } from 'class-validator';
 import { Discipline, GoverningBody } from '@club-manager/shared-types';
 
 export class CreateMemberDto {
@@ -38,7 +31,7 @@ export class CreateMemberDto {
   last_name: string;
 
   @IsNotEmpty()
-  @IsDateString()
+  @IsDateOfBirth()
   dob: string;
 
   @IsNotEmpty()

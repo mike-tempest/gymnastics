@@ -1,12 +1,5 @@
-import {
-  IsString,
-  IsNotEmpty,
-  IsOptional,
-  IsDateString,
-  IsEmail,
-  IsIn,
-  MaxLength,
-} from 'class-validator';
+import { IsDateOfBirth } from '../../../common/validation/date-of-birth.validator';
+import { IsString, IsNotEmpty, IsOptional, IsEmail, IsIn, MaxLength } from 'class-validator';
 import { GoverningBody } from '@club-manager/shared-types';
 
 // One row of a combined members import (member plus parent/family details).
@@ -22,7 +15,7 @@ export class MemberImportRowDto {
   member_last_name: string;
 
   @IsNotEmpty()
-  @IsDateString()
+  @IsDateOfBirth()
   dob: string;
 
   @IsNotEmpty()

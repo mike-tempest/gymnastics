@@ -88,6 +88,16 @@ describe('DataImportService', () => {
     jest.clearAllMocks();
   });
 
+  it('reports invalid birth dates before creating families or members', async () => {
+    const result = await service.importMembers(makeDto([{ ...baseRow, dob: '9999-12-31' }]));
+    expect(result.errors).toEqual([
+      { row: 1, message: 'Date of birth must be a valid date on or before today' },
+    ]);
+    expect(mockFamiliesRepository.create).not.toHaveBeenCalled();
+    expect(mockMembersRepository.create).not.toHaveBeenCalled();
+    expect(mockMembersRepository.update).not.toHaveBeenCalled();
+  });
+
   it('should be defined', () => {
     expect(service).toBeDefined();
   });

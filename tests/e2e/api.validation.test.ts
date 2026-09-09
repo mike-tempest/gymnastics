@@ -1,4 +1,12 @@
-import { loginAs, authPost, ADMIN_EMAIL, ADMIN_PASSWORD, API_BASE } from './helpers';
+import {
+  loginAs,
+  authPost,
+  authGet,
+  authPatch,
+  ADMIN_EMAIL,
+  ADMIN_PASSWORD,
+  API_BASE,
+} from './helpers';
 
 describe('API Validation', () => {
   let adminToken: string;
@@ -16,7 +24,6 @@ describe('API Validation', () => {
           password: 'ValidPassword123!',
           first_name: 'Test',
           last_name: 'User',
-          role: 'parent',
         }),
       });
 
@@ -41,7 +48,6 @@ describe('API Validation', () => {
             password: 'ValidPassword123!',
             first_name: 'Test',
             last_name: 'User',
-            role: 'parent',
           }),
         });
 
@@ -58,7 +64,6 @@ describe('API Validation', () => {
           password: '123',
           first_name: 'Test',
           last_name: 'User',
-          role: 'parent',
         }),
       });
 
@@ -73,7 +78,6 @@ describe('API Validation', () => {
           email: `test_${Date.now()}@example.com`,
           first_name: 'Test',
           last_name: 'User',
-          role: 'parent',
         }),
       });
 
@@ -136,6 +140,38 @@ describe('API Validation', () => {
 
       expect(res.status).toBe(400);
     });
+  });
+
+  it('rejects future birth dates on updates and leaves the stored date unchanged', async () => {
+    const response = await authGet('/members', adminToken);
+    const members = await response.json();
+    expect(members.length).toBeGreaterThan(0);
+    const member = members[0];
+    const update = await authPatch(`/members/${member.member_id}`, adminToken, {
+      dob: '9999-12-31',
+    });
+    expect(update.status).toBe(400);
+    expect(JSON.stringify(await update.json())).toMatch(/on or before today/);
+    const stored = await authGet(`/members/${member.member_id}`, adminToken);
+    expect((await stored.json()).dob).toBe(member.dob);
+  });
+
+  it('rejects future birth dates in combined imports', async () => {
+    const response = await authPost('/import/members', adminToken, {
+      rows: [
+        {
+          member_first_name: 'Future',
+          member_last_name: 'Child',
+          dob: '9999-12-31',
+          gender: 'M',
+          parent_name: 'Parent',
+          parent_email: 'future@example.com',
+        },
+      ],
+      options: { create_missing_squads: false },
+    });
+    expect(response.status).toBe(400);
+    expect(JSON.stringify(await response.json())).toMatch(/on or before today/);
   });
 
   describe('Invoices Validation', () => {
