@@ -1,10 +1,10 @@
 ---
-title: "Swim England Membership 2026: Categories, Fees & What Your Club Needs to Know"
-description: "Swim England membership in 2026 explained for club committees: the Club Train, Club Compete and Club Support categories, fees and key deadlines."
+title: 'Swim England Membership 2026: Categories, Fees & What Your Club Needs to Know'
+description: 'Swim England membership in 2026 explained for club committees: the Club Train, Club Compete and Club Support categories, fees and key deadlines.'
 pubDate: 2026-02-14
 updatedDate: 2026-03-29
-author: "Swimly Team"
-tags: ["swim clubs", "Swim England", "membership", "club management"]
+author: 'Swimly Team'
+tags: ['swim clubs', 'Swim England', 'membership', 'club management']
 ---
 
 If you are a club registration officer, membership secretary, or committee member at a Swim England affiliated swimming club, you will know that Swim England membership categories are one of those things that should be straightforward but often cause confusion. Which category does a [learn-to-swim](/swim-school-management/) swimmer need? What about a parent who helps on poolside? Can a Club Train member enter a club championship?

@@ -1,25 +1,25 @@
 ---
-title: "What Wavepower Compliance Actually Requires From Your Club"
+title: 'What Wavepower Compliance Actually Requires From Your Club'
 description: "Wavepower is Swim England's child safeguarding policy, and compliance is not optional. Here is a practical breakdown of what your club needs to do, and how to stay on top of it."
 pubDate: 2026-02-05
 updatedDate: 2026-06-16
-author: "Swimly Team"
-tags: ["wavepower", "safeguarding", "compliance", "Swim England"]
-seoTitle: "What Wavepower Compliance Actually Requires | Swimly Blog"
-seoDescription: "A practical guide to Wavepower compliance for swimming clubs. Understand what Swim England requires and how to manage safeguarding obligations effectively."
+author: 'Swimly Team'
+tags: ['wavepower', 'safeguarding', 'compliance', 'Swim England']
+seoTitle: 'What Wavepower Compliance Actually Requires | Swimly Blog'
+seoDescription: 'A practical guide to Wavepower compliance for swimming clubs. Understand what Swim England requires and how to manage safeguarding obligations effectively.'
 faqItems:
-  - question: "Is Wavepower compliance mandatory for swimming clubs?"
-    answer: "Yes. Wavepower is a condition of affiliation with Swim England, not an optional set of guidelines. Every affiliated club is expected to operate in line with it, and failing to meet these obligations can lead to sanctions, suspension, or removal from Swim England."
-  - question: "Who needs an enhanced DBS check at a swimming club?"
-    answer: "Anyone in a role involving regular, unsupervised contact with children needs an enhanced DBS check. This typically includes coaches, assistant coaches, team managers, and poolside helpers, as well as the Club Welfare Officer."
-  - question: "How often do DBS checks need to be renewed under Wavepower?"
+  - question: 'Is Wavepower compliance mandatory for swimming clubs?'
+    answer: 'Yes. Wavepower is a condition of affiliation with Swim England, not an optional set of guidelines. Every affiliated club is expected to operate in line with it, and failing to meet these obligations can lead to sanctions, suspension, or removal from Swim England.'
+  - question: 'Who needs an enhanced DBS check at a swimming club?'
+    answer: 'Anyone in a role involving regular, unsupervised contact with children needs an enhanced DBS check. This typically includes coaches, assistant coaches, team managers, and poolside helpers, as well as the Club Welfare Officer.'
+  - question: 'How often do DBS checks need to be renewed under Wavepower?'
     answer: "Swim England's policy requires DBS checks to be renewed at regular intervals, typically every three years, unless the person has subscribed to the DBS Update Service. There is no fixed legal expiry on a certificate, so clubs need to track renewal dates themselves."
-  - question: "Who is responsible for safeguarding in a swimming club?"
-    answer: "Every club must appoint a Club Welfare Officer as the primary contact for safeguarding concerns, and they must complete Swim England training such as Time to Listen and hold a current enhanced DBS check. Safeguarding is a whole-club responsibility, though, with the committee, coaches, and volunteers all playing a part."
-  - question: "What should a club do when a safeguarding concern is raised?"
+  - question: 'Who is responsible for safeguarding in a swimming club?'
+    answer: 'Every club must appoint a Club Welfare Officer as the primary contact for safeguarding concerns, and they must complete Swim England training such as Time to Listen and hold a current enhanced DBS check. Safeguarding is a whole-club responsibility, though, with the committee, coaches, and volunteers all playing a part.'
+  - question: 'What should a club do when a safeguarding concern is raised?'
     answer: "Pass the concern to the Club Welfare Officer as soon as possible. The club's role is to listen, record, and refer, never to investigate allegations itself. The Club Welfare Officer then follows Wavepower's reporting procedures, which may involve Swim England's Child Safeguarding Team, the local authority's children's services, or the police in urgent cases. Record every concern in writing, even minor ones."
-  - question: "How often is Wavepower updated?"
-    answer: "Swim England updates Wavepower periodically to reflect changes in legislation, best practice, and learning from safeguarding cases. There is no fixed schedule, so your Club Welfare Officer and committee should always work from the current edition published on the Swim England website."
+  - question: 'How often is Wavepower updated?'
+    answer: 'Swim England updates Wavepower periodically to reflect changes in legislation, best practice, and learning from safeguarding cases. There is no fixed schedule, so your Club Welfare Officer and committee should always work from the current edition published on the Swim England website.'
 ---
 
 If you volunteer on a swimming club committee, you have almost certainly heard of Wavepower. You probably know it matters. But if you are being honest, you might also admit that the full scope of what Wavepower compliance requires can feel genuinely overwhelming. The document itself runs to hundreds of pages, it is updated regularly, and the responsibilities it places on clubs are significant.

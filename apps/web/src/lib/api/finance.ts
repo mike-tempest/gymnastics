@@ -1,4 +1,10 @@
-import { Invoice, InvoiceItem, Payment, InvoiceStatus, PaymentMethod } from '@club-manager/shared-types';
+import {
+  Invoice,
+  InvoiceItem,
+  Payment,
+  InvoiceStatus,
+  PaymentMethod,
+} from '@club-manager/shared-types';
 
 import { api, apiDownload } from './api-client';
 
@@ -136,8 +142,12 @@ export async function deleteInvoice(id: string): Promise<void> {
   return api.delete<void>(`/invoices/${id}`);
 }
 
-export async function generateMonthlyInvoices(squadId?: string): Promise<{ created_count: number }> {
-  const path = squadId ? `/invoices/generate-monthly?squad_id=${encodeURIComponent(squadId)}` : '/invoices/generate-monthly';
+export async function generateMonthlyInvoices(
+  squadId?: string
+): Promise<{ created_count: number }> {
+  const path = squadId
+    ? `/invoices/generate-monthly?squad_id=${encodeURIComponent(squadId)}`
+    : '/invoices/generate-monthly';
   return api.post<{ created_count: number }>(path);
 }
 
@@ -155,7 +165,7 @@ export interface GenerateInvoicesResult {
  */
 export async function generateInvoices(
   feeStructureId: string,
-  billingPeriod?: string,
+  billingPeriod?: string
 ): Promise<GenerateInvoicesResult> {
   return api.post<GenerateInvoicesResult>('/invoices/generate', {
     fee_structure_id: feeStructureId,
@@ -213,7 +223,10 @@ export async function createFeeStructure(data: CreateFeeStructureInput): Promise
   return api.post<FeeStructure>('/fee-structures', data);
 }
 
-export async function updateFeeStructure(id: string, data: UpdateFeeStructureInput): Promise<FeeStructure> {
+export async function updateFeeStructure(
+  id: string,
+  data: UpdateFeeStructureInput
+): Promise<FeeStructure> {
   return api.patch<FeeStructure>(`/fee-structures/${id}`, data);
 }
 
@@ -239,7 +252,7 @@ export interface BulkFeeStructureInput {
 }
 
 export async function bulkImportFeeStructures(
-  feeStructures: BulkFeeStructureInput[],
+  feeStructures: BulkFeeStructureInput[]
 ): Promise<{ created: FeeStructure[]; errors: Array<{ row: number; message: string }> }> {
   return api.post('/fee-structures/bulk', { fee_structures: feeStructures });
 }

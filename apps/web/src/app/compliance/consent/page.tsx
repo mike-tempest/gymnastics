@@ -1,13 +1,7 @@
 'use client';
 
 import { governingBodyConfig, defaultGoverningBodyForCountry } from '@club-manager/shared-types';
-import {
-  Users,
-  CheckCircle,
-  XCircle,
-  Search,
-  Download,
-} from 'lucide-react';
+import { Users, CheckCircle, XCircle, Search, Download } from 'lucide-react';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 
 import MainLayout from '@/components/layout/MainLayout';
@@ -49,7 +43,7 @@ export default function ConsentManagementPage() {
   const { country, club } = useClubRegion();
   // Data-sharing consent names the governing body the data actually goes to.
   const { dataSharingRecipient } = governingBodyConfig(
-    club?.governing_body ?? defaultGoverningBodyForCountry(country),
+    club?.governing_body ?? defaultGoverningBodyForCountry(country)
   );
   const [consentData, setConsentData] = useState<MemberConsent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -80,9 +74,7 @@ export default function ConsentManagementPage() {
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase().trim();
       result = result.filter(
-        (s) =>
-          s.name.toLowerCase().includes(query) ||
-          s.squad.toLowerCase().includes(query)
+        (s) => s.name.toLowerCase().includes(query) || s.squad.toLowerCase().includes(query)
       );
     }
 
@@ -125,19 +117,18 @@ export default function ConsentManagementPage() {
       <div className="min-h-dvh bg-canvas p-6 sm:p-10">
         <div className="max-w-7xl mx-auto">
           <Breadcrumb
-            items={[
-              { label: 'Compliance', href: '/compliance' },
-              { label: 'Consent' },
-            ]}
+            items={[{ label: 'Compliance', href: '/compliance' }, { label: 'Consent' }]}
           />
 
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
             <div>
-              <h1 className="font-serif text-3xl sm:text-4xl text-dark-primary tracking-tight mb-2">Consent management</h1>
+              <h1 className="font-serif text-3xl sm:text-4xl text-dark-primary tracking-tight mb-2">
+                Consent management
+              </h1>
               <p className="text-grey-600 text-lg">
-                Track medical, photo, and data consent for all members. Data consent covers
-                data sharing with {dataSharingRecipient}.
+                Track medical, photo, and data consent for all members. Data consent covers data
+                sharing with {dataSharingRecipient}.
               </p>
             </div>
             <button
@@ -236,7 +227,10 @@ export default function ConsentManagementPage() {
                 title={`No ${MEMBER_NOUN_PLURAL_LOWER} found`}
                 description={`No ${MEMBER_NOUN_PLURAL_LOWER} match your search criteria.`}
                 actionLabel="Clear filters"
-                actionOnClick={() => { setSearchQuery(''); setActiveTab('all'); }}
+                actionOnClick={() => {
+                  setSearchQuery('');
+                  setActiveTab('all');
+                }}
               />
             ) : (
               <>
@@ -253,7 +247,11 @@ export default function ConsentManagementPage() {
                           <p className="text-white/60 text-sm">{member.squad}</p>
                         </div>
                         <p className="text-white/60 text-xs tabular-nums">
-                          {formatDate(member.lastUpdated, { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                          {formatDate(member.lastUpdated, {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                          })}
                         </p>
                       </div>
                       <div className="flex flex-wrap gap-2">
@@ -279,12 +277,24 @@ export default function ConsentManagementPage() {
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-white/10">
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">{MEMBER_NOUN}</th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Squad</th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Medical consent</th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Photo consent</th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Data consent</th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Last updated</th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          {MEMBER_NOUN}
+                        </th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Squad
+                        </th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Medical consent
+                        </th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Photo consent
+                        </th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Data consent
+                        </th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Last updated
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -310,7 +320,11 @@ export default function ConsentManagementPage() {
                           </td>
                           <td className="py-4 px-4">
                             <p className="text-white/80 text-sm tabular-nums">
-                              {formatDate(member.lastUpdated, { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                              {formatDate(member.lastUpdated, {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                              })}
                             </p>
                           </td>
                         </tr>

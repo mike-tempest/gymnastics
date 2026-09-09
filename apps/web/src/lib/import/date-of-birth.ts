@@ -18,9 +18,7 @@ const DAY_FIRST_PATTERN = /^(\d{1,2})[-/.](\d{1,2})[-/.](\d{2}|\d{4})$/;
 function isRealDate(year: number, month: number, day: number): boolean {
   const date = new Date(Date.UTC(year, month - 1, day));
   return (
-    date.getUTCFullYear() === year &&
-    date.getUTCMonth() === month - 1 &&
-    date.getUTCDate() === day
+    date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day
   );
 }
 
@@ -34,7 +32,10 @@ function pad(value: number, width: number): string {
  * "08" is 2008 and "98" is 1998, which is the sensible reading for a
  * member's date of birth.
  */
-export function expandTwoDigitYear(twoDigit: number, referenceYear: number = new Date().getFullYear()): number {
+export function expandTwoDigitYear(
+  twoDigit: number,
+  referenceYear: number = new Date().getFullYear()
+): number {
   const pivot = referenceYear % 100;
   return twoDigit <= pivot ? 2000 + twoDigit : 1900 + twoDigit;
 }
@@ -54,7 +55,7 @@ export function expandTwoDigitYear(twoDigit: number, referenceYear: number = new
  */
 export function parseDateOfBirth(
   value: string,
-  referenceYear: number = new Date().getFullYear(),
+  referenceYear: number = new Date().getFullYear()
 ): string | null {
   const trimmed = value.trim();
   if (!trimmed) return null;
@@ -73,7 +74,10 @@ export function parseDateOfBirth(
   } else if (dayFirst) {
     day = Number(dayFirst[1]);
     month = Number(dayFirst[2]);
-    year = dayFirst[3].length === 2 ? expandTwoDigitYear(Number(dayFirst[3]), referenceYear) : Number(dayFirst[3]);
+    year =
+      dayFirst[3].length === 2
+        ? expandTwoDigitYear(Number(dayFirst[3]), referenceYear)
+        : Number(dayFirst[3]);
   } else {
     return null;
   }

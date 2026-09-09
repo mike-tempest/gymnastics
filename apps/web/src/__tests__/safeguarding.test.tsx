@@ -50,11 +50,23 @@ import {
 const mockGetChecklist = getChecklist as jest.MockedFunction<typeof getChecklist>;
 const mockGetOfficer = getSafeguardingOfficer as jest.MockedFunction<typeof getSafeguardingOfficer>;
 const mockGetIncidents = getIncidents as jest.MockedFunction<typeof getIncidents>;
-const mockUpdateChecklistItem = updateChecklistItem as jest.MockedFunction<typeof updateChecklistItem>;
+const mockUpdateChecklistItem = updateChecklistItem as jest.MockedFunction<
+  typeof updateChecklistItem
+>;
 
 const CHECKLIST = [
-  { id: 'c1', requirement: 'Welfare officer appointed', description: 'A designated officer is in place.', completed: true },
-  { id: 'c2', requirement: 'Policy published', description: 'The policy is available to members.', completed: false },
+  {
+    id: 'c1',
+    requirement: 'Welfare officer appointed',
+    description: 'A designated officer is in place.',
+    completed: true,
+  },
+  {
+    id: 'c2',
+    requirement: 'Policy published',
+    description: 'The policy is available to members.',
+    completed: false,
+  },
 ];
 
 const OFFICER = {
@@ -91,12 +103,12 @@ describe('SafeguardingPage', () => {
     renderPage();
 
     expect(
-      await screen.findByText('Safeguarding and Protecting Children Policy compliance checklist'),
+      await screen.findByText('Safeguarding and Protecting Children Policy compliance checklist')
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        'Safeguarding and Protecting Children Policy compliance, Welfare Officer details, and incident tracking',
-      ),
+        'Safeguarding and Protecting Children Policy compliance, Welfare Officer details, and incident tracking'
+      )
     ).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Welfare Officer' })).toBeInTheDocument();
     expect(screen.getByText('DBS number')).toBeInTheDocument();
@@ -110,7 +122,7 @@ describe('SafeguardingPage', () => {
 
     expect(await screen.findByText('Safe Sport compliance checklist')).toBeInTheDocument();
     expect(
-      screen.getByText('Safe Sport compliance, Safeguarding Officer details, and incident tracking'),
+      screen.getByText('Safe Sport compliance, Safeguarding Officer details, and incident tracking')
     ).toBeInTheDocument();
     expect(screen.getByText('SafeSport number')).toBeInTheDocument();
     expect(screen.getByText('SafeSport expiry')).toBeInTheDocument();
@@ -129,7 +141,7 @@ describe('SafeguardingPage', () => {
 
     expect(await screen.findByText('Safe Sport compliance checklist')).toBeInTheDocument();
     expect(
-      screen.getByRole('heading', { name: 'Member Protection Information Officer (MPIO)' }),
+      screen.getByRole('heading', { name: 'Member Protection Information Officer (MPIO)' })
     ).toBeInTheDocument();
     expect(screen.getByText('WWCC number')).toBeInTheDocument();
     expect(screen.getByText('WWCC expiry')).toBeInTheDocument();

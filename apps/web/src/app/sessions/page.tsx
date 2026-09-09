@@ -92,7 +92,12 @@ function getMonday(date: Date): Date {
 
 export default function SessionsPage() {
   const router = useRouter();
-  const { data: sessionsData, isLoading: sessionsLoading, error: sessionsError, refetch: refetchSessions } = useSessions();
+  const {
+    data: sessionsData,
+    isLoading: sessionsLoading,
+    error: sessionsError,
+    refetch: refetchSessions,
+  } = useSessions();
   const { data: squadsData, isLoading: squadsLoading } = useSquads();
   const sessions = useMemo(() => sessionsData ?? [], [sessionsData]);
   const squads = squadsData ?? [];
@@ -238,7 +243,8 @@ export default function SessionsPage() {
         return true;
       })
       .sort((a, b) => {
-        const dateCompare = parseLocalDate(a.session_date).getTime() - parseLocalDate(b.session_date).getTime();
+        const dateCompare =
+          parseLocalDate(a.session_date).getTime() - parseLocalDate(b.session_date).getTime();
         if (dateCompare !== 0) return dateCompare;
         return a.start_time.localeCompare(b.start_time);
       });
@@ -287,7 +293,15 @@ export default function SessionsPage() {
               className="w-full sm:w-auto px-6 py-3 sm:px-8 sm:py-4 min-h-[44px] bg-brand text-dark-primary rounded-button font-bold hover:bg-brand-light transition-all shadow-sm flex items-center justify-center space-x-3 text-lg"
             >
               <span>Add Session</span>
-              <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" viewBox="0 0 24 24" stroke="currentColor">
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="3"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
                 <path d="M12 4v16m8-8H4"></path>
               </svg>
             </button>
@@ -310,7 +324,9 @@ export default function SessionsPage() {
               <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                 <div className="bg-brand rounded-3xl p-4 sm:p-6 text-center min-w-[140px] sm:min-w-[180px] shadow-sm">
                   <p className="text-dark-primary text-sm font-semibold mb-1">Total Sessions</p>
-                  <p className="text-dark-primary text-3xl sm:text-4xl font-bold tabular-nums">{sessions.length}</p>
+                  <p className="text-dark-primary text-3xl sm:text-4xl font-bold tabular-nums">
+                    {sessions.length}
+                  </p>
                 </div>
                 <div className="bg-white rounded-3xl p-4 sm:p-6 text-center min-w-[140px] sm:min-w-[180px]">
                   <p className="text-dark-primary text-sm font-semibold mb-1">This Week</p>
@@ -336,7 +352,15 @@ export default function SessionsPage() {
                       : 'text-grey-300 hover:text-white'
                   }`}
                 >
-                  <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
                     <path d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
                   </svg>
                   <span className="hidden sm:inline">List</span>
@@ -350,7 +374,15 @@ export default function SessionsPage() {
                       : 'text-grey-300 hover:text-white'
                   }`}
                 >
-                  <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
                     <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                   </svg>
                   <span className="hidden sm:inline">Week</span>
@@ -382,7 +414,10 @@ export default function SessionsPage() {
                 />
               </div>
               <div>
-                <label htmlFor="squad-filter" className="block text-sm font-semibold text-white mb-2">
+                <label
+                  htmlFor="squad-filter"
+                  className="block text-sm font-semibold text-white mb-2"
+                >
                   Filter by Squad
                 </label>
                 <select
@@ -499,14 +534,32 @@ export default function SessionsPage() {
                             {/* Session Details */}
                             <div className="space-y-3 mb-4">
                               <div className="flex items-center text-sm">
-                                <svg className="w-5 h-5 mr-2 text-brand flex-shrink-0" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg
+                                  className="w-5 h-5 mr-2 text-brand flex-shrink-0"
+                                  fill="none"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
                                   <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                 </svg>
-                                <span className="text-text-secondary">{formatSessionDate(session.session_date)}</span>
+                                <span className="text-text-secondary">
+                                  {formatSessionDate(session.session_date)}
+                                </span>
                               </div>
 
                               <div className="flex items-center text-sm">
-                                <svg className="w-5 h-5 mr-2 text-brand flex-shrink-0" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg
+                                  className="w-5 h-5 mr-2 text-brand flex-shrink-0"
+                                  fill="none"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
                                   <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                                 <span className="text-text-secondary tabular-nums">
@@ -516,16 +569,34 @@ export default function SessionsPage() {
 
                               {session.squad && (
                                 <div className="flex items-center text-sm">
-                                  <svg className="w-5 h-5 mr-2 text-brand flex-shrink-0" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                                  <svg
+                                    className="w-5 h-5 mr-2 text-brand flex-shrink-0"
+                                    fill="none"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                  >
                                     <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                                   </svg>
-                                  <span className="text-text-secondary">{session.squad.squad_name}</span>
+                                  <span className="text-text-secondary">
+                                    {session.squad.squad_name}
+                                  </span>
                                 </div>
                               )}
 
                               {session.location && (
                                 <div className="flex items-center text-sm">
-                                  <svg className="w-5 h-5 mr-2 text-brand flex-shrink-0" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                                  <svg
+                                    className="w-5 h-5 mr-2 text-brand flex-shrink-0"
+                                    fill="none"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                  >
                                     <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                                     <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                   </svg>
@@ -535,7 +606,15 @@ export default function SessionsPage() {
 
                               {session.coach_name && (
                                 <div className="flex items-center text-sm">
-                                  <svg className="w-5 h-5 mr-2 text-brand flex-shrink-0" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                                  <svg
+                                    className="w-5 h-5 mr-2 text-brand flex-shrink-0"
+                                    fill="none"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                  >
                                     <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                   </svg>
                                   <span className="text-text-secondary">{session.coach_name}</span>
@@ -544,26 +623,27 @@ export default function SessionsPage() {
                             </div>
 
                             {/* Attendance Info */}
-                            {session.attendance_count !== undefined && session.total_members !== undefined && (
-                              <div className="mb-4">
-                                <div className="flex items-center justify-between text-sm mb-2">
-                                  <span className="text-text-secondary">Attendance</span>
-                                  <span className="text-white font-semibold tabular-nums">
-                                    {session.attendance_count} / {session.total_members}
-                                  </span>
-                                </div>
-                                {session.total_members > 0 && (
-                                  <div className="w-full bg-dark-primary rounded-full h-2">
-                                    <div
-                                      className="bg-brand rounded-full h-2 transition-all"
-                                      style={{
-                                        width: `${(session.attendance_count / session.total_members) * 100}%`,
-                                      }}
-                                    ></div>
+                            {session.attendance_count !== undefined &&
+                              session.total_members !== undefined && (
+                                <div className="mb-4">
+                                  <div className="flex items-center justify-between text-sm mb-2">
+                                    <span className="text-text-secondary">Attendance</span>
+                                    <span className="text-white font-semibold tabular-nums">
+                                      {session.attendance_count} / {session.total_members}
+                                    </span>
                                   </div>
-                                )}
-                              </div>
-                            )}
+                                  {session.total_members > 0 && (
+                                    <div className="w-full bg-dark-primary rounded-full h-2">
+                                      <div
+                                        className="bg-brand rounded-full h-2 transition-all"
+                                        style={{
+                                          width: `${(session.attendance_count / session.total_members) * 100}%`,
+                                        }}
+                                      ></div>
+                                    </div>
+                                  )}
+                                </div>
+                              )}
 
                             {/* Action buttons */}
                             <div className="flex space-x-2" onClick={(e) => e.stopPropagation()}>

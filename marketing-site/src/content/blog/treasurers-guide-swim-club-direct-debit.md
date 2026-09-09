@@ -1,27 +1,27 @@
 ---
-title: "Swimming Club Payment Guide: Direct Debit for Treasurers"
-description: "Complete guide to swimming club payment methods for treasurers. Compare Direct Debit, standing orders, and manual payments. Set up automated billing for your swim club."
-seoTitle: "Swimming Club Payment Guide: Direct Debit Setup & Comparison 2026"
-seoDescription: "How to set up Direct Debit for swimming club payments. Compare payment methods, avoid common mistakes, and automate membership fee collection for UK swim clubs."
-pubDate: "2026-03-01"
-author: "Mike Tempest"
-tags: ["treasurer", "direct debit", "committee", "billing", "agm-season", "payments"]
+title: 'Swimming Club Payment Guide: Direct Debit for Treasurers'
+description: 'Complete guide to swimming club payment methods for treasurers. Compare Direct Debit, standing orders, and manual payments. Set up automated billing for your swim club.'
+seoTitle: 'Swimming Club Payment Guide: Direct Debit Setup & Comparison 2026'
+seoDescription: 'How to set up Direct Debit for swimming club payments. Compare payment methods, avoid common mistakes, and automate membership fee collection for UK swim clubs.'
+pubDate: '2026-03-01'
+author: 'Mike Tempest'
+tags: ['treasurer', 'direct debit', 'committee', 'billing', 'agm-season', 'payments']
 faqItems:
   - question: "What's the difference between Direct Debit and standing orders for swim club payments?"
-    answer: "Direct Debit is controlled by the club (via a payment provider like GoCardless), giving you visibility and control over collections, automatic retries, and immediate failure notifications. Standing orders are set up by parents with their bank, can be cancelled without notice, and fail silently. Direct Debit is more reliable for recurring swim club payments."
-  - question: "How much does Direct Debit cost for a swim club?"
-    answer: "GoCardless charges 1% + 20p per transaction, capped at £2. For a 100-member club collecting £30/month, expect around £600/year in fees (£0.50 per member per month). This is offset by reduced admin time and improved cash flow."
-  - question: "Do I need club management software to use Direct Debit?"
-    answer: "No. You can use GoCardless directly with a spreadsheet for clubs under 50 members. For larger clubs or if multiple committee members need access to payment records, software like Swimly, SwimClub Manager, or TeamUnify integrates Direct Debit with membership management."
-  - question: "How long does it take to set up Direct Debit for a swim club?"
-    answer: "GoCardless approval takes 2-5 working days. Migrating members takes 3-4 weeks (communication + setup time). Plan for 4-6 weeks total from application to first collection."
-  - question: "What happens if a Direct Debit payment fails?"
-    answer: "GoCardless automatically retries after 3 working days and notifies both you and the member. Most failures are timing issues (insufficient funds) that resolve on retry. Persistent failures need personal follow-up after 2 attempts."
-  - question: "Can parents cancel Direct Debit without telling the club?"
+    answer: 'Direct Debit is controlled by the club (via a payment provider like GoCardless), giving you visibility and control over collections, automatic retries, and immediate failure notifications. Standing orders are set up by parents with their bank, can be cancelled without notice, and fail silently. Direct Debit is more reliable for recurring swim club payments.'
+  - question: 'How much does Direct Debit cost for a swim club?'
+    answer: 'GoCardless charges 1% + 20p per transaction, capped at £2. For a 100-member club collecting £30/month, expect around £600/year in fees (£0.50 per member per month). This is offset by reduced admin time and improved cash flow.'
+  - question: 'Do I need club management software to use Direct Debit?'
+    answer: 'No. You can use GoCardless directly with a spreadsheet for clubs under 50 members. For larger clubs or if multiple committee members need access to payment records, software like Swimly, SwimClub Manager, or TeamUnify integrates Direct Debit with membership management.'
+  - question: 'How long does it take to set up Direct Debit for a swim club?'
+    answer: 'GoCardless approval takes 2-5 working days. Migrating members takes 3-4 weeks (communication + setup time). Plan for 4-6 weeks total from application to first collection.'
+  - question: 'What happens if a Direct Debit payment fails?'
+    answer: 'GoCardless automatically retries after 3 working days and notifies both you and the member. Most failures are timing issues (insufficient funds) that resolve on retry. Persistent failures need personal follow-up after 2 attempts.'
+  - question: 'Can parents cancel Direct Debit without telling the club?'
     answer: "Yes, but you're notified immediately when a mandate is cancelled. This is better than standing orders, which can be cancelled silently and you only find out when payments stop arriving."
 ---
 
-If you've just been volunteered — sorry, *elected* — as your swim club's treasurer at the AGM, congratulations. You've inherited a spreadsheet that hasn't been updated since 2019, a WhatsApp group with 47 unread messages about missing subs, and the joy of chasing payments from parents who swear they already paid (they haven't). If your club also runs a [swim school programme](/swim-school-management), you may have even more payment streams to track.
+If you've just been volunteered — sorry, _elected_ — as your swim club's treasurer at the AGM, congratulations. You've inherited a spreadsheet that hasn't been updated since 2019, a WhatsApp group with 47 unread messages about missing subs, and the joy of chasing payments from parents who swear they already paid (they haven't). If your club also runs a [swim school programme](/swim-school-management), you may have even more payment streams to track.
 
 Let me help you fix the worst part of the job: collecting membership fees.
 
@@ -42,18 +42,18 @@ Here's what changes:
 
 Direct Debit is different from standing orders, and this matters. Here's how swimming club payment methods compare:
 
-| Feature | Manual Payments | Standing Order | Direct Debit |
-|---------|----------------|----------------|--------------|
-| **Who controls it** | Parent (each time) | Parent (set once) | Club (via provider) |
-| **Setup effort** | None (but ongoing chase) | Parent sets up with bank | Club sets up mandate |
-| **Visibility** | Zero until money arrives | Zero (silent failures) | Full (dashboard + alerts) |
-| **Failed payments** | Discover weeks later | Discover when money stops | Immediate notification + auto-retry |
-| **Changing amounts** | Re-communicate each time | Parent must update manually | Club updates centrally |
-| **Admin time (100 members)** | 6-8 hours/month | 2-3 hours/month | 30 minutes/month |
-| **Parent cancellation** | Can just stop paying | Cancel without notice | Cancelled with notification |
-| **Cost** | Free (huge time cost) | Free (bank fees vary) | 1% + 20p per transaction |
-| **Professional appearance** | Looks disorganised | Feels dated (1990s tech) | Modern, expected standard |
-| **Best for** | Emergencies only | Small clubs (<20 members) | Any club serious about retention |
+| Feature                      | Manual Payments          | Standing Order              | Direct Debit                        |
+| ---------------------------- | ------------------------ | --------------------------- | ----------------------------------- |
+| **Who controls it**          | Parent (each time)       | Parent (set once)           | Club (via provider)                 |
+| **Setup effort**             | None (but ongoing chase) | Parent sets up with bank    | Club sets up mandate                |
+| **Visibility**               | Zero until money arrives | Zero (silent failures)      | Full (dashboard + alerts)           |
+| **Failed payments**          | Discover weeks later     | Discover when money stops   | Immediate notification + auto-retry |
+| **Changing amounts**         | Re-communicate each time | Parent must update manually | Club updates centrally              |
+| **Admin time (100 members)** | 6-8 hours/month          | 2-3 hours/month             | 30 minutes/month                    |
+| **Parent cancellation**      | Can just stop paying     | Cancel without notice       | Cancelled with notification         |
+| **Cost**                     | Free (huge time cost)    | Free (bank fees vary)       | 1% + 20p per transaction            |
+| **Professional appearance**  | Looks disorganised       | Feels dated (1990s tech)    | Modern, expected standard           |
+| **Best for**                 | Emergencies only         | Small clubs (<20 members)   | Any club serious about retention    |
 
 **The key difference:** With Direct Debit, you control the collection schedule and get immediate failure notifications. Parents are protected by the Direct Debit Guarantee, which actually increases trust compared to giving out bank details for manual transfers.
 
@@ -72,6 +72,7 @@ For UK swim clubs, GoCardless is the standard choice. Why?
 - Handles the Bacs complexity for you
 
 **Rough costs for a 100-member club:**
+
 - £30/month average membership fee
 - GoCardless fee: £0.50 per member per month
 - Annual cost: £600 in fees vs £0 in treasurer sanity: priceless
@@ -79,6 +80,7 @@ For UK swim clubs, GoCardless is the standard choice. Why?
 ### 2. Get Your Club Approved
 
 You'll need:
+
 - Club bank account details
 - Proof you're authorised to act on behalf of the club (committee minutes work)
 - Your club's constitution (they check you're a legitimate organisation)
@@ -109,6 +111,7 @@ This is the painful bit, but it's a one-time pain.
 > Hi [Parent Name],
 >
 > From [start date], we're moving to Direct Debit for membership payments. This means:
+>
 > - No more manual bank transfers
 > - Payments happen automatically each month
 > - You can cancel anytime (Direct Debit Guarantee protects you)
@@ -135,18 +138,21 @@ This is the painful bit, but it's a one-time pain.
 This is where Direct Debit earns its keep.
 
 **Why payments fail:**
+
 - Insufficient funds (most common)
 - Cancelled bank account
 - Mandate cancelled by customer
 - Bank error (rare but happens)
 
 **What GoCardless does automatically:**
+
 - Retries failed payments after 3 working days
 - Notifies you and the customer
 - Tracks failure reasons
 - Flags chronic non-payers
 
 **What you need to do:**
+
 - Review failed payments weekly (set a calendar reminder)
 - Contact members after 2 failed attempts (before it becomes confrontational)
 - Have a policy for persistent non-payment (suspend squad access after 60 days overdue is common)
@@ -167,9 +173,11 @@ Keep it factual, non-accusatory, and assume good faith. Most failures are genuin
 ## Common Mistakes (And How to Avoid Them)
 
 ### Mistake 1: No Arrears Policy
+
 If you don't define what happens when someone doesn't pay, you'll make it up under pressure and it'll be inconsistent.
 
 **Fix**: Document your policy in advance:
+
 - Grace period (e.g., 14 days for failed payment)
 - Escalation steps (email → phone call → suspension from training)
 - Committee authority (can the treasurer suspend access, or does it need committee vote?)
@@ -178,11 +186,13 @@ If you don't define what happens when someone doesn't pay, you'll make it up und
 Write it down. Get committee approval. Publish it on your website. Refer to it when needed.
 
 ### Mistake 2: Mixing Personal and Club Communication
+
 Don't chase payments from your personal email or phone number. Parents will message you at 10pm about their daughter's gala entry while you're trying to watch Netflix.
 
 **Fix**: Use a club email address (treasurer@yourclub.co.uk). Set boundaries. Check it twice a week on a schedule. You're a volunteer, not 24/7 customer support.
 
 ### Mistake 3: No Audit Trail
+
 "Did they pay for October?" becomes an archaeological dig through bank statements, spreadsheets, and memory.
 
 **Fix**: Use software that records every payment, refund, and communication in one place. Even a basic Google Sheet is better than nothing. GoCardless gives you transaction history, but you need to match it to members.
@@ -190,9 +200,10 @@ Don't chase payments from your personal email or phone number. Parents will mess
 If you're using [swim club management software](/swim-club-management-software) (Swimly, TeamUnify, SwimClub Manager), [automated payment tracking](/features/billing) should link directly to [member records](/features/membership). If you're doing it manually, weekly reconciliation is non-negotiable.
 
 ### Mistake 4: Surprise Fee Changes
+
 Parents budget for £30/month. Suddenly it's £35. They're annoyed, you're defensive, and the committee looks disorganised.
 
-**Fix**: Communicate fee changes at least 8 weeks in advance. Explain *why* (pool hire increased 15%, coach salary uplift). Give notice of the new amount and new collection date. Most parents understand costs rise — they just hate surprises.
+**Fix**: Communicate fee changes at least 8 weeks in advance. Explain _why_ (pool hire increased 15%, coach salary uplift). Give notice of the new amount and new collection date. Most parents understand costs rise — they just hate surprises.
 
 GoCardless requires you to give notice before changing Direct Debit amounts anyway (it's in their terms), so build this into your club's rhythm.
 
@@ -213,12 +224,14 @@ If you're the incoming treasurer, demand these. Don't accept "I'll show you at s
 Honest answer: it depends on your club size and your tolerance for manual admin.
 
 **Manual GoCardless + spreadsheet works if:**
+
 - You have <50 members
 - You're comfortable with spreadsheets
 - You don't mind weekly reconciliation
 - Your committee doesn't change often
 
 **Club management software makes sense if:**
+
 - You have 50+ members (admin scales badly)
 - Multiple people need access to payment records (transparency)
 - You want parents to see their own payment history (reduces "did I pay?" emails)
@@ -273,4 +286,4 @@ If you're setting this up and want to talk through your specific situation, or i
 
 ---
 
-*Mike Tempest is a swim parent, former CTO, and founder of [Swimly](/) — modern membership software for UK swim clubs. He built Swimly because he was tired of watching volunteer committees drown in spreadsheets. Compare our approach to [legacy systems like SwimClub Manager](/compare/swimclubmanager), explore our [billing automation](/features/billing), or see our [best swim club software UK comparison](/best-swim-club-software-uk/) for the full picture.*
+_Mike Tempest is a swim parent, former CTO, and founder of [Swimly](/) — modern membership software for UK swim clubs. He built Swimly because he was tired of watching volunteer committees drown in spreadsheets. Compare our approach to [legacy systems like SwimClub Manager](/compare/swimclubmanager), explore our [billing automation](/features/billing), or see our [best swim club software UK comparison](/best-swim-club-software-uk/) for the full picture._

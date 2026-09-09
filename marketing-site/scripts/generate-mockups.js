@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Device Mockup Generator
- * 
+ *
  * Takes screenshots and places them into realistic device frames
  * (MacBook Pro, iPhone 15, iPad) using HTML/CSS rendered via Playwright.
  */
@@ -78,15 +78,17 @@ function generateDeviceHTML(device, screenshotPath, screenshotName) {
   const d = DEVICES[device];
   const totalWidth = d.screenWidth + d.bezelLeft + d.bezelRight;
   const totalHeight = d.screenHeight + d.bezelTop + d.bezelBottom;
-  
+
   // Calculate viewport to ensure we have enough space for shadows
-  const viewportWidth = totalWidth + (d.shadowBlur * 2);
-  const viewportHeight = totalHeight + (d.shadowBlur * 2);
-  
+  const viewportWidth = totalWidth + d.shadowBlur * 2;
+  const viewportHeight = totalHeight + d.shadowBlur * 2;
+
   const shadowOffset = d.shadowBlur;
-  
+
   // Dynamic Island for iPhone
-  const dynamicIsland = device === 'iphone' ? `
+  const dynamicIsland =
+    device === 'iphone'
+      ? `
     <div style="
       position: absolute;
       top: ${shadowOffset + 8}px;
@@ -98,8 +100,9 @@ function generateDeviceHTML(device, screenshotPath, screenshotName) {
       border-radius: 19px;
       z-index: 10;
     "></div>
-  ` : '';
-  
+  `
+      : '';
+
   return `
 <!DOCTYPE html>
 <html>
@@ -129,12 +132,16 @@ function generateDeviceHTML(device, screenshotPath, screenshotName) {
       position: relative;
       width: 100%;
       height: 100%;
-      background: ${device === 'macbook' ? 'linear-gradient(135deg, #2d3436 0%, #1e272e 100%)' : 
-                    device === 'iphone' ? 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)' : 
-                    '#2d3436'};
+      background: ${
+        device === 'macbook'
+          ? 'linear-gradient(135deg, #2d3436 0%, #1e272e 100%)'
+          : device === 'iphone'
+            ? 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)'
+            : '#2d3436'
+      };
       border-radius: ${d.cornerRadius}px;
       box-shadow: 
-        0 ${shadowOffset/2}px ${d.shadowBlur}px rgba(0, 0, 0, ${d.shadowOpacity}),
+        0 ${shadowOffset / 2}px ${d.shadowBlur}px rgba(0, 0, 0, ${d.shadowOpacity}),
         0 ${shadowOffset}px ${d.shadowBlur * 1.5}px rgba(0, 0, 0, ${d.shadowOpacity * 0.6});
       overflow: hidden;
     }
@@ -169,7 +176,9 @@ function generateDeviceHTML(device, screenshotPath, screenshotName) {
       );
       pointer-events: none;
     }
-    ${device === 'macbook' ? `
+    ${
+      device === 'macbook'
+        ? `
     /* MacBook keyboard notch */
     .device-frame::after {
       content: '';
@@ -182,7 +191,9 @@ function generateDeviceHTML(device, screenshotPath, screenshotName) {
       background: rgba(255, 255, 255, 0.1);
       border-radius: 2px;
     }
-    ` : ''}
+    `
+        : ''
+    }
   </style>
 </head>
 <body>
@@ -206,42 +217,45 @@ async function renderMockup(browser, device, screenshotPath, screenshotName) {
   const d = DEVICES[device];
   const totalWidth = d.screenWidth + d.bezelLeft + d.bezelRight;
   const totalHeight = d.screenHeight + d.bezelTop + d.bezelBottom;
-  const viewportWidth = totalWidth + (d.shadowBlur * 2);
-  const viewportHeight = totalHeight + (d.shadowBlur * 2);
-  
+  const viewportWidth = totalWidth + d.shadowBlur * 2;
+  const viewportHeight = totalHeight + d.shadowBlur * 2;
+
   console.log(`Rendering ${d.name} mockup for: ${screenshotName}...`);
-  
+
   const page = await browser.newPage({
     viewport: {
       width: viewportWidth,
       height: viewportHeight,
     },
   });
-  
+
   // Read screenshot and convert to base64 data URL
   const screenshotBuffer = await fs.readFile(screenshotPath);
   const screenshotBase64 = screenshotBuffer.toString('base64');
   const screenshotDataUrl = `data:image/png;base64,${screenshotBase64}`;
-  
+
   const html = generateDeviceHTML(device, screenshotDataUrl, screenshotName);
   await page.setContent(html);
-  
+
   // Wait for the image to load
-  await page.waitForFunction(() => {
-    const img = document.querySelector('.screen img');
-    return img && img.complete && img.naturalHeight > 0;
-  }, { timeout: 10000 });
-  
+  await page.waitForFunction(
+    () => {
+      const img = document.querySelector('.screen img');
+      return img && img.complete && img.naturalHeight > 0;
+    },
+    { timeout: 10000 }
+  );
+
   await page.waitForLoadState('networkidle');
-  
+
   // Take screenshot of the rendered mockup
   const mockupBuffer = await page.screenshot({
     type: 'png',
     fullPage: true,
   });
-  
+
   await page.close();
-  
+
   return mockupBuffer;
 }
 
@@ -250,7 +264,7 @@ async function renderMockup(browser, device, screenshotPath, screenshotName) {
  */
 async function saveMockup(buffer, outputName, maxWidth) {
   const basenamePath = path.join(MOCKUPS_DIR, outputName);
-  
+
   // Resize if needed and save as PNG
   const pngPath = `${basenamePath}.png`;
   await sharp(buffer)
@@ -260,9 +274,9 @@ async function saveMockup(buffer, outputName, maxWidth) {
     })
     .png({ quality: 90 })
     .toFile(pngPath);
-  
+
   console.log(`  ✓ Saved PNG: ${outputName}.png`);
-  
+
   // Save as WebP with optimisation
   const webpPath = `${basenamePath}.webp`;
   await sharp(buffer)
@@ -272,9 +286,9 @@ async function saveMockup(buffer, outputName, maxWidth) {
     })
     .webp({ quality: 85 })
     .toFile(webpPath);
-  
+
   console.log(`  ✓ Saved WebP: ${outputName}.webp`);
-  
+
   return { pngPath, webpPath };
 }
 
@@ -283,31 +297,31 @@ async function saveMockup(buffer, outputName, maxWidth) {
  */
 async function main() {
   console.log('Starting device mockup generation...\n');
-  
+
   // Ensure output directory exists
   await fs.mkdir(MOCKUPS_DIR, { recursive: true });
-  
+
   // Get list of screenshots
   const files = await fs.readdir(SCREENSHOTS_DIR);
-  const screenshots = files.filter(f => f.endsWith('.png'));
-  
+  const screenshots = files.filter((f) => f.endsWith('.png'));
+
   if (screenshots.length === 0) {
     console.error('No screenshots found in', SCREENSHOTS_DIR);
     console.error('Please run capture-screenshots.ts first.');
     process.exit(1);
   }
-  
+
   console.log(`Found ${screenshots.length} screenshots\n`);
-  
+
   const browser = await chromium.launch({
     headless: true,
   });
-  
+
   try {
     for (const screenshot of screenshots) {
       const screenshotPath = path.join(SCREENSHOTS_DIR, screenshot);
       const nameWithoutExt = path.parse(screenshot).name;
-      
+
       // Determine device based on filename
       let device;
       if (nameWithoutExt.includes('-desktop')) {
@@ -318,23 +332,18 @@ async function main() {
         console.log(`⊘ Skipping ${screenshot} (unknown device type)`);
         continue;
       }
-      
+
       const d = DEVICES[device];
-      
+
       // Generate mockup
-      const mockupBuffer = await renderMockup(
-        browser,
-        device,
-        screenshotPath,
-        nameWithoutExt
-      );
-      
+      const mockupBuffer = await renderMockup(browser, device, screenshotPath, nameWithoutExt);
+
       // Save in multiple formats
-      const outputName = nameWithoutExt.replace('-desktop', '').replace('-mobile', '') + 
-                        `-${device}`;
+      const outputName =
+        nameWithoutExt.replace('-desktop', '').replace('-mobile', '') + `-${device}`;
       await saveMockup(mockupBuffer, outputName, d.maxOutputWidth);
     }
-    
+
     console.log('\n✓ Mockup generation complete!\n');
   } catch (error) {
     console.error('\n✗ Error during mockup generation:', error);

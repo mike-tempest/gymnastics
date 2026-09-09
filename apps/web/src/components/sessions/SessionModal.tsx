@@ -8,34 +8,46 @@ import { z } from 'zod';
 
 import { getSquads } from '@/lib/api/squads';
 
-const sessionSchema = z.object({
-  session_name: z.string().min(1, 'Session name is required').max(100, 'Session name too long'),
-  session_date: z.string().min(1, 'Session date is required'),
-  start_time: z.string().min(1, 'Start time is required').regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Invalid time format (HH:mm)'),
-  end_time: z.string().min(1, 'End time is required').regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Invalid time format (HH:mm)'),
-  squad_id: z.string().min(1, 'Squad is required'),
-  location: z.string().max(200, 'Location too long').optional(),
-  description: z.string().optional(),
-  coach_name: z.string().max(100, 'Coach name too long').optional(),
-  max_participants: z.coerce.number().min(1, 'Max participants must be at least 1').optional().nullable(),
-  status: z.nativeEnum(SessionStatus),
-}).refine(
-  (data) => {
-    // Validate that end_time is after start_time
-    if (data.start_time && data.end_time) {
-      const [startHour, startMin] = data.start_time.split(':').map(Number);
-      const [endHour, endMin] = data.end_time.split(':').map(Number);
-      const startMinutes = startHour * 60 + startMin;
-      const endMinutes = endHour * 60 + endMin;
-      return endMinutes > startMinutes;
+const sessionSchema = z
+  .object({
+    session_name: z.string().min(1, 'Session name is required').max(100, 'Session name too long'),
+    session_date: z.string().min(1, 'Session date is required'),
+    start_time: z
+      .string()
+      .min(1, 'Start time is required')
+      .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Invalid time format (HH:mm)'),
+    end_time: z
+      .string()
+      .min(1, 'End time is required')
+      .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Invalid time format (HH:mm)'),
+    squad_id: z.string().min(1, 'Squad is required'),
+    location: z.string().max(200, 'Location too long').optional(),
+    description: z.string().optional(),
+    coach_name: z.string().max(100, 'Coach name too long').optional(),
+    max_participants: z.coerce
+      .number()
+      .min(1, 'Max participants must be at least 1')
+      .optional()
+      .nullable(),
+    status: z.nativeEnum(SessionStatus),
+  })
+  .refine(
+    (data) => {
+      // Validate that end_time is after start_time
+      if (data.start_time && data.end_time) {
+        const [startHour, startMin] = data.start_time.split(':').map(Number);
+        const [endHour, endMin] = data.end_time.split(':').map(Number);
+        const startMinutes = startHour * 60 + startMin;
+        const endMinutes = endHour * 60 + endMin;
+        return endMinutes > startMinutes;
+      }
+      return true;
+    },
+    {
+      message: 'End time must be after start time',
+      path: ['end_time'],
     }
-    return true;
-  },
-  {
-    message: 'End time must be after start time',
-    path: ['end_time'],
-  }
-);
+  );
 
 type SessionFormData = z.infer<typeof sessionSchema>;
 
@@ -264,7 +276,10 @@ export default function SessionModal({
             {/* Date and Squad Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="session_date" className="block text-sm font-semibold text-white mb-2">
+                <label
+                  htmlFor="session_date"
+                  className="block text-sm font-semibold text-white mb-2"
+                >
                   Session Date <span className="text-brand">*</span>
                 </label>
                 <input
@@ -377,8 +392,12 @@ export default function SessionModal({
             {/* Max Participants and Status Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="max_participants" className="block text-sm font-semibold text-white mb-2">
-                  Max Participants <span className="text-text-tertiary font-normal">(Optional)</span>
+                <label
+                  htmlFor="max_participants"
+                  className="block text-sm font-semibold text-white mb-2"
+                >
+                  Max Participants{' '}
+                  <span className="text-text-tertiary font-normal">(Optional)</span>
                 </label>
                 <input
                   {...register('max_participants')}

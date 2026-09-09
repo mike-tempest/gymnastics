@@ -1,21 +1,21 @@
 ---
-title: "DBS Checks for Swimming Clubs: Complete Guide to Tracking Renewals"
-description: "Which DBS checks do swim club volunteers need? How to track renewals, use the Update Service and stay Wavepower compliant. Practical guide for committees."
+title: 'DBS Checks for Swimming Clubs: Complete Guide to Tracking Renewals'
+description: 'Which DBS checks do swim club volunteers need? How to track renewals, use the Update Service and stay Wavepower compliant. Practical guide for committees.'
 pubDate: 2026-02-17
 updatedDate: 2026-07-21
-author: "Swimly Team"
-tags: ["DBS checks", "safeguarding", "swim club volunteers", "Wavepower", "compliance"]
+author: 'Swimly Team'
+tags: ['DBS checks', 'safeguarding', 'swim club volunteers', 'Wavepower', 'compliance']
 faqItems:
-  - question: "How often do DBS checks need renewing for swimming clubs?"
+  - question: 'How often do DBS checks need renewing for swimming clubs?'
     answer: "A DBS certificate has no statutory expiry date, but Swim England requires affiliated clubs to renew a member's DBS check every three years for as long as they stay in a role that needs one under Wavepower. Where a volunteer is signed up to the DBS Update Service, the club can re-check the certificate online at any time instead of waiting for the three-year point."
-  - question: "What level of DBS check do swimming club coaches and volunteers need?"
+  - question: 'What level of DBS check do swimming club coaches and volunteers need?'
     answer: "For virtually any role involving regular contact with young swimmers, the right level is an enhanced DBS check with a children's barred list check. That covers head and assistant coaches, junior coaches, team managers, the club welfare officer and poolside helpers. Purely administrative roles with no unsupervised contact may not need one, but when in doubt it is safer to obtain the check."
-  - question: "How much does the DBS Update Service cost?"
-    answer: "The DBS Update Service costs £16 a year, and it is free for volunteers who are not paid for the role beyond expenses. You must subscribe within 30 days of the certificate being issued. Once subscribed, a club can carry out an online status check at any time to confirm nothing has changed, rather than applying for a fresh check."
-  - question: "Can a coach use a DBS check from another club?"
-    answer: "Not automatically. DBS checks are role-specific, so a check obtained for a previous club or employer does not transfer on its own. It can be reused only if the person is subscribed to the DBS Update Service and the new role is in the same workforce and needs the same level of check. Otherwise the club should process a new enhanced check."
+  - question: 'How much does the DBS Update Service cost?'
+    answer: 'The DBS Update Service costs £16 a year, and it is free for volunteers who are not paid for the role beyond expenses. You must subscribe within 30 days of the certificate being issued. Once subscribed, a club can carry out an online status check at any time to confirm nothing has changed, rather than applying for a fresh check.'
+  - question: 'Can a coach use a DBS check from another club?'
+    answer: 'Not automatically. DBS checks are role-specific, so a check obtained for a previous club or employer does not transfer on its own. It can be reused only if the person is subscribed to the DBS Update Service and the new role is in the same workforce and needs the same level of check. Otherwise the club should process a new enhanced check.'
   - question: "What should a club do if a volunteer's DBS check has lapsed?"
-    answer: "Act at once. The volunteer should not have any unsupervised contact with young swimmers until a new check is obtained and cleared, so start the renewal immediately and put appropriate supervision in place meanwhile. Most lapses are administrative oversights, but if someone has been working in regulated activity with no check at all, take advice from your county welfare officer or Swim England before acting."
+    answer: 'Act at once. The volunteer should not have any unsupervised contact with young swimmers until a new check is obtained and cleared, so start the renewal immediately and put appropriate supervision in place meanwhile. Most lapses are administrative oversights, but if someone has been working in regulated activity with no check at all, take advice from your county welfare officer or Swim England before acting.'
 ---
 
 DBS checks are one of the most important safeguarding tools available to swimming clubs, and one of the most commonly mismanaged. Clubs that take DBS checks seriously know who holds them, when they expire, and what happens when someone's check is due for renewal. Clubs that do not tend to discover the gaps at the worst possible moments.

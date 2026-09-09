@@ -1,9 +1,9 @@
 ---
-title: "How to Grow Your Swimming Club Membership"
-description: "How to grow your swimming club membership: practical ways for UK clubs to recruit new swimmers, retain the members they have, and keep growth steady."
+title: 'How to Grow Your Swimming Club Membership'
+description: 'How to grow your swimming club membership: practical ways for UK clubs to recruit new swimmers, retain the members they have, and keep growth steady.'
 pubDate: 2026-02-16
-author: "Swimly Team"
-tags: ["swim clubs", "membership", "recruitment", "retention", "club growth"]
+author: 'Swimly Team'
+tags: ['swim clubs', 'membership', 'recruitment', 'retention', 'club growth']
 ---
 
 Growing your swimming club membership is about more than just bringing in new faces. It requires a balanced approach that focuses equally on recruiting new swimmers and retaining the ones you already have. Many clubs make the mistake of prioritising one over the other, but sustainable growth only happens when both work together.

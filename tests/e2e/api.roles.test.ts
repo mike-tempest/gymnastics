@@ -1,8 +1,12 @@
 import {
-  ADMIN_EMAIL, ADMIN_PASSWORD,
-  COACH_EMAIL, COACH_PASSWORD,
-  PARENT_EMAIL, PARENT_PASSWORD,
-  loginAs, authGet,
+  ADMIN_EMAIL,
+  ADMIN_PASSWORD,
+  COACH_EMAIL,
+  COACH_PASSWORD,
+  PARENT_EMAIL,
+  PARENT_PASSWORD,
+  loginAs,
+  authGet,
 } from './helpers';
 
 describe('Role-based access control', () => {

@@ -236,9 +236,7 @@ describe('FeeStructuresService', () => {
       const result = await service.bulkCreate(items);
 
       expect(result.created).toEqual([]);
-      expect(result.errors).toEqual([
-        { row: 1, message: 'Squad "Nonexistent Squad" not found' },
-      ]);
+      expect(result.errors).toEqual([{ row: 1, message: 'Squad "Nonexistent Squad" not found' }]);
       expect(mockRepository.create).not.toHaveBeenCalled();
     });
 

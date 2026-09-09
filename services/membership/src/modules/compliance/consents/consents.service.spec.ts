@@ -488,9 +488,7 @@ describe('ConsentsService', () => {
 
       expect(mockEmailService.sendConsentExpiryWarning).toHaveBeenCalledTimes(1);
       const payload = mockEmailService.sendConsentExpiryWarning.mock.calls[0][0];
-      expect(payload.complianceRequirements).toBe(
-        'GDPR and Swim England Wavepower requirements',
-      );
+      expect(payload.complianceRequirements).toBe('GDPR and Swim England Wavepower requirements');
     });
 
     it('uses privacy-law/Safe Sport compliance wording for a US club', async () => {

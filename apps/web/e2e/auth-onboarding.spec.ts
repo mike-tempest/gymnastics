@@ -27,13 +27,13 @@ type ErrorCollector = { errors: string[] };
 function attachErrorCollector(page: Page): ErrorCollector {
   const collector: ErrorCollector = { errors: [] };
 
-  page.on('console', msg => {
+  page.on('console', (msg) => {
     if (msg.type() === 'error') {
       collector.errors.push(msg.text());
     }
   });
 
-  page.on('pageerror', err => {
+  page.on('pageerror', (err) => {
     collector.errors.push(err.message);
   });
 
@@ -45,7 +45,7 @@ function attachErrorCollector(page: Page): ErrorCollector {
  */
 function getCriticalErrors(collector: ErrorCollector): string[] {
   return collector.errors.filter(
-    e =>
+    (e) =>
       !e.includes('Failed to fetch') &&
       !e.includes('NetworkError') &&
       !e.includes('ECONNREFUSED') &&
@@ -176,7 +176,10 @@ test.describe('Registration Flow', () => {
     // Check for validation message (either HTML5 or custom)
     const hasValidationMessage =
       (await emailInput.evaluate((el: HTMLInputElement) => el.validationMessage)) !== '' ||
-      (await page.locator('text=/invalid|valid email/i').isVisible().catch(() => false));
+      (await page
+        .locator('text=/invalid|valid email/i')
+        .isVisible()
+        .catch(() => false));
 
     expect(hasValidationMessage).toBeTruthy();
 
@@ -332,8 +335,14 @@ test.describe('Password Reset Flow', () => {
 
     // Verify submit button exists
     const hasSubmitButton =
-      (await page.getByRole('button', { name: /reset|send|submit/i }).isVisible().catch(() => false)) ||
-      (await page.locator('button[type="submit"]').isVisible().catch(() => false));
+      (await page
+        .getByRole('button', { name: /reset|send|submit/i })
+        .isVisible()
+        .catch(() => false)) ||
+      (await page
+        .locator('button[type="submit"]')
+        .isVisible()
+        .catch(() => false));
 
     expect(hasSubmitButton).toBeTruthy();
 

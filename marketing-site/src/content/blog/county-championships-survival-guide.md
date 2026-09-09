@@ -1,9 +1,9 @@
 ---
 title: "County Championships: A Swim Parent's Survival Guide"
 description: "Your first county swimming championships? Here's what to expect, what to pack, and how to support your swimmer without adding pressure."
-pubDate: "2026-03-13"
-author: "Mike Tempest"
-tags: ["swim parents", "competitions", "county championships", "swim meets"]
+pubDate: '2026-03-13'
+author: 'Mike Tempest'
+tags: ['swim parents', 'competitions', 'county championships', 'swim meets']
 ---
 
 If your child has just qualified for county championships, congratulations. You're now facing the prospect of a full weekend at an unfamiliar pool, watching races that seem to happen simultaneously while trying to decode heat sheets that might as well be written in code.
@@ -41,6 +41,7 @@ Some counties run "timed finals" for certain events (usually longer distances or
 You'll be at the pool for hours. Possibly all day. Here's what you'll actually need:
 
 **For you:**
+
 - Folding chair (the poolside seating is never enough)
 - Layers (pool temperature varies wildly from poolside to spectator areas)
 - Snacks and water (venue food is expensive and queues are long)
@@ -48,6 +49,7 @@ You'll be at the pool for hours. Possibly all day. Here's what you'll actually n
 - Cash (some venues are still card-averse)
 
 **For your swimmer:**
+
 - Multiple towels (they'll be in and out of the water)
 - Warm clothing and blankets for between races
 - Their own snacks and drinks (avoid fizzy drinks and heavy meals)
@@ -56,6 +58,7 @@ You'll be at the pool for hours. Possibly all day. Here's what you'll actually n
 - Confirmation of entry (check the [parent portal](/features/parent-portal) or club communication)
 
 **Don't forget:**
+
 - Heatsheet (usually emailed before the meet or available at the venue)
 - Their club kit (some counties are strict about this)
 
@@ -86,12 +89,14 @@ If they do make finals, brilliant. But remind them that making finals is the suc
 Your swimmer is probably nervous. They don't need you to be nervous too.
 
 **Do:**
+
 - Ask if they need anything
 - Stay calm between races
 - Celebrate effort, not just results
 - Trust their coach (they know what they're doing)
 
 **Don't:**
+
 - Hover poolside during warm-up
 - Critique their race immediately after they finish
 - Compare them to other swimmers
@@ -124,7 +129,6 @@ County championships are a big deal. They're also just one weekend in your child
 Bring the folding chair. Pack the snacks. Enjoy watching them compete.
 
 And remember: your role is to be calm, supportive, and proud. They'll do the swimming.
-
 
 ---
 

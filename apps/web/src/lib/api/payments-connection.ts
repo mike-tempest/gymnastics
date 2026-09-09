@@ -9,12 +9,7 @@ import { api } from './api-client';
 
 export type PaymentProvider = 'stripe' | 'gocardless';
 
-export type PaymentConnectionStatus =
-  | 'none'
-  | 'pending'
-  | 'active'
-  | 'restricted'
-  | 'disconnected';
+export type PaymentConnectionStatus = 'none' | 'pending' | 'active' | 'restricted' | 'disconnected';
 
 export interface PaymentConnectionCapabilities {
   charges_enabled: boolean;

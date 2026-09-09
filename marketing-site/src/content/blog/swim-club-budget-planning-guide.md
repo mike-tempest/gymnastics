@@ -1,20 +1,20 @@
 ---
 title: "How to Prepare Your Swim Club's Budget for the Next Season"
-description: "Step-by-step budget planning for UK swim club treasurers. Calculate income, forecast costs, build contingency, and present confidently at your AGM."
-pubDate: "2026-03-01"
-updatedDate: "2026-07-07"
-author: "Mike Tempest"
-tags: ["swim clubs", "finance", "committee", "agm", "treasurers"]
+description: 'Step-by-step budget planning for UK swim club treasurers. Calculate income, forecast costs, build contingency, and present confidently at your AGM.'
+pubDate: '2026-03-01'
+updatedDate: '2026-07-07'
+author: 'Mike Tempest'
+tags: ['swim clubs', 'finance', 'committee', 'agm', 'treasurers']
 faqItems:
   - question: "What percentage of a swim club's budget goes on pool hire?"
     answer: "For most UK swimming clubs pool hire is the single biggest cost, usually 40 to 60 per cent of total spending, with coaching the next largest line. The exact split depends on your pool rate and how many hours you train, so get next season's hourly rate in writing before you build the budget rather than assuming last year's figure."
-  - question: "How do you budget for missed swim club subscription payments?"
-    answer: "Do not assume you will collect from everyone. Budget for around 95 per cent collection at best, and allow for a mid-season dropout rate of roughly 8 to 12 per cent plus 3 to 5 per cent slippage from late or missed payments. Collecting subscriptions by Direct Debit reduces missed payments and the treasurer time spent chasing them."
-  - question: "How much contingency should a swim club budget include?"
-    answer: "A sensible rule is to add about 10 per cent of your total costs as contingency. On a 60,000 pound budget that is roughly 6,000 pounds you hope not to spend but will be glad to have when a pool rate rises mid-season, a coach needs covering, or several families move away."
-  - question: "Can a swimming club budget for grants it has not yet been awarded?"
-    answer: "No. Only put grants you have already been awarded into your baseline budget. Treat hoped-for funding as separate from committed income, because building a budget around a grant that has not been applied for or confirmed is a common way for clubs to end up in deficit."
-  - question: "How much employer National Insurance does a swim club pay on coach salaries?"
+  - question: 'How do you budget for missed swim club subscription payments?'
+    answer: 'Do not assume you will collect from everyone. Budget for around 95 per cent collection at best, and allow for a mid-season dropout rate of roughly 8 to 12 per cent plus 3 to 5 per cent slippage from late or missed payments. Collecting subscriptions by Direct Debit reduces missed payments and the treasurer time spent chasing them.'
+  - question: 'How much contingency should a swim club budget include?'
+    answer: 'A sensible rule is to add about 10 per cent of your total costs as contingency. On a 60,000 pound budget that is roughly 6,000 pounds you hope not to spend but will be glad to have when a pool rate rises mid-season, a coach needs covering, or several families move away.'
+  - question: 'Can a swimming club budget for grants it has not yet been awarded?'
+    answer: 'No. Only put grants you have already been awarded into your baseline budget. Treat hoped-for funding as separate from committed income, because building a budget around a grant that has not been applied for or confirmed is a common way for clubs to end up in deficit.'
+  - question: 'How much employer National Insurance does a swim club pay on coach salaries?'
     answer: "For the 2026 to 2027 tax year, employers pay secondary Class 1 National Insurance at 15 per cent on each employee's earnings above the 5,000 pound a year secondary threshold. Clubs that employ coaches should budget for this on top of gross pay, along with auto-enrolment pension contributions where they apply."
 ---
 
@@ -48,6 +48,7 @@ Total subs income = (Number of swimmers) × (Average monthly sub) × (Collection
 The trap: assuming you'll collect from everyone. You won't.
 
 **Reality check factors:**
+
 - Dropout rate (typically 8-12% mid-season)
 - Late/missed payments (budget for 3-5% "slippage")
 - Sibling discounts
@@ -60,6 +61,7 @@ If you had 120 swimmers last year and collected £45/month for 10 months, don't 
 Last year's car wash raised £800. Will it this year? Maybe. Maybe not.
 
 Budget fundraising conservatively, ideally at 60-70% of what you raised last year unless you have firm commitments. That bake sale depends on:
+
 - Weather
 - Competing school events
 - Whether Karen can still make her legendary brownies
@@ -99,6 +101,7 @@ This is your biggest line item. Get the exact rate from your pool operator **in 
 Don't assume it'll be the same. Council pools often increase rates in April. Private operators do it whenever they fancy.
 
 **Questions to ask your pool:**
+
 - What's the hourly rate for next season?
 - Are there off-peak discounts?
 - Do you charge for galas differently than training?
@@ -111,6 +114,7 @@ If your pool is £80/hour and you train 12 hours/week for 48 weeks, that's £46,
 Your coaches deserve to be paid properly. Many aren't.
 
 If you have employed coaches, budget for:
+
 - Gross salary
 - Employer National Insurance (15% on earnings above £5,000 a year for 2026/27)
 - Pension contributions if applicable (3% minimum auto-enrolment)
@@ -188,6 +192,7 @@ Add up your income. Add up your costs (including contingency). Subtract.
 **If you're in surplus:** Brilliant. Decide what to do with it (build reserves, invest in equipment, subsidise kit, reduce subs next year).
 
 **If you're in deficit:** You have three options:
+
 1. Increase income (raise subs, boost fundraising, apply for grants)
 2. Reduce costs (negotiate pool rates, cut sessions, reduce squad sizes)
 3. Accept a planned deficit and draw down reserves (only works if you have reserves)
@@ -201,6 +206,7 @@ Your committee needs to approve the budget before the AGM. Walk them through it 
 Show your workings. Explain your assumptions. Invite challenge.
 
 At the AGM, parents will ask:
+
 - Why are subs going up?
 - Where does the money go?
 - Why can't we just do more fundraising?
@@ -212,6 +218,7 @@ Have clear, honest answers. A pie chart showing that 52% goes to pool hire and 2
 A budget is only useful if you compare it to reality.
 
 Every month, compare:
+
 - Budgeted income vs. actual income
 - Budgeted costs vs. actual costs
 - Projected cash flow vs. actual cash balance
@@ -219,6 +226,7 @@ Every month, compare:
 If you're tracking in spreadsheets, this is painful. If you have software that pulls real payment data and reconciles automatically, it's trivial.
 
 **Early warning signs:**
+
 - Membership income 10% below budget by October (swimmers dropping out)
 - Pool costs 15% above budget by December (rate increase you didn't forecast)
 - Cash balance falling faster than projected (payment collection issues)
@@ -251,6 +259,7 @@ What they won't accept is a mid-season surprise levy because the club ran out of
 ## Modern Tools Can Help (But They're Not Magic)
 
 A good swim club management platform can:
+
 - Automate monthly Direct Debit collection (fewer missed payments)
 - Track who's paid and who hasn't (less treasurer time chasing)
 - Generate real-time financial reports (actual vs. budget at a click)

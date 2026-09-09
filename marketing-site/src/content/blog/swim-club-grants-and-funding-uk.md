@@ -1,20 +1,20 @@
 ---
-title: "UK Grants and Funding for Swimming Clubs: 2026 Guide"
-description: "A practical 2026 guide to UK grants and funding for swimming clubs: Sport England, the National Lottery, Swim England and council grants, plus CASC relief."
+title: 'UK Grants and Funding for Swimming Clubs: 2026 Guide'
+description: 'A practical 2026 guide to UK grants and funding for swimming clubs: Sport England, the National Lottery, Swim England and council grants, plus CASC relief.'
 pubDate: 2026-06-23
-author: "Swimly Team"
-tags: ["fundraising", "swim clubs", "swimming", "club management", "committee", "finance"]
+author: 'Swimly Team'
+tags: ['fundraising', 'swim clubs', 'swimming', 'club management', 'committee', 'finance']
 faqItems:
-  - question: "What grants can a UK swimming club apply for?"
+  - question: 'What grants can a UK swimming club apply for?'
     answer: "The main grant sources for UK swimming clubs are the Sport England Movement Fund (£300 to £15,000), the National Lottery Community Fund's Awards for All England (£300 to £20,000), regional and county Swim England club investment funds and bursaries, and local council community grants. Most fund equipment and projects that increase participation rather than day-to-day running costs."
-  - question: "Can a swimming club get funding for running costs like pool hire?"
-    answer: "Rarely from grants. Most funders cover capital costs (equipment, facility improvements) or specific participation projects, not core running costs such as pool hire and coaching salaries. Those are best covered by membership fees and regular fundraising. The exception is short-term hardship or recovery funds that open periodically, so check your Swim England region for current schemes."
-  - question: "Does my swimming club need to be a charity to apply for grants?"
-    answer: "No. Most clubs apply as constituted community groups or Community Amateur Sports Clubs (CASCs). Funders generally require a formal governing document (a constitution), a club bank account with at least two unrelated signatories, and basic accounts. Registering as a CASC with HMRC is not essential to apply but strengthens applications and unlocks Gift Aid and 80 per cent business rates relief."
-  - question: "How do I write a strong grant application for a swimming club?"
-    answer: "Be specific about what the money buys and who benefits, evidence the need with membership and waiting-list data, show good governance (constitution, accounts, safeguarding and Wavepower compliance), and explain the wider community impact beyond competitive swimming. Funders favour projects that increase participation among under-represented groups, so make any inclusion angle clear."
-  - question: "What is the difference between a grant and a bursary for swim clubs?"
-    answer: "A grant is usually awarded to the club for equipment or a project. A bursary is typically awarded to an individual, most often to part-fund a coaching or official qualification. Swim England regions run both, so a club can apply for a project grant while its volunteers separately apply for course bursaries."
+  - question: 'Can a swimming club get funding for running costs like pool hire?'
+    answer: 'Rarely from grants. Most funders cover capital costs (equipment, facility improvements) or specific participation projects, not core running costs such as pool hire and coaching salaries. Those are best covered by membership fees and regular fundraising. The exception is short-term hardship or recovery funds that open periodically, so check your Swim England region for current schemes.'
+  - question: 'Does my swimming club need to be a charity to apply for grants?'
+    answer: 'No. Most clubs apply as constituted community groups or Community Amateur Sports Clubs (CASCs). Funders generally require a formal governing document (a constitution), a club bank account with at least two unrelated signatories, and basic accounts. Registering as a CASC with HMRC is not essential to apply but strengthens applications and unlocks Gift Aid and 80 per cent business rates relief.'
+  - question: 'How do I write a strong grant application for a swimming club?'
+    answer: 'Be specific about what the money buys and who benefits, evidence the need with membership and waiting-list data, show good governance (constitution, accounts, safeguarding and Wavepower compliance), and explain the wider community impact beyond competitive swimming. Funders favour projects that increase participation among under-represented groups, so make any inclusion angle clear.'
+  - question: 'What is the difference between a grant and a bursary for swim clubs?'
+    answer: 'A grant is usually awarded to the club for equipment or a project. A bursary is typically awarded to an individual, most often to part-fund a coaching or official qualification. Swim England regions run both, so a club can apply for a project grant while its volunteers separately apply for course bursaries.'
 ---
 
 Most UK swimming clubs leave money on the table. Grant funding is available from Sport England, the National Lottery, Swim England regions and local councils, yet many committees never apply because the process looks daunting or they assume their club is too small to qualify. This guide to **grants and funding for swimming clubs** sets out exactly which schemes exist in 2026, what each one pays for, and how a busy volunteer committee can put together an application that actually succeeds.

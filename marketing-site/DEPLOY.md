@@ -29,13 +29,13 @@ dist.nosync/international/    swimly.club hub: index.html, robots.txt, sitemap-*
 
 The split maps as follows:
 
-| Source in the build | Goes to |
-|---------------------|---------|
-| Everything EXCEPT `us/`, `ca/`, `au/`, `international/` | swimly.uk document root (the FTP root) |
-| `dist.nosync/us/` | swimly.club `/us/` |
-| `dist.nosync/ca/` | swimly.club `/ca/` |
-| `dist.nosync/au/` | swimly.club `/au/` |
-| The CONTENTS of `dist.nosync/international/` | swimly.club root (so `international/index.html` becomes `swimly.club/index.html`, `international/robots.txt` becomes `swimly.club/robots.txt`, and the international sitemaps land at the swimly.club root) |
+| Source in the build                                     | Goes to                                                                                                                                                                                                     |
+| ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Everything EXCEPT `us/`, `ca/`, `au/`, `international/` | swimly.uk document root (the FTP root)                                                                                                                                                                      |
+| `dist.nosync/us/`                                       | swimly.club `/us/`                                                                                                                                                                                          |
+| `dist.nosync/ca/`                                       | swimly.club `/ca/`                                                                                                                                                                                          |
+| `dist.nosync/au/`                                       | swimly.club `/au/`                                                                                                                                                                                          |
+| The CONTENTS of `dist.nosync/international/`            | swimly.club root (so `international/index.html` becomes `swimly.club/index.html`, `international/robots.txt` becomes `swimly.club/robots.txt`, and the international sitemaps land at the swimly.club root) |
 
 The swimly.club upload is assembled into a staging tree (`dist-club.nosync/`),
 given the same `chmod` permission fix, and given its own slim `.htaccess`
@@ -92,17 +92,17 @@ printf '%s' 'VALUE' | gh secret set FTP_CLUB_PASS --repo mike-tempest/swim-team
 printf '%s' 'VALUE' | gh secret set FTP_REMOTE_INFO --repo mike-tempest/swim-team
 ```
 
-| Secret | Required | Purpose |
-|--------|----------|---------|
-| `FTP_HOST` | Yes | FTP host (shared by all domains on this account) |
-| `FTP_USER` | Yes | FTP username |
-| `FTP_PASS` | Yes | FTP password |
-| `FTP_CLUB_HOST` | If swimly.club is a separate FTP account | swimly.club's own FTP host. When set (with USER and PASS), swimly.club deploys with these credentials instead of the shared account. |
-| `FTP_CLUB_USER` | If separate account | swimly.club FTP username. |
-| `FTP_CLUB_PASS` | If separate account | swimly.club FTP password. |
-| `FTP_REMOTE_CLUB` | Shared account: required; dedicated: optional | swimly.club document root. On a dedicated account it defaults to `/` (a dedicated login is usually jailed to its own doc root). On the shared account it must be a non-root absolute path, otherwise the swimly.club upload is skipped (swimly.uk still deploys). |
-| `FTP_REMOTE_INFO` | No | The swimly.info document root. When set, a one-file redirect `.htaccess` (swimly.info to swimly.club) is deployed there. Prefer a host/DNS-level 301 and leave this unset. |
-| `SLACK_DEPLOY_WEBHOOK` | No | Slack incoming webhook URL. When set, a failed deploy posts an alert. When unset, the notify step is skipped. |
+| Secret                 | Required                                      | Purpose                                                                                                                                                                                                                                                           |
+| ---------------------- | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `FTP_HOST`             | Yes                                           | FTP host (shared by all domains on this account)                                                                                                                                                                                                                  |
+| `FTP_USER`             | Yes                                           | FTP username                                                                                                                                                                                                                                                      |
+| `FTP_PASS`             | Yes                                           | FTP password                                                                                                                                                                                                                                                      |
+| `FTP_CLUB_HOST`        | If swimly.club is a separate FTP account      | swimly.club's own FTP host. When set (with USER and PASS), swimly.club deploys with these credentials instead of the shared account.                                                                                                                              |
+| `FTP_CLUB_USER`        | If separate account                           | swimly.club FTP username.                                                                                                                                                                                                                                         |
+| `FTP_CLUB_PASS`        | If separate account                           | swimly.club FTP password.                                                                                                                                                                                                                                         |
+| `FTP_REMOTE_CLUB`      | Shared account: required; dedicated: optional | swimly.club document root. On a dedicated account it defaults to `/` (a dedicated login is usually jailed to its own doc root). On the shared account it must be a non-root absolute path, otherwise the swimly.club upload is skipped (swimly.uk still deploys). |
+| `FTP_REMOTE_INFO`      | No                                            | The swimly.info document root. When set, a one-file redirect `.htaccess` (swimly.info to swimly.club) is deployed there. Prefer a host/DNS-level 301 and leave this unset.                                                                                        |
+| `SLACK_DEPLOY_WEBHOOK` | No                                            | Slack incoming webhook URL. When set, a failed deploy posts an alert. When unset, the notify step is skipped.                                                                                                                                                     |
 
 ### Finding the swimly.club document root
 

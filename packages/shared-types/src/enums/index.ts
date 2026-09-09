@@ -330,9 +330,7 @@ export const GOVERNING_BODY_CONFIG: Record<GoverningBody, GoverningBodyConfig> =
     backgroundCheckFramework: 'Garda vetting',
     backgroundCheckShortLabel: 'Vetting',
     certificateNumberLabel: 'Certificate number',
-    backgroundCheckTypes: [
-      { value: BackgroundCheckType.GARDA_VETTING, label: 'Garda Vetting' },
-    ],
+    backgroundCheckTypes: [{ value: BackgroundCheckType.GARDA_VETTING, label: 'Garda Vetting' }],
     safeguardingFramework: 'Swim Ireland Safeguarding',
     safeguardingOfficerLabel: 'Safeguarding Officer',
     dataSharingRecipient: 'Swim Ireland',
@@ -537,13 +535,11 @@ export function checkNoun(framework: string): string {
  */
 export function orderedBackgroundCheckTypes(
   config: GoverningBodyConfig,
-  region?: string | null,
+  region?: string | null
 ): GoverningBodyCheckType[] {
   if (!region) return config.backgroundCheckTypes;
   const inRegion = config.backgroundCheckTypes.filter((type) => type.regions?.includes(region));
   if (inRegion.length === 0) return config.backgroundCheckTypes;
-  const elsewhere = config.backgroundCheckTypes.filter(
-    (type) => !type.regions?.includes(region),
-  );
+  const elsewhere = config.backgroundCheckTypes.filter((type) => !type.regions?.includes(region));
   return [...inRegion, ...elsewhere];
 }

@@ -1,4 +1,14 @@
-import { loginAs, authGet, ADMIN_EMAIL, ADMIN_PASSWORD, COACH_EMAIL, COACH_PASSWORD, PARENT_EMAIL, PARENT_PASSWORD, API_BASE } from './helpers';
+import {
+  loginAs,
+  authGet,
+  ADMIN_EMAIL,
+  ADMIN_PASSWORD,
+  COACH_EMAIL,
+  COACH_PASSWORD,
+  PARENT_EMAIL,
+  PARENT_PASSWORD,
+  API_BASE,
+} from './helpers';
 
 describe('Regression Tests', () => {
   it('Login returns access_token AND user object with correct role', async () => {
@@ -83,13 +93,7 @@ describe('Regression Tests', () => {
     it('head_coach can access coach endpoints', async () => {
       const coachToken = await loginAs(COACH_EMAIL, COACH_PASSWORD);
 
-      const coachEndpoints = [
-        '/members',
-        '/squads',
-        '/sessions',
-        '/attendance',
-        '/auth/profile',
-      ];
+      const coachEndpoints = ['/members', '/squads', '/sessions', '/attendance', '/auth/profile'];
 
       for (const endpoint of coachEndpoints) {
         const res = await authGet(endpoint, coachToken);
@@ -147,7 +151,7 @@ describe('Regression Tests', () => {
       if (!Array.isArray(data)) {
         // Compliance summary typically has counts or status fields
         expect(data).toBeDefined();
-        
+
         // Common fields that might exist
         const possibleFields = [
           'total_members',
@@ -160,7 +164,7 @@ describe('Regression Tests', () => {
         ];
 
         // At least one field should be present
-        const hasAtLeastOneField = possibleFields.some(field => field in data);
+        const hasAtLeastOneField = possibleFields.some((field) => field in data);
         expect(hasAtLeastOneField || Object.keys(data).length > 0).toBe(true);
       }
     }

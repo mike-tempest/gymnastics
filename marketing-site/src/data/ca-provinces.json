@@ -3,25 +3,63 @@
     "name": "Ontario",
     "abbr": "ON",
     "slug": "ontario",
-    "largestCities": ["Toronto", "Ottawa", "Mississauga", "Brampton", "Hamilton", "London", "Markham", "Vaughan", "Kitchener", "Windsor"]
+    "largestCities": [
+      "Toronto",
+      "Ottawa",
+      "Mississauga",
+      "Brampton",
+      "Hamilton",
+      "London",
+      "Markham",
+      "Vaughan",
+      "Kitchener",
+      "Windsor"
+    ]
   },
   "quebec": {
     "name": "Quebec",
     "abbr": "QC",
     "slug": "quebec",
-    "largestCities": ["Montreal", "Quebec City", "Laval", "Gatineau", "Longueuil", "Sherbrooke", "Levis", "Trois-Rivieres"]
+    "largestCities": [
+      "Montreal",
+      "Quebec City",
+      "Laval",
+      "Gatineau",
+      "Longueuil",
+      "Sherbrooke",
+      "Levis",
+      "Trois-Rivieres"
+    ]
   },
   "british-columbia": {
     "name": "British Columbia",
     "abbr": "BC",
     "slug": "british-columbia",
-    "largestCities": ["Vancouver", "Surrey", "Burnaby", "Richmond", "Victoria", "Kelowna", "Abbotsford", "Nanaimo"]
+    "largestCities": [
+      "Vancouver",
+      "Surrey",
+      "Burnaby",
+      "Richmond",
+      "Victoria",
+      "Kelowna",
+      "Abbotsford",
+      "Nanaimo"
+    ]
   },
   "alberta": {
     "name": "Alberta",
     "abbr": "AB",
     "slug": "alberta",
-    "largestCities": ["Calgary", "Edmonton", "Red Deer", "Lethbridge", "St. Albert", "Medicine Hat", "Grande Prairie", "Airdrie"]
+    "largestCities": [
+      "Calgary",
+      "Edmonton",
+      "Red Deer",
+      "Lethbridge",
+      "St. Albert",
+      "Medicine Hat",
+      "Grande Prairie",
+      "Airdrie"
+    ]
   },
   "manitoba": {
     "name": "Manitoba",

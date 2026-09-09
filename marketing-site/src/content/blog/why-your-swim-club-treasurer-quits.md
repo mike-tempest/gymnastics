@@ -1,9 +1,9 @@
 ---
-title: "Why Your Swim Club Treasurer Quits (And How to Fix It)"
+title: 'Why Your Swim Club Treasurer Quits (And How to Fix It)'
 description: "Treasurers quit mid-term because payment collection is unsustainable. Here's why manual systems break, and what good looks like for volunteer committees."
-pubDate: "2026-03-13"
-author: "Mike Tempest"
-tags: ["treasurer", "committee", "payments", "direct debit", "club management"]
+pubDate: '2026-03-13'
+author: 'Mike Tempest'
+tags: ['treasurer', 'committee', 'payments', 'direct debit', 'club management']
 ---
 
 It's AGM season again, and somewhere in the UK, a swim club treasurer is composing their resignation email.
@@ -66,6 +66,7 @@ You don't find out until the end of the month when you're manually matching paym
 When a treasurer quits, knowledge walks out the door with them.
 
 The new treasurer inherits:
+
 - A spreadsheet they don't fully understand
 - Incomplete documentation of who owes what
 - No context on ongoing payment issues
@@ -85,6 +86,7 @@ Here's what a sustainable treasurer workflow looks like:
 ### Automated Collection
 
 Direct Debit collection through a proper provider (like GoCardless) means:
+
 - Payments happen automatically on a set date each month
 - Failed payments retry automatically (most resolve without treasurer intervention)
 - You get notified immediately if a payment fails after retries
@@ -95,6 +97,7 @@ Direct Debit collection through a proper provider (like GoCardless) means:
 ### Real-Time Visibility
 
 A proper club management system shows:
+
 - Who's paid, who's pending, who's overdue (at a glance)
 - Payment history per member (no spreadsheet archaeology)
 - Automated reports for committee meetings (no manual prep)
@@ -104,6 +107,7 @@ A proper club management system shows:
 ### Reconciliation That Doesn't Require Forensic Skills
 
 When payments are collected through a platform integrated with your membership records:
+
 - Every payment is automatically matched to the right member
 - You don't need to decode bank references
 - Monthly reconciliation is a 10-minute review, not a 4-hour investigation
@@ -113,6 +117,7 @@ When payments are collected through a platform integrated with your membership r
 ### Knowledge That Doesn't Walk Out the Door
 
 When your processes live in a system, not a spreadsheet:
+
 - The next treasurer can see exactly what the last one did
 - Historical data is preserved and searchable
 - Handover is a two-hour training session, not a three-month archaeological dig

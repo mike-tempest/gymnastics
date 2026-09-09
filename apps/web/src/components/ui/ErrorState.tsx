@@ -16,9 +16,7 @@ export default function ErrorState({ message, onRetry }: ErrorStateProps) {
     probeApiReachable().then((ok) => setOffline(!ok));
   }, []);
 
-  const heading = offline
-    ? 'Unable to connect to the server'
-    : message;
+  const heading = offline ? 'Unable to connect to the server' : message;
 
   const detail = offline
     ? 'Check your connection and try again.'

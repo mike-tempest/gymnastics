@@ -18,12 +18,10 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
       <ol className="flex items-center space-x-2 text-sm">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
-          
+
           return (
             <li key={index} className="flex items-center">
-              {index > 0 && (
-                <ChevronRight className="w-4 h-4 text-text-tertiary mx-2" />
-              )}
+              {index > 0 && <ChevronRight className="w-4 h-4 text-text-tertiary mx-2" />}
               {item.href && !isLast ? (
                 <Link
                   href={item.href}

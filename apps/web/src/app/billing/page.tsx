@@ -26,7 +26,12 @@ export default function BillingPage() {
   const router = useRouter();
   const { confirm, ConfirmDialog } = useConfirm();
   const { formatCurrency, formatDate } = useFormatters();
-  const { data: invoicesData, isLoading: invoicesLoading, error: invoicesError, refetch: refetchInvoices } = useInvoices();
+  const {
+    data: invoicesData,
+    isLoading: invoicesLoading,
+    error: invoicesError,
+    refetch: refetchInvoices,
+  } = useInvoices();
   const { data: familiesData, isLoading: familiesLoading } = useFamilies();
   const invoices = invoicesData || [];
   const families = familiesData || [];
@@ -51,7 +56,8 @@ export default function BillingPage() {
   const handleGenerateMonthlyInvoices = async () => {
     const confirmed = await confirm({
       title: 'Generate Monthly Invoices',
-      description: 'Generate monthly invoices for all active families? This will create invoices based on fee structures.',
+      description:
+        'Generate monthly invoices for all active families? This will create invoices based on fee structures.',
       confirmLabel: 'Generate Invoices',
       variant: 'default',
     });
@@ -134,7 +140,7 @@ export default function BillingPage() {
   const handleBulkAction = async (action: 'sent' | 'paid') => {
     if (selectedIds.size === 0) return;
     const label = action === 'sent' ? 'sent' : 'paid';
-    
+
     const confirmed = await confirm({
       title: `Mark ${selectedIds.size} Invoice${selectedIds.size !== 1 ? 's' : ''} as ${label.charAt(0).toUpperCase() + label.slice(1)}`,
       description: `Are you sure you want to mark ${selectedIds.size} invoice${selectedIds.size !== 1 ? 's' : ''} as ${label}? This action will update the invoice status${selectedIds.size !== 1 ? 'es' : ''}.`,
@@ -148,7 +154,10 @@ export default function BillingPage() {
       setIsBulkActing(true);
       setError(null);
 
-      const statusMap: Record<string, InvoiceStatus> = { sent: InvoiceStatus.SENT, paid: InvoiceStatus.PAID };
+      const statusMap: Record<string, InvoiceStatus> = {
+        sent: InvoiceStatus.SENT,
+        paid: InvoiceStatus.PAID,
+      };
       await Promise.all(
         Array.from(selectedIds).map((id) => updateInvoice(id, { status: statusMap[action] }))
       );
@@ -172,12 +181,7 @@ export default function BillingPage() {
       <ConfirmDialog />
       <div className="min-h-dvh bg-canvas p-6 md:p-8">
         <div className="max-w-7xl mx-auto">
-          <Breadcrumb
-            items={[
-              { label: 'Dashboard', href: '/' },
-              { label: 'Billing' },
-            ]}
-          />
+          <Breadcrumb items={[{ label: 'Dashboard', href: '/' }, { label: 'Billing' }]} />
 
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
@@ -193,15 +197,39 @@ export default function BillingPage() {
               >
                 {isGeneratingInvoices ? (
                   <>
-                    <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    <svg
+                      className="animate-spin h-5 w-5"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
                     </svg>
                     <span>Generating...</span>
                   </>
                 ) : (
                   <>
-                    <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
                       <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
                     <span>Generate Monthly</span>
@@ -212,7 +240,15 @@ export default function BillingPage() {
                 href="/billing/create"
                 className="px-6 py-3 min-h-[44px] bg-brand text-dark-primary rounded-full font-bold hover:bg-brand-light transition-all flex items-center gap-2"
               >
-                <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" viewBox="0 0 24 24" stroke="currentColor">
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="3"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
                   <path d="M12 4v16m8-8H4" />
                 </svg>
                 <span>New Invoice</span>
@@ -228,7 +264,15 @@ export default function BillingPage() {
               <p className="text-brand font-semibold">{successMessage}</p>
             </div>
           )}
-          {(error || invoicesError) && <ErrorState message={error || invoicesError || 'Failed to load invoices. Please try again.'} onRetry={() => { setError(null); refetchInvoices(); }} />}
+          {(error || invoicesError) && (
+            <ErrorState
+              message={error || invoicesError || 'Failed to load invoices. Please try again.'}
+              onRetry={() => {
+                setError(null);
+                refetchInvoices();
+              }}
+            />
+          )}
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -239,7 +283,15 @@ export default function BillingPage() {
               iconBg="bg-yellow-500/10"
               iconColour="text-yellow-400"
               icon={
-                <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
                   <path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               }
@@ -251,7 +303,15 @@ export default function BillingPage() {
               iconBg="bg-red-500/10"
               iconColour="text-red-400"
               icon={
-                <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
                   <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
               }
@@ -263,7 +323,15 @@ export default function BillingPage() {
               iconBg="bg-lime/10"
               iconColour="text-lime"
               icon={
-                <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
                   <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               }
@@ -275,7 +343,15 @@ export default function BillingPage() {
               iconBg="bg-white/10"
               iconColour="text-white/60"
               icon={
-                <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
                   <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
               }
@@ -309,7 +385,9 @@ export default function BillingPage() {
 
             {/* Family filter - full width on mobile */}
             <div className="w-full sm:w-auto">
-              <label htmlFor="family-filter" className="sr-only">Filter by family</label>
+              <label htmlFor="family-filter" className="sr-only">
+                Filter by family
+              </label>
               <select
                 id="family-filter"
                 value={selectedFamily}
@@ -391,7 +469,8 @@ export default function BillingPage() {
               <h2 className="font-serif text-2xl text-white">
                 All Invoices
                 <span className="text-white/60 text-sm font-normal ml-2">
-                  ({filteredInvoices.length} {filteredInvoices.length === 1 ? 'invoice' : 'invoices'})
+                  ({filteredInvoices.length}{' '}
+                  {filteredInvoices.length === 1 ? 'invoice' : 'invoices'})
                 </span>
               </h2>
             </div>
@@ -415,121 +494,172 @@ export default function BillingPage() {
               />
             ) : (
               <>
-              {/* Mobile card view */}
-              <div className="md:hidden p-4 space-y-3">
-                {filteredInvoices.map((invoice) => {
-                  const displayStatus = getDisplayStatus(invoice);
-                  return (
-                    <div
-                      key={invoice.invoice_id}
-                      onClick={() => router.push(`/billing/${invoice.invoice_id}`)}
-                      className="p-4 bg-dark-primary rounded-xl hover:bg-white/5 active:bg-white/5 transition-all cursor-pointer group"
-                    >
-                      <div className="flex items-start justify-between mb-3">
-                        <div className="flex items-center gap-3 min-w-0">
-                          <input
-                            type="checkbox"
-                            checked={selectedIds.has(invoice.invoice_id)}
-                            onChange={(e) => { e.stopPropagation(); toggleSelect(invoice.invoice_id); }}
-                            onClick={(e) => e.stopPropagation()}
-                            className="rounded border-white/20 bg-dark-primary text-brand focus:ring-brand focus:ring-offset-0 flex-shrink-0"
-                          />
-                          <div className="min-w-0">
-                            <span className="text-brand font-mono font-semibold text-sm group-hover:text-brand-light transition-colors">
-                              INV-{invoice.invoice_id.slice(0, 8).toUpperCase()}
-                            </span>
-                            <p className="text-white font-medium text-sm mt-1">{invoice.family?.family_name || 'Unknown Family'}</p>
-                          </div>
-                        </div>
-                        <InvoiceStatusBadge status={displayStatus} />
-                      </div>
-                      <div className="flex items-end justify-between">
-                        <p className="font-serif text-3xl text-white">{formatCurrency(invoice.total_amount, invoice.currency)}</p>
-                        <div className="flex items-center gap-2">
-                          <span className={`text-sm ${displayStatus === 'overdue' ? 'text-red-400 font-medium' : 'text-white/60'}`}>
-                            Due {formatDate(invoice.due_date)}
-                          </span>
-                          <svg className="w-4 h-4 text-text-tertiary group-hover:text-brand transition-colors flex-shrink-0" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-                            <path d="M9 5l7 7-7 7" />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Desktop table view */}
-              <div className="hidden md:block overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-white/10">
-                      <th className="py-3 px-4 w-10">
-                        <input
-                          type="checkbox"
-                          checked={selectedIds.size === filteredInvoices.length && filteredInvoices.length > 0}
-                          onChange={toggleSelectAll}
-                          className="rounded border-white/20 bg-dark-primary text-brand focus:ring-brand focus:ring-offset-0"
-                        />
-                      </th>
-                      <th className="text-left py-3 px-6 text-xs font-semibold text-white/60 uppercase tracking-wider">Invoice</th>
-                      <th className="text-left py-3 px-6 text-xs font-semibold text-white/60 uppercase tracking-wider">Family / Member</th>
-                      <th className="text-left py-3 px-6 text-xs font-semibold text-white/60 uppercase tracking-wider">Amount</th>
-                      <th className="text-left py-3 px-6 text-xs font-semibold text-white/60 uppercase tracking-wider">Due Date</th>
-                      <th className="text-left py-3 px-6 text-xs font-semibold text-white/60 uppercase tracking-wider">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredInvoices.map((invoice) => {
-                      const displayStatus = getDisplayStatus(invoice);
-                      return (
-                        <tr
-                          key={invoice.invoice_id}
-                          className="border-b border-white/10 last:border-b-0 hover:bg-white/5 transition-colors cursor-pointer"
-                        >
-                          <td className="py-4 px-4" onClick={(e) => e.stopPropagation()}>
+                {/* Mobile card view */}
+                <div className="md:hidden p-4 space-y-3">
+                  {filteredInvoices.map((invoice) => {
+                    const displayStatus = getDisplayStatus(invoice);
+                    return (
+                      <div
+                        key={invoice.invoice_id}
+                        onClick={() => router.push(`/billing/${invoice.invoice_id}`)}
+                        className="p-4 bg-dark-primary rounded-xl hover:bg-white/5 active:bg-white/5 transition-all cursor-pointer group"
+                      >
+                        <div className="flex items-start justify-between mb-3">
+                          <div className="flex items-center gap-3 min-w-0">
                             <input
                               type="checkbox"
                               checked={selectedIds.has(invoice.invoice_id)}
-                              onChange={() => toggleSelect(invoice.invoice_id)}
-                              className="rounded border-white/20 bg-dark-primary text-brand focus:ring-brand focus:ring-offset-0"
+                              onChange={(e) => {
+                                e.stopPropagation();
+                                toggleSelect(invoice.invoice_id);
+                              }}
+                              onClick={(e) => e.stopPropagation()}
+                              className="rounded border-white/20 bg-dark-primary text-brand focus:ring-brand focus:ring-offset-0 flex-shrink-0"
                             />
-                          </td>
-                          <td className="py-4 px-6" onClick={() => router.push(`/billing/${invoice.invoice_id}`)}>
-                            <span className="text-brand font-mono font-semibold text-sm">
-                              INV-{invoice.invoice_id.slice(0, 8).toUpperCase()}
+                            <div className="min-w-0">
+                              <span className="text-brand font-mono font-semibold text-sm group-hover:text-brand-light transition-colors">
+                                INV-{invoice.invoice_id.slice(0, 8).toUpperCase()}
+                              </span>
+                              <p className="text-white font-medium text-sm mt-1">
+                                {invoice.family?.family_name || 'Unknown Family'}
+                              </p>
+                            </div>
+                          </div>
+                          <InvoiceStatusBadge status={displayStatus} />
+                        </div>
+                        <div className="flex items-end justify-between">
+                          <p className="font-serif text-3xl text-white">
+                            {formatCurrency(invoice.total_amount, invoice.currency)}
+                          </p>
+                          <div className="flex items-center gap-2">
+                            <span
+                              className={`text-sm ${displayStatus === 'overdue' ? 'text-red-400 font-medium' : 'text-white/60'}`}
+                            >
+                              Due {formatDate(invoice.due_date)}
                             </span>
-                          </td>
-                          <td className="py-4 px-6" onClick={() => router.push(`/billing/${invoice.invoice_id}`)}>
-                            <p className="text-white font-medium text-sm">{invoice.family?.family_name || 'Unknown Family'}</p>
-                            {invoice.family?.primary_contact_name && (
-                              <p className="text-text-tertiary text-xs mt-0.5">{invoice.family.primary_contact_name}</p>
-                            )}
-                          </td>
-                          <td className="py-4 px-6" onClick={() => router.push(`/billing/${invoice.invoice_id}`)}>
-                            <span className="text-white font-semibold">{formatCurrency(invoice.total_amount, invoice.currency)}</span>
-                          </td>
-                          <td className="py-4 px-6" onClick={() => router.push(`/billing/${invoice.invoice_id}`)}>
-                            <span className={`text-sm ${displayStatus === 'overdue' ? 'text-red-400 font-medium' : 'text-white/60'}`}>
-                              {formatDate(invoice.due_date)}
-                            </span>
-                          </td>
-                          <td className="py-4 px-6" onClick={() => router.push(`/billing/${invoice.invoice_id}`)}>
-                            <InvoiceStatusBadge status={displayStatus} />
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
+                            <svg
+                              className="w-4 h-4 text-text-tertiary group-hover:text-brand transition-colors flex-shrink-0"
+                              fill="none"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path d="M9 5l7 7-7 7" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Desktop table view */}
+                <div className="hidden md:block overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-white/10">
+                        <th className="py-3 px-4 w-10">
+                          <input
+                            type="checkbox"
+                            checked={
+                              selectedIds.size === filteredInvoices.length &&
+                              filteredInvoices.length > 0
+                            }
+                            onChange={toggleSelectAll}
+                            className="rounded border-white/20 bg-dark-primary text-brand focus:ring-brand focus:ring-offset-0"
+                          />
+                        </th>
+                        <th className="text-left py-3 px-6 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Invoice
+                        </th>
+                        <th className="text-left py-3 px-6 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Family / Member
+                        </th>
+                        <th className="text-left py-3 px-6 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Amount
+                        </th>
+                        <th className="text-left py-3 px-6 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Due Date
+                        </th>
+                        <th className="text-left py-3 px-6 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Status
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredInvoices.map((invoice) => {
+                        const displayStatus = getDisplayStatus(invoice);
+                        return (
+                          <tr
+                            key={invoice.invoice_id}
+                            className="border-b border-white/10 last:border-b-0 hover:bg-white/5 transition-colors cursor-pointer"
+                          >
+                            <td className="py-4 px-4" onClick={(e) => e.stopPropagation()}>
+                              <input
+                                type="checkbox"
+                                checked={selectedIds.has(invoice.invoice_id)}
+                                onChange={() => toggleSelect(invoice.invoice_id)}
+                                className="rounded border-white/20 bg-dark-primary text-brand focus:ring-brand focus:ring-offset-0"
+                              />
+                            </td>
+                            <td
+                              className="py-4 px-6"
+                              onClick={() => router.push(`/billing/${invoice.invoice_id}`)}
+                            >
+                              <span className="text-brand font-mono font-semibold text-sm">
+                                INV-{invoice.invoice_id.slice(0, 8).toUpperCase()}
+                              </span>
+                            </td>
+                            <td
+                              className="py-4 px-6"
+                              onClick={() => router.push(`/billing/${invoice.invoice_id}`)}
+                            >
+                              <p className="text-white font-medium text-sm">
+                                {invoice.family?.family_name || 'Unknown Family'}
+                              </p>
+                              {invoice.family?.primary_contact_name && (
+                                <p className="text-text-tertiary text-xs mt-0.5">
+                                  {invoice.family.primary_contact_name}
+                                </p>
+                              )}
+                            </td>
+                            <td
+                              className="py-4 px-6"
+                              onClick={() => router.push(`/billing/${invoice.invoice_id}`)}
+                            >
+                              <span className="text-white font-semibold">
+                                {formatCurrency(invoice.total_amount, invoice.currency)}
+                              </span>
+                            </td>
+                            <td
+                              className="py-4 px-6"
+                              onClick={() => router.push(`/billing/${invoice.invoice_id}`)}
+                            >
+                              <span
+                                className={`text-sm ${displayStatus === 'overdue' ? 'text-red-400 font-medium' : 'text-white/60'}`}
+                              >
+                                {formatDate(invoice.due_date)}
+                              </span>
+                            </td>
+                            <td
+                              className="py-4 px-6"
+                              onClick={() => router.push(`/billing/${invoice.invoice_id}`)}
+                            >
+                              <InvoiceStatusBadge status={displayStatus} />
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
               </>
             )}
           </div>
         </div>
       </div>
-
-
     </MainLayout>
   );
 }

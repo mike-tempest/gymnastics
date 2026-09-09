@@ -1,19 +1,17 @@
 'use client';
 
-import { governingBodyConfig, defaultGoverningBodyForCountry, checkNoun } from '@club-manager/shared-types';
 import {
-  FileText,
-  CheckCircle,
-  Clock,
-  XCircle,
-  Search,
-  Download,
-  Plus,
-} from 'lucide-react';
+  governingBodyConfig,
+  defaultGoverningBodyForCountry,
+  checkNoun,
+} from '@club-manager/shared-types';
+import { FileText, CheckCircle, Clock, XCircle, Search, Download, Plus } from 'lucide-react';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 
 import AddCheckModal from '@/components/compliance/AddCheckModal';
-import ComplianceStatusBadge, { type ComplianceStatus } from '@/components/compliance/ComplianceStatusBadge';
+import ComplianceStatusBadge, {
+  type ComplianceStatus,
+} from '@/components/compliance/ComplianceStatusBadge';
 import MainLayout from '@/components/layout/MainLayout';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import EmptyState from '@/components/ui/empty-state';
@@ -34,7 +32,9 @@ export default function DbsChecksPage() {
   const { formatDate } = useFormatters();
   const { country, club } = useClubRegion();
   // Prefer the club's saved governing body; fall back to the country default.
-  const config = governingBodyConfig(club?.governing_body ?? defaultGoverningBodyForCountry(country));
+  const config = governingBodyConfig(
+    club?.governing_body ?? defaultGoverningBodyForCountry(country)
+  );
   const framework = config.backgroundCheckFramework;
   // Copy building blocks: the noun never doubles "Check" ("Working With
   // Children checks"), the short label suits tight surfaces ("WWCC number"),
@@ -112,47 +112,47 @@ export default function DbsChecksPage() {
       <div className="min-h-dvh bg-canvas p-6 sm:p-10">
         <div className="max-w-7xl mx-auto">
           <Breadcrumb
-            items={[
-              { label: 'Compliance', href: '/compliance' },
-              { label: `${noun} checks` },
-            ]}
+            items={[{ label: 'Compliance', href: '/compliance' }, { label: `${noun} checks` }]}
           />
 
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
             <div>
-              <h1 className="font-serif text-3xl sm:text-4xl text-dark-primary tracking-tight mb-2">{noun} check tracker</h1>
+              <h1 className="font-serif text-3xl sm:text-4xl text-dark-primary tracking-tight mb-2">
+                {noun} check tracker
+              </h1>
               <p className="text-grey-600 text-lg">
-                Monitor {noun} {usesDbsVocabulary ? 'disclosure' : 'check'} status for all staff and volunteers
+                Monitor {noun} {usesDbsVocabulary ? 'disclosure' : 'check'} status for all staff and
+                volunteers
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
-            <button
-              onClick={() => setShowAddModal(true)}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] rounded-button font-semibold bg-transparent border border-grey-300 text-dark-primary hover:border-brand transition-all"
-            >
-              <Plus className="w-5 h-5" />
-              Add check
-            </button>
-            <button
-              onClick={() =>
-                downloadCsv(
-                  csvFileName,
-                  filteredChecks.map((c) => ({
-                    Name: c.name,
-                    Role: c.role,
-                    [`${shortLabel} Number`]: c.dbsNumber,
-                    'Check Date': c.checkDate,
-                    'Expiry Date': c.expiryDate,
-                    Status: c.status,
-                  }))
-                )
-              }
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] bg-brand text-dark-primary rounded-button font-bold hover:bg-brand-dark transition-all shadow-sm"
-            >
-              <Download className="w-5 h-5" />
-              Export CSV
-            </button>
+              <button
+                onClick={() => setShowAddModal(true)}
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] rounded-button font-semibold bg-transparent border border-grey-300 text-dark-primary hover:border-brand transition-all"
+              >
+                <Plus className="w-5 h-5" />
+                Add check
+              </button>
+              <button
+                onClick={() =>
+                  downloadCsv(
+                    csvFileName,
+                    filteredChecks.map((c) => ({
+                      Name: c.name,
+                      Role: c.role,
+                      [`${shortLabel} Number`]: c.dbsNumber,
+                      'Check Date': c.checkDate,
+                      'Expiry Date': c.expiryDate,
+                      Status: c.status,
+                    }))
+                  )
+                }
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] bg-brand text-dark-primary rounded-button font-bold hover:bg-brand-dark transition-all shadow-sm"
+              >
+                <Download className="w-5 h-5" />
+                Export CSV
+              </button>
             </div>
           </div>
 
@@ -227,7 +227,10 @@ export default function DbsChecksPage() {
                 title={`No ${noun} checks found`}
                 description={`No ${noun} checks match your search criteria.`}
                 actionLabel="Clear filters"
-                actionOnClick={() => { setSearchQuery(''); setStatusFilter(''); }}
+                actionOnClick={() => {
+                  setSearchQuery('');
+                  setStatusFilter('');
+                }}
               />
             ) : (
               <>
@@ -250,15 +253,29 @@ export default function DbsChecksPage() {
                         <div className="grid grid-cols-2 gap-2 text-sm">
                           <div>
                             <p className="text-white/60 text-xs">{shortLabel} number</p>
-                            <p className="text-white/80 font-mono tabular-nums">{check.dbsNumber}</p>
+                            <p className="text-white/80 font-mono tabular-nums">
+                              {check.dbsNumber}
+                            </p>
                           </div>
                           <div>
                             <p className="text-white/60 text-xs">Check date</p>
-                            <p className="text-white/80 tabular-nums">{formatDate(check.checkDate, { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
+                            <p className="text-white/80 tabular-nums">
+                              {formatDate(check.checkDate, {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                              })}
+                            </p>
                           </div>
                           <div className="col-span-2">
                             <p className="text-white/60 text-xs">Expiry date</p>
-                            <p className="text-white/80 tabular-nums">{formatDate(check.expiryDate, { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
+                            <p className="text-white/80 tabular-nums">
+                              {formatDate(check.expiryDate, {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                              })}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -271,12 +288,24 @@ export default function DbsChecksPage() {
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-white/10">
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Name</th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Role</th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">{shortLabel} number</th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Check date</th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Expiry date</th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Status</th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Name
+                        </th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Role
+                        </th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          {shortLabel} number
+                        </th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Check date
+                        </th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Expiry date
+                        </th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Status
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -294,16 +323,26 @@ export default function DbsChecksPage() {
                               <p className="text-white/80 text-sm">{check.role}</p>
                             </td>
                             <td className="py-4 px-4">
-                              <p className="text-white/60 text-sm font-mono tabular-nums">{check.dbsNumber}</p>
-                            </td>
-                            <td className="py-4 px-4">
-                              <p className="text-white/80 text-sm tabular-nums">
-                                {formatDate(check.checkDate, { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                              <p className="text-white/60 text-sm font-mono tabular-nums">
+                                {check.dbsNumber}
                               </p>
                             </td>
                             <td className="py-4 px-4">
                               <p className="text-white/80 text-sm tabular-nums">
-                                {formatDate(check.expiryDate, { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                                {formatDate(check.checkDate, {
+                                  day: '2-digit',
+                                  month: '2-digit',
+                                  year: 'numeric',
+                                })}
+                              </p>
+                            </td>
+                            <td className="py-4 px-4">
+                              <p className="text-white/80 text-sm tabular-nums">
+                                {formatDate(check.expiryDate, {
+                                  day: '2-digit',
+                                  month: '2-digit',
+                                  year: 'numeric',
+                                })}
                               </p>
                             </td>
                             <td className="py-4 px-4">

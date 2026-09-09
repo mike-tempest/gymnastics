@@ -68,7 +68,9 @@ export async function getClubSettings(): Promise<ClubSettingsData> {
   });
 }
 
-export async function updateClubSettings(data: UpdateClubSettingsPayload): Promise<ClubSettingsData> {
+export async function updateClubSettings(
+  data: UpdateClubSettingsPayload
+): Promise<ClubSettingsData> {
   return api.put<ClubSettingsData>('/admin/settings', data, {
     credentials: 'include',
   });

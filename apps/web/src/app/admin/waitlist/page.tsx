@@ -89,7 +89,9 @@ export default function WaitlistPage() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4 mt-4">
             <div>
-              <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight">Waitlist</h1>
+              <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight">
+                Waitlist
+              </h1>
               <p className="text-grey-600 text-lg mt-1 tabular-nums">{count} total signups</p>
             </div>
             <button
@@ -103,7 +105,12 @@ export default function WaitlistPage() {
           {error && (
             <div className="mb-6 p-4 bg-danger/10 border border-danger/30 rounded-xl">
               <p className="text-danger text-sm">{error}</p>
-              <button onClick={loadData} className="mt-2 min-h-[44px] text-sm text-brand hover:underline">Try again</button>
+              <button
+                onClick={loadData}
+                className="mt-2 min-h-[44px] text-sm text-brand hover:underline"
+              >
+                Try again
+              </button>
             </div>
           )}
 
@@ -140,7 +147,10 @@ export default function WaitlistPage() {
                 {/* Mobile cards */}
                 <div className="space-y-3 md:hidden">
                   {entries.map((entry) => (
-                    <div key={entry.id} className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <div
+                      key={entry.id}
+                      className="bg-white/5 rounded-xl p-4 border border-white/10"
+                    >
                       <div className="flex items-center justify-between mb-2">
                         <p className="text-white font-medium">{entry.name || 'No name'}</p>
                         <span className="text-xs text-white/40">{formatDate(entry.createdAt)}</span>

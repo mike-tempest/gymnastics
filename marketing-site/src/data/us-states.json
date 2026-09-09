@@ -27,7 +27,14 @@
     "name": "California",
     "abbr": "CA",
     "slug": "california",
-    "largestCities": ["Los Angeles", "San Diego", "San Jose", "San Francisco", "Fresno", "Sacramento"]
+    "largestCities": [
+      "Los Angeles",
+      "San Diego",
+      "San Jose",
+      "San Francisco",
+      "Fresno",
+      "Sacramento"
+    ]
   },
   "colorado": {
     "name": "Colorado",
@@ -57,7 +64,14 @@
     "name": "Florida",
     "abbr": "FL",
     "slug": "florida",
-    "largestCities": ["Jacksonville", "Miami", "Tampa", "Orlando", "St. Petersburg", "Fort Lauderdale"]
+    "largestCities": [
+      "Jacksonville",
+      "Miami",
+      "Tampa",
+      "Orlando",
+      "St. Petersburg",
+      "Fort Lauderdale"
+    ]
   },
   "georgia": {
     "name": "Georgia",

@@ -266,14 +266,7 @@ async function seedAuDemoData() {
         `INSERT INTO users (club_id, email, password_hash, first_name, last_name, role, active, family_id)
          VALUES ($1, $2, $3, $4, $5, 'parent', true, $6)
          RETURNING user_id`,
-        [
-          clubId,
-          f.email,
-          hashedPassword,
-          nameParts[0],
-          nameParts.slice(1).join(' '),
-          familyIds[i],
-        ],
+        [clubId, f.email, hashedPassword, nameParts[0], nameParts.slice(1).join(' '), familyIds[i]],
       );
       parentUserIds.push(result[0].user_id);
     }
@@ -355,7 +348,16 @@ async function seedAuDemoData() {
         `INSERT INTO members (club_id, family_id, registration_number, governing_body, first_name, last_name, dob, gender, squad_id)
          VALUES ($1, $2, $3, 'SWIMMING_AUSTRALIA', $4, $5, $6, $7, $8)
          RETURNING member_id`,
-        [clubId, familyIds[famIdx], memberNumber, firstName, lastName, dob, gender, squadIds[squadKey]],
+        [
+          clubId,
+          familyIds[famIdx],
+          memberNumber,
+          firstName,
+          lastName,
+          dob,
+          gender,
+          squadIds[squadKey],
+        ],
       );
       const memberId = result[0].member_id;
       memberIds.push(memberId);
@@ -462,7 +464,14 @@ async function seedAuDemoData() {
       const monday = prevWeekday(today, 1);
       monday.setDate(monday.getDate() + weekOffset * 7);
 
-      for (const [squadKey, dayOfWeek, startTime, endTime, sessionName, coach] of sessionTemplates) {
+      for (const [
+        squadKey,
+        dayOfWeek,
+        startTime,
+        endTime,
+        sessionName,
+        coach,
+      ] of sessionTemplates) {
         const daysFromMon = (dayOfWeek + 6) % 7;
         const sessionDate = new Date(monday);
         sessionDate.setDate(monday.getDate() + daysFromMon);
@@ -543,9 +552,7 @@ async function seedAuDemoData() {
         .filter(({ row }) => row[5] === famIdx);
       if (famMembers.length === 0) continue;
 
-      const gross = roundTo2dp(
-        famMembers.reduce((sum, { row }) => sum + squadFeeByKey[row[0]], 0),
-      );
+      const gross = roundTo2dp(famMembers.reduce((sum, { row }) => sum + squadFeeByKey[row[0]], 0));
       const { subtotal, tax } = gstFromGross(gross, GST_RATE);
       const status = invoiceStatuses[famIdx];
       const invoiceNumber = `MSSC-${issuedDate.getFullYear()}-${String(famIdx + 1).padStart(3, '0')}`;
@@ -606,7 +613,12 @@ async function seedAuDemoData() {
       await dataSource.query(
         `INSERT INTO direct_debit_mandates (club_id, family_id, provider, provider_mandate_id, status, scheme)
          VALUES ($1, $2, 'gocardless', $3, $4, 'becs')`,
-        [clubId, familyIds[i], `MD-AU-${String(i + 1).padStart(6, '0')}`, i < mandateFamilies - 1 ? 'active' : 'pending'],
+        [
+          clubId,
+          familyIds[i],
+          `MD-AU-${String(i + 1).padStart(6, '0')}`,
+          i < mandateFamilies - 1 ? 'active' : 'pending',
+        ],
       );
     }
     console.log(`Created ${mandateFamilies} mandates\n`);
@@ -619,12 +631,52 @@ async function seedAuDemoData() {
     console.log('Creating background checks...');
     const backgroundChecks = [
       // user index, certificate, type, status, issue, expiry, notes
-      [1, 'WWC1234567E', 'WORKING_WITH_CHILDREN_CHECK', 'VALID', '2026-02-10', '2031-02-10', 'Working With Children Check (NSW), paid employee category.'],
-      [2, 'WWC2345678F', 'WORKING_WITH_CHILDREN_CHECK', 'VALID', '2026-04-02', '2031-04-02', 'Working With Children Check (NSW), volunteer category.'],
-      [3, 'WWC0987654D', 'WORKING_WITH_CHILDREN_CHECK', 'EXPIRING_SOON', '2021-09-15', '2026-09-15', 'Working With Children Check (NSW). Renewal reminder sent.'],
-      [0, 'BC-445566-1', 'BLUE_CARD', 'VALID', '2025-03-01', '2028-03-01', 'Blue Card (QLD) held from previous club; NSW WWCC application in progress.'],
+      [
+        1,
+        'WWC1234567E',
+        'WORKING_WITH_CHILDREN_CHECK',
+        'VALID',
+        '2026-02-10',
+        '2031-02-10',
+        'Working With Children Check (NSW), paid employee category.',
+      ],
+      [
+        2,
+        'WWC2345678F',
+        'WORKING_WITH_CHILDREN_CHECK',
+        'VALID',
+        '2026-04-02',
+        '2031-04-02',
+        'Working With Children Check (NSW), volunteer category.',
+      ],
+      [
+        3,
+        'WWC0987654D',
+        'WORKING_WITH_CHILDREN_CHECK',
+        'EXPIRING_SOON',
+        '2021-09-15',
+        '2026-09-15',
+        'Working With Children Check (NSW). Renewal reminder sent.',
+      ],
+      [
+        0,
+        'BC-445566-1',
+        'BLUE_CARD',
+        'VALID',
+        '2025-03-01',
+        '2028-03-01',
+        'Blue Card (QLD) held from previous club; NSW WWCC application in progress.',
+      ],
     ] as const;
-    for (const [userIdx, certificate, checkType, status, issue, expiry, notes] of backgroundChecks) {
+    for (const [
+      userIdx,
+      certificate,
+      checkType,
+      status,
+      issue,
+      expiry,
+      notes,
+    ] of backgroundChecks) {
       await dataSource.query(
         `INSERT INTO dbs_checks (club_id, user_id, certificate_number, check_type, status, issue_date, expiry_date, is_valid, notes)
          VALUES ($1, $2, $3, $4, $5, $6, $7, true, $8)`,
@@ -714,7 +766,17 @@ async function seedAuDemoData() {
         '2027-02-12 23:59:00',
       ],
     ];
-    for (const [name, organiser, venue, start, end, type, course, status, deadline] of competitions) {
+    for (const [
+      name,
+      organiser,
+      venue,
+      start,
+      end,
+      type,
+      course,
+      status,
+      deadline,
+    ] of competitions) {
       await dataSource.query(
         `INSERT INTO competitions (club_id, name, organiser, venue, start_date, end_date, type, course, status, entry_deadline)
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
@@ -725,7 +787,9 @@ async function seedAuDemoData() {
 
     console.log('Manly Sharks (AU) demo seed complete\n');
     console.log('Summary:');
-    console.log('  - 1 club (AU, AUD, Australia/Sydney, en-AU, Swimming Australia NSW, GST 10% inclusive)');
+    console.log(
+      '  - 1 club (AU, AUD, Australia/Sydney, en-AU, Swimming Australia NSW, GST 10% inclusive)',
+    );
     console.log(`  - ${staffUserIds.length} staff users, ${parentUserIds.length} parent users`);
     console.log(`  - ${familyIds.length} families`);
     console.log(`  - ${memberIds.length} members`);
@@ -735,7 +799,9 @@ async function seedAuDemoData() {
     console.log(`  - ${attendanceCount} attendance records`);
     console.log(`  - ${invoiceCount} invoices, ${paymentCount} payments`);
     console.log(`  - ${mandateFamilies} BECS direct debit mandates`);
-    console.log(`  - ${backgroundChecks.length} background checks, 1 MPIO, ${consentCount} consents`);
+    console.log(
+      `  - ${backgroundChecks.length} background checks, 1 MPIO, ${consentCount} consents`,
+    );
     console.log(`  - ${competitions.length} competitions`);
     console.log('\nDefault password for all users: Demo2024!');
     console.log('Admin login: megan.walsh@manlysharks.com.au\n');

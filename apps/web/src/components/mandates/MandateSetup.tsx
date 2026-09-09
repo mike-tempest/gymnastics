@@ -13,7 +13,6 @@ import { mandatesApi } from '@/lib/api/mandates';
 import { directDebitScheme } from '@/lib/utils/direct-debit';
 import { paymentMethodLabel } from '@/lib/utils/region-labels';
 
-
 interface MandateSetupProps {
   familyId: string;
   onComplete?: () => void;
@@ -65,7 +64,7 @@ export function MandateSetup({ familyId, onComplete: _onComplete, onCancel }: Ma
       setError(
         isStripe
           ? 'Failed to start payment setup. Please try again.'
-          : `Failed to start ${methodLabel} setup. Please try again.`,
+          : `Failed to start ${methodLabel} setup. Please try again.`
       );
       setLoading(false);
     }
@@ -79,8 +78,8 @@ export function MandateSetup({ familyId, onComplete: _onComplete, onCancel }: Ma
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm text-text-secondary">
-            Your club has not set up online payments yet. You will be able to add a payment
-            method here once they have. Contact the club if you have questions.
+            Your club has not set up online payments yet. You will be able to add a payment method
+            here once they have. Contact the club if you have questions.
           </p>
           {onCancel && (
             <Button onClick={onCancel} variant="outline">
@@ -163,11 +162,7 @@ export function MandateSetup({ familyId, onComplete: _onComplete, onCancel }: Ma
         </div>
 
         <div className="flex gap-2 pt-2">
-          <Button
-            onClick={handleSetup}
-            disabled={loading}
-            className="flex-1"
-          >
+          <Button onClick={handleSetup} disabled={loading} className="flex-1">
             {loading ? (
               <>
                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -180,11 +175,7 @@ export function MandateSetup({ familyId, onComplete: _onComplete, onCancel }: Ma
             )}
           </Button>
           {onCancel && (
-            <Button
-              onClick={onCancel}
-              disabled={loading}
-              variant="outline"
-            >
+            <Button onClick={onCancel} disabled={loading} variant="outline">
               Cancel
             </Button>
           )}
@@ -272,7 +263,9 @@ export function MandateSetupComplete() {
           <div className="w-16 h-16 rounded-2xl bg-success/10 flex items-center justify-center mb-4">
             <CheckCircle2 className="h-8 w-8 text-success" />
           </div>
-          <h2 className="font-serif text-2xl text-text-primary mb-2">{methodLabel} set up successfully</h2>
+          <h2 className="font-serif text-2xl text-text-primary mb-2">
+            {methodLabel} set up successfully
+          </h2>
           <p className="text-sm text-text-secondary mb-6">
             Your {methodLabel} mandate is now active and ready for automatic payments.
           </p>

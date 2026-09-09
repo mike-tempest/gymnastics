@@ -1,9 +1,9 @@
 ---
-title: "How to Run a Successful Swimming Gala: A Complete Guide"
-description: "A step-by-step guide to planning and running a swimming gala, covering entries, volunteers, heat sheets, results, and parent communication for UK swim clubs."
+title: 'How to Run a Successful Swimming Gala: A Complete Guide'
+description: 'A step-by-step guide to planning and running a swimming gala, covering entries, volunteers, heat sheets, results, and parent communication for UK swim clubs.'
 pubDate: 2026-02-16
-author: "Swimly Team"
-tags: ["swim clubs", "galas", "event management", "competitions"]
+author: 'Swimly Team'
+tags: ['swim clubs', 'galas', 'event management', 'competitions']
 ---
 
 Hosting a swimming gala is one of the biggest organisational challenges a club faces. It involves coordinating dozens of volunteers, managing hundreds of entries, communicating with multiple clubs, and keeping everything running to time on the day. When it goes well, a gala is a brilliant showcase for your club. When it goes badly, it is a stressful experience that nobody wants to repeat.
@@ -73,16 +73,19 @@ Results are the product of your gala, and accuracy matters. Parents, coaches, an
 Good communication before, during, and after the gala reduces confusion and improves everyone's experience.
 
 **Before the gala:**
+
 - Send a detailed information pack to all participating clubs at least two weeks before the event
 - Include directions, parking information, warm-up times, the programme of events, and any rules specific to your venue
 - Confirm spectator arrangements, including any admission charges
 
 **During the gala:**
+
 - Use a clear PA system for announcements
 - Have marshals who know the programme and can direct swimmers to the correct area
 - Display the running order prominently
 
 **After the gala:**
+
 - Send results to all participating clubs promptly
 - Thank volunteers publicly
 - Ask for feedback and use it to improve next time

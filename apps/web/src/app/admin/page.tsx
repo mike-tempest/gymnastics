@@ -82,11 +82,19 @@ function StatCard({ title, value, subtitle, icon: Icon, trend }: StatCardProps) 
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <p className="text-sm font-medium text-white/60 mb-1">{title}</p>
-            <p className="font-serif text-4xl text-lime tracking-tight mb-1 tabular-nums">{value}</p>
+            <p className="font-serif text-4xl text-lime tracking-tight mb-1 tabular-nums">
+              {value}
+            </p>
             <div className="flex items-center gap-2">
               {trend && (
-                <span className={`flex items-center text-xs font-medium tabular-nums ${trend.positive ? 'text-success' : 'text-danger'}`}>
-                  {trend.positive ? <ArrowUpRight className="w-3 h-3 mr-0.5" /> : <ArrowDownRight className="w-3 h-3 mr-0.5" />}
+                <span
+                  className={`flex items-center text-xs font-medium tabular-nums ${trend.positive ? 'text-success' : 'text-danger'}`}
+                >
+                  {trend.positive ? (
+                    <ArrowUpRight className="w-3 h-3 mr-0.5" />
+                  ) : (
+                    <ArrowDownRight className="w-3 h-3 mr-0.5" />
+                  )}
                   {trend.value}%
                 </span>
               )}
@@ -123,7 +131,13 @@ interface QuickActionProps {
   variant?: 'primary' | 'secondary';
 }
 
-function QuickAction({ href, icon: Icon, title, description, variant = 'secondary' }: QuickActionProps) {
+function QuickAction({
+  href,
+  icon: Icon,
+  title,
+  description,
+  variant = 'secondary',
+}: QuickActionProps) {
   const isPrimary = variant === 'primary';
   return (
     <Link href={href} className="block">
@@ -133,13 +147,9 @@ function QuickAction({ href, icon: Icon, title, description, variant = 'secondar
         }`}
       >
         <div
-          className={`p-3 rounded-lg shrink-0 ${
-            isPrimary ? 'bg-dark-primary/20' : 'bg-lime/20'
-          }`}
+          className={`p-3 rounded-lg shrink-0 ${isPrimary ? 'bg-dark-primary/20' : 'bg-lime/20'}`}
         >
-          <Icon
-            className={`w-5 h-5 ${isPrimary ? 'text-dark-primary' : 'text-lime'}`}
-          />
+          <Icon className={`w-5 h-5 ${isPrimary ? 'text-dark-primary' : 'text-lime'}`} />
         </div>
         <div>
           <p className={`font-semibold text-sm ${isPrimary ? 'text-dark-primary' : 'text-white'}`}>
@@ -207,10 +217,11 @@ export default function AdminDashboard() {
 
   if (!dashboardData) return null;
 
-  const { membership, revenue, attendance, recentActivity, upcomingSessions, revenueChart } = dashboardData;
+  const { membership, revenue, attendance, recentActivity, upcomingSessions, revenueChart } =
+    dashboardData;
 
   // Derive data for charts
-  const revenueChartData = revenueChart.slice(-8).map(item => ({
+  const revenueChartData = revenueChart.slice(-8).map((item) => ({
     month: item.month,
     revenue: item.revenue,
     collected: item.collected,
@@ -220,7 +231,10 @@ export default function AdminDashboard() {
   // Attendance trend data derived from revenue chart (simulated as monthly attendance %)
   const attendanceTrendData = revenueChart.slice(-8).map((item, index) => ({
     month: item.month,
-    rate: Math.min(100, Math.max(60, attendance.attendanceRate + (index - 4) * 2 + Math.round(Math.sin(index) * 5))),
+    rate: Math.min(
+      100,
+      Math.max(60, attendance.attendanceRate + (index - 4) * 2 + Math.round(Math.sin(index) * 5))
+    ),
   }));
 
   // Payment distribution for donut chart
@@ -248,7 +262,9 @@ export default function AdminDashboard() {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="font-serif text-4xl text-dark-primary tracking-tight mb-2">Admin Dashboard</h1>
+            <h1 className="font-serif text-4xl text-dark-primary tracking-tight mb-2">
+              Admin Dashboard
+            </h1>
             <p className="text-grey-600 text-lg">
               Your club at a glance. View attendance, finances, and membership statistics.
             </p>
@@ -290,7 +306,9 @@ export default function AdminDashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <Card className="bg-dark-primary border-white/10">
               <CardContent className="p-5">
-                <p className="text-xs font-medium text-white/60 uppercase tracking-wider mb-2">Monthly Revenue</p>
+                <p className="text-xs font-medium text-white/60 uppercase tracking-wider mb-2">
+                  Monthly Revenue
+                </p>
                 <p className="font-serif text-3xl text-lime tabular-nums">
                   {formatCurrency(revenue.monthlyRevenue)}
                 </p>
@@ -298,7 +316,9 @@ export default function AdminDashboard() {
             </Card>
             <Card className="bg-dark-primary border-white/10">
               <CardContent className="p-5">
-                <p className="text-xs font-medium text-white/60 uppercase tracking-wider mb-2">Total Revenue</p>
+                <p className="text-xs font-medium text-white/60 uppercase tracking-wider mb-2">
+                  Total Revenue
+                </p>
                 <p className="font-serif text-3xl text-lime tabular-nums">
                   {formatCurrency(revenue.totalRevenue)}
                 </p>
@@ -306,7 +326,9 @@ export default function AdminDashboard() {
             </Card>
             <Card className="bg-dark-primary border-white/10">
               <CardContent className="p-5">
-                <p className="text-xs font-medium text-white/60 uppercase tracking-wider mb-2">Outstanding</p>
+                <p className="text-xs font-medium text-white/60 uppercase tracking-wider mb-2">
+                  Outstanding
+                </p>
                 <p className="text-2xl font-bold text-warning tabular-nums">
                   {formatCurrency(revenue.outstandingAmount)}
                 </p>
@@ -316,7 +338,9 @@ export default function AdminDashboard() {
               <CardContent className="p-5">
                 <div className="flex items-center gap-2 mb-2">
                   <AlertTriangle className="w-3.5 h-3.5 text-danger" />
-                  <p className="text-xs font-medium text-danger uppercase tracking-wider">Overdue</p>
+                  <p className="text-xs font-medium text-danger uppercase tracking-wider">
+                    Overdue
+                  </p>
                 </div>
                 <p className="text-2xl font-bold text-danger tabular-nums">
                   {formatCurrency(overdueAmount)}
@@ -330,22 +354,41 @@ export default function AdminDashboard() {
             <Card className="lg:col-span-2 bg-dark-primary border-white/10">
               <CardHeader>
                 <CardTitle className="text-white text-base">Monthly Revenue Trend</CardTitle>
-                <CardDescription className="text-white/60">Invoiced vs collected over the last 8 months</CardDescription>
+                <CardDescription className="text-white/60">
+                  Invoiced vs collected over the last 8 months
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={280}>
                   <BarChart data={revenueChartData} barGap={4}>
                     <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
-                    <XAxis dataKey="month" stroke={CHART.axis} tick={{ fill: CHART.axis, fontSize: 12 }} />
+                    <XAxis
+                      dataKey="month"
+                      stroke={CHART.axis}
+                      tick={{ fill: CHART.axis, fontSize: 12 }}
+                    />
                     <YAxis stroke={CHART.axis} tick={{ fill: CHART.axis, fontSize: 12 }} />
                     <Tooltip
                       contentStyle={CHART_TOOLTIP_STYLE}
                       labelStyle={CHART_TOOLTIP_LABEL_STYLE}
-                      formatter={(value: number | undefined) => [formatCurrency(value ?? 0), undefined]}
+                      formatter={(value: number | undefined) => [
+                        formatCurrency(value ?? 0),
+                        undefined,
+                      ]}
                     />
                     <Legend wrapperStyle={{ color: CHART.axis, fontSize: 12 }} />
-                    <Bar dataKey="invoiced" name="Invoiced" fill={CHART.info} radius={[4, 4, 0, 0]} />
-                    <Bar dataKey="collected" name="Collected" fill={CHART.brand} radius={[4, 4, 0, 0]} />
+                    <Bar
+                      dataKey="invoiced"
+                      name="Invoiced"
+                      fill={CHART.info}
+                      radius={[4, 4, 0, 0]}
+                    />
+                    <Bar
+                      dataKey="collected"
+                      name="Collected"
+                      fill={CHART.brand}
+                      radius={[4, 4, 0, 0]}
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -355,7 +398,9 @@ export default function AdminDashboard() {
             <Card className="bg-dark-primary border-white/10">
               <CardHeader>
                 <CardTitle className="text-white text-base">Payment Overview</CardTitle>
-                <CardDescription className="text-white/60">Collected vs outstanding</CardDescription>
+                <CardDescription className="text-white/60">
+                  Collected vs outstanding
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={200}>
@@ -376,7 +421,10 @@ export default function AdminDashboard() {
                     <Tooltip
                       contentStyle={CHART_TOOLTIP_STYLE}
                       labelStyle={CHART_TOOLTIP_LABEL_STYLE}
-                      formatter={(value: number | undefined) => [formatCurrency(value ?? 0), undefined]}
+                      formatter={(value: number | undefined) => [
+                        formatCurrency(value ?? 0),
+                        undefined,
+                      ]}
                     />
                   </PieChart>
                 </ResponsiveContainer>
@@ -409,14 +457,25 @@ export default function AdminDashboard() {
             <Card className="lg:col-span-2 bg-dark-primary border-white/10">
               <CardHeader>
                 <CardTitle className="text-white text-base">Attendance Rate Trend</CardTitle>
-                <CardDescription className="text-white/60">Monthly attendance percentage</CardDescription>
+                <CardDescription className="text-white/60">
+                  Monthly attendance percentage
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={280}>
                   <LineChart data={attendanceTrendData}>
                     <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
-                    <XAxis dataKey="month" stroke={CHART.axis} tick={{ fill: CHART.axis, fontSize: 12 }} />
-                    <YAxis domain={[50, 100]} stroke={CHART.axis} tick={{ fill: CHART.axis, fontSize: 12 }} unit="%" />
+                    <XAxis
+                      dataKey="month"
+                      stroke={CHART.axis}
+                      tick={{ fill: CHART.axis, fontSize: 12 }}
+                    />
+                    <YAxis
+                      domain={[50, 100]}
+                      stroke={CHART.axis}
+                      tick={{ fill: CHART.axis, fontSize: 12 }}
+                      unit="%"
+                    />
                     <Tooltip
                       contentStyle={CHART_TOOLTIP_STYLE}
                       labelStyle={CHART_TOOLTIP_LABEL_STYLE}
@@ -469,7 +528,9 @@ export default function AdminDashboard() {
                             <Clock className="w-3.5 h-3.5 text-lime" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-white truncate">{session.squad_name}</p>
+                            <p className="text-sm font-medium text-white truncate">
+                              {session.squad_name}
+                            </p>
                             <p className="text-xs text-white/60">
                               {formatDate(session.start_time, {
                                 weekday: 'short',
@@ -502,16 +563,22 @@ export default function AdminDashboard() {
               <CardContent className="p-5">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4 text-lime" />
-                  <p className="text-xs font-medium text-white/60 uppercase tracking-wider">Total {MEMBER_NOUN_PLURAL}</p>
+                  <p className="text-xs font-medium text-white/60 uppercase tracking-wider">
+                    Total {MEMBER_NOUN_PLURAL}
+                  </p>
                 </div>
-                <p className="font-serif text-4xl text-lime tracking-tight tabular-nums">{membership.totalMembers}</p>
+                <p className="font-serif text-4xl text-lime tracking-tight tabular-nums">
+                  {membership.totalMembers}
+                </p>
               </CardContent>
             </Card>
             <Card className="bg-dark-primary border-white/10">
               <CardContent className="p-5">
                 <div className="flex items-center gap-2 mb-2">
                   <UserCheck className="w-4 h-4 text-success" />
-                  <p className="text-xs font-medium text-white/60 uppercase tracking-wider">Active</p>
+                  <p className="text-xs font-medium text-white/60 uppercase tracking-wider">
+                    Active
+                  </p>
                 </div>
                 <p className="text-3xl font-bold text-success tabular-nums">{activeMembers}</p>
               </CardContent>
@@ -520,7 +587,9 @@ export default function AdminDashboard() {
               <CardContent className="p-5">
                 <div className="flex items-center gap-2 mb-2">
                   <UserX className="w-4 h-4 text-white/60" />
-                  <p className="text-xs font-medium text-white/60 uppercase tracking-wider">Inactive</p>
+                  <p className="text-xs font-medium text-white/60 uppercase tracking-wider">
+                    Inactive
+                  </p>
                 </div>
                 <p className="text-3xl font-bold text-white/80 tabular-nums">{inactiveMembers}</p>
               </CardContent>
@@ -529,10 +598,16 @@ export default function AdminDashboard() {
               <CardContent className="p-5">
                 <div className="flex items-center gap-2 mb-2">
                   <Calendar className="w-4 h-4 text-lime" />
-                  <p className="text-xs font-medium text-white/60 uppercase tracking-wider">Squads</p>
+                  <p className="text-xs font-medium text-white/60 uppercase tracking-wider">
+                    Squads
+                  </p>
                 </div>
-                <p className="font-serif text-4xl text-lime tracking-tight tabular-nums">{membership.totalSquads}</p>
-                <p className="text-xs text-white/60 mt-1 tabular-nums">~{avgPerSquad} {MEMBER_NOUN_PLURAL_LOWER} per squad</p>
+                <p className="font-serif text-4xl text-lime tracking-tight tabular-nums">
+                  {membership.totalSquads}
+                </p>
+                <p className="text-xs text-white/60 mt-1 tabular-nums">
+                  ~{avgPerSquad} {MEMBER_NOUN_PLURAL_LOWER} per squad
+                </p>
               </CardContent>
             </Card>
           </div>
@@ -542,7 +617,9 @@ export default function AdminDashboard() {
             <Card className="bg-dark-primary border-white/10">
               <CardHeader>
                 <CardTitle className="text-white text-base">Active vs Inactive</CardTitle>
-                <CardDescription className="text-white/60">Current membership status</CardDescription>
+                <CardDescription className="text-white/60">
+                  Current membership status
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={200}>
@@ -571,11 +648,15 @@ export default function AdminDashboard() {
                 <div className="flex justify-center gap-6 mt-2">
                   <div className="flex items-center gap-2">
                     <span className="w-3 h-3 rounded-full bg-brand" />
-                    <span className="text-sm text-white/60 tabular-nums">Active ({activeMembers})</span>
+                    <span className="text-sm text-white/60 tabular-nums">
+                      Active ({activeMembers})
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-3 h-3 rounded-full bg-grey-500" />
-                    <span className="text-sm text-white/60 tabular-nums">Inactive ({inactiveMembers})</span>
+                    <span className="text-sm text-white/60 tabular-nums">
+                      Inactive ({inactiveMembers})
+                    </span>
                   </div>
                 </div>
               </CardContent>
@@ -585,7 +666,9 @@ export default function AdminDashboard() {
             <Card className="lg:col-span-2 bg-dark-primary border-white/10">
               <CardHeader>
                 <CardTitle className="text-white text-base">Recent Activity</CardTitle>
-                <CardDescription className="text-white/60">Latest updates from your club</CardDescription>
+                <CardDescription className="text-white/60">
+                  Latest updates from your club
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 {recentActivity.length > 0 ? (
@@ -609,10 +692,13 @@ export default function AdminDashboard() {
                         </div>
                         <Badge
                           className={`ml-2 text-xs ${
-                            activity.type === 'payment' ? 'bg-lime/20 text-lime' :
-                            activity.type === 'invoice' ? 'bg-warning/20 text-warning' :
-                            activity.type === 'member' ? 'bg-brand/20 text-brand' :
-                            'bg-info/20 text-info'
+                            activity.type === 'payment'
+                              ? 'bg-lime/20 text-lime'
+                              : activity.type === 'invoice'
+                                ? 'bg-warning/20 text-warning'
+                                : activity.type === 'member'
+                                  ? 'bg-brand/20 text-brand'
+                                  : 'bg-info/20 text-info'
                           }`}
                         >
                           {activity.type}
@@ -628,10 +714,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* ── Quick Actions ──────────────────────────────────────────── */}
-          <SectionHeader
-            title="Quick Actions"
-            description="Common tasks and shortcuts"
-          />
+          <SectionHeader title="Quick Actions" description="Common tasks and shortcuts" />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <QuickAction
               href="/members"

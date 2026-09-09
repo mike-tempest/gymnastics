@@ -1,15 +1,7 @@
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils';
 
-function Skeleton({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={cn("animate-pulse rounded bg-grey-800", className)}
-      {...props}
-    />
-  )
+function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn('animate-pulse rounded bg-grey-800', className)} {...props} />;
 }
 
 function TableSkeleton({ rows = 5 }: { rows?: number }) {
@@ -34,7 +26,7 @@ function TableSkeleton({ rows = 5 }: { rows?: number }) {
         </div>
       ))}
     </div>
-  )
+  );
 }
 
-export { Skeleton, TableSkeleton }
+export { Skeleton, TableSkeleton };

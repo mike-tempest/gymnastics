@@ -4,7 +4,7 @@ console.log('Testing Squad Module imports...');
 try {
   // These would be compiled JavaScript in a real run
   console.log('✓ Squad Entity structure looks good');
-  console.log('✓ Squad DTOs structure looks good'); 
+  console.log('✓ Squad DTOs structure looks good');
   console.log('✓ Squad Service structure looks good');
   console.log('✓ Squad Controller structure looks good');
   console.log('✓ Squad Repository structure looks good');

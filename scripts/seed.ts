@@ -7,8 +7,15 @@ import { Family } from '../services/membership/src/modules/families/entities/fam
 import { Member } from '../services/membership/src/modules/members/entities/member.entity';
 import { Squad } from '../services/membership/src/modules/squads/entities/squad.entity';
 import { Session } from '../services/membership/src/modules/sessions/entities/session.entity';
-import { FeeStructure, FeeFrequency, AppliesToType } from '../services/membership/src/modules/finance/fee-structures/entities/fee-structure.entity';
-import { Invoice, InvoiceStatus } from '../services/membership/src/modules/finance/invoices/entities/invoice.entity';
+import {
+  FeeStructure,
+  FeeFrequency,
+  AppliesToType,
+} from '../services/membership/src/modules/finance/fee-structures/entities/fee-structure.entity';
+import {
+  Invoice,
+  InvoiceStatus,
+} from '../services/membership/src/modules/finance/invoices/entities/invoice.entity';
 import { InvoiceItem } from '../services/membership/src/modules/finance/invoices/entities/invoice-item.entity';
 
 // Load environment variables from .env.seed
@@ -20,51 +27,237 @@ const clubId = 'c0a80121-0000-0000-0000-000000000001';
 
 // Tunbridge Wells street names and postcodes
 const twStreets = [
-  'Mount Pleasant Road', 'London Road', 'Camden Road', 'Calverley Road',
-  'St Johns Road', 'Frant Road', 'Pembury Road', 'High Street',
-  'Grove Hill Road', 'Warwick Park', 'Hungershall Park', 'Molyneux Park Road',
-  'Nevill Street', 'Church Road', 'Vale Road', 'Broadwater Down',
-  'Bishops Down', 'Sandhurst Road', 'Ferndale', 'Lansdowne Road',
-  'Madeira Park', 'Cumberland Walk', 'Crescent Road', 'Major Yorks Road',
-  'Rusthall Road', 'Speldhurst Road', 'Langton Road', 'Bayham Road',
-  'Upper Grosvenor Road', 'Lower Green Road', 'Forest Road', 'Quarry Road',
+  'Mount Pleasant Road',
+  'London Road',
+  'Camden Road',
+  'Calverley Road',
+  'St Johns Road',
+  'Frant Road',
+  'Pembury Road',
+  'High Street',
+  'Grove Hill Road',
+  'Warwick Park',
+  'Hungershall Park',
+  'Molyneux Park Road',
+  'Nevill Street',
+  'Church Road',
+  'Vale Road',
+  'Broadwater Down',
+  'Bishops Down',
+  'Sandhurst Road',
+  'Ferndale',
+  'Lansdowne Road',
+  'Madeira Park',
+  'Cumberland Walk',
+  'Crescent Road',
+  'Major Yorks Road',
+  'Rusthall Road',
+  'Speldhurst Road',
+  'Langton Road',
+  'Bayham Road',
+  'Upper Grosvenor Road',
+  'Lower Green Road',
+  'Forest Road',
+  'Quarry Road',
 ];
 
 const twPostcodes = [
-  'TN1 1AA', 'TN1 1AB', 'TN1 1DA', 'TN1 1JP', 'TN1 1QE', 'TN1 1RN',
-  'TN1 2LR', 'TN1 2PT', 'TN1 2QP', 'TN1 2RA', 'TN1 2SG', 'TN1 2TH',
-  'TN2 3AA', 'TN2 3HE', 'TN2 3NS', 'TN2 3QY', 'TN2 3UJ', 'TN2 4AA',
-  'TN2 4DB', 'TN2 5AA', 'TN2 5NR', 'TN2 5TD', 'TN2 5XA',
-  'TN3 0AA', 'TN3 0JD', 'TN3 0RP', 'TN3 9AA',
-  'TN4 0AA', 'TN4 0PB', 'TN4 8AA', 'TN4 8HJ', 'TN4 9AA',
+  'TN1 1AA',
+  'TN1 1AB',
+  'TN1 1DA',
+  'TN1 1JP',
+  'TN1 1QE',
+  'TN1 1RN',
+  'TN1 2LR',
+  'TN1 2PT',
+  'TN1 2QP',
+  'TN1 2RA',
+  'TN1 2SG',
+  'TN1 2TH',
+  'TN2 3AA',
+  'TN2 3HE',
+  'TN2 3NS',
+  'TN2 3QY',
+  'TN2 3UJ',
+  'TN2 4AA',
+  'TN2 4DB',
+  'TN2 5AA',
+  'TN2 5NR',
+  'TN2 5TD',
+  'TN2 5XA',
+  'TN3 0AA',
+  'TN3 0JD',
+  'TN3 0RP',
+  'TN3 9AA',
+  'TN4 0AA',
+  'TN4 0PB',
+  'TN4 8AA',
+  'TN4 8HJ',
+  'TN4 9AA',
 ];
 
 // Squad distribution targets
 const squadConfig = [
-  { name: 'Learn to Swim', minAge: 4, maxAge: 7, coach: 'Emma Wilson', times: 'Mon/Wed 16:30-17:15', targetSwimmers: 25, fee: 35 },
-  { name: 'Development', minAge: 7, maxAge: 10, coach: 'Sarah Mitchell', times: 'Mon/Wed/Fri 17:30-18:30', targetSwimmers: 30, fee: 45 },
-  { name: 'Junior Competition', minAge: 10, maxAge: 13, coach: 'James Cooper', times: 'Mon/Wed/Fri 18:00-19:30, Sat 08:30-10:00', targetSwimmers: 25, fee: 55 },
-  { name: 'Senior Competition', minAge: 13, maxAge: 17, coach: 'David Hughes', times: 'Mon/Wed/Fri 18:30-20:00, Sat 09:00-11:00', targetSwimmers: 20, fee: 65 },
-  { name: 'Masters', minAge: 18, maxAge: null, coach: 'Lisa Turner', times: 'Tue/Thu 19:00-20:30, Sat 10:00-11:30', targetSwimmers: 15, fee: 55 },
-  { name: 'Water Polo', minAge: 12, maxAge: null, coach: 'Tom Richards', times: 'Tue/Thu 18:00-19:30, Sun 10:00-12:00', targetSwimmers: 15, fee: 50 },
-  { name: 'Diving', minAge: 8, maxAge: null, coach: 'Sophie Anderson', times: 'Wed/Sat 17:00-18:30', targetSwimmers: 10, fee: 50 },
-  { name: 'Para Swimming', minAge: 8, maxAge: null, coach: 'Rachel Phillips', times: 'Mon/Fri 16:00-17:30, Sat 11:00-12:00', targetSwimmers: 10, fee: 45 },
+  {
+    name: 'Learn to Swim',
+    minAge: 4,
+    maxAge: 7,
+    coach: 'Emma Wilson',
+    times: 'Mon/Wed 16:30-17:15',
+    targetSwimmers: 25,
+    fee: 35,
+  },
+  {
+    name: 'Development',
+    minAge: 7,
+    maxAge: 10,
+    coach: 'Sarah Mitchell',
+    times: 'Mon/Wed/Fri 17:30-18:30',
+    targetSwimmers: 30,
+    fee: 45,
+  },
+  {
+    name: 'Junior Competition',
+    minAge: 10,
+    maxAge: 13,
+    coach: 'James Cooper',
+    times: 'Mon/Wed/Fri 18:00-19:30, Sat 08:30-10:00',
+    targetSwimmers: 25,
+    fee: 55,
+  },
+  {
+    name: 'Senior Competition',
+    minAge: 13,
+    maxAge: 17,
+    coach: 'David Hughes',
+    times: 'Mon/Wed/Fri 18:30-20:00, Sat 09:00-11:00',
+    targetSwimmers: 20,
+    fee: 65,
+  },
+  {
+    name: 'Masters',
+    minAge: 18,
+    maxAge: null,
+    coach: 'Lisa Turner',
+    times: 'Tue/Thu 19:00-20:30, Sat 10:00-11:30',
+    targetSwimmers: 15,
+    fee: 55,
+  },
+  {
+    name: 'Water Polo',
+    minAge: 12,
+    maxAge: null,
+    coach: 'Tom Richards',
+    times: 'Tue/Thu 18:00-19:30, Sun 10:00-12:00',
+    targetSwimmers: 15,
+    fee: 50,
+  },
+  {
+    name: 'Diving',
+    minAge: 8,
+    maxAge: null,
+    coach: 'Sophie Anderson',
+    times: 'Wed/Sat 17:00-18:30',
+    targetSwimmers: 10,
+    fee: 50,
+  },
+  {
+    name: 'Para Swimming',
+    minAge: 8,
+    maxAge: null,
+    coach: 'Rachel Phillips',
+    times: 'Mon/Fri 16:00-17:30, Sat 11:00-12:00',
+    targetSwimmers: 10,
+    fee: 45,
+  },
 ];
 
 // DBS coaches and volunteers
 const dbsRecords = [
-  { name: 'Emma Wilson', role: 'Head Coach - Learn to Swim', dbsNumber: 'DBS-001-2024-RTW', issueDate: '2024-03-15', expiryDate: '2027-03-15' },
-  { name: 'Sarah Mitchell', role: 'Coach - Development', dbsNumber: 'DBS-002-2024-RTW', issueDate: '2024-05-20', expiryDate: '2027-05-20' },
-  { name: 'James Cooper', role: 'Head Coach - Junior Competition', dbsNumber: 'DBS-003-2023-RTW', issueDate: '2023-11-10', expiryDate: '2026-11-10' },
-  { name: 'David Hughes', role: 'Head Coach - Senior Competition', dbsNumber: 'DBS-004-2024-RTW', issueDate: '2024-01-08', expiryDate: '2027-01-08' },
-  { name: 'Lisa Turner', role: 'Coach - Masters', dbsNumber: 'DBS-005-2024-RTW', issueDate: '2024-07-22', expiryDate: '2027-07-22' },
-  { name: 'Tom Richards', role: 'Coach - Water Polo', dbsNumber: 'DBS-006-2023-RTW', issueDate: '2023-09-14', expiryDate: '2026-09-14' },
-  { name: 'Sophie Anderson', role: 'Coach - Diving', dbsNumber: 'DBS-007-2024-RTW', issueDate: '2024-02-28', expiryDate: '2027-02-28' },
-  { name: 'Rachel Phillips', role: 'Coach - Para Swimming', dbsNumber: 'DBS-008-2024-RTW', issueDate: '2024-04-05', expiryDate: '2027-04-05' },
-  { name: 'Mark Thompson', role: 'Volunteer - Poolside Helper', dbsNumber: 'DBS-009-2024-RTW', issueDate: '2024-06-12', expiryDate: '2027-06-12' },
-  { name: 'Claire Robinson', role: 'Volunteer - Timekeeper', dbsNumber: 'DBS-010-2023-RTW', issueDate: '2023-08-30', expiryDate: '2026-08-30' },
-  { name: 'Paul Harrison', role: 'Assistant Coach - Senior', dbsNumber: 'DBS-011-2024-RTW', issueDate: '2024-09-18', expiryDate: '2027-09-18' },
-  { name: 'Karen White', role: 'Welfare Officer', dbsNumber: 'DBS-012-2023-RTW', issueDate: '2023-12-01', expiryDate: '2026-12-01' },
+  {
+    name: 'Emma Wilson',
+    role: 'Head Coach - Learn to Swim',
+    dbsNumber: 'DBS-001-2024-RTW',
+    issueDate: '2024-03-15',
+    expiryDate: '2027-03-15',
+  },
+  {
+    name: 'Sarah Mitchell',
+    role: 'Coach - Development',
+    dbsNumber: 'DBS-002-2024-RTW',
+    issueDate: '2024-05-20',
+    expiryDate: '2027-05-20',
+  },
+  {
+    name: 'James Cooper',
+    role: 'Head Coach - Junior Competition',
+    dbsNumber: 'DBS-003-2023-RTW',
+    issueDate: '2023-11-10',
+    expiryDate: '2026-11-10',
+  },
+  {
+    name: 'David Hughes',
+    role: 'Head Coach - Senior Competition',
+    dbsNumber: 'DBS-004-2024-RTW',
+    issueDate: '2024-01-08',
+    expiryDate: '2027-01-08',
+  },
+  {
+    name: 'Lisa Turner',
+    role: 'Coach - Masters',
+    dbsNumber: 'DBS-005-2024-RTW',
+    issueDate: '2024-07-22',
+    expiryDate: '2027-07-22',
+  },
+  {
+    name: 'Tom Richards',
+    role: 'Coach - Water Polo',
+    dbsNumber: 'DBS-006-2023-RTW',
+    issueDate: '2023-09-14',
+    expiryDate: '2026-09-14',
+  },
+  {
+    name: 'Sophie Anderson',
+    role: 'Coach - Diving',
+    dbsNumber: 'DBS-007-2024-RTW',
+    issueDate: '2024-02-28',
+    expiryDate: '2027-02-28',
+  },
+  {
+    name: 'Rachel Phillips',
+    role: 'Coach - Para Swimming',
+    dbsNumber: 'DBS-008-2024-RTW',
+    issueDate: '2024-04-05',
+    expiryDate: '2027-04-05',
+  },
+  {
+    name: 'Mark Thompson',
+    role: 'Volunteer - Poolside Helper',
+    dbsNumber: 'DBS-009-2024-RTW',
+    issueDate: '2024-06-12',
+    expiryDate: '2027-06-12',
+  },
+  {
+    name: 'Claire Robinson',
+    role: 'Volunteer - Timekeeper',
+    dbsNumber: 'DBS-010-2023-RTW',
+    issueDate: '2023-08-30',
+    expiryDate: '2026-08-30',
+  },
+  {
+    name: 'Paul Harrison',
+    role: 'Assistant Coach - Senior',
+    dbsNumber: 'DBS-011-2024-RTW',
+    issueDate: '2024-09-18',
+    expiryDate: '2027-09-18',
+  },
+  {
+    name: 'Karen White',
+    role: 'Welfare Officer',
+    dbsNumber: 'DBS-012-2023-RTW',
+    issueDate: '2023-12-01',
+    expiryDate: '2026-12-01',
+  },
 ];
 
 function randomTWAddress() {
@@ -190,7 +383,8 @@ async function seed() {
         dob.setDate(Math.floor(Math.random() * 28) + 1);
 
         const gender = Math.random() > 0.5 ? 'Male' : 'Female';
-        const firstName = gender === 'Male' ? faker.person.firstName('male') : faker.person.firstName('female');
+        const firstName =
+          gender === 'Male' ? faker.person.firstName('male') : faker.person.firstName('female');
 
         const member = dataSource.getRepository(Member).create({
           family_id: family.family_id,
@@ -201,21 +395,24 @@ async function seed() {
           gender,
           squad_id: squad.squad_id,
           registration_number: `SE-${(1000000 + swimmerCount).toString()}`,
-          medical_notes: Math.random() < 0.1 ? faker.helpers.arrayElement([
-            'Mild asthma, uses inhaler before sessions',
-            'Allergy to plasters',
-            'Verruca, wears swim socks',
-            'Epilepsy, controlled with medication',
-            'Eczema, sensitive to chlorine',
-          ]) : null,
+          medical_notes:
+            Math.random() < 0.1
+              ? faker.helpers.arrayElement([
+                  'Mild asthma, uses inhaler before sessions',
+                  'Allergy to plasters',
+                  'Verruca, wears swim socks',
+                  'Epilepsy, controlled with medication',
+                  'Eczema, sensitive to chlorine',
+                ])
+              : null,
           photo_url: null,
         });
         await dataSource.getRepository(Member).save(member);
 
-        await dataSource.query(
-          'INSERT INTO squad_members (squad_id, member_id) VALUES ($1, $2)',
-          [squad.squad_id, member.member_id]
-        );
+        await dataSource.query('INSERT INTO squad_members (squad_id, member_id) VALUES ($1, $2)', [
+          squad.squad_id,
+          member.member_id,
+        ]);
 
         members.push(member);
         swimmerCount++;
@@ -234,44 +431,49 @@ async function seed() {
     const endDate = new Date(now);
     endDate.setMonth(endDate.getMonth() + 1);
 
-    interface SessionRecord { id: string; squadIdx: number; date: Date; }
+    interface SessionRecord {
+      id: string;
+      squadIdx: number;
+      date: Date;
+    }
     const allSessions: SessionRecord[] = [];
 
     // Session schedule per squad (day of week: 0=Sun, 1=Mon ... 6=Sat)
-    const schedules: { squadIdx: number; dayOfWeek: number; startTime: string; endTime: string }[] = [
-      // Learn to Swim: Mon/Wed 16:30-17:15
-      { squadIdx: 0, dayOfWeek: 1, startTime: '16:30', endTime: '17:15' },
-      { squadIdx: 0, dayOfWeek: 3, startTime: '16:30', endTime: '17:15' },
-      // Development: Mon/Wed/Fri 17:30-18:30
-      { squadIdx: 1, dayOfWeek: 1, startTime: '17:30', endTime: '18:30' },
-      { squadIdx: 1, dayOfWeek: 3, startTime: '17:30', endTime: '18:30' },
-      { squadIdx: 1, dayOfWeek: 5, startTime: '17:30', endTime: '18:30' },
-      // Junior Competition: Mon/Wed/Fri 18:00-19:30, Sat 08:30-10:00
-      { squadIdx: 2, dayOfWeek: 1, startTime: '18:00', endTime: '19:30' },
-      { squadIdx: 2, dayOfWeek: 3, startTime: '18:00', endTime: '19:30' },
-      { squadIdx: 2, dayOfWeek: 5, startTime: '18:00', endTime: '19:30' },
-      { squadIdx: 2, dayOfWeek: 6, startTime: '08:30', endTime: '10:00' },
-      // Senior Competition: Mon/Wed/Fri 18:30-20:00, Sat 09:00-11:00
-      { squadIdx: 3, dayOfWeek: 1, startTime: '18:30', endTime: '20:00' },
-      { squadIdx: 3, dayOfWeek: 3, startTime: '18:30', endTime: '20:00' },
-      { squadIdx: 3, dayOfWeek: 5, startTime: '18:30', endTime: '20:00' },
-      { squadIdx: 3, dayOfWeek: 6, startTime: '09:00', endTime: '11:00' },
-      // Masters: Tue/Thu 19:00-20:30, Sat 10:00-11:30
-      { squadIdx: 4, dayOfWeek: 2, startTime: '19:00', endTime: '20:30' },
-      { squadIdx: 4, dayOfWeek: 4, startTime: '19:00', endTime: '20:30' },
-      { squadIdx: 4, dayOfWeek: 6, startTime: '10:00', endTime: '11:30' },
-      // Water Polo: Tue/Thu 18:00-19:30, Sun 10:00-12:00
-      { squadIdx: 5, dayOfWeek: 2, startTime: '18:00', endTime: '19:30' },
-      { squadIdx: 5, dayOfWeek: 4, startTime: '18:00', endTime: '19:30' },
-      { squadIdx: 5, dayOfWeek: 0, startTime: '10:00', endTime: '12:00' },
-      // Diving: Wed/Sat 17:00-18:30
-      { squadIdx: 6, dayOfWeek: 3, startTime: '17:00', endTime: '18:30' },
-      { squadIdx: 6, dayOfWeek: 6, startTime: '17:00', endTime: '18:30' },
-      // Para Swimming: Mon/Fri 16:00-17:30, Sat 11:00-12:00
-      { squadIdx: 7, dayOfWeek: 1, startTime: '16:00', endTime: '17:30' },
-      { squadIdx: 7, dayOfWeek: 5, startTime: '16:00', endTime: '17:30' },
-      { squadIdx: 7, dayOfWeek: 6, startTime: '11:00', endTime: '12:00' },
-    ];
+    const schedules: { squadIdx: number; dayOfWeek: number; startTime: string; endTime: string }[] =
+      [
+        // Learn to Swim: Mon/Wed 16:30-17:15
+        { squadIdx: 0, dayOfWeek: 1, startTime: '16:30', endTime: '17:15' },
+        { squadIdx: 0, dayOfWeek: 3, startTime: '16:30', endTime: '17:15' },
+        // Development: Mon/Wed/Fri 17:30-18:30
+        { squadIdx: 1, dayOfWeek: 1, startTime: '17:30', endTime: '18:30' },
+        { squadIdx: 1, dayOfWeek: 3, startTime: '17:30', endTime: '18:30' },
+        { squadIdx: 1, dayOfWeek: 5, startTime: '17:30', endTime: '18:30' },
+        // Junior Competition: Mon/Wed/Fri 18:00-19:30, Sat 08:30-10:00
+        { squadIdx: 2, dayOfWeek: 1, startTime: '18:00', endTime: '19:30' },
+        { squadIdx: 2, dayOfWeek: 3, startTime: '18:00', endTime: '19:30' },
+        { squadIdx: 2, dayOfWeek: 5, startTime: '18:00', endTime: '19:30' },
+        { squadIdx: 2, dayOfWeek: 6, startTime: '08:30', endTime: '10:00' },
+        // Senior Competition: Mon/Wed/Fri 18:30-20:00, Sat 09:00-11:00
+        { squadIdx: 3, dayOfWeek: 1, startTime: '18:30', endTime: '20:00' },
+        { squadIdx: 3, dayOfWeek: 3, startTime: '18:30', endTime: '20:00' },
+        { squadIdx: 3, dayOfWeek: 5, startTime: '18:30', endTime: '20:00' },
+        { squadIdx: 3, dayOfWeek: 6, startTime: '09:00', endTime: '11:00' },
+        // Masters: Tue/Thu 19:00-20:30, Sat 10:00-11:30
+        { squadIdx: 4, dayOfWeek: 2, startTime: '19:00', endTime: '20:30' },
+        { squadIdx: 4, dayOfWeek: 4, startTime: '19:00', endTime: '20:30' },
+        { squadIdx: 4, dayOfWeek: 6, startTime: '10:00', endTime: '11:30' },
+        // Water Polo: Tue/Thu 18:00-19:30, Sun 10:00-12:00
+        { squadIdx: 5, dayOfWeek: 2, startTime: '18:00', endTime: '19:30' },
+        { squadIdx: 5, dayOfWeek: 4, startTime: '18:00', endTime: '19:30' },
+        { squadIdx: 5, dayOfWeek: 0, startTime: '10:00', endTime: '12:00' },
+        // Diving: Wed/Sat 17:00-18:30
+        { squadIdx: 6, dayOfWeek: 3, startTime: '17:00', endTime: '18:30' },
+        { squadIdx: 6, dayOfWeek: 6, startTime: '17:00', endTime: '18:30' },
+        // Para Swimming: Mon/Fri 16:00-17:30, Sat 11:00-12:00
+        { squadIdx: 7, dayOfWeek: 1, startTime: '16:00', endTime: '17:30' },
+        { squadIdx: 7, dayOfWeek: 5, startTime: '16:00', endTime: '17:30' },
+        { squadIdx: 7, dayOfWeek: 6, startTime: '11:00', endTime: '12:00' },
+      ];
 
     const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -294,10 +496,14 @@ async function seed() {
           description: `Regular ${cfg.name.toLowerCase()} training session`,
           coach_name: cfg.coach,
           max_participants: squad.max_capacity,
-          status: currentDate < now ? 'completed' as any : 'scheduled' as any,
+          status: currentDate < now ? ('completed' as any) : ('scheduled' as any),
         });
         await dataSource.getRepository(Session).save(session);
-        allSessions.push({ id: (session as any).session_id, squadIdx: sched.squadIdx, date: new Date(currentDate) });
+        allSessions.push({
+          id: (session as any).session_id,
+          squadIdx: sched.squadIdx,
+          date: new Date(currentDate),
+        });
         sessionCount++;
       }
       currentDate.setDate(currentDate.getDate() + 1);
@@ -307,10 +513,10 @@ async function seed() {
     // ── ATTENDANCE ──────────────────────────────────────────────────────
     console.log('\nCreating attendance records (historical sessions only)...');
     let attendanceCount = 0;
-    const historicalSessions = allSessions.filter(s => s.date < now);
+    const historicalSessions = allSessions.filter((s) => s.date < now);
 
     for (const sess of historicalSessions) {
-      const squadSwimmers = members.filter(s => s.squad_id === squads[sess.squadIdx].squad_id);
+      const squadSwimmers = members.filter((s) => s.squad_id === squads[sess.squadIdx].squad_id);
       for (const member of squadSwimmers) {
         // 85% attendance rate
         const present = Math.random() < 0.85;
@@ -323,10 +529,18 @@ async function seed() {
               sess.id,
               member.member_id,
               present ? 'present' : faker.helpers.arrayElement(['absent', 'absent', 'excused']),
-              present ? null : (Math.random() < 0.3 ? faker.helpers.arrayElement([
-                'Unwell', 'Family holiday', 'School event', 'Medical appointment',
-                'Competition elsewhere', 'Transport issues',
-              ]) : null),
+              present
+                ? null
+                : Math.random() < 0.3
+                  ? faker.helpers.arrayElement([
+                      'Unwell',
+                      'Family holiday',
+                      'School event',
+                      'Medical appointment',
+                      'Competition elsewhere',
+                      'Transport issues',
+                    ])
+                  : null,
               sess.date,
             ]
           );
@@ -359,13 +573,28 @@ async function seed() {
     console.log('\nCreating quarterly invoices...');
     let invoiceCount = 0;
     const quarters = [
-      { label: 'Q4 2025', start: new Date(2025, 9, 1), due: new Date(2025, 9, 15), status: 'paid' as InvoiceStatus },
-      { label: 'Q1 2026', start: new Date(2026, 0, 1), due: new Date(2026, 0, 15), status: 'paid' as InvoiceStatus },
-      { label: 'Q2 2026', start: new Date(2026, 3, 1), due: new Date(2026, 3, 15), status: 'pending' as InvoiceStatus },
+      {
+        label: 'Q4 2025',
+        start: new Date(2025, 9, 1),
+        due: new Date(2025, 9, 15),
+        status: 'paid' as InvoiceStatus,
+      },
+      {
+        label: 'Q1 2026',
+        start: new Date(2026, 0, 1),
+        due: new Date(2026, 0, 15),
+        status: 'paid' as InvoiceStatus,
+      },
+      {
+        label: 'Q2 2026',
+        start: new Date(2026, 3, 1),
+        due: new Date(2026, 3, 15),
+        status: 'pending' as InvoiceStatus,
+      },
     ];
 
     for (const family of families) {
-      const familySwimmers = members.filter(s => s.family_id === family.family_id);
+      const familySwimmers = members.filter((s) => s.family_id === family.family_id);
       if (familySwimmers.length === 0) continue;
 
       for (const q of quarters) {
@@ -374,9 +603,9 @@ async function seed() {
         if (q.label === 'Q4 2025') {
           status = Math.random() < 0.9 ? 'paid' : 'overdue';
         } else if (q.label === 'Q1 2026') {
-          status = Math.random() < 0.85 ? 'paid' : (Math.random() < 0.5 ? 'overdue' : 'pending');
+          status = Math.random() < 0.85 ? 'paid' : Math.random() < 0.5 ? 'overdue' : 'pending';
         } else {
-          status = Math.random() < 0.2 ? 'paid' : (Math.random() < 0.6 ? 'pending' : 'overdue');
+          status = Math.random() < 0.2 ? 'paid' : Math.random() < 0.6 ? 'pending' : 'overdue';
         }
 
         const invoice = dataSource.getRepository(Invoice).create({
@@ -394,7 +623,7 @@ async function seed() {
 
         let total = 0;
         for (const member of familySwimmers) {
-          const squadIdx = squads.findIndex(s => s.squad_id === member.squad_id);
+          const squadIdx = squads.findIndex((s) => s.squad_id === member.squad_id);
           if (squadIdx === -1) continue;
           const monthlyFee = squadConfig[squadIdx].fee;
           const quarterlyFee = monthlyFee * 3;
@@ -432,7 +661,6 @@ async function seed() {
     console.log(`  DBS checks:      ${dbsRecords.length}`);
     console.log(`  Invoices:        ${invoiceCount}`);
     console.log('========================================\n');
-
   } catch (error) {
     console.error('Error seeding database:', error);
     process.exit(1);

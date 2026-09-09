@@ -61,9 +61,7 @@ function renderWithClient(ui: ReactElement) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
-  return render(
-    <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>,
-  );
+  return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
 }
 
 const baseSettings = {
@@ -140,7 +138,7 @@ describe('SettingsPage payments connection card', () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText(`Online payments are not yet enabled on this ${BRAND.name} environment.`),
+        screen.getByText(`Online payments are not yet enabled on this ${BRAND.name} environment.`)
       ).toBeInTheDocument();
     });
     expect(screen.queryByRole('button', { name: 'Connect with Stripe' })).not.toBeInTheDocument();
@@ -154,11 +152,9 @@ describe('SettingsPage payments connection card', () => {
     renderWithClient(<SettingsPage />);
 
     const connectButton = await screen.findByRole('button', { name: 'Connect with Stripe' });
+    expect(screen.getByText(/payments from parents go directly to\s+the club/)).toBeInTheDocument();
     expect(
-      screen.getByText(/payments from parents go directly to\s+the club/),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText('Direct Debit via your own GoCardless account is coming soon.'),
+      screen.getByText('Direct Debit via your own GoCardless account is coming soon.')
     ).toBeInTheDocument();
 
     await user.click(connectButton);
@@ -225,7 +221,7 @@ describe('SettingsPage payments connection card', () => {
     renderWithClient(<SettingsPage />);
 
     expect(
-      await screen.findByText('This is a Stripe TEST account - payments will not move real money.'),
+      await screen.findByText('This is a Stripe TEST account - payments will not move real money.')
     ).toBeInTheDocument();
   });
 

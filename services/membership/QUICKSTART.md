@@ -44,6 +44,7 @@ cat .env
 ```
 
 Default configuration:
+
 - Port: 3001
 - Database: swim_nexus_membership
 - DB Host: localhost:5432
@@ -57,6 +58,7 @@ pnpm db:migrate
 ```
 
 You should see:
+
 ```
 query: SELECT * FROM "information_schema"."tables"...
 Migration CreateSwimmersTable1703260000000 has been executed successfully.
@@ -69,6 +71,7 @@ pnpm dev
 ```
 
 You should see:
+
 ```
 🚀 Membership Service is running on: http://localhost:3001/api
 📊 Environment: development
@@ -83,6 +86,7 @@ curl http://localhost:3001/api/health
 ```
 
 Expected response:
+
 ```json
 {
   "status": "ok",
@@ -124,6 +128,7 @@ curl http://localhost:3001/api/members/statistics
 If you see: `error: database "swim_nexus_membership" does not exist`
 
 Solution:
+
 ```bash
 createdb swim_nexus_membership
 ```
@@ -131,6 +136,7 @@ createdb swim_nexus_membership
 ### Port Already in Use
 
 If port 3001 is busy, edit `.env`:
+
 ```env
 PORT=3002
 ```
@@ -138,6 +144,7 @@ PORT=3002
 ### TypeORM Errors
 
 If migrations fail:
+
 ```bash
 # Check database exists
 psql -U postgres -l | grep swim_nexus
@@ -149,6 +156,7 @@ pnpm db:migrate
 ### Module Not Found
 
 If you see module errors:
+
 ```bash
 # From monorepo root
 pnpm install
@@ -184,18 +192,18 @@ pnpm start
 
 ## API Endpoints Summary
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | /api/health | Health check |
-| POST | /api/members | Create member |
-| GET | /api/members | List all members |
-| GET | /api/members/:id | Get member by ID |
-| PATCH | /api/members/:id | Update member |
-| DELETE | /api/members/:id | Delete member |
-| GET | /api/members?family_id={id} | Filter by family |
-| GET | /api/members?club_id={id} | Filter by club |
-| GET | /api/members?squad_id={id} | Filter by squad |
-| GET | /api/members/statistics | Get statistics |
+| Method | Endpoint                    | Description      |
+| ------ | --------------------------- | ---------------- |
+| GET    | /api/health                 | Health check     |
+| POST   | /api/members                | Create member    |
+| GET    | /api/members                | List all members |
+| GET    | /api/members/:id            | Get member by ID |
+| PATCH  | /api/members/:id            | Update member    |
+| DELETE | /api/members/:id            | Delete member    |
+| GET    | /api/members?family_id={id} | Filter by family |
+| GET    | /api/members?club_id={id}   | Filter by club   |
+| GET    | /api/members?squad_id={id}  | Filter by squad  |
+| GET    | /api/members/statistics     | Get statistics   |
 
 ## Success!
 

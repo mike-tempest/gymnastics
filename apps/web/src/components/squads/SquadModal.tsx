@@ -20,33 +20,49 @@ import { getMembers } from '@/lib/api/members';
 import { assignMemberToSquad, removeMemberFromSquad } from '@/lib/api/squads';
 import { MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
-const squadSchema = z.object({
-  squad_name: z.string().min(1, 'Squad name is required').max(100, 'Squad name too long'),
-  description: z.string().optional(),
-  min_age: z.coerce.number().min(0, 'Min age must be at least 0').max(100, 'Invalid age').optional().nullable(),
-  max_age: z.coerce.number().min(0, 'Max age must be at least 0').max(100, 'Invalid age').optional().nullable(),
-  coach_name: z.string().max(100, 'Coach name too long').optional(),
-  training_times: z.string().optional(),
-  max_capacity: z.coerce.number().min(1, 'Capacity must be at least 1').optional().nullable(),
-  // Empty string is the "nothing selected" value of a native select; it is
-  // normalised to null on submit so the column stores NULL, not ''.
-  squad_type: z.nativeEnum(SquadType).or(z.literal('')).optional(),
-  level: z.string().max(100, 'Level too long').optional().or(z.literal('')),
-  discipline: z.nativeEnum(Discipline).or(z.literal('')).optional(),
-  programme_flags: z.array(z.nativeEnum(ProgrammeFlag)).optional(),
-}).refine(
-  (data) => {
-    if (data.min_age !== undefined && data.min_age !== null &&
-        data.max_age !== undefined && data.max_age !== null) {
-      return data.min_age <= data.max_age;
+const squadSchema = z
+  .object({
+    squad_name: z.string().min(1, 'Squad name is required').max(100, 'Squad name too long'),
+    description: z.string().optional(),
+    min_age: z.coerce
+      .number()
+      .min(0, 'Min age must be at least 0')
+      .max(100, 'Invalid age')
+      .optional()
+      .nullable(),
+    max_age: z.coerce
+      .number()
+      .min(0, 'Max age must be at least 0')
+      .max(100, 'Invalid age')
+      .optional()
+      .nullable(),
+    coach_name: z.string().max(100, 'Coach name too long').optional(),
+    training_times: z.string().optional(),
+    max_capacity: z.coerce.number().min(1, 'Capacity must be at least 1').optional().nullable(),
+    // Empty string is the "nothing selected" value of a native select; it is
+    // normalised to null on submit so the column stores NULL, not ''.
+    squad_type: z.nativeEnum(SquadType).or(z.literal('')).optional(),
+    level: z.string().max(100, 'Level too long').optional().or(z.literal('')),
+    discipline: z.nativeEnum(Discipline).or(z.literal('')).optional(),
+    programme_flags: z.array(z.nativeEnum(ProgrammeFlag)).optional(),
+  })
+  .refine(
+    (data) => {
+      if (
+        data.min_age !== undefined &&
+        data.min_age !== null &&
+        data.max_age !== undefined &&
+        data.max_age !== null
+      ) {
+        return data.min_age <= data.max_age;
+      }
+      return true;
+    },
+    {
+      message: 'Minimum age cannot be greater than maximum age',
+      path: ['min_age'],
     }
-    return true;
-  },
-  {
-    message: 'Minimum age cannot be greater than maximum age',
-    path: ['min_age'],
-  }
-);
+  );
 
 type SquadFormData = z.infer<typeof squadSchema>;
 
@@ -147,7 +163,7 @@ export default function SquadModal({
 
     try {
       await assignMemberToSquad(squad.squad_id, memberId);
-      const member = allMembers.find(s => s.member_id === memberId);
+      const member = allMembers.find((s) => s.member_id === memberId);
       if (member) {
         setSquadMembers([...squadMembers, member]);
       }
@@ -161,7 +177,7 @@ export default function SquadModal({
 
     try {
       await removeMemberFromSquad(squad.squad_id, memberId);
-      setSquadMembers(squadMembers.filter(s => s.member_id !== memberId));
+      setSquadMembers(squadMembers.filter((s) => s.member_id !== memberId));
     } catch {
       // remove member failed silently
     }
@@ -230,7 +246,7 @@ export default function SquadModal({
     } focus:ring-2 focus:ring-opacity-50 transition-all outline-none`;
 
   const availableMembers = allMembers.filter(
-    member => !squadMembers.some(s => s.member_id === member.member_id)
+    (member) => !squadMembers.some((s) => s.member_id === member.member_id)
   );
 
   // A level is a recreational idea: it names where a class sits in a badge
@@ -259,7 +275,9 @@ export default function SquadModal({
               {squad ? 'Edit Squad' : 'Add New Squad'}
             </h2>
             <p className="text-text-secondary">
-              {squad ? 'Update squad information and manage members' : 'Enter squad details to create a new training group'}
+              {squad
+                ? 'Update squad information and manage members'
+                : 'Enter squad details to create a new training group'}
             </p>
           </div>
           <button
@@ -479,7 +497,10 @@ export default function SquadModal({
               </div>
 
               <div>
-                <label htmlFor="max_capacity" className="block text-sm font-semibold text-white mb-2">
+                <label
+                  htmlFor="max_capacity"
+                  className="block text-sm font-semibold text-white mb-2"
+                >
                   Max Capacity <span className="text-text-tertiary font-normal">(Optional)</span>
                 </label>
                 <input
@@ -517,7 +538,10 @@ export default function SquadModal({
 
             {/* Training Times */}
             <div>
-              <label htmlFor="training_times" className="block text-sm font-semibold text-white mb-2">
+              <label
+                htmlFor="training_times"
+                className="block text-sm font-semibold text-white mb-2"
+              >
                 Training Times <span className="text-text-tertiary font-normal">(Optional)</span>
               </label>
               <textarea
@@ -551,7 +575,9 @@ export default function SquadModal({
                       </h4>
                       <div className="space-y-2 max-h-64 overflow-y-auto">
                         {squadMembers.length === 0 ? (
-                          <p className="text-text-secondary text-sm py-4 text-center">No {MEMBER_NOUN_PLURAL_LOWER} yet</p>
+                          <p className="text-text-secondary text-sm py-4 text-center">
+                            No {MEMBER_NOUN_PLURAL_LOWER} yet
+                          </p>
                         ) : (
                           squadMembers.map((member) => (
                             <div

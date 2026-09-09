@@ -64,7 +64,7 @@ describe('Edge Cases API', () => {
 
   it('Very long string in first_name field is handled', async () => {
     const veryLongName = 'A'.repeat(1000);
-    
+
     const familiesRes = await authGet('/families', adminToken);
     const families = await familiesRes.json();
     const familyId = families[0]?.family_id;
@@ -100,7 +100,12 @@ describe('Edge Cases API', () => {
   });
 
   it('Search with special characters is handled safely', async () => {
-    const specialChars = ['<script>alert("xss")</script>', "'; DROP TABLE members; --", '../../../etc/passwd', '%00'];
+    const specialChars = [
+      '<script>alert("xss")</script>',
+      "'; DROP TABLE members; --",
+      '../../../etc/passwd',
+      '%00',
+    ];
 
     for (const searchTerm of specialChars) {
       const res = await authGet(`/members?search=${encodeURIComponent(searchTerm)}`, adminToken);
@@ -112,7 +117,7 @@ describe('Edge Cases API', () => {
   it('Filter with SQL injection attempt is handled safely', async () => {
     const sqlInjection = "1' OR '1'='1";
     const res = await authGet(`/members?squad_id=${encodeURIComponent(sqlInjection)}`, adminToken);
-    
+
     // Should not expose data, should return 400 or 404
     expect([200, 400, 404]).toContain(res.status);
   });
@@ -142,7 +147,7 @@ describe('Edge Cases API', () => {
 
     const res = await authPost('/invoices', adminToken, {
       family_id: familyId,
-      amount: -100.00,
+      amount: -100.0,
       due_date: '2026-03-01',
     });
 

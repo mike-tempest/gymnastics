@@ -1,9 +1,9 @@
 /**
  * Frontend smoke tests for Swimly web application
- * 
+ *
  * These tests verify that public routes are accessible and protected routes
  * correctly redirect unauthenticated users.
- * 
+ *
  * Usage:
  *   npm run test:e2e                    # Test against staging (Railway)
  *   WEB_BASE_URL=http://localhost:3000 npm run test:e2e  # Test against local
@@ -57,10 +57,10 @@ describe('Swimly Frontend Smoke Tests', () => {
     protectedRoutes.forEach((route) => {
       it(`should redirect ${route} to login (307)`, async () => {
         const response = await webRequest(route);
-        
+
         // Next.js returns 307 for temporary redirects
         expect(response.status).toBe(307);
-        
+
         // Verify redirect location includes login
         const location = response.headers.get('location');
         expect(location).toBeTruthy();
@@ -74,7 +74,7 @@ describe('Swimly Frontend Smoke Tests', () => {
       const response = await fetch(`${WEB_BASE_URL}/favicon.ico`, {
         redirect: 'manual',
       });
-      
+
       // Favicon might be 200 (exists) or 404 (not found), but should not redirect
       expect([200, 404]).toContain(response.status);
     });

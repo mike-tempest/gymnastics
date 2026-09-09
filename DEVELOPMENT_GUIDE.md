@@ -21,14 +21,14 @@ Complete guide for setting up and developing SwimNexus UK.
 
 ### Required Software
 
-| Tool | Version | Installation |
-|------|---------|-------------|
-| **Node.js** | 20+ LTS | [nodejs.org](https://nodejs.org/) |
-| **pnpm** | 8.15+ | `npm install -g pnpm` |
-| **Docker** | 24+ | [docker.com](https://www.docker.com/) |
-| **Docker Compose** | 2.0+ | Included with Docker Desktop |
-| **Git** | 2.40+ | [git-scm.com](https://git-scm.com/) |
-| **Flutter** | 3.19+ | [flutter.dev](https://flutter.dev/) (mobile dev only) |
+| Tool               | Version | Installation                                          |
+| ------------------ | ------- | ----------------------------------------------------- |
+| **Node.js**        | 20+ LTS | [nodejs.org](https://nodejs.org/)                     |
+| **pnpm**           | 8.15+   | `npm install -g pnpm`                                 |
+| **Docker**         | 24+     | [docker.com](https://www.docker.com/)                 |
+| **Docker Compose** | 2.0+    | Included with Docker Desktop                          |
+| **Git**            | 2.40+   | [git-scm.com](https://git-scm.com/)                   |
+| **Flutter**        | 3.19+   | [flutter.dev](https://flutter.dev/) (mobile dev only) |
 
 ### Optional Tools
 
@@ -70,6 +70,7 @@ pnpm install
 ```
 
 This will install dependencies for:
+
 - All apps (web, mobile, docs)
 - All services (membership, finance, competition, performance, communications)
 - All packages (shared-types, validation, utils, etc.)
@@ -139,6 +140,7 @@ Run the setup script to start all infrastructure services:
 ```
 
 This script will:
+
 1. Start PostgreSQL, Redis, MinIO, MailHog, Kong in Docker
 2. Wait for services to be healthy
 3. Run database migrations
@@ -170,6 +172,7 @@ docker ps
 ```
 
 You should see:
+
 - `swim-nexus-db` (PostgreSQL)
 - `swim-nexus-redis` (Redis)
 - `swim-nexus-gateway` (Kong)
@@ -177,6 +180,7 @@ You should see:
 - `swim-nexus-mailhog` (MailHog)
 
 Access web UIs:
+
 - **MailHog:** http://localhost:8025 (email testing)
 - **MinIO Console:** http://localhost:9001 (S3 storage)
 - **pgAdmin:** http://localhost:5050 (database GUI)
@@ -193,6 +197,7 @@ pnpm dev
 ```
 
 This starts:
+
 - Next.js web app (http://localhost:3000)
 - All 5 backend microservices
 - API Gateway (http://localhost:8000)
@@ -260,15 +265,12 @@ git push origin feature/add-swimmer-photos
 export class SwimmersService {
   constructor(
     private readonly swimmersRepository: SwimmersRepository,
-    private readonly s3Service: S3Service,
+    private readonly s3Service: S3Service
   ) {}
 
   async uploadPhoto(swimmerId: string, file: Express.Multer.File) {
     // Upload to S3
-    const photoUrl = await this.s3Service.upload(
-      `swimmers/${swimmerId}/photo.jpg`,
-      file.buffer,
-    );
+    const photoUrl = await this.s3Service.upload(`swimmers/${swimmerId}/photo.jpg`, file.buffer);
 
     // Update swimmer record
     await this.swimmersRepository.update(swimmerId, {
@@ -292,7 +294,9 @@ export default async function SwimmerPage({ params }: { params: { id: string } }
 
   return (
     <div>
-      <h1>{swimmer.first_name} {swimmer.last_name}</h1>
+      <h1>
+        {swimmer.first_name} {swimmer.last_name}
+      </h1>
       {swimmer.photo_url && (
         <Image src={swimmer.photo_url} width={200} height={200} alt="Swimmer" />
       )}
@@ -338,6 +342,7 @@ class SwimmerDetailScreen extends ConsumerWidget {
 ### 3. Adding New Endpoints
 
 **Step 1: Add DTO**
+
 ```typescript
 // packages/shared-types/src/dtos/upload-photo.dto.ts
 export interface UploadPhotoDto {
@@ -347,6 +352,7 @@ export interface UploadPhotoDto {
 ```
 
 **Step 2: Add Controller**
+
 ```typescript
 // services/membership/src/modules/swimmers/swimmers.controller.ts
 @Post(':id/photo')
@@ -360,6 +366,7 @@ async uploadPhoto(
 ```
 
 **Step 3: Update API Client (Next.js)**
+
 ```typescript
 // apps/web/lib/api/swimmers.ts
 export async function uploadSwimmerPhoto(swimmerId: string, photo: File) {
@@ -376,6 +383,7 @@ export async function uploadSwimmerPhoto(swimmerId: string, photo: File) {
 ```
 
 **Step 4: Add to Kong Configuration**
+
 ```yaml
 # services/api-gateway/kong.yml
 routes:
@@ -585,7 +593,7 @@ const clubResult = await dataSource.query(
   `INSERT INTO clubs (name, slug, country, currency, governing_body, status)
    VALUES ($1, $2, 'GB', 'GBP', 'BRITISH_GYMNASTICS', 'active')
    RETURNING id`,
-  ['My Demo Club', CLUB_SLUG],
+  ['My Demo Club', CLUB_SLUG]
 );
 const clubId = clubResult[0].id;
 
@@ -593,7 +601,7 @@ const clubId = clubResult[0].id;
 await dataSource.query(
   `INSERT INTO members (club_id, family_id, first_name, last_name, dob, gender)
    VALUES ($1, $2, $3, $4, $5, $6)`,
-  [clubId, familyId, 'Emma', 'Novak', '2017-07-30', 'F'],
+  [clubId, familyId, 'Emma', 'Novak', '2017-07-30', 'F']
 );
 ```
 
@@ -602,6 +610,7 @@ Then add a `seed:demo:<name>` script to `services/membership/package.json`.
 ### Database Access
 
 **Via CLI:**
+
 ```bash
 # Connect to PostgreSQL
 docker exec -it swim-nexus-db psql -U postgres -d swim_nexus_dev
@@ -611,6 +620,7 @@ SELECT * FROM swimmers LIMIT 10;
 ```
 
 **Via pgAdmin:**
+
 1. Open http://localhost:5050
 2. Login: `admin@swimnexus.com` / `admin`
 3. Add server: `swim-nexus-db`, port `5432`, user `postgres`, password `postgres`
@@ -641,6 +651,7 @@ SELECT * FROM swimmers LIMIT 10;
 ```
 
 **Run service in debug mode:**
+
 ```bash
 pnpm dev:debug --filter=membership
 ```
@@ -650,6 +661,7 @@ Set breakpoints in VS Code and debug!
 ### Next.js
 
 **Server-side debugging:**
+
 ```bash
 # Start in debug mode
 NODE_OPTIONS='--inspect' pnpm dev --filter=web
@@ -715,6 +727,7 @@ We use Husky + lint-staged:
 ```
 
 **Skip hooks (not recommended):**
+
 ```bash
 git commit --no-verify -m "message"
 ```
@@ -746,6 +759,7 @@ We use **Conventional Commits:**
 ```
 
 **Types:**
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes
@@ -756,6 +770,7 @@ We use **Conventional Commits:**
 - `chore`: Maintenance tasks
 
 **Examples:**
+
 ```bash
 feat(membership): add swimmer photo upload
 fix(finance): correct proration calculation for mid-month changes
@@ -796,6 +811,7 @@ refactor/extract-parsers
 ### Docker Issues
 
 **Problem:** "Port already in use"
+
 ```bash
 # Find process using port
 lsof -i :5432
@@ -807,6 +823,7 @@ kill -9 <PID>
 ```
 
 **Problem:** "Cannot connect to Docker daemon"
+
 ```bash
 # Start Docker Desktop
 # Or on Linux:
@@ -814,6 +831,7 @@ sudo systemctl start docker
 ```
 
 **Problem:** Services not healthy
+
 ```bash
 # Check logs
 docker logs swim-nexus-db
@@ -828,6 +846,7 @@ docker-compose -f infrastructure/docker/docker-compose.dev.yml restart
 ### pnpm Issues
 
 **Problem:** "ENOENT: no such file or directory"
+
 ```bash
 # Clean install
 rm -rf node_modules
@@ -835,6 +854,7 @@ pnpm install
 ```
 
 **Problem:** Workspace dependencies not found
+
 ```bash
 # Rebuild all packages
 pnpm build --filter='./packages/*'
@@ -843,6 +863,7 @@ pnpm build --filter='./packages/*'
 ### Database Issues
 
 **Problem:** "relation does not exist"
+
 ```bash
 # Run migrations
 pnpm db:migrate
@@ -854,6 +875,7 @@ pnpm --filter @club-manager/membership-service seed:demo:gym
 ```
 
 **Problem:** "Connection refused"
+
 ```bash
 # Check PostgreSQL is running
 docker ps | grep postgres
@@ -865,6 +887,7 @@ cat .env | grep DB_
 ### Next.js Issues
 
 **Problem:** "Module not found"
+
 ```bash
 # Clear Next.js cache
 rm -rf apps/web/.next
@@ -872,6 +895,7 @@ pnpm dev --filter=web
 ```
 
 **Problem:** API routes not working
+
 ```bash
 # Check Kong configuration
 docker exec swim-nexus-gateway kong config check /kong/kong.yml
@@ -883,6 +907,7 @@ docker restart swim-nexus-gateway
 ### Flutter Issues
 
 **Problem:** "Gradle build failed"
+
 ```bash
 cd apps/mobile/android
 ./gradlew clean
@@ -894,6 +919,7 @@ flutter run
 ```
 
 **Problem:** "CocoaPods not installed"
+
 ```bash
 sudo gem install cocoapods
 cd apps/mobile/ios

@@ -5,12 +5,12 @@ async function login(page) {
   await page.fill('input[type="email"]', process.env.TEST_EMAIL || 'admin@kestrelvalegym.org.uk');
   await page.fill('input[type="password"]', process.env.TEST_PASSWORD || 'Demo2024!');
   const loginResponse = page.waitForResponse(
-    resp => resp.url().includes('/auth/login') && resp.status() === 201,
+    (resp) => resp.url().includes('/auth/login') && resp.status() === 201,
     { timeout: 15000 }
   );
   await page.click('button[type="submit"]');
   await loginResponse;
-  await page.waitForURL(url => !url.pathname.includes('/login'), { timeout: 15000 });
+  await page.waitForURL((url) => !url.pathname.includes('/login'), { timeout: 15000 });
 }
 
 test.describe('Mobile Responsive Design', () => {
@@ -82,13 +82,15 @@ test.describe('Mobile Responsive Design', () => {
     await page.waitForTimeout(1000);
 
     // Check if there's a search input (common form element)
-    const searchInput = page.locator('input[type="search"], input[placeholder*="search" i]').first();
+    const searchInput = page
+      .locator('input[type="search"], input[placeholder*="search" i]')
+      .first();
     const inputVisible = await searchInput.isVisible().catch(() => false);
 
     if (inputVisible) {
       // Verify input is usable on mobile
       await expect(searchInput).toBeVisible();
-      
+
       // Verify input width doesn't overflow viewport
       const inputBox = await searchInput.boundingBox();
       if (inputBox) {

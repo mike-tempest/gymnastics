@@ -1,9 +1,9 @@
 ---
-title: "How to Tackle Volunteer Burnout in Your Swim Club"
-description: "Practical strategies to prevent and address volunteer burnout in swimming clubs: spread the workload, recognise contributions, and build lasting support."
+title: 'How to Tackle Volunteer Burnout in Your Swim Club'
+description: 'Practical strategies to prevent and address volunteer burnout in swimming clubs: spread the workload, recognise contributions, and build lasting support.'
 pubDate: 2026-02-15
-author: "Swimly Team"
-tags: ["swim clubs", "volunteers", "club management", "committee"]
+author: 'Swimly Team'
+tags: ['swim clubs', 'volunteers', 'club management', 'committee']
 ---
 
 Every swimming club in the country runs on volunteer effort. From the committee members who manage finances and membership to the poolside helpers who set up lanes and operate timing equipment, grassroots swimming simply would not exist without the people who give their time for free.

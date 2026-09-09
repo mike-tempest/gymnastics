@@ -109,10 +109,9 @@ describe('TimesImportService', () => {
   });
 
   it('matches by name when no registration number is given', async () => {
-    const csv = [
-      'first_name,last_name,distance,stroke,time',
-      'Emma,Johnson,50,Fly,38.90',
-    ].join('\n');
+    const csv = ['first_name,last_name,distance,stroke,time', 'Emma,Johnson,50,Fly,38.90'].join(
+      '\n',
+    );
 
     const outcome = await service.import('comp-1', csv);
 

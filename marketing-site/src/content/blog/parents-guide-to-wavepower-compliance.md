@@ -1,21 +1,21 @@
 ---
-title: "Wavepower Compliance Checklist for Swim Clubs 2026"
-description: "Wavepower compliance checklist for UK swim clubs: DBS tracking, safeguarding policies, and meeting Swim England requirements in 2026."
+title: 'Wavepower Compliance Checklist for Swim Clubs 2026'
+description: 'Wavepower compliance checklist for UK swim clubs: DBS tracking, safeguarding policies, and meeting Swim England requirements in 2026.'
 pubDate: 2026-02-05
 updatedDate: 2026-06-17
-author: "Swimly Team"
-tags: ["safeguarding", "wavepower", "compliance", "swim england"]
+author: 'Swimly Team'
+tags: ['safeguarding', 'wavepower', 'compliance', 'swim england']
 faqItems:
-  - question: "What does a Wavepower compliance checklist cover?"
-    answer: "A Wavepower compliance checklist covers the essentials Swim England expects of every affiliated club: a qualified Club Welfare Officer, enhanced DBS checks for everyone in regulated activity with children, signed codes of conduct, a current safeguarding policy, clear reporting procedures, photography and changing-room policies, and a secure central record of it all. Tracking DBS renewal dates and keeping documentation audit-ready are the ongoing parts that catch clubs out."
-  - question: "What happens if a swim club does not meet Wavepower requirements?"
-    answer: "Wavepower compliance is a condition of Swim England affiliation, so clubs that fall short risk losing their affiliation. That means losing access to competitions, club insurance, and official coaching qualifications. More importantly, gaps in safeguarding leave children at risk, which is the reason the requirements exist in the first place."
-  - question: "Do team managers and parent volunteers need a DBS check?"
+  - question: 'What does a Wavepower compliance checklist cover?'
+    answer: 'A Wavepower compliance checklist covers the essentials Swim England expects of every affiliated club: a qualified Club Welfare Officer, enhanced DBS checks for everyone in regulated activity with children, signed codes of conduct, a current safeguarding policy, clear reporting procedures, photography and changing-room policies, and a secure central record of it all. Tracking DBS renewal dates and keeping documentation audit-ready are the ongoing parts that catch clubs out.'
+  - question: 'What happens if a swim club does not meet Wavepower requirements?'
+    answer: 'Wavepower compliance is a condition of Swim England affiliation, so clubs that fall short risk losing their affiliation. That means losing access to competitions, club insurance, and official coaching qualifications. More importantly, gaps in safeguarding leave children at risk, which is the reason the requirements exist in the first place.'
+  - question: 'Do team managers and parent volunteers need a DBS check?'
     answer: "Anyone in regulated activity with children, meaning regular or unsupervised contact, needs an enhanced DBS check with a children's barred list check. In a swim club that usually includes coaches, teaching assistants, team managers on away trips, and the Club Welfare Officer. Some committee roles may need one too, depending on their level of contact with young swimmers. Your county or regional Swim England office can confirm which roles apply."
-  - question: "What are the most common Wavepower compliance gaps in swim clubs?"
-    answer: "The most common gaps are lapsed DBS checks where nobody tracked the renewal date, codes of conduct that exist but were never signed, safeguarding records scattered across personal inboxes with no central store, new volunteers who join without a proper safeguarding induction, and policies that have not been reviewed against the current version of Wavepower. Most are caused by missing systems rather than negligence."
-  - question: "How can a swim club keep on top of DBS renewals and safeguarding records?"
-    answer: "Set up a single secure place for all safeguarding records and a tracking system that flags DBS renewals before they expire. Many clubs use club management software with compliance tracking to automate renewal reminders, store signed codes of conduct and consent forms digitally, and produce audit reports when their county or Swim England asks for evidence. The aim is to remove the manual effort that leads to things slipping."
+  - question: 'What are the most common Wavepower compliance gaps in swim clubs?'
+    answer: 'The most common gaps are lapsed DBS checks where nobody tracked the renewal date, codes of conduct that exist but were never signed, safeguarding records scattered across personal inboxes with no central store, new volunteers who join without a proper safeguarding induction, and policies that have not been reviewed against the current version of Wavepower. Most are caused by missing systems rather than negligence.'
+  - question: 'How can a swim club keep on top of DBS renewals and safeguarding records?'
+    answer: 'Set up a single secure place for all safeguarding records and a tracking system that flags DBS renewals before they expire. Many clubs use club management software with compliance tracking to automate renewal reminders, store signed codes of conduct and consent forms digitally, and produce audit reports when their county or Swim England asks for evidence. The aim is to remove the manual effort that leads to things slipping.'
 ---
 
 If you have recently joined your swim club's committee, or if you have been volunteered into a welfare officer role, the word "Wavepower" has probably come up more than once. It is Swim England's child safeguarding policy, and every affiliated club is required to follow it.

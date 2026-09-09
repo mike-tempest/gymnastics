@@ -1,9 +1,9 @@
 ---
-title: "The Swim England API: What It Means for Your Club (2026 Guide)"
-description: "Swim England launched its official API in October 2025. What it means for your club, which platforms support it, and why membership sync matters."
-pubDate: "2026-02-28"
-author: "Mike Tempest"
-tags: ["swim england", "technology", "membership", "compliance"]
+title: 'The Swim England API: What It Means for Your Club (2026 Guide)'
+description: 'Swim England launched its official API in October 2025. What it means for your club, which platforms support it, and why membership sync matters.'
+pubDate: '2026-02-28'
+author: 'Mike Tempest'
+tags: ['swim england', 'technology', 'membership', 'compliance']
 ---
 
 If you've been managing your swim club's membership manually—exporting spreadsheets, double-checking Swim England numbers, chasing missing registrations—there's good news. In October 2025, Swim England launched their official API, and it's quietly changing how modern swim clubs manage their memberships.
@@ -12,7 +12,7 @@ If you've been managing your swim club's membership manually—exporting spreads
 
 An API (Application Programming Interface) is a way for two systems to talk to each other automatically. In this case, it allows swim [club management software](/swim-club-management-software) to connect directly with Swim England's membership database.
 
-Instead of manually updating your club's system *and* Swim England's portal separately, the two systems sync automatically. Add a new swimmer in your club software, and they appear in Swim England's system. Update a membership category, and both systems stay in sync. When evaluating platforms, check API support — compare on our [ClubSpark comparison](/compare/clubspark) or view [pricing](/pricing) for API-enabled systems.
+Instead of manually updating your club's system _and_ Swim England's portal separately, the two systems sync automatically. Add a new swimmer in your club software, and they appear in Swim England's system. Update a membership category, and both systems stay in sync. When evaluating platforms, check API support — compare on our [ClubSpark comparison](/compare/clubspark) or view [pricing](/pricing) for API-enabled systems.
 
 It sounds simple—because it should be. But until October 2025, this wasn't possible. Every club was managing the same information in multiple places.
 
@@ -37,19 +37,21 @@ Beyond saving time, the API solves a safeguarding problem. Every competitive swi
 - Administrative findings during SwimMark audits
 - Manual spot-checks before every gala
 
-With API integration, your software *knows* each swimmer's current Swim England status in real-time. No more spreadsheets. No more hoping your records are up to date.
+With API integration, your software _knows_ each swimmer's current Swim England status in real-time. No more spreadsheets. No more hoping your records are up to date.
 
 ### What Data Actually Syncs?
 
 The Swim England API handles the core membership data that clubs need most:
 
 **Member registration details:**
+
 - Full name, date of birth, contact information
 - Membership category (Competitor, Coach, Official, Volunteer, etc.)
 - Membership number and expiry date
 - Club affiliation status
 
 **Qualification and licensing data:**
+
 - Coaching qualifications and expiry dates
 - Officials' licences and certifications
 - DBS check status and renewal dates

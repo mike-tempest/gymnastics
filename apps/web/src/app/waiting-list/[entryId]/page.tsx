@@ -120,12 +120,16 @@ export default function WaitingListEntryPage({ params }: { params: { entryId: st
                   </h3>
                   <ul className="space-y-2 text-grey-600 text-sm">
                     {entry.priority_boost > 0 && (
-                      <li>An administrator gave them a priority boost of {entry.priority_boost}.</li>
+                      <li>
+                        An administrator gave them a priority boost of {entry.priority_boost}.
+                      </li>
                     )}
                     {entry.is_existing_member_family && (
                       <li>Their family already has a child at the club.</li>
                     )}
-                    {entry.is_sibling && <li>They are a sibling of a current {MEMBER_NOUN_LOWER}.</li>}
+                    {entry.is_sibling && (
+                      <li>They are a sibling of a current {MEMBER_NOUN_LOWER}.</li>
+                    )}
                     {!entry.priority_boost &&
                       !entry.is_existing_member_family &&
                       !entry.is_sibling && (

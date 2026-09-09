@@ -1,9 +1,9 @@
 ---
-title: "Swimming Club Database Management: A Practical Guide for Committees"
+title: 'Swimming Club Database Management: A Practical Guide for Committees'
 description: "How to manage your swimming club's member database: avoid spreadsheet pitfalls, choose the right software, and keep records accurate and secure."
 pubDate: 2026-03-26
-author: "Swimly Team"
-tags: ["club management", "database", "membership", "GDPR"]
+author: 'Swimly Team'
+tags: ['club management', 'database', 'membership', 'GDPR']
 ---
 
 Every swimming club in the UK maintains a member database, whether they call it that or not. It might be a Google Sheet the Membership Secretary updates after each trial session, a folder of paper forms in a filing cabinet, or a proper club management system. Whatever the format, it is the single most important piece of infrastructure your club has.
@@ -112,4 +112,4 @@ If your club is still running on spreadsheets and it is starting to feel fragile
 
 ---
 
-*Swimly is built for volunteer-run swimming clubs in the UK. [See how our membership management works](/features/membership), or [learn more about our approach to club billing](/features/billing).*
+_Swimly is built for volunteer-run swimming clubs in the UK. [See how our membership management works](/features/membership), or [learn more about our approach to club billing](/features/billing)._

@@ -19,13 +19,14 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
       POSTGRES_DB: ${DB_DATABASE:-swim_nexus_dev}
     ports:
-      - "${DB_PORT:-5432}:5432"
+      - '${DB_PORT:-5432}:5432'
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
       - swimly-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres} -d ${DB_DATABASE:-swim_nexus_dev}"]
+      test:
+        ['CMD-SHELL', 'pg_isready -U ${DB_USERNAME:-postgres} -d ${DB_DATABASE:-swim_nexus_dev}']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -45,7 +46,7 @@ services:
     container_name: swimly-membership
     restart: unless-stopped
     ports:
-      - "3001:3001"
+      - '3001:3001'
     environment:
       NODE_ENV: development
       PORT: 3001
@@ -76,7 +77,7 @@ services:
     networks:
       - swimly-network
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/api"]
+      test: ['CMD', 'wget', '--no-verbose', '--tries=1', '--spider', 'http://localhost:3001/api']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -94,7 +95,7 @@ services:
     container_name: swimly-web
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       NODE_ENV: development
       NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
@@ -110,7 +111,7 @@ services:
     networks:
       - swimly-network
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
+      test: ['CMD', 'wget', '--no-verbose', '--tries=1', '--spider', 'http://localhost:3000']
       interval: 30s
       timeout: 10s
       retries: 3

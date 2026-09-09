@@ -4,13 +4,13 @@ Overview of all backend services for SwimNexus UK.
 
 ## Services Overview
 
-| Service | Port | Status | Responsibilities |
-|---------|------|--------|------------------|
-| **Membership** | 3001 | 🟢 Phase 1 | Clubs, families, swimmers, squads, users, permissions, DBS, consents |
-| **Finance** | 3002 | 🟢 Phase 1 | Billing, invoices, payments, GoCardless, Stripe, reconciliation |
-| **Competition** | 3003 | 🟡 Phase 2 | Meets, entries, results, PBs, file parsers, volunteers |
-| **Performance** | 3004 | 🟡 Phase 3 | Training, workouts, attendance, RPE, wellness, wearables |
-| **Communications** | 3005 | 🟢 Phase 1 | Messages, notifications, calendar, documents |
+| Service            | Port | Status     | Responsibilities                                                     |
+| ------------------ | ---- | ---------- | -------------------------------------------------------------------- |
+| **Membership**     | 3001 | 🟢 Phase 1 | Clubs, families, swimmers, squads, users, permissions, DBS, consents |
+| **Finance**        | 3002 | 🟢 Phase 1 | Billing, invoices, payments, GoCardless, Stripe, reconciliation      |
+| **Competition**    | 3003 | 🟡 Phase 2 | Meets, entries, results, PBs, file parsers, volunteers               |
+| **Performance**    | 3004 | 🟡 Phase 3 | Training, workouts, attendance, RPE, wellness, wearables             |
+| **Communications** | 3005 | 🟢 Phase 1 | Messages, notifications, calendar, documents                         |
 
 ---
 
@@ -39,9 +39,15 @@ Overview of all backend services for SwimNexus UK.
   name: string;
   se_affiliation_number: string;
   config: {
-    features: { video_analysis: boolean; nutrition: boolean };
-    billing: { sibling_discount_2nd: number; family_cap: number };
-  };
+    features: {
+      video_analysis: boolean;
+      nutrition: boolean;
+    }
+    billing: {
+      sibling_discount_2nd: number;
+      family_cap: number;
+    }
+  }
 }
 
 // Family
@@ -219,7 +225,7 @@ await goCardlessService.completeMandateRedirectFlow(flowId, familyId);
 // Stores mandate_id in families table
 
 // Create variable payment
-await goCardlessService.createPayment(familyId, invoiceId, 42.50);
+await goCardlessService.createPayment(familyId, invoiceId, 42.5);
 // Payment submitted to GoCardless
 
 // Webhook received (3-5 days later)
@@ -332,12 +338,12 @@ GET    /api/v1/pbs/:swimmerId/:event    # Get PB for specific event
 
 **Supported Formats:**
 
-| Format | Extension | Description |
-|--------|-----------|-------------|
-| Hy-Tek | .hy3, .cl2, .ev3 | Global standard (50% UK meets) |
-| SportSystems | .sex, .set | UK legacy (50% UK meets) |
-| SDIF | .sd3 | Rankings export/import |
-| LENEX | .lef (XML) | European standard (future) |
+| Format       | Extension        | Description                    |
+| ------------ | ---------------- | ------------------------------ |
+| Hy-Tek       | .hy3, .cl2, .ev3 | Global standard (50% UK meets) |
+| SportSystems | .sex, .set       | UK legacy (50% UK meets)       |
+| SDIF         | .sd3             | Rankings export/import         |
+| LENEX        | .lef (XML)       | European standard (future)     |
 
 **Parser Interface:**
 
@@ -556,7 +562,7 @@ if (recipient.age < 18) {
     metadata: {
       sender_id,
       recipient_id: recipient.user_id,
-      guardians_cc: guardians.map(g => g.email),
+      guardians_cc: guardians.map((g) => g.email),
     },
   });
 }

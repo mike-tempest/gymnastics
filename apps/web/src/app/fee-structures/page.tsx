@@ -112,7 +112,10 @@ export default function FeeStructuresPage() {
       setError(null);
 
       if (selectedFeeStructure) {
-        await updateFeeStructure(selectedFeeStructure.fee_structure_id, data as UpdateFeeStructureInput);
+        await updateFeeStructure(
+          selectedFeeStructure.fee_structure_id,
+          data as UpdateFeeStructureInput
+        );
         setSuccessMessage('Fee structure updated successfully!');
       } else {
         await createFeeStructure(data as CreateFeeStructureInput);
@@ -135,7 +138,8 @@ export default function FeeStructuresPage() {
   const handleDelete = async (feeStructureId: string) => {
     const confirmed = await confirm({
       title: 'Delete Fee Structure',
-      description: 'Are you sure you want to delete this fee structure? This action cannot be undone and may affect existing invoices.',
+      description:
+        'Are you sure you want to delete this fee structure? This action cannot be undone and may affect existing invoices.',
       confirmLabel: 'Delete Fee Structure',
       cancelLabel: 'Keep Fee Structure',
       variant: 'danger',
@@ -209,7 +213,9 @@ export default function FeeStructuresPage() {
         is_active: !feeStructure.is_active,
       });
       await fetchData();
-      setSuccessMessage(`Fee structure ${!feeStructure.is_active ? 'activated' : 'deactivated'} successfully!`);
+      setSuccessMessage(
+        `Fee structure ${!feeStructure.is_active ? 'activated' : 'deactivated'} successfully!`
+      );
       setTimeout(() => setSuccessMessage(null), 3000);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to update fee structure';
@@ -233,17 +239,14 @@ export default function FeeStructuresPage() {
       <ConfirmDialog />
       <div className="min-h-dvh bg-canvas p-6 sm:p-10">
         <div className="max-w-7xl mx-auto">
-          <Breadcrumb
-            items={[
-              { label: 'Dashboard', href: '/' },
-              { label: 'Fee Structures' },
-            ]}
-          />
+          <Breadcrumb items={[{ label: 'Dashboard', href: '/' }, { label: 'Fee Structures' }]} />
 
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
             <div>
-              <h1 className="font-serif text-5xl sm:text-6xl text-dark-primary tracking-tight mb-2">Fee Structures</h1>
+              <h1 className="font-serif text-5xl sm:text-6xl text-dark-primary tracking-tight mb-2">
+                Fee Structures
+              </h1>
               <p className="text-grey-600 text-lg">Manage billing fee structures and pricing</p>
             </div>
             <button
@@ -285,18 +288,26 @@ export default function FeeStructuresPage() {
           <div className="bg-surface rounded-3xl border border-grey-200 p-6 sm:p-10 shadow-lg mb-8">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
               <div>
-                <p className="text-dark-primary text-xl font-semibold mb-3">Active Fee Structures</p>
-                <h2 className="text-5xl sm:text-8xl font-bold text-dark-primary mb-4 tabular-nums">{activeFeeStructures.length}</h2>
+                <p className="text-dark-primary text-xl font-semibold mb-3">
+                  Active Fee Structures
+                </p>
+                <h2 className="text-5xl sm:text-8xl font-bold text-dark-primary mb-4 tabular-nums">
+                  {activeFeeStructures.length}
+                </h2>
                 <p className="text-grey-600 text-lg">Currently in use for billing</p>
               </div>
               <div className="flex flex-row sm:flex-col gap-4">
                 <div className="bg-brand rounded-3xl p-4 sm:p-6 text-center flex-1 sm:min-w-[180px] shadow-sm">
                   <p className="text-dark-primary text-sm font-semibold mb-1">Total Structures</p>
-                  <p className="text-dark-primary text-2xl sm:text-4xl font-bold tabular-nums">{feeStructures.length}</p>
+                  <p className="text-dark-primary text-2xl sm:text-4xl font-bold tabular-nums">
+                    {feeStructures.length}
+                  </p>
                 </div>
                 <div className="bg-white rounded-3xl p-4 sm:p-6 text-center flex-1 sm:min-w-[180px]">
                   <p className="text-dark-primary text-sm font-semibold mb-1">Inactive</p>
-                  <p className="text-dark-primary text-2xl sm:text-4xl font-bold tabular-nums">{inactiveFeeStructures.length}</p>
+                  <p className="text-dark-primary text-2xl sm:text-4xl font-bold tabular-nums">
+                    {inactiveFeeStructures.length}
+                  </p>
                 </div>
               </div>
             </div>
@@ -322,132 +333,160 @@ export default function FeeStructuresPage() {
               />
             ) : (
               <>
-              {/* Mobile card view */}
-              <div className="md:hidden p-4 space-y-4">
-                {activeFeeStructures.map((feeStructure) => (
-                  <div key={feeStructure.fee_structure_id} className="p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="min-w-0 flex-1">
-                        <p className="text-white font-semibold">{feeStructure.name}</p>
-                        {feeStructure.description && (
-                          <p className="text-text-secondary text-sm mt-1">{feeStructure.description}</p>
-                        )}
-                      </div>
-                      <span className="text-brand font-bold text-lg ml-3 flex-shrink-0 tabular-nums">{formatCurrency(feeStructure.amount, feeStructure.currency)}</span>
-                    </div>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      <span className="px-3 py-1 bg-dark-primary/20 text-brand rounded-full text-xs font-semibold border border-brand/40">
-                        {formatFrequency(feeStructure.frequency)}
-                      </span>
-                      <span className="px-3 py-1 bg-white/5 text-text-secondary rounded-full text-xs font-semibold">
-                        {formatAppliesTo(feeStructure.applies_to)}
-                        {feeStructure.squad_id && ` - ${getSquadName(feeStructure.squad_id)}`}
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => handleGenerateInvoices(feeStructure)}
-                      disabled={isGeneratingInvoices}
-                      className="w-full mb-2 px-3 py-2 min-h-[44px] bg-brand/20 text-brand rounded-xl font-semibold hover:bg-brand hover:text-dark-primary transition-all text-sm border border-brand/40 disabled:opacity-50"
+                {/* Mobile card view */}
+                <div className="md:hidden p-4 space-y-4">
+                  {activeFeeStructures.map((feeStructure) => (
+                    <div
+                      key={feeStructure.fee_structure_id}
+                      className="p-4 bg-white/5 rounded-2xl border border-white/10"
                     >
-                      {isGeneratingInvoices ? 'Generating...' : 'Generate Invoices'}
-                    </button>
-                    <div className="flex gap-2">
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="min-w-0 flex-1">
+                          <p className="text-white font-semibold">{feeStructure.name}</p>
+                          {feeStructure.description && (
+                            <p className="text-text-secondary text-sm mt-1">
+                              {feeStructure.description}
+                            </p>
+                          )}
+                        </div>
+                        <span className="text-brand font-bold text-lg ml-3 flex-shrink-0 tabular-nums">
+                          {formatCurrency(feeStructure.amount, feeStructure.currency)}
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        <span className="px-3 py-1 bg-dark-primary/20 text-brand rounded-full text-xs font-semibold border border-brand/40">
+                          {formatFrequency(feeStructure.frequency)}
+                        </span>
+                        <span className="px-3 py-1 bg-white/5 text-text-secondary rounded-full text-xs font-semibold">
+                          {formatAppliesTo(feeStructure.applies_to)}
+                          {feeStructure.squad_id && ` - ${getSquadName(feeStructure.squad_id)}`}
+                        </span>
+                      </div>
                       <button
-                        onClick={() => handleOpenEditModal(feeStructure)}
-                        className="flex-1 px-3 py-2 min-h-[44px] bg-brand text-dark-primary rounded-xl font-semibold hover:bg-brand-light transition-all text-sm"
+                        onClick={() => handleGenerateInvoices(feeStructure)}
+                        disabled={isGeneratingInvoices}
+                        className="w-full mb-2 px-3 py-2 min-h-[44px] bg-brand/20 text-brand rounded-xl font-semibold hover:bg-brand hover:text-dark-primary transition-all text-sm border border-brand/40 disabled:opacity-50"
                       >
-                        Edit
+                        {isGeneratingInvoices ? 'Generating...' : 'Generate Invoices'}
                       </button>
-                      <button
-                        onClick={() => handleToggleActive(feeStructure)}
-                        className="flex-1 px-3 py-2 min-h-[44px] bg-yellow-500/20 text-yellow-400 rounded-xl font-semibold hover:bg-yellow-500 hover:text-white transition-all text-sm border border-yellow-500/40"
-                      >
-                        Deactivate
-                      </button>
-                      <button
-                        onClick={() => handleDelete(feeStructure.fee_structure_id)}
-                        className="px-3 py-2 min-h-[44px] bg-red-500/20 text-red-400 rounded-xl font-semibold hover:bg-red-500 hover:text-white transition-all text-sm border border-red-500/40"
-                      >
-                        Delete
-                      </button>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleOpenEditModal(feeStructure)}
+                          className="flex-1 px-3 py-2 min-h-[44px] bg-brand text-dark-primary rounded-xl font-semibold hover:bg-brand-light transition-all text-sm"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleToggleActive(feeStructure)}
+                          className="flex-1 px-3 py-2 min-h-[44px] bg-yellow-500/20 text-yellow-400 rounded-xl font-semibold hover:bg-yellow-500 hover:text-white transition-all text-sm border border-yellow-500/40"
+                        >
+                          Deactivate
+                        </button>
+                        <button
+                          onClick={() => handleDelete(feeStructure.fee_structure_id)}
+                          className="px-3 py-2 min-h-[44px] bg-red-500/20 text-red-400 rounded-xl font-semibold hover:bg-red-500 hover:text-white transition-all text-sm border border-red-500/40"
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
 
-              {/* Desktop table view */}
-              <div className="hidden md:block overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-white/10">
-                      <th className="text-left py-4 px-6 text-sm font-semibold text-white">Name</th>
-                      <th className="text-left py-4 px-6 text-sm font-semibold text-white">Amount</th>
-                      <th className="text-left py-4 px-6 text-sm font-semibold text-white">Frequency</th>
-                      <th className="text-left py-4 px-6 text-sm font-semibold text-white">Applies To</th>
-                      <th className="text-right py-4 px-6 text-sm font-semibold text-white">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {activeFeeStructures.map((feeStructure) => (
-                      <tr key={feeStructure.fee_structure_id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
-                        <td className="py-4 px-6">
-                          <div>
-                            <p className="text-white font-semibold">{feeStructure.name}</p>
-                            {feeStructure.description && (
-                              <p className="text-text-secondary text-sm mt-1">{feeStructure.description}</p>
-                            )}
-                          </div>
-                        </td>
-                        <td className="py-4 px-6">
-                          <span className="text-brand font-bold text-lg tabular-nums">{formatCurrency(feeStructure.amount, feeStructure.currency)}</span>
-                        </td>
-                        <td className="py-4 px-6">
-                          <span className="px-3 py-1 bg-dark-primary/20 text-brand rounded-full text-xs font-semibold border border-brand/40">
-                            {formatFrequency(feeStructure.frequency)}
-                          </span>
-                        </td>
-                        <td className="py-4 px-6">
-                          <div>
-                            <p className="text-white">{formatAppliesTo(feeStructure.applies_to)}</p>
-                            {feeStructure.squad_id && (
-                              <p className="text-text-secondary text-sm">{getSquadName(feeStructure.squad_id)}</p>
-                            )}
-                          </div>
-                        </td>
-                        <td className="py-4 px-6">
-                          <div className="flex items-center justify-end space-x-2">
-                            <button
-                              onClick={() => handleGenerateInvoices(feeStructure)}
-                              disabled={isGeneratingInvoices}
-                              className="px-3 py-2 bg-brand/20 text-brand rounded-xl font-semibold hover:bg-brand hover:text-dark-primary transition-all text-sm border border-brand/40 disabled:opacity-50"
-                            >
-                              {isGeneratingInvoices ? 'Generating...' : 'Generate Invoices'}
-                            </button>
-                            <button
-                              onClick={() => handleOpenEditModal(feeStructure)}
-                              className="px-3 py-2 bg-brand text-dark-primary rounded-xl font-semibold hover:bg-brand-light transition-all text-sm"
-                            >
-                              Edit
-                            </button>
-                            <button
-                              onClick={() => handleToggleActive(feeStructure)}
-                              className="px-3 py-2 bg-yellow-500/20 text-yellow-400 rounded-xl font-semibold hover:bg-yellow-500 hover:text-white transition-all text-sm border border-yellow-500/40"
-                            >
-                              Deactivate
-                            </button>
-                            <button
-                              onClick={() => handleDelete(feeStructure.fee_structure_id)}
-                              className="px-3 py-2 bg-red-500/20 text-red-400 rounded-xl font-semibold hover:bg-red-500 hover:text-white transition-all text-sm border border-red-500/40"
-                            >
-                              Delete
-                            </button>
-                          </div>
-                        </td>
+                {/* Desktop table view */}
+                <div className="hidden md:block overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-white/10">
+                        <th className="text-left py-4 px-6 text-sm font-semibold text-white">
+                          Name
+                        </th>
+                        <th className="text-left py-4 px-6 text-sm font-semibold text-white">
+                          Amount
+                        </th>
+                        <th className="text-left py-4 px-6 text-sm font-semibold text-white">
+                          Frequency
+                        </th>
+                        <th className="text-left py-4 px-6 text-sm font-semibold text-white">
+                          Applies To
+                        </th>
+                        <th className="text-right py-4 px-6 text-sm font-semibold text-white">
+                          Actions
+                        </th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {activeFeeStructures.map((feeStructure) => (
+                        <tr
+                          key={feeStructure.fee_structure_id}
+                          className="border-b border-white/10 hover:bg-white/5 transition-colors"
+                        >
+                          <td className="py-4 px-6">
+                            <div>
+                              <p className="text-white font-semibold">{feeStructure.name}</p>
+                              {feeStructure.description && (
+                                <p className="text-text-secondary text-sm mt-1">
+                                  {feeStructure.description}
+                                </p>
+                              )}
+                            </div>
+                          </td>
+                          <td className="py-4 px-6">
+                            <span className="text-brand font-bold text-lg tabular-nums">
+                              {formatCurrency(feeStructure.amount, feeStructure.currency)}
+                            </span>
+                          </td>
+                          <td className="py-4 px-6">
+                            <span className="px-3 py-1 bg-dark-primary/20 text-brand rounded-full text-xs font-semibold border border-brand/40">
+                              {formatFrequency(feeStructure.frequency)}
+                            </span>
+                          </td>
+                          <td className="py-4 px-6">
+                            <div>
+                              <p className="text-white">
+                                {formatAppliesTo(feeStructure.applies_to)}
+                              </p>
+                              {feeStructure.squad_id && (
+                                <p className="text-text-secondary text-sm">
+                                  {getSquadName(feeStructure.squad_id)}
+                                </p>
+                              )}
+                            </div>
+                          </td>
+                          <td className="py-4 px-6">
+                            <div className="flex items-center justify-end space-x-2">
+                              <button
+                                onClick={() => handleGenerateInvoices(feeStructure)}
+                                disabled={isGeneratingInvoices}
+                                className="px-3 py-2 bg-brand/20 text-brand rounded-xl font-semibold hover:bg-brand hover:text-dark-primary transition-all text-sm border border-brand/40 disabled:opacity-50"
+                              >
+                                {isGeneratingInvoices ? 'Generating...' : 'Generate Invoices'}
+                              </button>
+                              <button
+                                onClick={() => handleOpenEditModal(feeStructure)}
+                                className="px-3 py-2 bg-brand text-dark-primary rounded-xl font-semibold hover:bg-brand-light transition-all text-sm"
+                              >
+                                Edit
+                              </button>
+                              <button
+                                onClick={() => handleToggleActive(feeStructure)}
+                                className="px-3 py-2 bg-yellow-500/20 text-yellow-400 rounded-xl font-semibold hover:bg-yellow-500 hover:text-white transition-all text-sm border border-yellow-500/40"
+                              >
+                                Deactivate
+                              </button>
+                              <button
+                                onClick={() => handleDelete(feeStructure.fee_structure_id)}
+                                className="px-3 py-2 bg-red-500/20 text-red-400 rounded-xl font-semibold hover:bg-red-500 hover:text-white transition-all text-sm border border-red-500/40"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </>
             )}
           </div>
@@ -461,15 +500,22 @@ export default function FeeStructuresPage() {
               {/* Mobile card view */}
               <div className="md:hidden p-4 space-y-4">
                 {inactiveFeeStructures.map((feeStructure) => (
-                  <div key={feeStructure.fee_structure_id} className="p-4 bg-white/5 rounded-2xl border border-white/10 opacity-60">
+                  <div
+                    key={feeStructure.fee_structure_id}
+                    className="p-4 bg-white/5 rounded-2xl border border-white/10 opacity-60"
+                  >
                     <div className="flex items-start justify-between mb-3">
                       <div className="min-w-0 flex-1">
                         <p className="text-white font-semibold">{feeStructure.name}</p>
                         {feeStructure.description && (
-                          <p className="text-text-secondary text-sm mt-1">{feeStructure.description}</p>
+                          <p className="text-text-secondary text-sm mt-1">
+                            {feeStructure.description}
+                          </p>
                         )}
                       </div>
-                      <span className="text-text-secondary font-bold text-lg ml-3 flex-shrink-0 tabular-nums">{formatCurrency(feeStructure.amount, feeStructure.currency)}</span>
+                      <span className="text-text-secondary font-bold text-lg ml-3 flex-shrink-0 tabular-nums">
+                        {formatCurrency(feeStructure.amount, feeStructure.currency)}
+                      </span>
                     </div>
                     <div className="flex flex-wrap gap-2 mb-4">
                       <span className="px-3 py-1 bg-white/20 text-white/60 rounded-full text-xs font-semibold border border-white/20">
@@ -504,25 +550,40 @@ export default function FeeStructuresPage() {
                   <thead>
                     <tr className="border-b border-white/10">
                       <th className="text-left py-4 px-6 text-sm font-semibold text-white">Name</th>
-                      <th className="text-left py-4 px-6 text-sm font-semibold text-white">Amount</th>
-                      <th className="text-left py-4 px-6 text-sm font-semibold text-white">Frequency</th>
-                      <th className="text-left py-4 px-6 text-sm font-semibold text-white">Applies To</th>
-                      <th className="text-right py-4 px-6 text-sm font-semibold text-white">Actions</th>
+                      <th className="text-left py-4 px-6 text-sm font-semibold text-white">
+                        Amount
+                      </th>
+                      <th className="text-left py-4 px-6 text-sm font-semibold text-white">
+                        Frequency
+                      </th>
+                      <th className="text-left py-4 px-6 text-sm font-semibold text-white">
+                        Applies To
+                      </th>
+                      <th className="text-right py-4 px-6 text-sm font-semibold text-white">
+                        Actions
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     {inactiveFeeStructures.map((feeStructure) => (
-                      <tr key={feeStructure.fee_structure_id} className="border-b border-white/10 hover:bg-white/5 transition-colors opacity-60">
+                      <tr
+                        key={feeStructure.fee_structure_id}
+                        className="border-b border-white/10 hover:bg-white/5 transition-colors opacity-60"
+                      >
                         <td className="py-4 px-6">
                           <div>
                             <p className="text-white font-semibold">{feeStructure.name}</p>
                             {feeStructure.description && (
-                              <p className="text-text-secondary text-sm mt-1">{feeStructure.description}</p>
+                              <p className="text-text-secondary text-sm mt-1">
+                                {feeStructure.description}
+                              </p>
                             )}
                           </div>
                         </td>
                         <td className="py-4 px-6">
-                          <span className="text-text-secondary font-bold text-lg tabular-nums">{formatCurrency(feeStructure.amount, feeStructure.currency)}</span>
+                          <span className="text-text-secondary font-bold text-lg tabular-nums">
+                            {formatCurrency(feeStructure.amount, feeStructure.currency)}
+                          </span>
                         </td>
                         <td className="py-4 px-6">
                           <span className="px-3 py-1 bg-white/20 text-white/60 rounded-full text-xs font-semibold border border-white/20">
@@ -533,7 +594,9 @@ export default function FeeStructuresPage() {
                           <div>
                             <p className="text-white">{formatAppliesTo(feeStructure.applies_to)}</p>
                             {feeStructure.squad_id && (
-                              <p className="text-text-secondary text-sm">{getSquadName(feeStructure.squad_id)}</p>
+                              <p className="text-text-secondary text-sm">
+                                {getSquadName(feeStructure.squad_id)}
+                              </p>
                             )}
                           </div>
                         </td>

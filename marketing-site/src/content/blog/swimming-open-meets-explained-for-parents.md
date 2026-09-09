@@ -1,22 +1,22 @@
 ---
 title: "Swimming Open Meets Explained: A Parent's Guide"
-description: "What is an open meet? A plain-English guide for swim parents to Swim England meet levels, qualifying times, entries and what to expect."
+description: 'What is an open meet? A plain-English guide for swim parents to Swim England meet levels, qualifying times, entries and what to expect.'
 pubDate: 2026-06-24
-author: "Swimly Team"
-tags: ["swim parents", "competitive swimming", "galas", "Swim England"]
+author: 'Swimly Team'
+tags: ['swim parents', 'competitive swimming', 'galas', 'Swim England']
 faqItems:
-  - question: "What is an open meet in swimming?"
-    answer: "An open meet is a swimming competition that any swimmer from any club can enter, provided they meet the age and qualifying-time requirements for each event. It is licensed by Swim England, which means the results count officially towards the national rankings. Open meets give swimmers experience of racing against other clubs and a chance to record personal bests and qualifying times."
-  - question: "What is the difference between an open meet and a club gala?"
-    answer: "A club gala or internal competition is usually run by your own club for its own members, often to award club championship titles. An open meet is open to swimmers from many clubs and is licensed by Swim England, so the times count towards official rankings and championship qualification. Some events are both: a club championship can be licensed as an open meet so the times count."
-  - question: "What do the Swim England open meet levels mean?"
-    answer: "Swim England licenses open meets at four levels. Level 1 is long course (50m) and Level 2 is short course (25m); both use qualifying times and are aimed at faster swimmers chasing county, regional and national times. Level 3 meets, in either pool length, use upper limit times so the racing stays competitive for developing swimmers. Level 4 meets are entry-level events for newer swimmers and first competitions outside the club."
-  - question: "What is a qualifying time or an upper limit time?"
-    answer: "A qualifying time, or lower limit time, is a time your child must have already swum to be allowed to enter an event, so the faster meets are not flooded. An upper limit time works the other way: at Level 3 and entry-level meets, a swimmer must be no faster than the set time, which keeps developing swimmers racing against others of a similar standard rather than against far quicker children."
-  - question: "How do I enter my child into an open meet?"
-    answer: "Entries almost always go through your club rather than direct to the host. The club shares the meet details and a deadline, you choose the events and provide a recent entry time for each, and the club submits the entries together. Deadlines often fall several weeks before the meet because popular events fill up and are accepted on time order."
-  - question: "How much do open meets cost?"
-    answer: "Most open meets charge a fee for each individual event entered, typically a few pounds per race, sometimes with a small administration or coaching fee on top. Costs add up if your child enters several events across a weekend, and you should also budget for travel, parking and food, as meets can run for a full day."
+  - question: 'What is an open meet in swimming?'
+    answer: 'An open meet is a swimming competition that any swimmer from any club can enter, provided they meet the age and qualifying-time requirements for each event. It is licensed by Swim England, which means the results count officially towards the national rankings. Open meets give swimmers experience of racing against other clubs and a chance to record personal bests and qualifying times.'
+  - question: 'What is the difference between an open meet and a club gala?'
+    answer: 'A club gala or internal competition is usually run by your own club for its own members, often to award club championship titles. An open meet is open to swimmers from many clubs and is licensed by Swim England, so the times count towards official rankings and championship qualification. Some events are both: a club championship can be licensed as an open meet so the times count.'
+  - question: 'What do the Swim England open meet levels mean?'
+    answer: 'Swim England licenses open meets at four levels. Level 1 is long course (50m) and Level 2 is short course (25m); both use qualifying times and are aimed at faster swimmers chasing county, regional and national times. Level 3 meets, in either pool length, use upper limit times so the racing stays competitive for developing swimmers. Level 4 meets are entry-level events for newer swimmers and first competitions outside the club.'
+  - question: 'What is a qualifying time or an upper limit time?'
+    answer: 'A qualifying time, or lower limit time, is a time your child must have already swum to be allowed to enter an event, so the faster meets are not flooded. An upper limit time works the other way: at Level 3 and entry-level meets, a swimmer must be no faster than the set time, which keeps developing swimmers racing against others of a similar standard rather than against far quicker children.'
+  - question: 'How do I enter my child into an open meet?'
+    answer: 'Entries almost always go through your club rather than direct to the host. The club shares the meet details and a deadline, you choose the events and provide a recent entry time for each, and the club submits the entries together. Deadlines often fall several weeks before the meet because popular events fill up and are accepted on time order.'
+  - question: 'How much do open meets cost?'
+    answer: 'Most open meets charge a fee for each individual event entered, typically a few pounds per race, sometimes with a small administration or coaching fee on top. Costs add up if your child enters several events across a weekend, and you should also budget for travel, parking and food, as meets can run for a full day.'
 ---
 
 If your child has started training with a swim squad, you have probably heard coaches and other parents mention open meets. An **open meet** is a swimming competition that any swimmer from any club can enter, provided they meet the age and qualifying-time requirements for each event. Unlike an internal club gala, an open meet brings together swimmers from across a town, county or region, and the times your child swims there count officially towards the Swim England rankings.
@@ -41,12 +41,12 @@ If you want to make sense of the times your child brings home, our guide on [how
 
 Swim England licenses open meets at four levels. The level tells you how fast the field is likely to be and what the meet is for. It is the single most useful thing to understand when choosing where your child should race.
 
-| Level | Pool | Entry times | Best for |
-|-------|------|-------------|----------|
-| Level 1 | Long course (50m) | Qualifying (lower limit) times | Experienced swimmers chasing county, regional and national qualifying times |
-| Level 2 | Short course (25m) | Qualifying (lower limit) times | The short course equivalent of Level 1, for the same championship qualifying times |
-| Level 3 | Long or short course | Upper limit times, sometimes with lower limits too | Developing swimmers gaining times for county and regional championships and for Level 1 and 2 meets |
-| Level 4 | 25m or 50m, entry level | Usually upper limit times | Newer swimmers and first competitions outside the club, including some club championships |
+| Level   | Pool                    | Entry times                                        | Best for                                                                                            |
+| ------- | ----------------------- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Level 1 | Long course (50m)       | Qualifying (lower limit) times                     | Experienced swimmers chasing county, regional and national qualifying times                         |
+| Level 2 | Short course (25m)      | Qualifying (lower limit) times                     | The short course equivalent of Level 1, for the same championship qualifying times                  |
+| Level 3 | Long or short course    | Upper limit times, sometimes with lower limits too | Developing swimmers gaining times for county and regional championships and for Level 1 and 2 meets |
+| Level 4 | 25m or 50m, entry level | Usually upper limit times                          | Newer swimmers and first competitions outside the club, including some club championships           |
 
 In plain terms, **Level 1 and Level 2** are the faster meets aimed at swimmers who already have the speed to chase championship qualifying times, the difference being the pool length. **Level 3** meets use upper limit times so the racing stays competitive for swimmers who are still developing. **Level 4** meets are the entry point, designed for inexperienced swimmers and for those racing outside their own club for the first time. The usual progression is Level 4, then Level 3, then Level 1 or 2 as a swimmer gets quicker.
 

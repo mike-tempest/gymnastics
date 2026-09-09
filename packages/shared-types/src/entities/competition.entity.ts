@@ -1,9 +1,4 @@
-import {
-  Course,
-  CompetitionType,
-  CompetitionStatus,
-  CompetitionEntryStatus,
-} from '../enums';
+import { Course, CompetitionType, CompetitionStatus, CompetitionEntryStatus } from '../enums';
 
 export { CompetitionType, CompetitionStatus, CompetitionEntryStatus };
 

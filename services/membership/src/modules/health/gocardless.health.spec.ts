@@ -14,9 +14,7 @@ describe('GoCardlessHealthIndicator', () => {
         {
           provide: ConfigService,
           useValue: {
-            get: jest.fn(
-              (key: string, defaultValue?: string) => config[key] ?? defaultValue,
-            ),
+            get: jest.fn((key: string, defaultValue?: string) => config[key] ?? defaultValue),
           },
         },
       ],

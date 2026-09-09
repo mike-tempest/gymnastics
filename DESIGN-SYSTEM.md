@@ -11,21 +11,27 @@ This document codifies Swimly's design language — the colours, typography, com
 ## Design Principles
 
 ### 1. Volunteer-Proof Simplicity
+
 Every screen answers one question: "What do I need to do here?" No feature should require a manual. If it needs explaining, redesign it. Our users are unpaid volunteers fitting club admin around jobs and family.
 
 ### 2. Role-Appropriate Views
+
 Different users need different things. Don't show the treasurer coaching rotas. Don't show parents billing admin. Role-based views are fundamental, not a nice-to-have.
 
 ### 3. Poolside-Ready
+
 Coaches use this on phones, poolside, often with wet hands. Large tap targets, high contrast, offline capability, one-handed operation. No tiny buttons. No hover states that don't work on mobile.
 
 ### 4. Trust Through Transparency
+
 Volunteers are accountable to parents and committees. Every financial transaction, every data change, every compliance record must be visible and auditable.
 
 ### 5. British, Not American
+
 UI copy in British English. Date formats DD/MM/YYYY. Currency in £. Distances in metres. No "Fall semester" — it's "Autumn term."
 
 ### 6. Calm, Not Cluttered
+
 Swimming pools are chaotic enough. Swimly should feel calm, organised, and in control. Muted colours, clear typography, generous whitespace.
 
 ---
@@ -54,12 +60,12 @@ Tailwind: `bg-brand-light`
 
 The sidebar, top bar, and dark cards use a deep teal family rather than near-black.
 
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `dark-primary` | `#0F2D2D` | Deepest teal. Sidebar, dark page surfaces |
-| `dark-secondary` | `#163F3F` | Raised dark panels |
-| `dark-tertiary` / `dark-card` | `#1E5555` | Dark cards on teal |
-| `teal` | `#297373` | Mid teal accent |
+| Token                         | Hex       | Usage                                     |
+| ----------------------------- | --------- | ----------------------------------------- |
+| `dark-primary`                | `#0F2D2D` | Deepest teal. Sidebar, dark page surfaces |
+| `dark-secondary`              | `#163F3F` | Raised dark panels                        |
+| `dark-tertiary` / `dark-card` | `#1E5555` | Dark cards on teal                        |
+| `teal`                        | `#297373` | Mid teal accent                           |
 
 Tailwind: `bg-dark-primary`, `bg-dark-secondary`, `bg-dark-tertiary`, `bg-teal`.
 
@@ -93,18 +99,18 @@ Tailwind: `text-lime` / `bg-lime`
 
 ### Grey Scale
 
-| Shade | Hex | Usage |
-|-------|-----|-------|
-| `grey-50` | `#F0F0F0` | Lightest backgrounds |
-| `grey-100` | `#E6E6E6` | Canvas background |
-| `grey-200` | `#CCCCCC` | Borders, dividers |
-| `grey-300` | `#B3B3B3` | Disabled states |
-| `grey-400` | `#999999` | Placeholder text |
-| `grey-500` | `#808080` | Muted text |
-| `grey-600` | `#666666` | Secondary text |
+| Shade      | Hex       | Usage                          |
+| ---------- | --------- | ------------------------------ |
+| `grey-50`  | `#F0F0F0` | Lightest backgrounds           |
+| `grey-100` | `#E6E6E6` | Canvas background              |
+| `grey-200` | `#CCCCCC` | Borders, dividers              |
+| `grey-300` | `#B3B3B3` | Disabled states                |
+| `grey-400` | `#999999` | Placeholder text               |
+| `grey-500` | `#808080` | Muted text                     |
+| `grey-600` | `#666666` | Secondary text                 |
 | `grey-700` | `#4D4D4D` | Body text on light backgrounds |
-| `grey-800` | `#39393A` | Graphite. Primary text |
-| `grey-900` | `#2A2A2B` | Darkest grey |
+| `grey-800` | `#39393A` | Graphite. Primary text         |
+| `grey-900` | `#2A2A2B` | Darkest grey                   |
 
 ### Semantic Colours
 
@@ -129,11 +135,11 @@ Tailwind: `text-info` / `bg-info`
 
 ### Text Colours
 
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `text-text-primary` | `#39393A` | Graphite. Headings, primary body text |
-| `text-text-secondary` | `#666666` | Secondary text, labels |
-| `text-text-tertiary` | `#999999` | Placeholder, disabled text |
+| Token                 | Hex       | Usage                                 |
+| --------------------- | --------- | ------------------------------------- |
+| `text-text-primary`   | `#39393A` | Graphite. Headings, primary body text |
+| `text-text-secondary` | `#666666` | Secondary text, labels                |
+| `text-text-tertiary`  | `#999999` | Placeholder, disabled text            |
 
 ---
 
@@ -142,21 +148,24 @@ Tailwind: `text-info` / `bg-info`
 ### Font Families
 
 **Headings: DM Serif Display**  
-Serif, elegant, editorial feel. Weight: 400 (regular only).  
+Serif, elegant, editorial feel. Weight: 400 (regular only).
+
 ```tsx
-className="font-serif"
+className = 'font-serif';
 ```
 
 **Body: Inter**  
-Clean sans-serif. Weights: 400 (regular), 500 (medium), 600 (semibold), 700 (bold).  
+Clean sans-serif. Weights: 400 (regular), 500 (medium), 600 (semibold), 700 (bold).
+
 ```tsx
-className="font-sans"
+className = 'font-sans';
 ```
 
 **Data: Tabular Numerals**  
-Monospaced numerals for financial tables, times, statistics. Use Inter with `tabular-nums` variant.  
+Monospaced numerals for financial tables, times, statistics. Use Inter with `tabular-nums` variant.
+
 ```tsx
-className="font-mono tabular-nums"
+className = 'font-mono tabular-nums';
 ```
 
 ### Font Loading
@@ -166,16 +175,16 @@ className="font-mono tabular-nums"
 
 ### Type Scale
 
-| Token | Size | Line Height | Usage |
-|-------|------|-------------|-------|
-| `text-xs` | 12px | 16px | Small labels, metadata |
-| `text-sm` | 14px | 20px | Helper text, secondary info |
-| `text-base` | 16px | 24px | Body text (minimum on mobile) |
-| `text-lg` | 18px | 28px | Emphasized body text |
-| `text-xl` | 20px | 28px | Small headings |
-| `text-2xl` | 24px | 32px | Section headings |
-| `text-3xl` | 30px | 36px | Page headings |
-| `text-4xl` | 36px | 40px | Hero headings |
+| Token       | Size | Line Height | Usage                         |
+| ----------- | ---- | ----------- | ----------------------------- |
+| `text-xs`   | 12px | 16px        | Small labels, metadata        |
+| `text-sm`   | 14px | 20px        | Helper text, secondary info   |
+| `text-base` | 16px | 24px        | Body text (minimum on mobile) |
+| `text-lg`   | 18px | 28px        | Emphasized body text          |
+| `text-xl`   | 20px | 28px        | Small headings                |
+| `text-2xl`  | 24px | 32px        | Section headings              |
+| `text-3xl`  | 30px | 36px        | Page headings                 |
+| `text-4xl`  | 36px | 40px        | Hero headings                 |
 
 ### Swim Time Format
 
@@ -189,6 +198,7 @@ Example: `1:05.23`
 ### Spacing Scale
 
 Tailwind's default spacing scale (0.25rem increments):
+
 - `1` = 4px
 - `2` = 8px
 - `3` = 12px
@@ -201,17 +211,18 @@ Tailwind's default spacing scale (0.25rem increments):
 ### Container Widths
 
 Desktop layouts use max-width constraints to prevent content spreading too wide on large screens:
+
 - `max-w-7xl` (1280px) for dashboard layouts
 - `max-w-5xl` (1024px) for content pages
 - `max-w-3xl` (768px) for forms, reading content
 
 ### Responsive Breakpoints
 
-| Breakpoint | Min Width | Primary Use Case |
-|------------|-----------|------------------|
-| Mobile | 320px | Coaches/parents on phones |
-| Tablet | 768px | Poolside tablets |
-| Desktop | 1024px | Committee admin |
+| Breakpoint | Min Width | Primary Use Case          |
+| ---------- | --------- | ------------------------- |
+| Mobile     | 320px     | Coaches/parents on phones |
+| Tablet     | 768px     | Poolside tablets          |
+| Desktop    | 1024px    | Committee admin           |
 
 **Design approach:** Mobile-first. Enhance for desktop.
 
@@ -219,12 +230,12 @@ Desktop layouts use max-width constraints to prevent content spreading too wide 
 
 ## Border Radius
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `rounded-button` | 12px | Buttons, small interactive elements |
-| `rounded-card` | 20px | Cards, panels, modals |
-| `rounded-lg` | 16px | Large interactive areas |
-| `rounded-xl` | 20px | Feature cards |
+| Token            | Value | Usage                               |
+| ---------------- | ----- | ----------------------------------- |
+| `rounded-button` | 12px  | Buttons, small interactive elements |
+| `rounded-card`   | 20px  | Cards, panels, modals               |
+| `rounded-lg`     | 16px  | Large interactive areas             |
+| `rounded-xl`     | 20px  | Feature cards                       |
 
 ---
 
@@ -233,29 +244,41 @@ Desktop layouts use max-width constraints to prevent content spreading too wide 
 ### Card Shadows
 
 **Default Card**
+
 ```css
-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+box-shadow:
+  0 1px 3px rgba(0, 0, 0, 0.08),
+  0 1px 2px rgba(0, 0, 0, 0.06);
 ```
+
 Tailwind: `shadow-card`
 
 **Hover State**
+
 ```css
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
+box-shadow:
+  0 4px 12px rgba(0, 0, 0, 0.12),
+  0 2px 4px rgba(0, 0, 0, 0.08);
 ```
+
 Tailwind: `shadow-card-hover`
 
 ### Brand Glow (Interactive Elements)
 
 **Default Glow**
+
 ```css
 box-shadow: 0 0 30px rgba(133, 255, 199, 0.2);
 ```
+
 Tailwind: `shadow-glow`
 
 **Small Glow**
+
 ```css
 box-shadow: 0 0 15px rgba(133, 255, 199, 0.15);
 ```
+
 Tailwind: `shadow-glow-sm`
 
 ---
@@ -271,24 +294,28 @@ Tailwind: `shadow-glow-sm`
 ### Cards
 
 #### Member Card
+
 - Name (heading)
 - Squad badge
 - SE number
 - Status indicator (colour-coded)
 
 #### Swimmer Card (Parent View)
+
 - Name
 - Squad
 - Next session time/location
 - Recent PB
 
 #### Payment Card
+
 - Amount (large, tabular numerals)
 - Date (DD/MM/YYYY)
 - Status badge
 - Receipt link
 
 #### Session Card
+
 - Time
 - Pool location
 - Squad name
@@ -316,18 +343,21 @@ Tailwind: `shadow-glow-sm`
 Use the `Button` primitive (`apps/web/src/components/ui/button.tsx`) and pick a variant rather than hand-rolling classes. The canonical primary call to action is mint (`variant="brand"`); coral (`variant="coral"`) is the accent call to action.
 
 **Primary (Brand Mint)** -- `variant="brand"`
+
 ```tsx
 <Button variant="brand">Action</Button>
 // resolves to: bg-brand text-dark-primary hover:bg-brand-dark rounded-button
 ```
 
 **Accent (Coral)** -- `variant="coral"`
+
 ```tsx
 <Button variant="coral">Highlight</Button>
 // resolves to: bg-coral text-white hover:bg-coral-hover rounded-button
 ```
 
 **Secondary (Outline)**
+
 ```tsx
 <button className="border-2 border-brand text-brand hover:bg-brand hover:text-dark-primary font-medium px-6 py-3 rounded-button">
   Secondary
@@ -335,6 +365,7 @@ Use the `Button` primitive (`apps/web/src/components/ui/button.tsx`) and pick a 
 ```
 
 **Danger (Red)** -- `variant="destructive"`
+
 ```tsx
 <Button variant="destructive">Delete</Button>
 ```
@@ -342,12 +373,12 @@ Use the `Button` primitive (`apps/web/src/components/ui/button.tsx`) and pick a 
 ### Notifications & Alerts
 
 - **Toast notifications:** For completed actions (saved, sent, deleted)  
-Tailwind: Using `sonner` library, positioned `top-right`
+  Tailwind: Using `sonner` library, positioned `top-right`
 
 - **Badge counts:** On nav items (e.g., "3 pending approvals")
 
 - **Alert banners:** For urgent items (expiring DBS, failed payment)  
-Styled with semantic colours (warning/danger/info)
+  Styled with semantic colours (warning/danger/info)
 
 - **Push notifications:** Mobile only, opt-in, never spammy
 
@@ -357,7 +388,8 @@ Styled with semantic colours (warning/danger/info)
 
 ### WCAG 2.1 Level AA Requirements
 
-**Colour Contrast**  
+**Colour Contrast**
+
 - Text: Minimum 4.5:1 against background
 - Large text (18pt+): Minimum 3:1
 - Interactive elements: Minimum 3:1 for borders/icons
@@ -365,19 +397,22 @@ Styled with semantic colours (warning/danger/info)
 **Focus Indicators**  
 All interactive elements must have visible focus indicators.  
 **Implementation** (matches `globals.css`):
+
 ```css
 :focus-visible {
-  outline: 2px solid #85FFC7; /* Brand Mint */
+  outline: 2px solid #85ffc7; /* Brand Mint */
   outline-offset: 2px;
 }
 ```
 
-**Keyboard Navigation**  
+**Keyboard Navigation**
+
 - Tab order must be logical
 - All interactive elements keyboard-accessible
 - No keyboard traps
 
-**Screen Readers**  
+**Screen Readers**
+
 - Semantic HTML (`<nav>`, `<main>`, `<article>`, etc.)
 - ARIA labels on icons and icon-only buttons
 - Form labels always visible (not placeholder-only)
@@ -404,6 +439,7 @@ Nothing flashes more than 3 times per second.
 ### Tone Guidelines
 
 **Clear, warm, volunteer-friendly**
+
 - Write like you're talking to a busy parent or volunteer
 - No jargon without explanation
 - Short sentences
@@ -413,15 +449,19 @@ Nothing flashes more than 3 times per second.
 ### Copy Examples
 
 ❌ **Don't:**
+
 > "Your payment mandate requires configuration to facilitate Direct Debit processing."
 
 ✅ **Do:**
+
 > "Set up Direct Debit to collect payments automatically."
 
 ❌ **Don't:**
+
 > "Fall session registration now open."
 
 ✅ **Do:**
+
 > "Autumn term registration now open."
 
 ---
@@ -445,6 +485,7 @@ Nothing flashes more than 3 times per second.
 `/apps/web/src/components/ui/`
 
 Key components:
+
 - `button.tsx` — Button variants
 - `card.tsx` — Card layouts
 - `badge.tsx` — Status badges
@@ -461,12 +502,14 @@ Key components:
 A4 portrait layout with 15mm/12mm margins. Hides sidebar and navigation. Shows content in natural flow.
 
 **Print-specific utilities:**
+
 - `.no-print` — Hide element when printing
 - `.print-only` — Show only when printing
 
 ### Dark Mode
 
 Swimly includes dark mode support via `darkMode: ['class']` in Tailwind config. Dark mode uses:
+
 - Background: `dark-primary` (#0F2D2D)
 - Cards: `dark-secondary` (#163F3F) / `dark-tertiary` (#1E5555)
 - Text: `grey-50` with appropriate opacity

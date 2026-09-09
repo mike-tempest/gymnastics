@@ -109,8 +109,7 @@ export default function StatusSelector({
       (selectedStatus === AttendanceStatus.ABSENT || selectedStatus === AttendanceStatus.EXCUSED) &&
       selectedReason
     ) {
-      notes =
-        selectedReason === 'other' ? customReason.trim() || null : selectedReason;
+      notes = selectedReason === 'other' ? customReason.trim() || null : selectedReason;
     }
 
     onSelect(selectedStatus, notes);
@@ -144,7 +143,9 @@ export default function StatusSelector({
       >
         {/* Header */}
         <div className="px-6 pt-6 pb-4 border-b border-white/5">
-          <h3 id="status-selector-title" className="text-lg font-semibold text-white">{memberName}</h3>
+          <h3 id="status-selector-title" className="text-lg font-semibold text-white">
+            {memberName}
+          </h3>
           <p className="text-sm text-white/60 mt-0.5">Select attendance status</p>
         </div>
 
@@ -171,9 +172,7 @@ export default function StatusSelector({
         {/* Conditional inputs */}
         {showMinutesInput && (
           <div className="px-6 pb-4">
-            <label className="block text-sm font-medium text-white/60 mb-2">
-              Minutes late
-            </label>
+            <label className="block text-sm font-medium text-white/60 mb-2">Minutes late</label>
             <div className="flex items-center gap-3">
               <button
                 type="button"
@@ -184,9 +183,7 @@ export default function StatusSelector({
                 −
               </button>
               <div className="flex-1 h-14 rounded-xl border border-white/20 flex items-center justify-center bg-warning/10">
-                <span className="text-2xl font-bold text-warning tabular-nums">
-                  {minutesLate}
-                </span>
+                <span className="text-2xl font-bold text-warning tabular-nums">{minutesLate}</span>
                 <span className="text-sm text-white/60 ml-2">min</span>
               </div>
               <button
@@ -203,9 +200,7 @@ export default function StatusSelector({
 
         {showReasonInput && (
           <div className="px-6 pb-4 space-y-3">
-            <label className="block text-sm font-medium text-white/60">
-              Reason (optional)
-            </label>
+            <label className="block text-sm font-medium text-white/60">Reason (optional)</label>
             <div className="grid grid-cols-2 gap-2">
               {ABSENCE_REASONS.map((reason) => {
                 const isActive = selectedReason === reason;
@@ -213,9 +208,7 @@ export default function StatusSelector({
                   <button
                     key={reason}
                     type="button"
-                    onClick={() =>
-                      setSelectedReason(isActive ? '' : reason)
-                    }
+                    onClick={() => setSelectedReason(isActive ? '' : reason)}
                     className={`h-12 px-3 rounded-xl border text-sm font-medium text-left transition-all active:scale-[0.97] ${
                       isActive ? reasonActiveClass : UNSELECTED_OPTION_CLASS
                     }`}
@@ -226,9 +219,7 @@ export default function StatusSelector({
               })}
               <button
                 type="button"
-                onClick={() =>
-                  setSelectedReason(selectedReason === 'other' ? '' : 'other')
-                }
+                onClick={() => setSelectedReason(selectedReason === 'other' ? '' : 'other')}
                 className={`h-12 px-3 rounded-xl border text-sm font-medium text-left transition-all active:scale-[0.97] ${
                   selectedReason === 'other' ? reasonActiveClass : UNSELECTED_OPTION_CLASS
                 }`}

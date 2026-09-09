@@ -34,7 +34,7 @@ export async function listUsers(): Promise<ClubUser[]> {
 }
 
 export async function bulkImportStaff(
-  users: BulkImportStaffInput[],
+  users: BulkImportStaffInput[]
 ): Promise<{ created: UserProfile[]; errors: Array<{ row: number; message: string }> }> {
   return api.post('/users/bulk', { users });
 }

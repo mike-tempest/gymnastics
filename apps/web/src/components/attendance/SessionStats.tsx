@@ -62,9 +62,7 @@ export default function SessionStats({ counts, total: _total }: SessionStatsProp
           <span className={`text-xl sm:text-2xl font-bold tabular-nums ${valueClass}`}>
             {counts[key] ?? 0}
           </span>
-          <span className={`text-[10px] sm:text-xs font-medium mt-0.5 ${labelClass}`}>
-            {label}
-          </span>
+          <span className={`text-[10px] sm:text-xs font-medium mt-0.5 ${labelClass}`}>{label}</span>
         </div>
       ))}
     </div>

@@ -24,8 +24,17 @@ import { useSquad, useSquadMembers } from '@/lib/hooks';
 export default function SquadDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { confirm, ConfirmDialog } = useConfirm();
-  const { data: squad, isLoading: squadLoading, error: squadError, refetch: refetchSquad } = useSquad(params.id);
-  const { data: membersData, isLoading: membersLoading, refetch: refetchMembers } = useSquadMembers(params.id);
+  const {
+    data: squad,
+    isLoading: squadLoading,
+    error: squadError,
+    refetch: refetchSquad,
+  } = useSquad(params.id);
+  const {
+    data: membersData,
+    isLoading: membersLoading,
+    refetch: refetchMembers,
+  } = useSquadMembers(params.id);
   const members = membersData || [];
   const isLoading = squadLoading || membersLoading;
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -149,10 +158,10 @@ export default function SquadDetailPage({ params }: { params: { id: string } }) 
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-8 gap-4">
             <div>
-              <h1 className="font-serif text-2xl sm:text-5xl md:text-6xl text-dark-primary tracking-tight mb-2">{squad.squad_name}</h1>
-              {squad.description && (
-                <p className="text-grey-600 text-lg">{squad.description}</p>
-              )}
+              <h1 className="font-serif text-2xl sm:text-5xl md:text-6xl text-dark-primary tracking-tight mb-2">
+                {squad.squad_name}
+              </h1>
+              {squad.description && <p className="text-grey-600 text-lg">{squad.description}</p>}
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
               <button
@@ -197,7 +206,10 @@ export default function SquadDetailPage({ params }: { params: { id: string } }) 
           {(error || squadError) && (
             <ErrorState
               message={error || squadError || 'Something went wrong. Please try again.'}
-              onRetry={() => { setError(null); fetchSquadData(); }}
+              onRetry={() => {
+                setError(null);
+                fetchSquadData();
+              }}
             />
           )}
 
@@ -348,16 +360,21 @@ export default function SquadDetailPage({ params }: { params: { id: string } }) 
                 </svg>
                 <h2 className="font-serif text-2xl text-white">Training Times</h2>
               </div>
-              <p className="text-text-secondary text-lg whitespace-pre-wrap">{squad.training_times}</p>
+              <p className="text-text-secondary text-lg whitespace-pre-wrap">
+                {squad.training_times}
+              </p>
             </div>
           )}
 
           {/* Members List */}
           <div className="bg-dark-primary rounded-3xl shadow-lg p-4 sm:p-8 border border-white/20">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="font-serif text-2xl sm:text-4xl text-white tracking-tight">Squad {MEMBER_NOUN_PLURAL}</h2>
+              <h2 className="font-serif text-2xl sm:text-4xl text-white tracking-tight">
+                Squad {MEMBER_NOUN_PLURAL}
+              </h2>
               <span className="text-text-secondary text-lg tabular-nums">
-                {members.length} {members.length === 1 ? MEMBER_NOUN_LOWER : MEMBER_NOUN_PLURAL_LOWER}
+                {members.length}{' '}
+                {members.length === 1 ? MEMBER_NOUN_LOWER : MEMBER_NOUN_PLURAL_LOWER}
               </span>
             </div>
 

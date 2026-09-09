@@ -1,9 +1,9 @@
 ---
 title: "The 5:30am Wake-Up: A Swim Parent's Guide to Staying Sane"
 description: "Early morning training sessions test every swim parent. Here's how to survive the alarm, the drive, the waiting, and the moments that make it worth it."
-pubDate: "2026-02-28"
-author: "Mike Tempest"
-tags: ["swim parents", "early morning training", "competitive swimming", "swim life"]
+pubDate: '2026-02-28'
+author: 'Mike Tempest'
+tags: ['swim parents', 'early morning training', 'competitive swimming', 'swim life']
 ---
 
 The alarm goes off at 05:30. It's dark. It's February. Your child needs to be poolside in 45 minutes for a 90-minute training session before school. This is your life now.
@@ -90,12 +90,14 @@ There will be mornings when you think "we can't keep doing this."
 **You're allowed to have that thought.** It doesn't mean you're failing. It means you're human and tired and it's 05:30 and your child is grumpy and you haven't had coffee yet.
 
 **Things that help:**
+
 - One morning a week where they skip or go to an evening session instead (if your club allows it)
 - Carpooling with another family so you rotate driving duties
 - Remembering that this is a phase — they won't do 05:30 sessions forever (though some squads train this early for years)
 - Knowing when to pull back if your child is genuinely exhausted or burned out
 
 **Things that don't help:**
+
 - Comparing yourself to the parents who seem effortlessly energised at 06:00 (they're lying or they're morning people, both are irrelevant)
 - Complaining loudly at poolside (everyone else is also tired; nobody needs the negativity)
 - Martyring yourself ("I sacrifice so much for this") — your child didn't ask to be born, and you chose this path together
@@ -153,7 +155,6 @@ Welcome to 05:30. Bring coffee. You'll be fine.
 ---
 
 **If you're a swim club committee member wondering how to make the admin side of running a club less exhausting,** we're building something for you too. [Join the Swimly waitlist](https://swimly.uk) — software that handles [memberships](/features/membership), [billing](/features/billing), and [Swim England compliance](/features/compliance) so you can focus on the swimming, not the spreadsheets.
-
 
 ---
 

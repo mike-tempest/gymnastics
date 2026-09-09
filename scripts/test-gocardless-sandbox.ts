@@ -34,7 +34,7 @@ if (!ACCESS_TOKEN) {
       '   1. Sign up at https://manage-sandbox.gocardless.com/signup\n' +
       '   2. Create a sandbox access token in Settings > Developers\n' +
       '   3. Export it: export GOCARDLESS_ACCESS_TOKEN=sandbox_xxx\n' +
-      '==========================================================\n',
+      '==========================================================\n'
   );
   process.exit(1);
 }

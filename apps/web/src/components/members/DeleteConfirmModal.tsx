@@ -83,13 +83,16 @@ export default function DeleteConfirmModal({
             </div>
           </div>
 
-          <h2 id="member-delete-modal-title" className="font-serif text-2xl md:text-3xl text-white text-center mb-2">
+          <h2
+            id="member-delete-modal-title"
+            className="font-serif text-2xl md:text-3xl text-white text-center mb-2"
+          >
             Remove {MEMBER_NOUN}
           </h2>
           <p className="text-white/70 text-center mb-8">
             Are you sure you want to remove{' '}
-            <span className="text-white font-semibold">{memberName}</span>?
-            This action cannot be undone and will remove all associated records.
+            <span className="text-white font-semibold">{memberName}</span>? This action cannot be
+            undone and will remove all associated records.
           </p>
 
           <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-center gap-3">

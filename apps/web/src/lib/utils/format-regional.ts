@@ -10,7 +10,7 @@
 export function formatCurrencyIntl(
   amount: number | string,
   currency: string,
-  locale: string,
+  locale: string
 ): string {
   return new Intl.NumberFormat(locale, {
     style: 'currency',
@@ -27,10 +27,7 @@ export function formatCurrencyIntl(
  * them in a west-of-UTC browser timezone would shift them a day earlier.
  */
 function isDateOnly(date: Date | string): boolean {
-  return (
-    typeof date === 'string' &&
-    /^\d{4}-\d{2}-\d{2}($|T00:00:00(\.000)?Z$)/.test(date)
-  );
+  return typeof date === 'string' && /^\d{4}-\d{2}-\d{2}($|T00:00:00(\.000)?Z$)/.test(date);
 }
 
 /**
@@ -43,7 +40,7 @@ function isDateOnly(date: Date | string): boolean {
 export function formatDateIntl(
   date: Date | string,
   locale: string,
-  opts?: Intl.DateTimeFormatOptions,
+  opts?: Intl.DateTimeFormatOptions
 ): string {
   const baseOpts = opts ?? { day: 'numeric', month: 'short', year: 'numeric' };
   const resolvedOpts = isDateOnly(date) ? { timeZone: 'UTC', ...baseOpts } : baseOpts;
@@ -55,7 +52,7 @@ export function formatDateTimeIntl(
   date: Date | string,
   locale: string,
   timezone: string,
-  opts?: Intl.DateTimeFormatOptions,
+  opts?: Intl.DateTimeFormatOptions
 ): string {
   return new Date(date).toLocaleString(locale, {
     timeZone: timezone,

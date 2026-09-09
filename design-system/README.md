@@ -11,21 +11,27 @@ This design system ensures consistency across all Swimly interfaces: parent port
 ## Core Principles
 
 ### 1. Volunteer-Proof Simplicity
+
 Every screen answers one question: "What do I need to do here?" No feature should require a manual. If it needs explaining, redesign it.
 
 ### 2. Role-Appropriate Views
+
 Different users need different things. Don't show the treasurer coaching rotas. Don't show parents billing admin. Role-based views are fundamental.
 
 ### 3. Poolside-Ready
+
 Coaches use this on phones, poolside, often with wet hands. Large tap targets, high contrast, offline capability, one-handed operation.
 
 ### 4. Trust Through Transparency
+
 Volunteers are accountable to parents and committees. Every transaction, every change, every compliance record must be visible and auditable.
 
 ### 5. British, Not American
+
 UI copy in British English. Date formats DD/MM/YYYY. Currency in £. Distances in metres. Cultural alignment matters for trust.
 
 ### 6. Calm, Not Cluttered
+
 Swimming pools are chaotic enough. Swimly should feel calm, organised, and in control. Muted colours, clear typography, generous whitespace.
 
 ## Design System Structure
@@ -40,6 +46,7 @@ Swimming pools are chaotic enough. Swimly should feel calm, organised, and in co
 ## Quick Reference
 
 ### Colour Palette (Most Common)
+
 - **Canvas:** `#F0F0EC` (muted sage background)
 - **Surface:** `#FAFAF8` (card backgrounds)
 - **Dark Primary:** `#121216` (cards, sidebar, nav)
@@ -47,16 +54,19 @@ Swimming pools are chaotic enough. Swimly should feel calm, organised, and in co
 - **Lime:** `#E8F059` (data accents ONLY: numbers, chart highlights)
 
 ### Typography
+
 - **Headings:** DM Serif Display (serif, editorial feel)
 - **Body:** Inter (clean sans-serif, 16px minimum on mobile)
 - **Data/Numbers:** Tabular (monospaced numerals for tables, times)
 
 ### Responsive Breakpoints
+
 - **Mobile (primary for coaches/parents):** 320-767px
 - **Tablet (useful poolside):** 768-1023px
 - **Desktop (primary for committee admin):** 1024px+
 
 ### Minimum Touch Targets
+
 - **Interactive elements:** 44×44px minimum (poolside with wet hands)
 - **Critical actions:** 48×48px or larger
 
@@ -82,6 +92,7 @@ Swimming pools are chaotic enough. Swimly should feel calm, organised, and in co
 ## Maintenance
 
 This design system is living documentation. Update it when:
+
 - New components are created
 - Design decisions are made
 - User research reveals patterns

@@ -1,9 +1,9 @@
 ---
-title: "Volunteer Management for Swimming Clubs: A Practical Guide"
-description: "Volunteer management for swimming clubs: how to recruit, retain and support volunteers, handle role handovers, and ease the committee admin burden."
+title: 'Volunteer Management for Swimming Clubs: A Practical Guide'
+description: 'Volunteer management for swimming clubs: how to recruit, retain and support volunteers, handle role handovers, and ease the committee admin burden.'
 pubDate: 2026-03-30
-author: "Mike Tempest"
-tags: ["committee", "volunteers", "club management"]
+author: 'Mike Tempest'
+tags: ['committee', 'volunteers', 'club management']
 ---
 
 Every swimming club runs on volunteers. The Treasurer chasing subs at 10pm. The Membership Secretary updating spreadsheets on a Sunday. The Chair fielding parent complaints between meetings. Without these people, the club simply does not function.

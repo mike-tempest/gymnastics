@@ -39,7 +39,7 @@ export async function getMemberAttendanceStats(memberId: string): Promise<Attend
 export async function markAttendance(
   sessionId: string,
   memberIds: string[],
-  status: AttendanceStatus,
+  status: AttendanceStatus
 ): Promise<void> {
   return api.post<void>('/attendance/bulk', {
     session_id: sessionId,
@@ -58,7 +58,7 @@ export async function createAttendance(
   sessionId: string,
   memberId: string,
   status: AttendanceStatus,
-  notes: string | null,
+  notes: string | null
 ): Promise<Attendance> {
   return api.post<Attendance>('/attendance', {
     session_id: sessionId,
@@ -75,6 +75,9 @@ export async function checkInMember(sessionId: string, memberId: string): Promis
   });
 }
 
-export async function updateAttendance(id: string, data: UpdateAttendanceInput): Promise<Attendance> {
+export async function updateAttendance(
+  id: string,
+  data: UpdateAttendanceInput
+): Promise<Attendance> {
   return api.patch<Attendance>(`/attendance/${id}`, data);
 }

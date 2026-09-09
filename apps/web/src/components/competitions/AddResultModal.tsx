@@ -55,7 +55,9 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
   const [dq, setDq] = useState(result?.dq ?? false);
   const [dqReason, setDqReason] = useState(result?.dq_reason ?? '');
   const [splits, setSplits] = useState(
-    result?.splits?.map((s) => formatSwimTime(s).replace(/^00:/, '').replace(/^0/, '')).join(', ') ?? '',
+    result?.splits
+      ?.map((s) => formatSwimTime(s).replace(/^00:/, '').replace(/^0/, ''))
+      .join(', ') ?? ''
   );
   const [isRelay, setIsRelay] = useState(result?.is_relay ?? false);
   const [relayLegs, setRelayLegs] = useState<RelayLegDraft[]>(
@@ -68,11 +70,13 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
       { member_id: '', name: '', split: '' },
       { member_id: '', name: '', split: '' },
       { member_id: '', name: '', split: '' },
-    ],
+    ]
   );
 
   useEffect(() => {
-    getMembers().then(setMembers).catch(() => {});
+    getMembers()
+      .then(setMembers)
+      .catch(() => {});
 
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -142,7 +146,8 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
         parsedLegs.push({
           leg: i + 1,
           member_id: legs[i].member_id || null,
-          name: legs[i].name || (legMember ? `${legMember.first_name} ${legMember.last_name}` : null),
+          name:
+            legs[i].name || (legMember ? `${legMember.first_name} ${legMember.last_name}` : null),
           split,
         });
       }
@@ -170,7 +175,8 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
     }
   }
 
-  const inputCls = 'w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand/50';
+  const inputCls =
+    'w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand/50';
   const labelCls = 'block text-xs text-white/60 mb-1';
 
   return (
@@ -178,8 +184,14 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
       <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative bg-dark-primary border border-white/10 rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 bg-dark-primary border-b border-white/10 px-6 py-4 flex items-center justify-between z-10">
-          <h2 className="text-lg font-bold text-white">{isEditing ? 'Edit Result' : 'Record Result'}</h2>
-          <button onClick={onClose} className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors" aria-label="Close">
+          <h2 className="text-lg font-bold text-white">
+            {isEditing ? 'Edit Result' : 'Record Result'}
+          </h2>
+          <button
+            onClick={onClose}
+            className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors"
+            aria-label="Close"
+          >
             <X className="w-5 h-5 text-white/70" />
           </button>
         </div>
@@ -206,23 +218,43 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
 
             <div>
               <label className={labelCls}>Event name (optional)</label>
-              <input type="text" value={eventName} onChange={(e) => setEventName(e.target.value)} placeholder="e.g. Event 4" className={inputCls} />
+              <input
+                type="text"
+                value={eventName}
+                onChange={(e) => setEventName(e.target.value)}
+                placeholder="e.g. Event 4"
+                className={inputCls}
+              />
             </div>
 
             <div>
               <label className={labelCls}>Distance</label>
-              <select value={distance} onChange={(e) => setDistance(Number(e.target.value))} className={inputCls} required>
+              <select
+                value={distance}
+                onChange={(e) => setDistance(Number(e.target.value))}
+                className={inputCls}
+                required
+              >
                 {DISTANCES.map((d) => (
-                  <option key={d} value={d}>{d}m</option>
+                  <option key={d} value={d}>
+                    {d}m
+                  </option>
                 ))}
               </select>
             </div>
 
             <div>
               <label className={labelCls}>Stroke</label>
-              <select value={stroke} onChange={(e) => setStroke(e.target.value)} className={inputCls} required>
+              <select
+                value={stroke}
+                onChange={(e) => setStroke(e.target.value)}
+                className={inputCls}
+                required
+              >
                 {STROKES.map((s) => (
-                  <option key={s} value={s}>{s}</option>
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
                 ))}
               </select>
             </div>
@@ -244,15 +276,33 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
             <div className="grid grid-cols-3 gap-2">
               <div>
                 <label className={labelCls}>Place</label>
-                <input type="number" min="1" value={place} onChange={(e) => setPlace(e.target.value)} className={inputCls} />
+                <input
+                  type="number"
+                  min="1"
+                  value={place}
+                  onChange={(e) => setPlace(e.target.value)}
+                  className={inputCls}
+                />
               </div>
               <div>
                 <label className={labelCls}>Heat</label>
-                <input type="number" min="1" value={heat} onChange={(e) => setHeat(e.target.value)} className={inputCls} />
+                <input
+                  type="number"
+                  min="1"
+                  value={heat}
+                  onChange={(e) => setHeat(e.target.value)}
+                  className={inputCls}
+                />
               </div>
               <div>
                 <label className={labelCls}>Lane</label>
-                <input type="number" min="1" value={lane} onChange={(e) => setLane(e.target.value)} className={inputCls} />
+                <input
+                  type="number"
+                  min="1"
+                  value={lane}
+                  onChange={(e) => setLane(e.target.value)}
+                  className={inputCls}
+                />
               </div>
             </div>
           </div>
@@ -270,11 +320,21 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
 
           <div className="flex flex-wrap items-center gap-6">
             <label className="flex items-center gap-2 min-h-[44px] cursor-pointer">
-              <input type="checkbox" checked={dq} onChange={(e) => setDq(e.target.checked)} className="w-4 h-4 rounded border-white/20 bg-white/5" />
+              <input
+                type="checkbox"
+                checked={dq}
+                onChange={(e) => setDq(e.target.checked)}
+                className="w-4 h-4 rounded border-white/20 bg-white/5"
+              />
               <span className="text-sm text-white/70">Disqualified</span>
             </label>
             <label className="flex items-center gap-2 min-h-[44px] cursor-pointer">
-              <input type="checkbox" checked={isRelay} onChange={(e) => setIsRelay(e.target.checked)} className="w-4 h-4 rounded border-white/20 bg-white/5" />
+              <input
+                type="checkbox"
+                checked={isRelay}
+                onChange={(e) => setIsRelay(e.target.checked)}
+                className="w-4 h-4 rounded border-white/20 bg-white/5"
+              />
               <span className="text-sm text-white/70">Relay</span>
             </label>
           </div>
@@ -282,18 +342,32 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
           {dq && (
             <div>
               <label className={labelCls}>DQ reason (optional)</label>
-              <input type="text" value={dqReason} onChange={(e) => setDqReason(e.target.value)} placeholder="e.g. Early take-off, leg 3" className={inputCls} />
+              <input
+                type="text"
+                value={dqReason}
+                onChange={(e) => setDqReason(e.target.value)}
+                placeholder="e.g. Early take-off, leg 3"
+                className={inputCls}
+              />
             </div>
           )}
 
           {isRelay && (
             <div className="bg-white/5 rounded-xl p-4 border border-white/10 space-y-3">
-              <p className="text-xs text-white/40 font-medium">Relay legs (the result is recorded against the lead {MEMBER_NOUN_LOWER} above)</p>
+              <p className="text-xs text-white/40 font-medium">
+                Relay legs (the result is recorded against the lead {MEMBER_NOUN_LOWER} above)
+              </p>
               {relayLegs.map((leg, index) => (
                 <div key={index} className="grid grid-cols-[1fr_1fr_auto] gap-2 items-end">
                   <div>
-                    <label className={labelCls}>Leg {index + 1} {MEMBER_NOUN_LOWER}</label>
-                    <select value={leg.member_id} onChange={(e) => updateLeg(index, 'member_id', e.target.value)} className={inputCls}>
+                    <label className={labelCls}>
+                      Leg {index + 1} {MEMBER_NOUN_LOWER}
+                    </label>
+                    <select
+                      value={leg.member_id}
+                      onChange={(e) => updateLeg(index, 'member_id', e.target.value)}
+                      className={inputCls}
+                    >
                       <option value="">Name only...</option>
                       {members.map((s) => (
                         <option key={s.member_id} value={s.member_id}>
@@ -305,11 +379,24 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
                   <div className="grid grid-cols-2 gap-2">
                     <div>
                       <label className={labelCls}>Name</label>
-                      <input type="text" value={leg.name} onChange={(e) => updateLeg(index, 'name', e.target.value)} placeholder="If not listed" className={inputCls} />
+                      <input
+                        type="text"
+                        value={leg.name}
+                        onChange={(e) => updateLeg(index, 'name', e.target.value)}
+                        placeholder="If not listed"
+                        className={inputCls}
+                      />
                     </div>
                     <div>
                       <label className={labelCls}>Split</label>
-                      <input type="text" inputMode="decimal" value={leg.split} onChange={(e) => updateLeg(index, 'split', e.target.value)} placeholder="31.20" className={inputCls} />
+                      <input
+                        type="text"
+                        inputMode="decimal"
+                        value={leg.split}
+                        onChange={(e) => updateLeg(index, 'split', e.target.value)}
+                        placeholder="31.20"
+                        className={inputCls}
+                      />
                     </div>
                   </div>
                   <button
@@ -323,7 +410,11 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
                   </button>
                 </div>
               ))}
-              <button type="button" onClick={addLeg} className="flex items-center gap-2 text-sm text-white/70 hover:text-white min-h-[44px]">
+              <button
+                type="button"
+                onClick={addLeg}
+                className="flex items-center gap-2 text-sm text-white/70 hover:text-white min-h-[44px]"
+              >
                 <Plus className="w-4 h-4" /> Add leg
               </button>
             </div>
@@ -332,10 +423,18 @@ export default function AddResultModal({ result, onClose, onSubmit }: AddResultM
           {formError && <p className="text-red-400 text-sm">{formError}</p>}
 
           <div className="flex gap-3 pt-2">
-            <button type="button" onClick={onClose} className="flex-1 py-3 min-h-[44px] bg-white/5 hover:bg-white/10 text-white/70 font-medium rounded-xl transition-colors">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 py-3 min-h-[44px] bg-white/5 hover:bg-white/10 text-white/70 font-medium rounded-xl transition-colors"
+            >
               Cancel
             </button>
-            <button type="submit" disabled={isSubmitting} className="flex-1 py-3 min-h-[44px] bg-brand hover:bg-brand-light disabled:opacity-50 text-dark-primary font-bold rounded-xl transition-colors">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="flex-1 py-3 min-h-[44px] bg-brand hover:bg-brand-light disabled:opacity-50 text-dark-primary font-bold rounded-xl transition-colors"
+            >
               {isSubmitting ? 'Saving...' : isEditing ? 'Save Changes' : 'Record Result'}
             </button>
           </div>

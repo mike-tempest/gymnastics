@@ -37,8 +37,8 @@ function UnsubscribeContent() {
           <>
             <p className="text-dark-primary font-semibold mb-2">You are unsubscribed</p>
             <p className="text-grey-600 text-sm">
-              {email} will no longer receive updates or reminders from {BRAND.name}. Emails about your
-              account, invoices and sessions are unaffected.
+              {email} will no longer receive updates or reminders from {BRAND.name}. Emails about
+              your account, invoices and sessions are unaffected.
             </p>
           </>
         )}
@@ -46,8 +46,8 @@ function UnsubscribeContent() {
           <>
             <p className="text-dark-primary font-semibold mb-2">This link is not valid</p>
             <p className="text-grey-600 text-sm">
-              Please use the unsubscribe link from a recent email. If it keeps failing, contact
-              your club and they will sort it for you.
+              Please use the unsubscribe link from a recent email. If it keeps failing, contact your
+              club and they will sort it for you.
             </p>
           </>
         )}

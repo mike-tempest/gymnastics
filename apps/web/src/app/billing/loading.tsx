@@ -44,7 +44,10 @@ export default function Loading() {
             <div className="flex flex-col sm:flex-row sm:items-center gap-4">
               <div className="flex gap-2 flex-wrap">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="h-11 w-20 bg-surface-secondary rounded-xl animate-pulse" />
+                  <div
+                    key={i}
+                    className="h-11 w-20 bg-surface-secondary rounded-xl animate-pulse"
+                  />
                 ))}
               </div>
               <div className="h-11 w-48 bg-surface-secondary rounded-xl animate-pulse" />
