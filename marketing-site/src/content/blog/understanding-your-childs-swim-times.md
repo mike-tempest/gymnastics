@@ -1,9 +1,9 @@
 ---
 title: "How to Actually Understand Your Child's Swim Times (And What to Do With Them)"
 description: "A swim parent's practical guide to PBs, age-related standards, and what those numbers on the results board actually mean for your young swimmer."
-pubDate: "2026-02-28"
-author: "Mike Tempest"
-tags: ["swim parents", "competitive swimming", "PBs", "age-related standards"]
+pubDate: '2026-02-28'
+author: 'Mike Tempest'
+tags: ['swim parents', 'competitive swimming', 'PBs', 'age-related standards']
 ---
 
 If you're reading this, you've probably spent a Saturday morning standing poolside, watching your child swim, and staring at a results board full of numbers that might as well be in code. You know they got a "PB" (good, apparently?), someone mentions "Regional Qualifying Times", and you're nodding along whilst internally panicking because you have no idea what any of it actually means.
@@ -21,6 +21,7 @@ When your swimmer "gets a PB", they've beaten their own previous record for that
 And honestly? That's brilliant. Because in swimming, you're ultimately racing yourself.
 
 **Why PBs matter more than race results:**
+
 - Swimming is about incremental improvement, not just winning
 - Your child might be in a heat with older, faster swimmers and still get a PB
 - It's a clear, objective measure of progress that doesn't depend on who else shows up
@@ -42,7 +43,8 @@ Here's the hierarchy (as of 2026):
 Each level has different time standards for each age group (typically 10&U, 11 years, 12 years, etc.) and each event (50 free, 100 back, 200 IM, etc.).
 
 **What you need to know:**
-- These are *minimum* times to *enter* the competition, not to win it
+
+- These are _minimum_ times to _enter_ the competition, not to win it
 - They reset every year as standards adjust
 - Your child can hold multiple standards simultaneously (e.g., County for 50 free, Regional for 100 back)
 - Not every swimmer will achieve every level, and that's completely fine
@@ -57,6 +59,7 @@ This is the bit that genuinely confused me for months: how do you know if a time
 Here's the honest answer: it depends.
 
 A 38-second 50m freestyle is:
+
 - Outstanding for a 9-year-old
 - Solid for an 11-year-old
 - Not competitive for a 14-year-old
@@ -64,11 +67,12 @@ A 38-second 50m freestyle is:
 Context matters. Age, gender, stroke, distance, pool type (25m vs 50m), even time of season all affect what's considered fast.
 
 **Practical benchmarks (very rough guide for 11-year-olds in 25m pool):**
+
 - **50m Freestyle:** Under 35s = fast, 35-40s = solid club swimmer, 40-45s = developing
 - **100m Freestyle:** Under 1:15 = fast, 1:15-1:25 = solid, 1:25-1:40 = developing
 - **50m Backstroke:** Under 40s = fast, 40-45s = solid, 45-50s = developing
 
-But honestly, the *best* benchmark is your child's previous time. Are they improving? That's what matters.
+But honestly, the _best_ benchmark is your child's previous time. Are they improving? That's what matters.
 
 ## CSS: The Coaches' Secret Weapon
 
@@ -116,7 +120,6 @@ We're working with founding clubs right now. If your club's still doing this man
 ---
 
 **Mike Tempest** is a swim parent at RTW Monson and founder of Swimly, modern software for UK swimming clubs. He's spent too many Saturday mornings poolside trying to work out if 1:42.37 is fast.
-
 
 ---
 

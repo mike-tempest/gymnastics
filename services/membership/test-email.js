@@ -51,8 +51,8 @@ async function sendTestEmail() {
 
   // Send emails for each session
   for (const session of result.rows) {
-    const families = session.families.filter(f => f.family_email);
-    const uniqueFamilies = [...new Map(families.map(f => [f.family_email, f])).values()];
+    const families = session.families.filter((f) => f.family_email);
+    const uniqueFamilies = [...new Map(families.map((f) => [f.family_email, f])).values()];
 
     console.log(`\nSession: ${session.session_name}`);
     console.log(`Sending to ${uniqueFamilies.length} families`);

@@ -28,10 +28,7 @@ function getStatusDotClass(status: SessionStatus): string {
   }
 }
 
-function formatWeekRange(
-  weekStart: Date,
-  formatDate: Formatters['formatDate'],
-): string {
+function formatWeekRange(weekStart: Date, formatDate: Formatters['formatDate']): string {
   const weekEnd = new Date(weekStart);
   weekEnd.setDate(weekEnd.getDate() + 6);
 
@@ -103,7 +100,15 @@ export default function CalendarWeekView({
             className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center bg-white/10 text-white rounded-button hover:bg-brand/20 hover:text-brand transition-all border border-white/20"
             aria-label="Previous week"
           >
-            <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               <path d="M15 19l-7-7 7-7"></path>
             </svg>
           </button>
@@ -112,7 +117,15 @@ export default function CalendarWeekView({
             className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center bg-white/10 text-white rounded-button hover:bg-brand/20 hover:text-brand transition-all border border-white/20"
             aria-label="Next week"
           >
-            <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               <path d="M9 5l7 7-7 7"></path>
             </svg>
           </button>
@@ -136,18 +149,22 @@ export default function CalendarWeekView({
                 isToday
                   ? 'border-brand/60 bg-brand/5'
                   : isPast
-                  ? 'border-white/10 bg-dark-primary/50'
-                  : 'border-white/20 bg-dark-primary/80'
+                    ? 'border-white/10 bg-dark-primary/50'
+                    : 'border-white/20 bg-dark-primary/80'
               }`}
             >
               {/* Day Header - horizontal on mobile, centred on md+ */}
               <div className="flex items-center gap-2 mb-3 md:block md:text-center">
-                <p className={`text-xs font-semibold uppercase ${isToday ? 'text-brand' : 'text-text-tertiary'}`}>
+                <p
+                  className={`text-xs font-semibold uppercase ${isToday ? 'text-brand' : 'text-text-tertiary'}`}
+                >
                   {dayName}
                 </p>
-                <p className={`text-lg font-bold tabular-nums ${
-                  isToday ? 'text-brand' : isPast ? 'text-text-tertiary' : 'text-white'
-                }`}>
+                <p
+                  className={`text-lg font-bold tabular-nums ${
+                    isToday ? 'text-brand' : isPast ? 'text-text-tertiary' : 'text-white'
+                  }`}
+                >
                   {dayNum}
                 </p>
               </div>
@@ -161,7 +178,9 @@ export default function CalendarWeekView({
                     className="w-full text-left p-2 rounded-lg bg-white/15 border border-white/20 hover:border-brand/40 transition-all group min-h-[44px]"
                   >
                     <div className="flex items-center space-x-1.5 mb-1">
-                      <span className={`w-2 h-2 rounded-full flex-shrink-0 ${getStatusDotClass(session.status)}`}></span>
+                      <span
+                        className={`w-2 h-2 rounded-full flex-shrink-0 ${getStatusDotClass(session.status)}`}
+                      ></span>
                       <span className="text-xs text-text-secondary truncate tabular-nums">
                         {session.start_time}
                       </span>

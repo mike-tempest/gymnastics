@@ -51,6 +51,7 @@ services/membership/
 ## Key Features
 
 ### 1. Complete NestJS Architecture
+
 - **Modular design** with separate concerns (controller, service, repository)
 - **Dependency injection** for testability and maintainability
 - **Global validation pipe** for automatic DTO validation
@@ -58,6 +59,7 @@ services/membership/
 - **CORS enabled** for frontend integration (localhost:3000)
 
 ### 2. Database Integration
+
 - **TypeORM** with PostgreSQL
 - **Migration system** for database version control
 - **Entity relationships** ready for future expansion
@@ -65,9 +67,11 @@ services/membership/
 - **Environment-based configuration**
 
 ### 3. Members Module
+
 Complete CRUD operations with advanced features:
 
 #### Endpoints
+
 - `POST /api/members` - Create member
 - `GET /api/members` - List all members
 - `GET /api/members/:id` - Get member by ID
@@ -79,6 +83,7 @@ Complete CRUD operations with advanced features:
 - `GET /api/members/statistics` - Get statistics
 
 #### Data Model
+
 ```typescript
 Member {
   member_id: UUID (Primary Key)
@@ -98,6 +103,7 @@ Member {
 ```
 
 #### Validation Rules
+
 - Required: first_name, last_name, dob, gender
 - Gender must be: 'M', 'F', 'Male', or 'Female'
 - SE number must be unique
@@ -106,12 +112,14 @@ Member {
 - Maximum lengths enforced (names: 100, registration_number: 20, photo_url: 500)
 
 ### 4. Testing Infrastructure
+
 - **Unit tests** with Jest
 - **Mocking patterns** for repository layer
 - **Test coverage** configuration
 - **E2E testing** setup ready
 
 ### 5. Development Tools
+
 - **Hot reload** with `pnpm dev`
 - **Type checking** with `pnpm typecheck`
 - **Linting** with ESLint
@@ -121,25 +129,28 @@ Member {
 ## Technology Stack
 
 ### Core Dependencies
-| Package | Version | Purpose |
-|---------|---------|---------|
-| @nestjs/core | ^10.3.0 | NestJS framework core |
-| @nestjs/common | ^10.3.0 | Common NestJS utilities |
+
+| Package                  | Version | Purpose                  |
+| ------------------------ | ------- | ------------------------ |
+| @nestjs/core             | ^10.3.0 | NestJS framework core    |
+| @nestjs/common           | ^10.3.0 | Common NestJS utilities  |
 | @nestjs/platform-express | ^10.3.0 | Express platform adapter |
-| @nestjs/config | ^3.1.1 | Configuration management |
-| @nestjs/typeorm | ^10.0.1 | TypeORM integration |
-| typeorm | ^0.3.19 | ORM for database |
-| pg | ^8.11.3 | PostgreSQL driver |
-| class-validator | ^0.14.0 | DTO validation |
-| class-transformer | ^0.5.1 | Object transformation |
-| rxjs | ^7.8.1 | Reactive extensions |
-| reflect-metadata | ^0.2.1 | Metadata reflection |
+| @nestjs/config           | ^3.1.1  | Configuration management |
+| @nestjs/typeorm          | ^10.0.1 | TypeORM integration      |
+| typeorm                  | ^0.3.19 | ORM for database         |
+| pg                       | ^8.11.3 | PostgreSQL driver        |
+| class-validator          | ^0.14.0 | DTO validation           |
+| class-transformer        | ^0.5.1  | Object transformation    |
+| rxjs                     | ^7.8.1  | Reactive extensions      |
+| reflect-metadata         | ^0.2.1  | Metadata reflection      |
 
 ### Workspace Dependencies
+
 - `@club-manager/shared-types` - Shared TypeScript types
 - `@club-manager/utils` - Shared utility functions
 
 ### Development Dependencies
+
 - TypeScript 5.3.3
 - Jest for testing
 - ESLint + Prettier for code quality
@@ -148,6 +159,7 @@ Member {
 ## Configuration
 
 ### Environment Variables
+
 ```env
 # Server
 NODE_ENV=development
@@ -165,6 +177,7 @@ CORS_ORIGIN=http://localhost:3000
 ```
 
 ### TypeScript Configuration
+
 - Extends root monorepo tsconfig
 - Experimental decorators enabled
 - Decorator metadata enabled
@@ -174,6 +187,7 @@ CORS_ORIGIN=http://localhost:3000
 ## Database Schema
 
 ### Members Table
+
 ```sql
 CREATE TABLE members (
   member_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -200,27 +214,30 @@ CREATE INDEX IDX_SWIMMERS_LAST_NAME ON members(last_name);
 
 ## Available Scripts
 
-| Script | Command | Description |
-|--------|---------|-------------|
-| dev | `pnpm dev` | Start in watch mode |
-| build | `pnpm build` | Build for production |
-| start | `pnpm start` | Start production server |
-| lint | `pnpm lint` | Run ESLint |
-| test | `pnpm test` | Run unit tests |
-| test:watch | `pnpm test:watch` | Run tests in watch mode |
-| test:cov | `pnpm test:cov` | Generate coverage report |
-| typecheck | `pnpm typecheck` | Type check without build |
-| db:migrate | `pnpm db:migrate` | Run migrations |
-| db:migrate:revert | `pnpm db:migrate:revert` | Revert last migration |
-| db:migrate:create | `pnpm db:migrate:create --name=Name` | Create new migration |
+| Script            | Command                              | Description              |
+| ----------------- | ------------------------------------ | ------------------------ |
+| dev               | `pnpm dev`                           | Start in watch mode      |
+| build             | `pnpm build`                         | Build for production     |
+| start             | `pnpm start`                         | Start production server  |
+| lint              | `pnpm lint`                          | Run ESLint               |
+| test              | `pnpm test`                          | Run unit tests           |
+| test:watch        | `pnpm test:watch`                    | Run tests in watch mode  |
+| test:cov          | `pnpm test:cov`                      | Generate coverage report |
+| typecheck         | `pnpm typecheck`                     | Type check without build |
+| db:migrate        | `pnpm db:migrate`                    | Run migrations           |
+| db:migrate:revert | `pnpm db:migrate:revert`             | Revert last migration    |
+| db:migrate:create | `pnpm db:migrate:create --name=Name` | Create new migration     |
 
 ## Integration Points
 
 ### Frontend Integration
+
 The service is configured to accept requests from:
+
 - `http://localhost:3000` (Next.js app)
 
 ### Workspace Integration
+
 - Uses `@club-manager/shared-types` for type safety across services
 - Uses `@club-manager/utils` for common utilities
 - Part of pnpm workspace for dependency sharing
@@ -228,6 +245,7 @@ The service is configured to accept requests from:
 ## Future Enhancements
 
 ### Ready to Add
+
 1. **Families Module** - Manage family relationships
 2. **Clubs Module** - Club management
 3. **Squads Module** - Squad/training group management
@@ -240,6 +258,7 @@ The service is configured to accept requests from:
 10. **Monitoring** - Prometheus metrics
 
 ### Relationship Extensions
+
 ```typescript
 // Future entity relationships
 @ManyToOne(() => Family)
@@ -258,6 +277,7 @@ attendances: Attendance[];
 ## Production Readiness
 
 ### ✅ Implemented
+
 - Environment-based configuration
 - Database migrations (no sync)
 - Validation on all inputs
@@ -268,6 +288,7 @@ attendances: Attendance[];
 - Health check endpoint
 
 ### 🔄 Recommended Before Production
+
 - Add authentication/authorization
 - Implement rate limiting
 - Add request logging middleware
@@ -282,6 +303,7 @@ attendances: Attendance[];
 ## Testing the Service
 
 ### Quick Verification
+
 ```bash
 # 1. Health check
 curl http://localhost:3001/api/health
@@ -312,6 +334,7 @@ curl http://localhost:3001/api/members/statistics
 ## Support
 
 For issues or questions:
+
 1. Check QUICKSTART.md for common problems
 2. Review README.md for detailed documentation
 3. Check TypeScript types in entity and DTO files

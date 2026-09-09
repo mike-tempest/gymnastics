@@ -1,9 +1,9 @@
 ---
-title: "What I Wish I Knew Before My Kid Joined Competitive Swimming"
+title: 'What I Wish I Knew Before My Kid Joined Competitive Swimming'
 description: "An honest swim parent's guide to competitive swimming, from 5:30am wake-ups to county championships, and what to know before your child joins a squad."
-pubDate: "2026-02-28"
-author: "Mike Tempest"
-tags: ["swim parents", "competitive swimming", "age group swimming", "swim squads"]
+pubDate: '2026-02-28'
+author: 'Mike Tempest'
+tags: ['swim parents', 'competitive swimming', 'age group swimming', 'swim squads']
 ---
 
 When my child finished their Stage 8 swimming lessons and the coach suggested trying competitive squads, I thought I knew what I was signing up for. I'd seen the Olympics. I understood that competitive swimming involved races and times. How different could it be from lessons at the [swim school](/swim-school-management)?
@@ -21,6 +21,7 @@ So here's what I wish I'd known.
 When the coach said "training is Tuesday and Thursday evenings, plus Saturday mornings," I heard "three sessions a week." What I didn't understand was the full picture.
 
 **What competitive swimming actually looks like:**
+
 - Training sessions: 3-5 times per week (depending on age/squad level)
 - Galas: Most weekends during competition season (September to April)
 - County/Regional championships: Multi-day events requiring travel and accommodation
@@ -38,6 +39,7 @@ During peak season, we've had stretches where we were at the pool six days out o
 The club membership fee is just the start. Here's what actually adds up:
 
 **The essential kit:**
+
 - Club training kit (multiple swimsuits, t-shirts, hoodies - they grow fast)
 - Team kit for galas (tracksuit, polo shirts, club hat)
 - Training equipment (fins, paddles, pull buoy, kickboard, snorkel)
@@ -45,6 +47,7 @@ The club membership fee is just the start. Here's what actually adds up:
 - Goggles (they lose them, they break them, you'll buy many pairs)
 
 **The ongoing costs:**
+
 - Monthly club membership (typically £40-80 depending on squad level)
 - Gala entry fees (£3-5 per event, £20-40 per gala)
 - County/Regional meets (£50-100+ entry plus travel and accommodation)
@@ -52,6 +55,7 @@ The club membership fee is just the start. Here's what actually adds up:
 - Swim England membership (required, about £15-20/year)
 
 **The hidden costs:**
+
 - Petrol (you'll be driving to pools across several counties)
 - Food (hungry swimmers need feeding at galas, leisure centre prices apply)
 - Weekend accommodation (Regional or National events mean hotel stays)
@@ -66,6 +70,7 @@ We easily spend £100-150 per month when you factor everything in. More during h
 I worried that competitive swimming would be high-pressure, win-at-all-costs, pushy parents and stressed-out children. Sometimes it is (usually at the higher levels), but mostly it's not.
 
 **What competitive actually means at age-group level:**
+
 - Your child races against the clock more than other swimmers
 - Personal bests (PBs) matter more than winning
 - Most galas use age groups, so your 9-year-old isn't racing 12-year-olds
@@ -82,6 +87,7 @@ Yes, there are winners and medals and trophies. But the kids who love swimming l
 Swimming is an individual sport in a team environment. Your child stands alone on the blocks, swims their own race, and lives with their own result. That's a lot for a young person to handle.
 
 **What I've watched my child experience:**
+
 - The high of a massive PB at Counties
 - The devastation of being touched out in the final 5 metres
 - The frustration of a disqualification for a technical fault
@@ -98,6 +104,7 @@ Swimming teaches resilience because failure is immediate and visible. The clock 
 One thing I genuinely didn't understand was where competitive swimming actually goes.
 
 **The typical journey:**
+
 1. **Learn to Swim** (Stages 1-8): Building water confidence and basic strokes
 2. **Development Squad**: Introduction to training, basic technique work (usually 2-3 sessions/week)
 3. **Age Group Squad**: Regular competition, stroke refinement (3-5 sessions/week)
@@ -123,18 +130,21 @@ The swimmers form tight bonds too. They're teammates who also compete against ea
 A good swim club makes this journey much easier. Here's what I've learned to value:
 
 **Clear communication:**
+
 - Session times, changes, and cancellations sent promptly
 - Gala information with enough notice to book travel
 - Training plans so you understand what your child is working on
 - Transparent costs (no surprise bills)
 
 **Organised admin:**
+
 - Easy membership payment (Direct Debit beats chasing parents on WhatsApp)
 - Simple gala entries (online systems work better than paper forms)
 - Up-to-date records (Swim England memberships, DBS checks, emergency contacts)
 - Digital meet schedules (know when your child swims without asking five times)
 
 **Supportive culture:**
+
 - Coaches who focus on technique and effort, not just winning
 - Recognition for PBs and improvement, not just podium places
 - Parent guidance (we're not swimmers, we need help understanding)
@@ -158,8 +168,7 @@ And if you do take the plunge, buy good coffee. You're going to need it at 5:30a
 
 ---
 
-*Mike is a swim parent at RTW Monson Swimming Club in Tunbridge Wells and founder of [Swimly](/), modern [club management software](/swim-club-management-software) built for UK swimming clubs.*
-
+_Mike is a swim parent at RTW Monson Swimming Club in Tunbridge Wells and founder of [Swimly](/), modern [club management software](/swim-club-management-software) built for UK swimming clubs._
 
 ---
 

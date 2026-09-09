@@ -94,7 +94,10 @@ export default function WaitingListSettingsCard({
 
         <div className="flex flex-col sm:flex-row sm:items-start gap-4 justify-between">
           <div className="max-w-xl">
-            <label htmlFor="offer-window-days" className="block text-dark-primary font-semibold mb-1">
+            <label
+              htmlFor="offer-window-days"
+              className="block text-dark-primary font-semibold mb-1"
+            >
               Days a family has to reply
             </label>
             <p className="text-grey-600 text-sm">

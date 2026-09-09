@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  governingBodyConfig,
-  defaultGoverningBodyForCountry,
-} from '@club-manager/shared-types';
+import { governingBodyConfig, defaultGoverningBodyForCountry } from '@club-manager/shared-types';
 import {
   ShieldCheck,
   CheckCircle,
@@ -17,7 +14,9 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
 
 import AddOfficerModal from '@/components/compliance/AddOfficerModal';
-import ComplianceStatusBadge, { type ComplianceStatus } from '@/components/compliance/ComplianceStatusBadge';
+import ComplianceStatusBadge, {
+  type ComplianceStatus,
+} from '@/components/compliance/ComplianceStatusBadge';
 import MainLayout from '@/components/layout/MainLayout';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import EmptyState from '@/components/ui/empty-state';
@@ -36,17 +35,20 @@ import {
   Incident,
 } from '@/lib/api/compliance';
 
-const INCIDENT_STATUS_MAP: Record<Incident['status'], { status: ComplianceStatus; label: string }> = {
-  resolved: { status: 'compliant', label: 'Resolved' },
-  'under review': { status: 'expiring-soon', label: 'Under review' },
-  open: { status: 'expired', label: 'Open' },
-};
+const INCIDENT_STATUS_MAP: Record<Incident['status'], { status: ComplianceStatus; label: string }> =
+  {
+    resolved: { status: 'compliant', label: 'Resolved' },
+    'under review': { status: 'expiring-soon', label: 'Under review' },
+    open: { status: 'expired', label: 'Open' },
+  };
 
 export default function SafeguardingPage() {
   const { formatDate } = useFormatters();
   const { country, club, isLoading: isRegionLoading } = useClubRegion();
   // Prefer the club's saved governing body; fall back to the country default.
-  const config = governingBodyConfig(club?.governing_body ?? defaultGoverningBodyForCountry(country));
+  const config = governingBodyConfig(
+    club?.governing_body ?? defaultGoverningBodyForCountry(country)
+  );
   const {
     safeguardingFramework,
     backgroundCheckShortLabel,
@@ -58,7 +60,9 @@ export default function SafeguardingPage() {
   const [incidents, setIncidents] = useState<Incident[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [incidentStatusFilter, setIncidentStatusFilter] = useState<'' | 'open' | 'under review' | 'resolved'>('');
+  const [incidentStatusFilter, setIncidentStatusFilter] = useState<
+    '' | 'open' | 'under review' | 'resolved'
+  >('');
   const [incidentPage, setIncidentPage] = useState(1);
   const INCIDENTS_PER_PAGE = 10;
 
@@ -85,35 +89,32 @@ export default function SafeguardingPage() {
     fetchData();
   }, [fetchData]);
 
-  const handleToggleChecklistItem = useCallback(
-    async (id: string, completed: boolean) => {
-      // Capture the prior state so a failed save reverts to what the server
-      // last confirmed, not merely the inverse of this toggle (which would be
-      // wrong if another toggle for the same item is already in flight).
-      let previousCompleted = completed;
+  const handleToggleChecklistItem = useCallback(async (id: string, completed: boolean) => {
+    // Capture the prior state so a failed save reverts to what the server
+    // last confirmed, not merely the inverse of this toggle (which would be
+    // wrong if another toggle for the same item is already in flight).
+    let previousCompleted = completed;
+    setChecklist((prev) =>
+      prev.map((item) => {
+        if (item.id !== id) return item;
+        previousCompleted = item.completed;
+        return { ...item, completed };
+      })
+    );
+    try {
+      await updateChecklistItem(id, completed);
+    } catch (err) {
+      // Revert on failure.
       setChecklist((prev) =>
-        prev.map((item) => {
-          if (item.id !== id) return item;
-          previousCompleted = item.completed;
-          return { ...item, completed };
-        }),
+        prev.map((item) => (item.id === id ? { ...item, completed: previousCompleted } : item))
       );
-      try {
-        await updateChecklistItem(id, completed);
-      } catch (err) {
-        // Revert on failure.
-        setChecklist((prev) =>
-          prev.map((item) => (item.id === id ? { ...item, completed: previousCompleted } : item)),
-        );
-        if (err instanceof ApiError && err.status === 404) {
-          toast.info('Saving checklist changes is not available yet. Please try again later.');
-        } else {
-          toast.error('Could not update the checklist item. Please try again.');
-        }
+      if (err instanceof ApiError && err.status === 404) {
+        toast.info('Saving checklist changes is not available yet. Please try again later.');
+      } else {
+        toast.error('Could not update the checklist item. Please try again.');
       }
-    },
-    [],
-  );
+    }
+  }, []);
 
   const completedCount = checklist.filter((item) => item.completed).length;
   const totalCount = checklist.length;
@@ -151,16 +152,15 @@ export default function SafeguardingPage() {
       <div className="min-h-dvh bg-canvas p-6 sm:p-10">
         <div className="max-w-7xl mx-auto">
           <Breadcrumb
-            items={[
-              { label: 'Compliance', href: '/compliance' },
-              { label: 'Safeguarding' },
-            ]}
+            items={[{ label: 'Compliance', href: '/compliance' }, { label: 'Safeguarding' }]}
           />
 
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
             <div>
-              <h1 className="font-serif text-3xl sm:text-4xl text-dark-primary tracking-tight mb-2">Safeguarding</h1>
+              <h1 className="font-serif text-3xl sm:text-4xl text-dark-primary tracking-tight mb-2">
+                Safeguarding
+              </h1>
               <p className="text-grey-600 text-lg">
                 {safeguardingFramework} compliance, {officerLabel} details, and incident tracking
               </p>
@@ -177,7 +177,10 @@ export default function SafeguardingPage() {
             {officer ? (
               <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-4 rounded-xl bg-white/5 border border-white/10">
                 <div className="w-16 h-16 rounded-full flex items-center justify-center font-bold text-xl bg-brand text-dark-primary shadow-sm flex-shrink-0">
-                  {officer.name.split(' ').map((n) => n[0]).join('')}
+                  {officer.name
+                    .split(' ')
+                    .map((n) => n[0])
+                    .join('')}
                 </div>
                 <div className="flex-1">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -210,7 +213,11 @@ export default function SafeguardingPage() {
                         <Calendar className="w-3.5 h-3.5" /> {backgroundCheckShortLabel} expiry
                       </p>
                       <p className="text-white font-semibold tabular-nums">
-                        {formatDate(officer.dbsExpiry, { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                        {formatDate(officer.dbsExpiry, {
+                          day: '2-digit',
+                          month: '2-digit',
+                          year: 'numeric',
+                        })}
                       </p>
                     </div>
                   </div>
@@ -236,7 +243,9 @@ export default function SafeguardingPage() {
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <ShieldCheck className="w-6 h-6 text-brand" />
-                <h2 className="font-serif text-2xl sm:text-3xl text-white">{safeguardingFramework} compliance checklist</h2>
+                <h2 className="font-serif text-2xl sm:text-3xl text-white">
+                  {safeguardingFramework} compliance checklist
+                </h2>
               </div>
               <span className="text-sm font-bold text-white/60 tabular-nums">
                 {completedCount} of {totalCount} complete
@@ -298,7 +307,9 @@ export default function SafeguardingPage() {
               <select
                 value={incidentStatusFilter}
                 onChange={(e) => {
-                  setIncidentStatusFilter(e.target.value as '' | 'open' | 'under review' | 'resolved');
+                  setIncidentStatusFilter(
+                    e.target.value as '' | 'open' | 'under review' | 'resolved'
+                  );
                   setIncidentPage(1);
                 }}
                 className="px-4 py-3 min-h-[44px] rounded-xl bg-white/5 border border-white/20 text-white focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 outline-none transition-all w-full sm:min-w-[200px]"
@@ -323,7 +334,10 @@ export default function SafeguardingPage() {
                 title="No incidents found"
                 description="No incidents match the selected status."
                 actionLabel="Clear filter"
-                actionOnClick={() => { setIncidentStatusFilter(''); setIncidentPage(1); }}
+                actionOnClick={() => {
+                  setIncidentStatusFilter('');
+                  setIncidentPage(1);
+                }}
               />
             ) : (
               <>
@@ -340,7 +354,11 @@ export default function SafeguardingPage() {
                           <div>
                             <p className="text-white font-semibold text-sm">{incident.category}</p>
                             <p className="text-white/60 text-xs tabular-nums">
-                              {formatDate(incident.date, { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                              {formatDate(incident.date, {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                              })}
                             </p>
                           </div>
                           <ComplianceStatusBadge status={badge.status} label={badge.label} />
@@ -357,11 +375,21 @@ export default function SafeguardingPage() {
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-white/10">
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Date</th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Category</th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Summary</th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Reported by</th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Status</th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Date
+                        </th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Category
+                        </th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Summary
+                        </th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Reported by
+                        </th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Status
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -374,11 +402,17 @@ export default function SafeguardingPage() {
                           >
                             <td className="py-4 px-4">
                               <p className="text-white/80 text-sm tabular-nums">
-                                {formatDate(incident.date, { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                                {formatDate(incident.date, {
+                                  day: '2-digit',
+                                  month: '2-digit',
+                                  year: 'numeric',
+                                })}
                               </p>
                             </td>
                             <td className="py-4 px-4">
-                              <p className="text-white font-semibold text-sm">{incident.category}</p>
+                              <p className="text-white font-semibold text-sm">
+                                {incident.category}
+                              </p>
                             </td>
                             <td className="py-4 px-4 max-w-md">
                               <p className="text-white/80 text-sm">{incident.summary}</p>
@@ -398,7 +432,13 @@ export default function SafeguardingPage() {
 
                 <div className="flex flex-col sm:flex-row items-center justify-between mt-4 gap-4">
                   <p className="text-white/60 text-sm tabular-nums">
-                    Showing {Math.min((incidentPage - 1) * INCIDENTS_PER_PAGE + 1, filteredIncidents.length)} to {Math.min(incidentPage * INCIDENTS_PER_PAGE, filteredIncidents.length)} of {filteredIncidents.length} records
+                    Showing{' '}
+                    {Math.min(
+                      (incidentPage - 1) * INCIDENTS_PER_PAGE + 1,
+                      filteredIncidents.length
+                    )}{' '}
+                    to {Math.min(incidentPage * INCIDENTS_PER_PAGE, filteredIncidents.length)} of{' '}
+                    {filteredIncidents.length} records
                   </p>
                   <div className="flex items-center gap-2">
                     <button

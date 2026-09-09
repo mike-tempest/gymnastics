@@ -1,9 +1,9 @@
 ---
-title: "How to Manage Swim Club Memberships Without Spreadsheets"
-description: "A practical guide to managing swim club memberships without spreadsheets: what to track, which tools to use, and how to move over without losing data."
+title: 'How to Manage Swim Club Memberships Without Spreadsheets'
+description: 'A practical guide to managing swim club memberships without spreadsheets: what to track, which tools to use, and how to move over without losing data.'
 pubDate: 2026-02-17
-author: "Swimly Team"
-tags: ["membership management", "swim club admin", "spreadsheets", "club management software"]
+author: 'Swimly Team'
+tags: ['membership management', 'swim club admin', 'spreadsheets', 'club management software']
 ---
 
 If your swimming club manages memberships on spreadsheets, you are not alone. The majority of grassroots clubs in the UK started this way, and many are still running on a patchwork of Excel files and Google Sheets that have grown more complicated with every passing season.
@@ -75,7 +75,6 @@ A membership secretary spending three hours a week on manual data entry and reco
 The goal is not to replace volunteers. It is to let volunteers spend their time on things that actually require human judgement and care, rather than on maintaining spreadsheets that a purpose-built system can manage automatically.
 
 If your club is ready to move membership management off spreadsheets, [Swimly](/) was built for exactly this transition. Our [membership management system](/features/membership) integrates with [automated billing](/features/billing) and [attendance tracking](/features/attendance) to give you a complete picture of your club. We are accepting a limited number of [founding clubs](/pilot) with hands-on migration support, or start with a free trial and see how much time your committee could get back.
-
 
 ---
 

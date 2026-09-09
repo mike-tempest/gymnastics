@@ -122,7 +122,7 @@ export interface CreateSafeguardingOfficerInput {
 }
 
 export async function createSafeguardingOfficer(
-  input: CreateSafeguardingOfficerInput,
+  input: CreateSafeguardingOfficerInput
 ): Promise<unknown> {
   return api.post('/compliance/safeguarding/officers', input);
 }
@@ -136,7 +136,9 @@ export async function getChecklist(): Promise<ChecklistItem[]> {
 }
 
 export async function getSafeguardingOfficer(): Promise<SafeguardingOfficer | null> {
-  const officers = await api.get<SafeguardingOfficer[]>('/compliance/safeguarding/officers', { cache: 'no-store' });
+  const officers = await api.get<SafeguardingOfficer[]>('/compliance/safeguarding/officers', {
+    cache: 'no-store',
+  });
   return officers[0] ?? null;
 }
 
@@ -144,10 +146,7 @@ export async function getIncidents(): Promise<Incident[]> {
   return api.get<Incident[]>('/compliance/safeguarding/incidents', { cache: 'no-store' });
 }
 
-export async function updateChecklistItem(
-  id: string,
-  completed: boolean,
-): Promise<ChecklistItem> {
+export async function updateChecklistItem(id: string, completed: boolean): Promise<ChecklistItem> {
   return api.patch<ChecklistItem>(`/compliance/safeguarding/checklist/${id}`, { completed });
 }
 

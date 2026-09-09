@@ -45,22 +45,20 @@ describe('MandateSetup payment vocabulary', () => {
   it('shows the exact UK Direct Debit copy for a GB club', async () => {
     renderWithClub('GB');
 
-    await waitFor(() =>
-      expect(screen.getByText('Set Up Direct Debit')).toBeInTheDocument(),
-    );
+    await waitFor(() => expect(screen.getByText('Set Up Direct Debit')).toBeInTheDocument());
 
     expect(
       screen.getByText(
-        'Set up a Direct Debit mandate to enable automatic monthly payments for swim club fees.',
-      ),
+        'Set up a Direct Debit mandate to enable automatic monthly payments for swim club fees.'
+      )
     ).toBeInTheDocument();
     expect(
-      screen.getByText('Secure and protected by the Direct Debit Guarantee'),
+      screen.getByText('Secure and protected by the Direct Debit Guarantee')
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        'Payments are processed securely through GoCardless, a UK regulated payment service provider.',
-      ),
+        'Payments are processed securely through GoCardless, a UK regulated payment service provider.'
+      )
     ).toBeInTheDocument();
   });
 
@@ -68,50 +66,38 @@ describe('MandateSetup payment vocabulary', () => {
     renderWithClub('US');
 
     await waitFor(() =>
-      expect(
-        screen.getByText('Set up your ACH bank debit mandate'),
-      ).toBeInTheDocument(),
+      expect(screen.getByText('Set up your ACH bank debit mandate')).toBeInTheDocument()
     );
 
     expect(
-      screen.getByText(
-        "Secure and protected by your country's bank debit scheme rules",
-      ),
+      screen.getByText("Secure and protected by your country's bank debit scheme rules")
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        'Payments are processed securely through GoCardless, a regulated payment service provider.',
-      ),
+        'Payments are processed securely through GoCardless, a regulated payment service provider.'
+      )
     ).toBeInTheDocument();
 
     // No UK-specific wording leaks into a US club's view.
     expect(screen.queryByText(/UK regulated/)).not.toBeInTheDocument();
-    expect(
-      screen.queryByText(/Direct Debit Guarantee/),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/Direct Debit Guarantee/)).not.toBeInTheDocument();
   });
 
   it('renders neutral Stripe copy when the club collects through Stripe', async () => {
     renderWithClub('GB', 'stripe');
 
-    await waitFor(() =>
-      expect(screen.getByText('Set up automatic payments')).toBeInTheDocument(),
-    );
+    await waitFor(() => expect(screen.getByText('Set up automatic payments')).toBeInTheDocument());
 
     expect(
       screen.getByText(
-        'You will be taken to a secure Stripe page to set up your payment method. Depending on your club, you can pay by bank debit or card.',
-      ),
+        'You will be taken to a secure Stripe page to set up your payment method. Depending on your club, you can pay by bank debit or card.'
+      )
     ).toBeInTheDocument();
     expect(
-      screen.getByText('Protected by your card scheme or bank debit scheme rules'),
+      screen.getByText('Protected by your card scheme or bank debit scheme rules')
     ).toBeInTheDocument();
-    expect(
-      screen.getByText('Payments are processed securely through Stripe.'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: 'Continue to Stripe' }),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Payments are processed securely through Stripe.')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Continue to Stripe' })).toBeInTheDocument();
 
     // No scheme-specific direct-debit copy leaks into the Stripe flow.
     expect(screen.queryByText(/Direct Debit Guarantee/)).not.toBeInTheDocument();
@@ -121,28 +107,24 @@ describe('MandateSetup payment vocabulary', () => {
   it('keeps the exact UK Direct Debit copy when the club collects through GoCardless', async () => {
     renderWithClub('GB', 'gocardless');
 
-    await waitFor(() =>
-      expect(screen.getByText('Set Up Direct Debit')).toBeInTheDocument(),
-    );
+    await waitFor(() => expect(screen.getByText('Set Up Direct Debit')).toBeInTheDocument());
 
     // Byte-identical GB regression bar: the Stripe work must not alter the
     // existing GoCardless direct-debit wording in any way.
     expect(
       screen.getByText(
-        'Set up a Direct Debit mandate to enable automatic monthly payments for swim club fees.',
-      ),
+        'Set up a Direct Debit mandate to enable automatic monthly payments for swim club fees.'
+      )
     ).toBeInTheDocument();
     expect(
-      screen.getByText('Secure and protected by the Direct Debit Guarantee'),
+      screen.getByText('Secure and protected by the Direct Debit Guarantee')
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        'Payments are processed securely through GoCardless, a UK regulated payment service provider.',
-      ),
+        'Payments are processed securely through GoCardless, a UK regulated payment service provider.'
+      )
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: 'Continue to GoCardless' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Continue to GoCardless' })).toBeInTheDocument();
   });
 
   it('renders an informational state instead of setup when the club has no provider', async () => {
@@ -152,23 +134,19 @@ describe('MandateSetup payment vocabulary', () => {
     renderWithClub('GB', null);
 
     await waitFor(() =>
-      expect(
-        screen.getByText('Online payments are not available yet'),
-      ).toBeInTheDocument(),
+      expect(screen.getByText('Online payments are not available yet')).toBeInTheDocument()
     );
 
     expect(
       screen.getByText(
-        'Your club has not set up online payments yet. You will be able to add a payment method here once they have. Contact the club if you have questions.',
-      ),
+        'Your club has not set up online payments yet. You will be able to add a payment method here once they have. Contact the club if you have questions.'
+      )
     ).toBeInTheDocument();
 
     // No setup entry point of any flavour.
+    expect(screen.queryByRole('button', { name: 'Continue to Stripe' })).not.toBeInTheDocument();
     expect(
-      screen.queryByRole('button', { name: 'Continue to Stripe' }),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole('button', { name: 'Continue to GoCardless' }),
+      screen.queryByRole('button', { name: 'Continue to GoCardless' })
     ).not.toBeInTheDocument();
     expect(screen.queryByText('Set Up Direct Debit')).not.toBeInTheDocument();
   });
@@ -183,12 +161,10 @@ describe('MandateSetup payment vocabulary', () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MandateSetup familyId="fam-1" />
-      </QueryClientProvider>,
+      </QueryClientProvider>
     );
 
-    expect(
-      screen.queryByText('Online payments are not available yet'),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText('Online payments are not available yet')).not.toBeInTheDocument();
     expect(screen.getByText('Set Up Direct Debit')).toBeInTheDocument();
   });
 });

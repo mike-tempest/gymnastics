@@ -13,11 +13,13 @@ This guide covers deploying Swimly to a staging/production environment.
 ## Architecture Overview
 
 Swimly is a monorepo with:
+
 - **Frontend:** Next.js 14 web app (apps/web)
-- **Backend:** 5 NestJS microservices (services/*)
+- **Backend:** 5 NestJS microservices (services/\*)
 - **Database:** PostgreSQL 16
 
 For staging, we deploy:
+
 1. Next.js web app to Vercel
 2. Backend services to a container platform (Render, Railway, or Fly.io)
 3. PostgreSQL to a managed database provider
@@ -40,6 +42,7 @@ vercel --prod
 ```
 
 The CLI will ask a few questions:
+
 - **Set up and deploy?** Yes
 - **Which scope?** Choose your account or team
 - **Link to existing project?** No (first time) or Yes (subsequent deploys)
@@ -50,6 +53,7 @@ The CLI will ask a few questions:
 ### Step 3: Note Your Deployment URL
 
 After deployment completes, Vercel will provide a URL like:
+
 ```
 https://swimly-staging-abc123.vercel.app
 ```
@@ -110,20 +114,20 @@ Choose one of these hosted PostgreSQL providers:
 
 ### Required Variables
 
-| Variable | Value | Notes |
-|----------|-------|-------|
-| `NEXT_PUBLIC_API_URL` | `https://your-backend-url.com` | Backend API base URL (or use localhost:3001 for frontend-only testing) |
-| `NEXTAUTH_SECRET` | Generate with `openssl rand -base64 32` | Required for NextAuth.js |
-| `NEXTAUTH_URL` | `https://swimly-staging-abc123.vercel.app` | Your Vercel deployment URL |
-| `DATABASE_URL` | `postgresql://...` | PostgreSQL connection string from Part 2 |
+| Variable              | Value                                      | Notes                                                                  |
+| --------------------- | ------------------------------------------ | ---------------------------------------------------------------------- |
+| `NEXT_PUBLIC_API_URL` | `https://your-backend-url.com`             | Backend API base URL (or use localhost:3001 for frontend-only testing) |
+| `NEXTAUTH_SECRET`     | Generate with `openssl rand -base64 32`    | Required for NextAuth.js                                               |
+| `NEXTAUTH_URL`        | `https://swimly-staging-abc123.vercel.app` | Your Vercel deployment URL                                             |
+| `DATABASE_URL`        | `postgresql://...`                         | PostgreSQL connection string from Part 2                               |
 
 ### Optional Variables (for full functionality)
 
-| Variable | Value | Notes |
-|----------|-------|-------|
-| `JWT_SECRET` | Generate with `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` | For API authentication |
-| `GOCARDLESS_ACCESS_TOKEN` | Your GoCardless token | For payment processing |
-| `GOCARDLESS_ENVIRONMENT` | `sandbox` or `live` | Use sandbox for testing |
+| Variable                  | Value                                                                                    | Notes                   |
+| ------------------------- | ---------------------------------------------------------------------------------------- | ----------------------- |
+| `JWT_SECRET`              | Generate with `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` | For API authentication  |
+| `GOCARDLESS_ACCESS_TOKEN` | Your GoCardless token                                                                    | For payment processing  |
+| `GOCARDLESS_ENVIRONMENT`  | `sandbox` or `live`                                                                      | Use sandbox for testing |
 
 4. Click **Save** for each variable
 5. Redeploy your application:
@@ -175,6 +179,7 @@ The Next.js app can run standalone with mock data, but for full functionality, d
 ### Alternative: Deploy to Render
 
 1. Create a Blueprint (render.yaml):
+
 ```yaml
 services:
   - type: web
@@ -209,6 +214,7 @@ After deployment, verify:
 
 **Issue:** Turborepo workspace dependencies not resolving  
 **Solution:** Ensure `buildCommand` in vercel.json installs from root:
+
 ```json
 "buildCommand": "cd ../.. && pnpm install && cd apps/web && pnpm build"
 ```
@@ -217,6 +223,7 @@ After deployment, verify:
 
 **Issue:** NEXTAUTH_SECRET not set or NEXTAUTH_URL incorrect  
 **Solution:** Regenerate secret and ensure URL matches deployment:
+
 ```bash
 openssl rand -base64 32
 ```
@@ -225,6 +232,7 @@ openssl rand -base64 32
 
 **Issue:** DATABASE_URL incorrect or database not accessible  
 **Solution:**
+
 - Verify connection string format
 - Ensure SSL mode is set: `?sslmode=require`
 - Check database provider status
@@ -234,6 +242,7 @@ openssl rand -base64 32
 
 **Issue:** Monorepo packages not built  
 **Solution:** Update vercel.json to build from root with Turborepo:
+
 ```json
 "buildCommand": "cd ../.. && pnpm install && pnpm build --filter=web"
 ```
@@ -242,6 +251,7 @@ openssl rand -base64 32
 
 **Issue:** Backend services not deployed or NEXT_PUBLIC_API_URL incorrect  
 **Solution:**
+
 - Verify `NEXT_PUBLIC_API_URL` points to your backend
 - Check backend service health
 - For staging without backend, the app gracefully falls back to mock data
@@ -251,6 +261,7 @@ openssl rand -base64 32
 ### Automatic Deploys
 
 Vercel automatically deploys:
+
 - **Production:** Pushes to `main` branch
 - **Preview:** Pull requests (each PR gets a unique URL)
 
@@ -282,6 +293,7 @@ cd apps/web && vercel
 ## Rollback
 
 If a deployment breaks:
+
 ```bash
 # List recent deployments
 vercel ls
@@ -293,6 +305,7 @@ vercel rollback swimly-staging-abc123.vercel.app
 ## Security Checklist
 
 Before going to production:
+
 - [ ] Change all default secrets
 - [ ] Enable HTTPS only (Vercel does this automatically)
 - [ ] Set up proper CORS origins
@@ -319,6 +332,7 @@ Before going to production:
 ## Support
 
 For deployment issues:
+
 - **Vercel Docs:** [vercel.com/docs](https://vercel.com/docs)
 - **Neon Docs:** [neon.tech/docs](https://neon.tech/docs)
 - **Project Issues:** [GitHub Issues](https://github.com/your-repo/issues)

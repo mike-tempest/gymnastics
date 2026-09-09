@@ -1,9 +1,9 @@
 ---
-title: "Essential Tips for Swimming Club Committee Members"
-description: "Practical advice for swimming club committee members covering roles, governance, meeting management, financial oversight, and working with coaches and parents."
+title: 'Essential Tips for Swimming Club Committee Members'
+description: 'Practical advice for swimming club committee members covering roles, governance, meeting management, financial oversight, and working with coaches and parents.'
 pubDate: 2026-02-16
-author: "Swimly Team"
-tags: ["swim clubs", "committee", "club management", "governance"]
+author: 'Swimly Team'
+tags: ['swim clubs', 'committee', 'club management', 'governance']
 ---
 
 Running a swimming club takes a remarkable amount of behind-the-scenes work. Most of it falls on the committee: a group of volunteers who give up their evenings, weekends, and patience to keep the club functioning. Whether you have just been elected to your club's committee or you have been serving for years, these tips should help you do the job more effectively and with less stress.
@@ -81,7 +81,6 @@ The treasurer carries the primary responsibility for the club's finances, but fi
 Committee members are volunteers too, and burnout is a real risk. Spread the workload as widely as possible, celebrate contributions, and make it acceptable for people to step back when they need to. A committee that looks after its own members will last longer and achieve more than one that runs its volunteers into the ground.
 
 The best committees are not the ones with the most talented individuals. They are the ones that communicate well, respect each other's time, and stay focused on the reason the club exists: helping young people enjoy and succeed in swimming. Keep that at the centre of everything you do, and the rest will follow.
-
 
 ---
 

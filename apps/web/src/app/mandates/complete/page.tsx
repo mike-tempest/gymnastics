@@ -27,8 +27,7 @@ function MandateCompleteContent() {
       // GoCardless returns the payer with ?redirect_flow_id=...; Stripe
       // Checkout substitutes ?session_id=... into the success URL. Either one
       // is the provider-side flow id the completion endpoint expects.
-      const redirectFlowId =
-        searchParams.get('redirect_flow_id') ?? searchParams.get('session_id');
+      const redirectFlowId = searchParams.get('redirect_flow_id') ?? searchParams.get('session_id');
       const sessionToken = sessionStorage.getItem('gocardless_session_token');
       const familyId = sessionStorage.getItem('gocardless_family_id');
 

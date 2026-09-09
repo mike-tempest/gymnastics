@@ -39,7 +39,11 @@ function isOverdue(invoice: InvoiceWithDetails): boolean {
   return dueDate < today;
 }
 
-export default function InvoiceTable({ invoices, isLoading = false, onRowClick }: InvoiceTableProps) {
+export default function InvoiceTable({
+  invoices,
+  isLoading = false,
+  onRowClick,
+}: InvoiceTableProps) {
   const { formatCurrency, formatDate } = useFormatters();
 
   if (isLoading) {
@@ -93,12 +97,18 @@ export default function InvoiceTable({ invoices, isLoading = false, onRowClick }
                       : getStatusBadgeClass(invoice.status)
                   }`}
                 >
-                  {overdue && invoice.status === InvoiceStatus.PENDING ? 'OVERDUE' : invoice.status.toUpperCase()}
+                  {overdue && invoice.status === InvoiceStatus.PENDING
+                    ? 'OVERDUE'
+                    : invoice.status.toUpperCase()}
                 </span>
               </div>
               <div className="flex items-end justify-between">
-                <span className="text-white font-semibold text-lg tabular-nums">{formatCurrency(invoice.total_amount, invoice.currency)}</span>
-                <span className={`text-sm tabular-nums ${overdue ? 'text-danger font-semibold' : 'text-text-secondary'}`}>
+                <span className="text-white font-semibold text-lg tabular-nums">
+                  {formatCurrency(invoice.total_amount, invoice.currency)}
+                </span>
+                <span
+                  className={`text-sm tabular-nums ${overdue ? 'text-danger font-semibold' : 'text-text-secondary'}`}
+                >
                   Due {formatDate(invoice.due_date)}
                 </span>
               </div>
@@ -143,23 +153,29 @@ export default function InvoiceTable({ invoices, isLoading = false, onRowClick }
                   </td>
                   <td className="py-4 px-6">
                     <div>
-                      <p className="text-white font-medium">{invoice.family?.family_name || 'Unknown Family'}</p>
+                      <p className="text-white font-medium">
+                        {invoice.family?.family_name || 'Unknown Family'}
+                      </p>
                       {invoice.family?.primary_contact_name && (
-                        <p className="text-text-secondary text-sm">{invoice.family.primary_contact_name}</p>
+                        <p className="text-text-secondary text-sm">
+                          {invoice.family.primary_contact_name}
+                        </p>
                       )}
                     </div>
                   </td>
                   <td className="py-4 px-6">
-                    <span className="text-white font-semibold text-lg tabular-nums">{formatCurrency(invoice.total_amount, invoice.currency)}</span>
+                    <span className="text-white font-semibold text-lg tabular-nums">
+                      {formatCurrency(invoice.total_amount, invoice.currency)}
+                    </span>
                   </td>
                   <td className="py-4 px-6">
                     <div>
-                      <p className={`text-sm tabular-nums ${overdue ? 'text-danger font-semibold' : 'text-text-secondary'}`}>
+                      <p
+                        className={`text-sm tabular-nums ${overdue ? 'text-danger font-semibold' : 'text-text-secondary'}`}
+                      >
                         {formatDate(invoice.due_date)}
                       </p>
-                      {overdue && (
-                        <p className="text-xs text-danger mt-1">Overdue</p>
-                      )}
+                      {overdue && <p className="text-xs text-danger mt-1">Overdue</p>}
                     </div>
                   </td>
                   <td className="py-4 px-6">
@@ -170,7 +186,9 @@ export default function InvoiceTable({ invoices, isLoading = false, onRowClick }
                           : getStatusBadgeClass(invoice.status)
                       }`}
                     >
-                      {overdue && invoice.status === InvoiceStatus.PENDING ? 'OVERDUE' : invoice.status.toUpperCase()}
+                      {overdue && invoice.status === InvoiceStatus.PENDING
+                        ? 'OVERDUE'
+                        : invoice.status.toUpperCase()}
                     </span>
                   </td>
                 </tr>

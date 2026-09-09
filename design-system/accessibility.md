@@ -10,27 +10,35 @@
 ## Accessibility Principles
 
 ### 1. Perceivable
+
 Users must be able to perceive all information and UI components.
+
 - Text alternatives for non-text content
 - Captions and alternatives for multimedia
 - Adaptable content that can be presented in different ways
 - Distinguishable content (colour contrast, text size, visual clarity)
 
 ### 2. Operable
+
 Users must be able to operate the interface.
+
 - Keyboard accessible (all functionality available via keyboard)
 - Enough time to read and use content (no time limits on critical tasks)
 - Seizure prevention (no flashing content)
 - Navigable (clear headings, landmarks, focus indicators)
 
 ### 3. Understandable
+
 Users must be able to understand the information and operation of the UI.
+
 - Readable text (plain language, British English)
 - Predictable operation (consistent navigation, consistent identification)
 - Input assistance (error identification, labels, error prevention)
 
 ### 4. Robust
+
 Content must be robust enough to be interpreted by a wide variety of user agents, including assistive technologies.
+
 - Compatible with current and future assistive technologies
 - Valid HTML, proper semantic markup
 - ARIA labels where needed (but prefer semantic HTML first)
@@ -42,36 +50,40 @@ Content must be robust enough to be interpreted by a wide variety of user agents
 ### WCAG 2.1 Level AA Standards
 
 **Normal Text (< 24px / < 19px bold):**
+
 - Minimum contrast ratio: **4.5:1**
 
 **Large Text (≥ 24px / ≥ 19px bold):**
+
 - Minimum contrast ratio: **3:1**
 
 **UI Components and Graphics:**
+
 - Minimum contrast ratio: **3:1**
 
 ### Swimly Colour Compliance
 
 **Tested Combinations (Pass):**
 
-| Foreground | Background | Contrast | Use Case | Pass |
-|------------|------------|----------|----------|------|
-| `#121216` (Dark Primary) | `#FAFAF8` (Surface) | 15.8:1 | Body text on cards | ✅ AAA |
-| `#121216` (Dark Primary) | `#F0F0EC` (Canvas) | 14.2:1 | Body text on canvas | ✅ AAA |
-| `#00FF90` (Brand Green) | `#121216` (Dark Primary) | 8.2:1 | Links/buttons on dark | ✅ AAA |
-| `#E8F059` (Lime) | `#121216` (Dark Primary) | 12.1:1 | Data highlights on dark | ✅ AAA |
-| White `#FFFFFF` | `#00FF90` (Brand Green) | 2.9:1 | Button text on green | ⚠️ AA large text only |
+| Foreground               | Background               | Contrast | Use Case                | Pass                  |
+| ------------------------ | ------------------------ | -------- | ----------------------- | --------------------- |
+| `#121216` (Dark Primary) | `#FAFAF8` (Surface)      | 15.8:1   | Body text on cards      | ✅ AAA                |
+| `#121216` (Dark Primary) | `#F0F0EC` (Canvas)       | 14.2:1   | Body text on canvas     | ✅ AAA                |
+| `#00FF90` (Brand Green)  | `#121216` (Dark Primary) | 8.2:1    | Links/buttons on dark   | ✅ AAA                |
+| `#E8F059` (Lime)         | `#121216` (Dark Primary) | 12.1:1   | Data highlights on dark | ✅ AAA                |
+| White `#FFFFFF`          | `#00FF90` (Brand Green)  | 2.9:1    | Button text on green    | ⚠️ AA large text only |
 
 **Problem Combinations (Avoid):**
 
-| Foreground | Background | Contrast | Issue | Fix |
-|------------|------------|----------|-------|-----|
-| `#00FF90` (Brand Green) | `#F0F0EC` (Canvas) | 1.8:1 | Too low | Use Dark Primary for text |
-| `#E8F059` (Lime) | `#FAFAF8` (Surface) | 1.5:1 | Too low | Use Dark Primary for text |
+| Foreground              | Background          | Contrast | Issue   | Fix                       |
+| ----------------------- | ------------------- | -------- | ------- | ------------------------- |
+| `#00FF90` (Brand Green) | `#F0F0EC` (Canvas)  | 1.8:1    | Too low | Use Dark Primary for text |
+| `#E8F059` (Lime)        | `#FAFAF8` (Surface) | 1.5:1    | Too low | Use Dark Primary for text |
 
 **Rule:** Never use Brand Green or Lime for body text on light backgrounds. Use Dark Primary (`#121216`) for all body text.
 
 ### Testing Tools
+
 - **Browser DevTools:** Chrome Lighthouse, Firefox Accessibility Inspector
 - **Online:** WebAIM Contrast Checker, Colour Contrast Analyser
 - **Design:** Figma A11y plugin, Stark plugin
@@ -81,7 +93,9 @@ Content must be robust enough to be interpreted by a wide variety of user agents
 ## Keyboard Navigation
 
 ### Requirements
+
 All interactive elements must be keyboard accessible:
+
 - **Tab:** Move forward through interactive elements
 - **Shift + Tab:** Move backward through interactive elements
 - **Enter / Space:** Activate buttons, links, checkboxes
@@ -91,15 +105,17 @@ All interactive elements must be keyboard accessible:
 ### Focus Indicators
 
 **Visible Focus:**
+
 - Focus indicator must have **minimum 3:1 contrast** against background
 - Focus indicator must be **visible around entire element**
 - Default browser outline acceptable if meets contrast requirement
 - Custom focus styles must be at least 2px solid outline
 
 **Swimly Focus Style:**
+
 ```css
 :focus-visible {
-  outline: 2px solid #00FF90; /* Brand Green */
+  outline: 2px solid #00ff90; /* Brand Green */
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -110,19 +126,21 @@ All interactive elements must be keyboard accessible:
 ✅ Use `:focus-visible` to hide on mouse click but show on keyboard
 
 ### Tab Order
+
 - Tab order follows visual order (top to bottom, left to right)
 - Skip links provided for navigation ("Skip to main content")
 - No keyboard traps (user can always tab out)
 
 ### Skip Links
+
 Every page must have a skip link to main content:
+
 ```html
-<a href="#main-content" class="skip-link">
-  Skip to main content
-</a>
+<a href="#main-content" class="skip-link"> Skip to main content </a>
 ```
 
 Style: Hidden until focused:
+
 ```css
 .skip-link {
   position: absolute;
@@ -135,7 +153,7 @@ Style: Hidden until focused:
   top: 0;
   padding: 1rem;
   background: #121216;
-  color: #00FF90;
+  color: #00ff90;
 }
 ```
 
@@ -144,7 +162,9 @@ Style: Hidden until focused:
 ## Screen Reader Compatibility
 
 ### Semantic HTML First
+
 Use semantic HTML before reaching for ARIA:
+
 - `<header>`, `<nav>`, `<main>`, `<article>`, `<section>`, `<footer>`
 - `<button>` not `<div onclick>`
 - `<a href>` for links, `<button>` for actions
@@ -154,6 +174,7 @@ Use semantic HTML before reaching for ARIA:
 ### ARIA Labels (When Needed)
 
 **Use ARIA when:**
+
 - Semantic HTML is insufficient (e.g., custom widgets)
 - Dynamic content updates (live regions)
 - Complex interactions (tabs, accordions, modals)
@@ -161,6 +182,7 @@ Use semantic HTML before reaching for ARIA:
 **Common ARIA Patterns in Swimly:**
 
 **Loading States:**
+
 ```html
 <div role="status" aria-live="polite" aria-label="Loading">
   <Spinner />
@@ -169,37 +191,31 @@ Use semantic HTML before reaching for ARIA:
 ```
 
 **Form Validation Errors:**
+
 ```html
 <label for="swimmer-name">Swimmer Name</label>
-<input 
-  id="swimmer-name" 
-  type="text" 
-  aria-invalid="true" 
-  aria-describedby="name-error"
-/>
-<span id="name-error" role="alert" class="error">
-  Name is required
-</span>
+<input id="swimmer-name" type="text" aria-invalid="true" aria-describedby="name-error" />
+<span id="name-error" role="alert" class="error"> Name is required </span>
 ```
 
 **Modal Dialogs:**
+
 ```html
-<div 
-  role="dialog" 
-  aria-labelledby="modal-title" 
+<div
+  role="dialog"
+  aria-labelledby="modal-title"
   aria-describedby="modal-description"
   aria-modal="true"
 >
   <h2 id="modal-title">Delete Member</h2>
-  <p id="modal-description">
-    Are you sure you want to delete Emma Davies?
-  </p>
+  <p id="modal-description">Are you sure you want to delete Emma Davies?</p>
   <button>Cancel</button>
   <button>Delete</button>
 </div>
 ```
 
 **Icon Buttons:**
+
 ```html
 <button aria-label="Close">
   <CloseIcon aria-hidden="true" />
@@ -207,9 +223,12 @@ Use semantic HTML before reaching for ARIA:
 ```
 
 **Data Tables:**
+
 ```html
 <table>
-  <caption>Member Payment Status</caption>
+  <caption>
+    Member Payment Status
+  </caption>
   <thead>
     <tr>
       <th scope="col">Name</th>
@@ -228,7 +247,9 @@ Use semantic HTML before reaching for ARIA:
 ```
 
 ### Screen Reader Testing
+
 Test with:
+
 - **macOS:** VoiceOver (Safari + Chrome)
 - **Windows:** NVDA (Firefox + Chrome)
 - **iOS:** VoiceOver (Safari)
@@ -239,15 +260,17 @@ Test with:
 ## Form Accessibility
 
 ### Labels
+
 Every form field must have a visible, programmatically associated label:
 
 **Good:**
+
 ```html
-<label for="email">Email address</label>
-<input id="email" type="email" name="email" />
+<label for="email">Email address</label> <input id="email" type="email" name="email" />
 ```
 
 **Bad:**
+
 ```html
 <!-- ❌ No label -->
 <input type="email" placeholder="Email address" />
@@ -258,50 +281,51 @@ Every form field must have a visible, programmatically associated label:
 ```
 
 ### Placeholders Are Not Labels
+
 Placeholders disappear on focus/input. Always use a visible `<label>`.
 
 **Acceptable use of placeholders:**
+
 - As examples: `placeholder="e.g., emma.davies@example.com"`
 - As format hints: `placeholder="DD/MM/YYYY"`
 
 ### Required Fields
+
 Indicate required fields clearly:
 
 **Visual:**
+
 - Asterisk: `Email address *`
 - Text: `Email address (required)`
 
 **Programmatic:**
+
 ```html
-<label for="email">
-  Email address <abbr title="required">*</abbr>
-</label>
+<label for="email"> Email address <abbr title="required">*</abbr> </label>
 <input id="email" type="email" required aria-required="true" />
 ```
 
 ### Error Messages
 
 **Requirements:**
+
 1. Errors linked to fields via `aria-describedby`
 2. Errors announced via `role="alert"` or `aria-live="polite"`
 3. Error text descriptive, not just "Invalid"
 4. Error styling uses more than colour (icon + text)
 
 **Good Error Handling:**
+
 ```html
 <label for="dob">Date of Birth</label>
-<input 
-  id="dob" 
-  type="text" 
-  aria-invalid="true" 
-  aria-describedby="dob-error"
-/>
+<input id="dob" type="text" aria-invalid="true" aria-describedby="dob-error" />
 <span id="dob-error" role="alert" class="error">
   ⚠️ Date of birth must be in DD/MM/YYYY format
 </span>
 ```
 
 **Error Summary (Top of Form):**
+
 ```html
 <div role="alert" class="error-summary" tabindex="-1">
   <h2>There are 2 errors in this form</h2>
@@ -313,6 +337,7 @@ Indicate required fields clearly:
 ```
 
 ### Autocomplete
+
 Use `autocomplete` attributes for common fields:
 
 ```html
@@ -323,6 +348,7 @@ Use `autocomplete` attributes for common fields:
 ```
 
 Benefits:
+
 - Faster form completion (browser autofill)
 - Reduced errors (no typos)
 - Better for users with cognitive disabilities
@@ -332,6 +358,7 @@ Benefits:
 ## Mobile Accessibility
 
 ### Touch Targets
+
 Minimum touch target size: **44×44px** (WCAG 2.5.5 Level AAA)
 
 **Critical actions (poolside, wet hands):** 48×48px
@@ -339,19 +366,22 @@ Minimum touch target size: **44×44px** (WCAG 2.5.5 Level AAA)
 **Spacing between targets:** 8px minimum gap
 
 ### Viewport and Zoom
+
 Allow users to zoom up to 200% without loss of content or functionality:
 
 ```html
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 ```
 
 ❌ Never use `maximum-scale=1.0` or `user-scalable=no`
 
 ### Orientation
+
 Support both portrait and landscape orientations.  
 Don't lock orientation unless essential (e.g., video playback).
 
 ### Motion
+
 Respect `prefers-reduced-motion`:
 
 ```css
@@ -369,20 +399,24 @@ Respect `prefers-reduced-motion`:
 ## Typography Accessibility
 
 ### Font Size
+
 - **Minimum body text:** 16px on mobile, 14px on desktop
 - **Allow user zoom:** Don't disable browser zoom
 - **Relative units:** Use `rem` or `em`, not `px` for font sizes
 
 ### Line Height
+
 - **Minimum line height:** 1.5× font size
 - **Paragraph spacing:** 2× font size (1.5rem if body is 1rem)
 
 ### Text Spacing
+
 - **Letter spacing:** At least 0.12× font size
 - **Word spacing:** At least 0.16× font size
 - **Paragraph spacing:** At least 2× font size
 
 **Example:**
+
 ```css
 p {
   font-size: 1rem; /* 16px */
@@ -394,12 +428,15 @@ p {
 ```
 
 ### Text Alignment
+
 - **Left-aligned** for body text (British reading direction)
 - Avoid full justification (creates awkward spacing)
 - Centre-align sparingly (headings, calls-to-action only)
 
 ### Text Over Images
+
 Ensure sufficient contrast:
+
 - Dark overlay on images behind light text
 - Light overlay on images behind dark text
 - Minimum contrast: 4.5:1
@@ -411,6 +448,7 @@ Ensure sufficient contrast:
 ### Buttons
 
 **Requirements:**
+
 - Minimum size: 44×44px (mobile), 32×32px (desktop)
 - Clear hover/focus/active states
 - Descriptive text (not just icons)
@@ -418,6 +456,7 @@ Ensure sufficient contrast:
 
 **Icon Buttons:**
 Always include accessible label:
+
 ```html
 <button aria-label="Delete member">
   <TrashIcon aria-hidden="true" />
@@ -427,16 +466,19 @@ Always include accessible label:
 ### Links
 
 **Requirements:**
+
 - Underlined or clearly distinguishable from body text
 - Descriptive link text (not "click here")
 - External links indicated (icon or text)
 
 **Good:**
+
 ```html
 <a href="/members/123">View Emma Davies' profile</a>
 ```
 
 **Bad:**
+
 ```html
 <a href="/members/123">Click here</a>
 ```
@@ -444,12 +486,14 @@ Always include accessible label:
 ### Modals
 
 **Requirements:**
+
 - Focus trapped within modal when open
 - Escape key closes modal
 - Focus returned to trigger element on close
 - `aria-modal="true"` and `role="dialog"`
 
 **Focus Management:**
+
 ```jsx
 function Modal({ isOpen, onClose, children }) {
   const firstFocusableRef = useRef(null);
@@ -479,15 +523,19 @@ function Modal({ isOpen, onClose, children }) {
 ### Data Tables
 
 **Requirements:**
+
 - `<caption>` describing the table
 - `<th scope="col">` for column headers
 - `<th scope="row">` for row headers
 - No merged cells (confusing for screen readers)
 
 **Example:**
+
 ```html
 <table>
-  <caption>Member Payment Status — March 2026</caption>
+  <caption>
+    Member Payment Status — March 2026
+  </caption>
   <thead>
     <tr>
       <th scope="col">Name</th>
@@ -513,6 +561,7 @@ function Modal({ isOpen, onClose, children }) {
 ### Responsive Tables
 
 On mobile, transform to card layout:
+
 ```html
 <div class="member-card" role="article">
   <h3>Emma Davies</h3>
@@ -530,7 +579,9 @@ On mobile, transform to card layout:
 ## Images and Icons
 
 ### Decorative Images
+
 If image is purely decorative:
+
 ```html
 <img src="decoration.png" alt="" role="presentation" />
 ```
@@ -538,13 +589,17 @@ If image is purely decorative:
 Empty `alt=""` tells screen readers to skip the image.
 
 ### Informative Images
+
 If image conveys information:
+
 ```html
 <img src="club-logo.png" alt="Tonbridge Swimming Club logo" />
 ```
 
 ### Complex Images (Charts, Diagrams)
+
 Provide long description:
+
 ```html
 <figure>
   <img src="chart.png" alt="Payment collection rate over time" />
@@ -560,9 +615,11 @@ Provide long description:
 ```
 
 ### Icons
+
 Icons must have accessible labels:
 
 **Icon with Text:**
+
 ```html
 <button>
   <PlusIcon aria-hidden="true" />
@@ -571,6 +628,7 @@ Icons must have accessible labels:
 ```
 
 **Icon Only:**
+
 ```html
 <button aria-label="Add member">
   <PlusIcon aria-hidden="true" />
@@ -584,22 +642,21 @@ Icons must have accessible labels:
 ### Live Regions
 
 **Polite (Non-Urgent):**
+
 ```html
-<div role="status" aria-live="polite">
-  Member saved successfully
-</div>
+<div role="status" aria-live="polite">Member saved successfully</div>
 ```
 
 **Assertive (Urgent):**
+
 ```html
-<div role="alert" aria-live="assertive">
-  Payment failed — please try again
-</div>
+<div role="alert" aria-live="assertive">Payment failed — please try again</div>
 ```
 
 ### Toast Notifications
 
 **Requirements:**
+
 - Auto-dismiss after 5-10 seconds OR
 - Provide dismiss button
 - Announced to screen readers via `role="status"` or `role="alert"`
@@ -607,6 +664,7 @@ Icons must have accessible labels:
 - Keyboard accessible dismiss button
 
 **Example:**
+
 ```html
 <div role="alert" class="toast success">
   <p>Member added successfully</p>
@@ -619,12 +677,14 @@ Icons must have accessible labels:
 ## Accessibility Testing Checklist
 
 ### Automated Testing
+
 - [ ] Lighthouse accessibility audit (90+ score)
 - [ ] axe DevTools browser extension (0 violations)
 - [ ] WAVE browser extension (0 errors)
 - [ ] Pa11y CI in build pipeline
 
 ### Manual Testing
+
 - [ ] Keyboard navigation (Tab, Enter, Escape, Arrow keys)
 - [ ] Screen reader (VoiceOver, NVDA)
 - [ ] Colour contrast (WebAIM Contrast Checker)
@@ -635,6 +695,7 @@ Icons must have accessible labels:
 - [ ] Alt text for images
 
 ### User Testing
+
 - [ ] Test with users who use screen readers
 - [ ] Test with users who use keyboard only
 - [ ] Test with users with low vision
@@ -684,17 +745,20 @@ Icons must have accessible labels:
 ## Accessibility Resources
 
 ### Guidelines and Standards
+
 - [WCAG 2.1](https://www.w3.org/WAI/WCAG21/quickref/) — Official spec
 - [WebAIM](https://webaim.org/) — Practical guidance
 - [A11y Project](https://www.a11yproject.com/) — Beginner-friendly checklist
 
 ### Testing Tools
+
 - [Lighthouse](https://developers.google.com/web/tools/lighthouse) — Chrome DevTools
 - [axe DevTools](https://www.deque.com/axe/devtools/) — Browser extension
 - [WAVE](https://wave.webaim.org/) — Browser extension
 - [Pa11y](https://pa11y.org/) — CI accessibility testing
 
 ### Screen Readers
+
 - [VoiceOver](https://www.apple.com/accessibility/voiceover/) — macOS/iOS (free)
 - [NVDA](https://www.nvaccess.org/) — Windows (free)
 - [JAWS](https://www.freedomscientific.com/products/software/jaws/) — Windows (paid)
@@ -705,6 +769,7 @@ Icons must have accessible labels:
 ## Accessibility Maintenance
 
 Update these standards when:
+
 - WCAG guidelines evolve (currently 2.1, watch for 2.2)
 - New UI patterns introduced (test for compliance)
 - User feedback reveals accessibility barriers
@@ -715,6 +780,7 @@ To propose accessibility improvements, create a task in Workshop tagged `design-
 ---
 
 **Related:**
+
 - [Layout Patterns](./layout-patterns.md) — Responsive layouts and touch targets
 - [Components](./components.md) — Component-level accessibility specs
 - [Typography](./typography.md) — Readable text, line height, font sizing

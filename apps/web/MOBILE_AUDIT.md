@@ -11,18 +11,21 @@ The Swimly app already has comprehensive mobile responsiveness built in. The des
 ## ✅ What's Working Well
 
 ### 1. Navigation & Layout
+
 - **Sidebar:** Properly collapses on mobile (`lg:hidden` / `lg:translate-x-0`)
 - **Hamburger Menu:** Present in TopBar (`lg:hidden` button with three-line icon)
 - **Overlay:** Dark backdrop when sidebar is open on mobile
 - **Touch Targets:** Most interactive elements use `min-h-[44px]` or `min-w-[44px]`
 
 ### 2. Responsive Design Patterns
+
 - **Padding:** Responsive padding throughout (`p-4 md:p-6 lg:p-8`)
 - **Typography:** Responsive text sizing (`text-2xl md:text-3xl`)
 - **Search Bar:** Responsive width and wrapping (`flex-col sm:flex-row`)
 - **Cards:** Used instead of tables for better mobile experience
 
 ### 3. Forms & Inputs
+
 - All form inputs have proper sizing (`h-14`, `min-h-[44px]`)
 - Select dropdowns are touch-friendly
 - Search inputs have clear buttons with adequate touch targets
@@ -30,21 +33,20 @@ The Swimly app already has comprehensive mobile responsiveness built in. The des
 ## ⚠️ Minor Improvements Needed
 
 ### Header Buttons (Swimmers Page)
+
 The "CSV Import" and "Add Swimmer" buttons in the header use `px-8 py-4 text-lg` which is good, but could be stacked vertically on mobile for better space usage.
 
 **Current:**
+
 ```tsx
 <div className="flex items-center space-x-4">
-  <button className="px-8 py-4 bg-dark-secondary text-white rounded-button...">
-    CSV Import
-  </button>
-  <button className="px-8 py-4 bg-mint text-dark-primary rounded-button...">
-    Add Swimmer
-  </button>
+  <button className="px-8 py-4 bg-dark-secondary text-white rounded-button...">CSV Import</button>
+  <button className="px-8 py-4 bg-mint text-dark-primary rounded-button...">Add Swimmer</button>
 </div>
 ```
 
 **Suggested:**
+
 ```tsx
 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:space-x-4">
   <button className="px-6 sm:px-8 py-3 sm:py-4 bg-dark-secondary text-white rounded-button...">
@@ -57,16 +59,17 @@ The "CSV Import" and "Add Swimmer" buttons in the header use `px-8 py-4 text-lg`
 ```
 
 ### TopBar Search
+
 The search bar in the TopBar has `max-w-xl mx-8` which might be too narrow on very small screens.
 
 **Suggested:**
+
 ```tsx
-<div className="flex-1 max-w-xl mx-2 sm:mx-4 md:mx-8">
-  {/* search input */}
-</div>
+<div className="flex-1 max-w-xl mx-2 sm:mx-4 md:mx-8">{/* search input */}</div>
 ```
 
 ### Stats Cards (Swimmers Page)
+
 The large stats card with "Total Swimmers" might need better mobile layout:
 
 **Current:** Side-by-side layout that could overflow
@@ -109,6 +112,7 @@ Build verified successful: `pnpm build` completes without errors.
 Apply these responsive classes to `apps/web/src/app/swimmers/page.tsx`:
 
 ### Header Section (line ~175):
+
 ```diff
 - <div className="p-8">
 + <div className="p-4 md:p-6 lg:p-8">
@@ -129,6 +133,7 @@ Apply these responsive classes to `apps/web/src/app/swimmers/page.tsx`:
 ```
 
 ### Stats Card Section (line ~225):
+
 ```diff
 -   <div className="bg-card-light rounded-card p-10 shadow-card mb-8">
 +   <div className="bg-card-light rounded-card p-6 md:p-8 lg:p-10 shadow-card mb-6 md:mb-8">

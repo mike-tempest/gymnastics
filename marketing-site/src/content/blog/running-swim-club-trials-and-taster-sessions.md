@@ -1,9 +1,9 @@
 ---
-title: "A Complete Guide to Running Swim Club Trials and Taster Sessions"
-description: "A practical guide to running swim club trials and taster sessions: planning, registration, logistics, follow-up, and converting attendees into members."
+title: 'A Complete Guide to Running Swim Club Trials and Taster Sessions'
+description: 'A practical guide to running swim club trials and taster sessions: planning, registration, logistics, follow-up, and converting attendees into members.'
 pubDate: 2026-02-15
-author: "Swimly Team"
-tags: ["membership growth", "trials", "taster sessions", "recruitment"]
+author: 'Swimly Team'
+tags: ['membership growth', 'trials', 'taster sessions', 'recruitment']
 ---
 
 Every swimming club needs new members. Swimmers move on, families relocate, and older athletes retire from the sport. Without a steady pipeline of new joiners, even the most established club will gradually shrink. Trials and taster sessions are the most effective way to bring new families through the door and convert their interest into membership.
@@ -141,7 +141,6 @@ The clubs that grow are not always the ones with the best facilities or the most
 ---
 
 **Track taster sessions properly.** Swimly's [membership management](/features/membership) handles the journey from trial to full member, with [parent communication](/features/communication) built in.
-
 
 ---
 

@@ -1,9 +1,9 @@
 ---
-title: "Competition Season Admin: A Survival Guide for Swimming Club Committees"
-description: "Practical advice for volunteer committee members managing gala entries, payments, qualifying times, and parent communication during competition season."
-pubDate: "2026-03-06"
-author: "Mike Tempest"
-tags: ["swim clubs", "admin", "galas", "competition season", "volunteer committees"]
+title: 'Competition Season Admin: A Survival Guide for Swimming Club Committees'
+description: 'Practical advice for volunteer committee members managing gala entries, payments, qualifying times, and parent communication during competition season.'
+pubDate: '2026-03-06'
+author: 'Mike Tempest'
+tags: ['swim clubs', 'admin', 'galas', 'competition season', 'volunteer committees']
 ---
 
 Competition season is here. Counties are approaching, regionals are on the horizon, and your inbox is probably already filling up with entry deadline reminders. If you're the committee member responsible for coordinating gala entries, you know this is when things get properly chaotic.
@@ -33,6 +33,7 @@ Here's what doesn't work: searching through emails and asking coaches "Does Emma
 Here's what does work: maintaining one central spreadsheet (or better yet, a proper system) with every swimmer's current PBs across all strokes and distances. Update it after every gala, every time trial, every competition. If you're tracking [attendance](/features/attendance) properly, you can correlate training consistency with competition performance.
 
 Your columns should include:
+
 - Swimmer name
 - Age group
 - Each event (50/100/200 Free, etc.)
@@ -53,6 +54,7 @@ Set your internal payment deadline at least 5 days before the gala entry deadlin
 Yes, you'll get pushback. Yes, parents will promise to pay "first thing Monday morning". Yes, someone will say "but we've never missed a payment before". Hold the line anyway. The moment you start making exceptions, you become the club's unofficial loan service.
 
 Some practical tips:
+
 - Use bank transfer with a reference code (swimmer name + gala date)
 - Give exact amounts including fees (£15.50, not "about £15")
 - Never accept cash unless you can bank it same day
@@ -65,12 +67,14 @@ If your club uses Direct Debit for regular fees, see if you can include gala ent
 Your coaches are focused on training and race strategy. They're not thinking about admin logistics. That's your job, but you need to keep them in the loop without drowning them in detail.
 
 What coaches need from you:
+
 1. **Early warning**: Tell them about upcoming galas well in advance
 2. **Qualified swimmers list**: Who CAN enter, not who SHOULD enter (that's their call)
 3. **Final entries**: Who's actually swimming what, confirmed and locked in
 4. **Scratches and changes**: Any last-minute withdrawals or event changes
 
 What coaches don't need:
+
 - Every email exchange with the gala organiser
 - Your spreadsheet with 47 tabs
 - Questions about things you can look up yourself
@@ -82,18 +86,21 @@ Set up a simple system: you handle the admin (deadlines, payments, entries), the
 Most parent complaints during competition season come from unclear expectations. Here's what parents need to know upfront:
 
 **Before entries:**
+
 - How you'll notify them about upcoming galas
 - What the entry process looks like
 - Payment deadline and amount
 - What happens if they miss the deadline
 
 **After entries:**
+
 - Confirmation that their child is entered (and in which events)
 - Heat sheets when available (don't promise these early — they're often delayed)
 - Warm-up times and schedule
 - What to bring, where to park, whether spectators are allowed
 
 **On gala day:**
+
 - Where to meet, when to arrive
 - Any last-minute changes
 - Emergency contact for the day

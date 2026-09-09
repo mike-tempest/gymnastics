@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  NotFoundException,
-  ServiceUnavailableException,
-} from '@nestjs/common';
+import { ConflictException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Stripe from 'stripe';
 import { StripeConnectService } from './stripe-connect.service';
@@ -37,11 +33,7 @@ describe('StripeConnectService', () => {
     const configService = {
       get: jest.fn((key: string, fallback?: string) => values[key] ?? fallback),
     } as unknown as ConfigService;
-    return new StripeConnectService(
-      configService,
-      repository as never,
-      clubsRepository as never,
-    );
+    return new StripeConnectService(configService, repository as never, clubsRepository as never);
   };
 
   beforeEach(() => {
@@ -105,9 +97,7 @@ describe('StripeConnectService', () => {
     it('records livemode true under a live platform key', async () => {
       await makeService('sk_live_1').startOnboarding(CLUB_ID);
 
-      expect(repository.save).toHaveBeenCalledWith(
-        expect.objectContaining({ livemode: true }),
-      );
+      expect(repository.save).toHaveBeenCalledWith(expect.objectContaining({ livemode: true }));
     });
 
     it('reuses a pending connection and only mints a fresh link', async () => {

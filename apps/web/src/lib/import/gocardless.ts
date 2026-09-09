@@ -135,7 +135,10 @@ const DISTINCTIVE_COLUMNS: Array<{
   role: Exclude<GoCardlessFileRole, 'unknown'>;
   canonicals: CanonicalImportField[];
 }> = [
-  { role: 'payments', canonicals: ['charge_date', 'currency', 'payment_status', 'provider_payment_id'] },
+  {
+    role: 'payments',
+    canonicals: ['charge_date', 'currency', 'payment_status', 'provider_payment_id'],
+  },
   { role: 'mandates', canonicals: ['mandate_scheme', 'mandate_reference', 'mandate_status'] },
   { role: 'customers', canonicals: ['parent_email', 'first_name', 'last_name'] },
 ];

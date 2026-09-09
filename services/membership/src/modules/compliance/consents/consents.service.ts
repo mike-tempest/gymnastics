@@ -53,9 +53,7 @@ export class ConsentsService {
   }
 
   async create(createDto: CreateConsentDto): Promise<Consent> {
-    this.logger.log(
-      `Creating consent ${createDto.consent_type} for member ${createDto.member_id}`,
-    );
+    this.logger.log(`Creating consent ${createDto.consent_type} for member ${createDto.member_id}`);
 
     // Check if member already has this consent type
     const existing = await this.consentsRepository.findByMemberAndType(
@@ -273,7 +271,12 @@ export class ConsentsService {
         });
 
         if (shouldSendWarning) {
-          this.sendConsentExpiryWarningEmail(group, locale, complianceRequirements, governingBody).catch((error) => {
+          this.sendConsentExpiryWarningEmail(
+            group,
+            locale,
+            complianceRequirements,
+            governingBody,
+          ).catch((error) => {
             this.logger.error(
               `Failed to send consent expiry email for member ${group.member.member_id}`,
               error,

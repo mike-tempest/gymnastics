@@ -65,7 +65,9 @@ describe('Compliance APIs (authenticated as admin)', () => {
 
   describe('Unauthorised access', () => {
     it('GET /compliance/dbs without token returns 401', async () => {
-      const res = await fetch(`${process.env.API_BASE_URL || 'http://localhost:3001/api'}/compliance/dbs`);
+      const res = await fetch(
+        `${process.env.API_BASE_URL || 'http://localhost:3001/api'}/compliance/dbs`
+      );
       expect(res.status).toBe(401);
     });
   });

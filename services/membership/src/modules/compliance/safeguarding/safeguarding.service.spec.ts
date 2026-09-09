@@ -188,9 +188,9 @@ describe('SafeguardingService', () => {
         result.some((i) => i.requirement === 'WWCC Verification for All Coaches and Volunteers'),
       ).toBe(true);
       expect(result.some((i) => i.requirement === 'Child Safeguarding Policy Review')).toBe(true);
-      expect(
-        result.some((i) => i.requirement === 'Child Safe Standards Self-Assessment'),
-      ).toBe(true);
+      expect(result.some((i) => i.requirement === 'Child Safe Standards Self-Assessment')).toBe(
+        true,
+      );
       const policy = result.find((i) => i.requirement === 'Child Safeguarding Policy Review');
       expect(policy?.description).toContain('National Integrity Framework');
       const reporting = result.find((i) => i.requirement === 'Incident Reporting Procedure');

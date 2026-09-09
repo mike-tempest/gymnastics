@@ -71,7 +71,9 @@ import WaitingListPage from '../app/waiting-list/page';
 
 const mockGetWaitingList = getWaitingList as jest.MockedFunction<typeof getWaitingList>;
 const mockGetPendingOffers = getPendingOffers as jest.MockedFunction<typeof getPendingOffers>;
-const mockGetSettings = getWaitingListSettings as jest.MockedFunction<typeof getWaitingListSettings>;
+const mockGetSettings = getWaitingListSettings as jest.MockedFunction<
+  typeof getWaitingListSettings
+>;
 const mockGetSquads = getSquads as jest.MockedFunction<typeof getSquads>;
 const mockEnrol = enrolFromWaitingList as jest.MockedFunction<typeof enrolFromWaitingList>;
 const mockGetPublicClub = getPublicClubDetails as jest.MockedFunction<typeof getPublicClubDetails>;
@@ -180,7 +182,9 @@ describe('Waiting list admin page', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Enrol' }));
     await userEvent.click(screen.getByRole('button', { name: 'Enrol now' }));
 
-    await waitFor(() => expect(screen.getByRole('heading', { name: 'Enrolled' })).toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.getByRole('heading', { name: 'Enrolled' })).toBeInTheDocument()
+    );
     expect(screen.getByText('Created the family record')).toBeInTheDocument();
     expect(screen.getByText('Requested 3 consents from the parent')).toBeInTheDocument();
     expect(screen.getByText('Emailed the parent to set up the Direct Debit')).toBeInTheDocument();

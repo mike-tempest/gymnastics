@@ -1,9 +1,9 @@
 ---
-title: "Swimming Club Safeguarding Best Practices 2026"
-description: "Updated 2026 safeguarding guidance for UK swimming clubs: the latest Wavepower requirements, DBS changes, online safety and staying compliant."
+title: 'Swimming Club Safeguarding Best Practices 2026'
+description: 'Updated 2026 safeguarding guidance for UK swimming clubs: the latest Wavepower requirements, DBS changes, online safety and staying compliant.'
 pubDate: 2026-02-16
-author: "Swimly Team"
-tags: ["safeguarding", "Wavepower", "DBS", "swim clubs", "compliance", "2026"]
+author: 'Swimly Team'
+tags: ['safeguarding', 'Wavepower', 'DBS', 'swim clubs', 'compliance', '2026']
 ---
 
 Safeguarding requirements for swimming clubs do not stand still. Regulations are updated, guidance is refined, and expectations evolve as new risks emerge. Clubs that set up their safeguarding processes a few years ago and have not revisited them since may find they are no longer fully aligned with current requirements.

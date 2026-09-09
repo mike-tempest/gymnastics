@@ -1,6 +1,10 @@
 'use client';
 
-import { governingBodyConfig, defaultGoverningBodyForCountry, checkNoun } from '@club-manager/shared-types';
+import {
+  governingBodyConfig,
+  defaultGoverningBodyForCountry,
+  checkNoun,
+} from '@club-manager/shared-types';
 import {
   ShieldCheck,
   AlertTriangle,
@@ -87,7 +91,9 @@ export default function ComplianceDashboardPage() {
   const { country, club } = useClubRegion();
   // Prefer the club's saved governing body; fall back to the country default
   // (Swim England for GB and unknowns, matching the previous behaviour).
-  const config = governingBodyConfig(club?.governing_body ?? defaultGoverningBodyForCountry(country));
+  const config = governingBodyConfig(
+    club?.governing_body ?? defaultGoverningBodyForCountry(country)
+  );
   const framework = config.backgroundCheckFramework;
   // "DBS" stays "DBS"; "Working With Children Check" loses its trailing
   // "Check" so "checks"/"check tracker" copy never doubles the word.
@@ -137,7 +143,7 @@ export default function ComplianceDashboardPage() {
   const officers =
     data.safeguardingOfficers ?? (data.safeguardingOfficer ? [data.safeguardingOfficer] : []);
   const officersNeedingAttention = officers.filter(
-    (officer) => officer.checkStatus === 'expiring' || officer.checkStatus === 'expired',
+    (officer) => officer.checkStatus === 'expiring' || officer.checkStatus === 'expired'
   );
 
   // The onboarding empty state is for a club that has recorded nothing yet, so
@@ -185,10 +191,16 @@ export default function ComplianceDashboardPage() {
               <div className="bg-dark-primary rounded-3xl shadow-lg p-4 sm:p-8 border border-white/10 mb-8">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                   <div>
-                    <p className="text-white/60 text-lg font-semibold mb-3">Club compliance health</p>
+                    <p className="text-white/60 text-lg font-semibold mb-3">
+                      Club compliance health
+                    </p>
                     <div className="flex items-end gap-4 mb-4">
-                      <h2 className="text-5xl sm:text-7xl font-bold text-white tabular-nums">{data.healthScore}</h2>
-                      <span className="text-2xl sm:text-3xl text-white/40 mb-2 tabular-nums">/ 100</span>
+                      <h2 className="text-5xl sm:text-7xl font-bold text-white tabular-nums">
+                        {data.healthScore}
+                      </h2>
+                      <span className="text-2xl sm:text-3xl text-white/40 mb-2 tabular-nums">
+                        / 100
+                      </span>
                     </div>
                     <span
                       className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold border bg-white/5 ${scoreInfo.text} border-white/10`}
@@ -222,7 +234,9 @@ export default function ComplianceDashboardPage() {
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="font-serif text-3xl text-white tabular-nums">{data.healthScore}%</span>
+                      <span className="font-serif text-3xl text-white tabular-nums">
+                        {data.healthScore}%
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -248,21 +262,27 @@ export default function ComplianceDashboardPage() {
                         <CheckCircle className="w-4 h-4 text-success" />
                         Valid
                       </span>
-                      <span className="text-sm font-bold text-success tabular-nums">{data.dbsValid}</span>
+                      <span className="text-sm font-bold text-success tabular-nums">
+                        {data.dbsValid}
+                      </span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-2 text-sm text-white/60">
                         <Clock className="w-4 h-4 text-warning" />
                         Expiring soon
                       </span>
-                      <span className="text-sm font-bold text-warning tabular-nums">{data.dbsExpiringSoon}</span>
+                      <span className="text-sm font-bold text-warning tabular-nums">
+                        {data.dbsExpiringSoon}
+                      </span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-2 text-sm text-white/60">
                         <XCircle className="w-4 h-4 text-danger" />
                         Expired
                       </span>
-                      <span className="text-sm font-bold text-danger tabular-nums">{data.dbsExpired}</span>
+                      <span className="text-sm font-bold text-danger tabular-nums">
+                        {data.dbsExpired}
+                      </span>
                     </div>
                   </div>
                 </Link>
@@ -285,21 +305,27 @@ export default function ComplianceDashboardPage() {
                         <CheckCircle className="w-4 h-4 text-success" />
                         Complete
                       </span>
-                      <span className="text-sm font-bold text-success tabular-nums">{data.consentComplete}</span>
+                      <span className="text-sm font-bold text-success tabular-nums">
+                        {data.consentComplete}
+                      </span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-2 text-sm text-white/60">
                         <Clock className="w-4 h-4 text-warning" />
                         Partial
                       </span>
-                      <span className="text-sm font-bold text-warning tabular-nums">{data.consentPartial}</span>
+                      <span className="text-sm font-bold text-warning tabular-nums">
+                        {data.consentPartial}
+                      </span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-2 text-sm text-white/60">
                         <XCircle className="w-4 h-4 text-danger" />
                         Missing
                       </span>
-                      <span className="text-sm font-bold text-danger tabular-nums">{data.consentMissing}</span>
+                      <span className="text-sm font-bold text-danger tabular-nums">
+                        {data.consentMissing}
+                      </span>
                     </div>
                   </div>
                 </Link>
@@ -367,11 +393,15 @@ export default function ComplianceDashboardPage() {
               <div className="bg-dark-primary rounded-3xl shadow-lg p-6 border border-white/10 mb-8">
                 <div className="flex items-center gap-3 mb-6">
                   <AlertTriangle className="w-6 h-6 text-warning" />
-                  <h2 className="font-serif text-2xl sm:text-3xl text-white">{noun} checks expiring soon</h2>
+                  <h2 className="font-serif text-2xl sm:text-3xl text-white">
+                    {noun} checks expiring soon
+                  </h2>
                 </div>
 
                 {data.expiringDbsChecks.length === 0 ? (
-                  <p className="text-white/60 text-center py-8">No {noun} checks expiring in the next 90 days.</p>
+                  <p className="text-white/60 text-center py-8">
+                    No {noun} checks expiring in the next 90 days.
+                  </p>
                 ) : (
                   <div className="space-y-3">
                     {data.expiringDbsChecks.map((check) => (
@@ -405,7 +435,12 @@ export default function ComplianceDashboardPage() {
                             {expiryCountdown(check.daysRemaining)}
                           </p>
                           <p className="text-white/40 text-xs tabular-nums">
-                            Expires {formatDate(check.expiryDate, { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                            Expires{' '}
+                            {formatDate(check.expiryDate, {
+                              day: '2-digit',
+                              month: '2-digit',
+                              year: 'numeric',
+                            })}
                           </p>
                         </div>
                       </div>

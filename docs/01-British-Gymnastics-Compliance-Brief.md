@@ -1,12 +1,13 @@
 # British Gymnastics — Compliance & NGB Verification Brief
 
-*Prepared 4 September 2026 for a UK gymnastics club-management SaaS (forked from a swim-club platform). British Gymnastics (BG) is the UK National Governing Body (NGB) for gymnastics. Items marked **[verify at build time]** are date-sensitive (fees, tier names, scheme names) and should be re-confirmed against british-gymnastics.org before launch. Where a fact could not be fully verified from primary sources, it is flagged **[unverified]**.*
+_Prepared 4 September 2026 for a UK gymnastics club-management SaaS (forked from a swim-club platform). British Gymnastics (BG) is the UK National Governing Body (NGB) for gymnastics. Items marked **[verify at build time]** are date-sensitive (fees, tier names, scheme names) and should be re-confirmed against british-gymnastics.org before launch. Where a fact could not be fully verified from primary sources, it is flagged **[unverified]**._
 
 ---
 
 ## 1. Club affiliation & individual membership
 
 **Club affiliation.** Clubs join BG as **registered clubs**. Per BG's Membership Rules (v13.0, July 2025), a registered club must:
+
 - affiliate to its Home Country Association (English / Scottish / Welsh / Northern Ireland Gymnastics) and, where applicable, to no more than one affiliated Regional Association;
 - maintain a minimum membership (the Rules state **at least 10 gymnast members**);
 - appoint a qualified **head coach**, a **club secretary/manager**, and a **Welfare Officer**;
@@ -15,12 +16,14 @@
 
 **Individual membership categories** (from Membership Rules v13.0 — **[verify at build time]**, as BG has been running a "membership modernisation" programme and consumer-facing tier names may differ):
 
-*Participant/gymnast side:*
+_Participant/gymnast side:_
+
 - **Community Membership** — recreational / non-competitive gymnasts of any age; also judges, welfare officers, admin roles.
 - **Competitive Membership** — those competing in events organised by registered clubs (not by BG directly).
 - **National Membership** — those competing in BG-organised or Home Country Association competitions.
 
-*Coach side:*
+_Coach side:_
+
 - **Enhanced Membership** — UKCC Level 2+ coaches, Activity Instructors, Honorary Life members, certain committee roles.
 - **National Membership (coach)** — UKCC Level 1 Assistant Coaches and those in the international-qualification transfer process.
 
@@ -47,15 +50,16 @@ BG does **not** use a single branded product name equivalent to Swim England's "
 
 **Club-level role title: "Welfare Officer."** BG requires every registered club (and region/event) to have a **nominated Welfare Officer** responsible for responding to child-protection and poor-practice concerns and supporting welfare procedures. (This is BG's equivalent of a Club Welfare / Safeguarding Officer; "Welfare Officer" is the term to use.)
 
-*Context note (not for config):* BG's safeguarding regime was overhauled following the independent **Whyte Review (2022)** into abuse in the sport — relevant if you write explanatory compliance copy.
+_Context note (not for config):_ BG's safeguarding regime was overhauled following the independent **Whyte Review (2022)** into abuse in the sport — relevant if you write explanatory compliance copy.
 
 ---
 
 ## 4. Background checks by UK home nation
 
 Confirmed that the standard UK home-nation schemes apply to BG coaches/volunteers in regulated roles:
+
 - **England & Wales — DBS** (Disclosure and Barring Service).
-- **Scotland — PVG** (Protecting Vulnerable Groups scheme, via Disclosure Scotland). *Note:* one BG Club Hub resource page phrased checks as "DBS" for England/Wales/Scotland and "AccessNI" for Northern Ireland and did **not** explicitly name PVG — **[verify at build time]**. PVG is the correct statutory scheme for Scotland and is used by Scottish Gymnastics, so your config should model DBS / PVG / AccessNI by nation, but confirm BG's exact wording for Scotland.
+- **Scotland — PVG** (Protecting Vulnerable Groups scheme, via Disclosure Scotland). _Note:_ one BG Club Hub resource page phrased checks as "DBS" for England/Wales/Scotland and "AccessNI" for Northern Ireland and did **not** explicitly name PVG — **[verify at build time]**. PVG is the correct statutory scheme for Scotland and is used by Scottish Gymnastics, so your config should model DBS / PVG / AccessNI by nation, but confirm BG's exact wording for Scotland.
 - **Northern Ireland — AccessNI**.
 
 **BG-specific process/terminology:** BG administers criminal-record checks through its own process (checks are arranged/verified via BG rather than the club acting alone), commonly referred to in BG materials as a **"criminal record check."** No distinctly branded BG vetting-portal name was found in the sources reviewed — **[unverified]**; if you need a portal name, verify directly with BG. Checks are managed within the **My BG** membership system. **[verify at build time]**
@@ -75,7 +79,7 @@ BG uses a **tiered, discipline-specific coaching pathway**. The framework (confi
 - **Level 4 Coach** — Senior Club Coach / Performance Coach (application-based).
 - **Level 5 Coach** — High-Performance Coach (highest tier).
 
-*Note:* BG has historically used **UKCC (UK Coaching Certificate) Level 1–4** labels; newer branding uses "Assistant/Foundation Coach" plus numbered levels. Both appear in current materials, so **[verify at build time]** whether your config should present "UKCC Level 1/2" or the newer names — and note exact level availability varies by discipline.
+_Note:_ BG has historically used **UKCC (UK Coaching Certificate) Level 1–4** labels; newer branding uses "Assistant/Foundation Coach" plus numbered levels. Both appear in current materials, so **[verify at build time]** whether your config should present "UKCC Level 1/2" or the newer names — and note exact level availability varies by discipline.
 
 ---
 
@@ -104,6 +108,7 @@ Official BG gymnastics disciplines (confirmed set — **10 core competitive disc
 10. Disability Gymnastics
 
 **Notes / caveats:**
+
 - Trampoline, DMT and Tumbling are sometimes grouped under a **"Trampoline & DMT / Gymnastics for All"** banner but are distinct disciplines.
 - **Pre-school** and **adult** gymnastics, and **Freestyle / Parkour (FreeG)**, are BG **participation programmes/pathways** rather than always being listed among the 10 core competitive disciplines. Parkour/Freestyle ("FreeG") has been offered by BG but its status as a listed "discipline" is inconsistent across BG pages — **[verify at build time]** if you intend to list it as a formal discipline.
 - **GymFusion** is a BG **non-competitive performance/festival programme**, not a discipline.
@@ -116,6 +121,7 @@ Official BG gymnastics disciplines (confirmed set — **10 core competitive disc
 BG's recreational proficiency/award scheme has been **rebranded to "Rise Gymnastics"** (the **Rise Awards**), which replaces the long-standing **Proficiency Awards / Core Proficiency badge scheme** (formerly "BAGA awards"). BG publishes migration guidance ("How do gymnasts transfer from Proficiency Awards to Rise?"), confirming Rise is the current scheme. **[verify at build time]** — this is a live transition; some clubs may still run legacy Proficiency Awards.
 
 **Rise structure** (skill/competency-based, delivered by clubs):
+
 - **Rise Discover** — pre-school; ~12 themed units; award on completing e.g. 12 of 16 skills.
 - **Rise Explore** — school-aged recreational; strands (Core Skills, Apparatus, Working Together), four levels each; award on e.g. 8 of 12 skills.
 - **Rise Excel** — advanced recreational; four strands, three levels; thresholds vary (e.g. 10 of 14 / 7 of 10 skills).
@@ -125,6 +131,7 @@ BG's recreational proficiency/award scheme has been **rebranded to "Rise Gymnast
 ---
 
 ## Unverified / flag summary
+
 - Exact **current consumer-facing membership tier names & fees** — [verify at build time].
 - **Scotland check wording** (PVG vs BG's "DBS" phrasing) — [verify]; PVG is correct statutory scheme.
 - Named **BG vetting portal** — [unverified]; checks run via My BG / BG criminal-record-check process.
@@ -149,9 +156,11 @@ BG's recreational proficiency/award scheme has been **rebranded to "Rise Gymnast
   dataSharingRecipient: 'British Gymnastics',
 },
 ```
-*Award scheme for the badges module: **Rise** (Discover / Explore / Excel), replacing legacy Proficiency Awards; support per-award badge/certificate charges.*
+
+_Award scheme for the badges module: **Rise** (Discover / Explore / Excel), replacing legacy Proficiency Awards; support per-award badge/certificate charges._
 
 ## Sources
+
 - [BG Memberships](https://www.british-gymnastics.org/memberships) and [About your Club Membership](https://www.british-gymnastics.org/about-your-club-membership)
 - [BG Membership Rules v13.0, July 2025 (PDF)](https://a.storyblok.com/f/83342/x/8507cce2d6/2025_07_11_membership_rules_v13-0_live.pdf)
 - [BG "How to log in to My BG" (PDF)](https://a.storyblok.com/f/83342/x/33e63667d4/how-to-login-to-mybg-v3.pdf)

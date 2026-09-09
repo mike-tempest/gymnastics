@@ -43,7 +43,9 @@ export default function CommunicationsPage() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
             <div>
-              <h1 className="font-serif text-3xl sm:text-4xl text-dark-primary tracking-tight mb-1">Communications</h1>
+              <h1 className="font-serif text-3xl sm:text-4xl text-dark-primary tracking-tight mb-1">
+                Communications
+              </h1>
               <p className="text-text-secondary text-lg">Manage club announcements</p>
             </div>
             <Link
@@ -60,84 +62,101 @@ export default function CommunicationsPage() {
 
           {/* Content */}
           {!error && (
-          <div className="bg-dark-primary rounded-3xl shadow-lg border border-white/10">
-            {isLoading && (
-              <div className="p-4 sm:p-8">
-                <TableSkeleton />
-              </div>
-            )}
+            <div className="bg-dark-primary rounded-3xl shadow-lg border border-white/10">
+              {isLoading && (
+                <div className="p-4 sm:p-8">
+                  <TableSkeleton />
+                </div>
+              )}
 
-            {!isLoading && communications.length === 0 && (
-              <EmptyState
-                icon={Mail}
-                title="No messages sent yet"
-                description="Once you send an announcement, it will appear here so you can track what has been communicated to your club."
-                actionLabel="Compose Message"
-                actionHref="/communications/compose"
-              />
-            )}
+              {!isLoading && communications.length === 0 && (
+                <EmptyState
+                  icon={Mail}
+                  title="No messages sent yet"
+                  description="Once you send an announcement, it will appear here so you can track what has been communicated to your club."
+                  actionLabel="Compose Message"
+                  actionHref="/communications/compose"
+                />
+              )}
 
-            {!isLoading && communications.length > 0 && (
-              <>
-                {/* Desktop table */}
-                <div className="hidden sm:block overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b border-white/10">
-                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-text-tertiary">Subject</th>
-                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-text-tertiary">Recipients</th>
-                        <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-text-tertiary">Count</th>
-                        <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-text-tertiary">Sent</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {communications.map((comm) => (
-                        <tr key={comm.communication_id} className="border-b border-white/5 last:border-b-0 hover:bg-white/5 transition-colors">
-                          <td className="px-6 py-4">
-                            <Link
-                              href={`/communications/${comm.communication_id}`}
-                              className="flex items-center min-h-[48px]"
-                            >
-                              <span className="font-semibold text-white hover:text-brand transition-colors">{comm.subject}</span>
-                            </Link>
-                          </td>
-                          <td className="px-6 py-4">
-                            <RecipientBadge communication={comm} />
-                          </td>
-                          <td className="px-6 py-4 text-right text-text-secondary tabular-nums">
-                            {comm.recipient_count}
-                          </td>
-                          <td className="px-6 py-4 text-right text-text-secondary text-sm">
-                            {formatDate(comm.sent_date)}
-                          </td>
+              {!isLoading && communications.length > 0 && (
+                <>
+                  {/* Desktop table */}
+                  <div className="hidden sm:block overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-white/10">
+                          <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+                            Subject
+                          </th>
+                          <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+                            Recipients
+                          </th>
+                          <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+                            Count
+                          </th>
+                          <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+                            Sent
+                          </th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {communications.map((comm) => (
+                          <tr
+                            key={comm.communication_id}
+                            className="border-b border-white/5 last:border-b-0 hover:bg-white/5 transition-colors"
+                          >
+                            <td className="px-6 py-4">
+                              <Link
+                                href={`/communications/${comm.communication_id}`}
+                                className="flex items-center min-h-[48px]"
+                              >
+                                <span className="font-semibold text-white hover:text-brand transition-colors">
+                                  {comm.subject}
+                                </span>
+                              </Link>
+                            </td>
+                            <td className="px-6 py-4">
+                              <RecipientBadge communication={comm} />
+                            </td>
+                            <td className="px-6 py-4 text-right text-text-secondary tabular-nums">
+                              {comm.recipient_count}
+                            </td>
+                            <td className="px-6 py-4 text-right text-text-secondary text-sm">
+                              {formatDate(comm.sent_date)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
 
-                {/* Mobile card list */}
-                <div className="sm:hidden divide-y divide-white/5">
-                  {communications.map((comm) => (
-                    <Link
-                      key={comm.communication_id}
-                      href={`/communications/${comm.communication_id}`}
-                      className="block p-4 hover:bg-white/5 transition-colors min-h-[48px]"
-                    >
-                      <p className="font-semibold text-white mb-2">{comm.subject}</p>
-                      <div className="flex items-center justify-between gap-3">
-                        <RecipientBadge communication={comm} />
-                        <div className="text-right">
-                          <p className="text-text-secondary text-xs tabular-nums">{comm.recipient_count} recipients</p>
-                          <p className="text-text-tertiary text-xs">{formatDate(comm.sent_date)}</p>
+                  {/* Mobile card list */}
+                  <div className="sm:hidden divide-y divide-white/5">
+                    {communications.map((comm) => (
+                      <Link
+                        key={comm.communication_id}
+                        href={`/communications/${comm.communication_id}`}
+                        className="block p-4 hover:bg-white/5 transition-colors min-h-[48px]"
+                      >
+                        <p className="font-semibold text-white mb-2">{comm.subject}</p>
+                        <div className="flex items-center justify-between gap-3">
+                          <RecipientBadge communication={comm} />
+                          <div className="text-right">
+                            <p className="text-text-secondary text-xs tabular-nums">
+                              {comm.recipient_count} recipients
+                            </p>
+                            <p className="text-text-tertiary text-xs">
+                              {formatDate(comm.sent_date)}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
+                      </Link>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
           )}
         </div>
       </div>

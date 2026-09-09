@@ -117,13 +117,7 @@
         "venue": "Slough Ice Arena and Leisure"
       }
     ],
-    "towns": [
-      "Bracknell",
-      "Maidenhead",
-      "Newbury",
-      "Reading",
-      "Slough"
-    ]
+    "towns": ["Bracknell", "Maidenhead", "Newbury", "Reading", "Slough"]
   },
   "bristol": {
     "name": "Bristol",
@@ -148,9 +142,7 @@
         "venue": ""
       }
     ],
-    "towns": [
-      "Bristol"
-    ]
+    "towns": ["Bristol"]
   },
   "buckinghamshire": {
     "name": "Buckinghamshire",
@@ -264,13 +256,7 @@
         "venue": "Hudson Leisure Centre"
       }
     ],
-    "towns": [
-      "Cambridge",
-      "Ely",
-      "Huntingdon",
-      "Peterborough",
-      "Wisbech"
-    ]
+    "towns": ["Cambridge", "Ely", "Huntingdon", "Peterborough", "Wisbech"]
   },
   "cornwall": {
     "name": "Cornwall",
@@ -824,11 +810,7 @@
         "venue": ""
       }
     ],
-    "towns": [
-      "Cambridge",
-      "Ipswich",
-      "Norwich"
-    ]
+    "towns": ["Cambridge", "Ipswich", "Norwich"]
   },
   "east-midlands": {
     "name": "East Midlands",
@@ -859,11 +841,7 @@
         "venue": ""
       }
     ],
-    "towns": [
-      "Derby",
-      "Leicester",
-      "Nottingham"
-    ]
+    "towns": ["Derby", "Leicester", "Nottingham"]
   },
   "east-sussex": {
     "name": "East Sussex",
@@ -2572,13 +2550,7 @@
         "venue": "Langtree Park"
       }
     ],
-    "towns": [
-      "Birkenhead",
-      "Crosby",
-      "Kirkby",
-      "Liverpool",
-      "St Helens"
-    ]
+    "towns": ["Birkenhead", "Crosby", "Kirkby", "Liverpool", "St Helens"]
   },
   "norfolk": {
     "name": "Norfolk",
@@ -2674,11 +2646,7 @@
         "venue": ""
       }
     ],
-    "towns": [
-      "Newcastle upon Tyne",
-      "North Shields",
-      "Sunderland"
-    ]
+    "towns": ["Newcastle upon Tyne", "North Shields", "Sunderland"]
   },
   "north-east-lincolnshire": {
     "name": "North East Lincolnshire",
@@ -2709,11 +2677,7 @@
         "venue": "Immingham Sports Centre"
       }
     ],
-    "towns": [
-      "Cleethorpes",
-      "Grimsby",
-      "Immingham"
-    ]
+    "towns": ["Cleethorpes", "Grimsby", "Immingham"]
   },
   "north-lincolnshire": {
     "name": "North Lincolnshire",
@@ -2744,12 +2708,7 @@
         "venue": "The Pods Leisure Centre"
       }
     ],
-    "towns": [
-      "Barton-upon-Humber",
-      "Brigg",
-      "Crowle",
-      "Scunthorpe"
-    ]
+    "towns": ["Barton-upon-Humber", "Brigg", "Crowle", "Scunthorpe"]
   },
   "north-west": {
     "name": "North West",
@@ -2884,14 +2843,7 @@
         "venue": ""
       }
     ],
-    "towns": [
-      "Harrogate",
-      "Middlesbrough",
-      "Northallerton",
-      "Richmond",
-      "Scarborough",
-      "York"
-    ]
+    "towns": ["Harrogate", "Middlesbrough", "Northallerton", "Richmond", "Scarborough", "York"]
   },
   "northern-ireland": {
     "name": "Northern Ireland",
@@ -3396,13 +3348,7 @@
         "venue": "Goldenstones Pool"
       }
     ],
-    "towns": [
-      "Bath",
-      "Bridgwater",
-      "Taunton",
-      "Weston-super-Mare",
-      "Yeovil"
-    ]
+    "towns": ["Bath", "Bridgwater", "Taunton", "Weston-super-Mare", "Yeovil"]
   },
   "south-east": {
     "name": "South East",
@@ -3604,14 +3550,7 @@
         "venue": ""
       }
     ],
-    "towns": [
-      "Bath",
-      "Bristol",
-      "Exeter",
-      "Gloucester",
-      "Plymouth",
-      "Swindon"
-    ]
+    "towns": ["Bath", "Bristol", "Exeter", "Gloucester", "Plymouth", "Swindon"]
   },
   "south-yorkshire": {
     "name": "South Yorkshire",
@@ -4397,15 +4336,7 @@
         "venue": "Keighley Leisure Centre"
       }
     ],
-    "towns": [
-      "Batley",
-      "Bradford",
-      "Brighouse",
-      "Halifax",
-      "Huddersfield",
-      "Keighley",
-      "Leeds"
-    ]
+    "towns": ["Batley", "Bradford", "Brighouse", "Halifax", "Huddersfield", "Keighley", "Leeds"]
   },
   "wiltshire": {
     "name": "Wiltshire",

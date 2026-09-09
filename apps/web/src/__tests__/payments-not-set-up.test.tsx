@@ -65,7 +65,7 @@ function renderPage(paymentProvider: 'stripe' | 'gocardless' | null) {
   return render(
     <QueryClientProvider client={queryClient}>
       <PaymentsPage />
-    </QueryClientProvider>,
+    </QueryClientProvider>
   );
 }
 
@@ -80,12 +80,8 @@ describe('Payments page settings tab without a payment provider', () => {
 
     await user.click(screen.getByRole('button', { name: 'Payment Settings' }));
 
-    await waitFor(() =>
-      expect(screen.getByText(NOT_SET_UP_COPY)).toBeInTheDocument(),
-    );
-    expect(
-      screen.getByText('Online payments are not available yet'),
-    ).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText(NOT_SET_UP_COPY)).toBeInTheDocument());
+    expect(screen.getByText('Online payments are not available yet')).toBeInTheDocument();
 
     // The provider info section and setup entry points must not render.
     expect(screen.queryByText(/^About /)).not.toBeInTheDocument();
@@ -98,9 +94,7 @@ describe('Payments page settings tab without a payment provider', () => {
 
     await user.click(screen.getByRole('button', { name: 'Payment Settings' }));
 
-    await waitFor(() =>
-      expect(screen.getByText('About Direct Debit')).toBeInTheDocument(),
-    );
+    await waitFor(() => expect(screen.getByText('About Direct Debit')).toBeInTheDocument());
     expect(screen.getByText('Payment Information')).toBeInTheDocument();
     expect(screen.queryByText(NOT_SET_UP_COPY)).not.toBeInTheDocument();
   });
@@ -111,9 +105,7 @@ describe('Payments page settings tab without a payment provider', () => {
 
     await user.click(screen.getByRole('button', { name: 'Payment Settings' }));
 
-    await waitFor(() =>
-      expect(screen.getByText('About automatic payments')).toBeInTheDocument(),
-    );
+    await waitFor(() => expect(screen.getByText('About automatic payments')).toBeInTheDocument());
     expect(screen.queryByText(NOT_SET_UP_COPY)).not.toBeInTheDocument();
   });
 });

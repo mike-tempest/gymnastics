@@ -12,28 +12,34 @@ import { getSquads } from '@/lib/api/squads';
 import { MEMBER_NOUN } from '@/lib/brand';
 import { currencySymbol } from '@/lib/utils/currency';
 
-const feeStructureSchema = z.object({
-  name: z.string().min(1, 'Please enter a name for this fee structure').max(100, 'Fee name must be under 100 characters'),
-  description: z.string().max(500, 'Description must be under 500 characters').optional(),
-  amount: z.coerce.number()
-    .min(0.01, 'Please enter an amount greater than zero')
-    .max(10000, 'Amount cannot exceed 10,000. Please check the value entered.'),
-  frequency: z.enum(['monthly', 'term', 'annual', 'one_time']),
-  applies_to: z.enum(['club', 'squad', 'member']),
-  squad_id: z.string().optional().nullable(),
-  is_active: z.boolean(),
-}).refine(
-  (data) => {
-    if (data.applies_to === 'squad' && !data.squad_id) {
-      return false;
+const feeStructureSchema = z
+  .object({
+    name: z
+      .string()
+      .min(1, 'Please enter a name for this fee structure')
+      .max(100, 'Fee name must be under 100 characters'),
+    description: z.string().max(500, 'Description must be under 500 characters').optional(),
+    amount: z.coerce
+      .number()
+      .min(0.01, 'Please enter an amount greater than zero')
+      .max(10000, 'Amount cannot exceed 10,000. Please check the value entered.'),
+    frequency: z.enum(['monthly', 'term', 'annual', 'one_time']),
+    applies_to: z.enum(['club', 'squad', 'member']),
+    squad_id: z.string().optional().nullable(),
+    is_active: z.boolean(),
+  })
+  .refine(
+    (data) => {
+      if (data.applies_to === 'squad' && !data.squad_id) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: 'Please select a squad for this fee to apply to',
+      path: ['squad_id'],
     }
-    return true;
-  },
-  {
-    message: 'Please select a squad for this fee to apply to',
-    path: ['squad_id'],
-  }
-);
+  );
 
 type FeeStructureFormData = z.infer<typeof feeStructureSchema>;
 
@@ -197,11 +203,16 @@ export default function FeeStructureModal({
         {/* Header */}
         <div className="flex items-center justify-between p-4 sm:p-8 border-b border-white/10">
           <div>
-            <h2 id="fee-structure-modal-title" className="text-2xl sm:text-3xl font-bold text-white mb-1">
+            <h2
+              id="fee-structure-modal-title"
+              className="text-2xl sm:text-3xl font-bold text-white mb-1"
+            >
               {feeStructure ? 'Edit Fee Structure' : 'Create Fee Structure'}
             </h2>
             <p className="text-text-secondary">
-              {feeStructure ? 'Update fee structure details' : 'Create a new fee structure for billing'}
+              {feeStructure
+                ? 'Update fee structure details'
+                : 'Create a new fee structure for billing'}
             </p>
           </div>
           <button
@@ -262,7 +273,9 @@ export default function FeeStructureModal({
                 placeholder="Describe what this fee covers..."
                 disabled={isSubmitting}
               />
-              {errors.description && <p className="mt-2 text-sm text-red-400">{errors.description.message}</p>}
+              {errors.description && (
+                <p className="mt-2 text-sm text-red-400">{errors.description.message}</p>
+              )}
             </div>
 
             {/* Amount and Frequency Row */}
@@ -281,7 +294,9 @@ export default function FeeStructureModal({
                   className={inputCls(!!errors.amount)}
                   disabled={isSubmitting}
                 />
-                {errors.amount && <p className="mt-2 text-sm text-red-400">{errors.amount.message}</p>}
+                {errors.amount && (
+                  <p className="mt-2 text-sm text-red-400">{errors.amount.message}</p>
+                )}
               </div>
 
               <div>
@@ -299,7 +314,9 @@ export default function FeeStructureModal({
                   <option value="annual">Annual</option>
                   <option value="one_time">One-time</option>
                 </select>
-                {errors.frequency && <p className="mt-2 text-sm text-red-400">{errors.frequency.message}</p>}
+                {errors.frequency && (
+                  <p className="mt-2 text-sm text-red-400">{errors.frequency.message}</p>
+                )}
               </div>
             </div>
 
@@ -319,7 +336,9 @@ export default function FeeStructureModal({
                   <option value="squad">Specific Squad</option>
                   <option value="member">Per {MEMBER_NOUN}</option>
                 </select>
-                {errors.applies_to && <p className="mt-2 text-sm text-red-400">{errors.applies_to.message}</p>}
+                {errors.applies_to && (
+                  <p className="mt-2 text-sm text-red-400">{errors.applies_to.message}</p>
+                )}
               </div>
 
               {appliesTo === 'squad' && (
@@ -340,7 +359,9 @@ export default function FeeStructureModal({
                       </option>
                     ))}
                   </select>
-                  {errors.squad_id && <p className="mt-2 text-sm text-red-400">{errors.squad_id.message}</p>}
+                  {errors.squad_id && (
+                    <p className="mt-2 text-sm text-red-400">{errors.squad_id.message}</p>
+                  )}
                 </div>
               )}
             </div>

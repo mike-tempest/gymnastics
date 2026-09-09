@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { defaultGoverningBodyForCountry, governingBodyConfig } from "@club-manager/shared-types";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import Papa from "papaparse";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { toast } from "sonner";
-import { z } from "zod";
+import { defaultGoverningBodyForCountry, governingBodyConfig } from '@club-manager/shared-types';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import Papa from 'papaparse';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { toast } from 'sonner';
+import { z } from 'zod';
 
-import { useClubRegion } from "@/hooks/useClubRegion";
+import { useClubRegion } from '@/hooks/useClubRegion';
 import {
   onboardingExited,
   onboardingLaunched,
@@ -17,26 +17,31 @@ import {
   onboardingStepSkipped,
   onboardingStepViewed,
   type OnboardingStep,
-} from "@/lib/analytics";
-import { createMember } from "@/lib/api/members";
-import { updateClubSettings } from "@/lib/api/settings";
-import { createSquad } from "@/lib/api/squads";
-import { BRAND, MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from "@/lib/brand";
-import { isValidPhone } from "@/lib/utils/postal";
-import { countyLabel } from "@/lib/utils/region-labels";
+} from '@/lib/analytics';
+import { createMember } from '@/lib/api/members';
+import { updateClubSettings } from '@/lib/api/settings';
+import { createSquad } from '@/lib/api/squads';
+import {
+  BRAND,
+  MEMBER_NOUN_LOWER,
+  MEMBER_NOUN_PLURAL,
+  MEMBER_NOUN_PLURAL_LOWER,
+} from '@/lib/brand';
+import { isValidPhone } from '@/lib/utils/postal';
+import { countyLabel } from '@/lib/utils/region-labels';
 
 // Typed step names that mirror STEP_LABELS, used in analytics events.
-const STEP_NAMES: OnboardingStep["name"][] = [
-  "club_details",
-  "venues",
-  "squads",
-  "import_members",
-  "invite_staff",
-  "review",
+const STEP_NAMES: OnboardingStep['name'][] = [
+  'club_details',
+  'venues',
+  'squads',
+  'import_members',
+  'invite_staff',
+  'review',
 ];
 
 function stepFor(index: number): OnboardingStep {
-  return { index, name: STEP_NAMES[index] ?? "review" };
+  return { index, name: STEP_NAMES[index] ?? 'review' };
 }
 
 // ---------------------------------------------------------------------------
@@ -54,8 +59,8 @@ interface Venue {
 interface Squad {
   id: string;
   name: string;
-  minAge: number | "";
-  maxAge: number | "";
+  minAge: number | '';
+  maxAge: number | '';
   description: string;
   trainingTimes: string;
 }
@@ -73,7 +78,7 @@ interface StaffMember {
   firstName: string;
   lastName: string;
   email: string;
-  role: "ADMIN" | "COACH";
+  role: 'ADMIN' | 'COACH';
 }
 
 interface ClubData {
@@ -90,47 +95,53 @@ interface ClubData {
 // ---------------------------------------------------------------------------
 
 const clubSchema = z.object({
-  clubName: z.string().min(1, "Please enter your club name"),
+  clubName: z.string().min(1, 'Please enter your club name'),
   affiliationNumber: z.string(),
   county: z.string(),
-  contactEmail: z.string().min(1, "Please enter a contact email address").email("Please enter a valid email address"),
+  contactEmail: z
+    .string()
+    .min(1, 'Please enter a contact email address')
+    .email('Please enter a valid email address'),
   phone: z.string().refine((val) => {
-    if (!val || val.trim() === "") return true;
+    if (!val || val.trim() === '') return true;
     return isValidPhone(val);
-  }, "Please enter a valid phone number"),
+  }, 'Please enter a valid phone number'),
   website: z.string().refine((val) => {
-    if (!val || val.trim() === "") return true;
+    if (!val || val.trim() === '') return true;
     try {
-      const url = val.startsWith("http") ? val : `https://${val}`;
+      const url = val.startsWith('http') ? val : `https://${val}`;
       new URL(url);
       return true;
     } catch {
       return false;
     }
-  }, "Please enter a valid website address (e.g. www.yourclub.co.uk)"),
+  }, 'Please enter a valid website address (e.g. www.yourclub.co.uk)'),
 });
 
 const venueSchema = z.object({
-  name: z.string().min(1, "Please enter the venue name"),
+  name: z.string().min(1, 'Please enter the venue name'),
 });
 
 const squadSchema = z.object({
-  name: z.string().min(1, "Please enter the squad name"),
+  name: z.string().min(1, 'Please enter the squad name'),
 });
 
-const staffEmailSchema = z.string().min(1, "Please enter an email address").email("Please enter a valid email address");
+const staffEmailSchema = z
+  .string()
+  .min(1, 'Please enter an email address')
+  .email('Please enter a valid email address');
 
 // ---------------------------------------------------------------------------
 // CSV column mapping types
 // ---------------------------------------------------------------------------
 
-type CsvMappableField = "first_name" | "last_name" | "dob" | "gender";
+type CsvMappableField = 'first_name' | 'last_name' | 'dob' | 'gender';
 
 const CSV_FIELDS: { key: CsvMappableField; label: string }[] = [
-  { key: "first_name", label: "First name" },
-  { key: "last_name", label: "Last name" },
-  { key: "dob", label: "Date of birth" },
-  { key: "gender", label: "Gender" },
+  { key: 'first_name', label: 'First name' },
+  { key: 'last_name', label: 'Last name' },
+  { key: 'dob', label: 'Date of birth' },
+  { key: 'gender', label: 'Gender' },
 ];
 
 // ---------------------------------------------------------------------------
@@ -138,20 +149,22 @@ const CSV_FIELDS: { key: CsvMappableField; label: string }[] = [
 // ---------------------------------------------------------------------------
 
 const INPUT_CLASS =
-  "w-full min-h-[48px] bg-dark-primary border border-white/20 text-white rounded-button px-4 py-3 text-base focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 transition-all";
+  'w-full min-h-[48px] bg-dark-primary border border-white/20 text-white rounded-button px-4 py-3 text-base focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 transition-all';
 
-const LABEL_CLASS = "block text-sm font-bold text-white/90 mb-2";
+const LABEL_CLASS = 'block text-sm font-bold text-white/90 mb-2';
 
-const primaryBtnClass = "min-h-[48px] bg-brand text-dark-primary font-bold rounded-button px-6 py-3 cursor-pointer hover:bg-brand-dark transition-colors focus:outline-none focus:ring-4 focus:ring-brand focus:ring-opacity-50";
-const backBtnClass = "min-h-[48px] border border-white/20 text-white rounded-button px-6 py-3 bg-transparent cursor-pointer hover:bg-white/5 transition-colors";
+const primaryBtnClass =
+  'min-h-[48px] bg-brand text-dark-primary font-bold rounded-button px-6 py-3 cursor-pointer hover:bg-brand-dark transition-colors focus:outline-none focus:ring-4 focus:ring-brand focus:ring-opacity-50';
+const backBtnClass =
+  'min-h-[48px] border border-white/20 text-white rounded-button px-6 py-3 bg-transparent cursor-pointer hover:bg-white/5 transition-colors';
 
 const STEP_LABELS = [
-  "Club Details",
-  "Venues",
-  "Squads",
+  'Club Details',
+  'Venues',
+  'Squads',
   `Import ${MEMBER_NOUN_PLURAL}`,
-  "Invite Staff",
-  "Review",
+  'Invite Staff',
+  'Review',
 ];
 
 // ---------------------------------------------------------------------------
@@ -159,7 +172,7 @@ const STEP_LABELS = [
 // ---------------------------------------------------------------------------
 
 function genId(): string {
-  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
     return crypto.randomUUID();
   }
   return Date.now().toString();
@@ -187,7 +200,7 @@ function Stepper({ current, total }: { current: number; total: number }) {
               {/* Connector line */}
               {idx > 0 && (
                 <div
-                  className={`absolute top-4 right-1/2 w-full h-0.5 ${idx <= current ? "bg-brand" : "bg-white/15"}`}
+                  className={`absolute top-4 right-1/2 w-full h-0.5 ${idx <= current ? 'bg-brand' : 'bg-white/15'}`}
                 />
               )}
 
@@ -195,13 +208,19 @@ function Stepper({ current, total }: { current: number; total: number }) {
               <div
                 className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold ${
                   isCurrent || isCompleted
-                    ? "bg-brand text-dark-primary"
-                    : "border-2 border-white/30 text-white/70"
+                    ? 'bg-brand text-dark-primary'
+                    : 'border-2 border-white/30 text-white/70'
                 }`}
               >
                 {isCompleted ? (
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M2.5 7L5.5 10L11.5 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path
+                      d="M2.5 7L5.5 10L11.5 4"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
                 ) : (
                   idx + 1
@@ -210,7 +229,7 @@ function Stepper({ current, total }: { current: number; total: number }) {
 
               {/* Label */}
               <span
-                className={`mt-2 text-xs text-center ${isCurrent ? "text-brand" : "text-white/70"}`}
+                className={`mt-2 text-xs text-center ${isCurrent ? 'text-brand' : 'text-white/70'}`}
               >
                 {label}
               </span>
@@ -236,9 +255,9 @@ export default function OnboardingPage() {
   const { country } = useClubRegion();
   const governingBody = governingBodyConfig(defaultGoverningBodyForCountry(country));
   const regionFieldLabel = countyLabel(country);
-  const isGB = country === "GB";
+  const isGB = country === 'GB';
   const regionFieldHelp = isGB
-    ? "Your county association, e.g. Kent County ASA"
+    ? 'Your county association, e.g. Kent County ASA'
     : `Your ${regionFieldLabel.toLowerCase()} swimming association, if you have one.`;
 
   // Analytics: timing + tally for the funnel events.
@@ -259,12 +278,12 @@ export default function OnboardingPage() {
 
   // Step 1: Club details
   const [clubData, setClubData] = useState<ClubData>({
-    clubName: "",
-    affiliationNumber: "",
-    county: "",
-    contactEmail: "",
-    phone: "",
-    website: "",
+    clubName: '',
+    affiliationNumber: '',
+    county: '',
+    contactEmail: '',
+    phone: '',
+    website: '',
   });
 
   // Step 2: Venues
@@ -275,16 +294,21 @@ export default function OnboardingPage() {
 
   // Step 4: Members
   const [members, setMembers] = useState<Member[]>([]);
-  const [importTab, setImportTab] = useState<"csv" | "manual">("csv");
+  const [importTab, setImportTab] = useState<'csv' | 'manual'>('csv');
   const [csvHeaders, setCsvHeaders] = useState<string[]>([]);
   const [csvRows, setCsvRows] = useState<string[][]>([]);
   const [csvMapping, setCsvMapping] = useState<Record<CsvMappableField, string>>({
-    first_name: "",
-    last_name: "",
-    dob: "",
-    gender: "",
+    first_name: '',
+    last_name: '',
+    dob: '',
+    gender: '',
   });
-  const [manualMember, setManualMember] = useState({ firstName: "", lastName: "", dob: "", gender: "M" });
+  const [manualMember, setManualMember] = useState({
+    firstName: '',
+    lastName: '',
+    dob: '',
+    gender: 'M',
+  });
 
   // Step 5: Staff
   const [staff, setStaff] = useState<StaffMember[]>([]);
@@ -303,7 +327,7 @@ export default function OnboardingPage() {
       if (!result.success) {
         result.error.errors.forEach((e) => {
           const field = e.path[0];
-          if (typeof field === "string") fieldErrors[field] = e.message;
+          if (typeof field === 'string') fieldErrors[field] = e.message;
         });
         setErrors(fieldErrors);
         return false;
@@ -315,7 +339,7 @@ export default function OnboardingPage() {
       for (const venue of venues) {
         const result = venueSchema.safeParse(venue);
         if (!result.success) {
-          fieldErrors[`venue-${venue.id}-name`] = "Please enter a name for this venue";
+          fieldErrors[`venue-${venue.id}-name`] = 'Please enter a name for this venue';
           hasError = true;
         }
       }
@@ -330,11 +354,15 @@ export default function OnboardingPage() {
       for (const squad of squads) {
         const result = squadSchema.safeParse(squad);
         if (!result.success) {
-          fieldErrors[`squad-${squad.id}-name`] = "Please enter a name for this squad";
+          fieldErrors[`squad-${squad.id}-name`] = 'Please enter a name for this squad';
           hasError = true;
         }
-        if (squad.minAge !== "" && squad.maxAge !== "" && Number(squad.minAge) > Number(squad.maxAge)) {
-          fieldErrors[`squad-${squad.id}-age`] = "Minimum age cannot be greater than maximum age";
+        if (
+          squad.minAge !== '' &&
+          squad.maxAge !== '' &&
+          Number(squad.minAge) > Number(squad.maxAge)
+        ) {
+          fieldErrors[`squad-${squad.id}-age`] = 'Minimum age cannot be greater than maximum age';
           hasError = true;
         }
       }
@@ -351,7 +379,8 @@ export default function OnboardingPage() {
       for (const member of staff) {
         const result = staffEmailSchema.safeParse(member.email);
         if (!result.success) {
-          fieldErrors[`staff-${member.id}-email`] = result.error.errors[0]?.message || "Please enter a valid email address";
+          fieldErrors[`staff-${member.id}-email`] =
+            result.error.errors[0]?.message || 'Please enter a valid email address';
           hasError = true;
         }
       }
@@ -378,7 +407,10 @@ export default function OnboardingPage() {
   // ---------- Venue helpers ----------
 
   const addVenue = () =>
-    setVenues((prev) => [...prev, { id: genId(), name: "", address: "", laneCount: 0, poolLength: 0 }]);
+    setVenues((prev) => [
+      ...prev,
+      { id: genId(), name: '', address: '', laneCount: 0, poolLength: 0 },
+    ]);
 
   const removeVenue = (id: string) => setVenues((prev) => prev.filter((v) => v.id !== id));
 
@@ -388,7 +420,10 @@ export default function OnboardingPage() {
   // ---------- Squad helpers ----------
 
   const addSquad = () =>
-    setSquads((prev) => [...prev, { id: genId(), name: "", minAge: "", maxAge: "", description: "", trainingTimes: "" }]);
+    setSquads((prev) => [
+      ...prev,
+      { id: genId(), name: '', minAge: '', maxAge: '', description: '', trainingTimes: '' },
+    ]);
 
   const removeSquad = (id: string) => setSquads((prev) => prev.filter((s) => s.id !== id));
 
@@ -406,7 +441,7 @@ export default function OnboardingPage() {
       complete(results) {
         const rows = results.data;
         if (rows.length < 2) {
-          toast.error("CSV must have a header row and at least one data row.");
+          toast.error('CSV must have a header row and at least one data row.');
           return;
         }
         const headers = rows[0];
@@ -414,13 +449,19 @@ export default function OnboardingPage() {
         setCsvRows(rows.slice(1));
 
         // Auto-map columns by common names
-        const autoMap: Record<CsvMappableField, string> = { first_name: "", last_name: "", dob: "", gender: "" };
+        const autoMap: Record<CsvMappableField, string> = {
+          first_name: '',
+          last_name: '',
+          dob: '',
+          gender: '',
+        };
         headers.forEach((h) => {
-          const lower = h.toLowerCase().replace(/[^a-z]/g, "");
-          if (lower.includes("first")) autoMap.first_name = h;
-          else if (lower.includes("last") || lower.includes("surname")) autoMap.last_name = h;
-          else if (lower.includes("dob") || lower.includes("birth") || lower.includes("date")) autoMap.dob = h;
-          else if (lower.includes("gender") || lower.includes("sex")) autoMap.gender = h;
+          const lower = h.toLowerCase().replace(/[^a-z]/g, '');
+          if (lower.includes('first')) autoMap.first_name = h;
+          else if (lower.includes('last') || lower.includes('surname')) autoMap.last_name = h;
+          else if (lower.includes('dob') || lower.includes('birth') || lower.includes('date'))
+            autoMap.dob = h;
+          else if (lower.includes('gender') || lower.includes('sex')) autoMap.gender = h;
         });
         setCsvMapping(autoMap);
       },
@@ -432,22 +473,24 @@ export default function OnboardingPage() {
 
   const applyCsvMapping = () => {
     if (!csvMapping.first_name || !csvMapping.last_name) {
-      toast.error("Please map at least first name and last name columns.");
+      toast.error('Please map at least first name and last name columns.');
       return;
     }
     const headerIndex = (col: string) => csvHeaders.indexOf(col);
     const mapped: Member[] = csvRows
       .map((row) => ({
         id: genId(),
-        firstName: row[headerIndex(csvMapping.first_name)] ?? "",
-        lastName: row[headerIndex(csvMapping.last_name)] ?? "",
-        dob: csvMapping.dob ? (row[headerIndex(csvMapping.dob)] ?? "") : "",
-        gender: csvMapping.gender ? (row[headerIndex(csvMapping.gender)] ?? "") : "",
+        firstName: row[headerIndex(csvMapping.first_name)] ?? '',
+        lastName: row[headerIndex(csvMapping.last_name)] ?? '',
+        dob: csvMapping.dob ? (row[headerIndex(csvMapping.dob)] ?? '') : '',
+        gender: csvMapping.gender ? (row[headerIndex(csvMapping.gender)] ?? '') : '',
       }))
       .filter((s) => s.firstName || s.lastName);
 
     setMembers((prev) => [...prev, ...mapped]);
-    toast.success(`Imported ${mapped.length} ${mapped.length === 1 ? MEMBER_NOUN_LOWER : MEMBER_NOUN_PLURAL_LOWER}.`);
+    toast.success(
+      `Imported ${mapped.length} ${mapped.length === 1 ? MEMBER_NOUN_LOWER : MEMBER_NOUN_PLURAL_LOWER}.`
+    );
     setCsvHeaders([]);
     setCsvRows([]);
   };
@@ -456,11 +499,11 @@ export default function OnboardingPage() {
 
   const addManualMember = () => {
     if (!manualMember.firstName || !manualMember.lastName) {
-      toast.error("First name and last name are required.");
+      toast.error('First name and last name are required.');
       return;
     }
     setMembers((prev) => [...prev, { id: genId(), ...manualMember }]);
-    setManualMember({ firstName: "", lastName: "", dob: "", gender: "M" });
+    setManualMember({ firstName: '', lastName: '', dob: '', gender: 'M' });
   };
 
   const removeMember = (id: string) => setMembers((prev) => prev.filter((s) => s.id !== id));
@@ -468,7 +511,10 @@ export default function OnboardingPage() {
   // ---------- Staff helpers ----------
 
   const addStaff = () =>
-    setStaff((prev) => [...prev, { id: genId(), firstName: "", lastName: "", email: "", role: "COACH" }]);
+    setStaff((prev) => [
+      ...prev,
+      { id: genId(), firstName: '', lastName: '', email: '', role: 'COACH' },
+    ]);
 
   const removeStaff = (id: string) => setStaff((prev) => prev.filter((s) => s.id !== id));
 
@@ -492,7 +538,7 @@ export default function OnboardingPage() {
           county: clubData.county,
         },
         locations: venues.map((v) => ({
-          id: "",
+          id: '',
           name: v.name,
           address: v.address,
           laneCount: v.laneCount,
@@ -504,8 +550,8 @@ export default function OnboardingPage() {
         await createSquad({
           squad_name: squad.name,
           description: squad.description || undefined,
-          min_age: squad.minAge === "" ? null : squad.minAge,
-          max_age: squad.maxAge === "" ? null : squad.maxAge,
+          min_age: squad.minAge === '' ? null : squad.minAge,
+          max_age: squad.maxAge === '' ? null : squad.maxAge,
           training_times: squad.trainingTimes || undefined,
         });
       }
@@ -522,7 +568,9 @@ export default function OnboardingPage() {
 
       // 4. Staff invitations (queued for sending once staff invitation API is available)
       if (staff.length > 0) {
-        toast.info(`${staff.length} staff invitation${staff.length === 1 ? "" : "s"} will be sent shortly.`);
+        toast.info(
+          `${staff.length} staff invitation${staff.length === 1 ? '' : 's'} will be sent shortly.`
+        );
       }
 
       onboardingLaunched({
@@ -531,9 +579,10 @@ export default function OnboardingPage() {
         steps_skipped: stepsSkipped.current,
       });
 
-      router.push("/");
+      router.push('/');
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      const message =
+        err instanceof Error ? err.message : 'Something went wrong. Please try again.';
       toast.error(message);
     } finally {
       setLaunching(false);
@@ -544,14 +593,14 @@ export default function OnboardingPage() {
 
   const summaryItems = useMemo(
     () => [
-      { label: "Club name", value: clubData.clubName },
-      { label: "Contact email", value: clubData.contactEmail },
-      { label: "Phone", value: clubData.phone || "Not set" },
-      { label: "Website", value: clubData.website || "Not set" },
-      { label: "Affiliation number", value: clubData.affiliationNumber || "Not set" },
-      { label: regionFieldLabel, value: clubData.county || "Not set" },
+      { label: 'Club name', value: clubData.clubName },
+      { label: 'Contact email', value: clubData.contactEmail },
+      { label: 'Phone', value: clubData.phone || 'Not set' },
+      { label: 'Website', value: clubData.website || 'Not set' },
+      { label: 'Affiliation number', value: clubData.affiliationNumber || 'Not set' },
+      { label: regionFieldLabel, value: clubData.county || 'Not set' },
     ],
-    [clubData, regionFieldLabel],
+    [clubData, regionFieldLabel]
   );
 
   // ---------- Render helpers ----------
@@ -578,7 +627,9 @@ export default function OnboardingPage() {
           value={clubData.affiliationNumber}
           onChange={(e) => setClubData((d) => ({ ...d, affiliationNumber: e.target.value }))}
         />
-        <p className="text-white/50 text-xs mt-1">Your {governingBody.label} club affiliation number (if known). You can add this later.</p>
+        <p className="text-white/50 text-xs mt-1">
+          Your {governingBody.label} club affiliation number (if known). You can add this later.
+        </p>
       </div>
 
       <div>
@@ -636,12 +687,15 @@ export default function OnboardingPage() {
           Add Venue
         </button>
       </div>
-      <p className="text-white/50 text-sm mb-4">Add your pool or pools. You can always add more later.</p>
+      <p className="text-white/50 text-sm mb-4">
+        Add your pool or pools. You can always add more later.
+      </p>
 
       {venues.length === 0 && (
         <div className="rounded-xl border border-dashed border-white/20 p-6 text-center">
           <p className="text-white/70 text-sm mb-4">
-            Most clubs train at one or two pools. If you are not sure, skip this step and add venues later from Settings.
+            Most clubs train at one or two pools. If you are not sure, skip this step and add venues
+            later from Settings.
           </p>
           <button type="button" className={primaryBtnClass} onClick={addVenue}>
             Add Venue
@@ -650,9 +704,12 @@ export default function OnboardingPage() {
       )}
 
       {venues.map((venue) => (
-        <div key={venue.id} className="bg-dark-primary rounded-xl p-4 space-y-3 border border-white/10">
+        <div
+          key={venue.id}
+          className="bg-dark-primary rounded-xl p-4 space-y-3 border border-white/10"
+        >
           <div className="flex items-center justify-between">
-            <span className="text-white font-medium">{venue.name || "New venue"}</span>
+            <span className="text-white font-medium">{venue.name || 'New venue'}</span>
             <button
               type="button"
               className="text-danger hover:text-danger/80 text-sm cursor-pointer"
@@ -667,9 +724,11 @@ export default function OnboardingPage() {
             <input
               className={INPUT_CLASS}
               value={venue.name}
-              onChange={(e) => updateVenue(venue.id, "name", e.target.value)}
+              onChange={(e) => updateVenue(venue.id, 'name', e.target.value)}
             />
-            {errors[`venue-${venue.id}-name`] && <p className="text-danger text-sm mt-1">{errors[`venue-${venue.id}-name`]}</p>}
+            {errors[`venue-${venue.id}-name`] && (
+              <p className="text-danger text-sm mt-1">{errors[`venue-${venue.id}-name`]}</p>
+            )}
           </div>
 
           <div>
@@ -677,7 +736,7 @@ export default function OnboardingPage() {
             <input
               className={INPUT_CLASS}
               value={venue.address}
-              onChange={(e) => updateVenue(venue.id, "address", e.target.value)}
+              onChange={(e) => updateVenue(venue.id, 'address', e.target.value)}
             />
           </div>
 
@@ -688,8 +747,10 @@ export default function OnboardingPage() {
                 type="number"
                 min={0}
                 className={INPUT_CLASS}
-                value={venue.laneCount || ""}
-                onChange={(e) => updateVenue(venue.id, "laneCount", parseInt(e.target.value, 10) || 0)}
+                value={venue.laneCount || ''}
+                onChange={(e) =>
+                  updateVenue(venue.id, 'laneCount', parseInt(e.target.value, 10) || 0)
+                }
               />
             </div>
             <div>
@@ -698,8 +759,10 @@ export default function OnboardingPage() {
                 type="number"
                 min={0}
                 className={INPUT_CLASS}
-                value={venue.poolLength || ""}
-                onChange={(e) => updateVenue(venue.id, "poolLength", parseInt(e.target.value, 10) || 0)}
+                value={venue.poolLength || ''}
+                onChange={(e) =>
+                  updateVenue(venue.id, 'poolLength', parseInt(e.target.value, 10) || 0)
+                }
               />
             </div>
           </div>
@@ -716,12 +779,16 @@ export default function OnboardingPage() {
           Add Squad
         </button>
       </div>
-      <p className="text-white/50 text-sm mb-4">Squads help you organise {MEMBER_NOUN_PLURAL_LOWER} by age or ability. e.g. Learn to Swim, Development, Competition.</p>
+      <p className="text-white/50 text-sm mb-4">
+        Squads help you organise {MEMBER_NOUN_PLURAL_LOWER} by age or ability. e.g. Learn to Swim,
+        Development, Competition.
+      </p>
 
       {squads.length === 0 && (
         <div className="rounded-xl border border-dashed border-white/20 p-6 text-center">
           <p className="text-white/70 text-sm mb-4">
-            Squads help organise {MEMBER_NOUN_PLURAL_LOWER} by age or ability. Common examples: Learn to Swim, Development, Competition, Masters.
+            Squads help organise {MEMBER_NOUN_PLURAL_LOWER} by age or ability. Common examples:
+            Learn to Swim, Development, Competition, Masters.
           </p>
           <button type="button" className={primaryBtnClass} onClick={addSquad}>
             Add Squad
@@ -730,9 +797,12 @@ export default function OnboardingPage() {
       )}
 
       {squads.map((squad) => (
-        <div key={squad.id} className="bg-dark-primary rounded-xl p-4 space-y-3 border border-white/10">
+        <div
+          key={squad.id}
+          className="bg-dark-primary rounded-xl p-4 space-y-3 border border-white/10"
+        >
           <div className="flex items-center justify-between">
-            <span className="text-white font-medium">{squad.name || "New squad"}</span>
+            <span className="text-white font-medium">{squad.name || 'New squad'}</span>
             <button
               type="button"
               className="text-danger hover:text-danger/80 text-sm cursor-pointer"
@@ -747,9 +817,11 @@ export default function OnboardingPage() {
             <input
               className={INPUT_CLASS}
               value={squad.name}
-              onChange={(e) => updateSquad(squad.id, "name", e.target.value)}
+              onChange={(e) => updateSquad(squad.id, 'name', e.target.value)}
             />
-            {errors[`squad-${squad.id}-name`] && <p className="text-danger text-sm mt-1">{errors[`squad-${squad.id}-name`]}</p>}
+            {errors[`squad-${squad.id}-name`] && (
+              <p className="text-danger text-sm mt-1">{errors[`squad-${squad.id}-name`]}</p>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -760,7 +832,13 @@ export default function OnboardingPage() {
                 min={0}
                 className={INPUT_CLASS}
                 value={squad.minAge}
-                onChange={(e) => updateSquad(squad.id, "minAge", e.target.value === "" ? "" : parseInt(e.target.value, 10))}
+                onChange={(e) =>
+                  updateSquad(
+                    squad.id,
+                    'minAge',
+                    e.target.value === '' ? '' : parseInt(e.target.value, 10)
+                  )
+                }
               />
             </div>
             <div>
@@ -770,10 +848,20 @@ export default function OnboardingPage() {
                 min={0}
                 className={INPUT_CLASS}
                 value={squad.maxAge}
-                onChange={(e) => updateSquad(squad.id, "maxAge", e.target.value === "" ? "" : parseInt(e.target.value, 10))}
+                onChange={(e) =>
+                  updateSquad(
+                    squad.id,
+                    'maxAge',
+                    e.target.value === '' ? '' : parseInt(e.target.value, 10)
+                  )
+                }
               />
             </div>
-            {errors[`squad-${squad.id}-age`] && <p className="text-danger text-sm mt-1 col-span-2">{errors[`squad-${squad.id}-age`]}</p>}
+            {errors[`squad-${squad.id}-age`] && (
+              <p className="text-danger text-sm mt-1 col-span-2">
+                {errors[`squad-${squad.id}-age`]}
+              </p>
+            )}
           </div>
 
           <div>
@@ -782,7 +870,7 @@ export default function OnboardingPage() {
               className={INPUT_CLASS}
               rows={2}
               value={squad.description}
-              onChange={(e) => updateSquad(squad.id, "description", e.target.value)}
+              onChange={(e) => updateSquad(squad.id, 'description', e.target.value)}
             />
           </div>
 
@@ -792,7 +880,7 @@ export default function OnboardingPage() {
               className={INPUT_CLASS}
               placeholder="e.g. Mon/Wed 18:00-19:30"
               value={squad.trainingTimes}
-              onChange={(e) => updateSquad(squad.id, "trainingTimes", e.target.value)}
+              onChange={(e) => updateSquad(squad.id, 'trainingTimes', e.target.value)}
             />
           </div>
         </div>
@@ -802,10 +890,15 @@ export default function OnboardingPage() {
 
   const renderImportMembers = () => (
     <div className="space-y-4">
-      <h2 className="font-serif text-2xl text-white tracking-tight mb-1">Import {MEMBER_NOUN_PLURAL}</h2>
-      <p className="text-white/50 text-sm mb-1">Import your existing {MEMBER_NOUN_LOWER} list from a CSV, or add them manually. You can skip this for now and add {MEMBER_NOUN_PLURAL_LOWER} later.</p>
+      <h2 className="font-serif text-2xl text-white tracking-tight mb-1">
+        Import {MEMBER_NOUN_PLURAL}
+      </h2>
+      <p className="text-white/50 text-sm mb-1">
+        Import your existing {MEMBER_NOUN_LOWER} list from a CSV, or add them manually. You can skip
+        this for now and add {MEMBER_NOUN_PLURAL_LOWER} later.
+      </p>
       <p className="text-white/50 text-xs mb-4">
-        You can also import members, squads, staff and fees later from the{" "}
+        You can also import members, squads, staff and fees later from the{' '}
         <Link
           href="/admin/import"
           className="inline-block py-4 -my-4 align-baseline text-white/70 underline hover:text-white transition-colors"
@@ -817,23 +910,23 @@ export default function OnboardingPage() {
 
       {/* Tabs */}
       <div className="flex gap-2 mb-4">
-        {(["csv", "manual"] as const).map((tab) => (
+        {(['csv', 'manual'] as const).map((tab) => (
           <button
             key={tab}
             type="button"
             className={`min-h-[48px] px-4 py-2 rounded-button text-sm font-semibold cursor-pointer transition-colors ${
               importTab === tab
-                ? "bg-brand text-dark-primary"
-                : "text-white/70 border border-white/20 hover:text-white hover:border-white/40"
+                ? 'bg-brand text-dark-primary'
+                : 'text-white/70 border border-white/20 hover:text-white hover:border-white/40'
             }`}
             onClick={() => setImportTab(tab)}
           >
-            {tab === "csv" ? "CSV Upload" : "Manual Add"}
+            {tab === 'csv' ? 'CSV Upload' : 'Manual Add'}
           </button>
         ))}
       </div>
 
-      {importTab === "csv" && (
+      {importTab === 'csv' && (
         <div className="space-y-4">
           <div>
             <label className={LABEL_CLASS}>Upload CSV file</label>
@@ -905,7 +998,7 @@ export default function OnboardingPage() {
         </div>
       )}
 
-      {importTab === "manual" && (
+      {importTab === 'manual' && (
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -959,9 +1052,7 @@ export default function OnboardingPage() {
       {/* Member list */}
       {members.length > 0 && (
         <div className="mt-4">
-          <h3 className="text-white font-medium mb-2">
-            Members ({members.length})
-          </h3>
+          <h3 className="text-white font-medium mb-2">Members ({members.length})</h3>
           <div className="space-y-2 max-h-64 overflow-y-auto">
             {members.map((s) => (
               <div
@@ -996,72 +1087,81 @@ export default function OnboardingPage() {
           Add Staff Member
         </button>
       </div>
-      <p className="text-white/50 text-sm mb-4">Invite coaches and other admins so they can access {BRAND.name} too.</p>
+      <p className="text-white/50 text-sm mb-4">
+        Invite coaches and other admins so they can access {BRAND.name} too.
+      </p>
 
       {staff.length === 0 && (
-        <p className="text-white/70 text-sm">No staff added yet. You can always invite coaches and admins later from Settings.</p>
+        <p className="text-white/70 text-sm">
+          No staff added yet. You can always invite coaches and admins later from Settings.
+        </p>
       )}
 
       {staff.map((member) => (
-          <div key={member.id} className="bg-dark-primary rounded-xl p-4 space-y-3 border border-white/10">
-            <div className="flex items-center justify-between">
-              <span className="text-white font-medium">
-                {member.firstName || member.lastName
-                  ? `${member.firstName} ${member.lastName}`.trim()
-                  : "New staff member"}
-              </span>
-              <button
-                type="button"
-                className="text-danger hover:text-danger/80 text-sm cursor-pointer"
-                onClick={() => removeStaff(member.id)}
-              >
-                Remove
-              </button>
-            </div>
+        <div
+          key={member.id}
+          className="bg-dark-primary rounded-xl p-4 space-y-3 border border-white/10"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-white font-medium">
+              {member.firstName || member.lastName
+                ? `${member.firstName} ${member.lastName}`.trim()
+                : 'New staff member'}
+            </span>
+            <button
+              type="button"
+              className="text-danger hover:text-danger/80 text-sm cursor-pointer"
+              onClick={() => removeStaff(member.id)}
+            >
+              Remove
+            </button>
+          </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className={LABEL_CLASS}>First name</label>
-                <input
-                  className={INPUT_CLASS}
-                  value={member.firstName}
-                  onChange={(e) => updateStaff(member.id, "firstName", e.target.value)}
-                />
-              </div>
-              <div>
-                <label className={LABEL_CLASS}>Last name</label>
-                <input
-                  className={INPUT_CLASS}
-                  value={member.lastName}
-                  onChange={(e) => updateStaff(member.id, "lastName", e.target.value)}
-                />
-              </div>
-            </div>
-
+          <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className={LABEL_CLASS}>Email *</label>
+              <label className={LABEL_CLASS}>First name</label>
               <input
-                type="email"
-                autoComplete="email"
                 className={INPUT_CLASS}
-                value={member.email}
-                onChange={(e) => updateStaff(member.id, "email", e.target.value)}
+                value={member.firstName}
+                onChange={(e) => updateStaff(member.id, 'firstName', e.target.value)}
               />
-              {errors[`staff-${member.id}-email`] && <p className="text-danger text-sm mt-1">{errors[`staff-${member.id}-email`]}</p>}
             </div>
-
             <div>
-              <label className={LABEL_CLASS}>Role</label>
-              <select
+              <label className={LABEL_CLASS}>Last name</label>
+              <input
                 className={INPUT_CLASS}
-                value={member.role}
-                onChange={(e) => updateStaff(member.id, "role", e.target.value)}
-              >
-                <option value="COACH">Coach</option>
-                <option value="ADMIN">Admin</option>
-              </select>
+                value={member.lastName}
+                onChange={(e) => updateStaff(member.id, 'lastName', e.target.value)}
+              />
             </div>
           </div>
+
+          <div>
+            <label className={LABEL_CLASS}>Email *</label>
+            <input
+              type="email"
+              autoComplete="email"
+              className={INPUT_CLASS}
+              value={member.email}
+              onChange={(e) => updateStaff(member.id, 'email', e.target.value)}
+            />
+            {errors[`staff-${member.id}-email`] && (
+              <p className="text-danger text-sm mt-1">{errors[`staff-${member.id}-email`]}</p>
+            )}
+          </div>
+
+          <div>
+            <label className={LABEL_CLASS}>Role</label>
+            <select
+              className={INPUT_CLASS}
+              value={member.role}
+              onChange={(e) => updateStaff(member.id, 'role', e.target.value)}
+            >
+              <option value="COACH">Coach</option>
+              <option value="ADMIN">Admin</option>
+            </select>
+          </div>
+        </div>
       ))}
     </div>
   );
@@ -1069,7 +1169,9 @@ export default function OnboardingPage() {
   const renderReview = () => (
     <div className="space-y-6">
       <h2 className="font-serif text-2xl text-white tracking-tight mb-1">Ready to go</h2>
-      <p className="text-white/50 text-sm mb-4">You can change any of these details later from Settings. Nothing is set in stone.</p>
+      <p className="text-white/50 text-sm mb-4">
+        You can change any of these details later from Settings. Nothing is set in stone.
+      </p>
 
       {/* Club details */}
       <div className="bg-dark-primary rounded-xl p-4 border border-white/10">
@@ -1086,11 +1188,12 @@ export default function OnboardingPage() {
 
       {/* Venues */}
       <div className="bg-dark-primary rounded-xl p-4 border border-white/10">
-        <h3 className="text-brand font-medium mb-3">
-          Venues ({venues.length})
-        </h3>
+        <h3 className="text-brand font-medium mb-3">Venues ({venues.length})</h3>
         {venues.length === 0 ? (
-          <p className="text-white/70 text-sm">None added <span className="text-white/50">(you can add these later from Settings)</span></p>
+          <p className="text-white/70 text-sm">
+            None added{' '}
+            <span className="text-white/50">(you can add these later from Settings)</span>
+          </p>
         ) : (
           <ul className="space-y-1 text-sm text-white">
             {venues.map((v) => (
@@ -1106,19 +1209,21 @@ export default function OnboardingPage() {
 
       {/* Squads */}
       <div className="bg-dark-primary rounded-xl p-4 border border-white/10">
-        <h3 className="text-brand font-medium mb-3">
-          Squads ({squads.length})
-        </h3>
+        <h3 className="text-brand font-medium mb-3">Squads ({squads.length})</h3>
         {squads.length === 0 ? (
-          <p className="text-white/70 text-sm">None added <span className="text-white/50">(you can add these later from Settings)</span></p>
+          <p className="text-white/70 text-sm">
+            None added{' '}
+            <span className="text-white/50">(you can add these later from Settings)</span>
+          </p>
         ) : (
           <ul className="space-y-1 text-sm text-white">
             {squads.map((s) => (
               <li key={s.id}>
                 {s.name}
-                {(s.minAge !== "" || s.maxAge !== "") && (
+                {(s.minAge !== '' || s.maxAge !== '') && (
                   <span className="text-white/70">
-                    {" "}(ages {s.minAge || "?"}-{s.maxAge || "?"})
+                    {' '}
+                    (ages {s.minAge || '?'}-{s.maxAge || '?'})
                   </span>
                 )}
               </li>
@@ -1129,25 +1234,27 @@ export default function OnboardingPage() {
 
       {/* Members */}
       <div className="bg-dark-primary rounded-xl p-4 border border-white/10">
-        <h3 className="text-brand font-medium mb-3">
-          Members ({members.length})
-        </h3>
+        <h3 className="text-brand font-medium mb-3">Members ({members.length})</h3>
         {members.length === 0 ? (
-          <p className="text-white/70 text-sm">None added <span className="text-white/50">(you can add these later from Settings)</span></p>
+          <p className="text-white/70 text-sm">
+            None added{' '}
+            <span className="text-white/50">(you can add these later from Settings)</span>
+          </p>
         ) : (
           <p className="text-white text-sm">
-            {members.length} member{members.length === 1 ? "" : "s"} ready to import
+            {members.length} member{members.length === 1 ? '' : 's'} ready to import
           </p>
         )}
       </div>
 
       {/* Staff */}
       <div className="bg-dark-primary rounded-xl p-4 border border-white/10">
-        <h3 className="text-brand font-medium mb-3">
-          Staff ({staff.length})
-        </h3>
+        <h3 className="text-brand font-medium mb-3">Staff ({staff.length})</h3>
         {staff.length === 0 ? (
-          <p className="text-white/70 text-sm">None added <span className="text-white/50">(you can add these later from Settings)</span></p>
+          <p className="text-white/70 text-sm">
+            None added{' '}
+            <span className="text-white/50">(you can add these later from Settings)</span>
+          </p>
         ) : (
           <ul className="space-y-1 text-sm text-white">
             {staff.map((s) => (
@@ -1178,16 +1285,19 @@ export default function OnboardingPage() {
     <div className="min-h-dvh bg-dark-secondary">
       <div className="max-w-2xl mx-auto px-4 py-10">
         {/* Header */}
-        <h1 className="font-serif text-4xl text-white tracking-tight text-center mb-2">Welcome to {BRAND.name}</h1>
+        <h1 className="font-serif text-4xl text-white tracking-tight text-center mb-2">
+          Welcome to {BRAND.name}
+        </h1>
         <p className="text-white/70 text-center text-lg mb-4">
-          Let&apos;s get your club up and running. This takes about 5 minutes, and you can change everything later.
+          Let&apos;s get your club up and running. This takes about 5 minutes, and you can change
+          everything later.
         </p>
         <p className="text-center mb-8">
           <a
             href="/"
             className="text-white/50 hover:text-white/80 text-sm underline transition-colors"
             onClick={() =>
-              onboardingExited({ step_index: step, exit_type: "skip_setup_and_explore" })
+              onboardingExited({ step_index: step, exit_type: 'skip_setup_and_explore' })
             }
           >
             Skip setup and explore
@@ -1214,11 +1324,11 @@ export default function OnboardingPage() {
             {isLastStep ? (
               <button
                 type="button"
-                className={`${primaryBtnClass} ${launching ? "opacity-60" : ""}`}
+                className={`${primaryBtnClass} ${launching ? 'opacity-60' : ''}`}
                 disabled={launching}
                 onClick={handleLaunch}
               >
-                {launching ? "Saving..." : "Launch Your Club"}
+                {launching ? 'Saving...' : 'Launch Your Club'}
               </button>
             ) : (
               <div className="flex flex-col items-center gap-2">

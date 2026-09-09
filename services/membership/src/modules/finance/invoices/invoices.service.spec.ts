@@ -248,11 +248,7 @@ describe('InvoicesService', () => {
       await service.create(createDto as unknown as CreateInvoiceDto);
 
       // The repository receives the resolved club currency as its third argument.
-      expect(mockInvoicesRepository.create).toHaveBeenCalledWith(
-        createDto,
-        'INV-2026-0001',
-        'AUD',
-      );
+      expect(mockInvoicesRepository.create).toHaveBeenCalledWith(createDto, 'INV-2026-0001', 'AUD');
     });
 
     it('should still create the invoice if email sending fails', async () => {

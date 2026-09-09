@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Swimly Screenshot Capture Script
- * 
+ *
  * Captures product screenshots from the live Swimly app for use in marketing materials.
  * Handles NextAuth authentication and captures both desktop and mobile viewports.
  */
@@ -41,19 +41,19 @@ const VIEWPORTS = {
 async function login(page: Page): Promise<void> {
   console.log('Navigating to app...');
   await page.goto(APP_URL);
-  
+
   // Wait for redirect to sign-in page or check if already at dashboard
   await page.waitForLoadState('networkidle');
-  
+
   const currentUrl = page.url();
   console.log('Current URL:', currentUrl);
-  
+
   // Check if we're already logged in
   if (currentUrl.includes('/dashboard')) {
     console.log('Already logged in');
     return;
   }
-  
+
   // Find and navigate to sign-in page if not already there
   if (!currentUrl.includes('/signin') && !currentUrl.includes('/auth')) {
     console.log('Looking for sign-in link...');
@@ -76,9 +76,9 @@ async function login(page: Page): Promise<void> {
       }
     }
   }
-  
+
   console.log('Filling in credentials...');
-  
+
   // Fill in credentials (try multiple possible selectors)
   const emailFilled = await fillInput(page, CREDENTIALS.email, [
     'input[name="email"]',
@@ -86,43 +86,42 @@ async function login(page: Page): Promise<void> {
     'input[placeholder*="email" i]',
     '#email',
   ]);
-  
+
   if (!emailFilled) {
     throw new Error('Could not find email input field');
   }
-  
+
   const passwordFilled = await fillInput(page, CREDENTIALS.password, [
     'input[name="password"]',
     'input[type="password"]',
     '#password',
   ]);
-  
+
   if (!passwordFilled) {
     throw new Error('Could not find password input field');
   }
-  
+
   console.log('Submitting login form...');
-  
+
   // Click the Sign In button
   const submitButton = await page.waitForSelector('button:has-text("Sign In")', { timeout: 5000 });
   await submitButton.click();
-  
+
   // Wait for navigation away from login page
-  await page.waitForFunction(
-    () => !window.location.pathname.includes('/login'),
-    { timeout: 15000 }
-  );
-  
+  await page.waitForFunction(() => !window.location.pathname.includes('/login'), {
+    timeout: 15000,
+  });
+
   await page.waitForLoadState('networkidle');
-  
+
   const finalUrl = page.url();
   console.log('Login complete, navigated to:', finalUrl);
-  
+
   // Verify we're logged in by checking if we're no longer on the login page
   if (finalUrl.includes('/login') || finalUrl.includes('/signin')) {
     throw new Error('Login may have failed - still on login page');
   }
-  
+
   console.log('Login successful');
 }
 
@@ -154,13 +153,13 @@ async function captureScreenshot(
   viewport: string
 ): Promise<string> {
   console.log(`Capturing ${viewport} screenshot: ${pageName}...`);
-  
+
   const url = `${APP_URL}${pagePath}`;
   await page.goto(url, { waitUntil: 'networkidle' });
-  
+
   // Additional wait to ensure dynamic content is loaded
   await page.waitForTimeout(2000);
-  
+
   // Wait for any loading spinners to disappear
   try {
     await page.waitForSelector('[class*="loading"], [class*="spinner"]', {
@@ -170,15 +169,15 @@ async function captureScreenshot(
   } catch {
     // No loading indicator found or already hidden
   }
-  
+
   const filename = `${pageName}-${viewport}.png`;
   const filepath = path.join(SCREENSHOTS_DIR, filename);
-  
+
   await page.screenshot({
     path: filepath,
     fullPage: false, // Capture viewport only
   });
-  
+
   console.log(`✓ Saved: ${filename}`);
   return filepath;
 }
@@ -188,29 +187,29 @@ async function captureScreenshot(
  */
 async function main() {
   console.log('Starting screenshot capture...\n');
-  
+
   // Ensure screenshots directory exists
   await fs.mkdir(SCREENSHOTS_DIR, { recursive: true });
-  
+
   const browser: Browser = await chromium.launch({
     headless: true,
   });
-  
+
   try {
     // Create a context with desktop viewport for initial login
     const context = await browser.newContext({
       viewport: VIEWPORTS.desktop,
     });
-    
+
     const page = await context.newPage();
-    
+
     // Perform login
     await login(page);
-    
+
     // Capture desktop screenshots
     console.log('\n--- Capturing Desktop Screenshots (1440x900) ---\n');
     await page.setViewportSize(VIEWPORTS.desktop);
-    
+
     for (const pageConfig of PAGES) {
       try {
         await captureScreenshot(page, pageConfig.path, pageConfig.name, 'desktop');
@@ -218,11 +217,11 @@ async function main() {
         console.error(`✗ Failed to capture ${pageConfig.name} (desktop):`, error.message);
       }
     }
-    
+
     // Capture mobile screenshots
     console.log('\n--- Capturing Mobile Screenshots (390x844) ---\n');
     await page.setViewportSize(VIEWPORTS.mobile);
-    
+
     for (const pageConfig of PAGES) {
       try {
         await captureScreenshot(page, pageConfig.path, pageConfig.name, 'mobile');
@@ -230,9 +229,9 @@ async function main() {
         console.error(`✗ Failed to capture ${pageConfig.name} (mobile):`, error.message);
       }
     }
-    
+
     await context.close();
-    
+
     console.log('\n✓ Screenshot capture complete!\n');
   } catch (error) {
     console.error('\n✗ Error during screenshot capture:', error);

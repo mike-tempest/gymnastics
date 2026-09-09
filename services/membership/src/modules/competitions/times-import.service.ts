@@ -159,7 +159,10 @@ export class TimesImportService {
     const headers = this.parseCsvLine(lines[0]).map(
       (h) => HEADER_ALIASES[h.trim().toLowerCase().replace(/\s+/g, '_')] ?? null,
     );
-    if (!headers.includes('time') || (!headers.includes('distance') && !headers.includes('stroke_and_distance'))) {
+    if (
+      !headers.includes('time') ||
+      (!headers.includes('distance') && !headers.includes('stroke_and_distance'))
+    ) {
       throw new BadRequestException(
         'Unrecognised header row. Expected columns like registration_number, first_name, last_name, distance, stroke, time, course, date.',
       );
@@ -167,7 +170,9 @@ export class TimesImportService {
 
     const members = await this.membersRepository.findAll();
     const byRegistration = new Map(
-      members.filter((s) => s.registration_number).map((s) => [s.registration_number!.trim().toLowerCase(), s]),
+      members
+        .filter((s) => s.registration_number)
+        .map((s) => [s.registration_number!.trim().toLowerCase(), s]),
     );
     const byName = new Map<string, Member[]>();
     for (const member of members) {
@@ -203,8 +208,7 @@ export class TimesImportService {
         member = candidates[0];
       }
       if (!member) {
-        const identity =
-          registration || `${firstName} ${lastName}`.trim() || '(no member given)';
+        const identity = registration || `${firstName} ${lastName}`.trim() || '(no member given)';
         errors.push({ row: rowNumber, message: `Member not found in club: ${identity}` });
         continue;
       }

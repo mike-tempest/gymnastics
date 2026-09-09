@@ -115,7 +115,10 @@ export default function ProfileEditForm({ initialData, onSave, isLoading }: Prof
       <div className="space-y-6">
         {/* Contact Name */}
         <div>
-          <label htmlFor="profile_contact_name" className="block text-sm font-semibold text-white mb-2">
+          <label
+            htmlFor="profile_contact_name"
+            className="block text-sm font-semibold text-white mb-2"
+          >
             Contact Name <span className="text-brand">*</span>
           </label>
           <input
@@ -230,13 +233,14 @@ export default function ProfileEditForm({ initialData, onSave, isLoading }: Prof
               placeholder="City"
               disabled={busy}
             />
-            {errors.city && (
-              <p className="mt-2 text-sm text-red-400">{errors.city}</p>
-            )}
+            {errors.city && <p className="mt-2 text-sm text-red-400">{errors.city}</p>}
           </div>
 
           <div>
-            <label htmlFor="profile_postcode" className="block text-sm font-semibold text-white mb-2">
+            <label
+              htmlFor="profile_postcode"
+              className="block text-sm font-semibold text-white mb-2"
+            >
               Postcode <span className="text-text-tertiary font-normal">(Optional)</span>
             </label>
             <input
@@ -249,9 +253,7 @@ export default function ProfileEditForm({ initialData, onSave, isLoading }: Prof
               placeholder="e.g. SW1A 1AA or 90210"
               disabled={busy}
             />
-            {errors.postcode && (
-              <p className="mt-2 text-sm text-red-400">{errors.postcode}</p>
-            )}
+            {errors.postcode && <p className="mt-2 text-sm text-red-400">{errors.postcode}</p>}
           </div>
         </div>
       </div>

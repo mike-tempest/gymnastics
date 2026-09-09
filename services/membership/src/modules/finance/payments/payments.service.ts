@@ -345,8 +345,7 @@ export class PaymentsService {
         const club = await this.clubsRepository.findOne(invoice.club_id);
         const region = regionForCountry(club?.country);
         const locale = club?.locale ?? region.locale;
-        const currency =
-          payment.currency ?? invoice.currency ?? club?.currency ?? region.currency;
+        const currency = payment.currency ?? invoice.currency ?? club?.currency ?? region.currency;
 
         const common = {
           familyName: family.family_name,

@@ -28,10 +28,7 @@ export default function ComposeMessagePage() {
     async function fetchRecipients() {
       setIsLoadingRecipients(true);
       try {
-        const [squadsData, familiesData] = await Promise.all([
-          getSquads(),
-          getFamilies(),
-        ]);
+        const [squadsData, familiesData] = await Promise.all([getSquads(), getFamilies()]);
         setSquads(squadsData);
         setFamilies(familiesData);
       } catch {
@@ -76,7 +73,9 @@ export default function ComposeMessagePage() {
               <div className="flex justify-center mb-6">
                 <CheckCircle className="w-16 h-16 text-brand" />
               </div>
-              <h2 className="font-serif text-4xl text-dark-primary tracking-tight mb-4">Message Sent Successfully</h2>
+              <h2 className="font-serif text-4xl text-dark-primary tracking-tight mb-4">
+                Message Sent Successfully
+              </h2>
               <p className="text-text-secondary text-lg mb-2">
                 Your announcement has been sent to{' '}
                 {recipientType === 'all'
@@ -131,7 +130,9 @@ export default function ComposeMessagePage() {
                 <ArrowLeft className="w-5 h-5" />
                 <span className="font-medium">Back to Communications</span>
               </Link>
-              <h1 className="font-serif text-3xl sm:text-4xl text-dark-primary tracking-tight mb-1">Compose Message</h1>
+              <h1 className="font-serif text-3xl sm:text-4xl text-dark-primary tracking-tight mb-1">
+                Compose Message
+              </h1>
               <p className="text-text-secondary text-lg">
                 Send an announcement to your club members
               </p>

@@ -1,21 +1,9 @@
 'use client';
 
-
-import {
-  AlertTriangle,
-  CheckCircle2,
-  FileUp,
-  Upload,
-  X,
-  XCircle,
-} from 'lucide-react';
+import { AlertTriangle, CheckCircle2, FileUp, Upload, X, XCircle } from 'lucide-react';
 import { useCallback, useRef, useState } from 'react';
 
-import {
-  ImportOutcome,
-  ImportPreview,
-  importCompetitionResults,
-} from '@/lib/api/competitions';
+import { ImportOutcome, ImportPreview, importCompetitionResults } from '@/lib/api/competitions';
 import { MEMBER_NOUN, MEMBER_NOUN_PLURAL } from '@/lib/brand';
 import { formatSwimTime } from '@/lib/competitions-utils';
 
@@ -82,7 +70,7 @@ export default function ImportWizard({
         handleFileSelect(droppedFile);
       }
     },
-    [handleFileSelect],
+    [handleFileSelect]
   );
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -102,7 +90,7 @@ export default function ImportWizard({
         handleFileSelect(selectedFile);
       }
     },
-    [handleFileSelect],
+    [handleFileSelect]
   );
 
   const handlePreview = useCallback(async () => {
@@ -112,12 +100,7 @@ export default function ImportWizard({
     setError(null);
 
     try {
-      const result = await importCompetitionResults(
-        competitionId,
-        file,
-        format || undefined,
-        true,
-      );
+      const result = await importCompetitionResults(competitionId, file, format || undefined, true);
       setPreview(result as ImportPreview);
       setStep('preview');
     } catch (err) {
@@ -139,7 +122,7 @@ export default function ImportWizard({
         competitionId,
         file,
         format || undefined,
-        false,
+        false
       );
       setOutcome(result as ImportOutcome);
       setStep('complete');
@@ -266,9 +249,7 @@ export default function ImportWizard({
                   <>
                     <Upload className="w-10 h-10 text-text-tertiary" />
                     <div className="text-center">
-                      <p className="text-white font-medium">
-                        Drop your results file here
-                      </p>
+                      <p className="text-white font-medium">Drop your results file here</p>
                       <p className="text-text-secondary text-sm">
                         or click to browse. Accepts .hy3 and .csv files.
                       </p>
@@ -347,7 +328,9 @@ export default function ImportWizard({
                   <p className="text-text-secondary text-xs">Matched {MEMBER_NOUN_PLURAL}</p>
                 </div>
                 <div className="bg-white/5 rounded-xl p-3 text-center">
-                  <p className="text-2xl font-bold text-yellow-400">{preview.unmatchedMembers.length}</p>
+                  <p className="text-2xl font-bold text-yellow-400">
+                    {preview.unmatchedMembers.length}
+                  </p>
                   <p className="text-text-secondary text-xs">Unmatched</p>
                 </div>
                 <div className="bg-white/5 rounded-xl p-3 text-center">
@@ -413,9 +396,7 @@ export default function ImportWizard({
                             <td className="px-3 py-2 tabular-nums text-white">
                               {formatSwimTime(r.time)}
                             </td>
-                            <td className="px-3 py-2 text-text-secondary">
-                              {r.place ?? '-'}
-                            </td>
+                            <td className="px-3 py-2 text-text-secondary">{r.place ?? '-'}</td>
                           </tr>
                         ))}
                       </tbody>

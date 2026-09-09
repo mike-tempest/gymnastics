@@ -46,9 +46,7 @@ const LOCATION_FILE: Record<string, string> = {
  */
 function locationSlugsFor(regionKey: string): string[] {
   const fileName = LOCATION_FILE[regionKey];
-  const moduleKey = Object.keys(locationModules).find((key) =>
-    key.endsWith(`/${fileName}`)
-  );
+  const moduleKey = Object.keys(locationModules).find((key) => key.endsWith(`/${fileName}`));
   if (!moduleKey) return [];
 
   const parsed = locationModules[moduleKey]?.default;
@@ -85,9 +83,7 @@ const CITY_FILE: Record<string, string> = {
 
 function cityRoutesFor(regionKey: string): string[] {
   const fileName = CITY_FILE[regionKey];
-  const moduleKey = Object.keys(cityModules).find((key) =>
-    key.endsWith(`/${fileName}`)
-  );
+  const moduleKey = Object.keys(cityModules).find((key) => key.endsWith(`/${fileName}`));
   if (!moduleKey) return [];
 
   const parsed = cityModules[moduleKey]?.default;

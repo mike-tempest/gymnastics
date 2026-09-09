@@ -25,7 +25,7 @@ function renderModal() {
   return render(
     <Wrapper>
       <MemberModal isOpen onClose={jest.fn()} onSubmit={jest.fn()} />
-    </Wrapper>,
+    </Wrapper>
   );
 }
 

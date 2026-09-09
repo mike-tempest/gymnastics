@@ -1,9 +1,9 @@
 ---
-title: "Communication Best Practices for Swimming Clubs"
-description: "How to communicate effectively with members, parents, and volunteers in your swimming club. Covers channels, frequency, tone, and transparency."
+title: 'Communication Best Practices for Swimming Clubs'
+description: 'How to communicate effectively with members, parents, and volunteers in your swimming club. Covers channels, frequency, tone, and transparency.'
 pubDate: 2026-02-16
-author: "Swimly Team"
-tags: ["swim clubs", "communication", "club management", "parents"]
+author: 'Swimly Team'
+tags: ['swim clubs', 'communication', 'club management', 'parents']
 ---
 
 Poor communication is one of the most common complaints in swimming clubs. Parents miss important information, volunteers feel out of the loop, and swimmers turn up to training sessions that have been cancelled. None of these problems are inevitable, but fixing them requires a deliberate approach to how your club communicates.

@@ -34,7 +34,7 @@ function renderBanner() {
   return render(
     <QueryClientProvider client={queryClient}>
       <ConnectPaymentsBanner />
-    </QueryClientProvider>,
+    </QueryClientProvider>
   );
 }
 

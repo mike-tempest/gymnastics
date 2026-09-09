@@ -192,15 +192,15 @@ pnpm test:cov
 
 ## Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| NODE_ENV | Environment mode | development |
-| PORT | Server port | 3001 |
-| DB_HOST | Database host | localhost |
-| DB_PORT | Database port | 5432 |
-| DB_USERNAME | Database username | postgres |
-| DB_PASSWORD | Database password | postgres |
-| DB_DATABASE | Database name | swim_nexus_membership |
+| Variable    | Description         | Default               |
+| ----------- | ------------------- | --------------------- |
+| NODE_ENV    | Environment mode    | development           |
+| PORT        | Server port         | 3001                  |
+| DB_HOST     | Database host       | localhost             |
+| DB_PORT     | Database port       | 5432                  |
+| DB_USERNAME | Database username   | postgres              |
+| DB_PASSWORD | Database password   | postgres              |
+| DB_DATABASE | Database name       | swim_nexus_membership |
 | CORS_ORIGIN | CORS allowed origin | http://localhost:3000 |
 
 ## License

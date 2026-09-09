@@ -47,7 +47,13 @@ describe('detectGoCardlessFileRole', () => {
     // A mandates export whose id column reads "Mandate ID" must not look like
     // a payments file just because payments also name a mandate.
     expect(
-      detectGoCardlessFileRole(['Mandate ID', 'Customer ID', 'Mandate Status', 'Scheme', 'Reference'])
+      detectGoCardlessFileRole([
+        'Mandate ID',
+        'Customer ID',
+        'Mandate Status',
+        'Scheme',
+        'Reference',
+      ])
     ).toBe('mandates');
     expect(detectGoCardlessFileRole(['Customer ID', 'Email', 'Given Name', 'Family Name'])).toBe(
       'customers'

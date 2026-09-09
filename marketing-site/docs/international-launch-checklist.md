@@ -83,10 +83,7 @@ the script yet, land it first or these secrets have nothing to drive.
       Done when the sitemap shows as read with discovered URLs for `/us`, `/ca`,
       `/au` and the hub.
 - [ ] **Set per-folder international targeting.** Because swimly.club is a gTLD,
-      set the country target for each regional folder:
-      - `/us/` -> United States
-      - `/ca/` -> Canada
-      - `/au/` -> Australia
+      set the country target for each regional folder: - `/us/` -> United States - `/ca/` -> Canada - `/au/` -> Australia
       Use the per-directory targeting mechanism available at the time (the
       legacy International Targeting report, or folder-level settings if that is
       what Search Console exposes). Leave the `international/` hub untargeted.
@@ -126,11 +123,7 @@ the script yet, land it first or these secrets have nothing to drive.
 - [ ] **Crawl the global routes and check reciprocity.** Run a crawler (for
       example Screaming Frog, Sitebulb, or an hreflang-aware checker) over `/`,
       `/pricing/` and `/features/` on swimly.uk and on each swimly.club region.
-      Confirm:
-      - each global route lists all four regional alternates plus `x-default`,
-      - every alternate is reciprocated (A points to B and B points back to A),
-      - `x-default` points at the swimly.uk host,
-      - all hreflang and canonical URLs end in a trailing slash.
+      Confirm: - each global route lists all four regional alternates plus `x-default`, - every alternate is reciprocated (A points to B and B points back to A), - `x-default` points at the swimly.uk host, - all hreflang and canonical URLs end in a trailing slash.
       Done when the crawler reports no hreflang errors or missing-return-tag
       warnings on the global routes.
 - [ ] **Check canonicals are self-referential per host.** UK pages canonicalise

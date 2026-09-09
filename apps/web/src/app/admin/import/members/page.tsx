@@ -31,13 +31,15 @@ import {
   importMembers,
   previewMembersImport,
 } from '@/lib/api/data-import';
-import { BRAND, MEMBER_NOUN, MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
-import { DOB_FORMAT_HINT, parseDateOfBirth } from '@/lib/import/date-of-birth';
 import {
-  type AutoMapField,
-  autoMapHeaders,
-  normaliseGender,
-} from '@/lib/import/header-mapping';
+  BRAND,
+  MEMBER_NOUN,
+  MEMBER_NOUN_LOWER,
+  MEMBER_NOUN_PLURAL,
+  MEMBER_NOUN_PLURAL_LOWER,
+} from '@/lib/brand';
+import { DOB_FORMAT_HINT, parseDateOfBirth } from '@/lib/import/date-of-birth';
+import { type AutoMapField, autoMapHeaders, normaliseGender } from '@/lib/import/header-mapping';
 import {
   IMPORT_FILE_ACCEPT,
   SpreadsheetParseError,
@@ -131,10 +133,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type Mapping = Record<CanonicalField, string>;
 
-const EMPTY_MAPPING = CANONICAL_FIELDS.reduce(
-  (acc, f) => ({ ...acc, [f.key]: '' }),
-  {} as Mapping,
-);
+const EMPTY_MAPPING = CANONICAL_FIELDS.reduce((acc, f) => ({ ...acc, [f.key]: '' }), {} as Mapping);
 
 interface DraftRow {
   values: Record<CanonicalField, string>;
@@ -301,7 +300,7 @@ export default function MembersImportPage() {
       }
     } catch (err) {
       setParseError(
-        err instanceof SpreadsheetParseError ? err.message : 'The file could not be parsed.',
+        err instanceof SpreadsheetParseError ? err.message : 'The file could not be parsed.'
       );
     }
   };
@@ -328,7 +327,11 @@ export default function MembersImportPage() {
     setIsDragging(false);
   };
 
-  const runDryRun = async (rows: DraftRow[], rowValidations: RowValidation[], createSquads: boolean) => {
+  const runDryRun = async (
+    rows: DraftRow[],
+    rowValidations: RowValidation[],
+    createSquads: boolean
+  ) => {
     const apiRows = rows
       .map((row, i) => ({ row, validation: rowValidations[i] }))
       .filter(({ validation }) => validation.errors.length === 0)
@@ -390,7 +393,9 @@ export default function MembersImportPage() {
     if (validEntries.length === 0) return;
 
     const apiRows = validEntries.map(({ row, validation }) => toApiRow(row, validation));
-    setSubmittedEntries(validEntries.map(({ row, originalRow }) => ({ raw: row.raw, originalRow })));
+    setSubmittedEntries(
+      validEntries.map(({ row, originalRow }) => ({ raw: row.raw, originalRow }))
+    );
 
     // The import response carries no squad detail, so the migration checklist
     // takes the squad names from the preview the club has just approved.
@@ -424,9 +429,13 @@ export default function MembersImportPage() {
 
       const total = result.summary.members_created + result.summary.members_updated;
       if (total > 0 && (!result.errors || result.errors.length === 0)) {
-        toast.success(`${total} ${total !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER} imported successfully`);
+        toast.success(
+          `${total} ${total !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER} imported successfully`
+        );
       } else if (total > 0) {
-        toast.success(`${total} ${total !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER} imported with some errors`);
+        toast.success(
+          `${total} ${total !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER} imported with some errors`
+        );
       } else {
         toast.error(`Import failed. No ${MEMBER_NOUN_PLURAL_LOWER} were added`);
       }
@@ -452,7 +461,10 @@ export default function MembersImportPage() {
       const entry =
         err.row >= 1 && err.row <= submittedEntries.length ? submittedEntries[err.row - 1] : null;
       if (entry) {
-        failed.push({ originalRow: entry.originalRow, record: { ...entry.raw, error: err.message } });
+        failed.push({
+          originalRow: entry.originalRow,
+          record: { ...entry.raw, error: err.message },
+        });
       } else {
         failed.push({ originalRow: null, record: { error: err.message } });
       }
@@ -473,12 +485,13 @@ export default function MembersImportPage() {
     }
 
     failed.sort(
-      (a, b) => (a.originalRow ?? Number.MAX_SAFE_INTEGER) - (b.originalRow ?? Number.MAX_SAFE_INTEGER),
+      (a, b) =>
+        (a.originalRow ?? Number.MAX_SAFE_INTEGER) - (b.originalRow ?? Number.MAX_SAFE_INTEGER)
     );
 
     const csv = Papa.unparse(
       failed.map((f) => f.record),
-      { columns: [...uploadedHeaders.filter((h) => h !== 'error'), 'error'] },
+      { columns: [...uploadedHeaders.filter((h) => h !== 'error'), 'error'] }
     );
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
@@ -522,7 +535,9 @@ export default function MembersImportPage() {
                 <ArrowLeft className="w-5 h-5" />
                 <span>Back to Data Import</span>
               </Link>
-              <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight mb-2">Import {MEMBER_NOUN_PLURAL}</h1>
+              <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight mb-2">
+                Import {MEMBER_NOUN_PLURAL}
+              </h1>
               <p className="text-grey-600 text-lg">
                 Upload a CSV or Excel file to add members and their families in one go
               </p>
@@ -544,8 +559,8 @@ export default function MembersImportPage() {
                     idx === stepIndex
                       ? 'bg-brand text-dark-primary'
                       : idx < stepIndex
-                      ? 'bg-brand bg-opacity-20 text-brand'
-                      : 'bg-dark-primary/10 text-grey-600'
+                        ? 'bg-brand bg-opacity-20 text-brand'
+                        : 'bg-dark-primary/10 text-grey-600'
                   }`}
                 >
                   <span>{idx + 1}</span>
@@ -569,14 +584,16 @@ export default function MembersImportPage() {
                     1. Download the template
                   </h3>
                   <p className="text-text-secondary text-sm mb-3">
-                    Required columns: <span className="text-white font-medium">member_first_name</span>,{' '}
+                    Required columns:{' '}
+                    <span className="text-white font-medium">member_first_name</span>,{' '}
                     <span className="text-white font-medium">member_last_name</span>,{' '}
                     <span className="text-white font-medium">date_of_birth</span>,{' '}
                     <span className="text-white font-medium">gender</span>,{' '}
                     <span className="text-white font-medium">parent_name</span> and{' '}
-                    <span className="text-white font-medium">parent_email</span>. {MEMBER_NOUN_PLURAL} with the same
-                    parent email are grouped into one family. Exports from other systems work too, because
-                    you can match your columns to {BRAND.name} fields in the next step. {DOB_FORMAT_HINT}
+                    <span className="text-white font-medium">parent_email</span>.{' '}
+                    {MEMBER_NOUN_PLURAL} with the same parent email are grouped into one family.
+                    Exports from other systems work too, because you can match your columns to{' '}
+                    {BRAND.name} fields in the next step. {DOB_FORMAT_HINT}
                   </p>
                   <button
                     onClick={downloadTemplate}
@@ -599,9 +616,7 @@ export default function MembersImportPage() {
 
                 {/* File Upload Area */}
                 <div>
-                  <h3 className="text-lg font-semibold text-white mb-3">
-                    2. Upload your file
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white mb-3">2. Upload your file</h3>
                   <div
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
@@ -625,7 +640,9 @@ export default function MembersImportPage() {
                       Drag and drop your CSV or Excel file here
                     </p>
                     <p className="text-text-secondary text-sm">or click to browse</p>
-                    <p className="text-text-tertiary text-xs mt-3">.csv and .xlsx files are accepted</p>
+                    <p className="text-text-tertiary text-xs mt-3">
+                      .csv and .xlsx files are accepted
+                    </p>
                   </div>
                 </div>
 
@@ -715,9 +732,12 @@ export default function MembersImportPage() {
                     className="w-5 h-5 rounded accent-brand"
                   />
                   <div>
-                    <p className="text-white text-sm font-semibold">Create squads that don&apos;t exist yet</p>
+                    <p className="text-white text-sm font-semibold">
+                      Create squads that don&apos;t exist yet
+                    </p>
                     <p className="text-text-secondary text-xs">
-                      Squad names in your file that don&apos;t match an existing squad will be created during the import.
+                      Squad names in your file that don&apos;t match an existing squad will be
+                      created during the import.
                     </p>
                   </div>
                 </label>
@@ -728,14 +748,30 @@ export default function MembersImportPage() {
                     <thead>
                       <tr className="bg-dark-primary/80">
                         <th className="px-4 py-3 text-left text-text-secondary font-semibold">#</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">First Name</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Last Name</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Date of Birth</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Gender</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Squad</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Parent</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Parent Email</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Status</th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          First Name
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Last Name
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Date of Birth
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Gender
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Squad
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Parent
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Parent Email
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Status
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -753,37 +789,49 @@ export default function MembersImportPage() {
                             title={hasRowError ? rowErrors.join(', ') : undefined}
                           >
                             <td className="px-4 py-3 text-text-tertiary">{i + 1}</td>
-                            <td className={`px-4 py-3 ${!v.member_first_name ? 'text-red-400 italic' : 'text-white'}`}>
+                            <td
+                              className={`px-4 py-3 ${!v.member_first_name ? 'text-red-400 italic' : 'text-white'}`}
+                            >
                               {v.member_first_name || 'missing'}
                             </td>
-                            <td className={`px-4 py-3 ${!v.member_last_name ? 'text-red-400 italic' : 'text-white'}`}>
+                            <td
+                              className={`px-4 py-3 ${!v.member_last_name ? 'text-red-400 italic' : 'text-white'}`}
+                            >
                               {v.member_last_name || 'missing'}
                             </td>
-                            <td className={`px-4 py-3 ${
-                              rowErrors.some((e) => e.toLowerCase().includes('date'))
-                                ? 'text-red-400'
-                                : !v.date_of_birth
-                                ? 'text-red-400 italic'
-                                : 'text-white'
-                            }`}>
+                            <td
+                              className={`px-4 py-3 ${
+                                rowErrors.some((e) => e.toLowerCase().includes('date'))
+                                  ? 'text-red-400'
+                                  : !v.date_of_birth
+                                    ? 'text-red-400 italic'
+                                    : 'text-white'
+                              }`}
+                            >
                               {validation?.normalisedDate || v.date_of_birth || 'missing'}
                             </td>
-                            <td className={`px-4 py-3 ${
-                              rowErrors.some((e) => e.toLowerCase().includes('gender'))
-                                ? 'text-red-400'
-                                : 'text-text-secondary'
-                            }`}>
+                            <td
+                              className={`px-4 py-3 ${
+                                rowErrors.some((e) => e.toLowerCase().includes('gender'))
+                                  ? 'text-red-400'
+                                  : 'text-text-secondary'
+                              }`}
+                            >
                               {validation?.normalisedGender || v.gender || 'missing'}
                             </td>
                             <td className="px-4 py-3 text-text-secondary">{v.squad_name || '-'}</td>
-                            <td className={`px-4 py-3 ${!v.parent_name ? 'text-red-400 italic' : 'text-text-secondary'}`}>
+                            <td
+                              className={`px-4 py-3 ${!v.parent_name ? 'text-red-400 italic' : 'text-text-secondary'}`}
+                            >
                               {v.parent_name || 'missing'}
                             </td>
-                            <td className={`px-4 py-3 ${
-                              rowErrors.some((e) => e.toLowerCase().includes('email'))
-                                ? 'text-red-400'
-                                : 'text-text-secondary'
-                            }`}>
+                            <td
+                              className={`px-4 py-3 ${
+                                rowErrors.some((e) => e.toLowerCase().includes('email'))
+                                  ? 'text-red-400'
+                                  : 'text-text-secondary'
+                              }`}
+                            >
                               {v.parent_email || 'missing'}
                             </td>
                             <td className="px-4 py-3">
@@ -833,14 +881,17 @@ export default function MembersImportPage() {
                   {dryRun.status === 'loading' && (
                     <div className="flex items-center space-x-2 text-text-secondary text-sm">
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Checking your rows against existing families, {MEMBER_NOUN_PLURAL_LOWER} and squads...</span>
+                      <span>
+                        Checking your rows against existing families, {MEMBER_NOUN_PLURAL_LOWER} and
+                        squads...
+                      </span>
                     </div>
                   )}
                   {dryRun.status === 'error' && (
                     <div className="space-y-3">
                       <p className="text-red-300 text-sm">
-                        The server check could not be completed: {dryRun.message}. You can still run the
-                        import, but you won&apos;t see a summary of what will change first.
+                        The server check could not be completed: {dryRun.message}. You can still run
+                        the import, but you won&apos;t see a summary of what will change first.
                       </p>
                       <button
                         onClick={() => runDryRun(draftRows, validations, createMissingSquads)}
@@ -854,32 +905,48 @@ export default function MembersImportPage() {
                     <div className="space-y-3">
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         <div className="bg-dark-primary rounded-xl border border-white/20 p-3 text-center">
-                          <p className="text-brand text-2xl font-bold">{dryRun.data.summary.families_to_create}</p>
+                          <p className="text-brand text-2xl font-bold">
+                            {dryRun.data.summary.families_to_create}
+                          </p>
                           <p className="text-text-secondary text-xs">Families to create</p>
                         </div>
                         <div className="bg-dark-primary rounded-xl border border-white/20 p-3 text-center">
-                          <p className="text-white text-2xl font-bold">{dryRun.data.summary.families_matched}</p>
+                          <p className="text-white text-2xl font-bold">
+                            {dryRun.data.summary.families_matched}
+                          </p>
                           <p className="text-text-secondary text-xs">Families matched</p>
                         </div>
                         <div className="bg-dark-primary rounded-xl border border-white/20 p-3 text-center">
-                          <p className="text-brand text-2xl font-bold">{dryRun.data.summary.members_to_create}</p>
-                          <p className="text-text-secondary text-xs">{MEMBER_NOUN_PLURAL} to create</p>
+                          <p className="text-brand text-2xl font-bold">
+                            {dryRun.data.summary.members_to_create}
+                          </p>
+                          <p className="text-text-secondary text-xs">
+                            {MEMBER_NOUN_PLURAL} to create
+                          </p>
                         </div>
                         <div className="bg-dark-primary rounded-xl border border-white/20 p-3 text-center">
-                          <p className="text-white text-2xl font-bold">{dryRun.data.summary.members_to_update}</p>
-                          <p className="text-text-secondary text-xs">{MEMBER_NOUN_PLURAL} to update</p>
+                          <p className="text-white text-2xl font-bold">
+                            {dryRun.data.summary.members_to_update}
+                          </p>
+                          <p className="text-text-secondary text-xs">
+                            {MEMBER_NOUN_PLURAL} to update
+                          </p>
                         </div>
                       </div>
                       {dryRun.data.summary.squads_matched.length > 0 && (
                         <p className="text-text-secondary text-sm">
                           Squads matched:{' '}
-                          <span className="text-white">{dryRun.data.summary.squads_matched.join(', ')}</span>
+                          <span className="text-white">
+                            {dryRun.data.summary.squads_matched.join(', ')}
+                          </span>
                         </p>
                       )}
                       {dryRun.data.summary.squads_missing.length > 0 && (
                         <p className="text-text-secondary text-sm">
                           Squads not found:{' '}
-                          <span className="text-white">{dryRun.data.summary.squads_missing.join(', ')}</span>
+                          <span className="text-white">
+                            {dryRun.data.summary.squads_missing.join(', ')}
+                          </span>
                           {createMissingSquads
                             ? '. They will be created during the import.'
                             : `. ${MEMBER_NOUN_PLURAL} in these squads will be imported without a squad.`}
@@ -919,11 +986,13 @@ export default function MembersImportPage() {
                     <Loader2 className="w-8 h-8 text-brand animate-spin" />
                   </div>
                   <h3 className="font-serif text-2xl text-white mb-2">
-                    Importing {submittedEntries.length} {submittedEntries.length !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER}...
+                    Importing {submittedEntries.length}{' '}
+                    {submittedEntries.length !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER}
+                    ...
                   </h3>
                   <p className="text-text-secondary">
-                    Please wait while families, {MEMBER_NOUN_PLURAL_LOWER} and squads are being added. This can take a
-                    moment for larger files.
+                    Please wait while families, {MEMBER_NOUN_PLURAL_LOWER} and squads are being
+                    added. This can take a moment for larger files.
                   </p>
                 </div>
                 <div className="max-w-md mx-auto">
@@ -955,7 +1024,9 @@ export default function MembersImportPage() {
                       <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-yellow-500 bg-opacity-10 flex items-center justify-center">
                         <AlertTriangle className="w-8 h-8 text-yellow-400" />
                       </div>
-                      <h3 className="font-serif text-3xl text-white mb-2">Import Partially Complete</h3>
+                      <h3 className="font-serif text-3xl text-white mb-2">
+                        Import Partially Complete
+                      </h3>
                       <p className="text-text-secondary">
                         Some rows were imported successfully. {importResults.errors.length} failed.
                       </p>
@@ -989,7 +1060,9 @@ export default function MembersImportPage() {
                   </div>
                   {(importResults.errors.length > 0 || errorCount > 0) && (
                     <div className="px-6 py-4 bg-red-500 bg-opacity-10 border border-red-500 border-opacity-30 rounded-xl text-center min-w-[140px]">
-                      <p className="text-red-400 text-3xl font-bold">{importResults.errors.length + errorCount}</p>
+                      <p className="text-red-400 text-3xl font-bold">
+                        {importResults.errors.length + errorCount}
+                      </p>
                       <p className="text-text-secondary text-sm">Failed or skipped</p>
                     </div>
                   )}
@@ -1007,7 +1080,8 @@ export default function MembersImportPage() {
                             : null;
                         return (
                           <li key={i} className="text-red-300 text-sm">
-                            {entry ? `Row ${entry.originalRow}: ` : ''}{err.message}
+                            {entry ? `Row ${entry.originalRow}: ` : ''}
+                            {err.message}
                           </li>
                         );
                       })}
@@ -1033,10 +1107,13 @@ export default function MembersImportPage() {
                   <div className="flex items-start space-x-3">
                     <Mail className="w-6 h-6 text-brand flex-shrink-0 mt-0.5" />
                     <div>
-                      <h4 className="text-white font-semibold mb-1">Invite parents to their accounts</h4>
+                      <h4 className="text-white font-semibold mb-1">
+                        Invite parents to their accounts
+                      </h4>
                       <p className="text-text-secondary text-sm">
-                        The import does not send invites automatically, so parents haven&apos;t been contacted yet.
-                        Head to Families to review the new families and send invites when you&apos;re ready.
+                        The import does not send invites automatically, so parents haven&apos;t been
+                        contacted yet. Head to Families to review the new families and send invites
+                        when you&apos;re ready.
                       </p>
                     </div>
                   </div>

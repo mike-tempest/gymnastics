@@ -21,7 +21,9 @@ export interface CollectPendingPaymentsResponse {
   message: string;
 }
 
-export async function collectInvoicePayment(invoiceId: string): Promise<CollectInvoicePaymentResponse> {
+export async function collectInvoicePayment(
+  invoiceId: string
+): Promise<CollectInvoicePaymentResponse> {
   return api.post<CollectInvoicePaymentResponse>(`/payments/collect-invoice/${invoiceId}`);
 }
 

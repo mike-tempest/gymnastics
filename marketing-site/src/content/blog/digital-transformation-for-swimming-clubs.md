@@ -1,10 +1,10 @@
 ---
-title: "Digital Transformation for Swimming Clubs UK 2026: Practical Guide"
-description: "Digital transformation for UK swimming clubs in 2026: choosing software, migrating from spreadsheets, and training volunteers for a smooth transition."
+title: 'Digital Transformation for Swimming Clubs UK 2026: Practical Guide'
+description: 'Digital transformation for UK swimming clubs in 2026: choosing software, migrating from spreadsheets, and training volunteers for a smooth transition.'
 pubDate: 2026-02-15
-author: "Mike Tempest"
-tags: ["swim clubs", "technology", "club management", "digital transformation"]
-schema: "howto"
+author: 'Mike Tempest'
+tags: ['swim clubs', 'technology', 'club management', 'digital transformation']
+schema: 'howto'
 ---
 
 The phrase "digital transformation" can sound like something reserved for large corporations with dedicated IT departments. But at its core, it simply means replacing manual, paper-based, or disconnected processes with digital ones that are more efficient, more reliable, and easier to manage. For swimming clubs, this is not about chasing the latest technology for its own sake. It is about giving your volunteers better tools so they can spend less time on admin and more time on the things that matter.

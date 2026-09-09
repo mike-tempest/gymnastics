@@ -39,7 +39,9 @@ export async function getFamilyStatistics() {
   return api.get('/families/statistics', { cache: 'no-store' });
 }
 
-export async function generateInvite(familyId: string): Promise<{ token: string; inviteUrl: string }> {
+export async function generateInvite(
+  familyId: string
+): Promise<{ token: string; inviteUrl: string }> {
   return api.post<{ token: string; inviteUrl: string }>(`/families/${familyId}/invite`);
 }
 
@@ -47,7 +49,9 @@ export async function acceptInvite(data: { token: string; userId?: string }): Pr
   return api.post<Family>('/families/invite/accept', data);
 }
 
-export async function verifyInviteToken(token: string): Promise<{ valid: boolean; family?: Family }> {
+export async function verifyInviteToken(
+  token: string
+): Promise<{ valid: boolean; family?: Family }> {
   return api.get<{ valid: boolean; family?: Family }>(`/families/invite/verify/${token}`, {
     cache: 'no-store',
   });

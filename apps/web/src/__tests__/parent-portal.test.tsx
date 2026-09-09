@@ -14,7 +14,10 @@ jest.mock('next/navigation', () => ({
 
 // Mock next-auth
 jest.mock('next-auth/react', () => ({
-  useSession: () => ({ data: { user: { name: 'Parent User', role: 'PARENT', id: 'user1' } }, status: 'authenticated' }),
+  useSession: () => ({
+    data: { user: { name: 'Parent User', role: 'PARENT', id: 'user1' } },
+    status: 'authenticated',
+  }),
 }));
 
 // Mock sonner
@@ -48,18 +51,22 @@ import {
 
 import ParentPortalPage from '../app/parent/page';
 
-const mockFetchParentDashboard = fetchParentDashboard as jest.MockedFunction<typeof fetchParentDashboard>;
+const mockFetchParentDashboard = fetchParentDashboard as jest.MockedFunction<
+  typeof fetchParentDashboard
+>;
 const mockFetchParentMembers = fetchParentMembers as jest.MockedFunction<typeof fetchParentMembers>;
-const mockFetchParentInvoices = fetchParentInvoices as jest.MockedFunction<typeof fetchParentInvoices>;
-const mockFetchParentUpcomingSessions = fetchParentUpcomingSessions as jest.MockedFunction<typeof fetchParentUpcomingSessions>;
+const mockFetchParentInvoices = fetchParentInvoices as jest.MockedFunction<
+  typeof fetchParentInvoices
+>;
+const mockFetchParentUpcomingSessions = fetchParentUpcomingSessions as jest.MockedFunction<
+  typeof fetchParentUpcomingSessions
+>;
 
 function renderWithProviders(ui: ReactElement) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
-  return render(
-    <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>,
-  );
+  return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
 }
 
 const mockDashboard = {

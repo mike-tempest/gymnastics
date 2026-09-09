@@ -63,59 +63,47 @@ export interface SessionReadinessSummary {
 // --- Parent-facing API ---
 
 export async function submitWellbeingCheckIn(
-  data: CreateWellbeingLogPayload,
+  data: CreateWellbeingLogPayload
 ): Promise<WellbeingLog> {
   return api.post<WellbeingLog>('/wellbeing/check-in', data);
 }
 
 export async function fetchWellbeingHistory(
   memberId: string,
-  limit?: number,
+  limit?: number
 ): Promise<WellbeingLog[]> {
   const params = limit ? `?limit=${limit}` : '';
-  return api.get<WellbeingLog[]>(
-    `/wellbeing/member/${memberId}/history${params}`,
-    { cache: 'no-store' },
-  );
+  return api.get<WellbeingLog[]>(`/wellbeing/member/${memberId}/history${params}`, {
+    cache: 'no-store',
+  });
 }
 
-export async function fetchTodayCheckIn(
-  memberId: string,
-): Promise<WellbeingLog | null> {
-  return api.get<WellbeingLog | null>(
-    `/wellbeing/member/${memberId}/today`,
-    { cache: 'no-store' },
-  );
+export async function fetchTodayCheckIn(memberId: string): Promise<WellbeingLog | null> {
+  return api.get<WellbeingLog | null>(`/wellbeing/member/${memberId}/today`, { cache: 'no-store' });
 }
 
 // --- Cycle tracking ---
 
-export async function submitCycleLog(
-  data: CreateCycleLogPayload,
-): Promise<CycleLog> {
+export async function submitCycleLog(data: CreateCycleLogPayload): Promise<CycleLog> {
   return api.post<CycleLog>('/wellbeing/cycle', data);
 }
 
-export async function fetchCycleHistory(
-  memberId: string,
-  limit?: number,
-): Promise<CycleLog[]> {
+export async function fetchCycleHistory(memberId: string, limit?: number): Promise<CycleLog[]> {
   const params = limit ? `?limit=${limit}` : '';
-  return api.get<CycleLog[]>(
-    `/wellbeing/cycle/${memberId}/history${params}`,
-    { cache: 'no-store' },
-  );
+  return api.get<CycleLog[]>(`/wellbeing/cycle/${memberId}/history${params}`, {
+    cache: 'no-store',
+  });
 }
 
 // --- Coach-facing readiness API ---
 
 export async function fetchSessionReadiness(
   memberIds: string[],
-  date: string,
+  date: string
 ): Promise<SessionReadinessSummary> {
   const ids = memberIds.join(',');
   return api.get<SessionReadinessSummary>(
     `/wellbeing/readiness?member_ids=${encodeURIComponent(ids)}&date=${date}`,
-    { cache: 'no-store' },
+    { cache: 'no-store' }
   );
 }

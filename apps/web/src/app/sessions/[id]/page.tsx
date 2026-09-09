@@ -46,7 +46,12 @@ export default function SessionDetailPage() {
   const params = useParams();
   const sessionId = params.id as string;
 
-  const { data: session, isLoading, error: sessionError, refetch: fetchSession } = useSessionDetail(sessionId);
+  const {
+    data: session,
+    isLoading,
+    error: sessionError,
+    refetch: fetchSession,
+  } = useSessionDetail(sessionId);
   const { formatDate } = useFormatters();
   const formatSessionDate = (dateStr: string) =>
     formatDate(dateStr, {
@@ -170,7 +175,9 @@ export default function SessionDetailPage() {
           <div className="mb-8">
             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
               <div className="flex-1">
-                <h1 className="font-serif text-4xl text-dark-primary mb-3">{session.session_name}</h1>
+                <h1 className="font-serif text-4xl text-dark-primary mb-3">
+                  {session.session_name}
+                </h1>
                 <div className="flex flex-wrap items-center gap-3">
                   <span
                     className={`px-4 py-2 rounded-full text-sm font-semibold border ${getStatusBadgeClass(
@@ -189,7 +196,15 @@ export default function SessionDetailPage() {
                   href="/attendance"
                   className="px-5 py-3 min-h-[44px] bg-white/5 text-white rounded-xl font-semibold hover:bg-brand/20 hover:text-brand transition-all border border-white/20 flex items-center space-x-2"
                 >
-                  <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
                     <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
                   </svg>
                   <span>Attendance</span>
@@ -217,16 +232,34 @@ export default function SessionDetailPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-5">
                 <div className="flex items-start space-x-3">
-                  <svg className="w-5 h-5 text-brand mt-1 flex-shrink-0" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg
+                    className="w-5 h-5 text-brand mt-1 flex-shrink-0"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
                     <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                   </svg>
                   <div>
                     <p className="text-text-tertiary text-sm mb-1">Date</p>
-                    <p className="text-white text-lg font-semibold">{formatSessionDate(session.session_date)}</p>
+                    <p className="text-white text-lg font-semibold">
+                      {formatSessionDate(session.session_date)}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
-                  <svg className="w-5 h-5 text-brand mt-1 flex-shrink-0" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg
+                    className="w-5 h-5 text-brand mt-1 flex-shrink-0"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
                     <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                   </svg>
                   <div>
@@ -238,7 +271,15 @@ export default function SessionDetailPage() {
                 </div>
                 {session.location && (
                   <div className="flex items-start space-x-3">
-                    <svg className="w-5 h-5 text-brand mt-1 flex-shrink-0" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg
+                      className="w-5 h-5 text-brand mt-1 flex-shrink-0"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
                       <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                       <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                     </svg>
@@ -253,7 +294,15 @@ export default function SessionDetailPage() {
               <div className="space-y-5">
                 {session.coach_name && (
                   <div className="flex items-start space-x-3">
-                    <svg className="w-5 h-5 text-brand mt-1 flex-shrink-0" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg
+                      className="w-5 h-5 text-brand mt-1 flex-shrink-0"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
                       <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                     </svg>
                     <div>
@@ -264,12 +313,22 @@ export default function SessionDetailPage() {
                 )}
                 {session.max_participants && (
                   <div className="flex items-start space-x-3">
-                    <svg className="w-5 h-5 text-brand mt-1 flex-shrink-0" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg
+                      className="w-5 h-5 text-brand mt-1 flex-shrink-0"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
                       <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                     </svg>
                     <div>
                       <p className="text-text-tertiary text-sm mb-1">Capacity</p>
-                      <p className="text-white text-lg font-semibold tabular-nums">{session.max_participants} {MEMBER_NOUN_PLURAL_LOWER}</p>
+                      <p className="text-white text-lg font-semibold tabular-nums">
+                        {session.max_participants} {MEMBER_NOUN_PLURAL_LOWER}
+                      </p>
                     </div>
                   </div>
                 )}

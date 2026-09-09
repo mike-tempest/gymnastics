@@ -9,7 +9,12 @@ import SessionProvider from '@/components/providers/SessionProvider';
 import { BRAND } from '@/lib/brand';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const dmSerif = DM_Serif_Display({ weight: '400', subsets: ['latin'], variable: '--font-serif', display: 'swap' });
+const dmSerif = DM_Serif_Display({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-serif',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: BRAND.name,
@@ -27,11 +32,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={`${inter.variable} ${dmSerif.variable} ${inter.className}`}>

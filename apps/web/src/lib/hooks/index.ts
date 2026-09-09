@@ -3,7 +3,12 @@ export type { UseApiResult, UseMutationResult } from './useApi';
 
 export { useMembers, useMember, useMemberStats } from './useMembers';
 export { useSquads, useSquad, useSquadMembers } from './useSquads';
-export { useSessions, useSessionDetail, useUpcomingSessions, useSessionsBySquad } from './useSessions';
+export {
+  useSessions,
+  useSessionDetail,
+  useUpcomingSessions,
+  useSessionsBySquad,
+} from './useSessions';
 export { useSessionRoster, useMemberAttendance, useMemberAttendanceStats } from './useAttendance';
 export { useFamilies, useFamily, useFamilyStats } from './useFamilies';
 export { useAdminDashboard, useAdminReports } from './useAdmin';

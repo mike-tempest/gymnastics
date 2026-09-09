@@ -84,7 +84,7 @@ export default function TimesImportModal({
       const result = (await importCompetitionTimes(competitionId, file)) as TimesImportOutcome;
       setOutcome(result);
       toast.success(
-        `${result.imported} time${result.imported === 1 ? '' : 's'} imported (${result.newPBs} PB${result.newPBs === 1 ? '' : 's'})`,
+        `${result.imported} time${result.imported === 1 ? '' : 's'} imported (${result.newPBs} PB${result.newPBs === 1 ? '' : 's'})`
       );
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Import failed');
@@ -93,7 +93,8 @@ export default function TimesImportModal({
     }
   }
 
-  const inputCls = 'w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand/50';
+  const inputCls =
+    'w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand/50';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -101,7 +102,11 @@ export default function TimesImportModal({
       <div className="relative bg-dark-primary border border-white/10 rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 bg-dark-primary border-b border-white/10 px-6 py-4 flex items-center justify-between z-10">
           <h2 className="text-lg font-bold text-white">Import Times from CSV</h2>
-          <button onClick={onClose} className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors" aria-label="Close">
+          <button
+            onClick={onClose}
+            className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors"
+            aria-label="Close"
+          >
             <X className="w-5 h-5 text-white/70" />
           </button>
         </div>
@@ -140,11 +145,13 @@ export default function TimesImportModal({
             <div className="space-y-3">
               <div className="flex flex-wrap gap-4 text-sm">
                 <span className="flex items-center gap-1.5 text-green-400">
-                  <CheckCircle2 className="w-4 h-4" /> {preview.validRows.length} row{preview.validRows.length === 1 ? '' : 's'} ready
+                  <CheckCircle2 className="w-4 h-4" /> {preview.validRows.length} row
+                  {preview.validRows.length === 1 ? '' : 's'} ready
                 </span>
                 {preview.errors.length > 0 && (
                   <span className="flex items-center gap-1.5 text-amber-400">
-                    <AlertTriangle className="w-4 h-4" /> {preview.errors.length} row{preview.errors.length === 1 ? '' : 's'} will be skipped
+                    <AlertTriangle className="w-4 h-4" /> {preview.errors.length} row
+                    {preview.errors.length === 1 ? '' : 's'} will be skipped
                   </span>
                 )}
               </div>
@@ -167,7 +174,9 @@ export default function TimesImportModal({
                           <td className="px-3 py-2 text-white/70">
                             {row.distance}m {row.stroke} ({row.course})
                           </td>
-                          <td className="px-3 py-2 text-white/70 tabular-nums">{formatSwimTime(row.time)}</td>
+                          <td className="px-3 py-2 text-white/70 tabular-nums">
+                            {formatSwimTime(row.time)}
+                          </td>
                           <td className="px-3 py-2 text-white/50">{row.swum_at ?? '-'}</td>
                         </tr>
                       ))}
@@ -192,11 +201,13 @@ export default function TimesImportModal({
             <div className="bg-white/5 rounded-xl border border-white/10 p-4 space-y-2">
               <p className="text-white font-semibold flex items-center gap-2">
                 <CheckCircle2 className="w-5 h-5 text-green-400" />
-                {outcome.imported} time{outcome.imported === 1 ? '' : 's'} imported, {outcome.newPBs} personal best{outcome.newPBs === 1 ? '' : 's'} set
+                {outcome.imported} time{outcome.imported === 1 ? '' : 's'} imported,{' '}
+                {outcome.newPBs} personal best{outcome.newPBs === 1 ? '' : 's'} set
               </p>
               {outcome.errors.length > 0 && (
                 <p className="text-amber-400 text-sm">
-                  {outcome.errors.length} row{outcome.errors.length === 1 ? ' was' : 's were'} skipped.
+                  {outcome.errors.length} row{outcome.errors.length === 1 ? ' was' : 's were'}{' '}
+                  skipped.
                 </p>
               )}
             </div>

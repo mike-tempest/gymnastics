@@ -21,7 +21,12 @@ import ErrorState from '@/components/ui/ErrorState';
 import { TableSkeleton } from '@/components/ui/skeleton';
 import { useFormatters } from '@/hooks/useFormatters';
 import { getMember, createMember, updateMember, deleteMember } from '@/lib/api/members';
-import { MEMBER_NOUN, MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
+import {
+  MEMBER_NOUN,
+  MEMBER_NOUN_LOWER,
+  MEMBER_NOUN_PLURAL,
+  MEMBER_NOUN_PLURAL_LOWER,
+} from '@/lib/brand';
 import { useMembers } from '@/lib/hooks/useMembers';
 import { isCoach, useRole } from '@/lib/hooks/useRole';
 import { useSquads } from '@/lib/hooks/useSquads';
@@ -185,8 +190,12 @@ function MembersPageInner() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
             <div>
-              <h1 className="font-serif text-2xl sm:text-5xl md:text-6xl text-dark-primary tracking-tight mb-2">{MEMBER_NOUN_PLURAL}</h1>
-              <p className="text-grey-600 text-lg">Manage your club&apos;s {MEMBER_NOUN_PLURAL_LOWER}</p>
+              <h1 className="font-serif text-2xl sm:text-5xl md:text-6xl text-dark-primary tracking-tight mb-2">
+                {MEMBER_NOUN_PLURAL}
+              </h1>
+              <p className="text-grey-600 text-lg">
+                Manage your club&apos;s {MEMBER_NOUN_PLURAL_LOWER}
+              </p>
             </div>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               {canImport && (
@@ -225,21 +234,29 @@ function MembersPageInner() {
           <div className="bg-surface rounded-3xl border border-grey-200 p-6 sm:p-10 shadow-lg mb-8">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
               <div>
-                <p className="text-dark-primary text-xl font-semibold mb-3">Total {MEMBER_NOUN_PLURAL}</p>
+                <p className="text-dark-primary text-xl font-semibold mb-3">
+                  Total {MEMBER_NOUN_PLURAL}
+                </p>
                 <h2 className="text-4xl sm:text-8xl font-bold text-dark-primary mb-4 tabular-nums">
                   {displayError ? '—' : members.length}
                   {!displayError && <span className="text-4xl">+</span>}
                 </h2>
-                <p className="text-grey-600 text-lg">{displayError ? 'Unable to load' : `Active ${MEMBER_NOUN_PLURAL}`}</p>
+                <p className="text-grey-600 text-lg">
+                  {displayError ? 'Unable to load' : `Active ${MEMBER_NOUN_PLURAL}`}
+                </p>
               </div>
               <div className="flex flex-col sm:flex-row md:flex-col gap-4">
                 <div className="bg-brand rounded-3xl p-4 sm:p-6 text-center flex-1 sm:min-w-[180px] shadow-sm">
                   <p className="text-dark-primary text-sm font-semibold mb-1">This Month</p>
-                  <p className="text-dark-primary text-2xl sm:text-4xl font-bold tabular-nums">{displayError ? '—' : members.length}</p>
+                  <p className="text-dark-primary text-2xl sm:text-4xl font-bold tabular-nums">
+                    {displayError ? '—' : members.length}
+                  </p>
                 </div>
                 <div className="bg-surface rounded-3xl p-4 sm:p-6 text-center flex-1 sm:min-w-[180px]">
                   <p className="text-dark-primary text-sm font-semibold mb-1">New This Week</p>
-                  <p className="text-dark-primary text-2xl sm:text-4xl font-bold tabular-nums">{displayError ? '—' : '0'}</p>
+                  <p className="text-dark-primary text-2xl sm:text-4xl font-bold tabular-nums">
+                    {displayError ? '—' : '0'}
+                  </p>
                 </div>
               </div>
             </div>
@@ -248,7 +265,9 @@ function MembersPageInner() {
           {/* Members List */}
           <div className="bg-dark-primary rounded-3xl shadow-lg p-4 sm:p-8 border border-white/20">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
-              <h2 className="font-serif text-2xl sm:text-4xl text-white tracking-tight">All {MEMBER_NOUN_PLURAL}</h2>
+              <h2 className="font-serif text-2xl sm:text-4xl text-white tracking-tight">
+                All {MEMBER_NOUN_PLURAL}
+              </h2>
               <div className="flex space-x-2">
                 <button className="px-4 py-2 min-h-[44px] bg-brand text-dark-primary rounded-button font-semibold text-sm">
                   Active
@@ -375,12 +394,18 @@ function MembersPageInner() {
                           {member.first_name} {member.last_name}
                         </h3>
                         <p className="text-xs sm:text-sm text-text-secondary line-clamp-2 sm:truncate">
-                          Born {formatDate(member.dob, { day: '2-digit', month: '2-digit', year: 'numeric' })} •
+                          Born{' '}
+                          {formatDate(member.dob, {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                          })}{' '}
+                          •
                           {member.gender === 'M'
                             ? ' Male'
                             : member.gender === 'F'
-                            ? ' Female'
-                            : ' Other'}
+                              ? ' Female'
+                              : ' Other'}
                           {member.registration_number &&
                             ` • ${member.governing_body ? `${GOVERNING_BODY_LABELS[member.governing_body]} ` : ''}${member.registration_number}`}
                           {member.discipline && ` • ${DISCIPLINE_SHORT_LABELS[member.discipline]}`}
@@ -448,7 +473,9 @@ function MembersPageInner() {
         isOpen={!!memberToDelete}
         onClose={() => setMemberToDelete(null)}
         onConfirm={handleDeleteConfirm}
-        memberName={memberToDelete ? `${memberToDelete.first_name} ${memberToDelete.last_name}` : ''}
+        memberName={
+          memberToDelete ? `${memberToDelete.first_name} ${memberToDelete.last_name}` : ''
+        }
         isDeleting={isDeleting}
       />
     </MainLayout>

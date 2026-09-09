@@ -45,9 +45,7 @@ export default function Navbar() {
             {session ? (
               <>
                 <div className="text-sm">
-                  <p className="font-medium text-grey-900">
-                    {session.user.name}
-                  </p>
+                  <p className="font-medium text-grey-900">{session.user.name}</p>
                   <p className="text-grey-500 text-xs capitalize">
                     {session.user.role?.replace('_', ' ')}
                   </p>

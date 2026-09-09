@@ -1,22 +1,22 @@
 ---
-title: "How to Raise Swim Club Fees Without Losing Members"
-description: "How UK swim clubs raise membership fees without losing members: working out the rise, who approves it, Direct Debit notice rules and how to announce it."
-pubDate: "2026-07-20"
-author: "Swimly Team"
-tags: ["treasurer", "finance", "club management", "committee", "swim clubs", "direct debit"]
+title: 'How to Raise Swim Club Fees Without Losing Members'
+description: 'How UK swim clubs raise membership fees without losing members: working out the rise, who approves it, Direct Debit notice rules and how to announce it.'
+pubDate: '2026-07-20'
+author: 'Swimly Team'
+tags: ['treasurer', 'finance', 'club management', 'committee', 'swim clubs', 'direct debit']
 faqItems:
-  - question: "How much notice do you have to give before increasing swim club fees?"
-    answer: "If you collect by Direct Debit, the Bacs scheme requires you to give payers advance notice before you change the amount, the date or the frequency of a collection. The default is 10 working days, although some providers agree a shorter period with their bank and state it in their Direct Debit Guarantee wording. That is the payment minimum, not a good club notice period. Most clubs give members several weeks or a full term of warning so families can plan, and announce the change well before the first higher payment is due."
-  - question: "Who decides a swim club fee increase, the committee or the members?"
-    answer: "It depends entirely on your constitution. Some club constitutions reserve the setting of subscriptions to the members at the annual general meeting; others delegate it to the management committee, sometimes within limits. Read the relevant clause before you plan anything, because a fee increase set by the wrong body can be challenged, and reversing it after members have been billed is far worse than waiting for the right meeting."
-  - question: "How often should a swimming club review its membership fees?"
-    answer: "Review fees every year as part of budget planning, even in years when you decide not to change them. Annual review lets you make small, predictable adjustments that track pool hire and coaching costs. Clubs that leave fees untouched for several years usually end up needing one large catch-up increase, which is the version members find hardest to accept."
-  - question: "Should a fee increase be a flat percentage or vary by squad?"
-    answer: "Base it on where the cost has actually risen. A flat percentage is simple to explain and keeps the relative cost of each squad the same, and it works well when the pressure is general, such as an insurance or affiliation rise. If the increase is driven by extra pool time or coaching for the senior squads, weighting the rise towards those squads is fairer and easier to justify, because you can show which sessions the money pays for."
-  - question: "What should a club do about families who cannot afford the new fees?"
-    answer: "Decide the hardship route before you announce the increase, and mention it in the same message. Options include a small hardship or bursary fund with a confidential application to one named officer, a payment plan that spreads the cost over more instalments, or targeted support funded from fundraising or a grant. Handle requests privately, through one person, and keep the criteria consistent so decisions do not look arbitrary."
-  - question: "What should you monitor after a swim club fee increase?"
-    answer: "Watch three things over the following term: the renewal or retention rate compared with the same point last year, the number of failed or cancelled Direct Debits in the first collection at the new rate, and the volume and tone of questions coming in. A small cluster of cancellations in the first month is normal. A sustained drop in renewals means the increase, its timing or its explanation needs a rethink before the next one."
+  - question: 'How much notice do you have to give before increasing swim club fees?'
+    answer: 'If you collect by Direct Debit, the Bacs scheme requires you to give payers advance notice before you change the amount, the date or the frequency of a collection. The default is 10 working days, although some providers agree a shorter period with their bank and state it in their Direct Debit Guarantee wording. That is the payment minimum, not a good club notice period. Most clubs give members several weeks or a full term of warning so families can plan, and announce the change well before the first higher payment is due.'
+  - question: 'Who decides a swim club fee increase, the committee or the members?'
+    answer: 'It depends entirely on your constitution. Some club constitutions reserve the setting of subscriptions to the members at the annual general meeting; others delegate it to the management committee, sometimes within limits. Read the relevant clause before you plan anything, because a fee increase set by the wrong body can be challenged, and reversing it after members have been billed is far worse than waiting for the right meeting.'
+  - question: 'How often should a swimming club review its membership fees?'
+    answer: 'Review fees every year as part of budget planning, even in years when you decide not to change them. Annual review lets you make small, predictable adjustments that track pool hire and coaching costs. Clubs that leave fees untouched for several years usually end up needing one large catch-up increase, which is the version members find hardest to accept.'
+  - question: 'Should a fee increase be a flat percentage or vary by squad?'
+    answer: 'Base it on where the cost has actually risen. A flat percentage is simple to explain and keeps the relative cost of each squad the same, and it works well when the pressure is general, such as an insurance or affiliation rise. If the increase is driven by extra pool time or coaching for the senior squads, weighting the rise towards those squads is fairer and easier to justify, because you can show which sessions the money pays for.'
+  - question: 'What should a club do about families who cannot afford the new fees?'
+    answer: 'Decide the hardship route before you announce the increase, and mention it in the same message. Options include a small hardship or bursary fund with a confidential application to one named officer, a payment plan that spreads the cost over more instalments, or targeted support funded from fundraising or a grant. Handle requests privately, through one person, and keep the criteria consistent so decisions do not look arbitrary.'
+  - question: 'What should you monitor after a swim club fee increase?'
+    answer: 'Watch three things over the following term: the renewal or retention rate compared with the same point last year, the number of failed or cancelled Direct Debits in the first collection at the new rate, and the volume and tone of questions coming in. A small cluster of cancellations in the first month is normal. A sustained drop in renewals means the increase, its timing or its explanation needs a rethink before the next one.'
 ---
 
 No committee enjoys the fee conversation. Pool hire goes up, coaching costs go up, the affiliation invoice lands in January, and at some point a treasurer has to say out loud that the club's subscriptions no longer cover what the club does. The fear is always the same: put the fees up and families will leave.
@@ -56,12 +56,12 @@ Getting this wrong is expensive. A rise agreed by the committee when the constit
 
 There is more than one way to raise the same amount of money, and the shape you choose changes how members receive it.
 
-| Approach | Best when | Watch out for |
-|---|---|---|
-| Flat percentage across all squads | Costs have risen generally, for example insurance or affiliation | Can hit the smallest squads hardest in relative terms |
-| Weighted by squad or session count | The extra cost sits with specific squads, such as added senior lane time | Needs clear session data to justify, or it looks arbitrary |
-| Restructure into fewer, clearer bands | The existing fee table has grown complicated and inconsistent | Some families will move band and see a larger jump than the headline |
-| One-off levy alongside a small rise | A specific, time-limited cost such as replacing timing equipment | Must genuinely end when the item is paid for, or trust goes |
+| Approach                              | Best when                                                                | Watch out for                                                        |
+| ------------------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------- |
+| Flat percentage across all squads     | Costs have risen generally, for example insurance or affiliation         | Can hit the smallest squads hardest in relative terms                |
+| Weighted by squad or session count    | The extra cost sits with specific squads, such as added senior lane time | Needs clear session data to justify, or it looks arbitrary           |
+| Restructure into fewer, clearer bands | The existing fee table has grown complicated and inconsistent            | Some families will move band and see a larger jump than the headline |
+| One-off levy alongside a small rise   | A specific, time-limited cost such as replacing timing equipment         | Must genuinely end when the item is paid for, or trust goes          |
 
 Whichever you choose, express it to members in both ways: the percentage and the actual money per month. "A 6 per cent increase" and "£2.40 a month more for Squad 2" are the same fact, and the second is the one a parent can act on.
 

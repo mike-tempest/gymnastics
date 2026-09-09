@@ -8,23 +8,23 @@
 
 ## 1. The measured rename surface
 
-| Layer | Files touching `swimmer` | Notes |
-|---|---|---|
-| Backend `services/membership/src` | **144** | Heaviest: competitions (19), migrations (15 — *historical, do not edit*), compliance (13), swimmers module (11), wellbeing/squads/attendance (8 each) |
-| Frontend `apps/web/src` | **83** | `lib/api` (11), `app/swimmers` (8), `components/competitions` (6), `app/admin` (6), `app/parent` (5), plus scattered nav/layout/middleware refs |
-| Shared `packages/shared-types/src` | **10** | `swimmer.dto.ts`, `swimmer.entity.ts`, `entities/index.ts`, and refs inside attendance/competition/session/family/squad entity types |
+| Layer                              | Files touching `swimmer` | Notes                                                                                                                                                 |
+| ---------------------------------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Backend `services/membership/src`  | **144**                  | Heaviest: competitions (19), migrations (15 — _historical, do not edit_), compliance (13), swimmers module (11), wellbeing/squads/attendance (8 each) |
+| Frontend `apps/web/src`            | **83**                   | `lib/api` (11), `app/swimmers` (8), `components/competitions` (6), `app/admin` (6), `app/parent` (5), plus scattered nav/layout/middleware refs       |
+| Shared `packages/shared-types/src` | **10**                   | `swimmer.dto.ts`, `swimmer.entity.ts`, `entities/index.ts`, and refs inside attendance/competition/session/family/squad entity types                  |
 
 **Database objects (Postgres, via TypeORM):**
 
-| Kind | Current name | New name |
-|---|---|---|
-| Table | `swimmers` | `members` |
-| Table | `swimmer_cycle_logs` | `member_cycle_logs` |
-| Table | `swimmer_wellbeing_logs` | `member_wellbeing_logs` |
-| Join table | `squad_swimmers` | `squad_members` |
-| PK column | `swimmers.swimmer_id` | `members.member_id` |
-| FK column `swimmer_id` in | `attendance`, `competition_entries`, `competition_results`, `personal_bests`, `consents`, `squad_swimmers`, `swimmer_cycle_logs`, `swimmer_wellbeing_logs` | `member_id` in each |
-| Column (recommended) | `swimmers.se_number` | `members.registration_number` — the field is already governing-body-agnostic via `governing_body`; the Swim-England-specific name is the only residue |
+| Kind                      | Current name                                                                                                                                               | New name                                                                                                                                              |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Table                     | `swimmers`                                                                                                                                                 | `members`                                                                                                                                             |
+| Table                     | `swimmer_cycle_logs`                                                                                                                                       | `member_cycle_logs`                                                                                                                                   |
+| Table                     | `swimmer_wellbeing_logs`                                                                                                                                   | `member_wellbeing_logs`                                                                                                                               |
+| Join table                | `squad_swimmers`                                                                                                                                           | `squad_members`                                                                                                                                       |
+| PK column                 | `swimmers.swimmer_id`                                                                                                                                      | `members.member_id`                                                                                                                                   |
+| FK column `swimmer_id` in | `attendance`, `competition_entries`, `competition_results`, `personal_bests`, `consents`, `squad_swimmers`, `swimmer_cycle_logs`, `swimmer_wellbeing_logs` | `member_id` in each                                                                                                                                   |
+| Column (recommended)      | `swimmers.se_number`                                                                                                                                       | `members.registration_number` — the field is already governing-body-agnostic via `governing_body`; the Swim-England-specific name is the only residue |
 
 **Named constraints/indexes to rename** (all measured from the migrations):
 
@@ -71,20 +71,20 @@ web:          app/swimmers/**  → app/members/**   (+ middleware.ts route guard
 
 ## 2. Canonical rename map (apply in this precedence order — longest/most specific first)
 
-| Pattern (word-boundary) | Replacement | Applies to |
-|---|---|---|
-| `swimmer_wellbeing_logs` | `member_wellbeing_logs` | table names, migrations (new only) |
-| `swimmer_cycle_logs` | `member_cycle_logs` | table names |
-| `squad_swimmers` | `squad_members` | join table |
-| `SwimmerWellbeing…` / `SwimmerCycle…` | `MemberWellbeing…` / `MemberCycle…` | classes/types |
-| `swimmerId` | `memberId` | camelCase identifiers, route params, DTO fields |
-| `swimmer_id` | `member_id` | snake_case columns, FK names |
-| `SWIMMER_ID` / `SWIMMERS` / `SWIMMER` | `MEMBER_ID` / `MEMBERS` / `MEMBER` | constants, constraint names |
-| `Swimmers` / `swimmers` | `Members` / `members` | classes, table, routes, folders |
-| `Swimmer` / `swimmer` | `Member` / `member` | everything else |
-| `se_number` / `seNumber` / `SeNumber` | `registration_number` / `registrationNumber` / `RegistrationNumber` | the SE-specific field (recommended) |
+| Pattern (word-boundary)               | Replacement                                                         | Applies to                                      |
+| ------------------------------------- | ------------------------------------------------------------------- | ----------------------------------------------- |
+| `swimmer_wellbeing_logs`              | `member_wellbeing_logs`                                             | table names, migrations (new only)              |
+| `swimmer_cycle_logs`                  | `member_cycle_logs`                                                 | table names                                     |
+| `squad_swimmers`                      | `squad_members`                                                     | join table                                      |
+| `SwimmerWellbeing…` / `SwimmerCycle…` | `MemberWellbeing…` / `MemberCycle…`                                 | classes/types                                   |
+| `swimmerId`                           | `memberId`                                                          | camelCase identifiers, route params, DTO fields |
+| `swimmer_id`                          | `member_id`                                                         | snake_case columns, FK names                    |
+| `SWIMMER_ID` / `SWIMMERS` / `SWIMMER` | `MEMBER_ID` / `MEMBERS` / `MEMBER`                                  | constants, constraint names                     |
+| `Swimmers` / `swimmers`               | `Members` / `members`                                               | classes, table, routes, folders                 |
+| `Swimmer` / `swimmer`                 | `Member` / `member`                                                 | everything else                                 |
+| `se_number` / `seNumber` / `SeNumber` | `registration_number` / `registrationNumber` / `RegistrationNumber` | the SE-specific field (recommended)             |
 
-Rules: **word-boundary matching only** (`\bswimmer\b` etc.) so `Swimmers` doesn't double-convert and unrelated words are untouched; process the specific compound patterns *before* the bare `swimmer`.
+Rules: **word-boundary matching only** (`\bswimmer\b` etc.) so `Swimmers` doesn't double-convert and unrelated words are untouched; process the specific compound patterns _before_ the bare `swimmer`.
 
 ---
 
@@ -93,7 +93,7 @@ Rules: **word-boundary matching only** (`\bswimmer\b` etc.) so `Swimmers` doesn'
 - **Code identifier: `Member`.** Future-proof: a third sport never forces this rename again.
 - **User-facing copy: "Gymnast".** Parents and coaches say "gymnast", never "member".
 
-**Rule:** the codemod renames *identifiers, routes, tables, filenames*. It must **not** blindly rewrite user-facing strings to "Member". Handle copy as a separate, reviewed pass:
+**Rule:** the codemod renames _identifiers, routes, tables, filenames_. It must **not** blindly rewrite user-facing strings to "Member". Handle copy as a separate, reviewed pass:
 
 1. Collect all UI strings containing `Swimmer`/`swimmer` (JSX text, labels, toasts, emails in `modules/email` + `communications`, `safeguarding-templates.ts`).
 2. Route them through a single display-noun constant/i18n key (e.g. `MEMBER_NOUN = 'Gymnast'`, `MEMBER_NOUN_PLURAL = 'Gymnasts'`) rather than hard-coding "Gymnast" — so a future sport is a one-line change.
@@ -105,9 +105,9 @@ This separation is the single most common place a naive rename produces an embar
 
 ## 4. Exclusions — do NOT rename
 
-- **Historical migrations** (`database/migrations/*`, 46 files, 15 mention swimmer): leave untouched. Schema history is immutable; the rename is a *new* migration (§5).
-- **Swim-specific competition import parsers** — `parsers/hy3-parser.ts`, `parsers/sportsystems-parser.ts` (+ specs, `parser-factory`, `parser.interface`): these are swimming-meet file formats (HY3/SportSystems). They belong to the *feature-flagged-off* competitions module. Rename identifiers for build hygiene only if the flag-off doesn't exclude them from compilation; otherwise leave and let the flag remove them.
-- **`.claude/worktrees/**`** — agent worktree copies; exclude from all greps and edits.
+- **Historical migrations** (`database/migrations/*`, 46 files, 15 mention swimmer): leave untouched. Schema history is immutable; the rename is a _new_ migration (§5).
+- **Swim-specific competition import parsers** — `parsers/hy3-parser.ts`, `parsers/sportsystems-parser.ts` (+ specs, `parser-factory`, `parser.interface`): these are swimming-meet file formats (HY3/SportSystems). They belong to the _feature-flagged-off_ competitions module. Rename identifiers for build hygiene only if the flag-off doesn't exclude them from compilation; otherwise leave and let the flag remove them.
+- **`.claude/worktrees/**`\*\* — agent worktree copies; exclude from all greps and edits.
 - **`node_modules`, `dist`** — obviously.
 - **Third-party/GoCardless field names** — nothing there uses `swimmer`; if the codemod touches anything under `modules/gocardless`, stop and review.
 
@@ -118,9 +118,10 @@ This separation is the single most common place a naive rename produces an embar
 File: `services/membership/src/database/migrations/<timestamp>-RenameSwimmerToMember.ts`
 
 `up()` in this order (Postgres supports all as in-place renames — no data copy):
+
 1. `ALTER TABLE swimmers RENAME TO members;`
 2. `ALTER TABLE members RENAME COLUMN swimmer_id TO member_id;`
-3. `ALTER TABLE members RENAME COLUMN se_number TO registration_number;` *(recommended)*
+3. `ALTER TABLE members RENAME COLUMN se_number TO registration_number;` _(recommended)_
 4. Rename `swimmer_cycle_logs → member_cycle_logs`, `swimmer_wellbeing_logs → member_wellbeing_logs`, `squad_swimmers → squad_members`.
 5. `ALTER TABLE <attendance|competition_entries|competition_results|personal_bests|consents|squad_members|member_cycle_logs|member_wellbeing_logs> RENAME COLUMN swimmer_id TO member_id;`
 6. `ALTER TABLE … RENAME CONSTRAINT <old> TO <new>;` for every FK/UQ in §1.
@@ -172,7 +173,7 @@ Keep it as **one PR, three commits**: (a) files + identifiers + routes, (b) migr
 
 ## 8. Risks & gotchas
 
-- **Symbol vs string mismatch** — ts-morph renames symbols, but decorators, route strings, `@JoinColumn` names and API paths are *strings*; if you only do one of the two, the app builds and then 404s. Do both (§6 steps 2 and 3), then rely on the grep gate.
+- **Symbol vs string mismatch** — ts-morph renames symbols, but decorators, route strings, `@JoinColumn` names and API paths are _strings_; if you only do one of the two, the app builds and then 404s. Do both (§6 steps 2 and 3), then rely on the grep gate.
 - **`se_number` rename touches uniqueness** — `UQ_SWIMMERS_BODY_SE_NUMBER` is the "unique within a governing body" constraint (the comment in the entity explains two home nations can issue the same digits). Preserve that semantics exactly under the new name.
 - **Historical migrations reference old names** — that's correct and expected; they run first and the new migration renames afterwards. Never "fix" them.
 - **Cherry-pick friction with Swimly** — after this rename, fixes in Swimly's generic core (`gocardless`, `finance`, `auth`, `tenancy`) will need the §2 map applied when ported across. Acceptable; note it in the fork's CONTRIBUTING.

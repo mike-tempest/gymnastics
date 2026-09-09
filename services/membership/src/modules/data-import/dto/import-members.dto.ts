@@ -1,11 +1,5 @@
 import { Type } from 'class-transformer';
-import {
-  ArrayMinSize,
-  IsArray,
-  IsBoolean,
-  IsDefined,
-  ValidateNested,
-} from 'class-validator';
+import { ArrayMinSize, IsArray, IsBoolean, IsDefined, ValidateNested } from 'class-validator';
 import { MemberImportRowDto } from './member-import-row.dto';
 
 export class MemberImportOptionsDto {

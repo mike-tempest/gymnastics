@@ -123,8 +123,11 @@ export default function ProgressionChart({ results, locale = 'en-GB' }: Progress
 
       {improvement > 0 && (
         <p className="text-text-secondary text-sm">
-          Improved by <span className="text-brand font-semibold tabular-nums">{formatSwimTime(improvement)}</span> since
-          their first recorded {selected.label} swim.
+          Improved by{' '}
+          <span className="text-brand font-semibold tabular-nums">
+            {formatSwimTime(improvement)}
+          </span>{' '}
+          since their first recorded {selected.label} swim.
         </p>
       )}
 
@@ -161,7 +164,9 @@ export default function ProgressionChart({ results, locale = 'en-GB' }: Progress
           </LineChart>
         </ResponsiveContainer>
       </div>
-      <p className="text-text-tertiary text-xs">Lower is faster; the chart runs downhill as times improve.</p>
+      <p className="text-text-tertiary text-xs">
+        Lower is faster; the chart runs downhill as times improve.
+      </p>
     </div>
   );
 }

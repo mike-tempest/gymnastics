@@ -4,7 +4,12 @@
   { "name": "Chicago", "slug": "chicago", "stateAbbr": "IL", "stateSlug": "illinois" },
   { "name": "Houston", "slug": "houston", "stateAbbr": "TX", "stateSlug": "texas" },
   { "name": "Phoenix", "slug": "phoenix", "stateAbbr": "AZ", "stateSlug": "arizona" },
-  { "name": "Philadelphia", "slug": "philadelphia", "stateAbbr": "PA", "stateSlug": "pennsylvania" },
+  {
+    "name": "Philadelphia",
+    "slug": "philadelphia",
+    "stateAbbr": "PA",
+    "stateSlug": "pennsylvania"
+  },
   { "name": "San Antonio", "slug": "san-antonio", "stateAbbr": "TX", "stateSlug": "texas" },
   { "name": "San Diego", "slug": "san-diego", "stateAbbr": "CA", "stateSlug": "california" },
   { "name": "Dallas", "slug": "dallas", "stateAbbr": "TX", "stateSlug": "texas" },
@@ -14,11 +19,21 @@
   { "name": "Fort Worth", "slug": "fort-worth", "stateAbbr": "TX", "stateSlug": "texas" },
   { "name": "Columbus", "slug": "columbus", "stateAbbr": "OH", "stateSlug": "ohio" },
   { "name": "Charlotte", "slug": "charlotte", "stateAbbr": "NC", "stateSlug": "north-carolina" },
-  { "name": "San Francisco", "slug": "san-francisco", "stateAbbr": "CA", "stateSlug": "california" },
+  {
+    "name": "San Francisco",
+    "slug": "san-francisco",
+    "stateAbbr": "CA",
+    "stateSlug": "california"
+  },
   { "name": "Indianapolis", "slug": "indianapolis", "stateAbbr": "IN", "stateSlug": "indiana" },
   { "name": "Seattle", "slug": "seattle", "stateAbbr": "WA", "stateSlug": "washington" },
   { "name": "Denver", "slug": "denver", "stateAbbr": "CO", "stateSlug": "colorado" },
-  { "name": "Washington", "slug": "washington", "stateAbbr": "DC", "stateSlug": "district-of-columbia" },
+  {
+    "name": "Washington",
+    "slug": "washington",
+    "stateAbbr": "DC",
+    "stateSlug": "district-of-columbia"
+  },
   { "name": "Boston", "slug": "boston", "stateAbbr": "MA", "stateSlug": "massachusetts" },
   { "name": "El Paso", "slug": "el-paso", "stateAbbr": "TX", "stateSlug": "texas" },
   { "name": "Nashville", "slug": "nashville", "stateAbbr": "TN", "stateSlug": "tennessee" },
@@ -38,9 +53,19 @@
   { "name": "Mesa", "slug": "mesa", "stateAbbr": "AZ", "stateSlug": "arizona" },
   { "name": "Atlanta", "slug": "atlanta", "stateAbbr": "GA", "stateSlug": "georgia" },
   { "name": "Omaha", "slug": "omaha", "stateAbbr": "NE", "stateSlug": "nebraska" },
-  { "name": "Colorado Springs", "slug": "colorado-springs", "stateAbbr": "CO", "stateSlug": "colorado" },
+  {
+    "name": "Colorado Springs",
+    "slug": "colorado-springs",
+    "stateAbbr": "CO",
+    "stateSlug": "colorado"
+  },
   { "name": "Raleigh", "slug": "raleigh", "stateAbbr": "NC", "stateSlug": "north-carolina" },
-  { "name": "Virginia Beach", "slug": "virginia-beach", "stateAbbr": "VA", "stateSlug": "virginia" },
+  {
+    "name": "Virginia Beach",
+    "slug": "virginia-beach",
+    "stateAbbr": "VA",
+    "stateSlug": "virginia"
+  },
   { "name": "Long Beach", "slug": "long-beach", "stateAbbr": "CA", "stateSlug": "california" },
   { "name": "Miami", "slug": "miami", "stateAbbr": "FL", "stateSlug": "florida" },
   { "name": "Oakland", "slug": "oakland", "stateAbbr": "CA", "stateSlug": "california" },
@@ -82,12 +107,22 @@
   { "name": "Gilbert", "slug": "gilbert", "stateAbbr": "AZ", "stateSlug": "arizona" },
   { "name": "Reno", "slug": "reno", "stateAbbr": "NV", "stateSlug": "nevada" },
   { "name": "Fort Wayne", "slug": "fort-wayne", "stateAbbr": "IN", "stateSlug": "indiana" },
-  { "name": "North Las Vegas", "slug": "north-las-vegas", "stateAbbr": "NV", "stateSlug": "nevada" },
+  {
+    "name": "North Las Vegas",
+    "slug": "north-las-vegas",
+    "stateAbbr": "NV",
+    "stateSlug": "nevada"
+  },
   { "name": "St. Petersburg", "slug": "st-petersburg", "stateAbbr": "FL", "stateSlug": "florida" },
   { "name": "Lubbock", "slug": "lubbock", "stateAbbr": "TX", "stateSlug": "texas" },
   { "name": "Irving", "slug": "irving", "stateAbbr": "TX", "stateSlug": "texas" },
   { "name": "Laredo", "slug": "laredo", "stateAbbr": "TX", "stateSlug": "texas" },
-  { "name": "Winston-Salem", "slug": "winston-salem", "stateAbbr": "NC", "stateSlug": "north-carolina" },
+  {
+    "name": "Winston-Salem",
+    "slug": "winston-salem",
+    "stateAbbr": "NC",
+    "stateSlug": "north-carolina"
+  },
   { "name": "Chesapeake", "slug": "chesapeake", "stateAbbr": "VA", "stateSlug": "virginia" },
   { "name": "Glendale", "slug": "glendale", "stateAbbr": "AZ", "stateSlug": "arizona" },
   { "name": "Scottsdale", "slug": "scottsdale", "stateAbbr": "AZ", "stateSlug": "arizona" },
@@ -116,7 +151,12 @@
   { "name": "Columbia", "slug": "columbia", "stateAbbr": "SC", "stateSlug": "south-carolina" },
   { "name": "Charleston", "slug": "charleston", "stateAbbr": "SC", "stateSlug": "south-carolina" },
   { "name": "Cape Coral", "slug": "cape-coral", "stateAbbr": "FL", "stateSlug": "florida" },
-  { "name": "Fort Lauderdale", "slug": "fort-lauderdale", "stateAbbr": "FL", "stateSlug": "florida" },
+  {
+    "name": "Fort Lauderdale",
+    "slug": "fort-lauderdale",
+    "stateAbbr": "FL",
+    "stateSlug": "florida"
+  },
   { "name": "Bridgeport", "slug": "bridgeport", "stateAbbr": "CT", "stateSlug": "connecticut" },
   { "name": "New Haven", "slug": "new-haven", "stateAbbr": "CT", "stateSlug": "connecticut" },
   { "name": "Hartford", "slug": "hartford", "stateAbbr": "CT", "stateSlug": "connecticut" },

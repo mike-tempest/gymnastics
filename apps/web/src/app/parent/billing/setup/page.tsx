@@ -48,9 +48,7 @@ export default function ParentMandateSetupPage() {
       setSucceeded(true);
     } catch (err) {
       setError(
-        err instanceof Error
-          ? err.message
-          : 'We could not finish the setup. Please start again.'
+        err instanceof Error ? err.message : 'We could not finish the setup. Please start again.'
       );
     } finally {
       setIsCompleting(false);

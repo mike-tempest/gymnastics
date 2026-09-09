@@ -4,7 +4,10 @@ import { StatusKey } from '@/lib/utils/billing';
 
 export type { StatusKey };
 
-const STATUS_CONFIG: Record<StatusKey, { label: string; dotClass: string; badgeBg: string; badgeText: string; badgeBorder: string }> = {
+const STATUS_CONFIG: Record<
+  StatusKey,
+  { label: string; dotClass: string; badgeBg: string; badgeText: string; badgeBorder: string }
+> = {
   draft: {
     label: 'Draft',
     dotClass: 'bg-grey-400',
@@ -42,7 +45,9 @@ interface InvoiceStatusBadgeProps {
 export default function InvoiceStatusBadge({ status }: InvoiceStatusBadgeProps) {
   const config = STATUS_CONFIG[status];
   return (
-    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${config.badgeBg} ${config.badgeText} ${config.badgeBorder}`}>
+    <span
+      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${config.badgeBg} ${config.badgeText} ${config.badgeBorder}`}
+    >
       <span className={`w-1.5 h-1.5 rounded-full ${config.dotClass}`} aria-hidden="true" />
       {config.label}
     </span>

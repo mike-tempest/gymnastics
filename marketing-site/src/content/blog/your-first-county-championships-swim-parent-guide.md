@@ -1,9 +1,9 @@
 ---
 title: "Your First County Championships: A Swim Parent's Survival Guide"
 description: "Preparing for your child's first county championships? A swim parent's guide to what to expect, how to prepare, and how to support without adding pressure."
-pubDate: "2026-02-27"
-author: "Mike Tempest"
-tags: ["swim parents", "competitions", "county championships", "regional swimming"]
+pubDate: '2026-02-27'
+author: 'Mike Tempest'
+tags: ['swim parents', 'competitions', 'county championships', 'regional swimming']
 ---
 
 Your child's coach has just confirmed they've been entered for counties. Or regionals. Or perhaps both.
@@ -56,7 +56,7 @@ You're not setting them up for disappointment — you're giving them permission 
 
 **2. Trust the coach's taper plan**
 
-Your child will probably train *less* in the week leading up to championships. This is deliberate. Don't panic. Don't suggest extra practice. The coach knows what they're doing. Taper is about arriving fresh, not arriving knackered from a week of grinding.
+Your child will probably train _less_ in the week leading up to championships. This is deliberate. Don't panic. Don't suggest extra practice. The coach knows what they're doing. Taper is about arriving fresh, not arriving knackered from a week of grinding.
 
 **3. Talk about the atmosphere**
 
@@ -75,6 +75,7 @@ Small logistical certainties reduce big emotional anxieties.
 This isn't a club gala. Pack properly.
 
 **For your child:**
+
 - Racing costume (and a spare — lessons learned)
 - Two towels (they'll be wet for multiple races)
 - Goggles (and spare goggles, and possibly a third pair)
@@ -86,6 +87,7 @@ This isn't a club gala. Pack properly.
 - Entertainment (book, cards, whatever keeps them calm)
 
 **For you:**
+
 - Folding chair (or accept that your back will hate you)
 - Cash (for entry, programmes, car parking — many pools are cash-only)
 - Warm layers (swimming pools are cold when you're sitting still for 4 hours)
@@ -175,8 +177,7 @@ And maybe bring tissues.
 
 ---
 
-*Running a swim club and juggling championship entries, qualifying times, and parent communications? Swimly is built for volunteer committees who need modern tools that actually work, with [competition management](/features/competitions), [membership tracking](/features/membership), and [parent portals](/features/parent-portal). [Join our waitlist](//#waitlist) to be first to pilot.*
-
+_Running a swim club and juggling championship entries, qualifying times, and parent communications? Swimly is built for volunteer committees who need modern tools that actually work, with [competition management](/features/competitions), [membership tracking](/features/membership), and [parent portals](/features/parent-portal). [Join our waitlist](//#waitlist) to be first to pilot._
 
 ---
 

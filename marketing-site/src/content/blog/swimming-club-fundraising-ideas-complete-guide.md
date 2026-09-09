@@ -1,20 +1,20 @@
 ---
-title: "21 Swimming Club Fundraising Ideas That Actually Work (2026 UK Guide)"
-description: "21 swimming club fundraising ideas for UK clubs, with realistic returns for each, from sponsored swims and local grants to CASC Gift Aid."
+title: '21 Swimming Club Fundraising Ideas That Actually Work (2026 UK Guide)'
+description: '21 swimming club fundraising ideas for UK clubs, with realistic returns for each, from sponsored swims and local grants to CASC Gift Aid.'
 pubDate: 2026-02-16
 updatedDate: 2026-06-30
-author: "Swimly Team"
-tags: ["fundraising", "swim clubs", "swimming", "club management", "committee", "finance"]
+author: 'Swimly Team'
+tags: ['fundraising', 'swim clubs', 'swimming', 'club management', 'committee', 'finance']
 faqItems:
-  - question: "How much can a swimming club realistically raise in a year?"
-    answer: "A well-organised club with 100 to 150 members running three or four events a year plus passive income streams can realistically raise £12,000 to £18,000 annually. The key is combining one major event (a sponsored swim, typically £8,000 or more) with several smaller activities (quiz nights, kit sales, raffles) and steady passive income from easyfundraising and business sponsorship. Spreading events across the year avoids fundraising fatigue among families."
-  - question: "What is the easiest fundraising idea for a swim club with limited volunteers?"
-    answer: "Easyfundraising and similar shopping-rebate schemes require almost no ongoing volunteer effort after initial setup and generate £200 to £800 a year passively. For active fundraising with minimal organising, a Christmas raffle using donated prizes is hard to beat. Tickets sell themselves at training sessions and the workload is manageable for a single committee member."
-  - question: "Do we need charity status to fundraise as a swimming club?"
-    answer: "No. Most swimming clubs operate as unincorporated associations or Community Amateur Sports Clubs (CASCs) and can fundraise without formal charity registration. Registering as a CASC with HMRC unlocks Gift Aid (adding 25 per cent to donations from UK taxpayers) and 80 per cent business rates relief. If your club regularly raises over £5,000 a year, CASC registration is worth pursuing. Check gov.uk for current eligibility."
-  - question: "How do we motivate parents to support swimming club fundraising?"
-    answer: "The clubs with the strongest fundraising cultures are transparent about where the money goes. Share specific goals such as raising £3,000 for new starting blocks rather than vague appeals, publish how funds were spent after each event, and recognise contributors publicly. Make events genuinely fun rather than obligation-driven, and keep the admin burden off families. When parents see committee time spent wisely rather than chasing overdue payments, they are more willing to help."
-  - question: "Can swimming clubs apply for grants instead of fundraising?"
+  - question: 'How much can a swimming club realistically raise in a year?'
+    answer: 'A well-organised club with 100 to 150 members running three or four events a year plus passive income streams can realistically raise £12,000 to £18,000 annually. The key is combining one major event (a sponsored swim, typically £8,000 or more) with several smaller activities (quiz nights, kit sales, raffles) and steady passive income from easyfundraising and business sponsorship. Spreading events across the year avoids fundraising fatigue among families.'
+  - question: 'What is the easiest fundraising idea for a swim club with limited volunteers?'
+    answer: 'Easyfundraising and similar shopping-rebate schemes require almost no ongoing volunteer effort after initial setup and generate £200 to £800 a year passively. For active fundraising with minimal organising, a Christmas raffle using donated prizes is hard to beat. Tickets sell themselves at training sessions and the workload is manageable for a single committee member.'
+  - question: 'Do we need charity status to fundraise as a swimming club?'
+    answer: 'No. Most swimming clubs operate as unincorporated associations or Community Amateur Sports Clubs (CASCs) and can fundraise without formal charity registration. Registering as a CASC with HMRC unlocks Gift Aid (adding 25 per cent to donations from UK taxpayers) and 80 per cent business rates relief. If your club regularly raises over £5,000 a year, CASC registration is worth pursuing. Check gov.uk for current eligibility.'
+  - question: 'How do we motivate parents to support swimming club fundraising?'
+    answer: 'The clubs with the strongest fundraising cultures are transparent about where the money goes. Share specific goals such as raising £3,000 for new starting blocks rather than vague appeals, publish how funds were spent after each event, and recognise contributors publicly. Make events genuinely fun rather than obligation-driven, and keep the admin burden off families. When parents see committee time spent wisely rather than chasing overdue payments, they are more willing to help.'
+  - question: 'Can swimming clubs apply for grants instead of fundraising?'
     answer: "Yes. UK swimming clubs can apply to the Sport England Movement Fund (£300 to £15,000), the National Lottery Community Fund's Awards for All England (£300 to £20,000), regional and county Swim England club investment funds and bursaries, Active Partnerships and local council grants. Grant funding works best for capital projects such as starting blocks, timing equipment and facility improvements rather than running costs. Combining grants with regular fundraising gives clubs the strongest financial position."
 ---
 
@@ -42,6 +42,7 @@ Effective fundraising also builds community. When families contribute to a spons
 Sponsored swims remain one of the most effective swimming club fundraising ideas because they align directly with what the club does. Swimmers ask friends, family, and colleagues to sponsor them to swim a set distance, typically 1km, 1 mile, or a timed challenge like 30 minutes of continuous swimming.
 
 **How to run it:**
+
 - Pick a date during a regular training session or dedicate a Sunday morning
 - Set age-appropriate distance targets (younger swimmers might aim for 500m, older squads for 1 mile+)
 - Provide sponsorship forms or set up online fundraising pages via JustGiving or Virgin Money Giving (note: online platforms charge fees but make collection easier)
@@ -57,6 +58,7 @@ Sponsored swims remain one of the most effective swimming club fundraising ideas
 Quiz nights are low-cost, high-engagement fundraising events that work well for swimming clubs because they appeal to parents, coaches, and the wider community. They are easy to organise, require minimal upfront investment, and generate funds through ticket sales, raffles, and a bar if the venue allows.
 
 **How to run it:**
+
 - Book a local hall, club, or pub function room (many venues will offer the space for free if you guarantee bar sales)
 - Charge £5-£10 per person or £30-£40 per table of six
 - Prepare 8-10 rounds of questions (mix general knowledge, picture rounds, music, and a swimming-themed round for fun)
@@ -72,6 +74,7 @@ Quiz nights are low-cost, high-engagement fundraising events that work well for 
 Swimathon is a national charity swim event held annually across the UK, but many swimming clubs run their own version as a club fundraiser. Swimmers complete a set distance (typically 1.5km, 2.5km, or 5km) and collect sponsorship, with funds going to the club rather than a national charity.
 
 **How to run it:**
+
 - Register lanes at your local pool (some pools offer Swimathon weekend slots in March/April)
 - Promote it as a personal challenge event, not just for competitive swimmers
 - Offer team relay options for younger or less confident swimmers
@@ -87,6 +90,7 @@ Swimathon is a national charity swim event held annually across the UK, but many
 Many swimming clubs miss the opportunity to generate ongoing fundraising income through club shop sales. Branded hoodies, t-shirts, water bottles, kit bags, and hats sell consistently if the designs are appealing and the ordering process is straightforward.
 
 **How to run it:**
+
 - Partner with a local sports supplier or online custom kit provider (search for "swimming club kit UK" to find suppliers with bulk order discounts)
 - Offer 2-3 times per year ordering windows (September start of season, January mid-season, May end of season)
 - Add a £2-£5 profit margin per item that goes directly to the club
@@ -102,6 +106,7 @@ Many swimming clubs miss the opportunity to generate ongoing fundraising income 
 Race nights are a fun, engaging way to raise funds with minimal upfront cost. Committees hire or purchase a race night DVD (horse racing, greyhound racing, or even swimming race footage), sell tickets, and auction off horses or lanes. Attendees bet on races throughout the evening, with proceeds going to the club.
 
 **How to run it:**
+
 - Book a venue with a screen and sound system (village halls or club rooms work well)
 - Sell tickets at £5-£8 per person including light refreshments (crisps, sausage rolls, tea/coffee)
 - Auction horses or lanes before each race (typically £5-£20 depending on competitiveness)
@@ -117,6 +122,7 @@ Race nights are a fun, engaging way to raise funds with minimal upfront cost. Co
 Instead of a traditional gala, turn competitive events into fundraising opportunities by adding a sponsored element. Swimmers collect sponsorship for achieving personal bests, completing a certain number of races, or swimming a cumulative distance across the gala.
 
 **How to run it:**
+
 - Announce the sponsored gala 4-6 weeks in advance so families have time to gather sponsors
 - Set clear sponsorship challenges (e.g., £1 per personal best achieved, £5 per race entered, £10 for completing all events)
 - Provide sponsorship forms and online fundraising page templates
@@ -132,6 +138,7 @@ Instead of a traditional gala, turn competitive events into fundraising opportun
 Classic but effective, cake sales held at the end of weekend training sessions or during galas generate small but reliable income with minimal effort. Parents contribute homemade cakes, brownies, and biscuits, and profits go to the club.
 
 **How to run it:**
+
 - Announce the cake sale a week in advance and ask for volunteers to bake
 - Set up a table at the pool entrance or changing room area
 - Charge £1-£2 per slice or offer "fill a bag for £5" options
@@ -147,6 +154,7 @@ Classic but effective, cake sales held at the end of weekend training sessions o
 Approaching local businesses for sponsorship is a sustainable fundraising strategy that benefits both the club and the sponsor. Businesses gain visibility in the community, and the club receives funding for specific needs like new starting blocks, gala sponsorship, or squad tracksuits.
 
 **How to approach it:**
+
 - Identify businesses that align with the club's values (sports shops, health clubs, physiotherapists, local cafes, family businesses)
 - Prepare a one-page sponsorship proposal outlining what you need, what the sponsor gets in return (logo on club website, banner at galas, social media mentions), and how much you are asking
 - Offer tiered sponsorship packages (£250 bronze, £500 silver, £1,000 gold)
@@ -161,6 +169,7 @@ Approaching local businesses for sponsorship is a sustainable fundraising strate
 Christmas raffles are low-effort, high-return fundraising events that work particularly well for swimming clubs because families are already in a giving mood and attending regular training sessions where tickets can be sold.
 
 **How to run it:**
+
 - Collect donated prizes from local businesses, club families, and committee members (hampers, gift vouchers, bottles of wine, toys, beauty products)
 - Sell raffle tickets for £1 each or £5 for a strip of five
 - Promote the raffle at training sessions, via email, and on social media
@@ -176,6 +185,7 @@ Christmas raffles are low-effort, high-return fundraising events that work parti
 A fun day or family gala that includes non-competitive swimming activities, games, and challenges can raise funds through entry fees, refreshments, and additional fundraising activities like raffles or penalty shoot-outs (but with pool toys).
 
 **How to run it:**
+
 - Book pool time on a weekend or during school holidays
 - Charge a family entry fee (£10-£15 per family)
 - Organise relay races, fancy dress swims, diving competitions, and parent vs. child races
@@ -191,6 +201,7 @@ A fun day or family gala that includes non-competitive swimming activities, game
 Crowdfunding platforms like GoFundMe, JustGiving, or Facebook Fundraisers make it easy for swimming clubs to reach a wider audience beyond the immediate membership. Online campaigns work particularly well when the club has a specific, tangible funding goal like new starting blocks, a training camp, or facility improvements.
 
 **How to run it:**
+
 - Set a clear, realistic target (£3,000 for new starting blocks, £5,000 for a training camp)
 - Create a compelling campaign page with photos, videos, and a detailed explanation of why the funds are needed
 - Share the campaign link across social media, email, and the club website
@@ -206,6 +217,7 @@ Crowdfunding platforms like GoFundMe, JustGiving, or Facebook Fundraisers make i
 Swimmers outgrow kit quickly, and many families have bags of barely-used training suits, fins, paddles, and club tracksuits sitting at home. Organising a second-hand kit sale benefits both buyers (who get affordable kit) and sellers (who clear space and contribute to the club).
 
 **How to run it:**
+
 - Announce the sale 3-4 weeks in advance and ask families to bring clean, good-condition kit to a designated training session
 - Price items at 30-50% of original retail value
 - Take a 20-30% commission for the club, with the rest going back to the seller
@@ -221,6 +233,7 @@ Swimmers outgrow kit quickly, and many families have bags of barely-used trainin
 A swim-a-mile challenge turns regular training into a fundraising opportunity. Swimmers commit to swimming a mile (64 lengths of a 25m pool) at every training session for a month, collecting per-mile sponsorship from family and friends.
 
 **How to run it:**
+
 - Choose a month (January works well as a "New Year challenge" or October for a "Swim Fitness Month")
 - Provide tracking sheets or use an online tracker so swimmers can log their miles
 - Set up a club-wide leaderboard to drive friendly competition
@@ -236,6 +249,7 @@ A swim-a-mile challenge turns regular training into a fundraising opportunity. S
 Turn the tables with a fun event where parents race coaches, or parents attempt training sets that their children do every week. These events generate huge engagement and are excellent for social media content that builds community spirit.
 
 **How to run it:**
+
 - Book a 1-hour pool slot on a weekend morning
 - Charge £10 per participating parent, with additional sponsorship per lap
 - Set up fun challenges: parents do a squad warm-up set, relay races, parents vs coaches medley
@@ -252,6 +266,7 @@ Turn the tables with a fun event where parents race coaches, or parents attempt 
 Passive fundraising through online shopping platforms generates a small but consistent income stream that requires almost no volunteer effort once set up. Amazon Smile donates 0.5% of eligible purchases, while easyfundraising works with 7,000+ retailers including John Lewis, Argos, and TK Maxx.
 
 **How to set it up:**
+
 - Register your club as a cause on easyfundraising.org.uk (free, takes 10 minutes)
 - Promote the easyfundraising link to all club families via email and social media
 - Encourage families to install the easyfundraising browser extension or app
@@ -292,6 +307,7 @@ CASC status also opens additional grant streams and strengthens applications to 
 There is significant grant funding available for amateur sports clubs in the UK, but many clubs never apply because the process seems daunting. In reality, most applications are straightforward once you understand what funders want.
 
 **Where to look:**
+
 - **Sport England Movement Fund** provides grants from £300 to £15,000 for projects that get more people active, particularly among under-represented groups. It replaced the older Community Asset Fund. See the [Movement Fund page](https://www.sportengland.org/funding-and-campaigns/our-funding/movement-fund) for criteria
 - **National Lottery Awards for All England** offers grants of £300 to £20,000 for up to two years (the ceiling doubled from £10,000 in November 2023), with a relatively short application and no requirement to be a registered charity. See the [Awards for All England page](https://www.tnlcommunityfund.org.uk/funding/funding-programmes/national-lottery-awards-for-all-england)
 - **Swim England regional and county funding** is distributed through the regions and county associations rather than a single national pot: club investment or development grants for equipment and projects, plus bursaries that part-fund coaching and officiating qualifications. Contact your regional team or county development officer for what is open, starting from the [Swim England club finances hub](https://www.swimming.org/swimengland/club-finances/)
@@ -299,6 +315,7 @@ There is significant grant funding available for amateur sports clubs in the UK,
 - **Active Partnerships** (the network formerly known as County Sports Partnerships, such as Active Kent or Active Surrey) rarely award large grants directly but know every local funding stream and can point your club to the right one
 
 **How to strengthen your application:**
+
 - Be specific about what funding covers and how it benefits members
 - Include membership data, particularly around diversity and inclusion
 - Show proper governance with audited accounts and policies

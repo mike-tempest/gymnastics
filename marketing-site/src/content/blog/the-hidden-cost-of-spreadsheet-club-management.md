@@ -1,11 +1,11 @@
 ---
-title: "The Hidden Cost of Spreadsheet Club Management"
-description: "Spreadsheets feel free, but the real cost to swimming clubs is measured in volunteer burnout, lost data, and missed opportunities. Here is what spreadsheet admin actually costs your club."
+title: 'The Hidden Cost of Spreadsheet Club Management'
+description: 'Spreadsheets feel free, but the real cost to swimming clubs is measured in volunteer burnout, lost data, and missed opportunities. Here is what spreadsheet admin actually costs your club.'
 pubDate: 2026-01-28
-author: "Swimly Team"
-tags: ["spreadsheets", "club admin", "volunteer burnout", "swimming clubs"]
-seoTitle: "The Hidden Cost of Spreadsheet Club Management | Swimly Blog"
-seoDescription: "Spreadsheets feel free, but the real cost is volunteer burnout, lost data, and missed revenue. See why clubs are switching to swimming club admin software."
+author: 'Swimly Team'
+tags: ['spreadsheets', 'club admin', 'volunteer burnout', 'swimming clubs']
+seoTitle: 'The Hidden Cost of Spreadsheet Club Management | Swimly Blog'
+seoDescription: 'Spreadsheets feel free, but the real cost is volunteer burnout, lost data, and missed revenue. See why clubs are switching to swimming club admin software.'
 ---
 
 Every swimming club has them. The membership spreadsheet that someone built in 2017. The fee tracker that only one committee member truly understands. The shared Google Drive folder with seventeen versions of the [attendance](/features/attendance/) register, three of which are labelled "FINAL."

@@ -154,8 +154,9 @@ export default function CreateClubPage() {
 
   // Governing-body options follow the selected country. Countries with a
   // single body (everything except GB) hide the picker and use the default.
-  const governingBodyOptions =
-    COUNTRY_GOVERNING_BODIES[selectedCountry] ?? [GoverningBody.SWIM_ENGLAND];
+  const governingBodyOptions = COUNTRY_GOVERNING_BODIES[selectedCountry] ?? [
+    GoverningBody.SWIM_ENGLAND,
+  ];
   const showGoverningBodyPicker = governingBodyOptions.length > 1;
   const selectedGoverningBody = watch('governingBody');
   const effectiveGoverningBody =
@@ -250,7 +251,7 @@ export default function CreateClubPage() {
       const reason = classifySignupFailure(message);
       signupFailed(reason);
       setError(
-        message || 'We could not create your club. Please check your details and try again.',
+        message || 'We could not create your club. Please check your details and try again.'
       );
     }
   };
@@ -388,7 +389,9 @@ export default function CreateClubPage() {
                   </svg>
                 </div>
                 {errors.timezone && (
-                  <p className="mt-2 text-sm text-danger font-semibold">{errors.timezone.message}</p>
+                  <p className="mt-2 text-sm text-danger font-semibold">
+                    {errors.timezone.message}
+                  </p>
                 )}
               </div>
             )}
@@ -425,7 +428,9 @@ export default function CreateClubPage() {
                   </svg>
                 </div>
                 {errors.governingBody && (
-                  <p className="mt-2 text-sm text-danger font-semibold">{errors.governingBody.message}</p>
+                  <p className="mt-2 text-sm text-danger font-semibold">
+                    {errors.governingBody.message}
+                  </p>
                 )}
               </div>
             )}
@@ -444,7 +449,9 @@ export default function CreateClubPage() {
                       className={`${fieldClass} appearance-none pr-12`}
                       disabled={isSubmitting}
                     >
-                      <option value="" className="text-dark-primary">Select state or territory</option>
+                      <option value="" className="text-dark-primary">
+                        Select state or territory
+                      </option>
                       {AU_STATES.map((state) => (
                         <option key={state.code} value={state.code} className="text-dark-primary">
                           {state.label}
@@ -472,14 +479,30 @@ export default function CreateClubPage() {
                       className={`${fieldClass} appearance-none pr-12`}
                       disabled={isSubmitting}
                     >
-                      <option value="" className="text-dark-primary">Select region</option>
-                      <option value="North" className="text-dark-primary">North</option>
-                      <option value="South" className="text-dark-primary">South</option>
-                      <option value="East" className="text-dark-primary">East</option>
-                      <option value="West" className="text-dark-primary">West</option>
-                      <option value="Midlands" className="text-dark-primary">Midlands</option>
-                      <option value="London" className="text-dark-primary">London</option>
-                      <option value="South West" className="text-dark-primary">South West</option>
+                      <option value="" className="text-dark-primary">
+                        Select region
+                      </option>
+                      <option value="North" className="text-dark-primary">
+                        North
+                      </option>
+                      <option value="South" className="text-dark-primary">
+                        South
+                      </option>
+                      <option value="East" className="text-dark-primary">
+                        East
+                      </option>
+                      <option value="West" className="text-dark-primary">
+                        West
+                      </option>
+                      <option value="Midlands" className="text-dark-primary">
+                        Midlands
+                      </option>
+                      <option value="London" className="text-dark-primary">
+                        London
+                      </option>
+                      <option value="South West" className="text-dark-primary">
+                        South West
+                      </option>
                     </select>
                     <svg
                       className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-white/60"
@@ -505,12 +528,15 @@ export default function CreateClubPage() {
                   />
                 )}
                 {errors.swimEnglandRegion && (
-                  <p className="mt-2 text-sm text-danger font-semibold">{errors.swimEnglandRegion.message}</p>
+                  <p className="mt-2 text-sm text-danger font-semibold">
+                    {errors.swimEnglandRegion.message}
+                  </p>
                 )}
               </div>
               <div>
                 <label htmlFor="county" className={labelClass}>
-                  {countyLabel(selectedCountry)} <span className="font-normal text-white/50">(optional)</span>
+                  {countyLabel(selectedCountry)}{' '}
+                  <span className="font-normal text-white/50">(optional)</span>
                 </label>
                 <input
                   {...register('county')}
@@ -536,11 +562,15 @@ export default function CreateClubPage() {
                   id="affiliateNumber"
                   type="text"
                   className={fieldClass}
-                  placeholder={isSwimEngland ? 'SE-12345' : governingBodyDetails.registrationNumberLabel}
+                  placeholder={
+                    isSwimEngland ? 'SE-12345' : governingBodyDetails.registrationNumberLabel
+                  }
                   disabled={isSubmitting}
                 />
                 {errors.affiliateNumber && (
-                  <p className="mt-2 text-sm text-danger font-semibold">{errors.affiliateNumber.message}</p>
+                  <p className="mt-2 text-sm text-danger font-semibold">
+                    {errors.affiliateNumber.message}
+                  </p>
                 )}
               </div>
               <div>
@@ -557,7 +587,9 @@ export default function CreateClubPage() {
                   disabled={isSubmitting}
                 />
                 {errors.clubPhone && (
-                  <p className="mt-2 text-sm text-danger font-semibold">{errors.clubPhone.message}</p>
+                  <p className="mt-2 text-sm text-danger font-semibold">
+                    {errors.clubPhone.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -576,7 +608,9 @@ export default function CreateClubPage() {
                   disabled={isSubmitting}
                 />
                 {errors.clubContactEmail && (
-                  <p className="mt-2 text-sm text-danger font-semibold">{errors.clubContactEmail.message}</p>
+                  <p className="mt-2 text-sm text-danger font-semibold">
+                    {errors.clubContactEmail.message}
+                  </p>
                 )}
               </div>
               <div>
@@ -605,7 +639,8 @@ export default function CreateClubPage() {
               Your account
             </legend>
             <p className="text-sm text-white/60 mb-4">
-              This is your club administrator account. You will use it to sign in and manage your club.
+              This is your club administrator account. You will use it to sign in and manage your
+              club.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -623,7 +658,9 @@ export default function CreateClubPage() {
                   disabled={isSubmitting}
                 />
                 {errors.firstName && (
-                  <p className="mt-2 text-sm text-danger font-semibold">{errors.firstName.message}</p>
+                  <p className="mt-2 text-sm text-danger font-semibold">
+                    {errors.firstName.message}
+                  </p>
                 )}
               </div>
               <div>
@@ -640,7 +677,9 @@ export default function CreateClubPage() {
                   disabled={isSubmitting}
                 />
                 {errors.lastName && (
-                  <p className="mt-2 text-sm text-danger font-semibold">{errors.lastName.message}</p>
+                  <p className="mt-2 text-sm text-danger font-semibold">
+                    {errors.lastName.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -678,7 +717,9 @@ export default function CreateClubPage() {
                   disabled={isSubmitting}
                 />
                 {errors.password && (
-                  <p className="mt-2 text-sm text-danger font-semibold">{errors.password.message}</p>
+                  <p className="mt-2 text-sm text-danger font-semibold">
+                    {errors.password.message}
+                  </p>
                 )}
               </div>
               <div>
@@ -695,7 +736,9 @@ export default function CreateClubPage() {
                   disabled={isSubmitting}
                 />
                 {errors.confirmPassword && (
-                  <p className="mt-2 text-sm text-danger font-semibold">{errors.confirmPassword.message}</p>
+                  <p className="mt-2 text-sm text-danger font-semibold">
+                    {errors.confirmPassword.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -715,15 +758,34 @@ export default function CreateClubPage() {
                   fill="none"
                   viewBox="0 0 24 24"
                 >
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
                 </svg>
                 <span>Creating your club...</span>
               </span>
             ) : (
               <>
                 <span>Create club</span>
-                <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" viewBox="0 0 24 24" stroke="currentColor">
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="3"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
                   <path d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </>
@@ -735,7 +797,10 @@ export default function CreateClubPage() {
         <div className="mt-8 text-center">
           <p className="text-sm text-white/70">
             Already have an account?{' '}
-            <Link href="/login" className="font-bold text-brand-dark hover:text-brand transition-colors">
+            <Link
+              href="/login"
+              className="font-bold text-brand-dark hover:text-brand transition-colors"
+            >
               Sign in
             </Link>
           </p>

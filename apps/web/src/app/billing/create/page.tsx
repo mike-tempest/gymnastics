@@ -49,7 +49,11 @@ export default function CreateBillingInvoicePage() {
     { id: generateId(), description: '', amount: '', type: 'squad_fee' },
   ]);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<{ family?: string; dueDate?: string; items?: string }>({});
+  const [fieldErrors, setFieldErrors] = useState<{
+    family?: string;
+    dueDate?: string;
+    items?: string;
+  }>({});
 
   useEffect(() => {
     fetchFamilies();
@@ -57,7 +61,12 @@ export default function CreateBillingInvoicePage() {
 
   useEffect(() => {
     // Track unsaved changes
-    const hasData = !!(familyId || dueDate || notes || items.some(i => i.description || i.amount));
+    const hasData = !!(
+      familyId ||
+      dueDate ||
+      notes ||
+      items.some((i) => i.description || i.amount)
+    );
     setHasUnsavedChanges(hasData);
   }, [familyId, dueDate, notes, items]);
 
@@ -86,7 +95,10 @@ export default function CreateBillingInvoicePage() {
   };
 
   const addItem = () => {
-    setItems((prev) => [...prev, { id: generateId(), description: '', amount: '', type: 'squad_fee' }]);
+    setItems((prev) => [
+      ...prev,
+      { id: generateId(), description: '', amount: '', type: 'squad_fee' },
+    ]);
   };
 
   const removeItem = (id: string) => {
@@ -95,9 +107,7 @@ export default function CreateBillingInvoicePage() {
   };
 
   const updateItem = (id: string, field: keyof LineItem, value: string) => {
-    setItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, [field]: value } : item))
-    );
+    setItems((prev) => prev.map((item) => (item.id === id ? { ...item, [field]: value } : item)));
   };
 
   const total = items.reduce((sum, item) => {
@@ -107,7 +117,7 @@ export default function CreateBillingInvoicePage() {
 
   const validate = (): string | null => {
     const errors: typeof fieldErrors = {};
-    
+
     if (!familyId) errors.family = 'Please select a family.';
     if (!dueDate) {
       errors.dueDate = 'Please set a due date.';
@@ -119,14 +129,16 @@ export default function CreateBillingInvoicePage() {
         errors.dueDate = 'Due date is in the past.';
       }
     }
-    
-    const validItems = items.filter((item) => item.description.trim() && parseFloat(item.amount) > 0);
+
+    const validItems = items.filter(
+      (item) => item.description.trim() && parseFloat(item.amount) > 0
+    );
     if (validItems.length === 0) {
       errors.items = 'Please add at least one line item with a description and amount.';
     }
-    
+
     setFieldErrors(errors);
-    
+
     if (Object.keys(errors).length > 0) {
       return Object.values(errors)[0];
     }
@@ -185,7 +197,9 @@ export default function CreateBillingInvoicePage() {
 
           {/* Header */}
           <div className="mb-8">
-            <h1 className="font-serif text-3xl md:text-5xl text-dark-primary tracking-tight mb-1">Create Invoice</h1>
+            <h1 className="font-serif text-3xl md:text-5xl text-dark-primary tracking-tight mb-1">
+              Create Invoice
+            </h1>
             <p className="text-dark-primary/60">Generate a new invoice for a family</p>
           </div>
 
@@ -220,7 +234,7 @@ export default function CreateBillingInvoicePage() {
                           onChange={(e) => {
                             setFamilyId(e.target.value);
                             if (fieldErrors.family) {
-                              setFieldErrors(prev => ({ ...prev, family: undefined }));
+                              setFieldErrors((prev) => ({ ...prev, family: undefined }));
                             }
                           }}
                           disabled={isSubmitting}
@@ -240,7 +254,10 @@ export default function CreateBillingInvoicePage() {
                     )}
                   </div>
                   <div>
-                    <label htmlFor="due-date" className="block text-sm font-semibold text-white mb-2">
+                    <label
+                      htmlFor="due-date"
+                      className="block text-sm font-semibold text-white mb-2"
+                    >
                       Due Date <span className="text-brand">*</span>
                     </label>
                     <input
@@ -250,7 +267,7 @@ export default function CreateBillingInvoicePage() {
                       onChange={(e) => {
                         setDueDate(e.target.value);
                         if (fieldErrors.dueDate) {
-                          setFieldErrors(prev => ({ ...prev, dueDate: undefined }));
+                          setFieldErrors((prev) => ({ ...prev, dueDate: undefined }));
                         }
                       }}
                       disabled={isSubmitting}
@@ -286,7 +303,10 @@ export default function CreateBillingInvoicePage() {
 
                 <div className="space-y-4">
                   {items.map((item, index) => (
-                    <div key={item.id} className="p-4 bg-dark-primary rounded-xl border border-grey-200">
+                    <div
+                      key={item.id}
+                      className="p-4 bg-dark-primary rounded-xl border border-grey-200"
+                    >
                       <div className="flex items-start justify-between mb-3">
                         <h4 className="text-white font-semibold text-sm">Item {index + 1}</h4>
                         {items.length > 1 && (
@@ -296,7 +316,15 @@ export default function CreateBillingInvoicePage() {
                             disabled={isSubmitting}
                             className="text-red-400 hover:text-red-300 transition-colors"
                           >
-                            <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg
+                              className="w-5 h-5"
+                              fill="none"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
                               <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
                           </button>
@@ -304,7 +332,9 @@ export default function CreateBillingInvoicePage() {
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
                         <div className="md:col-span-5">
-                          <label className="block text-sm font-medium text-text-secondary mb-1.5">Description</label>
+                          <label className="block text-sm font-medium text-text-secondary mb-1.5">
+                            Description
+                          </label>
                           <input
                             type="text"
                             value={item.description}
@@ -315,7 +345,9 @@ export default function CreateBillingInvoicePage() {
                           />
                         </div>
                         <div className="md:col-span-3">
-                          <label className="block text-sm font-medium text-text-secondary mb-1.5">Type</label>
+                          <label className="block text-sm font-medium text-text-secondary mb-1.5">
+                            Type
+                          </label>
                           <select
                             value={item.type}
                             onChange={(e) => updateItem(item.id, 'type', e.target.value)}
@@ -330,7 +362,9 @@ export default function CreateBillingInvoicePage() {
                           </select>
                         </div>
                         <div className="md:col-span-4">
-                          <label className="block text-sm font-medium text-text-secondary mb-1.5">Amount ({symbol})</label>
+                          <label className="block text-sm font-medium text-text-secondary mb-1.5">
+                            Amount ({symbol})
+                          </label>
                           <input
                             type="number"
                             min="0"
@@ -352,7 +386,9 @@ export default function CreateBillingInvoicePage() {
               <div className="bg-brand/10 border-2 border-brand rounded-xl p-6">
                 <div className="flex items-center justify-between">
                   <span className="text-xl font-semibold text-white">Total Amount:</span>
-                  <span className="text-4xl font-serif text-brand tabular-nums">{formatCurrency(total)}</span>
+                  <span className="text-4xl font-serif text-brand tabular-nums">
+                    {formatCurrency(total)}
+                  </span>
                 </div>
               </div>
 
@@ -379,7 +415,8 @@ export default function CreateBillingInvoicePage() {
                     if (hasUnsavedChanges) {
                       const confirmed = await confirm({
                         title: 'Unsaved Changes',
-                        description: 'You have unsaved changes. Are you sure you want to leave? All entered data will be lost.',
+                        description:
+                          'You have unsaved changes. Are you sure you want to leave? All entered data will be lost.',
                         confirmLabel: 'Leave Page',
                         cancelLabel: 'Keep Editing',
                         variant: 'warning',
@@ -401,9 +438,25 @@ export default function CreateBillingInvoicePage() {
                 >
                   {isSubmitting ? (
                     <>
-                      <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      <svg
+                        className="animate-spin h-5 w-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
                       </svg>
                       <span>Creating...</span>
                     </>

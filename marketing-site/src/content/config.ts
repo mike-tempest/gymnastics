@@ -12,10 +12,14 @@ const blogCollection = defineCollection({
     image: z.string().optional(),
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),
-    faqItems: z.array(z.object({
-      question: z.string(),
-      answer: z.string(),
-    })).optional(),
+    faqItems: z
+      .array(
+        z.object({
+          question: z.string(),
+          answer: z.string(),
+        })
+      )
+      .optional(),
     canonical: z.string().url().optional(),
     noindex: z.boolean().optional(),
     // Optional region tag for multi-region content. Existing posts omit this

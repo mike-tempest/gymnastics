@@ -138,10 +138,7 @@ describe('InvoicePdfService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        InvoicePdfService,
-        { provide: ClubsRepository, useValue: mockClubsRepository },
-      ],
+      providers: [InvoicePdfService, { provide: ClubsRepository, useValue: mockClubsRepository }],
     }).compile();
 
     service = module.get<InvoicePdfService>(InvoicePdfService);

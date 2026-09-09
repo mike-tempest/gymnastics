@@ -10,12 +10,7 @@ import { api } from './api-client';
  */
 
 export type WaitingListStatus = 'waiting' | 'offered' | 'enrolled' | 'withdrawn' | 'expired';
-export type WaitingListOfferStatus =
-  | 'pending'
-  | 'accepted'
-  | 'declined'
-  | 'expired'
-  | 'withdrawn';
+export type WaitingListOfferStatus = 'pending' | 'accepted' | 'declined' | 'expired' | 'withdrawn';
 
 export interface WaitingListOffer {
   offer_id: string;

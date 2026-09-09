@@ -1,9 +1,9 @@
 ---
-title: "The Swimming Club Committee Handover Checklist (AGM Season)"
+title: 'The Swimming Club Committee Handover Checklist (AGM Season)'
 description: "A practical guide to committee handovers that actually work. Don't let knowledge walk out the door when committee members step down."
-pubDate: "2026-03-13"
-author: "Mike Tempest"
-tags: ["swim clubs", "committee", "agm", "management", "volunteers"]
+pubDate: '2026-03-13'
+author: 'Mike Tempest'
+tags: ['swim clubs', 'committee', 'agm', 'management', 'volunteers']
 ---
 
 If you've ever sat in an AGM watching a new Treasurer receive a carrier bag full of bank statements and a Post-It note with a password on it, you'll know that swim club committee handovers are often chaotic at best, catastrophic at worst.
@@ -31,18 +31,21 @@ A good handover should start at least four weeks before the AGM and cover three 
 ### Chair
 
 **Core responsibilities:**
+
 - Running committee meetings (schedule, agenda, minutes)
 - Main point of contact for Swim England, facility management, and other external bodies
 - Handling complaints and escalations
 - Strategic planning and club direction
 
 **What to hand over:**
+
 - Committee meeting schedule and templates
 - Contact list (Swim England regional office, pool manager, safeguarding lead, club welfare officer)
 - Ongoing issues or discussions (facility negotiations, complaints in progress)
 - Access to club email account, social media accounts, and any shared drives
 
 **The unwritten knowledge:**
+
 - Which parents are helpful vs. which ones complain about everything
 - Pool management quirks (who to speak to, how to ask for extra lane time)
 - Committee dynamics (who works well together, who needs managing)
@@ -50,12 +53,14 @@ A good handover should start at least four weeks before the AGM and cover three 
 ### Treasurer
 
 **Core responsibilities:**
+
 - Collecting membership fees and squad fees
 - Paying coaches, pool hire, and other regular expenses
 - Managing the club bank account
 - Producing financial reports for the committee and AGM
 
 **What to hand over:**
+
 - Bank account access (logins, signatories, card details)
 - Current financial position (bank balance, outstanding payments, upcoming bills)
 - List of all regular payments (direct debits out, standing orders in)
@@ -63,6 +68,7 @@ A good handover should start at least four weeks before the AGM and cover three 
 - Financial year-end process and accounts format
 
 **The unwritten knowledge:**
+
 - Which parents are reliable payers vs. which ones need chasing
 - Payment quirks (who pays termly vs. monthly, who always pays cash)
 - When bills are due (pool hire is first Monday of each month, Swim England fees are September)
@@ -71,6 +77,7 @@ A good handover should start at least four weeks before the AGM and cover three 
 ### Membership Secretary
 
 **Core responsibilities:**
+
 - Processing new member applications
 - Managing Swim England registrations and renewals
 - Maintaining the membership database
@@ -78,6 +85,7 @@ A good handover should start at least four weeks before the AGM and cover three 
 - Managing the waiting list
 
 **What to hand over:**
+
 - Membership database (spreadsheet, system, whatever you're using)
 - Access to Swim England portal
 - Current waiting list and how it's managed
@@ -85,6 +93,7 @@ A good handover should start at least four weeks before the AGM and cover three 
 - New member onboarding process ([trial sessions](/blog/running-swim-club-trials-and-taster-sessions/), kit, parent inductions)
 
 **The unwritten knowledge:**
+
 - Swim England portal quirks (it's terrible, here's how to work around the bugs)
 - How squad moves actually happen (coaches decide, but you do the admin)
 - Which families have multiple swimmers (sibling discounts, shared contact details)
@@ -93,12 +102,14 @@ A good handover should start at least four weeks before the AGM and cover three 
 ### Head Coach
 
 **Core responsibilities:**
+
 - Planning and delivering training sessions
 - Squad allocation and swimmer development
 - Competition entry and team selection
 - Coach team management
 
 **What to hand over:**
+
 - Training plans and session structures
 - Squad descriptions and entry criteria
 - Competition calendar and entry process
@@ -106,6 +117,7 @@ A good handover should start at least four weeks before the AGM and cover three 
 - Swimmer records (times, progress tracking, notes)
 
 **The unwritten knowledge:**
+
 - Which swimmers are being developed for what
 - Parent expectations management (competitive vs. recreational families)
 - Facility constraints that affect training (lane availability, equipment)
@@ -129,11 +141,13 @@ This doesn't need to be a novel. A 3-5 page Google Doc per role is enough. What 
 This is where most handovers fall apart. Here's what needs to happen:
 
 **Before the AGM:**
+
 - Create a shared password manager (1Password, Bitwarden, or even a secure spreadsheet) with all logins
 - Document what each account is for and who needs access
 - Test that backups exist for critical systems
 
 **After the AGM:**
+
 - Transfer ownership of club email accounts, social media, and other shared accounts to new committee members
 - Update bank signatories (can take weeks, so start early)
 - Change passwords for systems where personal accounts were used
@@ -146,26 +160,31 @@ The goal is that a new committee member can log in to everything they need on da
 A good handover doesn't happen in the week before the AGM. Here's a realistic timeline:
 
 **4 weeks before AGM:**
+
 - Outgoing committee member creates handover document
 - Identifies all systems and access requirements
 - Documents ongoing issues
 
 **2 weeks before AGM:**
+
 - New committee member (if known) starts shadowing
 - Joint access to systems is set up
 - Handover document is reviewed together
 
 **AGM week:**
+
 - Official handover at AGM
 - Final questions answered
 - Outgoing member remains available for questions
 
 **2 weeks after AGM:**
+
 - New committee member leading, outgoing member on standby
 - Any access issues resolved
 - Final knowledge transfer
 
 **4 weeks after AGM:**
+
 - Handover complete
 - Outgoing member off the hook (unless they're staying in a different role)
 

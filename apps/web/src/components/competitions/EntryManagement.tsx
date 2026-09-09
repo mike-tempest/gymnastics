@@ -42,7 +42,11 @@ function QualifyingBadge({
 
   const referenceTime = entry.entry_time ?? entry.seed_time;
   if (referenceTime === null || referenceTime === undefined) {
-    return <span className="text-white/30 text-xs" title="No entry time to compare">No time</span>;
+    return (
+      <span className="text-white/30 text-xs" title="No entry time to compare">
+        No time
+      </span>
+    );
   }
 
   // Faster (smaller) than or equal to the standard qualifies.
@@ -113,7 +117,9 @@ export default function EntryManagement({ competitionId }: EntryManagementProps)
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-white/60">{entries.length} {entries.length === 1 ? 'entry' : 'entries'}</p>
+        <p className="text-sm text-white/60">
+          {entries.length} {entries.length === 1 ? 'entry' : 'entries'}
+        </p>
         <button
           onClick={() => setShowAddModal(true)}
           className="flex items-center gap-2 px-4 py-2.5 min-h-[44px] bg-brand text-dark-primary rounded-xl font-semibold text-sm hover:bg-brand-light transition-colors"
@@ -135,12 +141,17 @@ export default function EntryManagement({ competitionId }: EntryManagementProps)
           {/* Mobile cards */}
           <div className="space-y-3 md:hidden">
             {entries.map((entry) => (
-              <div key={entry.entry_id} className="bg-white/5 rounded-xl p-4 border border-white/10">
+              <div
+                key={entry.entry_id}
+                className="bg-white/5 rounded-xl p-4 border border-white/10"
+              >
                 <div className="flex items-center justify-between mb-2">
                   <p className="text-white font-medium">
                     {entry.member?.first_name} {entry.member?.last_name}
                   </p>
-                  <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium border ${STATUS_STYLES[entry.status] || STATUS_STYLES.PENDING}`}>
+                  <span
+                    className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium border ${STATUS_STYLES[entry.status] || STATUS_STYLES.PENDING}`}
+                  >
                     {entry.status}
                   </span>
                 </div>
@@ -150,8 +161,12 @@ export default function EntryManagement({ competitionId }: EntryManagementProps)
                   {entry.age_group && ` (${entry.age_group})`}
                 </p>
                 <div className="flex flex-wrap items-center gap-4 mt-2 text-xs text-white/50">
-                  <span>Entry: <span className="tabular-nums">{formatSwimTime(entry.entry_time)}</span></span>
-                  <span>Seed: <span className="tabular-nums">{formatSwimTime(entry.seed_time)}</span></span>
+                  <span>
+                    Entry: <span className="tabular-nums">{formatSwimTime(entry.entry_time)}</span>
+                  </span>
+                  <span>
+                    Seed: <span className="tabular-nums">{formatSwimTime(entry.seed_time)}</span>
+                  </span>
                   <QualifyingBadge entry={entry} qualifyingTimes={qualifyingTimes} />
                 </div>
               </div>
@@ -182,11 +197,19 @@ export default function EntryManagement({ competitionId }: EntryManagementProps)
                     <td className="py-3 text-white/70">{entry.event_name || '-'}</td>
                     <td className="py-3 text-white/70">{entry.distance}m</td>
                     <td className="py-3 text-white/70">{entry.stroke}</td>
-                    <td className="py-3 text-white/70 tabular-nums">{formatSwimTime(entry.entry_time)}</td>
-                    <td className="py-3 text-white/70 tabular-nums">{formatSwimTime(entry.seed_time)}</td>
-                    <td className="py-3"><QualifyingBadge entry={entry} qualifyingTimes={qualifyingTimes} /></td>
+                    <td className="py-3 text-white/70 tabular-nums">
+                      {formatSwimTime(entry.entry_time)}
+                    </td>
+                    <td className="py-3 text-white/70 tabular-nums">
+                      {formatSwimTime(entry.seed_time)}
+                    </td>
                     <td className="py-3">
-                      <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium border ${STATUS_STYLES[entry.status] || STATUS_STYLES.PENDING}`}>
+                      <QualifyingBadge entry={entry} qualifyingTimes={qualifyingTimes} />
+                    </td>
+                    <td className="py-3">
+                      <span
+                        className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium border ${STATUS_STYLES[entry.status] || STATUS_STYLES.PENDING}`}
+                      >
                         {entry.status}
                       </span>
                     </td>
@@ -199,10 +222,7 @@ export default function EntryManagement({ competitionId }: EntryManagementProps)
       )}
 
       {showAddModal && (
-        <AddEntriesModal
-          onClose={() => setShowAddModal(false)}
-          onSubmit={handleAddEntries}
-        />
+        <AddEntriesModal onClose={() => setShowAddModal(false)} onSubmit={handleAddEntries} />
       )}
     </div>
   );

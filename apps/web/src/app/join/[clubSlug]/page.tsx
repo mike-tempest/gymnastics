@@ -89,7 +89,10 @@ export default function JoinWaitingListPage({ params }: { params: { clubSlug: st
         parent_email: form.parent_email.trim(),
         ...(form.parent_phone.trim() ? { parent_phone: form.parent_phone.trim() } : {}),
         ...(form.desired_discipline
-          ? { desired_discipline: form.desired_discipline as JoinWaitingListInput['desired_discipline'] }
+          ? {
+              desired_discipline:
+                form.desired_discipline as JoinWaitingListInput['desired_discipline'],
+            }
           : {}),
         ...(form.desired_squad_type
           ? { desired_squad_type: form.desired_squad_type as SquadType }
@@ -271,9 +274,7 @@ export default function JoinWaitingListPage({ params }: { params: { clubSlug: st
           </fieldset>
 
           <fieldset className="space-y-5">
-            <legend className="font-serif text-2xl text-dark-primary mb-4">
-              How we reach you
-            </legend>
+            <legend className="font-serif text-2xl text-dark-primary mb-4">How we reach you</legend>
 
             <div>
               <label className={LABEL_CLASSES} htmlFor="parent_name">

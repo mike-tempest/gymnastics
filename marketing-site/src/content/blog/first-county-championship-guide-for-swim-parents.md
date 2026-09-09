@@ -1,12 +1,12 @@
 ---
 title: "Your Swimmer's First County Championship: A Parent's Guide to the Big Step Up"
 description: "What to expect when your child qualifies for their first county or regional swimming championship — from a parent who's been there."
-pubDate: "2026-03-01"
-author: "Mike Tempest"
-tags: ["swim parents", "competitions", "championships", "performance swimming"]
+pubDate: '2026-03-01'
+author: 'Mike Tempest'
+tags: ['swim parents', 'competitions', 'championships', 'performance swimming']
 ---
 
-The text message from your child's coach arrives: "Congratulations! [Your child's name] has qualified for counties!" 
+The text message from your child's coach arrives: "Congratulations! [Your child's name] has qualified for counties!"
 
 You feel proud. Your swimmer feels excited. And somewhere underneath that, you both feel a tiny bit nervous. Because county and regional championships are a different beast entirely from club galas.
 
@@ -35,12 +35,14 @@ Here's what changes:
 If you're used to showing up at club galas with just a towel and goggles, championship packing requires a step up.
 
 **For your swimmer:**
+
 - **Two sets of everything:** Two towels, two costumes, two pairs of goggles, two swim caps. Things break. Things get lost. Things get forgotten in changing rooms when your swimmer is nervous.
 - **Warm clothing:** Tracksuit, hoodie, warm socks. Championship pools are cold. Your swimmer will be sitting around for hours between races. Keeping warm matters for performance.
 - **Snacks and water:** Little and often. Bananas, cereal bars, rice cakes, sandwiches. Avoid heavy meals close to racing. Hydrate constantly.
 - **Entertainment:** Homework, a book, headphones, card games. Hours of waiting are easier when there's something to do. Many swimmers bring schoolwork — there's a lot of downtime.
 
 **For you:**
+
 - **Layers:** Spectator galleries are either freezing or boiling. There's no middle ground.
 - **Lunch:** Championship venues often have cafés, but queues are long and sandwiches are expensive. Bring your own.
 - **Portable phone charger:** You'll be there for 6+ hours. Your phone battery won't last.
@@ -123,7 +125,6 @@ Championships are a privilege. Not every swimmer qualifies. The fact that your c
 If your club is preparing for championship season and struggling to keep track of qualifying times, entry deadlines, and competition entries across multiple swimmers, [Swimly](/) is built for this. Our [competition management system](/features/competitions) makes it easy to monitor progress towards qualifying standards, handle entries and communication automatically. Parents can check their swimmer's entries through the [parent portal](/features/parent-portal), and clubs can manage all [membership](/features/membership) records in one place.
 
 [Join the waitlist](//#waitlist) to see how we're helping competitive swim clubs manage the step up to championship-level performance.
-
 
 ---
 

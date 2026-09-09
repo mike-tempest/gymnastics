@@ -164,7 +164,10 @@ describe('StripeWebhookVerifier', () => {
         }),
       );
 
-      expect(event.details).toEqual({ cause: 'expired_card', description: 'Your card has expired.' });
+      expect(event.details).toEqual({
+        cause: 'expired_card',
+        description: 'Your card has expired.',
+      });
     });
 
     it('omits details when a failed payment carries no error', () => {

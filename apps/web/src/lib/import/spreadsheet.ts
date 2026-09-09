@@ -153,7 +153,7 @@ export function parseCsvText(text: string): ParsedSpreadsheet {
   if (result.errors.length > 0) {
     const first = result.errors[0];
     throw new SpreadsheetParseError(
-      `CSV parsing error (row ${(first.row ?? 0) + 1}): ${first.message}`,
+      `CSV parsing error (row ${(first.row ?? 0) + 1}): ${first.message}`
     );
   }
 

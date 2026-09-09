@@ -80,12 +80,9 @@ describe('isValidPostalCode', () => {
   });
 
   describe('invalid values', () => {
-    it.each(['1', '12', 'ABCDE', 'not a postcode', ''])(
-      'rejects %j',
-      (value) => {
-        expect(isValidPostalCode(value)).toBe(false);
-      },
-    );
+    it.each(['1', '12', 'ABCDE', 'not a postcode', ''])('rejects %j', (value) => {
+      expect(isValidPostalCode(value)).toBe(false);
+    });
   });
 
   it('trims surrounding whitespace before validating', () => {
@@ -109,16 +106,12 @@ describe('isValidPhone', () => {
   });
 
   describe('invalid numbers', () => {
-    it.each([
-      '12345',
-      'phone',
-      '+',
-      '',
-      '555-CALL-NOW',
-      '+1234567890123456',
-    ])('rejects %j', (value) => {
-      expect(isValidPhone(value)).toBe(false);
-    });
+    it.each(['12345', 'phone', '+', '', '555-CALL-NOW', '+1234567890123456'])(
+      'rejects %j',
+      (value) => {
+        expect(isValidPhone(value)).toBe(false);
+      }
+    );
   });
 
   it('trims surrounding whitespace before validating', () => {

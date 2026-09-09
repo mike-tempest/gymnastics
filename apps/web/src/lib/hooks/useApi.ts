@@ -16,7 +16,7 @@ export interface UseApiResult<T> {
 export function useApi<T>(
   fetcher: () => Promise<T>,
   deps: unknown[] = [],
-  options?: { enabled?: boolean },
+  options?: { enabled?: boolean }
 ): UseApiResult<T> {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -51,7 +51,7 @@ export function useApi<T>(
           setError(err instanceof Error ? err.message : 'An error occurred');
           setIsLoading(false);
         }
-      },
+      }
     );
 
     return () => {
@@ -78,7 +78,7 @@ export interface UseMutationResult<TData, TInput> {
  * Generic hook for mutation operations (create, update, delete).
  */
 export function useMutation<TData, TInput = void>(
-  mutationFn: (input: TInput) => Promise<TData>,
+  mutationFn: (input: TInput) => Promise<TData>
 ): UseMutationResult<TData, TInput> {
   const [data, setData] = useState<TData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -100,7 +100,7 @@ export function useMutation<TData, TInput = void>(
         setIsLoading(false);
       }
     },
-    [mutationFn],
+    [mutationFn]
   );
 
   const reset = useCallback(() => {

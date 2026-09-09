@@ -34,7 +34,7 @@ export default function ExportButton({ competitionId }: ExportButtonProps) {
         setIsExporting(false);
       }
     },
-    [competitionId],
+    [competitionId]
   );
 
   return (

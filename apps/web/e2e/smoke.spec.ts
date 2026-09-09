@@ -4,7 +4,7 @@ import { BRAND } from '../src/lib/brand';
 
 /**
  * Swimly E2E Smoke Tests
- * 
+ *
  * These tests verify that major sections of the application render without errors.
  * They do not test detailed functionality, only that pages load successfully.
  */
@@ -12,10 +12,10 @@ import { BRAND } from '../src/lib/brand';
 test.describe('Public Pages', () => {
   test('login page renders', async ({ page }) => {
     await page.goto('/login');
-    
+
     // Check that the page loaded successfully (no 500 error)
     expect(page.url()).toContain('/login');
-    
+
     // Verify some expected content is present
     const escapedBrand = BRAND.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     await expect(page).toHaveTitle(new RegExp(`${escapedBrand}|Login`, 'i'));
@@ -27,7 +27,7 @@ test.describe('Admin Dashboard', () => {
     // Note: This test will need authentication in a real scenario
     // For now, we just verify the route exists
     await page.goto('/');
-    
+
     // Check that we didn't get a 404 or 500
     const response = await page.goto('/');
     expect(response?.status()).toBeLessThan(500);

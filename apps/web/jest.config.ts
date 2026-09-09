@@ -8,9 +8,7 @@ const createJestConfig = nextJest({
 const config: Config = {
   testEnvironment: 'jest-environment-jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  transformIgnorePatterns: [
-    'node_modules/(?!(lucide-react)/)',
-  ],
+  transformIgnorePatterns: ['node_modules/(?!(lucide-react)/)'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@club-manager/shared-types$': '<rootDir>/../../packages/shared-types/src/index.ts',

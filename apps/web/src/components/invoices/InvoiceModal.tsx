@@ -46,7 +46,12 @@ interface InvoiceModalProps {
   isLoading?: boolean;
 }
 
-export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = false }: InvoiceModalProps) {
+export default function InvoiceModal({
+  isOpen,
+  onClose,
+  onSubmit,
+  isLoading = false,
+}: InvoiceModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const firstInputRef = useRef<HTMLSelectElement>(null);
   const [families, setFamilies] = useState<Family[]>([]);
@@ -116,7 +121,9 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
       reset({
         family_id: '',
         due_date: '',
-        items: [{ description: '', quantity: 1, unit_price: 0, type: 'squad_fee', member_id: null }],
+        items: [
+          { description: '', quantity: 1, unit_price: 0, type: 'squad_fee', member_id: null },
+        ],
         notes: '',
       });
       setTimeout(() => {
@@ -190,7 +197,9 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
         {/* Header */}
         <div className="flex items-center justify-between p-4 sm:p-8 border-b border-white/10">
           <div>
-            <h2 id="invoice-modal-title" className="text-2xl sm:text-3xl font-bold text-white mb-1">Create Invoice</h2>
+            <h2 id="invoice-modal-title" className="text-2xl sm:text-3xl font-bold text-white mb-1">
+              Create Invoice
+            </h2>
             <p className="text-text-secondary">Generate a new invoice for a family</p>
           </div>
           <button
@@ -227,7 +236,8 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
                   ref={(e) => {
                     register('family_id').ref(e);
                     if (e) {
-                      (firstInputRef as React.MutableRefObject<HTMLSelectElement | null>).current = e;
+                      (firstInputRef as React.MutableRefObject<HTMLSelectElement | null>).current =
+                        e;
                     }
                   }}
                   id="family_id"
@@ -241,7 +251,9 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
                     </option>
                   ))}
                 </select>
-                {errors.family_id && <p className="mt-2 text-sm text-danger">{errors.family_id.message}</p>}
+                {errors.family_id && (
+                  <p className="mt-2 text-sm text-danger">{errors.family_id.message}</p>
+                )}
               </div>
 
               <div>
@@ -255,7 +267,9 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
                   className="w-full px-4 py-3 bg-white/10 text-white rounded-xl border border-white/10 focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 transition-all outline-none"
                   disabled={isSubmitting}
                 />
-                {errors.due_date && <p className="mt-2 text-sm text-danger">{errors.due_date.message}</p>}
+                {errors.due_date && (
+                  <p className="mt-2 text-sm text-danger">{errors.due_date.message}</p>
+                )}
               </div>
             </div>
 
@@ -267,7 +281,15 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
                 </label>
                 <button
                   type="button"
-                  onClick={() => append({ description: '', quantity: 1, unit_price: 0, type: 'squad_fee', member_id: null })}
+                  onClick={() =>
+                    append({
+                      description: '',
+                      quantity: 1,
+                      unit_price: 0,
+                      type: 'squad_fee',
+                      member_id: null,
+                    })
+                  }
                   className="px-4 py-2 bg-brand text-dark-primary rounded-xl font-semibold hover:bg-brand-light transition-all text-sm"
                   disabled={isSubmitting}
                 >
@@ -288,7 +310,15 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
                           className="text-danger hover:text-danger/80 transition-colors"
                           disabled={isSubmitting}
                         >
-                          <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
                             <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                           </svg>
                         </button>
@@ -297,7 +327,10 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="md:col-span-2">
-                        <label htmlFor={`items.${index}.description`} className="block text-sm font-medium text-text-secondary mb-2">
+                        <label
+                          htmlFor={`items.${index}.description`}
+                          className="block text-sm font-medium text-text-secondary mb-2"
+                        >
                           Description
                         </label>
                         <input
@@ -308,12 +341,17 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
                           disabled={isSubmitting}
                         />
                         {errors.items?.[index]?.description && (
-                          <p className="mt-1 text-sm text-danger">{errors.items[index]?.description?.message}</p>
+                          <p className="mt-1 text-sm text-danger">
+                            {errors.items[index]?.description?.message}
+                          </p>
                         )}
                       </div>
 
                       <div>
-                        <label htmlFor={`items.${index}.type`} className="block text-sm font-medium text-text-secondary mb-2">
+                        <label
+                          htmlFor={`items.${index}.type`}
+                          className="block text-sm font-medium text-text-secondary mb-2"
+                        >
                           Type
                         </label>
                         <select
@@ -330,7 +368,10 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
                       </div>
 
                       <div>
-                        <label htmlFor={`items.${index}.member_id`} className="block text-sm font-medium text-text-secondary mb-2">
+                        <label
+                          htmlFor={`items.${index}.member_id`}
+                          className="block text-sm font-medium text-text-secondary mb-2"
+                        >
                           Member (Optional)
                         </label>
                         <select
@@ -348,7 +389,10 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
                       </div>
 
                       <div>
-                        <label htmlFor={`items.${index}.quantity`} className="block text-sm font-medium text-text-secondary mb-2">
+                        <label
+                          htmlFor={`items.${index}.quantity`}
+                          className="block text-sm font-medium text-text-secondary mb-2"
+                        >
                           Quantity
                         </label>
                         <input
@@ -360,12 +404,17 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
                           disabled={isSubmitting}
                         />
                         {errors.items?.[index]?.quantity && (
-                          <p className="mt-1 text-sm text-danger">{errors.items[index]?.quantity?.message}</p>
+                          <p className="mt-1 text-sm text-danger">
+                            {errors.items[index]?.quantity?.message}
+                          </p>
                         )}
                       </div>
 
                       <div>
-                        <label htmlFor={`items.${index}.unit_price`} className="block text-sm font-medium text-text-secondary mb-2">
+                        <label
+                          htmlFor={`items.${index}.unit_price`}
+                          className="block text-sm font-medium text-text-secondary mb-2"
+                        >
                           Unit Price ({symbol})
                         </label>
                         <input
@@ -378,15 +427,22 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
                           disabled={isSubmitting}
                         />
                         {errors.items?.[index]?.unit_price && (
-                          <p className="mt-1 text-sm text-danger">{errors.items[index]?.unit_price?.message}</p>
+                          <p className="mt-1 text-sm text-danger">
+                            {errors.items[index]?.unit_price?.message}
+                          </p>
                         )}
                       </div>
 
                       <div className="flex items-end">
                         <div className="w-full">
-                          <label className="block text-sm font-medium text-text-secondary mb-2">Total</label>
+                          <label className="block text-sm font-medium text-text-secondary mb-2">
+                            Total
+                          </label>
                           <div className="px-4 py-2 bg-dark-primary/80 text-brand rounded-xl border border-white/10 font-bold text-lg tabular-nums">
-                            {formatCurrency((Number(items[index]?.quantity) || 0) * (Number(items[index]?.unit_price) || 0))}
+                            {formatCurrency(
+                              (Number(items[index]?.quantity) || 0) *
+                                (Number(items[index]?.unit_price) || 0)
+                            )}
                           </div>
                         </div>
                       </div>
@@ -403,7 +459,9 @@ export default function InvoiceModal({ isOpen, onClose, onSubmit, isLoading = fa
             <div className="bg-brand/10 border-2 border-brand rounded-xl p-6">
               <div className="flex items-center justify-between">
                 <span className="text-xl font-semibold text-white">Total Amount:</span>
-                <span className="text-4xl font-bold text-brand tabular-nums">{formatCurrency(Number(total))}</span>
+                <span className="text-4xl font-bold text-brand tabular-nums">
+                  {formatCurrency(Number(total))}
+                </span>
               </div>
             </div>
 

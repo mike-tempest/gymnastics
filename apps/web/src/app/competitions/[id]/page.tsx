@@ -26,7 +26,9 @@ import { useCompetition } from '@/lib/hooks/useCompetitions';
 
 function statusBadge(status: CompetitionStatus) {
   return (
-    <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold ${COMPETITION_STATUS_STYLES[status]}`}>
+    <span
+      className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold ${COMPETITION_STATUS_STYLES[status]}`}
+    >
       {COMPETITION_STATUS_LABELS[status]}
     </span>
   );
@@ -107,7 +109,9 @@ export default function CompetitionDetailPage() {
                   {competition.entry_deadline && (
                     <div className="bg-white/5 rounded-2xl p-4">
                       <p className="text-text-secondary text-sm mb-1">Entry Deadline</p>
-                      <p className="text-white font-semibold">{formatCompetitionDate(competition.entry_deadline, locale)}</p>
+                      <p className="text-white font-semibold">
+                        {formatCompetitionDate(competition.entry_deadline, locale)}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -140,9 +144,7 @@ export default function CompetitionDetailPage() {
                 </div>
 
                 <div className="p-6 sm:p-8">
-                  {activeTab === 'entries' && (
-                    <EntryManagement competitionId={id} />
-                  )}
+                  {activeTab === 'entries' && <EntryManagement competitionId={id} />}
 
                   {activeTab === 'results' && (
                     <div className="space-y-4">
