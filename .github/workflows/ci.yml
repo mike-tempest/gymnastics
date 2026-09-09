@@ -78,3 +78,162 @@ jobs:
 
       - name: Test
         run: pnpm exec turbo run test -- --ci --coverage
+
+  # The API e2e suite in tests/e2e is fetch-based: it needs a real API process
+  # in front of a real, seeded database, so it cannot run in the unit-test job.
+  #
+  # tests/ is deliberately NOT a pnpm workspace package, so `turbo run test`
+  # never reaches this suite. Adding it to pnpm-workspace.yaml would make a
+  # plain `pnpm test` on a developer's laptop require a running Postgres and a
+  # booted API, which is not what that command should mean. The suite is
+  # instead invoked directly here with its own jest config; jest, ts-jest and
+  # dotenv resolve from the repository root node_modules.
+  api-e2e:
+    name: API e2e
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    services:
+      # postgres:16 matches infrastructure/docker/docker-compose.dev.yml. The
+      # health check is what makes the job wait for readiness, so no step below
+      # needs to sleep and guess.
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: gymnastics_e2e
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+
+    env:
+      NODE_ENV: test
+      PORT: '3001'
+      DB_HOST: localhost
+      DB_PORT: '5432'
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_DATABASE: gymnastics_e2e
+      # Required by src/config/env.validation.ts even though nothing here sends
+      # mail. Without them the seed and the API both refuse to boot.
+      EMAIL_HOST: localhost
+      EMAIL_PORT: '1025'
+      # The production cap is 15 requests per 15 minutes on /api/auth. One run
+      # of this suite logs in far more often than that, so raise it for this
+      # throwaway stack only. Never raise it in a deployed environment.
+      AUTH_RATE_LIMIT_MAX: '1000'
+      API_BASE_URL: http://localhost:3001/api
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Generated per run and never committed. The demo account passwords in
+      # tests/e2e/.env.test are throwaway fixtures; a signing key is not.
+      - name: Generate a JWT secret for this run
+        run: |
+          echo "JWT_SECRET=$(node -e "console.log(require('crypto').randomBytes(48).toString('hex'))")" >> "$GITHUB_ENV"
+
+      - name: Build the membership service
+        run: pnpm exec turbo run build --filter=@club-manager/membership-service
+
+      - name: Run migrations
+        run: pnpm --filter @club-manager/membership-service db:migrate
+
+      # SEED_DEMO_CLUB is the flag the seed and services/membership/entrypoint.sh
+      # both check before writing demo data, so use it rather than working around
+      # the guard. It is scoped to this one step, not the whole job: it is the
+      # deliberate-override path, and outside it the seed's own "the host must be
+      # local" check should stay in force. The target here is the throwaway
+      # postgres service container this job created, so overriding is safe. If
+      # DB_HOST ever stops being that container, remove this flag first.
+      - name: Seed the demo gymnastics club
+        env:
+          SEED_DEMO_CLUB: 'true'
+        run: pnpm --filter @club-manager/membership-service seed:demo:gym
+
+      - name: Start the API
+        working-directory: services/membership
+        run: |
+          set -euo pipefail
+          LOG="$RUNNER_TEMP/api-e2e.log"
+          node dist/main.js >"$LOG" 2>&1 &
+          echo "$!" > "$RUNNER_TEMP/api-e2e.pid"
+
+          # Poll GET /health/live, which sits outside the global /api prefix and
+          # answers 200 as soon as the process is listening. The composite
+          # GET /health is checked once below instead of being the boot gate:
+          # it also runs the GoCardless indicator, which would turn this loop
+          # into a 60-second timeout with a misleading message the moment a
+          # GoCardless token is added to this job. No fixed sleep anywhere: the
+          # loop gives up after 60 seconds and prints the server log so a boot
+          # failure is readable rather than a bare timeout.
+          ready=""
+          for i in $(seq 1 60); do
+            # -s without -S: a refused connection is the expected answer while
+            # the server is still starting, not something to log 60 times.
+            if curl -fs -o /dev/null http://localhost:3001/health/live; then
+              echo "API answered /health/live after ${i}s"
+              ready=yes
+              break
+            fi
+            if ! kill -0 "$(cat "$RUNNER_TEMP/api-e2e.pid")" 2>/dev/null; then
+              echo "::error::The API process exited before it became ready."
+              cat "$LOG"
+              exit 1
+            fi
+            sleep 1
+          done
+
+          if [ -z "$ready" ]; then
+            echo "::error::The API did not answer GET /health/live within 60 seconds."
+            cat "$LOG"
+            exit 1
+          fi
+
+          # The suite is worthless against an API that cannot reach its
+          # database, and 82 failing assertions is a far worse error message
+          # than one line here.
+          # No -f here: terminus answers 503 with a body naming the unhealthy
+          # indicator, and that body is exactly what we want to print.
+          health=$(curl -sS http://localhost:3001/health || true)
+          echo "GET /health: ${health:-<no response>}"
+          case "$health" in
+            *'"database":{"status":"up"}'*) ;;
+            *)
+              echo "::error::The API is up but does not report its database as healthy."
+              cat "$LOG"
+              exit 1
+              ;;
+          esac
+
+      # Only the api.*.test.ts files. frontend.smoke.test.ts in the same
+      # directory needs the Next.js app running as well and is out of scope for
+      # this job. --forceExit because Node's fetch keeps its sockets alive after
+      # the last assertion and jest would otherwise idle waiting for them.
+      - name: Run the API e2e suite
+        run: |
+          pnpm exec jest \
+            --config tests/e2e/jest.config.ts \
+            --testPathPattern 'api\..*\.test\.ts$' \
+            --ci --runInBand --forceExit --verbose
+
+      # Runs even when the suite fails: a 500 from the API is only diagnosable
+      # with the server-side stack trace next to the failing assertion.
+      - name: Print the API log
+        if: always()
+        run: cat "$RUNNER_TEMP/api-e2e.log" || true

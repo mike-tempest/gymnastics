@@ -40,6 +40,24 @@ npm run test:api
 npm run test:frontend
 ```
 
+## In CI
+
+The `API e2e` job in `.github/workflows/ci.yml` runs the `api.*.test.ts` files
+against a real stack on every pull request: a `postgres:16` service container,
+migrations, the demo gymnastics club seed, then the built API on port 3001.
+
+This directory is deliberately not a pnpm workspace package, so `turbo run test`
+does not reach it and a plain `pnpm test` never needs a database. The CI job
+invokes jest directly with this config instead:
+
+```bash
+pnpm exec jest --config tests/e2e/jest.config.ts \
+  --testPathPattern 'api\..*\.test\.ts$' --ci --runInBand --forceExit
+```
+
+`frontend.smoke.test.ts` is excluded there because it also needs the Next.js app
+running. Run it locally against a dev server.
+
 ## Test Coverage
 
 ### API Tests
