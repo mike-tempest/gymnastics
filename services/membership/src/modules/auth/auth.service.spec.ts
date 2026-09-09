@@ -37,7 +37,7 @@ describe('AuthService', () => {
 
   const mockUsersService = {
     create: jest.fn(),
-    findByEmail: jest.fn(),
+    findCredentialsByEmail: jest.fn(),
     findOne: jest.fn(),
     validatePassword: jest.fn(),
     updateLastLogin: jest.fn(),
@@ -694,7 +694,7 @@ describe('AuthService', () => {
         password: 'securePassword123',
       };
 
-      mockUsersService.findByEmail.mockResolvedValue(mockUser);
+      mockUsersService.findCredentialsByEmail.mockResolvedValue(mockUser);
       mockUsersService.validatePassword.mockResolvedValue(true);
       mockUsersService.updateLastLogin.mockResolvedValue(undefined);
       mockJwtService.signAsync.mockResolvedValue('mock_access_token');
@@ -703,7 +703,7 @@ describe('AuthService', () => {
 
       expect(result.access_token).toBe('mock_access_token');
       expect(result.user).toBeDefined();
-      expect(mockUsersService.findByEmail).toHaveBeenCalledWith(loginDto.email);
+      expect(mockUsersService.findCredentialsByEmail).toHaveBeenCalledWith(loginDto.email);
       expect(mockUsersService.updateLastLogin).toHaveBeenCalledWith(mockUser.user_id);
     });
 
@@ -713,7 +713,7 @@ describe('AuthService', () => {
         password: 'securePassword123',
       };
 
-      mockUsersService.findByEmail.mockResolvedValue(mockUser);
+      mockUsersService.findCredentialsByEmail.mockResolvedValue(mockUser);
       mockUsersService.validatePassword.mockResolvedValue(true);
       mockUsersService.updateLastLogin.mockResolvedValue(undefined);
       mockJwtService.signAsync.mockResolvedValue('mock_access_token');
@@ -735,7 +735,7 @@ describe('AuthService', () => {
         password: 'securePassword123',
       };
 
-      mockUsersService.findByEmail.mockResolvedValue(mockUser);
+      mockUsersService.findCredentialsByEmail.mockResolvedValue(mockUser);
       mockUsersService.validatePassword.mockResolvedValue(true);
       mockUsersService.updateLastLogin.mockResolvedValue(undefined);
       mockJwtService.signAsync.mockResolvedValue('mock_access_token');
@@ -754,7 +754,7 @@ describe('AuthService', () => {
         password: 'password',
       };
 
-      mockUsersService.findByEmail.mockResolvedValue(null);
+      mockUsersService.findCredentialsByEmail.mockResolvedValue(null);
 
       await expect(service.login(loginDto)).rejects.toThrow(UnauthorizedException);
     });
@@ -765,7 +765,7 @@ describe('AuthService', () => {
         password: 'wrongpassword',
       };
 
-      mockUsersService.findByEmail.mockResolvedValue(mockUser);
+      mockUsersService.findCredentialsByEmail.mockResolvedValue(mockUser);
       mockUsersService.validatePassword.mockResolvedValue(false);
 
       await expect(service.login(loginDto)).rejects.toThrow(UnauthorizedException);
@@ -778,7 +778,7 @@ describe('AuthService', () => {
       };
 
       const inactiveUser = { ...mockUser, active: false };
-      mockUsersService.findByEmail.mockResolvedValue(inactiveUser);
+      mockUsersService.findCredentialsByEmail.mockResolvedValue(inactiveUser);
       mockUsersService.validatePassword.mockResolvedValue(true);
 
       await expect(service.login(loginDto)).rejects.toThrow(UnauthorizedException);
@@ -791,7 +791,7 @@ describe('AuthService', () => {
         password: 'securePassword123',
       };
 
-      mockUsersService.findByEmail.mockResolvedValue({ ...mockUser });
+      mockUsersService.findCredentialsByEmail.mockResolvedValue({ ...mockUser });
       mockUsersService.validatePassword.mockResolvedValue(true);
       mockUsersService.updateLastLogin.mockResolvedValue(undefined);
       mockJwtService.signAsync.mockResolvedValue('mock_access_token');

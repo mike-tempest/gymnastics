@@ -86,6 +86,7 @@ describe('Membership API E2E Tests', () => {
       expect(response.status).toBe(201);
 
       const data = (await response.json()) as { access_token?: string };
+      expect(JSON.stringify(data)).not.toContain('password_hash');
       expect(data).toHaveProperty('access_token');
       expect(typeof data.access_token).toBe('string');
 
@@ -249,8 +250,11 @@ describe('Membership API E2E Tests', () => {
 
       expect(response.status).toBe(200);
 
-      const data = (await response.json()) as unknown[];
+      const data = (await response.json()) as Array<{ user?: { email?: string } }>;
       expect(Array.isArray(data)).toBe(true);
+      expect(data.length).toBeGreaterThan(0);
+      expect(data.some((check) => check.user?.email)).toBe(true);
+      expect(JSON.stringify(data)).not.toContain('password_hash');
     });
 
     it('should return consents array', async () => {
