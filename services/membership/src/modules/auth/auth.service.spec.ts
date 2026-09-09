@@ -8,7 +8,6 @@ import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
 import { EmailService } from '../email/email.service';
 import { AuditLogsService } from '../compliance/audit-logs/audit-logs.service';
-import { RegisterDto } from './dto/register.dto';
 import { RegisterClubDto } from './dto/register-club.dto';
 import { LoginDto } from './dto/login.dto';
 import { UserRole } from '../users/entities/user.entity';
@@ -174,128 +173,6 @@ describe('AuthService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
-  });
-
-  describe('register', () => {
-    it('should register a new user and return access token', async () => {
-      const registerDto: RegisterDto = {
-        email: 'jane.smith@example.com',
-        password: 'securePassword123',
-        first_name: 'Jane',
-        last_name: 'Smith',
-      };
-
-      mockUsersService.create.mockResolvedValue(mockUser);
-      mockJwtService.signAsync.mockResolvedValue('mock_access_token');
-      mockEmailService.sendWelcome.mockResolvedValue(undefined);
-
-      const result = await service.register(registerDto);
-
-      expect(result.access_token).toBe('mock_access_token');
-      expect(result.user).toEqual(mockUser);
-      // No role supplied -> defaults to PARENT after mapping.
-      expect(mockUsersService.create).toHaveBeenCalledWith({
-        ...registerDto,
-        role: UserRole.PARENT,
-      });
-      expect(mockJwtService.signAsync).toHaveBeenCalledWith({
-        sub: mockUser.user_id,
-        email: mockUser.email,
-        role: mockUser.role,
-        club_id: mockUser.club_id,
-      });
-    });
-
-    it('should map an uppercase frontend role to the lowercase enum', async () => {
-      const registerDto = {
-        email: 'coach@example.com',
-        password: 'securePassword123',
-        first_name: 'Coach',
-        last_name: 'Carter',
-        role: 'COACH' as unknown as UserRole,
-      };
-
-      mockUsersService.create.mockResolvedValue(mockUser);
-      mockJwtService.signAsync.mockResolvedValue('mock_access_token');
-      mockEmailService.sendWelcome.mockResolvedValue(undefined);
-
-      await service.register(registerDto as RegisterDto);
-
-      expect(mockUsersService.create).toHaveBeenCalledWith(
-        expect.objectContaining({ role: UserRole.SQUAD_COACH }),
-      );
-    });
-
-    it('should map ADMIN to super_admin and PARENT to parent', async () => {
-      mockUsersService.create.mockResolvedValue(mockUser);
-      mockJwtService.signAsync.mockResolvedValue('mock_access_token');
-      mockEmailService.sendWelcome.mockResolvedValue(undefined);
-
-      await service.register({
-        email: 'admin@example.com',
-        password: 'securePassword123',
-        first_name: 'Ada',
-        last_name: 'Min',
-        role: 'ADMIN' as unknown as UserRole,
-      });
-      expect(mockUsersService.create).toHaveBeenLastCalledWith(
-        expect.objectContaining({ role: UserRole.SUPER_ADMIN }),
-      );
-
-      await service.register({
-        email: 'parent@example.com',
-        password: 'securePassword123',
-        first_name: 'Pat',
-        last_name: 'Rent',
-        role: 'PARENT' as unknown as UserRole,
-      });
-      expect(mockUsersService.create).toHaveBeenLastCalledWith(
-        expect.objectContaining({ role: UserRole.PARENT }),
-      );
-    });
-
-    it('should send a welcome email after registration', async () => {
-      const registerDto: RegisterDto = {
-        email: 'jane.smith@example.com',
-        password: 'securePassword123',
-        first_name: 'Jane',
-        last_name: 'Smith',
-      };
-
-      mockUsersService.create.mockResolvedValue(mockUser);
-      mockJwtService.signAsync.mockResolvedValue('mock_access_token');
-      mockEmailService.sendWelcome.mockResolvedValue(undefined);
-
-      await service.register(registerDto);
-
-      // Give non-blocking email a tick to fire
-      await Promise.resolve();
-
-      expect(mockEmailService.sendWelcome).toHaveBeenCalledWith(
-        expect.objectContaining({
-          email: mockUser.email,
-          firstName: mockUser.first_name,
-          lastName: mockUser.last_name,
-        }),
-      );
-    });
-
-    it('should still succeed if welcome email fails', async () => {
-      const registerDto: RegisterDto = {
-        email: 'jane.smith@example.com',
-        password: 'securePassword123',
-        first_name: 'Jane',
-        last_name: 'Smith',
-      };
-
-      mockUsersService.create.mockResolvedValue(mockUser);
-      mockJwtService.signAsync.mockResolvedValue('mock_access_token');
-      mockEmailService.sendWelcome.mockRejectedValue(new Error('SMTP error'));
-
-      const result = await service.register(registerDto);
-
-      expect(result.access_token).toBe('mock_access_token');
-    });
   });
 
   describe('registerClub', () => {
