@@ -184,9 +184,32 @@ describe('CRUD Operations API', () => {
     });
   });
 
+  it('requires a club invitation for public registration', async () => {
+    const response = await fetch(`${API_BASE}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: 'uninvited@example.com',
+        password: 'Secret123!',
+        first_name: 'No',
+        last_name: 'Invite',
+      }),
+    });
+    expect(response.status).toBe(400);
+    expect((await response.json()).message).toMatch(/invitation/i);
+  });
+
   it('Register a new user, verify login works, test profile', async () => {
     const testEmail = `test_${Date.now()}@example.com`;
     const testPassword = 'TestPass123!';
+
+    const familiesRes = await authGet('/families', adminToken);
+    const families = await familiesRes.json();
+    expect(families.length).toBeGreaterThan(0);
+    const family = families[0];
+    const inviteRes = await authPost(`/families/${family.family_id}/invite`, adminToken, {});
+    expect(inviteRes.status).toBe(201);
+    const invite = await inviteRes.json();
 
     // Register new user
     const registerRes = await fetch(`${API_BASE}/auth/register`, {
@@ -197,7 +220,7 @@ describe('CRUD Operations API', () => {
         password: testPassword,
         first_name: 'Test',
         last_name: 'User',
-        role: 'parent',
+        invite_token: invite.token,
       }),
     });
 
@@ -206,6 +229,22 @@ describe('CRUD Operations API', () => {
     // Registration returns { access_token, user: { user_id, ... } }
     expect(registered.user).toBeDefined();
     expect(registered.user.user_id).toBeDefined();
+    expect(registered.user.club_id).toBe(family.club_id);
+    expect(registered.user.family_id).toBe(family.family_id);
+    expect(registered.user.role).toBe('parent');
+    expect(registered.user.password_hash).toBeUndefined();
+    const reuseRes = await fetch(`${API_BASE}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: `other_${testEmail}`,
+        password: testPassword,
+        first_name: 'Other',
+        last_name: 'Parent',
+        invite_token: invite.token,
+      }),
+    });
+    expect(reuseRes.status).toBe(400);
     const userId = registered.user.user_id;
     createdIds.users.push(userId);
 

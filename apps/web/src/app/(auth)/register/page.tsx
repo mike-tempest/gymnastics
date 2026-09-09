@@ -5,13 +5,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { storeBackendToken } from '@/lib/api/api-client';
 import { registerUser } from '@/lib/api/auth';
-import { acceptInvite } from '@/lib/api/families';
 import { BRAND } from '@/lib/brand';
 
 const registerSchema = z
@@ -28,7 +27,6 @@ const registerSchema = z
       .string()
       .min(1, 'Please enter your email address')
       .email('Please enter a valid email address'),
-    role: z.enum(['PARENT', 'COACH', 'ADMIN']),
     password: z
       .string()
       .min(8, 'Password must be at least 8 characters long')
@@ -47,15 +45,7 @@ export default function RegisterPage() {
   const searchParams = useSearchParams();
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
-  const [inviteToken, setInviteToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    const token = searchParams.get('invite');
-    if (token) {
-      setInviteToken(token);
-      localStorage.setItem('pendingInviteToken', token);
-    }
-  }, [searchParams]);
+  const inviteToken = searchParams.get('invite');
 
   const {
     register,
@@ -64,58 +54,34 @@ export default function RegisterPage() {
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
     mode: 'onTouched',
-    defaultValues: {
-      role: 'PARENT',
-    },
   });
 
   const onSubmit = async (data: RegisterFormData) => {
     setError('');
 
     try {
-      // Force role to PARENT when registering via invite
-      const role = inviteToken ? 'PARENT' : data.role;
+      if (!inviteToken) return;
 
       const response = await registerUser({
         email: data.email,
         password: data.password,
         first_name: data.first_name,
         last_name: data.last_name,
-        role,
+        invite_token: inviteToken,
       });
 
       // Store the backend JWT
       storeBackendToken(response.access_token);
 
-      // Establish next-auth session
-      await signIn('credentials', {
+      setSuccess(true);
+
+      // The backend has already linked the family and consumed the invitation.
+      const session = await signIn('credentials', {
         email: data.email,
         password: data.password,
         redirect: false,
       });
-
-      setSuccess(true);
-
-      // Check for pending invite token
-      const storedToken = localStorage.getItem('pendingInviteToken');
-      const token = storedToken || inviteToken;
-      if (token) {
-        try {
-          await acceptInvite({ token, userId: response.user.user_id });
-          localStorage.removeItem('pendingInviteToken');
-        } catch {
-          // Continue even if invite acceptance fails
-        }
-        // Redirect to parent dashboard
-        setTimeout(() => {
-          router.push('/parent');
-        }, 1500);
-      } else {
-        // Redirect to login after a brief delay
-        setTimeout(() => {
-          router.push('/login');
-        }, 2000);
-      }
+      if (session?.ok) router.push('/parent');
     } catch (err) {
       setError(
         err instanceof Error
@@ -124,6 +90,24 @@ export default function RegisterPage() {
       );
     }
   };
+
+  if (!inviteToken) {
+    return (
+      <div className="bg-dark-primary rounded-3xl shadow-lg p-6 sm:p-10 text-white">
+        <h1 className="font-serif text-3xl mb-4">Join your club</h1>
+        <p className="text-white/70 mb-6">
+          Parents and guardians need an invitation from their club to create an account. Ask your
+          club for an invitation link.
+        </p>
+        <Link href="/create-club" className="flex min-h-[48px] items-center text-brand font-bold">
+          Set up a new club
+        </Link>
+        <Link href="/login" className="flex min-h-[48px] items-center text-brand font-bold">
+          Sign in to an existing account
+        </Link>
+      </div>
+    );
+  }
 
   if (success) {
     return (
@@ -144,18 +128,14 @@ export default function RegisterPage() {
           </div>
           <h2 className="font-serif text-4xl text-white tracking-tight mb-3">Account Created</h2>
           <p className="text-white/70 text-lg mb-6">
-            {inviteToken
-              ? 'Your account has been created successfully. Redirecting to your dashboard...'
-              : 'Your account has been created successfully. Redirecting you to sign in...'}
+            Your account is ready. Sign in if you are not redirected to your dashboard.
           </p>
-          {!inviteToken && (
-            <Link
-              href="/login"
-              className="text-brand-dark hover:text-brand font-bold transition-colors"
-            >
-              Go to Sign In
-            </Link>
-          )}
+          <Link
+            href="/login"
+            className="text-brand-dark hover:text-brand font-bold transition-colors"
+          >
+            Go to Sign In
+          </Link>
         </div>
       </>
     );
@@ -244,25 +224,6 @@ export default function RegisterPage() {
               <p className="mt-2 text-sm text-danger font-semibold">{errors.email.message}</p>
             )}
           </div>
-
-          {/* Role Selection (hidden when registering via invite) */}
-          {!inviteToken && (
-            <div>
-              <label htmlFor="role" className="block text-sm font-bold text-white mb-2">
-                I am a...
-              </label>
-              <select
-                {...register('role')}
-                id="role"
-                className="w-full min-h-[48px] px-4 py-3 bg-white/10 border-2 border-white/20 rounded-button text-white text-base focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all"
-                disabled={isSubmitting}
-              >
-                <option value="PARENT">Parent / Guardian</option>
-                <option value="COACH">Coach</option>
-                <option value="ADMIN">Administrator</option>
-              </select>
-            </div>
-          )}
 
           {/* Password */}
           <div>
