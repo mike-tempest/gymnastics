@@ -1,3 +1,7 @@
+import {
+  isValidDateOfBirth,
+  DATE_OF_BIRTH_ERROR,
+} from '../../common/validation/date-of-birth.validator';
 import { Injectable, Logger } from '@nestjs/common';
 import { MEMBER_NOUN_LOWER } from '../../common/brand';
 import { FamiliesRepository } from '../families/families.repository';
@@ -259,7 +263,7 @@ export class DataImportService {
       const rowPlan: RowPlan = {
         row: i + 1,
         data,
-        errors: [],
+        errors: isValidDateOfBirth(data.dob) ? [] : [DATE_OF_BIRTH_ERROR],
         memberAction: 'create',
         existingMemberId: null,
         existingSquadId: null,

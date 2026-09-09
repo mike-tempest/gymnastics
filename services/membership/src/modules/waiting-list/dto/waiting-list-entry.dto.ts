@@ -1,6 +1,6 @@
+import { IsDateOfBirth } from '../../../common/validation/date-of-birth.validator';
 import {
   IsBoolean,
-  IsDateString,
   IsEmail,
   IsEnum,
   IsInt,
@@ -30,7 +30,7 @@ export class JoinWaitingListDto {
   @MaxLength(100)
   child_last_name: string;
 
-  @IsDateString()
+  @IsDateOfBirth()
   child_dob: string;
 
   @IsString()
@@ -101,7 +101,7 @@ export class UpdateWaitingListEntryDto {
   @MaxLength(100)
   child_last_name?: string;
 
-  @IsDateString()
+  @IsDateOfBirth()
   @IsOptional()
   child_dob?: string;
 

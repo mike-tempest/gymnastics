@@ -1,3 +1,7 @@
+import {
+  isValidDateOfBirth,
+  DATE_OF_BIRTH_ERROR,
+} from '../../common/validation/date-of-birth.validator';
 import { Injectable, NotFoundException, BadRequestException, Logger } from '@nestjs/common';
 import { MEMBER_NOUN_LOWER } from '../../common/brand';
 import { SquadCapacityEvents } from '../../common/capacity/squad-capacity.events';
@@ -16,6 +20,11 @@ export class MembersService {
   ) {}
 
   async create(createMemberDto: CreateMemberDto): Promise<Member> {
+    // Internal callers (including bulk creation and waiting-list enrolment)
+    // do not run through the HTTP validation pipe.
+    if (!isValidDateOfBirth(createMemberDto.dob)) {
+      throw new BadRequestException(DATE_OF_BIRTH_ERROR);
+    }
     try {
       return await this.membersRepository.create(createMemberDto);
     } catch (error: unknown) {
@@ -60,6 +69,9 @@ export class MembersService {
 
   async update(id: string, updateMemberDto: UpdateMemberDto): Promise<Member> {
     const before = await this.findOne(id); // This will throw if not found
+    if (updateMemberDto.dob !== undefined && !isValidDateOfBirth(updateMemberDto.dob)) {
+      throw new BadRequestException(DATE_OF_BIRTH_ERROR);
+    }
 
     try {
       const updated = await this.membersRepository.update(id, updateMemberDto);
