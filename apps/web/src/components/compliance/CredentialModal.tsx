@@ -11,7 +11,7 @@ import { z } from 'zod';
 
 import { createCredential, updateCredential, type CredentialRecord } from '@/lib/api/compliance';
 import { getMembers } from '@/lib/api/members';
-import { listUsers } from '@/lib/api/staff';
+import { listStaffDirectory } from '@/lib/api/staff';
 import { MEMBER_NOUN, MEMBER_NOUN_LOWER } from '@/lib/brand';
 
 const credentialSchema = z.object({
@@ -70,9 +70,13 @@ export default function CredentialModal({ credential, onClose, onSaved }: Creden
 
   const subjectKind = watch('subject_kind');
 
-  const { data: users, isLoading: usersLoading } = useQuery({
-    queryKey: ['users', 'list'],
-    queryFn: listUsers,
+  const {
+    data: users,
+    isLoading: usersLoading,
+    isError: usersError,
+  } = useQuery({
+    queryKey: ['users', 'staff-directory'],
+    queryFn: listStaffDirectory,
     enabled: !isEdit && subjectKind === 'user',
     retry: false,
   });
@@ -190,7 +194,7 @@ export default function CredentialModal({ credential, onClose, onSaved }: Creden
                   {...register('subject_id')}
                   id="credential-subject"
                   className={fieldClass}
-                  disabled={usersLoading || membersLoading}
+                  disabled={subjectKind === 'user' ? usersLoading : membersLoading}
                 >
                   <option value="" className={optionClass}>
                     {usersLoading || membersLoading
@@ -213,6 +217,11 @@ export default function CredentialModal({ credential, onClose, onSaved }: Creden
                         </option>
                       ))}
                 </select>
+                {subjectKind === 'user' && usersError && (
+                  <p role="alert" className="mt-2 text-sm text-danger">
+                    Could not load staff. Please close this form and try again.
+                  </p>
+                )}
                 {errors.subject_id && (
                   <p className="mt-2 text-sm text-danger font-semibold">
                     {errors.subject_id.message}

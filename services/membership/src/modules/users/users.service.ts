@@ -102,6 +102,10 @@ export class UsersService {
     return { created, errors };
   }
 
+  findStaffDirectory() {
+    return this.usersRepository.findStaffDirectory();
+  }
+
   async findAll(): Promise<User[]> {
     const users = await this.usersRepository.findAll();
     return users.map((user) => {
