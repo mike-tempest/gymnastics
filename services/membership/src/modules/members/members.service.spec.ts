@@ -68,6 +68,26 @@ describe('MembersService', () => {
     jest.clearAllMocks();
   });
 
+  it('rejects future birth dates for internal and bulk creation before writing', async () => {
+    const dto = { first_name: 'Test', last_name: 'Child', gender: 'M', dob: '9999-12-31' };
+    await expect(service.create(dto)).rejects.toThrow(/on or before today/);
+    const result = await service.bulkCreate([dto]);
+    expect(result.created).toEqual([]);
+    expect(result.errors[0].message).toMatch(/on or before today/);
+    expect(mockRepository.create).not.toHaveBeenCalled();
+  });
+
+  it.each(['9999-12-31', null])(
+    'rejects an invalid birth date on internal update: %s',
+    async (dob) => {
+      mockRepository.findOne.mockResolvedValue(mockMember);
+      await expect(
+        service.update(mockMember.member_id, { dob } as UpdateMemberDto),
+      ).rejects.toThrow(/on or before today/);
+      expect(mockRepository.update).not.toHaveBeenCalled();
+    },
+  );
+
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
