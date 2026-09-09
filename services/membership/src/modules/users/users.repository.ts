@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { User, UserRole } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -26,6 +26,27 @@ export class UsersRepository {
       password_hash: passwordHash,
     });
     return await this.userRepository.save(user);
+  }
+
+  async findStaffDirectory(): Promise<
+    Pick<User, 'user_id' | 'first_name' | 'last_name' | 'role'>[]
+  > {
+    return this.userRepository.find({
+      select: { user_id: true, first_name: true, last_name: true, role: true },
+      where: {
+        club_id: this.tenantContext.getClubId(),
+        active: true,
+        role: In([
+          UserRole.SUPER_ADMIN,
+          UserRole.TREASURER,
+          UserRole.HEAD_COACH,
+          UserRole.SQUAD_COACH,
+          UserRole.WELFARE_OFFICER,
+          UserRole.COMPETITION_SECRETARY,
+        ]),
+      },
+      order: { last_name: 'ASC', first_name: 'ASC', user_id: 'ASC' },
+    });
   }
 
   async findAll(): Promise<User[]> {

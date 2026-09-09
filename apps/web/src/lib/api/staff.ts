@@ -38,3 +38,9 @@ export async function bulkImportStaff(
 ): Promise<{ created: UserProfile[]; errors: Array<{ row: number; message: string }> }> {
   return api.post('/users/bulk', { users });
 }
+
+export type StaffDirectoryEntry = Pick<ClubUser, 'user_id' | 'first_name' | 'last_name' | 'role'>;
+
+export async function listStaffDirectory(): Promise<StaffDirectoryEntry[]> {
+  return api.get<StaffDirectoryEntry[]>('/users/staff-directory', { cache: 'no-store' });
+}

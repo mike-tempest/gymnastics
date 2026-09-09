@@ -14,7 +14,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { createDbsCheck } from '@/lib/api/compliance';
-import { listUsers } from '@/lib/api/staff';
+import { listStaffDirectory } from '@/lib/api/staff';
 
 const addCheckSchema = z.object({
   user_id: z.string().min(1, 'Select a staff member'),
@@ -52,9 +52,13 @@ function addYears(isoDate: string, years: number): string {
 export default function AddCheckModal({ config, region, onClose, onCreated }: AddCheckModalProps) {
   const noun = checkNoun(config.backgroundCheckFramework);
   const checkTypes = useMemo(() => orderedBackgroundCheckTypes(config, region), [config, region]);
-  const { data: users, isLoading: usersLoading } = useQuery({
-    queryKey: ['users', 'list'],
-    queryFn: listUsers,
+  const {
+    data: users,
+    isLoading: usersLoading,
+    isError: usersError,
+  } = useQuery({
+    queryKey: ['users', 'staff-directory'],
+    queryFn: listStaffDirectory,
     retry: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -144,7 +148,7 @@ export default function AddCheckModal({ config, region, onClose, onCreated }: Ad
               disabled={usersLoading}
             >
               <option value="" className="text-dark-primary">
-                {usersLoading ? 'Loading members...' : 'Select a member'}
+                {usersLoading ? 'Loading staff...' : 'Select a staff member'}
               </option>
               {(users ?? []).map((user) => (
                 <option key={user.user_id} value={user.user_id} className="text-dark-primary">
@@ -152,6 +156,14 @@ export default function AddCheckModal({ config, region, onClose, onCreated }: Ad
                 </option>
               ))}
             </select>
+            {usersError && (
+              <p role="alert" className="mt-2 text-sm text-danger">
+                Could not load staff. Please close this form and try again.
+              </p>
+            )}
+            {!usersLoading && !usersError && users?.length === 0 && (
+              <p className="mt-2 text-sm text-white/60">No active staff found for this club.</p>
+            )}
             {errors.user_id && (
               <p className="mt-2 text-sm text-danger font-semibold">{errors.user_id.message}</p>
             )}
