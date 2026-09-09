@@ -1,20 +1,20 @@
 ---
-title: "Pool Hire for Swim Clubs: How to Negotiate Lane Time"
-description: "How UK swim clubs negotiate pool hire and lane time: who runs the pool, the levers that move the rate, what the agreement covers and your options."
-pubDate: "2026-07-27"
-author: "Swimly Team"
-tags: ["club management", "committee", "finance", "treasurer", "swim clubs"]
+title: 'Pool Hire for Swim Clubs: How to Negotiate Lane Time'
+description: 'How UK swim clubs negotiate pool hire and lane time: who runs the pool, the levers that move the rate, what the agreement covers and your options.'
+pubDate: '2026-07-27'
+author: 'Swimly Team'
+tags: ['club management', 'committee', 'finance', 'treasurer', 'swim clubs']
 faqItems:
-  - question: "How much does it cost to hire a pool for a swim club?"
+  - question: 'How much does it cost to hire a pool for a swim club?'
     answer: "There is no national rate. What you pay depends on who runs the pool, whether the water is peak or off-peak, and whether you are hiring whole lanes exclusively or sharing the pool. The figure that matters for your budget is the cost per lane hour, not the headline hourly rate, because a cheaper pool that only offers you half the lanes can work out dearer per swimmer. Always get next season's rate confirmed in writing before you set fees, rather than assuming this year's figure will hold."
-  - question: "Who owns the pool my swim club hires?"
-    answer: "Most public pools in the UK are owned by the local authority, but they are often run day to day by a leisure trust or a private leisure operator under a contract, rather than by the council directly. Others are school, college, university or private pools. Each type has different priorities: a trust or council usually has community-use aims you can appeal to, while a commercial operator is focused on income per lane hour. Find out which you are dealing with before you open a conversation, because it changes what will persuade them."
-  - question: "How can a swim club get a better pool hire rate?"
+  - question: 'Who owns the pool my swim club hires?'
+    answer: 'Most public pools in the UK are owned by the local authority, but they are often run day to day by a leisure trust or a private leisure operator under a contract, rather than by the council directly. Others are school, college, university or private pools. Each type has different priorities: a trust or council usually has community-use aims you can appeal to, while a commercial operator is focused on income per lane hour. Find out which you are dealing with before you open a conversation, because it changes what will persuade them.'
+  - question: 'How can a swim club get a better pool hire rate?'
     answer: "Give the operator something they value. Commit to a longer booking or more hours for a better unit rate, offer to take the unpopular off-peak slots that would otherwise sit empty, and be the reliable, low-maintenance client who pays on time and never leaves the changing rooms in a state. Filling water that would otherwise earn nothing is the strongest card most clubs hold. Where the pool is run by a trust or the council, the club's community and junior-participation value is a genuine argument, not just a favour."
-  - question: "What should a pool hire agreement include?"
-    answer: "Put it in writing and make sure it covers the rate and how much notice you get before it changes, the notice period for cancellation by either side, what happens if the pool has to close for plant failure or maintenance, who provides and pays for lifeguards, the term dates and any holiday closures, and whether you have first refusal on your slots for the following season. A clear agreement is what protects you from a sudden mid-season rate rise or losing your water at short notice."
-  - question: "What can a club do if pool hire becomes unaffordable?"
-    answer: "Before accepting a rate you cannot cover, look at the alternatives: move some sessions to cheaper off-peak water, share a pool with another local club to fill lanes together, reduce or restructure hours so you are not paying for lanes you do not fill, or approach a school, college or private pool nearby. If the cost is genuinely fixed and the sessions are essential, the honest answer is to build it into a planned, well-explained fee increase rather than run the club at a loss."
+  - question: 'What should a pool hire agreement include?'
+    answer: 'Put it in writing and make sure it covers the rate and how much notice you get before it changes, the notice period for cancellation by either side, what happens if the pool has to close for plant failure or maintenance, who provides and pays for lifeguards, the term dates and any holiday closures, and whether you have first refusal on your slots for the following season. A clear agreement is what protects you from a sudden mid-season rate rise or losing your water at short notice.'
+  - question: 'What can a club do if pool hire becomes unaffordable?'
+    answer: 'Before accepting a rate you cannot cover, look at the alternatives: move some sessions to cheaper off-peak water, share a pool with another local club to fill lanes together, reduce or restructure hours so you are not paying for lanes you do not fill, or approach a school, college or private pool nearby. If the cost is genuinely fixed and the sessions are essential, the honest answer is to build it into a planned, well-explained fee increase rather than run the club at a loss.'
 ---
 
 Ask most swim club treasurers what keeps them awake and the answer is rarely the affiliation invoice or the insurance renewal. It is the water. Pool hire is the single biggest cost line for the vast majority of UK clubs, and it is also the one the committee feels least able to control. The rate goes up when the operator says it goes up, the good slots are always in demand, and a club can spend years quietly accepting whatever it is offered.

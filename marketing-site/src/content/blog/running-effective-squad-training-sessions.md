@@ -1,9 +1,9 @@
 ---
-title: "How to Run Effective Squad Training Sessions for Swimming Clubs"
-description: "Practical advice for coaches running squad training sessions: planning, differentiation, managing mixed abilities, and keeping swimmers engaged."
+title: 'How to Run Effective Squad Training Sessions for Swimming Clubs'
+description: 'Practical advice for coaches running squad training sessions: planning, differentiation, managing mixed abilities, and keeping swimmers engaged.'
 pubDate: 2026-02-16
-author: "Swimly Team"
-tags: ["squad training", "swim coaching", "training sessions", "coaching tips", "swimming club"]
+author: 'Swimly Team'
+tags: ['squad training', 'swim coaching', 'training sessions', 'coaching tips', 'swimming club']
 ---
 
 Running an effective squad training session is harder than it looks. You have swimmers of different abilities, different motivations, and different energy levels on any given night. You need to keep them all engaged, working towards individual goals, and progressing as a group. And you need to do all of this in a 90 minute window with limited pool space.
@@ -107,7 +107,6 @@ This reflection does not need to be formal. A notebook, a notes app on your phon
 Nobody is a perfect coach from day one. Every coach, no matter how experienced, has sessions that do not go to plan. The difference is that good coaches learn from those sessions, adjust, and get better over time.
 
 The fundamentals are simple: plan sessions with clear objectives, communicate those objectives clearly, differentiate for mixed abilities, manage time and rest deliberately, give actionable feedback, and build a culture of effort. Master those basics, and your sessions will be productive, engaging, and effective.
-
 
 ---
 

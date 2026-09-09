@@ -35,7 +35,9 @@ import CreateClubPage from '../app/(auth)/create-club/page';
 function fillAdminAccount() {
   fireEvent.change(screen.getByLabelText('First name'), { target: { value: 'Jane' } });
   fireEvent.change(screen.getByLabelText('Last name'), { target: { value: 'Doe' } });
-  fireEvent.change(screen.getByLabelText('Email address'), { target: { value: 'jane@example.com' } });
+  fireEvent.change(screen.getByLabelText('Email address'), {
+    target: { value: 'jane@example.com' },
+  });
   fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password123' } });
   fireEvent.change(screen.getByLabelText('Confirm password'), { target: { value: 'password123' } });
 }
@@ -86,7 +88,9 @@ describe('CreateClubPage governing body', () => {
 
     // The address county field is also relabelled "State or territory" for AU,
     // so target the governing-body region select by role.
-    const region = screen.getByRole('combobox', { name: /State or territory/ }) as HTMLSelectElement;
+    const region = screen.getByRole('combobox', {
+      name: /State or territory/,
+    }) as HTMLSelectElement;
     expect(region.tagName).toBe('SELECT');
     // All eight states and territories, stored by code.
     expect(screen.getByRole('option', { name: 'New South Wales' })).toHaveValue('NSW');
@@ -101,7 +105,9 @@ describe('CreateClubPage governing body', () => {
     render(<CreateClubPage />);
 
     fireEvent.change(screen.getByLabelText('Club name'), { target: { value: 'Whitby Seals' } });
-    fireEvent.change(screen.getByLabelText('Governing body'), { target: { value: 'SWIM_ENGLAND' } });
+    fireEvent.change(screen.getByLabelText('Governing body'), {
+      target: { value: 'SWIM_ENGLAND' },
+    });
     fireEvent.change(screen.getByLabelText(/Region/), { target: { value: 'London' } });
     fireEvent.change(screen.getByLabelText(/Affiliate number/), { target: { value: 'SE-1234' } });
     fillAdminAccount();

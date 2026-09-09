@@ -1,11 +1,11 @@
 ---
-title: "How to Switch Your Swim Club from Spreadsheets (Without the Headache)"
-description: "A step-by-step guide to moving your swimming club from spreadsheets to proper management software. Covers data migration, committee buy-in, and going live without disrupting your members."
+title: 'How to Switch Your Swim Club from Spreadsheets (Without the Headache)'
+description: 'A step-by-step guide to moving your swimming club from spreadsheets to proper management software. Covers data migration, committee buy-in, and going live without disrupting your members.'
 pubDate: 2026-03-17
-author: "Swimly Team"
-tags: ["spreadsheets", "migration", "club admin", "swimming clubs", "getting started"]
-seoTitle: "How to Switch Your Swim Club from Spreadsheets | Step-by-Step Guide"
-seoDescription: "Ready to ditch the spreadsheets? A practical guide to migrating your swimming club to management software without losing data or committee support."
+author: 'Swimly Team'
+tags: ['spreadsheets', 'migration', 'club admin', 'swimming clubs', 'getting started']
+seoTitle: 'How to Switch Your Swim Club from Spreadsheets | Step-by-Step Guide'
+seoDescription: 'Ready to ditch the spreadsheets? A practical guide to migrating your swimming club to management software without losing data or committee support.'
 ---
 
 Your committee has finally agreed: the spreadsheets have to go. Maybe it was the membership list that got overwritten. Maybe the treasurer spent another Saturday morning reconciling standing orders against a Google Sheet. Whatever the final straw, you are ready to move to proper club management software.
@@ -79,6 +79,7 @@ Most clubs complete the rollout across all squads within two to three weeks usin
 This is the step clubs skip, and it is why some end up running two systems indefinitely. Pick a date -- typically four to six weeks after your first squad goes live -- and commit to it.
 
 After that date:
+
 - The spreadsheet becomes read-only (archive it, do not delete it)
 - All new members go directly into the management system
 - All billing runs through the new system
@@ -111,7 +112,7 @@ Keep your software provider close during this period. Ask questions. Report anyt
 
 ---
 
-*Swimly offers free data migration for founding clubs, including CSV import, data cleaning, and a dedicated onboarding call. [Learn more about our founding club programme](/pilot).*
+_Swimly offers free data migration for founding clubs, including CSV import, data cleaning, and a dedicated onboarding call. [Learn more about our founding club programme](/pilot)._
 
 ---
 

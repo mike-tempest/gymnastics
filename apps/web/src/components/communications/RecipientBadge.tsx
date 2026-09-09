@@ -18,7 +18,9 @@ export default function RecipientBadge({ communication }: { communication: Commu
   const type = communication.recipient_type;
 
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${BADGE_STYLES[type]}`}>
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${BADGE_STYLES[type]}`}
+    >
       <Users className="h-3 w-3" />
       {BADGE_LABELS[type](communication)}
     </span>

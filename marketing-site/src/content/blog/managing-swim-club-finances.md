@@ -2,9 +2,9 @@
 title: "Managing Swim Club Finances UK 2026: Treasurer's Complete Guide"
 description: "The UK swim club treasurer's guide to financial management: budgeting, Direct Debit setup, transparent reporting, and tools that save hours of admin."
 pubDate: 2026-02-15
-author: "Mike Tempest"
-tags: ["swim clubs", "finances", "club management", "treasurer"]
-schema: "howto"
+author: 'Mike Tempest'
+tags: ['swim clubs', 'finances', 'club management', 'treasurer']
+schema: 'howto'
 ---
 
 The treasurer's role in a swimming club is one of the most important and least glamorous positions on any committee. Done well, it keeps the club financially stable, builds trust with the membership, and ensures that the committee can make informed decisions about everything from pool hire to coaching budgets. Done poorly, it leads to cash flow problems, frustrated parents, and the kind of financial uncertainty that can genuinely threaten a club's survival.

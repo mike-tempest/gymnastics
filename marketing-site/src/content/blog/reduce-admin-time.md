@@ -1,9 +1,9 @@
 ---
-title: "How to Reduce Swim Club Admin Time by 80%"
-description: "Volunteer committees lose hours each week to repetitive admin. How to reclaim that time with smart automation while keeping the human touch."
+title: 'How to Reduce Swim Club Admin Time by 80%'
+description: 'Volunteer committees lose hours each week to repetitive admin. How to reclaim that time with smart automation while keeping the human touch.'
 pubDate: 2026-02-12
-author: "Swimly Team"
-tags: ["club management", "automation", "volunteers", "efficiency"]
+author: 'Swimly Team'
+tags: ['club management', 'automation', 'volunteers', 'efficiency']
 ---
 
 Ask any swim club committee member how they spend their volunteer hours and the answer is rarely "coaching strategy" or "community building." It is far more likely to involve chasing unpaid fees, updating spreadsheets, answering the same email questions, and manually compiling attendance registers.

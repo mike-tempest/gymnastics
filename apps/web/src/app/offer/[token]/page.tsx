@@ -107,10 +107,7 @@ export default function OfferPage({ params }: { params: { token: string } }) {
     return (
       <main className="min-h-dvh bg-canvas flex items-center justify-center p-6">
         <div className="max-w-lg w-full bg-surface rounded-3xl border border-grey-200 p-8">
-          <ErrorState
-            message={loadError ?? 'This offer link is not valid.'}
-            onRetry={loadOffer}
-          />
+          <ErrorState message={loadError ?? 'This offer link is not valid.'} onRetry={loadOffer} />
         </div>
       </main>
     );
@@ -215,7 +212,10 @@ export default function OfferPage({ params }: { params: { token: string } }) {
           ) : (
             <>
               <div className="flex items-start gap-3 rounded-xl border border-grey-200 bg-canvas p-4 mb-8">
-                <CalendarClock className="w-5 h-5 text-brand flex-shrink-0 mt-0.5" aria-hidden="true" />
+                <CalendarClock
+                  className="w-5 h-5 text-brand flex-shrink-0 mt-0.5"
+                  aria-hidden="true"
+                />
                 <p className="text-grey-600 text-sm">
                   We hold this place until{' '}
                   <span className="font-semibold text-dark-primary">

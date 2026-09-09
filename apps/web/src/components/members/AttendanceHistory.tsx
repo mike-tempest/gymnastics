@@ -38,7 +38,8 @@ export default function AttendanceHistory({ memberId }: AttendanceHistoryProps) 
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    api.get<AttendanceRecord[]>(`/attendance/member/${memberId}`, { cache: 'no-store' })
+    api
+      .get<AttendanceRecord[]>(`/attendance/member/${memberId}`, { cache: 'no-store' })
       .then((data) => setRecords(data.slice(0, 20)))
       .catch(() => setError('Failed to load attendance'))
       .finally(() => setIsLoading(false));
@@ -79,10 +80,14 @@ export default function AttendanceHistory({ memberId }: AttendanceHistoryProps) 
               const style = STATUS_STYLES[r.status] || STATUS_STYLES.present;
               return (
                 <tr key={r.attendance_id} className="text-sm">
-                  <td className="py-3 text-white/70">{formatDate(r.session?.session_date || r.created_at)}</td>
+                  <td className="py-3 text-white/70">
+                    {formatDate(r.session?.session_date || r.created_at)}
+                  </td>
                   <td className="py-3 text-white">{r.session?.session_name || '-'}</td>
                   <td className="py-3">
-                    <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium border ${style.cls}`}>
+                    <span
+                      className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium border ${style.cls}`}
+                    >
                       {style.label}
                     </span>
                   </td>
@@ -99,12 +104,21 @@ export default function AttendanceHistory({ memberId }: AttendanceHistoryProps) 
         {records.map((r) => {
           const style = STATUS_STYLES[r.status] || STATUS_STYLES.present;
           return (
-            <div key={r.attendance_id} className="flex items-center justify-between bg-white/5 rounded-xl p-3 border border-white/10">
+            <div
+              key={r.attendance_id}
+              className="flex items-center justify-between bg-white/5 rounded-xl p-3 border border-white/10"
+            >
               <div>
-                <p className="text-white text-sm font-medium">{r.session?.session_name || 'Session'}</p>
-                <p className="text-white/50 text-xs">{formatDate(r.session?.session_date || r.created_at)}</p>
+                <p className="text-white text-sm font-medium">
+                  {r.session?.session_name || 'Session'}
+                </p>
+                <p className="text-white/50 text-xs">
+                  {formatDate(r.session?.session_date || r.created_at)}
+                </p>
               </div>
-              <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium border ${style.cls}`}>
+              <span
+                className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium border ${style.cls}`}
+              >
                 {style.label}
               </span>
             </div>

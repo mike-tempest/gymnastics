@@ -109,7 +109,12 @@ describe('StripeWebhooksController', () => {
 
   it('answers 200 even when the connection sync fails', async () => {
     mockVerifier.parse.mockReturnValue([
-      { id: 'evt_acct', resource_type: 'connections', action: 'updated', links: { account: 'acct_club1' } },
+      {
+        id: 'evt_acct',
+        resource_type: 'connections',
+        action: 'updated',
+        links: { account: 'acct_club1' },
+      },
     ]);
     mockStripeConnect.syncByAccountId.mockRejectedValue(new Error('stripe down'));
 

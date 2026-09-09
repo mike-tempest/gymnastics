@@ -1,9 +1,9 @@
 ---
-title: "Why Competition Management Matters for Swim Clubs"
+title: 'Why Competition Management Matters for Swim Clubs'
 description: "From gala entries to PB tracking, competition management is where swim club admin gets messy. Here's why it matters and how modern tools can help."
-pubDate: "2026-03-15"
-author: "Mike Tempest"
-tags: ["swim clubs", "competition", "gala management", "swim meets", "club management"]
+pubDate: '2026-03-15'
+author: 'Mike Tempest'
+tags: ['swim clubs', 'competition', 'gala management', 'swim meets', 'club management']
 ---
 
 If you've ever been a Competition Secretary for a swim club, you know the drill.
@@ -19,6 +19,7 @@ This is competition management for swim clubs. And if your club is still doing t
 Most people think swim club management is about collecting subs and taking the register. Those are important, but they're relatively straightforward.
 
 Competition management is different. It sits at the intersection of:
+
 - **Qualifying times** (which change seasonally and by age group)
 - **Entry requirements** (different for every competition)
 - **Technical file formats** (Hy-Tek, SDIF, SportSystems)
@@ -81,6 +82,7 @@ We could have shipped something half-baked a year ago. We didn't. We waited unti
 As of April 2026, Swimly has full competition and meet management:
 
 **Gala Entry Management**
+
 - Import qualifying time standards (Swim England, regional, club-specific)
 - Check swimmer eligibility across events and sessions
 - Generate Hy-Tek and SDIF entry files
@@ -88,6 +90,7 @@ As of April 2026, Swimly has full competition and meet management:
 - Export gala team lists for coaches and parents
 
 **Results Import & PB Tracking**
+
 - Import results from Hy-Tek, SDIF, or manual entry
 - Automatically update personal bests
 - Track PBs by course (25m/50m) and stroke
@@ -95,6 +98,7 @@ As of April 2026, Swimly has full competition and meet management:
 - Coach and parent dashboards showing recent improvements
 
 **Integration with Module 1-4**
+
 - Entry fees automatically added to family accounts
 - Only active members can be entered
 - Attendance data helps coaches pick gala teams

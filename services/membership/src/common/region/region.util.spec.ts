@@ -92,12 +92,9 @@ describe('region.util', () => {
   });
 
   describe('regionForCountry', () => {
-    it.each(['GB', 'US', 'CA', 'AU', 'IE'])(
-      'returns the %s config for %s',
-      (country) => {
-        expect(regionForCountry(country)).toBe(REGION_CONFIG[country]);
-      },
-    );
+    it.each(['GB', 'US', 'CA', 'AU', 'IE'])('returns the %s config for %s', (country) => {
+      expect(regionForCountry(country)).toBe(REGION_CONFIG[country]);
+    });
 
     it('is case-insensitive', () => {
       expect(regionForCountry('us')).toBe(REGION_CONFIG.US);

@@ -2,8 +2,8 @@
 title: "A Parent's Guide to Competitive Swimming in the UK"
 description: "A parent's guide to competitive swimming in the UK: squad structures, time commitments, costs, and how to support your child through it all."
 pubDate: 2026-02-20
-author: "Swimly Team"
-tags: ["competitive swimming", "parents", "swim squads", "UK swimming"]
+author: 'Swimly Team'
+tags: ['competitive swimming', 'parents', 'swim squads', 'UK swimming']
 ---
 
 Competitive swimming in the UK can feel like stepping into a completely different world. Your child has been having lessons, they are a confident swimmer, and someone has suggested they try a club. Suddenly you are hearing about squads, galas, PBs, and county times. If you are wondering what it all means and what you are signing up for, this guide is for you.
@@ -95,7 +95,6 @@ Competitive swimming is a long journey with highs and lows. How you support your
 Competitive swimming is not for every child, and that is perfectly fine. But for those who take to it, it offers something remarkable. The discipline of regular training, the resilience built through setbacks, the friendships formed at 5:30am, and the satisfaction of achieving a personal best are experiences that shape young people in lasting ways.
 
 Your role as a parent is to provide the support structure that allows your child to get the most from their swimming. Pay the fees on time, get them to training, cheer at galas, volunteer when you can, and let them know you are proud of them regardless of the time on the clock. That is what good swim parenting looks like.
-
 
 ---
 

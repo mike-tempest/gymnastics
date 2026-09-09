@@ -1,9 +1,14 @@
 'use client';
 
-import { governingBodyConfig, defaultGoverningBodyForCountry, checkNoun } from '@club-manager/shared-types';
+import {
+  governingBodyConfig,
+  defaultGoverningBodyForCountry,
+  checkNoun,
+} from '@club-manager/shared-types';
 import {
   ShieldCheck,
   AlertTriangle,
+  Award,
   CheckCircle,
   XCircle,
   Clock,
@@ -14,14 +19,20 @@ import {
 import Link from 'next/link';
 import { useState, useEffect, useCallback } from 'react';
 
-import ComplianceStatusBadge from '@/components/compliance/ComplianceStatusBadge';
+import ComplianceStatusBadge, {
+  type ComplianceStatus,
+} from '@/components/compliance/ComplianceStatusBadge';
 import MainLayout from '@/components/layout/MainLayout';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/ErrorState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useClubRegion } from '@/hooks/useClubRegion';
 import { useFormatters } from '@/hooks/useFormatters';
-import { getComplianceSummary, ComplianceSummary } from '@/lib/api/compliance';
+import {
+  getComplianceSummary,
+  ComplianceSummary,
+  SafeguardingOfficerSummary,
+} from '@/lib/api/compliance';
 import { MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
 
 function getHealthScoreInfo(score: number) {
@@ -30,12 +41,59 @@ function getHealthScoreInfo(score: number) {
   return { ring: 'text-danger', text: 'text-danger', label: 'Action required' };
 }
 
+/**
+ * How long a check has left, or how long ago it lapsed. A negative count is a
+ * check that expired while nobody was looking, which the expiry query returns
+ * alongside the ones still running down.
+ */
+function expiryCountdown(days: number): string {
+  if (days === 0) return 'Expires today';
+  if (days < 0) {
+    const elapsed = Math.abs(days);
+    return `Expired ${elapsed} ${elapsed === 1 ? 'day' : 'days'} ago`;
+  }
+  return `${days} ${days === 1 ? 'day' : 'days'} remaining`;
+}
+
+/**
+ * The badge for an officer's own background check. The officer sits in their
+ * own record rather than the check register, so this is the only place their
+ * expiry is shown; it reports what the date actually says.
+ */
+function officerCheckBadge(officer: SafeguardingOfficerSummary): {
+  status: ComplianceStatus;
+  label: string;
+} {
+  const days = officer.daysRemaining;
+
+  switch (officer.checkStatus) {
+    case 'valid':
+      return { status: 'compliant', label: 'Valid' };
+    case 'expiring':
+      return { status: 'expiring-soon', label: expiryCountdown(days ?? 0) };
+    case 'expired':
+      return { status: 'expired', label: 'Expired' };
+    default:
+      return { status: 'not-required', label: 'No expiry recorded' };
+  }
+}
+
+function officerInitials(name: string): string {
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .map((part) => part[0])
+    .join('');
+}
+
 export default function ComplianceDashboardPage() {
   const { formatDate } = useFormatters();
   const { country, club } = useClubRegion();
   // Prefer the club's saved governing body; fall back to the country default
   // (Swim England for GB and unknowns, matching the previous behaviour).
-  const config = governingBodyConfig(club?.governing_body ?? defaultGoverningBodyForCountry(country));
+  const config = governingBodyConfig(
+    club?.governing_body ?? defaultGoverningBodyForCountry(country)
+  );
   const framework = config.backgroundCheckFramework;
   // "DBS" stays "DBS"; "Working With Children Check" loses its trailing
   // "Check" so "checks"/"check tracker" copy never doubles the word.
@@ -80,15 +138,19 @@ export default function ComplianceDashboardPage() {
   }
 
   const scoreInfo = getHealthScoreInfo(data.healthScore);
+  // Fall back to the single-officer field so the page still renders against an
+  // API that has not been redeployed yet.
+  const officers =
+    data.safeguardingOfficers ?? (data.safeguardingOfficer ? [data.safeguardingOfficer] : []);
+  const officersNeedingAttention = officers.filter(
+    (officer) => officer.checkStatus === 'expiring' || officer.checkStatus === 'expired'
+  );
 
-  const hasNoRecords =
-    data.healthScore === 0 &&
-    data.dbsValid === 0 &&
-    data.dbsExpiringSoon === 0 &&
-    data.dbsExpired === 0 &&
-    data.consentComplete === 0 &&
-    data.consentPartial === 0 &&
-    data.consentMissing === 0;
+  // The onboarding empty state is for a club that has recorded nothing yet, so
+  // it keys on the record counts rather than on the consent figures, which now
+  // count members: any club with members reports some as missing, which is the
+  // point of the screen and not a reason to hide it.
+  const hasNoRecords = data.dbsChecks === 0 && data.consentRecords === 0;
 
   return (
     <MainLayout>
@@ -129,10 +191,16 @@ export default function ComplianceDashboardPage() {
               <div className="bg-dark-primary rounded-3xl shadow-lg p-4 sm:p-8 border border-white/10 mb-8">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                   <div>
-                    <p className="text-white/60 text-lg font-semibold mb-3">Club compliance health</p>
+                    <p className="text-white/60 text-lg font-semibold mb-3">
+                      Club compliance health
+                    </p>
                     <div className="flex items-end gap-4 mb-4">
-                      <h2 className="text-5xl sm:text-7xl font-bold text-white tabular-nums">{data.healthScore}</h2>
-                      <span className="text-2xl sm:text-3xl text-white/40 mb-2 tabular-nums">/ 100</span>
+                      <h2 className="text-5xl sm:text-7xl font-bold text-white tabular-nums">
+                        {data.healthScore}
+                      </h2>
+                      <span className="text-2xl sm:text-3xl text-white/40 mb-2 tabular-nums">
+                        / 100
+                      </span>
                     </div>
                     <span
                       className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold border bg-white/5 ${scoreInfo.text} border-white/10`}
@@ -166,14 +234,16 @@ export default function ComplianceDashboardPage() {
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="font-serif text-3xl text-white tabular-nums">{data.healthScore}%</span>
+                      <span className="font-serif text-3xl text-white tabular-nums">
+                        {data.healthScore}%
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Summary Stats Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
                 {/* DBS Summary */}
                 <Link
                   href="/compliance/dbs"
@@ -192,21 +262,27 @@ export default function ComplianceDashboardPage() {
                         <CheckCircle className="w-4 h-4 text-success" />
                         Valid
                       </span>
-                      <span className="text-sm font-bold text-success tabular-nums">{data.dbsValid}</span>
+                      <span className="text-sm font-bold text-success tabular-nums">
+                        {data.dbsValid}
+                      </span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-2 text-sm text-white/60">
                         <Clock className="w-4 h-4 text-warning" />
                         Expiring soon
                       </span>
-                      <span className="text-sm font-bold text-warning tabular-nums">{data.dbsExpiringSoon}</span>
+                      <span className="text-sm font-bold text-warning tabular-nums">
+                        {data.dbsExpiringSoon}
+                      </span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-2 text-sm text-white/60">
                         <XCircle className="w-4 h-4 text-danger" />
                         Expired
                       </span>
-                      <span className="text-sm font-bold text-danger tabular-nums">{data.dbsExpired}</span>
+                      <span className="text-sm font-bold text-danger tabular-nums">
+                        {data.dbsExpired}
+                      </span>
                     </div>
                   </div>
                 </Link>
@@ -229,21 +305,27 @@ export default function ComplianceDashboardPage() {
                         <CheckCircle className="w-4 h-4 text-success" />
                         Complete
                       </span>
-                      <span className="text-sm font-bold text-success tabular-nums">{data.consentComplete}</span>
+                      <span className="text-sm font-bold text-success tabular-nums">
+                        {data.consentComplete}
+                      </span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-2 text-sm text-white/60">
                         <Clock className="w-4 h-4 text-warning" />
                         Partial
                       </span>
-                      <span className="text-sm font-bold text-warning tabular-nums">{data.consentPartial}</span>
+                      <span className="text-sm font-bold text-warning tabular-nums">
+                        {data.consentPartial}
+                      </span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-2 text-sm text-white/60">
                         <XCircle className="w-4 h-4 text-danger" />
                         Missing
                       </span>
-                      <span className="text-sm font-bold text-danger tabular-nums">{data.consentMissing}</span>
+                      <span className="text-sm font-bold text-danger tabular-nums">
+                        {data.consentMissing}
+                      </span>
                     </div>
                   </div>
                 </Link>
@@ -262,16 +344,48 @@ export default function ComplianceDashboardPage() {
                   </div>
                   <div className="space-y-3">
                     <div>
-                      <p className="text-sm text-white/60 mb-1">{officerLabel}</p>
-                      <p className="text-sm font-bold text-white">{data.safeguardingOfficer?.name ?? 'Not assigned'}</p>
+                      <p className="text-sm text-white/60 mb-1">
+                        {officers.length > 1 ? `${officerLabel}s` : officerLabel}
+                      </p>
+                      <p className="text-sm font-bold text-white">
+                        {officers.length === 0
+                          ? 'Not assigned'
+                          : officers.map((officer) => officer.name).join(', ')}
+                      </p>
                     </div>
-                    {data.safeguardingOfficer && (
+                    {officers.length > 0 && (
                       <div>
                         <p className="text-sm text-white/60 mb-1">{shortLabel} status</p>
-                        <ComplianceStatusBadge status="compliant" label="Valid" />
+                        {officersNeedingAttention.length > 0 ? (
+                          <ComplianceStatusBadge
+                            {...officerCheckBadge(officersNeedingAttention[0])}
+                          />
+                        ) : (
+                          <ComplianceStatusBadge {...officerCheckBadge(officers[0])} />
+                        )}
                       </div>
                     )}
                   </div>
+                </Link>
+
+                {/* Credentials Summary (TEM-30). Counts live on the
+                    credentials page itself, so this card stays a signpost and
+                    needs nothing added to the compliance summary endpoint. */}
+                <Link
+                  href="/compliance/credentials"
+                  className="bg-dark-primary rounded-card p-6 border border-white/10 hover:border-brand shadow-card hover:shadow-card-hover transition-all group cursor-pointer"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <Award className="w-6 h-6 text-brand" />
+                      <h3 className="font-serif text-2xl text-white">Credentials</h3>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-white/40 group-hover:text-brand transition-colors" />
+                  </div>
+                  <p className="text-sm text-white/60">
+                    First aid, coaching qualifications and safeguarding training, with expiry
+                    warnings before anything lapses.
+                  </p>
                 </Link>
               </div>
 
@@ -279,21 +393,33 @@ export default function ComplianceDashboardPage() {
               <div className="bg-dark-primary rounded-3xl shadow-lg p-6 border border-white/10 mb-8">
                 <div className="flex items-center gap-3 mb-6">
                   <AlertTriangle className="w-6 h-6 text-warning" />
-                  <h2 className="font-serif text-2xl sm:text-3xl text-white">{noun} checks expiring soon</h2>
+                  <h2 className="font-serif text-2xl sm:text-3xl text-white">
+                    {noun} checks expiring soon
+                  </h2>
                 </div>
 
                 {data.expiringDbsChecks.length === 0 ? (
-                  <p className="text-white/60 text-center py-8">No {noun} checks expiring in the next 90 days.</p>
+                  <p className="text-white/60 text-center py-8">
+                    No {noun} checks expiring in the next 90 days.
+                  </p>
                 ) : (
                   <div className="space-y-3">
                     {data.expiringDbsChecks.map((check) => (
                       <div
-                        key={check.name}
+                        key={`${check.name}-${check.expiryDate}`}
                         className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10"
                       >
                         <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 bg-warning/20 rounded-full flex items-center justify-center">
-                            <Clock className="w-5 h-5 text-warning" />
+                          <div
+                            className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                              check.daysRemaining < 0 ? 'bg-danger/20' : 'bg-warning/20'
+                            }`}
+                          >
+                            {check.daysRemaining < 0 ? (
+                              <XCircle className="w-5 h-5 text-danger" />
+                            ) : (
+                              <Clock className="w-5 h-5 text-warning" />
+                            )}
                           </div>
                           <div>
                             <p className="text-white font-semibold">{check.name}</p>
@@ -301,11 +427,20 @@ export default function ComplianceDashboardPage() {
                           </div>
                         </div>
                         <div className="text-right">
-                          <p className="text-warning font-semibold text-sm tabular-nums">
-                            {check.daysRemaining} days remaining
+                          <p
+                            className={`font-semibold text-sm tabular-nums ${
+                              check.daysRemaining < 0 ? 'text-danger' : 'text-warning'
+                            }`}
+                          >
+                            {expiryCountdown(check.daysRemaining)}
                           </p>
                           <p className="text-white/40 text-xs tabular-nums">
-                            Expires {formatDate(check.expiryDate, { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                            Expires{' '}
+                            {formatDate(check.expiryDate, {
+                              day: '2-digit',
+                              month: '2-digit',
+                              year: 'numeric',
+                            })}
                           </p>
                         </div>
                       </div>
@@ -318,45 +453,73 @@ export default function ComplianceDashboardPage() {
               <div className="bg-dark-primary rounded-3xl shadow-lg p-6 border border-white/10">
                 <div className="flex items-center gap-3 mb-6">
                   <ShieldCheck className="w-6 h-6 text-brand" />
-                  <h2 className="font-serif text-2xl sm:text-3xl text-white">{officerLabel}</h2>
+                  <h2 className="font-serif text-2xl sm:text-3xl text-white">
+                    {officers.length > 1 ? `${officerLabel}s` : officerLabel}
+                  </h2>
                 </div>
 
-                {data.safeguardingOfficer ? (
-                  <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-4 rounded-xl bg-white/5 border border-white/10">
-                    <div className="w-16 h-16 rounded-full flex-shrink-0 flex items-center justify-center font-bold text-xl bg-brand text-dark-primary shadow-sm">
-                      {data.safeguardingOfficer.name.split(' ').map((n) => n[0]).join('')}
-                    </div>
-                    <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-white/60 text-sm">Name</p>
-                        <p className="text-white font-semibold">{data.safeguardingOfficer.name}</p>
-                      </div>
-                      <div>
-                        <p className="text-white/60 text-sm">Role</p>
-                        <p className="text-white font-semibold">{data.safeguardingOfficer.role}</p>
-                      </div>
-                      <div>
-                        <p className="text-white/60 text-sm">Email</p>
-                        <p className="text-white font-semibold">{data.safeguardingOfficer.email}</p>
-                      </div>
-                      <div>
-                        <p className="text-white/60 text-sm">Phone</p>
-                        <p className="text-white font-semibold tabular-nums">{data.safeguardingOfficer.phone}</p>
-                      </div>
-                      <div>
-                        <p className="text-white/60 text-sm">{shortLabel} number</p>
-                        <p className="text-white font-semibold tabular-nums">{data.safeguardingOfficer.dbsNumber}</p>
-                      </div>
-                      <div>
-                        <p className="text-white/60 text-sm">{shortLabel} expiry</p>
-                        <p className="text-white font-semibold tabular-nums">
-                          {formatDate(data.safeguardingOfficer.dbsExpiry, { day: '2-digit', month: '2-digit', year: 'numeric' })}
-                        </p>
-                      </div>
-                    </div>
+                {officers.length > 0 ? (
+                  <div className="space-y-4">
+                    {officers.map((officer) => {
+                      const badge = officerCheckBadge(officer);
+                      return (
+                        <article
+                          key={officer.id}
+                          aria-label={officer.name}
+                          className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-4 rounded-xl bg-white/5 border border-white/10"
+                        >
+                          <div className="w-16 h-16 rounded-full flex-shrink-0 flex items-center justify-center font-bold text-xl bg-brand text-dark-primary shadow-sm">
+                            {officerInitials(officer.name)}
+                          </div>
+                          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <p className="text-white/60 text-sm">Name</p>
+                              <p className="text-white font-semibold">{officer.name}</p>
+                            </div>
+                            <div>
+                              <p className="text-white/60 text-sm">Role</p>
+                              <p className="text-white font-semibold">{officer.role}</p>
+                            </div>
+                            <div>
+                              <p className="text-white/60 text-sm">Email</p>
+                              <p className="text-white font-semibold">{officer.email}</p>
+                            </div>
+                            <div>
+                              <p className="text-white/60 text-sm">Phone</p>
+                              <p className="text-white font-semibold tabular-nums">
+                                {officer.phone || 'Not recorded'}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-white/60 text-sm">{shortLabel} number</p>
+                              <p className="text-white font-semibold tabular-nums">
+                                {officer.dbsNumber || 'Not recorded'}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-white/60 text-sm">{shortLabel} expiry</p>
+                              <div className="flex flex-wrap items-center gap-2">
+                                <p className="text-white font-semibold tabular-nums">
+                                  {officer.dbsExpiry
+                                    ? formatDate(officer.dbsExpiry, {
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric',
+                                      })
+                                    : 'Not recorded'}
+                                </p>
+                                <ComplianceStatusBadge status={badge.status} label={badge.label} />
+                              </div>
+                            </div>
+                          </div>
+                        </article>
+                      );
+                    })}
                   </div>
                 ) : (
-                  <p className="text-white/60 text-center py-8">No welfare officer assigned.</p>
+                  <p className="text-white/60 text-center py-8">
+                    No {officerLabel.toLowerCase()} assigned.
+                  </p>
                 )}
               </div>
             </>

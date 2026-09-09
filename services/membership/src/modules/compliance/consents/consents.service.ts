@@ -12,6 +12,31 @@ import { CLS_CLUB_ID_KEY } from '../../../common/tenancy/tenant-context.service'
 import { formatClubDate } from '../../../common/region/format.util';
 import { governingBodyConfig } from '@club-manager/shared-types';
 
+/**
+ * The consent types a member is expected to have on file before they train.
+ * Everything else (transport, newsletter, social media, wellbeing tracking) is
+ * genuinely optional, so counting it would drag every club's consent figures
+ * down for no safeguarding reason. This list is the same three the consent
+ * register treats as a complete record.
+ */
+export const REQUIRED_MEMBER_CONSENT_TYPES: ConsentType[] = [
+  ConsentType.MEDICAL_TREATMENT,
+  ConsentType.PHOTOGRAPHY,
+  ConsentType.DATA_SHARING,
+];
+
+/**
+ * Per-member consent coverage across the required consent types.
+ * `complete` holds all of them, `partial` holds at least one but not all.
+ * Members with none on file are not counted here; the caller derives them
+ * from the club's member total.
+ */
+export interface ConsentCoverage {
+  requiredTypes: number;
+  complete: number;
+  partial: number;
+}
+
 @Injectable()
 export class ConsentsService {
   private readonly logger = new Logger(ConsentsService.name);
@@ -28,9 +53,7 @@ export class ConsentsService {
   }
 
   async create(createDto: CreateConsentDto): Promise<Consent> {
-    this.logger.log(
-      `Creating consent ${createDto.consent_type} for member ${createDto.member_id}`,
-    );
+    this.logger.log(`Creating consent ${createDto.consent_type} for member ${createDto.member_id}`);
 
     // Check if member already has this consent type
     const existing = await this.consentsRepository.findByMemberAndType(
@@ -174,6 +197,29 @@ export class ConsentsService {
   }
 
   /**
+   * Counts how many members hold a complete or partial set of the required
+   * consents. Both figures come from the consent rows themselves, one row per
+   * member per type, so they move only when a club's actual consent records do.
+   */
+  async getCoverage(): Promise<ConsentCoverage> {
+    const perMember = await this.consentsRepository.countGrantedConsentTypesPerMember(
+      REQUIRED_MEMBER_CONSENT_TYPES,
+    );
+
+    let complete = 0;
+    let partial = 0;
+    for (const { grantedTypes } of perMember) {
+      if (grantedTypes >= REQUIRED_MEMBER_CONSENT_TYPES.length) {
+        complete++;
+      } else if (grantedTypes > 0) {
+        partial++;
+      }
+    }
+
+    return { requiredTypes: REQUIRED_MEMBER_CONSENT_TYPES.length, complete, partial };
+  }
+
+  /**
    * Scheduled job to check for expired and expiring consents
    * Runs daily at 3:00 AM
    * Sends email warnings at 30, 14, and 7 days before expiry
@@ -225,7 +271,12 @@ export class ConsentsService {
         });
 
         if (shouldSendWarning) {
-          this.sendConsentExpiryWarningEmail(group, locale, complianceRequirements, governingBody).catch((error) => {
+          this.sendConsentExpiryWarningEmail(
+            group,
+            locale,
+            complianceRequirements,
+            governingBody,
+          ).catch((error) => {
             this.logger.error(
               `Failed to send consent expiry email for member ${group.member.member_id}`,
               error,

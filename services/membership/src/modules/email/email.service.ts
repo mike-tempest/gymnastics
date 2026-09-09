@@ -147,6 +147,37 @@ export interface DBSExpiryWarningEmailData {
   showUpdateService?: boolean;
 }
 
+/**
+ * Warning that a staff credential (first aid, coaching qualification,
+ * safeguarding training) is about to lapse (TEM-30). Sent on the same 90 / 60
+ * / 30 / 14 / 7 day cadence as the background-check warning, so a coach who
+ * holds both gets one rhythm of reminders rather than two.
+ */
+export interface CredentialExpiryWarningEmailData {
+  firstName: string;
+  lastName: string;
+  recipientEmail: string;
+  /**
+   * The club the credential belongs to. Named by the caller because the sweep
+   * runs across every club, and the instance-wide CLUB_NAME fallback would put
+   * one club's name on every tenant's email.
+   */
+  clubName: string;
+  /** What the credential is, e.g. "Emergency First Aid at Work". */
+  credentialTitle: string;
+  /** Display label for the kind of credential, e.g. "First aid". */
+  credentialType: string;
+  issuingBody?: string;
+  referenceNumber?: string;
+  issueDate: string;
+  expiryDate: string;
+  daysUntilExpiry: number;
+  /** Where the club records the renewal once it comes through. */
+  credentialsUrl: string;
+  contactNumber?: string;
+  supportUrl?: string;
+}
+
 export interface ConsentExpiryWarningEmailData {
   parentName: string;
   recipientEmail: string;
@@ -477,6 +508,18 @@ export class EmailService {
         certificateNumberLabel: data.certificateNumberLabel || 'Certificate Number',
         clubDomain: data.clubDomain || 'swimclub.co.uk',
         renewalUrl: data.renewalUrl || `${this.appUrl}/compliance/dbs/renew`,
+        supportUrl: data.supportUrl || `${this.appUrl}/support`,
+      },
+    );
+  }
+
+  async sendCredentialExpiryWarning(data: CredentialExpiryWarningEmailData): Promise<void> {
+    await this.send(
+      data.recipientEmail,
+      `${data.credentialTitle} expires in ${data.daysUntilExpiry} days - action required`,
+      'credential-expiry-warning',
+      {
+        ...data,
         supportUrl: data.supportUrl || `${this.appUrl}/support`,
       },
     );

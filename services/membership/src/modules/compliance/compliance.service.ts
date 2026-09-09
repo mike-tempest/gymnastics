@@ -2,28 +2,49 @@ import { Injectable, Logger } from '@nestjs/common';
 import { DBSService } from './dbs/dbs.service';
 import { ConsentsService } from './consents/consents.service';
 import { SafeguardingService } from './safeguarding/safeguarding.service';
+import { MembersService } from '../members/members.service';
+
+/** Window, in days, within which an expiry counts as needing attention. */
+const EXPIRY_WARNING_DAYS = 90;
+
+/** State of a single background check relative to today. */
+export type CheckExpiryStatus = 'valid' | 'expiring' | 'expired' | 'unknown';
+
+export interface SafeguardingOfficerSummary {
+  id: string;
+  name: string;
+  role: string;
+  email: string;
+  phone: string;
+  dbsNumber: string;
+  dbsExpiry: string;
+  /** Days until the officer's own check expires; negative once it has. */
+  daysRemaining: number | null;
+  checkStatus: CheckExpiryStatus;
+}
 
 export interface ComplianceSummary {
   healthScore: number;
   totalMembers: number;
+  /** Background check records the club holds, whatever their state. */
+  dbsChecks: number;
   dbsValid: number;
   dbsExpiringSoon: number;
   dbsExpired: number;
+  /** Consent records the club holds, whatever their state. */
+  consentRecords: number;
   consentComplete: number;
   consentPartial: number;
   consentMissing: number;
-  safeguardingOfficer: {
-    name: string;
-    role: string;
-    email: string;
-    phone: string;
-    dbsNumber: string;
-    dbsExpiry: string;
-  } | null;
+  /** The first officer, kept for callers that only show one. */
+  safeguardingOfficer: SafeguardingOfficerSummary | null;
+  /** Every safeguarding officer the club has appointed, in creation order. */
+  safeguardingOfficers: SafeguardingOfficerSummary[];
   expiringDbsChecks: {
     name: string;
     role: string;
     expiryDate: string;
+    /** Negative once the check has lapsed, so the caller can say so. */
     daysRemaining: number;
   }[];
 }
@@ -36,31 +57,42 @@ export class ComplianceService {
     private readonly dbsService: DBSService,
     private readonly consentsService: ConsentsService,
     private readonly safeguardingService: SafeguardingService,
+    private readonly membersService: MembersService,
   ) {}
 
   /**
    * Get compliance summary with aggregated statistics
    * Provides overall health score and key metrics from DBS, Consents, and Safeguarding
+   *
+   * Every figure here is counted from stored records. Nothing is estimated or
+   * extrapolated: a club acting on this screen is acting on its own data.
    */
   async getSummary(): Promise<ComplianceSummary> {
     this.logger.log('Generating compliance summary');
 
     try {
       // Fetch data from all compliance services in parallel
-      const [dbsStats, consentStats, safeguardingOfficers, expiringDbs] = await Promise.all([
+      const [
+        dbsStats,
+        consentStats,
+        consentCoverage,
+        memberStats,
+        safeguardingOfficers,
+        expiringDbs,
+      ] = await Promise.all([
         this.dbsService.getStatistics(),
         this.consentsService.getStatistics(),
+        this.consentsService.getCoverage(),
+        this.membersService.getStatistics(),
         this.safeguardingService.getOfficers(),
-        this.dbsService.getExpiringSoon(90), // Get checks expiring within 90 days
+        this.dbsService.getExpiringSoon(EXPIRY_WARNING_DAYS),
       ]);
 
-      // Calculate health score based on compliance metrics
-      // Factors: valid DBS (40%), granted consents (40%), expiring DBS (20% penalty)
-      const healthScore = this.calculateHealthScore(dbsStats, consentStats);
-
-      // Map expiring DBS checks to summary format
+      // Map expiring DBS checks to summary format. The underlying query has no
+      // lower bound, so a check that lapsed before anyone noticed comes back
+      // here too; its day count stays negative rather than being flattened to
+      // zero, which would read as "expires today".
       const expiringDbsChecks = expiringDbs.map((check) => {
-        const daysRemaining = this.calculateDaysRemaining(check.expiry_date);
         const fullName = check.user
           ? `${check.user.first_name} ${check.user.last_name}`
           : 'Unknown';
@@ -68,46 +100,49 @@ export class ComplianceService {
           name: fullName,
           role: check.user?.role || 'Unknown',
           expiryDate: check.expiry_date?.toISOString() || '',
-          daysRemaining,
+          daysRemaining: this.calculateDaysRemaining(check.expiry_date),
         };
       });
 
-      // Get primary safeguarding officer (first in list, typically Club Welfare Officer)
-      const primaryOfficer = safeguardingOfficers[0];
-      const safeguardingOfficer = primaryOfficer
-        ? {
-            name: primaryOfficer.name,
-            role: primaryOfficer.role,
-            email: primaryOfficer.email,
-            phone: primaryOfficer.phone || '',
-            dbsNumber: primaryOfficer.dbs_number || '',
-            // dbs_expiry is a date-only column and hydrates as a YYYY-MM-DD
-            // string under the pg driver; normalise via Date for both shapes.
-            dbsExpiry: primaryOfficer.dbs_expiry
-              ? new Date(primaryOfficer.dbs_expiry).toISOString()
-              : '',
-          }
-        : null;
+      // Safeguarding officers are appointed rows in their own table, so their
+      // own checks are outside the DBS expiry sweep. Surface each officer's
+      // expiry state here so a lapsed welfare officer is visible rather than
+      // quietly displayed as a date nobody reads.
+      const officerSummaries = safeguardingOfficers.map((officer) =>
+        this.toOfficerSummary(officer),
+      );
 
-      // Calculate consent metrics
-      // Complete: all 3 consent types granted
-      // Partial: at least 1 consent type granted
-      // Missing: no consents granted
-      const totalMembers = consentStats.total / 3; // Assuming 3 consent types per member
-      const consentComplete = Math.floor(totalMembers * 0.7); // Mock calculation
-      const consentPartial = Math.floor(totalMembers * 0.2);
-      const consentMissing = Math.floor(totalMembers * 0.1);
+      // Consent coverage, counted per member rather than per consent row:
+      // complete means every required consent is on file and live, partial
+      // means some are, missing means the member has none at all.
+      const totalMembers = memberStats.total;
+      const consentComplete = consentCoverage.complete;
+      const consentPartial = consentCoverage.partial;
+      const consentMissing = Math.max(0, totalMembers - consentComplete - consentPartial);
+
+      // Health score: valid checks (40%), members fully consented (40%),
+      // expiring and expired checks (20% penalty). The consent half counts
+      // members, matching the figures shown beside it, so a club cannot score
+      // well on consent while most of its members have nothing on file.
+      const healthScore = this.calculateHealthScore(dbsStats, {
+        consentRecords: consentStats.total,
+        consentComplete,
+        totalMembers,
+      });
 
       return {
         healthScore,
-        totalMembers: dbsStats.total,
+        totalMembers,
+        dbsChecks: dbsStats.total,
         dbsValid: dbsStats.valid,
         dbsExpiringSoon: dbsStats.expiringSoon,
         dbsExpired: dbsStats.expired,
+        consentRecords: consentStats.total,
         consentComplete,
         consentPartial,
         consentMissing,
-        safeguardingOfficer,
+        safeguardingOfficer: officerSummaries[0] ?? null,
+        safeguardingOfficers: officerSummaries,
         expiringDbsChecks,
       };
     } catch (error) {
@@ -117,23 +152,64 @@ export class ComplianceService {
   }
 
   /**
+   * Map a stored officer to its summary shape, including the state of the
+   * officer's own background check.
+   */
+  private toOfficerSummary(officer: {
+    id: string;
+    name: string;
+    role: string;
+    email: string;
+    phone: string | null;
+    dbs_number: string | null;
+    dbs_expiry: Date | string | null;
+  }): SafeguardingOfficerSummary {
+    // dbs_expiry is a date-only column and hydrates as a YYYY-MM-DD
+    // string under the pg driver; normalise via Date for both shapes.
+    const expiry = officer.dbs_expiry ? new Date(officer.dbs_expiry) : null;
+    const daysRemaining = expiry ? this.calculateDaysRemaining(expiry) : null;
+
+    return {
+      id: officer.id,
+      name: officer.name,
+      role: officer.role,
+      email: officer.email,
+      phone: officer.phone || '',
+      dbsNumber: officer.dbs_number || '',
+      dbsExpiry: expiry ? expiry.toISOString() : '',
+      daysRemaining,
+      checkStatus: this.checkStatusFor(daysRemaining),
+    };
+  }
+
+  private checkStatusFor(daysRemaining: number | null): CheckExpiryStatus {
+    if (daysRemaining === null) return 'unknown';
+    if (daysRemaining < 0) return 'expired';
+    if (daysRemaining <= EXPIRY_WARNING_DAYS) return 'expiring';
+    return 'valid';
+  }
+
+  /**
    * Calculate overall compliance health score (0-100)
-   * Based on percentage of valid DBS checks, granted consents, and expiring checks
+   * Based on valid background checks, members fully consented, and expiring checks
    */
   private calculateHealthScore(
     dbsStats: { total: number; valid: number; expiringSoon: number; expired: number },
-    consentStats: { total: number; granted: number },
+    consent: { consentRecords: number; consentComplete: number; totalMembers: number },
   ): number {
-    if (dbsStats.total === 0 && consentStats.total === 0) {
+    if (dbsStats.total === 0 && consent.consentRecords === 0) {
       return 0;
     }
 
     // DBS compliance (40% weight)
     const dbsScore = dbsStats.total > 0 ? (dbsStats.valid / dbsStats.total) * 40 : 0;
 
-    // Consent compliance (40% weight)
+    // Consent compliance (40% weight). Measured against the club's members
+    // rather than its consent rows: a member with nothing on file has to count
+    // against the club, or a single fully consented member would score full
+    // marks for a club of hundreds.
     const consentScore =
-      consentStats.total > 0 ? (consentStats.granted / consentStats.total) * 40 : 0;
+      consent.totalMembers > 0 ? (consent.consentComplete / consent.totalMembers) * 40 : 0;
 
     // Penalty for expiring and expired checks (20% weight)
     const expiringPenalty =
@@ -146,7 +222,8 @@ export class ComplianceService {
   }
 
   /**
-   * Calculate days remaining until expiry date
+   * Days remaining until an expiry date. Negative once the date has passed,
+   * so a caller can tell "expired last month" from "expires tomorrow".
    */
   private calculateDaysRemaining(expiryDate: Date | null): number {
     if (!expiryDate) {
@@ -156,8 +233,7 @@ export class ComplianceService {
     const today = new Date();
     const expiry = new Date(expiryDate);
     const diffTime = expiry.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    return Math.max(0, diffDays);
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   }
 }

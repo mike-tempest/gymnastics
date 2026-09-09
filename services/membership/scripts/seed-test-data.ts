@@ -250,7 +250,6 @@ async function seedTestData() {
     console.log('  POST http://localhost:3001/api/testing/trigger-dbs-reminders');
     console.log('  POST http://localhost:3001/api/testing/trigger-consent-reminders');
     console.log('\n📬 MailHog: http://localhost:8025');
-
   } catch (error) {
     console.error('❌ Error seeding test data:', error);
     throw error;

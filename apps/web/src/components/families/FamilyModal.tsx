@@ -10,19 +10,31 @@ import { isValidPhone, isValidPostalCode } from '@/lib/utils/postal';
 
 const familySchema = z.object({
   family_name: z.string().min(1, 'Family name is required').max(200, 'Family name too long'),
-  primary_contact_name: z.string().min(1, 'Primary contact name is required').max(200, 'Name too long'),
-  primary_contact_email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
-  primary_contact_phone: z.string().optional().refine((val) => {
-    if (!val || val.trim() === '') return true;
-    return isValidPhone(val);
-  }, 'Please enter a valid phone number'),
+  primary_contact_name: z
+    .string()
+    .min(1, 'Primary contact name is required')
+    .max(200, 'Name too long'),
+  primary_contact_email: z
+    .string()
+    .min(1, 'Email is required')
+    .email('Please enter a valid email address'),
+  primary_contact_phone: z
+    .string()
+    .optional()
+    .refine((val) => {
+      if (!val || val.trim() === '') return true;
+      return isValidPhone(val);
+    }, 'Please enter a valid phone number'),
   address_line1: z.string().max(255, 'Address too long').optional(),
   address_line2: z.string().max(255, 'Address too long').optional(),
   city: z.string().max(100, 'City name too long').optional(),
-  postcode: z.string().optional().refine((val) => {
-    if (!val || val.trim() === '') return true;
-    return isValidPostalCode(val);
-  }, 'Please enter a valid postcode or ZIP code'),
+  postcode: z
+    .string()
+    .optional()
+    .refine((val) => {
+      if (!val || val.trim() === '') return true;
+      return isValidPostalCode(val);
+    }, 'Please enter a valid postcode or ZIP code'),
 });
 
 type FamilyFormData = z.infer<typeof familySchema>;
@@ -170,7 +182,9 @@ export default function FamilyModal({
               {family ? 'Edit Family' : 'Add New Family'}
             </h2>
             <p className="text-text-secondary">
-              {family ? 'Update family information' : 'Enter family details to add to your database'}
+              {family
+                ? 'Update family information'
+                : 'Enter family details to add to your database'}
             </p>
           </div>
           <button
@@ -222,7 +236,10 @@ export default function FamilyModal({
 
             {/* Primary Contact Name */}
             <div>
-              <label htmlFor="primary_contact_name" className="block text-sm font-semibold text-white mb-2">
+              <label
+                htmlFor="primary_contact_name"
+                className="block text-sm font-semibold text-white mb-2"
+              >
                 Primary Contact Name <span className="text-brand">*</span>
               </label>
               <input
@@ -242,7 +259,10 @@ export default function FamilyModal({
             {/* Email and Phone Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="primary_contact_email" className="block text-sm font-semibold text-white mb-2">
+                <label
+                  htmlFor="primary_contact_email"
+                  className="block text-sm font-semibold text-white mb-2"
+                >
                   Email <span className="text-brand">*</span>
                 </label>
                 <input
@@ -255,12 +275,17 @@ export default function FamilyModal({
                   disabled={isSubmitting}
                 />
                 {errors.primary_contact_email && (
-                  <p className="mt-2 text-sm text-red-400">{errors.primary_contact_email.message}</p>
+                  <p className="mt-2 text-sm text-red-400">
+                    {errors.primary_contact_email.message}
+                  </p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="primary_contact_phone" className="block text-sm font-semibold text-white mb-2">
+                <label
+                  htmlFor="primary_contact_phone"
+                  className="block text-sm font-semibold text-white mb-2"
+                >
                   Phone <span className="text-text-tertiary font-normal">(Optional)</span>
                 </label>
                 <input
@@ -273,14 +298,19 @@ export default function FamilyModal({
                   disabled={isSubmitting}
                 />
                 {errors.primary_contact_phone && (
-                  <p className="mt-2 text-sm text-red-400">{errors.primary_contact_phone.message}</p>
+                  <p className="mt-2 text-sm text-red-400">
+                    {errors.primary_contact_phone.message}
+                  </p>
                 )}
               </div>
             </div>
 
             {/* Address Line 1 */}
             <div>
-              <label htmlFor="address_line1" className="block text-sm font-semibold text-white mb-2">
+              <label
+                htmlFor="address_line1"
+                className="block text-sm font-semibold text-white mb-2"
+              >
                 Address Line 1 <span className="text-text-tertiary font-normal">(Optional)</span>
               </label>
               <input
@@ -299,7 +329,10 @@ export default function FamilyModal({
 
             {/* Address Line 2 */}
             <div>
-              <label htmlFor="address_line2" className="block text-sm font-semibold text-white mb-2">
+              <label
+                htmlFor="address_line2"
+                className="block text-sm font-semibold text-white mb-2"
+              >
                 Address Line 2 <span className="text-text-tertiary font-normal">(Optional)</span>
               </label>
               <input
@@ -331,9 +364,7 @@ export default function FamilyModal({
                   placeholder="City"
                   disabled={isSubmitting}
                 />
-                {errors.city && (
-                  <p className="mt-2 text-sm text-red-400">{errors.city.message}</p>
-                )}
+                {errors.city && <p className="mt-2 text-sm text-red-400">{errors.city.message}</p>}
               </div>
 
               <div>

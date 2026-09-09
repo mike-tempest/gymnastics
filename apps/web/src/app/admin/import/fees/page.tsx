@@ -1,6 +1,14 @@
 'use client';
 
-import { Upload, FileCheck, AlertTriangle, CheckCircle2, ArrowLeft, Download, FileSpreadsheet } from 'lucide-react';
+import {
+  Upload,
+  FileCheck,
+  AlertTriangle,
+  CheckCircle2,
+  ArrowLeft,
+  Download,
+  FileSpreadsheet,
+} from 'lucide-react';
 import Link from 'next/link';
 import Papa from 'papaparse';
 import { useCallback, useRef, useState } from 'react';
@@ -149,7 +157,9 @@ export default function FeeStructuresImportPage() {
       complete: (results) => {
         if (results.errors.length > 0) {
           const firstError = results.errors[0];
-          setParseError(`CSV parsing error (row ${(firstError.row ?? 0) + 1}): ${firstError.message}`);
+          setParseError(
+            `CSV parsing error (row ${(firstError.row ?? 0) + 1}): ${firstError.message}`
+          );
           return;
         }
 
@@ -159,7 +169,7 @@ export default function FeeStructuresImportPage() {
         if (missingRequired.length > 0) {
           setParseError(
             `Missing required columns: ${missingRequired.join(', ')}. ` +
-            `Expected headers: ${EXPECTED_HEADERS.join(', ')}`
+              `Expected headers: ${EXPECTED_HEADERS.join(', ')}`
           );
           setParsedRows([]);
           return;
@@ -245,9 +255,13 @@ export default function FeeStructuresImportPage() {
         warningCount: 0,
       });
       if (result.created.length > 0 && (!result.errors || result.errors.length === 0)) {
-        toast.success(`${result.created.length} fee structure${result.created.length !== 1 ? 's' : ''} imported successfully`);
+        toast.success(
+          `${result.created.length} fee structure${result.created.length !== 1 ? 's' : ''} imported successfully`
+        );
       } else if (result.created.length > 0) {
-        toast.success(`${result.created.length} fee structure${result.created.length !== 1 ? 's' : ''} imported with some errors`);
+        toast.success(
+          `${result.created.length} fee structure${result.created.length !== 1 ? 's' : ''} imported with some errors`
+        );
       } else {
         toast.error('Import failed. No fee structures were added');
       }
@@ -266,7 +280,8 @@ export default function FeeStructuresImportPage() {
     if (!importResults || importResults.errors.length === 0) return;
 
     const failedRows = importResults.errors.map((e) => {
-      const submitted = e.row >= 1 && e.row <= submittedRows.length ? submittedRows[e.row - 1] : null;
+      const submitted =
+        e.row >= 1 && e.row <= submittedRows.length ? submittedRows[e.row - 1] : null;
       return {
         name: submitted?._raw.name || '',
         description: submitted?._raw.description || '',
@@ -309,7 +324,9 @@ export default function FeeStructuresImportPage() {
                 <ArrowLeft className="w-5 h-5" />
                 <span>Back to Fee Structures</span>
               </Link>
-              <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight mb-2">Import Fee Structures</h1>
+              <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight mb-2">
+                Import Fee Structures
+              </h1>
               <p className="text-grey-600 text-lg">
                 Upload a CSV file to add multiple fee structures at once
               </p>
@@ -336,8 +353,9 @@ export default function FeeStructuresImportPage() {
                     Required columns: <span className="text-white font-medium">name</span>,{' '}
                     <span className="text-white font-medium">amount</span>,{' '}
                     <span className="text-white font-medium">frequency</span> and{' '}
-                    <span className="text-white font-medium">applies_to</span>. Other columns (description, squad_name) are optional,
-                    but squad_name is required when applies_to is squad. Amounts are in {currency} without a currency symbol.
+                    <span className="text-white font-medium">applies_to</span>. Other columns
+                    (description, squad_name) are optional, but squad_name is required when
+                    applies_to is squad. Amounts are in {currency} without a currency symbol.
                   </p>
                   <button
                     onClick={downloadTemplate}
@@ -350,9 +368,7 @@ export default function FeeStructuresImportPage() {
 
                 {/* File Upload Area */}
                 <div>
-                  <h3 className="text-lg font-semibold text-white mb-3">
-                    2. Upload your file
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white mb-3">2. Upload your file</h3>
                   <div
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
@@ -436,13 +452,27 @@ export default function FeeStructuresImportPage() {
                     <thead>
                       <tr className="bg-dark-primary/80">
                         <th className="px-4 py-3 text-left text-text-secondary font-semibold">#</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Name</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Description</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Amount</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Frequency</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Applies To</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Squad Name</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Status</th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Name
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Description
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Amount
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Frequency
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Applies To
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Squad Name
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Status
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -458,38 +488,50 @@ export default function FeeStructuresImportPage() {
                             title={hasRowError ? rowErrors.join(', ') : undefined}
                           >
                             <td className="px-4 py-3 text-text-tertiary">{i + 1}</td>
-                            <td className={`px-4 py-3 ${!row.name ? 'text-red-400 italic' : 'text-white'}`}>
+                            <td
+                              className={`px-4 py-3 ${!row.name ? 'text-red-400 italic' : 'text-white'}`}
+                            >
                               {row.name || 'missing'}
                             </td>
-                            <td className="px-4 py-3 text-text-secondary">{row.description || '-'}</td>
-                            <td className={`px-4 py-3 ${
-                              rowErrors.some((e) => e.toLowerCase().includes('amount'))
-                                ? 'text-red-400'
-                                : !row.amount
-                                ? 'text-red-400 italic'
-                                : 'text-white'
-                            }`}>
+                            <td className="px-4 py-3 text-text-secondary">
+                              {row.description || '-'}
+                            </td>
+                            <td
+                              className={`px-4 py-3 ${
+                                rowErrors.some((e) => e.toLowerCase().includes('amount'))
+                                  ? 'text-red-400'
+                                  : !row.amount
+                                    ? 'text-red-400 italic'
+                                    : 'text-white'
+                              }`}
+                            >
                               {row.amount || 'missing'}
                             </td>
-                            <td className={`px-4 py-3 ${
-                              rowErrors.some((e) => e.toLowerCase().includes('frequency'))
-                                ? 'text-red-400'
-                                : 'text-text-secondary'
-                            }`}>
+                            <td
+                              className={`px-4 py-3 ${
+                                rowErrors.some((e) => e.toLowerCase().includes('frequency'))
+                                  ? 'text-red-400'
+                                  : 'text-text-secondary'
+                              }`}
+                            >
                               {row.frequency || '-'}
                             </td>
-                            <td className={`px-4 py-3 ${
-                              rowErrors.some((e) => e.toLowerCase().includes('applies to'))
-                                ? 'text-red-400'
-                                : 'text-text-secondary'
-                            }`}>
+                            <td
+                              className={`px-4 py-3 ${
+                                rowErrors.some((e) => e.toLowerCase().includes('applies to'))
+                                  ? 'text-red-400'
+                                  : 'text-text-secondary'
+                              }`}
+                            >
                               {row.applies_to || '-'}
                             </td>
-                            <td className={`px-4 py-3 ${
-                              rowErrors.some((e) => e.toLowerCase().includes('squad name'))
-                                ? 'text-red-400'
-                                : 'text-text-secondary'
-                            }`}>
+                            <td
+                              className={`px-4 py-3 ${
+                                rowErrors.some((e) => e.toLowerCase().includes('squad name'))
+                                  ? 'text-red-400'
+                                  : 'text-text-secondary'
+                              }`}
+                            >
                               {row.squad_name || '-'}
                             </td>
                             <td className="px-4 py-3">
@@ -559,8 +601,12 @@ export default function FeeStructuresImportPage() {
                   <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-brand bg-opacity-10 flex items-center justify-center">
                     <Upload className="w-8 h-8 text-brand animate-pulse" />
                   </div>
-                  <h3 className="font-serif text-2xl text-white mb-2">Importing fee structures...</h3>
-                  <p className="text-text-secondary">Please wait while your fee structures are being added.</p>
+                  <h3 className="font-serif text-2xl text-white mb-2">
+                    Importing fee structures...
+                  </h3>
+                  <p className="text-text-secondary">
+                    Please wait while your fee structures are being added.
+                  </p>
                 </div>
                 <div className="max-w-md mx-auto">
                   <div className="flex items-center justify-between mb-2">
@@ -588,7 +634,8 @@ export default function FeeStructuresImportPage() {
                       </div>
                       <h3 className="font-serif text-3xl text-white mb-2">Import Complete</h3>
                       <p className="text-text-secondary">
-                        Successfully imported {importResults.successCount} fee structure{importResults.successCount !== 1 ? 's' : ''}.
+                        Successfully imported {importResults.successCount} fee structure
+                        {importResults.successCount !== 1 ? 's' : ''}.
                       </p>
                     </>
                   ) : importResults.successCount > 0 ? (
@@ -596,9 +643,12 @@ export default function FeeStructuresImportPage() {
                       <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-yellow-500 bg-opacity-10 flex items-center justify-center">
                         <AlertTriangle className="w-8 h-8 text-yellow-400" />
                       </div>
-                      <h3 className="font-serif text-3xl text-white mb-2">Import Partially Complete</h3>
+                      <h3 className="font-serif text-3xl text-white mb-2">
+                        Import Partially Complete
+                      </h3>
                       <p className="text-text-secondary">
-                        {importResults.successCount} fee structure{importResults.successCount !== 1 ? 's' : ''} imported successfully.{' '}
+                        {importResults.successCount} fee structure
+                        {importResults.successCount !== 1 ? 's' : ''} imported successfully.{' '}
                         {importResults.errors.length} failed.
                       </p>
                     </>
@@ -623,7 +673,9 @@ export default function FeeStructuresImportPage() {
                   </div>
                   {importResults.errors.length > 0 && (
                     <div className="px-6 py-4 bg-red-500 bg-opacity-10 border border-red-500 border-opacity-30 rounded-xl text-center min-w-[140px]">
-                      <p className="text-red-400 text-3xl font-bold">{importResults.errors.length}</p>
+                      <p className="text-red-400 text-3xl font-bold">
+                        {importResults.errors.length}
+                      </p>
                       <p className="text-text-secondary text-sm">Failed</p>
                     </div>
                   )}
@@ -645,10 +697,13 @@ export default function FeeStructuresImportPage() {
                     <ul className="space-y-1">
                       {importResults.errors.map((err, i) => {
                         const submitted =
-                          err.row >= 1 && err.row <= submittedRows.length ? submittedRows[err.row - 1] : null;
+                          err.row >= 1 && err.row <= submittedRows.length
+                            ? submittedRows[err.row - 1]
+                            : null;
                         return (
                           <li key={i} className="text-red-300 text-sm">
-                            {submitted ? `Row ${submitted._sourceRow}: ` : ''}{err.message}
+                            {submitted ? `Row ${submitted._sourceRow}: ` : ''}
+                            {err.message}
                           </li>
                         );
                       })}

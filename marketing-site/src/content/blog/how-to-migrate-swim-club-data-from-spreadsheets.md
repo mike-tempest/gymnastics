@@ -1,11 +1,11 @@
 ---
-title: "How to Move Your Swim Club from Spreadsheets to Modern Software"
+title: 'How to Move Your Swim Club from Spreadsheets to Modern Software'
 description: "Data migration is the biggest barrier stopping swim clubs from switching to better software. Here's exactly what to expect, how to prepare, and what good looks like."
 pubDate: 2026-02-28
-author: "Swimly Team"
-tags: ["spreadsheets", "data migration", "club admin", "software transition"]
-seoTitle: "How to Migrate Swim Club Data from Spreadsheets | Complete Guide"
-seoDescription: "Worried about losing data when leaving spreadsheets? What to migrate, how to prepare, the common pitfalls, and what a smooth swim club move looks like."
+author: 'Swimly Team'
+tags: ['spreadsheets', 'data migration', 'club admin', 'software transition']
+seoTitle: 'How to Migrate Swim Club Data from Spreadsheets | Complete Guide'
+seoDescription: 'Worried about losing data when leaving spreadsheets? What to migrate, how to prepare, the common pitfalls, and what a smooth swim club move looks like.'
 ---
 
 Your committee has talked about it for months. The membership spreadsheet is a mess. The fee tracker crashes every time someone opens it. The attendance records live in three different places. Everyone agrees you need proper [swimming club software](/swim-club-management-software), but there is one question nobody wants to answer: what happens to all the data?
@@ -29,6 +29,7 @@ Before you panic about moving everything, ask what actually needs to come across
 ### Core member records
 
 This is the non-negotiable data:
+
 - Names, dates of birth, addresses, contact details
 - Emergency contacts and medical information
 - Current squad assignments
@@ -40,6 +41,7 @@ This is the data you are legally required to maintain and the data you need to r
 ### Financial history
 
 Payment records are valuable, but you probably do not need every transaction from 2019. What matters:
+
 - Current fee plans (who pays what, and when)
 - Outstanding balances (who owes money right now)
 - Recent payment history (usually 12 months is sufficient)
@@ -49,6 +51,7 @@ Historical financial data can stay in your archived spreadsheets. Your new softw
 ### Compliance records
 
 For Wavepower and GDPR compliance, you need:
+
 - DBS check details and expiry dates (for coaches and volunteers)
 - Safeguarding training records
 - Codes of conduct acceptances
@@ -57,6 +60,7 @@ For Wavepower and GDPR compliance, you need:
 ### What you can leave behind
 
 Most clubs discover they have accumulated a lot of data they do not actually need:
+
 - Historical attendance records older than the current season
 - Old registration forms (if the information is already in your member records)
 - Superseded versions of anything
@@ -71,6 +75,7 @@ Before you migrate anything, spend time cleaning and organising what you have. E
 ### Step 1: Consolidate your data sources
 
 Identify everywhere your club data currently lives. For most clubs, this includes:
+
 - The "main" membership spreadsheet
 - The fee tracker
 - Google Form responses from registration
@@ -91,6 +96,7 @@ Run through your consolidated data and deduplicate. This is tedious, but it is m
 Consistency matters. If phone numbers are formatted six different ways, email addresses have random capitalisation, and postcodes sometimes have spaces and sometimes do not, migration becomes harder.
 
 Pick a standard and apply it:
+
 - Phone numbers: 07XXX XXXXXX or +44 7XXX XXXXXX
 - Postcodes: XX00 0XX (with space)
 - Email addresses: lowercase

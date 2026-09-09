@@ -287,8 +287,7 @@ export class WebhooksService {
       // GoCardless normalises the cause across schemes, so a Bacs ARUDD return
       // and its BECS equivalent persist the same machine-readable value.
       const failureDetails =
-        newStatus === PaymentStatus.FAILED &&
-        (event.details?.cause || event.details?.description)
+        newStatus === PaymentStatus.FAILED && (event.details?.cause || event.details?.description)
           ? {
               cause: event.details?.cause ?? null,
               description: event.details?.description

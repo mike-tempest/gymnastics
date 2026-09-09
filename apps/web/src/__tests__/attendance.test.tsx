@@ -104,10 +104,9 @@ describe('AttendanceRoster', () => {
   });
 
   it('renders the member list from the attendance data', async () => {
-    render(
-      <AttendanceRoster sessionId="session-1" sessionName="Monday Training" />,
-      { wrapper: createWrapper() },
-    );
+    render(<AttendanceRoster sessionId="session-1" sessionName="Monday Training" />, {
+      wrapper: createWrapper(),
+    });
 
     await waitFor(() => {
       expect(screen.getByText('Alice Smith')).toBeInTheDocument();
@@ -117,10 +116,9 @@ describe('AttendanceRoster', () => {
   });
 
   it('shows the session name and member count', async () => {
-    render(
-      <AttendanceRoster sessionId="session-1" sessionName="Monday Training" />,
-      { wrapper: createWrapper() },
-    );
+    render(<AttendanceRoster sessionId="session-1" sessionName="Monday Training" />, {
+      wrapper: createWrapper(),
+    });
 
     await waitFor(() => {
       expect(screen.getByText('Monday Training')).toBeInTheDocument();
@@ -129,10 +127,9 @@ describe('AttendanceRoster', () => {
   });
 
   it('shows the Mark All Present button with the unmarked count', async () => {
-    render(
-      <AttendanceRoster sessionId="session-1" sessionName="Monday Training" />,
-      { wrapper: createWrapper() },
-    );
+    render(<AttendanceRoster sessionId="session-1" sessionName="Monday Training" />, {
+      wrapper: createWrapper(),
+    });
 
     await waitFor(() => {
       expect(screen.getByText('Mark All Present (2)')).toBeInTheDocument();
@@ -142,10 +139,9 @@ describe('AttendanceRoster', () => {
   it('shows a loading state before data arrives', () => {
     mockGetSessionRoster.mockReturnValue(new Promise(() => {}));
 
-    render(
-      <AttendanceRoster sessionId="session-1" sessionName="Monday Training" />,
-      { wrapper: createWrapper() },
-    );
+    render(<AttendanceRoster sessionId="session-1" sessionName="Monday Training" />, {
+      wrapper: createWrapper(),
+    });
 
     expect(screen.getByText('Loading roster...')).toBeInTheDocument();
   });
@@ -153,14 +149,13 @@ describe('AttendanceRoster', () => {
   it('renders an empty state when there are no members', async () => {
     mockGetSessionRoster.mockResolvedValue([]);
 
-    render(
-      <AttendanceRoster sessionId="session-1" sessionName="Monday Training" />,
-      { wrapper: createWrapper() },
-    );
+    render(<AttendanceRoster sessionId="session-1" sessionName="Monday Training" />, {
+      wrapper: createWrapper(),
+    });
 
     await waitFor(() => {
       expect(
-        screen.getByRole('heading', { name: 'No gymnasts in this session' }),
+        screen.getByRole('heading', { name: 'No gymnasts in this session' })
       ).toBeInTheDocument();
     });
   });
@@ -168,10 +163,9 @@ describe('AttendanceRoster', () => {
   it('calls markAttendance for all unmarked members when Mark All Present is clicked', async () => {
     mockMarkAttendance.mockResolvedValue(undefined);
 
-    render(
-      <AttendanceRoster sessionId="session-1" sessionName="Monday Training" />,
-      { wrapper: createWrapper() },
-    );
+    render(<AttendanceRoster sessionId="session-1" sessionName="Monday Training" />, {
+      wrapper: createWrapper(),
+    });
 
     await waitFor(() => {
       expect(screen.getByText('Mark All Present (2)')).toBeInTheDocument();
@@ -183,7 +177,7 @@ describe('AttendanceRoster', () => {
       expect(mockMarkAttendance).toHaveBeenCalledWith(
         'session-1',
         ['member-1', 'member-3'],
-        'present',
+        'present'
       );
     });
   });

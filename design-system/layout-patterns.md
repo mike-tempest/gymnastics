@@ -9,7 +9,9 @@
 ## Core Layout Principles
 
 ### 1. Role-Based Dashboard Structure
+
 Every user role sees a different layout optimised for their primary tasks:
+
 - **Treasurer** = Financial overview dashboard
 - **Membership Secretary** = Member directory and processing queue
 - **Chair/Secretary** = Governance and compliance overview
@@ -17,11 +19,13 @@ Every user role sees a different layout optimised for their primary tasks:
 - **Parent** = Family dashboard with child cards
 
 ### 2. Mobile-First, Desktop-Enhanced
+
 - Design for mobile (coaches, parents)
 - Enhance for desktop (committee admin work)
 - Never hide critical features from mobile users
 
 ### 3. Information Hierarchy
+
 1. **Primary action** = top-right on desktop, bottom navigation on mobile
 2. **Status/alerts** = prominent at top
 3. **Main content** = centre, scrollable
@@ -35,6 +39,7 @@ Every user role sees a different layout optimised for their primary tasks:
 ### Treasurer Dashboard
 
 **Desktop Layout:**
+
 ```
 ┌─────────────────────────────────────────────────┐
 │  Header: Club Name + Treasurer Name + Actions   │
@@ -53,6 +58,7 @@ Every user role sees a different layout optimised for their primary tasks:
 ```
 
 **Mobile Layout (Stacked):**
+
 ```
 ┌──────────────────────┐
 │   Financial Summary  │
@@ -78,6 +84,7 @@ Every user role sees a different layout optimised for their primary tasks:
 ```
 
 **Key Features:**
+
 - At-a-glance financial health (3 KPI cards)
 - One-tap access to outstanding payments
 - Export button prominent (committee reports)
@@ -89,6 +96,7 @@ Every user role sees a different layout optimised for their primary tasks:
 ### Membership Secretary Dashboard
 
 **Desktop Layout:**
+
 ```
 ┌─────────────────────────────────────────────────┐
 │  Header: Club Name + Search Bar + Add Member    │
@@ -107,6 +115,7 @@ Every user role sees a different layout optimised for their primary tasks:
 ```
 
 **Mobile Layout:**
+
 ```
 ┌──────────────────────┐
 │  Search Bar          │
@@ -131,6 +140,7 @@ Every user role sees a different layout optimised for their primary tasks:
 ```
 
 **Key Features:**
+
 - Searchable, filterable member list
 - Status badges (active, pending, lapsed, new)
 - Bulk actions (select multiple, bulk email, bulk status change)
@@ -142,6 +152,7 @@ Every user role sees a different layout optimised for their primary tasks:
 ### Chair/Secretary Dashboard
 
 **Desktop Layout:**
+
 ```
 ┌─────────────────────────────────────────────────┐
 │  Header: Club Name + Committee + Quick Actions  │
@@ -165,6 +176,7 @@ Every user role sees a different layout optimised for their primary tasks:
 ```
 
 **Mobile Layout:**
+
 ```
 ┌──────────────────────┐
 │   Club Overview      │
@@ -189,6 +201,7 @@ Every user role sees a different layout optimised for their primary tasks:
 ```
 
 **Key Features:**
+
 - Bird's-eye view: members, finances, compliance, sessions at a glance
 - Compliance traffic lights (DBS, safeguarding, qualifications)
 - Role management: add/remove committee access with clear permission descriptions
@@ -200,6 +213,7 @@ Every user role sees a different layout optimised for their primary tasks:
 ### Coach Dashboard (Mobile-Optimised)
 
 **Mobile Layout (Primary Interface):**
+
 ```
 ┌──────────────────────┐
 │  Today's Session     │
@@ -226,6 +240,7 @@ Every user role sees a different layout optimised for their primary tasks:
 ```
 
 **Register View (Session Active):**
+
 ```
 ┌──────────────────────┐
 │  Dev Squad Register  │
@@ -250,6 +265,7 @@ Every user role sees a different layout optimised for their primary tasks:
 ```
 
 **Key Features:**
+
 - **Optimised for mobile phone, portrait orientation**
 - Today's session front and centre on login
 - Attendance: large checkboxes/toggle per swimmer name (44px minimum)
@@ -259,6 +275,7 @@ Every user role sees a different layout optimised for their primary tasks:
 - Works offline — syncs when back in reception
 
 **Touch Target Requirements:**
+
 - Attendance checkbox: 48×48px
 - Swimmer name tap area: 44px height minimum
 - Medical flag icon: 32×32px (but within 44px tap zone)
@@ -269,6 +286,7 @@ Every user role sees a different layout optimised for their primary tasks:
 ### Parent Dashboard (Mobile-Optimised)
 
 **Mobile Layout (Primary Interface):**
+
 ```
 ┌──────────────────────┐
 │  My Swimmers         │
@@ -297,6 +315,7 @@ Every user role sees a different layout optimised for their primary tasks:
 ```
 
 **Child Detail View:**
+
 ```
 ┌──────────────────────┐
 │  ← Kassidy Davies    │
@@ -322,6 +341,7 @@ Every user role sees a different layout optimised for their primary tasks:
 ```
 
 **Key Features:**
+
 - Card-based layout per child (multi-child families)
 - Each card shows: next session, squad, recent results
 - Payment status clear and simple
@@ -334,6 +354,7 @@ Every user role sees a different layout optimised for their primary tasks:
 ## Responsive Breakpoints
 
 ### Mobile (320-767px)
+
 - **Primary for:** Coaches (poolside), Parents (on the go)
 - **Layout:** Single column, stacked cards
 - **Navigation:** Bottom tab bar (max 5 tabs)
@@ -342,6 +363,7 @@ Every user role sees a different layout optimised for their primary tasks:
 - **Whitespace:** Generous (16-24px between sections)
 
 ### Tablet (768-1023px)
+
 - **Primary for:** Committee members (meetings, poolside admin)
 - **Layout:** 2-column where appropriate, sidebar navigation available
 - **Navigation:** Top bar + sidebar (collapsible)
@@ -350,6 +372,7 @@ Every user role sees a different layout optimised for their primary tasks:
 - **Whitespace:** Moderate (12-16px between sections)
 
 ### Desktop (1024px+)
+
 - **Primary for:** Committee admin (treasurer reports, member management)
 - **Layout:** Multi-column dashboards, data tables, sidebar navigation
 - **Navigation:** Persistent left sidebar
@@ -362,7 +385,9 @@ Every user role sees a different layout optimised for their primary tasks:
 ## Whitespace Standards
 
 ### Spacing Scale
+
 Based on 4px grid:
+
 - **4px** = tight (between related labels and values)
 - **8px** = close (between form fields)
 - **12px** = comfortable (between paragraphs)
@@ -374,20 +399,24 @@ Based on 4px grid:
 ### Component-Specific Spacing
 
 **Cards:**
+
 - Internal padding: 16px (mobile), 20px (desktop)
 - Margin between cards: 16px (mobile), 20px (desktop)
 
 **Tables:**
+
 - Row height: 48px minimum (tap targets)
 - Cell padding: 12px horizontal, 16px vertical
 - Header padding: 12px all sides
 
 **Forms:**
+
 - Label-to-field gap: 8px
 - Field-to-field gap: 16px (mobile), 12px (desktop)
 - Field height: 44px minimum (mobile touch targets)
 
 **Navigation:**
+
 - Sidebar width: 240px (desktop)
 - Nav item height: 44px (tap targets)
 - Nav item padding: 12px horizontal, 12px vertical
@@ -397,29 +426,34 @@ Based on 4px grid:
 ## Poolside Touch Target Guidelines
 
 Coaches use Swimly poolside with:
+
 - Wet hands (reduced touch precision)
 - Bright sunlight (reduced screen visibility)
 - One hand (holding clipboard, whistle, etc.)
 - Distractions (swimmers, other coaches, noise)
 
 **Touch Target Requirements:**
+
 - **Minimum:** 44×44px (WCAG 2.5.5 Level AAA)
 - **Recommended for critical actions:** 48×48px
 - **Spacing between targets:** 8px minimum gap
 
 **Critical Actions (48×48px):**
+
 - Attendance checkboxes
 - Session start/end buttons
 - Medical info icons
 - Emergency contact access
 
 **Standard Actions (44×44px):**
+
 - Swimmer names (full row tappable)
 - Navigation tabs
 - Filter/sort buttons
 - Menu icons
 
 **Thumb-Friendly Zones (One-Handed Operation):**
+
 - **Easy reach:** Bottom 1/3 of screen (primary actions)
 - **Comfortable reach:** Middle 1/3 of screen (content)
 - **Difficult reach:** Top 1/3 of screen (secondary nav, status only)
@@ -429,6 +463,7 @@ Coaches use Swimly poolside with:
 ## Layout Anti-Patterns
 
 ### Never Do This:
+
 1. **Don't hide critical features behind hamburger menus on mobile**  
    ❌ Coach register behind menu  
    ✅ Coach register on home screen
@@ -458,6 +493,7 @@ Coaches use Swimly poolside with:
 ## Testing Layouts
 
 ### Mobile Testing Checklist
+
 - [ ] Test on iPhone SE (smallest screen: 375×667px)
 - [ ] Test on Android (various: 360px, 412px width)
 - [ ] Test with wet screen simulator (reduced touch precision)
@@ -466,6 +502,7 @@ Coaches use Swimly poolside with:
 - [ ] Test with thick gloves (winter poolside)
 
 ### Desktop Testing Checklist
+
 - [ ] Test on 1024px (smallest desktop)
 - [ ] Test on 1920px (common desktop)
 - [ ] Test on ultrawide (3440px if available)
@@ -474,6 +511,7 @@ Coaches use Swimly poolside with:
 - [ ] Test browser zoom (125%, 150%, 200%)
 
 ### Multi-Device Testing Checklist
+
 - [ ] Responsive breakpoint transitions smooth
 - [ ] Data tables transform to cards on mobile
 - [ ] Navigation adapts (sidebar → bottom tabs)
@@ -485,6 +523,7 @@ Coaches use Swimly poolside with:
 ## Layout Maintenance
 
 Update these layout patterns when:
+
 - New persona dashboards are created
 - User research reveals navigation pain points
 - Accessibility standards evolve
@@ -495,6 +534,7 @@ To propose layout changes, create a task in Workshop tagged `design-system` + `l
 ---
 
 **Related:**
+
 - [Components](./components.md) - Component-level specifications
 - [Accessibility](./accessibility.md) - WCAG 2.1 AA compliance
 - [Typography](./typography.md) - Text hierarchy and sizing

@@ -77,10 +77,11 @@ export default function BillingInvoiceDetailPage() {
 
   const handleMarkAsSent = async () => {
     if (!invoice) return;
-    
+
     const confirmed = await confirm({
       title: 'Mark Invoice as Sent',
-      description: 'Mark this invoice as sent? The invoice status will be updated to reflect that it has been sent to the family.',
+      description:
+        'Mark this invoice as sent? The invoice status will be updated to reflect that it has been sent to the family.',
       confirmLabel: 'Mark as Sent',
       variant: 'default',
     });
@@ -102,10 +103,11 @@ export default function BillingInvoiceDetailPage() {
 
   const handleMarkAsPaid = async () => {
     if (!invoice) return;
-    
+
     const confirmed = await confirm({
       title: 'Mark Invoice as Paid',
-      description: 'Mark this invoice as paid? This will update the invoice status to indicate that payment has been received in full.',
+      description:
+        'Mark this invoice as paid? This will update the invoice status to indicate that payment has been received in full.',
       confirmLabel: 'Mark as Paid',
       variant: 'default',
     });
@@ -163,7 +165,9 @@ export default function BillingInvoiceDetailPage() {
     const totalPaid = invoice.payments?.reduce((sum, p) => sum + p.amount, 0) || 0;
     const remainingBalance = invoice.total_amount - totalPaid;
     if (amount > remainingBalance) {
-      setError(`Amount exceeds remaining balance of ${formatCurrency(remainingBalance, invoice.currency)}.`);
+      setError(
+        `Amount exceeds remaining balance of ${formatCurrency(remainingBalance, invoice.currency)}.`
+      );
       return;
     }
     try {
@@ -192,7 +196,8 @@ export default function BillingInvoiceDetailPage() {
   const handleDelete = async () => {
     const confirmed = await confirm({
       title: 'Delete Invoice',
-      description: 'Are you sure you want to delete this invoice? This action cannot be undone and all associated data will be permanently removed.',
+      description:
+        'Are you sure you want to delete this invoice? This action cannot be undone and all associated data will be permanently removed.',
       confirmLabel: 'Delete Invoice',
       cancelLabel: 'Keep Invoice',
       variant: 'danger',
@@ -225,10 +230,7 @@ export default function BillingInvoiceDetailPage() {
       <MainLayout>
         <div className="min-h-dvh bg-canvas p-6 md:p-8">
           <div className="max-w-5xl mx-auto">
-            <ErrorState
-              message={error || 'Invoice not found.'}
-              onRetry={fetchInvoice}
-            />
+            <ErrorState message={error || 'Invoice not found.'} onRetry={fetchInvoice} />
           </div>
         </div>
       </MainLayout>
@@ -238,7 +240,8 @@ export default function BillingInvoiceDetailPage() {
   const displayStatus = getDisplayStatus(invoice);
   const totalPaid = invoice.payments?.reduce((sum, p) => sum + p.amount, 0) || 0;
   const remainingBalance = invoice.total_amount - totalPaid;
-  const isSettled = invoice.status === InvoiceStatus.PAID || invoice.status === InvoiceStatus.CANCELLED;
+  const isSettled =
+    invoice.status === InvoiceStatus.PAID || invoice.status === InvoiceStatus.CANCELLED;
 
   // Tax invoice presentation. Australian clubs with tax applied and an ABN on
   // file must issue a document headed "Tax Invoice"; the registration line
@@ -272,11 +275,14 @@ export default function BillingInvoiceDetailPage() {
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <h1 className="font-serif text-3xl md:text-4xl text-dark-primary tracking-tight">
-                  {isTaxInvoice ? 'Tax Invoice' : 'Invoice'} #{invoice.invoice_id.slice(0, 8).toUpperCase()}
+                  {isTaxInvoice ? 'Tax Invoice' : 'Invoice'} #
+                  {invoice.invoice_id.slice(0, 8).toUpperCase()}
                 </h1>
                 <InvoiceStatusBadge status={displayStatus} />
               </div>
-              <p className="text-dark-primary/60">{invoice.family?.family_name || 'Unknown Family'}</p>
+              <p className="text-dark-primary/60">
+                {invoice.family?.family_name || 'Unknown Family'}
+              </p>
               {taxApplied && taxRegNumber && (
                 <p className="text-dark-primary/60 text-sm tabular-nums">
                   {taxRegistrationLabel(clubRegion.country)}: {taxRegNumber}
@@ -305,29 +311,43 @@ export default function BillingInvoiceDetailPage() {
                 <h2 className="text-lg font-semibold text-white mb-4">Invoice Details</h2>
                 <div className="grid grid-cols-2 gap-y-4 gap-x-6">
                   <div>
-                    <p className="text-white/60 text-xs font-medium uppercase tracking-wider mb-1">Invoice Date</p>
-                    <p className="text-white text-sm font-medium tabular-nums">{formatDate(invoice.created_at)}</p>
+                    <p className="text-white/60 text-xs font-medium uppercase tracking-wider mb-1">
+                      Invoice Date
+                    </p>
+                    <p className="text-white text-sm font-medium tabular-nums">
+                      {formatDate(invoice.created_at)}
+                    </p>
                   </div>
                   <div>
-                    <p className="text-white/60 text-xs font-medium uppercase tracking-wider mb-1">Due Date</p>
-                    <p className={`text-sm font-medium tabular-nums ${displayStatus === 'overdue' ? 'text-red-400' : 'text-white'}`}>
+                    <p className="text-white/60 text-xs font-medium uppercase tracking-wider mb-1">
+                      Due Date
+                    </p>
+                    <p
+                      className={`text-sm font-medium tabular-nums ${displayStatus === 'overdue' ? 'text-red-400' : 'text-white'}`}
+                    >
                       {formatDate(invoice.due_date)}
                     </p>
                   </div>
                   <div className="col-span-2">
-                    <p className="text-white/60 text-xs font-medium uppercase tracking-wider mb-1">Billed To</p>
+                    <p className="text-white/60 text-xs font-medium uppercase tracking-wider mb-1">
+                      Billed To
+                    </p>
                     <p className="text-white text-sm font-medium">{invoice.family?.family_name}</p>
                     {invoice.family?.primary_contact_name && (
                       <p className="text-white/60 text-sm">{invoice.family.primary_contact_name}</p>
                     )}
                     {invoice.family?.primary_contact_email && (
-                      <p className="text-white/60 text-sm">{invoice.family.primary_contact_email}</p>
+                      <p className="text-white/60 text-sm">
+                        {invoice.family.primary_contact_email}
+                      </p>
                     )}
                   </div>
                 </div>
                 {invoice.notes && (
                   <div className="mt-4 pt-4 border-t border-white/10">
-                    <p className="text-white/60 text-xs font-medium uppercase tracking-wider mb-1">Notes</p>
+                    <p className="text-white/60 text-xs font-medium uppercase tracking-wider mb-1">
+                      Notes
+                    </p>
                     <p className="text-white/60 text-sm">{invoice.notes}</p>
                   </div>
                 )}
@@ -338,31 +358,43 @@ export default function BillingInvoiceDetailPage() {
                 <div className="px-6 py-4 border-b border-white/10">
                   <h2 className="text-lg font-semibold text-white">Line Items</h2>
                 </div>
-                
+
                 {/* Desktop Table View (hidden on mobile) */}
                 <div className="hidden md:block overflow-x-auto">
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-white/10">
-                        <th className="text-left py-3 px-6 text-xs font-semibold text-white/60 uppercase tracking-wider">Description</th>
-                        <th className="text-left py-3 px-6 text-xs font-semibold text-white/60 uppercase tracking-wider">Quantity</th>
-                        <th className="text-right py-3 px-6 text-xs font-semibold text-white/60 uppercase tracking-wider">Amount</th>
+                        <th className="text-left py-3 px-6 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Description
+                        </th>
+                        <th className="text-left py-3 px-6 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Quantity
+                        </th>
+                        <th className="text-right py-3 px-6 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                          Amount
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {invoice.items && invoice.items.length > 0 ? (
                         invoice.items.map((item) => (
-                          <tr key={item.item_id} className="border-b border-white/10 last:border-b-0">
+                          <tr
+                            key={item.item_id}
+                            className="border-b border-white/10 last:border-b-0"
+                          >
                             <td className="py-3.5 px-6">
                               <p className="text-white text-sm">{item.description}</p>
                             </td>
                             <td className="py-3.5 px-6">
                               <span className="text-white/60 text-sm tabular-nums">
-                                {item.quantity} x {formatCurrency(item.unit_price, invoice.currency)}
+                                {item.quantity} x{' '}
+                                {formatCurrency(item.unit_price, invoice.currency)}
                               </span>
                             </td>
                             <td className="py-3.5 px-6 text-right">
-                              <span className="text-white font-medium text-sm tabular-nums">{formatCurrency(item.total, invoice.currency)}</span>
+                              <span className="text-white font-medium text-sm tabular-nums">
+                                {formatCurrency(item.total, invoice.currency)}
+                              </span>
                             </td>
                           </tr>
                         ))
@@ -381,7 +413,9 @@ export default function BillingInvoiceDetailPage() {
                             <span className="text-white/60 text-sm">Includes {taxLabel}</span>
                           </td>
                           <td className="py-3 px-6 text-right">
-                            <span className="text-white text-sm tabular-nums">{formatCurrency(invoice.tax_amount, invoice.currency)}</span>
+                            <span className="text-white text-sm tabular-nums">
+                              {formatCurrency(invoice.tax_amount, invoice.currency)}
+                            </span>
                           </td>
                         </tr>
                       )}
@@ -392,7 +426,9 @@ export default function BillingInvoiceDetailPage() {
                               <span className="text-white/60 text-sm">Subtotal</span>
                             </td>
                             <td className="py-3 px-6 text-right">
-                              <span className="text-white text-sm tabular-nums">{formatCurrency(invoice.subtotal, invoice.currency)}</span>
+                              <span className="text-white text-sm tabular-nums">
+                                {formatCurrency(invoice.subtotal, invoice.currency)}
+                              </span>
                             </td>
                           </tr>
                           <tr>
@@ -400,7 +436,9 @@ export default function BillingInvoiceDetailPage() {
                               <span className="text-white/60 text-sm">{taxLabel}</span>
                             </td>
                             <td className="py-3 px-6 text-right">
-                              <span className="text-white text-sm tabular-nums">{formatCurrency(invoice.tax_amount, invoice.currency)}</span>
+                              <span className="text-white text-sm tabular-nums">
+                                {formatCurrency(invoice.tax_amount, invoice.currency)}
+                              </span>
                             </td>
                           </tr>
                         </>
@@ -410,7 +448,9 @@ export default function BillingInvoiceDetailPage() {
                           <span className="text-white font-semibold">Total:</span>
                         </td>
                         <td className="py-4 px-6 text-right">
-                          <span className="text-brand font-bold text-lg tabular-nums">{formatCurrency(invoice.total_amount, invoice.currency)}</span>
+                          <span className="text-brand font-bold text-lg tabular-nums">
+                            {formatCurrency(invoice.total_amount, invoice.currency)}
+                          </span>
                         </td>
                       </tr>
                     </tfoot>
@@ -422,11 +462,18 @@ export default function BillingInvoiceDetailPage() {
                   {invoice.items && invoice.items.length > 0 ? (
                     <div className="p-4 space-y-3">
                       {invoice.items.map((item) => (
-                        <div key={item.item_id} className="p-4 bg-dark-primary rounded-xl border border-white/10">
+                        <div
+                          key={item.item_id}
+                          className="p-4 bg-dark-primary rounded-xl border border-white/10"
+                        >
                           <p className="text-white font-medium text-sm mb-2">{item.description}</p>
                           <div className="flex justify-between items-center text-xs text-white/60">
-                            <span className="tabular-nums">{item.quantity} x {formatCurrency(item.unit_price, invoice.currency)}</span>
-                            <span className="text-white font-medium text-sm tabular-nums">{formatCurrency(item.total, invoice.currency)}</span>
+                            <span className="tabular-nums">
+                              {item.quantity} x {formatCurrency(item.unit_price, invoice.currency)}
+                            </span>
+                            <span className="text-white font-medium text-sm tabular-nums">
+                              {formatCurrency(item.total, invoice.currency)}
+                            </span>
                           </div>
                         </div>
                       ))}
@@ -434,7 +481,9 @@ export default function BillingInvoiceDetailPage() {
                         <div className="pt-3 border-t border-white/10">
                           <div className="flex justify-between items-center">
                             <span className="text-white/60 text-sm">Includes {taxLabel}</span>
-                            <span className="text-white text-sm tabular-nums">{formatCurrency(invoice.tax_amount, invoice.currency)}</span>
+                            <span className="text-white text-sm tabular-nums">
+                              {formatCurrency(invoice.tax_amount, invoice.currency)}
+                            </span>
                           </div>
                         </div>
                       )}
@@ -442,17 +491,23 @@ export default function BillingInvoiceDetailPage() {
                         <div className="pt-3 border-t border-white/10 space-y-2">
                           <div className="flex justify-between items-center">
                             <span className="text-white/60 text-sm">Subtotal</span>
-                            <span className="text-white text-sm tabular-nums">{formatCurrency(invoice.subtotal, invoice.currency)}</span>
+                            <span className="text-white text-sm tabular-nums">
+                              {formatCurrency(invoice.subtotal, invoice.currency)}
+                            </span>
                           </div>
                           <div className="flex justify-between items-center">
                             <span className="text-white/60 text-sm">{taxLabel}</span>
-                            <span className="text-white text-sm tabular-nums">{formatCurrency(invoice.tax_amount, invoice.currency)}</span>
+                            <span className="text-white text-sm tabular-nums">
+                              {formatCurrency(invoice.tax_amount, invoice.currency)}
+                            </span>
                           </div>
                         </div>
                       )}
                       <div className="pt-3 border-t border-white/10 flex justify-between items-center">
                         <span className="text-white font-semibold">Total:</span>
-                        <span className="text-brand font-bold text-lg tabular-nums">{formatCurrency(invoice.total_amount, invoice.currency)}</span>
+                        <span className="text-brand font-bold text-lg tabular-nums">
+                          {formatCurrency(invoice.total_amount, invoice.currency)}
+                        </span>
                       </div>
                     </div>
                   ) : (
@@ -477,19 +532,31 @@ export default function BillingInvoiceDetailPage() {
                       >
                         <div className="flex items-center gap-4">
                           <div className="w-9 h-9 bg-brand/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg className="w-4 h-4 text-brand" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg
+                              className="w-4 h-4 text-brand"
+                              fill="none"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
                               <path d="M9 12l2 2 4-4" />
                             </svg>
                           </div>
                           <div>
-                            <p className="text-white font-medium text-sm tabular-nums">{formatCurrency(payment.amount, payment.currency)}</p>
+                            <p className="text-white font-medium text-sm tabular-nums">
+                              {formatCurrency(payment.amount, payment.currency)}
+                            </p>
                             <div className="flex items-center gap-2 mt-0.5">
                               <span className="text-white/60 text-xs">
                                 {payment.payment_method.replace('_', ' ')}
                               </span>
                               <span className="text-white/60 text-xs">&middot;</span>
                               <span className="text-white/60 text-xs tabular-nums">
-                                {payment.payment_date ? formatDate(payment.payment_date) : 'Pending'}
+                                {payment.payment_date
+                                  ? formatDate(payment.payment_date)
+                                  : 'Pending'}
                               </span>
                             </div>
                             {payment.status === PaymentStatus.FAILED &&
@@ -506,7 +573,9 @@ export default function BillingInvoiceDetailPage() {
                             {payment.status.toUpperCase()}
                           </span>
                           {payment.reference_number && (
-                            <p className="text-white/60 font-mono text-xs mt-1">Ref: {payment.reference_number}</p>
+                            <p className="text-white/60 font-mono text-xs mt-1">
+                              Ref: {payment.reference_number}
+                            </p>
                           )}
                         </div>
                       </div>
@@ -514,7 +583,15 @@ export default function BillingInvoiceDetailPage() {
                   </div>
                 ) : (
                   <div className="py-10 text-center">
-                    <svg className="w-10 h-10 text-white/60 mx-auto mb-2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg
+                      className="w-10 h-10 text-white/60 mx-auto mb-2"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
                       <path d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
                     <p className="text-white/60 text-sm">No payments recorded yet</p>
@@ -529,7 +606,10 @@ export default function BillingInvoiceDetailPage() {
                   <form onSubmit={handleRecordPayment} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label htmlFor="payment-amount" className="block text-sm font-medium text-white/60 mb-1.5">
+                        <label
+                          htmlFor="payment-amount"
+                          className="block text-sm font-medium text-white/60 mb-1.5"
+                        >
                           Amount (&pound;)
                         </label>
                         <input
@@ -545,7 +625,10 @@ export default function BillingInvoiceDetailPage() {
                         />
                       </div>
                       <div>
-                        <label htmlFor="payment-ref" className="block text-sm font-medium text-white/60 mb-1.5">
+                        <label
+                          htmlFor="payment-ref"
+                          className="block text-sm font-medium text-white/60 mb-1.5"
+                        >
                           Reference (optional)
                         </label>
                         <input
@@ -560,7 +643,10 @@ export default function BillingInvoiceDetailPage() {
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="payment-notes" className="block text-sm font-medium text-white/60 mb-1.5">
+                      <label
+                        htmlFor="payment-notes"
+                        className="block text-sm font-medium text-white/60 mb-1.5"
+                      >
                         Notes (optional)
                       </label>
                       <textarea
@@ -598,26 +684,34 @@ export default function BillingInvoiceDetailPage() {
             <div className="space-y-6">
               {/* Payment Summary */}
               <div className="bg-dark-primary rounded-3xl p-6 shadow-lg border border-brand/30 invoice-section">
-                <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Payment Summary</h3>
+                <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
+                  Payment Summary
+                </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-white/60 text-sm">Invoice Total</span>
-                    <span className="text-white font-medium tabular-nums">{formatCurrency(invoice.total_amount, invoice.currency)}</span>
+                    <span className="text-white font-medium tabular-nums">
+                      {formatCurrency(invoice.total_amount, invoice.currency)}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-white/60 text-sm">Total Paid</span>
-                    <span className="text-brand font-medium tabular-nums">{formatCurrency(totalPaid, invoice.currency)}</span>
+                    <span className="text-brand font-medium tabular-nums">
+                      {formatCurrency(totalPaid, invoice.currency)}
+                    </span>
                   </div>
                   <div className="h-px bg-white/5 my-2" />
                   <div className="flex justify-between items-center">
                     <span className="text-white font-semibold text-sm">Balance Due</span>
-                    <span className={`text-xl font-bold tabular-nums ${
-                      remainingBalance === 0
-                        ? 'text-brand'
-                        : displayStatus === 'overdue'
-                        ? 'text-red-400'
-                        : 'text-brand'
-                    }`}>
+                    <span
+                      className={`text-xl font-bold tabular-nums ${
+                        remainingBalance === 0
+                          ? 'text-brand'
+                          : displayStatus === 'overdue'
+                            ? 'text-red-400'
+                            : 'text-brand'
+                      }`}
+                    >
                       {formatCurrency(remainingBalance, invoice.currency)}
                     </span>
                   </div>
@@ -632,11 +726,13 @@ export default function BillingInvoiceDetailPage() {
                           displayStatus === 'overdue'
                             ? 'bg-red-400'
                             : totalPaid / invoice.total_amount < 0.5
-                            ? 'bg-yellow-400'
-                            : 'bg-brand'
+                              ? 'bg-yellow-400'
+                              : 'bg-brand'
                         }`}
                         // Dynamic collected-percentage width; cannot be a static Tailwind class
-                        style={{ width: `${Math.min((totalPaid / invoice.total_amount) * 100, 100)}%` }}
+                        style={{
+                          width: `${Math.min((totalPaid / invoice.total_amount) * 100, 100)}%`,
+                        }}
                       />
                     </div>
                     <p className="text-white/60 text-xs mt-1.5 tabular-nums">
@@ -648,7 +744,9 @@ export default function BillingInvoiceDetailPage() {
 
               {/* Actions */}
               <div className="bg-dark-primary rounded-3xl p-6 shadow-lg border border-white/10 no-print">
-                <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Actions</h3>
+                <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
+                  Actions
+                </h3>
                 <div className="space-y-2.5">
                   {!isSettled && (
                     <>

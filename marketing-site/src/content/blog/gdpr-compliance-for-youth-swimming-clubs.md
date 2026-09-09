@@ -1,23 +1,23 @@
 ---
-title: "GDPR Compliance for Youth Swimming Clubs: A Practical Guide"
+title: 'GDPR Compliance for Youth Swimming Clubs: A Practical Guide'
 description: "A practical GDPR guide for UK swimming clubs: lawful basis, children's data, photo consent, data retention and the steps to stay compliant."
 pubDate: 2026-02-20
 updatedDate: 2026-06-20
-author: "Swimly Team"
-tags: ["GDPR", "data protection", "compliance", "swim clubs", "safeguarding"]
+author: 'Swimly Team'
+tags: ['GDPR', 'data protection', 'compliance', 'swim clubs', 'safeguarding']
 faqItems:
-  - question: "Does GDPR apply to a small swimming club?"
+  - question: 'Does GDPR apply to a small swimming club?'
     answer: "Yes. The UK GDPR and the Data Protection Act 2018 apply to every organisation that processes personal data, whatever its size. A small voluntary club that holds members' names, contact details and medical information must comply. For most clubs this means documenting what they already do and tightening a few processes, not hiring specialists."
-  - question: "Does a swimming club need a data protection officer?"
-    answer: "Most clubs do not. Under UK GDPR a statutory data protection officer is only required for public authorities or organisations whose core activities involve large-scale monitoring or large-scale processing of special category data. A typical swimming club does not meet that threshold, but it should still name a committee member as the point of contact for data protection queries."
-  - question: "Do swimming clubs need consent to take photographs at galas?"
-    answer: "A parent filming their own child for personal use falls outside GDPR. Photos or videos taken for club purposes, such as the website or social media, do require consent. Clubs should have a photography policy that sets out what images are used for, who may take them, and how parents give or withdraw consent, usually through the membership form."
+  - question: 'Does a swimming club need a data protection officer?'
+    answer: 'Most clubs do not. Under UK GDPR a statutory data protection officer is only required for public authorities or organisations whose core activities involve large-scale monitoring or large-scale processing of special category data. A typical swimming club does not meet that threshold, but it should still name a committee member as the point of contact for data protection queries.'
+  - question: 'Do swimming clubs need consent to take photographs at galas?'
+    answer: 'A parent filming their own child for personal use falls outside GDPR. Photos or videos taken for club purposes, such as the website or social media, do require consent. Clubs should have a photography policy that sets out what images are used for, who may take them, and how parents give or withdraw consent, usually through the membership form.'
   - question: "How long should a swimming club keep members' data?"
-    answer: "Only as long as necessary. Active membership records are kept for the duration of membership plus a short period afterwards; financial records for six years as HMRC requires; safeguarding records in line with Swim England and local safeguarding guidance. When a family leaves, their data should be deleted or anonymised unless there is a lawful reason to keep it."
-  - question: "When must a swimming club report a data breach to the ICO?"
+    answer: 'Only as long as necessary. Active membership records are kept for the duration of membership plus a short period afterwards; financial records for six years as HMRC requires; safeguarding records in line with Swim England and local safeguarding guidance. When a family leaves, their data should be deleted or anonymised unless there is a lawful reason to keep it.'
+  - question: 'When must a swimming club report a data breach to the ICO?'
     answer: "Within 72 hours, if the breach is likely to result in a risk to people's rights and freedoms. Minor breaches, such as a single misdirected email, usually do not need reporting but should still be documented. If the risk to individuals is high, the club must also notify the people affected."
-  - question: "Can a swimming club keep copies of DBS certificates?"
-    answer: "DBS guidance recommends not retaining copies of certificates. Clubs should record the certificate number and the date it was verified, then return or securely destroy the physical document. The recorded details are enough to track renewals without holding criminal-record data longer than needed."
+  - question: 'Can a swimming club keep copies of DBS certificates?'
+    answer: 'DBS guidance recommends not retaining copies of certificates. Clubs should record the certificate number and the date it was verified, then return or securely destroy the physical document. The recorded details are enough to track renewals without holding criminal-record data longer than needed.'
 ---
 
 Data protection is one of those topics that most swimming club committees know they should take seriously but are not entirely sure how to approach. The UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018 apply to every organisation that processes personal data, and that includes your local swimming club.
@@ -146,6 +146,7 @@ When you share data with a third party that processes it on your behalf (such as
 GDPR requires that you take appropriate technical and organisational measures to protect personal data. For a swimming club, this means:
 
 **Technical measures:**
+
 - Use strong, unique passwords for all systems and change them regularly.
 - Enable two-factor authentication where available.
 - Keep software and systems up to date with security patches.
@@ -153,6 +154,7 @@ GDPR requires that you take appropriate technical and organisational measures to
 - Encrypt sensitive data, particularly when sending it by email.
 
 **Organisational measures:**
+
 - Limit access to personal data to those who genuinely need it.
 - Train committee members and volunteers on data protection responsibilities.
 - Have a clear desk and clear screen policy for devices used to access club data.

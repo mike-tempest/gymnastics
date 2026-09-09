@@ -16,11 +16,13 @@ The quickest way to run the entire stack locally.
 ### Steps
 
 1. Copy the environment file:
+
    ```bash
    cp .env.example .env
    ```
 
 2. Build and start all services:
+
    ```bash
    docker compose up --build
    ```
@@ -29,12 +31,12 @@ The quickest way to run the entire stack locally.
 
 ### What Starts
 
-| Service | URL | Description |
-|---------|-----|-------------|
-| Web app | http://localhost:3000 | Next.js frontend |
-| Membership API | http://localhost:3001/api | NestJS membership service |
-| Notifications API | http://localhost:3005 | NestJS notifications service |
-| PostgreSQL | localhost:5432 | Database |
+| Service           | URL                       | Description                  |
+| ----------------- | ------------------------- | ---------------------------- |
+| Web app           | http://localhost:3000     | Next.js frontend             |
+| Membership API    | http://localhost:3001/api | NestJS membership service    |
+| Notifications API | http://localhost:3005     | NestJS notifications service |
+| PostgreSQL        | localhost:5432            | Database                     |
 
 ### Useful Commands
 
@@ -70,6 +72,7 @@ Install these first:
 - **Docker Desktop**: [docker.com](https://www.docker.com/) (still needed for PostgreSQL)
 
 Verify installation:
+
 ```bash
 node --version    # Should be v20.x.x+
 pnpm --version    # Should be 8.15.x+
@@ -79,6 +82,7 @@ docker --version  # Should be 24.x.x+
 ### Steps
 
 1. Clone and install dependencies:
+
    ```bash
    git clone https://github.com/your-org/swim-nexus.git
    cd swim-nexus
@@ -86,17 +90,21 @@ docker --version  # Should be 24.x.x+
    ```
 
 2. Copy environment variables:
+
    ```bash
    cp .env.example .env
    ```
+
    Edit `.env` if needed (defaults work for local development).
 
 3. Start infrastructure (PostgreSQL, Redis, MinIO, MailHog, Kong):
+
    ```bash
    ./scripts/setup-dev-env.sh
    ```
 
 4. Start the application:
+
    ```bash
    pnpm dev
    ```
@@ -107,12 +115,12 @@ docker --version  # Should be 24.x.x+
 
 ## Services Overview
 
-| Service | Port | Notes |
-|---------|------|-------|
-| Next.js web app | 3000 | Main frontend |
-| Membership API | 3001 | `/api` global prefix |
-| Notifications API | 3005 | No global prefix |
-| PostgreSQL | 5432 | Primary data store |
+| Service           | Port | Notes                |
+| ----------------- | ---- | -------------------- |
+| Next.js web app   | 3000 | Main frontend        |
+| Membership API    | 3001 | `/api` global prefix |
+| Notifications API | 3005 | No global prefix     |
+| PostgreSQL        | 5432 | Primary data store   |
 
 ---
 
@@ -120,12 +128,12 @@ docker --version  # Should be 24.x.x+
 
 After seeding, the following accounts are available:
 
-| Role | Email | Password |
-|------|-------|----------|
-| Admin | `admin@test.com` | `password` |
+| Role      | Email                | Password   |
+| --------- | -------------------- | ---------- |
+| Admin     | `admin@test.com`     | `password` |
 | Treasurer | `treasurer@test.com` | `password` |
-| Coach | `coach@test.com` | `password` |
-| Parent | `parent@test.com` | `password` |
+| Coach     | `coach@test.com`     | `password` |
+| Parent    | `parent@test.com`    | `password` |
 
 ---
 

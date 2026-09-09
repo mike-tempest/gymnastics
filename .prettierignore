@@ -1,0 +1,21 @@
+# Generated dependencies, build output and test reports.
+**/node_modules/**
+**/dist/**
+**/build/**
+**/.next/**
+**/out/**
+**/.astro/**
+**/.turbo/**
+**/coverage/**
+**/playwright-report/**
+**/test-results/**
+
+# Stale agent copies must not be edited (AGENTS.md).
+.Codex/worktrees/**
+
+# Historical migrations and swimming meet parsers are protected by AGENTS.md.
+**/database/migrations/**
+**/parsers/hy3-parser.ts
+**/parsers/hy3-parser.spec.ts
+**/parsers/sportsystems-parser.ts
+**/parsers/sportsystems-parser.spec.ts

@@ -56,12 +56,16 @@ jest.mock('@/lib/api/clubs', () => ({
 
 // Import after mocking
 import { getFamilies } from '@/lib/api/families';
-import { getFinanceDashboard, getOverdueInvoices, FinanceDashboard, InvoiceWithDetails } from '@/lib/api/finance';
+import {
+  getFinanceDashboard,
+  getOverdueInvoices,
+  FinanceDashboard,
+  InvoiceWithDetails,
+} from '@/lib/api/finance';
 import { getMembers } from '@/lib/api/members';
 import { getUpcomingSessions, getRecentSessions } from '@/lib/api/sessions';
 
 import Home from '../app/page';
-
 
 // The dashboard reads the club region through React Query, so renders need a
 // QueryClientProvider. Wrap every render in a fresh client to isolate tests.
@@ -77,9 +81,13 @@ function renderWithClient(ui: ReactElement) {
 
 const mockGetMembers = getMembers as jest.MockedFunction<typeof getMembers>;
 const mockGetFamilies = getFamilies as jest.MockedFunction<typeof getFamilies>;
-const mockGetUpcomingSessions = getUpcomingSessions as jest.MockedFunction<typeof getUpcomingSessions>;
+const mockGetUpcomingSessions = getUpcomingSessions as jest.MockedFunction<
+  typeof getUpcomingSessions
+>;
 const mockGetRecentSessions = getRecentSessions as jest.MockedFunction<typeof getRecentSessions>;
-const mockGetFinanceDashboard = getFinanceDashboard as jest.MockedFunction<typeof getFinanceDashboard>;
+const mockGetFinanceDashboard = getFinanceDashboard as jest.MockedFunction<
+  typeof getFinanceDashboard
+>;
 const mockGetOverdueInvoices = getOverdueInvoices as jest.MockedFunction<typeof getOverdueInvoices>;
 
 const mockMembers = [
@@ -248,9 +256,7 @@ describe('Dashboard Page', () => {
   // paragraph, whereas the quick-nav label is inside an anchor, so we can single
   // out the metric card by excluding any match nested in a link.
   function getMembersMetricCard() {
-    const membersLabel = screen
-      .getAllByText('Gymnasts')
-      .find((el) => el.closest('a') === null);
+    const membersLabel = screen.getAllByText('Gymnasts').find((el) => el.closest('a') === null);
     expect(membersLabel).toBeDefined();
     return membersLabel!.closest('div');
   }

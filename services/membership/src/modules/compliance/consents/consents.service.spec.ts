@@ -43,6 +43,7 @@ describe('ConsentsService', () => {
     count: jest.fn(),
     countByStatus: jest.fn(),
     countByType: jest.fn(),
+    countGrantedConsentTypesPerMember: jest.fn(),
   };
 
   const mockEmailService = {
@@ -340,6 +341,44 @@ describe('ConsentsService', () => {
     });
   });
 
+  describe('getCoverage', () => {
+    it('should ask the repository about the required consent types only', async () => {
+      mockRepository.countGrantedConsentTypesPerMember.mockResolvedValue([]);
+
+      const result = await service.getCoverage();
+
+      expect(mockRepository.countGrantedConsentTypesPerMember).toHaveBeenCalledWith([
+        ConsentType.MEDICAL_TREATMENT,
+        ConsentType.PHOTOGRAPHY,
+        ConsentType.DATA_SHARING,
+      ]);
+      expect(result.requiredTypes).toBe(3);
+    });
+
+    it('should split members into complete and partial by how many they hold', async () => {
+      mockRepository.countGrantedConsentTypesPerMember.mockResolvedValue([
+        { memberId: 'member-1', grantedTypes: 3 },
+        { memberId: 'member-2', grantedTypes: 3 },
+        { memberId: 'member-3', grantedTypes: 2 },
+        { memberId: 'member-4', grantedTypes: 1 },
+      ]);
+
+      const result = await service.getCoverage();
+
+      expect(result.complete).toBe(2);
+      expect(result.partial).toBe(2);
+    });
+
+    it('should count no members when nothing is on file', async () => {
+      mockRepository.countGrantedConsentTypesPerMember.mockResolvedValue([]);
+
+      const result = await service.getCoverage();
+
+      expect(result.complete).toBe(0);
+      expect(result.partial).toBe(0);
+    });
+  });
+
   describe('getPendingConsents', () => {
     it('should return pending consents', async () => {
       const pendingConsent = { ...mockConsent, status: ConsentStatus.PENDING };
@@ -449,9 +488,7 @@ describe('ConsentsService', () => {
 
       expect(mockEmailService.sendConsentExpiryWarning).toHaveBeenCalledTimes(1);
       const payload = mockEmailService.sendConsentExpiryWarning.mock.calls[0][0];
-      expect(payload.complianceRequirements).toBe(
-        'GDPR and Swim England Wavepower requirements',
-      );
+      expect(payload.complianceRequirements).toBe('GDPR and Swim England Wavepower requirements');
     });
 
     it('uses privacy-law/Safe Sport compliance wording for a US club', async () => {

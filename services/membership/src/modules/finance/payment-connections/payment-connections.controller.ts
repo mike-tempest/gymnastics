@@ -4,10 +4,7 @@ import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Roles } from '../../auth/decorators/roles.decorator';
 import { UserRole } from '../../users/entities/user.entity';
 import { TenantContextService } from '../../../common/tenancy/tenant-context.service';
-import {
-  PaymentConnectionStatusPayload,
-  StripeConnectService,
-} from './stripe-connect.service';
+import { PaymentConnectionStatusPayload, StripeConnectService } from './stripe-connect.service';
 
 /**
  * Admin endpoints for a club's payment provider connection.

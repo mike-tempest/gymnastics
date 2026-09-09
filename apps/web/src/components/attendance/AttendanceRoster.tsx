@@ -36,7 +36,11 @@ const STATUS_LABELS: Record<string, string> = {
   excused: 'Excused',
 };
 
-export default function AttendanceRoster({ sessionId, sessionName, squadName }: AttendanceRosterProps) {
+export default function AttendanceRoster({
+  sessionId,
+  sessionName,
+  squadName,
+}: AttendanceRosterProps) {
   const queryClient = useQueryClient();
   const [selectedMember, setSelectedMember] = useState<SessionRosterEntry | null>(null);
   const [showBulkSuccess, setShowBulkSuccess] = useState(false);
@@ -55,10 +59,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
     refetchInterval: 30_000,
   });
 
-  const memberIds = useMemo(
-    () => roster.map((r) => r.member_id),
-    [roster],
-  );
+  const memberIds = useMemo(() => roster.map((r) => r.member_id), [roster]);
 
   const today = new Date().toISOString().split('T')[0];
   const { data: readinessData } = useQuery({
@@ -79,8 +80,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
   }, [readinessData]);
 
   const checkInMutation = useMutation({
-    mutationFn: ({ memberId }: { memberId: string }) =>
-      checkInMember(sessionId, memberId),
+    mutationFn: ({ memberId }: { memberId: string }) => checkInMember(sessionId, memberId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['session-attendance', sessionId] });
       toast.success('Attendance recorded');
@@ -160,10 +160,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
     return c;
   }, [roster]);
 
-  const unmarkedMembers = useMemo(
-    () => roster.filter((record) => !record.status),
-    [roster]
-  );
+  const unmarkedMembers = useMemo(() => roster.filter((record) => !record.status), [roster]);
 
   function handleQuickPresent(record: SessionRosterEntry) {
     if (record.attendance_id) {
@@ -293,7 +290,8 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
         <div className="p-3 rounded-xl border animate-in slide-in-from-top-2 duration-200 no-print bg-success/15 border-success/30 text-success">
           <p className="text-sm font-medium text-center flex items-center justify-center gap-1.5">
             <Check className="w-4 h-4" />
-            Marked {unmarkedMembers.length} {unmarkedMembers.length !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER} as present
+            Marked {unmarkedMembers.length}{' '}
+            {unmarkedMembers.length !== 1 ? MEMBER_NOUN_PLURAL_LOWER : MEMBER_NOUN_LOWER} as present
           </p>
         </div>
       )}
@@ -321,7 +319,9 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
       <table className="print-only print-roster-table hidden">
         <thead>
           <tr>
-            <th className="print-checkbox-cell" aria-label="Tick">&nbsp;</th>
+            <th className="print-checkbox-cell" aria-label="Tick">
+              &nbsp;
+            </th>
             <th className="w-8">#</th>
             <th>{MEMBER_NOUN}</th>
             {squadName && <th>Squad</th>}
@@ -333,7 +333,8 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
           {roster.map((record, index) => (
             <tr key={record.member_id}>
               <td className="print-checkbox-cell">
-                {record.status === AttendanceStatus.PRESENT || record.status === AttendanceStatus.LATE ? (
+                {record.status === AttendanceStatus.PRESENT ||
+                record.status === AttendanceStatus.LATE ? (
                   <span className="print-checkbox-checked">&times;</span>
                 ) : (
                   <span className="print-checkbox" />
@@ -359,9 +360,7 @@ export default function AttendanceRoster({ sessionId, sessionName, squadName }: 
         updateMutation.isError ||
         bulkMarkMutation.isError) && (
         <div className="p-4 rounded-xl border border-danger/20 text-center no-print bg-danger/10">
-          <p className="text-danger text-sm">
-            Failed to update attendance. Please try again.
-          </p>
+          <p className="text-danger text-sm">Failed to update attendance. Please try again.</p>
         </div>
       )}
 

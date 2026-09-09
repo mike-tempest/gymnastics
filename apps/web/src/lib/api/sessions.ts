@@ -80,7 +80,10 @@ export async function getSessionStatistics(): Promise<SessionStatistics> {
 
 // ==================== Date Range Query ====================
 
-export async function getSessionsByDateRange(startDate: string, endDate: string): Promise<Session[]> {
+export async function getSessionsByDateRange(
+  startDate: string,
+  endDate: string
+): Promise<Session[]> {
   const params = new URLSearchParams({ start_date: startDate, end_date: endDate });
   return api.get<Session[]>(`/sessions?${params.toString()}`, { cache: 'no-store' });
 }

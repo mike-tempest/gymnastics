@@ -177,9 +177,7 @@ describe('WebhooksController', () => {
 
     it('keeps processing later events after skipping an unknown account', async () => {
       mockVerifier.parse.mockReturnValue(sampleEvents);
-      mockVerifier.accountRefOf
-        .mockReturnValueOnce('OR_unknown')
-        .mockReturnValueOnce('OR123');
+      mockVerifier.accountRefOf.mockReturnValueOnce('OR_unknown').mockReturnValueOnce('OR123');
       mockConnections.findByExternalAccountId
         .mockResolvedValueOnce(null)
         .mockResolvedValueOnce({ club_id: 'club-abc' });

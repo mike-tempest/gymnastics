@@ -54,11 +54,11 @@ The fixture corrects that too.
 
 ## Pages that are deliberately not captured
 
-| Page | Why |
-| --- | --- |
-| Compliance | Built around DBS checks, which exist only in the UK. |
-| Admin dashboard | Renders two empty cards for every club. See below. |
-| Attendance | The register defaults to the next session and no swimmers are assigned to sessions in the demo data, so it renders an empty state. |
+| Page             | Why                                                                                                                                                          |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Compliance       | Built around DBS checks, which exist only in the UK.                                                                                                         |
+| Admin dashboard  | Renders two empty cards for every club. See below.                                                                                                           |
+| Attendance       | The register defaults to the next session and no swimmers are assigned to sessions in the demo data, so it renders an empty state.                           |
 | Parent dashboard | `parent.service.ts` asks `Swimmer` for a `squad` relation the entity does not define, so it 500s. `/parent/invoices` takes a different path and does render. |
 
 ### The dashboard would be the best screenshot of the set
@@ -70,7 +70,7 @@ Two product bugs stop it being usable:
    tenant context is established, and `GET /finance/dashboard` 500s for every
    club. The "This month" card falls back to "No billing activity yet".
 2. `calculateAttendanceRate()` in `apps/web/src/app/page.tsx` is passed
-   *upcoming* sessions, which cannot have attendance recorded against them yet,
+   _upcoming_ sessions, which cannot have attendance recorded against them yet,
    so the attendance card reads "No attendance recorded this week" permanently.
 
 Fix those two and add the dashboard back to `PAGES` in the capture script.

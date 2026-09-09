@@ -1,9 +1,9 @@
 ---
-title: "Gala Day Survival Guide for New Swim Parents"
+title: 'Gala Day Survival Guide for New Swim Parents'
 description: "Your child's first swimming gala? Here's what to expect, what to bring, and how to survive the waiting, the nerves, and the marshalling chaos."
-pubDate: "2026-02-28"
-author: "Mike Tempest"
-tags: ["swim parents", "galas", "competitive swimming", "first gala"]
+pubDate: '2026-02-28'
+author: 'Mike Tempest'
+tags: ['swim parents', 'galas', 'competitive swimming', 'first gala']
 ---
 
 If you're reading this the night before your child's first gala, you're probably wondering what you've got yourself into. Don't worry — every swim parent has been there. Here's what nobody tells you about gala day.
@@ -19,6 +19,7 @@ If it's an away gala at an unfamiliar pool, add another 15 minutes. Finding the 
 ## What to Bring
 
 **For Your Swimmer:**
+
 - Two towels (one for warm-up, one for after)
 - Club kit and spare costume (in case of strap disaster)
 - Hat and goggles (plus spare goggles)
@@ -28,6 +29,7 @@ If it's an away gala at an unfamiliar pool, add another 15 minutes. Finding the 
 - Shammy (that weird synthetic towel thing — ask your coach)
 
 **For You:**
+
 - The heat sheet (print it or have it on your phone)
 - Folding chair (trust me)
 - Layers — you'll be cold, then hot, then cold again
@@ -72,6 +74,7 @@ This is fine. Your child won't care. They're focused on their time, not whether 
 ## The Waiting Game
 
 Between races, your child will be:
+
 - Sitting with their squad wrapped in towels
 - Eating snacks
 - Watching teammates race
@@ -79,6 +82,7 @@ Between races, your child will be:
 - Possibly getting coached on technique or race strategy
 
 You will be:
+
 - Sitting in the stands wondering when the next event starts
 - Trying not to fall asleep during the 9-10 girls 50m backstroke when your child doesn't swim until event 23
 - Drinking lukewarm coffee
@@ -118,6 +122,7 @@ Medal ceremonies happen at the end of each age group session or at the end of th
 Not tips on their stroke. Not comparison to other swimmers. Not a post-race analysis.
 
 They need:
+
 - You to be there
 - A hug (or a high-five if they're in the "don't touch me, Mum" phase)
 - Something to eat on the drive home
@@ -140,6 +145,7 @@ It's not glamorous. It's not efficient. But it's ours.
 Every club does galas slightly differently. Some have team managers who corral the swimmers. Some expect parents to help with timekeeping. Some provide squad gazebos or team tents.
 
 **Ask your coach:**
+
 - Where should my child meet the squad?
 - What time should we actually arrive?
 - Will there be a team manager or should my child self-marshal?
@@ -157,7 +163,6 @@ Welcome to the world of competitive swimming. Bring a good book and a sense of h
 ---
 
 **Managing a swim club or just trying to keep up with gala entries, payments, and Swim England admin?** Swimly handles [membership](/features/membership), [billing](/features/billing), and [compliance](/features/compliance) so your committee can focus on the swimmers. [Join the Swimly waitlist](/) and we'll let you know when the [competition management](/features/competitions) module is ready.
-
 
 ---
 

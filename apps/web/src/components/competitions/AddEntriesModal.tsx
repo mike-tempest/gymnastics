@@ -38,7 +38,9 @@ export default function AddEntriesModal({ onClose, onSubmit }: AddEntriesModalPr
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    getMembers().then(setMembers).catch(() => {});
+    getMembers()
+      .then(setMembers)
+      .catch(() => {});
 
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -52,9 +54,7 @@ export default function AddEntriesModal({ onClose, onSubmit }: AddEntriesModalPr
   }, [onClose]);
 
   function updateEntry(index: number, field: string, value: string | number | undefined) {
-    setEntries((prev) =>
-      prev.map((e, i) => (i === index ? { ...e, [field]: value } : e)),
-    );
+    setEntries((prev) => prev.map((e, i) => (i === index ? { ...e, [field]: value } : e)));
   }
 
   function addRow() {
@@ -85,14 +85,15 @@ export default function AddEntriesModal({ onClose, onSubmit }: AddEntriesModalPr
           entry_time: entry.entry_time || undefined,
           seed_time: entry.seed_time || undefined,
           age_group: entry.age_group || undefined,
-        })),
+        }))
       );
     } finally {
       setIsSubmitting(false);
     }
   }
 
-  const inputCls = 'w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand/50';
+  const inputCls =
+    'w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand/50';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -100,18 +101,28 @@ export default function AddEntriesModal({ onClose, onSubmit }: AddEntriesModalPr
       <div className="relative bg-dark-primary border border-white/10 rounded-2xl shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 bg-dark-primary border-b border-white/10 px-6 py-4 flex items-center justify-between z-10">
           <h2 className="text-lg font-bold text-white">Add Entries</h2>
-          <button onClick={onClose} className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors">
+          <button
+            onClick={onClose}
+            className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors"
+          >
             <X className="w-5 h-5 text-white/70" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {entries.map((entry, index) => (
-            <div key={entry.key} className="bg-white/5 rounded-xl p-4 border border-white/10 space-y-3">
+            <div
+              key={entry.key}
+              className="bg-white/5 rounded-xl p-4 border border-white/10 space-y-3"
+            >
               <div className="flex items-center justify-between">
                 <span className="text-xs text-white/40 font-medium">Entry {index + 1}</span>
                 {entries.length > 1 && (
-                  <button type="button" onClick={() => removeRow(index)} className="p-1 hover:bg-white/10 rounded">
+                  <button
+                    type="button"
+                    onClick={() => removeRow(index)}
+                    className="p-1 hover:bg-white/10 rounded"
+                  >
                     <Trash2 className="w-4 h-4 text-red-400" />
                   </button>
                 )}
@@ -155,7 +166,9 @@ export default function AddEntriesModal({ onClose, onSubmit }: AddEntriesModalPr
                     required
                   >
                     {DISTANCES.map((d) => (
-                      <option key={d} value={d}>{d}m</option>
+                      <option key={d} value={d}>
+                        {d}m
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -169,7 +182,9 @@ export default function AddEntriesModal({ onClose, onSubmit }: AddEntriesModalPr
                     required
                   >
                     {STROKES.map((s) => (
-                      <option key={s} value={s}>{s}</option>
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -180,7 +195,13 @@ export default function AddEntriesModal({ onClose, onSubmit }: AddEntriesModalPr
                     type="number"
                     step="0.01"
                     value={entry.entry_time ?? ''}
-                    onChange={(e) => updateEntry(index, 'entry_time', e.target.value ? Number(e.target.value) : undefined)}
+                    onChange={(e) =>
+                      updateEntry(
+                        index,
+                        'entry_time',
+                        e.target.value ? Number(e.target.value) : undefined
+                      )
+                    }
                     placeholder="e.g. 62.34"
                     className={inputCls}
                   />
@@ -192,7 +213,13 @@ export default function AddEntriesModal({ onClose, onSubmit }: AddEntriesModalPr
                     type="number"
                     step="0.01"
                     value={entry.seed_time ?? ''}
-                    onChange={(e) => updateEntry(index, 'seed_time', e.target.value ? Number(e.target.value) : undefined)}
+                    onChange={(e) =>
+                      updateEntry(
+                        index,
+                        'seed_time',
+                        e.target.value ? Number(e.target.value) : undefined
+                      )
+                    }
                     placeholder="e.g. 63.10"
                     className={inputCls}
                   />
@@ -212,16 +239,30 @@ export default function AddEntriesModal({ onClose, onSubmit }: AddEntriesModalPr
             </div>
           ))}
 
-          <button type="button" onClick={addRow} className="w-full flex items-center justify-center gap-2 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-medium rounded-xl transition-colors">
+          <button
+            type="button"
+            onClick={addRow}
+            className="w-full flex items-center justify-center gap-2 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-medium rounded-xl transition-colors"
+          >
             <Plus className="w-4 h-4" /> Add another entry
           </button>
 
           <div className="flex gap-3 pt-2">
-            <button type="button" onClick={onClose} className="flex-1 py-3 min-h-[44px] bg-white/5 hover:bg-white/10 text-white/70 font-medium rounded-xl transition-colors">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 py-3 min-h-[44px] bg-white/5 hover:bg-white/10 text-white/70 font-medium rounded-xl transition-colors"
+            >
               Cancel
             </button>
-            <button type="submit" disabled={isSubmitting} className="flex-1 py-3 min-h-[44px] bg-brand hover:bg-brand-light disabled:opacity-50 text-dark-primary font-bold rounded-xl transition-colors">
-              {isSubmitting ? 'Adding...' : `Add ${entries.filter((e) => e.member_id).length} ${entries.filter((e) => e.member_id).length === 1 ? 'Entry' : 'Entries'}`}
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="flex-1 py-3 min-h-[44px] bg-brand hover:bg-brand-light disabled:opacity-50 text-dark-primary font-bold rounded-xl transition-colors"
+            >
+              {isSubmitting
+                ? 'Adding...'
+                : `Add ${entries.filter((e) => e.member_id).length} ${entries.filter((e) => e.member_id).length === 1 ? 'Entry' : 'Entries'}`}
             </button>
           </div>
         </form>

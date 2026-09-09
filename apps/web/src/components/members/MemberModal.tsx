@@ -1,6 +1,5 @@
 'use client';
 
-
 import {
   Member,
   Squad,
@@ -23,20 +22,41 @@ import { MEMBER_NOUN, MEMBER_NOUN_LOWER } from '@/lib/brand';
 
 const memberSchema = z
   .object({
-    first_name: z.string().min(1, 'Please enter a first name').max(100, 'First name must be under 100 characters'),
-    last_name: z.string().min(1, 'Please enter a last name').max(100, 'Last name must be under 100 characters'),
-    dob: z.string().min(1, 'Please select a date of birth').refine((val) => {
-      if (!val) return true;
-      const date = new Date(val);
-      return date <= new Date();
-    }, 'Date of birth cannot be in the future'),
+    first_name: z
+      .string()
+      .min(1, 'Please enter a first name')
+      .max(100, 'First name must be under 100 characters'),
+    last_name: z
+      .string()
+      .min(1, 'Please enter a last name')
+      .max(100, 'Last name must be under 100 characters'),
+    dob: z
+      .string()
+      .min(1, 'Please select a date of birth')
+      .refine((val) => {
+        if (!val) return true;
+        const date = new Date(val);
+        return date <= new Date();
+      }, 'Date of birth cannot be in the future'),
     gender: z.enum(['M', 'F', 'X'], { errorMap: () => ({ message: 'Please select a gender' }) }),
     governing_body: z.nativeEnum(GoverningBody).or(z.literal('')).optional(),
-    registration_number: z.string().max(20, 'Registration number must be under 20 characters').optional().or(z.literal('')),
+    registration_number: z
+      .string()
+      .max(20, 'Registration number must be under 20 characters')
+      .optional()
+      .or(z.literal('')),
     squad_id: z.string().min(1, 'Please select a squad'),
     discipline: z.nativeEnum(Discipline).or(z.literal('')).optional(),
-    medical_notes: z.string().max(2000, 'Medical notes must be under 2000 characters').optional().or(z.literal('')),
-    emergency_contact: z.string().max(200, 'Emergency contact must be under 200 characters').optional().or(z.literal('')),
+    medical_notes: z
+      .string()
+      .max(2000, 'Medical notes must be under 2000 characters')
+      .optional()
+      .or(z.literal('')),
+    emergency_contact: z
+      .string()
+      .max(200, 'Emergency contact must be under 200 characters')
+      .optional()
+      .or(z.literal('')),
   })
   .superRefine((data, ctx) => {
     // A registration number and its governing body must be provided together.
@@ -136,7 +156,9 @@ export default function MemberModal({
       setSquadsLoading(true);
       getSquads()
         .then(setSquads)
-        .catch(() => { /* squad load failed - dropdown will be empty */ })
+        .catch(() => {
+          /* squad load failed - dropdown will be empty */
+        })
         .finally(() => setSquadsLoading(false));
     }
   }, [isOpen]);
@@ -257,7 +279,9 @@ export default function MemberModal({
               {member ? `Edit ${MEMBER_NOUN}` : `Add New ${MEMBER_NOUN}`}
             </h2>
             <p className="text-white/70">
-              {member ? `Update ${MEMBER_NOUN_LOWER} information` : `Enter ${MEMBER_NOUN_LOWER} details to add to your roster`}
+              {member
+                ? `Update ${MEMBER_NOUN_LOWER} information`
+                : `Enter ${MEMBER_NOUN_LOWER} details to add to your roster`}
             </p>
           </div>
           <button
@@ -364,9 +388,11 @@ export default function MemberModal({
             {/* Governing Body and Registration Number Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="governing_body" className="block text-sm font-semibold text-white mb-2">
-                  Governing Body{' '}
-                  <span className="text-text-tertiary font-normal">(Optional)</span>
+                <label
+                  htmlFor="governing_body"
+                  className="block text-sm font-semibold text-white mb-2"
+                >
+                  Governing Body <span className="text-text-tertiary font-normal">(Optional)</span>
                 </label>
                 <select
                   {...register('governing_body')}
@@ -387,7 +413,10 @@ export default function MemberModal({
               </div>
 
               <div>
-                <label htmlFor="registration_number" className="block text-sm font-semibold text-white mb-2">
+                <label
+                  htmlFor="registration_number"
+                  className="block text-sm font-semibold text-white mb-2"
+                >
                   {registrationNumberLabel}{' '}
                   <span className="text-text-tertiary font-normal">(Optional)</span>
                 </label>
@@ -416,9 +445,7 @@ export default function MemberModal({
                 className={inputClassName(!!errors.squad_id)}
                 disabled={isSubmitting || squadsLoading}
               >
-                <option value="">
-                  {squadsLoading ? 'Loading squads...' : 'Select a squad'}
-                </option>
+                <option value="">{squadsLoading ? 'Loading squads...' : 'Select a squad'}</option>
                 {squads.map((squad) => (
                   <option key={squad.squad_id} value={squad.squad_id}>
                     {squad.squad_name}
@@ -455,9 +482,11 @@ export default function MemberModal({
 
             {/* Emergency Contact */}
             <div>
-              <label htmlFor="emergency_contact" className="block text-sm font-semibold text-white mb-2">
-                Emergency Contact{' '}
-                <span className="text-text-tertiary font-normal">(Optional)</span>
+              <label
+                htmlFor="emergency_contact"
+                className="block text-sm font-semibold text-white mb-2"
+              >
+                Emergency Contact <span className="text-text-tertiary font-normal">(Optional)</span>
               </label>
               <input
                 {...register('emergency_contact')}
@@ -474,9 +503,11 @@ export default function MemberModal({
 
             {/* Medical Notes */}
             <div>
-              <label htmlFor="medical_notes" className="block text-sm font-semibold text-white mb-2">
-                Medical Notes{' '}
-                <span className="text-text-tertiary font-normal">(Optional)</span>
+              <label
+                htmlFor="medical_notes"
+                className="block text-sm font-semibold text-white mb-2"
+              >
+                Medical Notes <span className="text-text-tertiary font-normal">(Optional)</span>
               </label>
               <textarea
                 {...register('medical_notes')}

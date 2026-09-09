@@ -1,6 +1,12 @@
 'use client';
 
-import { Competition, CompetitionType, CompetitionStatus, Course, QualifyingTime } from '@club-manager/shared-types';
+import {
+  Competition,
+  CompetitionType,
+  CompetitionStatus,
+  Course,
+  QualifyingTime,
+} from '@club-manager/shared-types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus, Trash2 } from 'lucide-react';
 import { useEffect, useRef } from 'react';
@@ -8,7 +14,11 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 
 import { useClubRegion } from '@/hooks/useClubRegion';
-import { competitionTypeLabels, formatSwimTime, parseSwimTimeInput } from '@/lib/competitions-utils';
+import {
+  competitionTypeLabels,
+  formatSwimTime,
+  parseSwimTimeInput,
+} from '@/lib/competitions-utils';
 
 const QT_STROKES = ['Freestyle', 'Backstroke', 'Breaststroke', 'Butterfly', 'Individual Medley'];
 const QT_DISTANCES = [25, 50, 100, 200, 400, 800, 1500];
@@ -31,8 +41,11 @@ const competitionSchema = z.object({
         time: z
           .string()
           .min(1, 'Time is required')
-          .refine((value) => parseSwimTimeInput(value) !== null, 'Use a time like 32.50 or 1:05.23'),
-      }),
+          .refine(
+            (value) => parseSwimTimeInput(value) !== null,
+            'Use a time like 32.50 or 1:05.23'
+          ),
+      })
     )
     .optional(),
 });
@@ -74,7 +87,9 @@ export default function CompetitionModal({
   const { country } = useClubRegion();
   const typeLabels = competitionTypeLabels(country);
   const isAU = country === 'AU';
-  const namePlaceholder = isAU ? 'e.g. State Age Championships 2026' : 'e.g. County Championships 2026';
+  const namePlaceholder = isAU
+    ? 'e.g. State Age Championships 2026'
+    : 'e.g. County Championships 2026';
   const organiserPlaceholder = isAU ? 'e.g. Swimming NSW' : 'e.g. County ASA';
 
   const {
@@ -132,7 +147,9 @@ export default function CompetitionModal({
               type: competition.type,
               course: competition.course,
               status: competition.status,
-              entry_deadline: competition.entry_deadline ? competition.entry_deadline.slice(0, 10) : '',
+              entry_deadline: competition.entry_deadline
+                ? competition.entry_deadline.slice(0, 10)
+                : '',
               qualifying_times: qualifyingTimesToForm(competition),
             }
           : {
@@ -218,7 +235,10 @@ export default function CompetitionModal({
         {/* Header */}
         <div className="flex items-center justify-between p-4 sm:p-8 border-b border-white/10">
           <div>
-            <h2 id="competition-modal-title" className="text-2xl sm:text-3xl font-bold text-white mb-1">
+            <h2
+              id="competition-modal-title"
+              className="text-2xl sm:text-3xl font-bold text-white mb-1"
+            >
               {competition ? 'Edit Competition' : 'Add New Competition'}
             </h2>
             <p className="text-text-secondary">
@@ -267,9 +287,7 @@ export default function CompetitionModal({
                 placeholder={namePlaceholder}
                 disabled={isSubmitting}
               />
-              {errors.name && (
-                <p className="mt-2 text-sm text-red-400">{errors.name.message}</p>
-              )}
+              {errors.name && <p className="mt-2 text-sm text-red-400">{errors.name.message}</p>}
             </div>
 
             {/* Type and Course */}
@@ -299,9 +317,7 @@ export default function CompetitionModal({
                     </option>
                   ))}
                 </select>
-                {errors.type && (
-                  <p className="mt-2 text-sm text-red-400">{errors.type.message}</p>
-                )}
+                {errors.type && <p className="mt-2 text-sm text-red-400">{errors.type.message}</p>}
               </div>
 
               <div>
@@ -398,7 +414,10 @@ export default function CompetitionModal({
             {/* Entry Deadline and Status */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="entry_deadline" className="block text-sm font-semibold text-white mb-2">
+                <label
+                  htmlFor="entry_deadline"
+                  className="block text-sm font-semibold text-white mb-2"
+                >
                   Entry Deadline <span className="text-text-tertiary font-normal">(Optional)</span>
                 </label>
                 <input
@@ -438,7 +457,8 @@ export default function CompetitionModal({
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-sm font-semibold text-white">
-                  Qualifying Times <span className="text-text-tertiary font-normal">(Optional)</span>
+                  Qualifying Times{' '}
+                  <span className="text-text-tertiary font-normal">(Optional)</span>
                 </label>
                 <button
                   type="button"
@@ -456,7 +476,10 @@ export default function CompetitionModal({
               ) : (
                 <div className="space-y-2">
                   {qualifyingFields.map((field, index) => (
-                    <div key={field.id} className="grid grid-cols-[1fr_1fr_1fr_auto] gap-2 items-start">
+                    <div
+                      key={field.id}
+                      className="grid grid-cols-[1fr_1fr_1fr_auto] gap-2 items-start"
+                    >
                       <select
                         {...register(`qualifying_times.${index}.distance`)}
                         className={fieldCls(false, true)}
@@ -464,7 +487,9 @@ export default function CompetitionModal({
                         aria-label="Distance"
                       >
                         {QT_DISTANCES.map((d) => (
-                          <option key={d} value={d}>{d}m</option>
+                          <option key={d} value={d}>
+                            {d}m
+                          </option>
                         ))}
                       </select>
                       <select
@@ -474,7 +499,9 @@ export default function CompetitionModal({
                         aria-label="Stroke"
                       >
                         {QT_STROKES.map((s) => (
-                          <option key={s} value={s}>{s}</option>
+                          <option key={s} value={s}>
+                            {s}
+                          </option>
                         ))}
                       </select>
                       <div>

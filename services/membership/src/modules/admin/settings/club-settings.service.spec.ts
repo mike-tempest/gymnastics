@@ -366,9 +366,9 @@ describe('ClubSettingsService', () => {
         // GB club: only Europe/London is valid.
         settingsRepo.findOne.mockResolvedValue({ ...mockSettings });
 
-        await expect(
-          service.updateSettings({ timezone: 'America/Chicago' }),
-        ).rejects.toThrow(BadRequestException);
+        await expect(service.updateSettings({ timezone: 'America/Chicago' })).rejects.toThrow(
+          BadRequestException,
+        );
 
         // Nothing persisted: neither the settings row nor the club row.
         expect(settingsRepo.save).not.toHaveBeenCalled();
@@ -441,9 +441,9 @@ describe('ClubSettingsService', () => {
 
       it('rejects a governing_body that is not valid for the club country with a 400', async () => {
         // GB club: USA_SWIMMING is not a valid choice.
-        await expect(
-          service.updateSettings({ governing_body: 'USA_SWIMMING' }),
-        ).rejects.toThrow(BadRequestException);
+        await expect(service.updateSettings({ governing_body: 'USA_SWIMMING' })).rejects.toThrow(
+          BadRequestException,
+        );
 
         // Nothing persisted.
         expect(settingsRepo.save).not.toHaveBeenCalled();

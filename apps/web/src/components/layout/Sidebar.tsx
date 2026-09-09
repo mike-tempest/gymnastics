@@ -1,6 +1,5 @@
 'use client';
 
-
 import { governingBodyConfig, defaultGoverningBodyForCountry } from '@club-manager/shared-types';
 import {
   Home,
@@ -40,7 +39,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useClubRegion } from '@/hooks/useClubRegion';
 import { MEMBER_NOUN_PLURAL } from '@/lib/brand';
 import { isCompetitionsEnabled } from '@/lib/features';
-import { useRole, isAdmin, isCoach, isParent } from '@/lib/hooks/useRole';
+import { useRole, isAdmin, isCoach, isParent, isWelfareOfficer } from '@/lib/hooks/useRole';
 
 interface NavItem {
   name: string;
@@ -136,6 +135,13 @@ const COACH_NAV_NAMES = new Set([
   'Competitions',
 ]);
 
+// The Welfare Officer's navigation, in the order they need it: compliance is
+// the job, the gymnast list is the context for it. Every entry here is backed
+// by an endpoint the role can already read, so none of them leads to a 403.
+// There is deliberately no wellbeing entry: the only wellbeing screens in the
+// app are the parent ones, and a staff link would lead nowhere.
+const WELFARE_NAV_ORDER = ['Compliance', MEMBER_NOUN_PLURAL];
+
 // Parent navigation (entirely separate set of routes)
 const parentNavEntries: NavEntry[] = [
   { name: 'Dashboard', href: '/parent', icon: Home },
@@ -163,7 +169,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   // The compliance nav item carries the club's own framework short label:
   // "DBS" for GB clubs (unchanged), "WWCC" for Australian clubs.
   const checkShortLabel = governingBodyConfig(
-    club?.governing_body ?? defaultGoverningBodyForCountry(country),
+    club?.governing_body ?? defaultGoverningBodyForCountry(country)
   ).backgroundCheckShortLabel;
 
   const navEntries = useMemo(() => {
@@ -173,10 +179,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           ? {
               ...entry,
               children: entry.children.map((child) =>
-                child.href === '/compliance/dbs' ? { ...child, name: checkShortLabel } : child,
+                child.href === '/compliance/dbs' ? { ...child, name: checkShortLabel } : child
               ),
             }
-          : entry,
+          : entry
       );
 
     if (!role) return [];
@@ -184,6 +190,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     if (isAdmin(role)) return localiseCheckItem(allNavEntries);
     if (isCoach(role)) {
       return localiseCheckItem(allNavEntries.filter((entry) => COACH_NAV_NAMES.has(entry.name)));
+    }
+    if (isWelfareOfficer(role)) {
+      const byName = new Map(allNavEntries.map((entry) => [entry.name, entry]));
+      const welfareEntries = WELFARE_NAV_ORDER.map((name) => byName.get(name)).filter(
+        (entry): entry is NavEntry => entry !== undefined
+      );
+      return localiseCheckItem(welfareEntries);
     }
     return [];
   }, [role, checkShortLabel]);
@@ -255,14 +268,23 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <div className="p-6 border-b border-white/10">
             <Link href="/" onClick={onClose} className="flex items-center space-x-3 group">
               <div>
-                <Image src="/swimly-logo.svg" alt="" width={120} height={32} className="h-8 w-auto" />
+                <Image
+                  src="/swimly-logo.svg"
+                  alt=""
+                  width={120}
+                  height={32}
+                  className="h-8 w-auto"
+                />
                 <p className="text-xs text-grey-300 mt-1">Club Management</p>
               </div>
             </Link>
           </div>
 
           {/* Navigation */}
-          <nav aria-label="Main navigation" className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+          <nav
+            aria-label="Main navigation"
+            className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto"
+          >
             {navEntries.map((entry) => {
               if (isSection(entry)) {
                 const sectionActive = isSectionActive(entry);
@@ -362,9 +384,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-white truncate">{displayName}</p>
-                <p className="text-xs text-grey-300 truncate">
-                  {displayRole || displayEmail}
-                </p>
+                <p className="text-xs text-grey-300 truncate">{displayRole || displayEmail}</p>
               </div>
               <button
                 onClick={() => signOut({ callbackUrl: '/login' })}

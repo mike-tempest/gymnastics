@@ -13,7 +13,7 @@
 // It is a superset of all three, so layouts, sitemaps, pricing and nav/footer
 // all resolve against one shape. See the reconciliation notes at each section.
 
-export type RegionKey = "uk" | "us" | "ca" | "au";
+export type RegionKey = 'uk' | 'us' | 'ca' | 'au';
 
 export interface RegionConfig {
   key: RegionKey;
@@ -37,95 +37,95 @@ export interface RegionConfig {
   pricePrimary: number;
   pricePerformance: number;
   // Copy spelling variant: 'gb' uses British spelling, 'us' American.
-  spelling: "gb" | "us";
+  spelling: 'gb' | 'us';
 }
 
 // Back-compat alias: a couple of importers reference the type as `Region`.
 export type Region = RegionConfig;
 
-export const DEFAULT_REGION: RegionKey = "uk";
+export const DEFAULT_REGION: RegionKey = 'uk';
 
 // Order used for hreflang clusters and any region listings.
-export const REGION_ORDER: RegionKey[] = ["uk", "us", "ca", "au"];
+export const REGION_ORDER: RegionKey[] = ['uk', 'us', 'ca', 'au'];
 
 // International (non-UK) regions.
-export const INTL_REGIONS: RegionKey[] = ["us", "ca", "au"];
+export const INTL_REGIONS: RegionKey[] = ['us', 'ca', 'au'];
 
 // Routes that exist in every region and should therefore advertise a full
 // hreflang cluster. These are matched against the region-relative path
 // (see routeWithinRegion), so they are written without any region prefix.
-export const GLOBAL_ROUTES: string[] = ["/", "/pricing/", "/features/"];
+export const GLOBAL_ROUTES: string[] = ['/', '/pricing/', '/features/'];
 
 export const REGIONS: Record<RegionKey, RegionConfig> = {
   uk: {
-    key: "uk",
-    host: "https://swimly.uk",
-    pathPrefix: "",
-    label: "United Kingdom",
-    locale: "en-GB",
-    currency: "GBP",
-    currencySymbol: "£",
-    governingBody: "Swim England",
-    contactEmail: "hello@swimly.uk",
-    appUrl: "https://app.swimly.uk",
+    key: 'uk',
+    host: 'https://swimly.uk',
+    pathPrefix: '',
+    label: 'United Kingdom',
+    locale: 'en-GB',
+    currency: 'GBP',
+    currencySymbol: '£',
+    governingBody: 'Swim England',
+    contactEmail: 'hello@swimly.uk',
+    appUrl: 'https://app.swimly.uk',
     pricePrimary: 29,
     pricePerformance: 49,
-    spelling: "gb",
+    spelling: 'gb',
   },
   us: {
-    key: "us",
-    host: "https://swimly.club",
-    pathPrefix: "/us",
-    label: "United States",
-    locale: "en-US",
-    currency: "USD",
-    currencySymbol: "$",
-    governingBody: "USA Swimming",
-    contactEmail: "hello@swimly.club",
-    appUrl: "https://app.swimly.uk",
+    key: 'us',
+    host: 'https://swimly.club',
+    pathPrefix: '/us',
+    label: 'United States',
+    locale: 'en-US',
+    currency: 'USD',
+    currencySymbol: '$',
+    governingBody: 'USA Swimming',
+    contactEmail: 'hello@swimly.club',
+    appUrl: 'https://app.swimly.uk',
     pricePrimary: 39,
     pricePerformance: 65,
-    spelling: "us",
+    spelling: 'us',
   },
   ca: {
-    key: "ca",
-    host: "https://swimly.club",
-    pathPrefix: "/ca",
-    label: "Canada",
-    locale: "en-CA",
-    currency: "CAD",
-    currencySymbol: "C$",
-    governingBody: "Swimming Canada",
-    contactEmail: "hello@swimly.club",
-    appUrl: "https://app.swimly.uk",
+    key: 'ca',
+    host: 'https://swimly.club',
+    pathPrefix: '/ca',
+    label: 'Canada',
+    locale: 'en-CA',
+    currency: 'CAD',
+    currencySymbol: 'C$',
+    governingBody: 'Swimming Canada',
+    contactEmail: 'hello@swimly.club',
+    appUrl: 'https://app.swimly.uk',
     pricePrimary: 49,
     pricePerformance: 85,
-    spelling: "gb",
+    spelling: 'gb',
   },
   au: {
-    key: "au",
-    host: "https://swimly.club",
-    pathPrefix: "/au",
-    label: "Australia",
-    locale: "en-AU",
-    currency: "AUD",
-    currencySymbol: "A$",
-    governingBody: "Swimming Australia",
-    contactEmail: "hello@swimly.club",
-    appUrl: "https://app.swimly.uk",
+    key: 'au',
+    host: 'https://swimly.club',
+    pathPrefix: '/au',
+    label: 'Australia',
+    locale: 'en-AU',
+    currency: 'AUD',
+    currencySymbol: 'A$',
+    governingBody: 'Swimming Australia',
+    contactEmail: 'hello@swimly.club',
+    appUrl: 'https://app.swimly.uk',
     pricePrimary: 55,
     pricePerformance: 95,
-    spelling: "gb",
+    spelling: 'gb',
   },
 };
 
 // Normalise a pathname to a leading-slash, always-trailing-slash form so
 // route comparisons are consistent with Astro's trailingSlash: 'always'.
 function normalisePath(pathname: string): string {
-  if (!pathname) return "/";
+  if (!pathname) return '/';
   let p = pathname;
-  if (!p.startsWith("/")) p = `/${p}`;
-  if (p !== "/" && !p.endsWith("/")) p = `${p}/`;
+  if (!p.startsWith('/')) p = `/${p}`;
+  if (p !== '/' && !p.endsWith('/')) p = `${p}/`;
   return p;
 }
 
@@ -151,14 +151,14 @@ export function routeWithinRegion(pathname: string): string {
   const prefix = REGIONS[region].pathPrefix;
   if (!prefix) return p;
   const stripped = p.slice(prefix.length);
-  return normalisePath(stripped || "/");
+  return normalisePath(stripped || '/');
 }
 
 // Build the absolute URL for a region-relative route within a given region.
 function urlForRegionRoute(region: RegionKey, route: string): string {
   const cfg = REGIONS[region];
   const r = normalisePath(route);
-  const path = r === "/" ? `${cfg.pathPrefix}/` : `${cfg.pathPrefix}${r}`;
+  const path = r === '/' ? `${cfg.pathPrefix}/` : `${cfg.pathPrefix}${r}`;
   return new URL(path, cfg.host).href;
 }
 
@@ -173,22 +173,20 @@ export function canonicalFor(pathname: string): string {
 // region switcher and footer. (Unit 7 expected this helper; it existed in
 // neither earlier version.)
 export function regionHomeUrl(region: RegionKey): string {
-  return urlForRegionRoute(region, "/");
+  return urlForRegionRoute(region, '/');
 }
 
 // Build the full hreflang cluster for a region-relative route. Returns one
 // entry per region (in REGION_ORDER) plus an x-default that points at the
 // UK version, matching the previous single-region behaviour.
-export function hreflangCluster(
-  route: string
-): { hreflang: string; href: string }[] {
+export function hreflangCluster(route: string): { hreflang: string; href: string }[] {
   const r = routeWithinRegion(route);
   const cluster = REGION_ORDER.map((region) => ({
     hreflang: REGIONS[region].locale,
     href: urlForRegionRoute(region, r),
   }));
   cluster.push({
-    hreflang: "x-default",
+    hreflang: 'x-default',
     href: urlForRegionRoute(DEFAULT_REGION, r),
   });
   return cluster;
@@ -202,7 +200,7 @@ export function hreflangCluster(
 export function formatPrice(region: RegionKey, amount: number): string {
   const cfg = REGIONS[region];
   return new Intl.NumberFormat(cfg.locale, {
-    style: "currency",
+    style: 'currency',
     currency: cfg.currency,
     minimumFractionDigits: Number.isInteger(amount) ? 0 : 2,
   }).format(amount);

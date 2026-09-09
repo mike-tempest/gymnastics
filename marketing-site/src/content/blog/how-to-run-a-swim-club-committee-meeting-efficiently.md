@@ -1,9 +1,9 @@
 ---
-title: "How to Run a Swim Club Committee Meeting Efficiently"
-description: "Practical advice for swim club committee chairs on running focused, productive meetings. Covers agendas, time management, decision-making, and follow-through."
+title: 'How to Run a Swim Club Committee Meeting Efficiently'
+description: 'Practical advice for swim club committee chairs on running focused, productive meetings. Covers agendas, time management, decision-making, and follow-through.'
 pubDate: 2026-02-17
-author: "Swimly Team"
-tags: ["committee meetings", "swim club governance", "club management", "volunteer management"]
+author: 'Swimly Team'
+tags: ['committee meetings', 'swim club governance', 'club management', 'volunteer management']
 ---
 
 Committee meetings are the engine room of a swimming club. They are where decisions get made, problems get resolved, and plans take shape. They are also, in many clubs, a source of genuine frustration: too long, too unfocused, and too often ending with a list of "items for next meeting" that never seems to get shorter.
@@ -97,7 +97,6 @@ A committee meeting has succeeded if it ends with clear decisions, clear actions
 Running meetings well is a form of respect for your fellow volunteers' time and energy. It is also one of the practical things that distinguishes well-governed clubs from ones that struggle. The technique is not complicated. The discipline to apply it consistently is where most committees fall short.
 
 For swimming clubs looking to reduce the administrative burden between meetings, [Swimly](/) provides a shared view of [membership data](/features/membership/), [finances](/features/billing/), and [compliance records](/features/compliance/) that means the committee spends meeting time on decisions rather than updates.
-
 
 ---
 

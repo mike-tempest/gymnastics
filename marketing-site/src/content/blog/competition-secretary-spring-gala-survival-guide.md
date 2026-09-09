@@ -1,9 +1,9 @@
 ---
 title: "Spring Gala Season: A Competition Secretary's Survival Guide"
 description: "March to May brings 8-12 galas per club. Here's how Competition Secretaries navigate entry chaos, payment tracking, and Hy-Tek files without losing their minds."
-pubDate: "2026-03-07"
-author: "Mike Tempest"
-tags: ["competition secretary", "gala admin", "spring season", "swim club management"]
+pubDate: '2026-03-07'
+author: 'Mike Tempest'
+tags: ['competition secretary', 'gala admin', 'spring season', 'swim club management']
 ---
 
 If you're a Competition Secretary at a UK swim club, March means one thing: the spring gala season has arrived, and it won't stop until May.
@@ -51,6 +51,7 @@ There's no good answer. You make a call and hope.
 You send an email to parents: "County Championships entries due Friday. Reply if your child wants to swim."
 
 What happens next:
+
 - 15 parents reply "yes" immediately
 - 8 parents don't see the email for three days
 - 5 parents reply "maybe, depends on other commitments"
@@ -66,6 +67,7 @@ Meanwhile, coaches want final numbers to plan warm-up logistics. The host club w
 You've submitted entries for 40 swimmers across 6 events each. That's 240 individual swims at £4.50 per event. Total: £1,080.
 
 Now you need to:
+
 1. Calculate what each family owes (some swimmers doing 2 events, some doing 8)
 2. Communicate amounts to parents
 3. Track who's paid
@@ -74,6 +76,7 @@ Now you need to:
 6. Pay the host club by their deadline
 
 Most Comp Secs track this in a spreadsheet. It works until:
+
 - A parent says "I paid last week" but you have no record
 - Two families have the same surname and you're not sure which £27 payment belongs to whom
 - Someone pays via bank transfer with the reference "SWIMMING" (helpful)
@@ -118,6 +121,7 @@ You download the Hy-Tek results file (if the host club sends it — sometimes th
 Then you manually check each swim against the swimmer's previous best time. For a 40-swimmer gala with 6 events each, that's 240 individual comparisons.
 
 **What some clubs do:**
+
 - Import results into Hy-Tek Team Manager (separate software, more cost)
 - Manually update a Google Sheet with PBs
 - Post results to the club Facebook group and let parents figure it out
@@ -132,6 +136,7 @@ Getting from raw Hy-Tek file to that sentence takes work. Some clubs have built 
 ### Email Templates (Copy and Adapt)
 
 **Gala Entry Request (sent 10 days before deadline):**
+
 > Subject: County Championships entries due [DATE]
 >
 > Hi everyone,
@@ -149,6 +154,7 @@ Getting from raw Hy-Tek file to that sentence takes work. Some clubs have built 
 > [Your name], Competition Secretary
 
 **Payment Chaser (sent 3 days after deadline):**
+
 > Subject: Outstanding gala entry fees
 >
 > Hi [Parent Name],
@@ -170,36 +176,42 @@ Getting from raw Hy-Tek file to that sentence takes work. Some clubs have built 
 Print this. Stick it somewhere visible. Tick boxes as you go.
 
 **10 Days Before Entries Close:**
-- [ ] Email parents with gala details and entry deadline  
-- [ ] Confirm with coaches which swimmers should enter (and in what events)  
+
+- [ ] Email parents with gala details and entry deadline
+- [ ] Confirm with coaches which swimmers should enter (and in what events)
 - [ ] Add gala to club calendar and social media
 
 **5 Days Before Entries Close:**
-- [ ] Send reminder email to parents who haven't confirmed  
-- [ ] Start tracking confirmations in spreadsheet  
+
+- [ ] Send reminder email to parents who haven't confirmed
+- [ ] Start tracking confirmations in spreadsheet
 - [ ] Calculate provisional entry fees
 
 **2 Days Before Entries Close:**
-- [ ] Final chase for confirmations  
-- [ ] Prepare entry file (Hy-Tek / spreadsheet / web form)  
+
+- [ ] Final chase for confirmations
+- [ ] Prepare entry file (Hy-Tek / spreadsheet / web form)
 - [ ] Confirm officials availability (avoid the fine)
 
 **Entry Deadline Day:**
-- [ ] Submit entries to host club  
-- [ ] Email parents confirming their child is entered  
-- [ ] Send payment requests with amounts owed  
+
+- [ ] Submit entries to host club
+- [ ] Email parents confirming their child is entered
+- [ ] Send payment requests with amounts owed
 - [ ] Update Treasurer with total amount due
 
 **1 Week Before Gala:**
-- [ ] Chase outstanding payments  
-- [ ] Send gala logistics email (warm-up times, parking, volunteer roles)  
+
+- [ ] Chase outstanding payments
+- [ ] Send gala logistics email (warm-up times, parking, volunteer roles)
 - [ ] Confirm officials with host club
 
 **After Gala:**
-- [ ] Download and import results  
-- [ ] Check for PBs  
-- [ ] Email/post results to parents  
-- [ ] Update club records  
+
+- [ ] Download and import results
+- [ ] Check for PBs
+- [ ] Email/post results to parents
+- [ ] Update club records
 - [ ] Thank volunteers and officials
 
 [Download printable checklist (PDF)](//downloads/gala-entry-checklist.pdf)
@@ -207,6 +219,7 @@ Print this. Stick it somewhere visible. Tick boxes as you go.
 ### What Modern Tools Can Do (And What's Coming)
 
 The best clubs I've seen use:
+
 - **Google Sheets** for entry tracking (shared with coaches and Treasurer)
 - **WhatsApp groups** for last-minute comms (illness, logistics)
 - **Email templates** to save rewriting the same message every gala
@@ -235,8 +248,9 @@ Welcome to being a Competition Secretary.
 ---
 
 **Resources:**
-- [Download: Gala Entry Checklist (PDF)](//downloads/gala-entry-checklist.pdf)  
-- [Hy-Tek Meet Manager Official Site](https://www.hytek.com/)  
+
+- [Download: Gala Entry Checklist (PDF)](//downloads/gala-entry-checklist.pdf)
+- [Hy-Tek Meet Manager Official Site](https://www.hytek.com/)
 - [Swim England: Running Competitions Guidance](https://www.swimming.org/swimengland/)
 
 **FAQs:**

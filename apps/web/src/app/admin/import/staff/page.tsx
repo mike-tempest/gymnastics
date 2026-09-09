@@ -1,6 +1,15 @@
 'use client';
 
-import { Upload, FileCheck, AlertTriangle, CheckCircle2, ArrowLeft, Download, FileSpreadsheet, KeyRound } from 'lucide-react';
+import {
+  Upload,
+  FileCheck,
+  AlertTriangle,
+  CheckCircle2,
+  ArrowLeft,
+  Download,
+  FileSpreadsheet,
+  KeyRound,
+} from 'lucide-react';
 import Link from 'next/link';
 import Papa from 'papaparse';
 import { useCallback, useRef, useState } from 'react';
@@ -129,7 +138,9 @@ export default function StaffImportPage() {
       complete: (results) => {
         if (results.errors.length > 0) {
           const firstError = results.errors[0];
-          setParseError(`CSV parsing error (row ${(firstError.row ?? 0) + 1}): ${firstError.message}`);
+          setParseError(
+            `CSV parsing error (row ${(firstError.row ?? 0) + 1}): ${firstError.message}`
+          );
           return;
         }
 
@@ -139,7 +150,7 @@ export default function StaffImportPage() {
         if (missingRequired.length > 0) {
           setParseError(
             `Missing required columns: ${missingRequired.join(', ')}. ` +
-            `Expected headers: ${EXPECTED_HEADERS.join(', ')}`
+              `Expected headers: ${EXPECTED_HEADERS.join(', ')}`
           );
           setParsedRows([]);
           return;
@@ -229,9 +240,13 @@ export default function StaffImportPage() {
         warningCount: 0,
       });
       if (result.created.length > 0 && (!result.errors || result.errors.length === 0)) {
-        toast.success(`${result.created.length} staff account${result.created.length !== 1 ? 's' : ''} created successfully`);
+        toast.success(
+          `${result.created.length} staff account${result.created.length !== 1 ? 's' : ''} created successfully`
+        );
       } else if (result.created.length > 0) {
-        toast.success(`${result.created.length} staff account${result.created.length !== 1 ? 's' : ''} created with some errors`);
+        toast.success(
+          `${result.created.length} staff account${result.created.length !== 1 ? 's' : ''} created with some errors`
+        );
       } else {
         toast.error('Import failed. No staff accounts were created');
       }
@@ -274,7 +289,9 @@ export default function StaffImportPage() {
                 <ArrowLeft className="w-5 h-5" />
                 <span>Back to Import</span>
               </Link>
-              <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight mb-2">Import Staff</h1>
+              <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight mb-2">
+                Import Staff
+              </h1>
               <p className="text-grey-600 text-lg">
                 Upload a CSV file to create multiple staff accounts at once
               </p>
@@ -301,10 +318,12 @@ export default function StaffImportPage() {
                     Required columns: <span className="text-white font-medium">first_name</span>,{' '}
                     <span className="text-white font-medium">last_name</span>,{' '}
                     <span className="text-white font-medium">email</span> and{' '}
-                    <span className="text-white font-medium">role</span>. All four are required for every row.
+                    <span className="text-white font-medium">role</span>. All four are required for
+                    every row.
                   </p>
                   <p className="text-text-secondary text-sm mb-3">
-                    Role must be one of: <span className="text-white font-medium">{STAFF_ROLES.join(', ')}</span>.
+                    Role must be one of:{' '}
+                    <span className="text-white font-medium">{STAFF_ROLES.join(', ')}</span>.
                   </p>
                   <button
                     onClick={downloadTemplate}
@@ -317,9 +336,7 @@ export default function StaffImportPage() {
 
                 {/* File Upload Area */}
                 <div>
-                  <h3 className="text-lg font-semibold text-white mb-3">
-                    2. Upload your file
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white mb-3">2. Upload your file</h3>
                   <div
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
@@ -403,11 +420,21 @@ export default function StaffImportPage() {
                     <thead>
                       <tr className="bg-dark-primary/80">
                         <th className="px-4 py-3 text-left text-text-secondary font-semibold">#</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">First Name</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Last Name</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Email</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Role</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Status</th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          First Name
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Last Name
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Email
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Role
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Status
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -423,28 +450,36 @@ export default function StaffImportPage() {
                             title={hasRowError ? rowErrors.join(', ') : undefined}
                           >
                             <td className="px-4 py-3 text-text-tertiary">{i + 1}</td>
-                            <td className={`px-4 py-3 ${!row.first_name.trim() ? 'text-red-400 italic' : 'text-white'}`}>
+                            <td
+                              className={`px-4 py-3 ${!row.first_name.trim() ? 'text-red-400 italic' : 'text-white'}`}
+                            >
                               {row.first_name || 'missing'}
                             </td>
-                            <td className={`px-4 py-3 ${!row.last_name.trim() ? 'text-red-400 italic' : 'text-white'}`}>
+                            <td
+                              className={`px-4 py-3 ${!row.last_name.trim() ? 'text-red-400 italic' : 'text-white'}`}
+                            >
                               {row.last_name || 'missing'}
                             </td>
-                            <td className={`px-4 py-3 ${
-                              rowErrors.some((e) => e.toLowerCase().includes('email'))
-                                ? 'text-red-400'
-                                : !row.email.trim()
-                                ? 'text-red-400 italic'
-                                : 'text-white'
-                            }`}>
+                            <td
+                              className={`px-4 py-3 ${
+                                rowErrors.some((e) => e.toLowerCase().includes('email'))
+                                  ? 'text-red-400'
+                                  : !row.email.trim()
+                                    ? 'text-red-400 italic'
+                                    : 'text-white'
+                              }`}
+                            >
                               {row.email || 'missing'}
                             </td>
-                            <td className={`px-4 py-3 ${
-                              rowErrors.some((e) => e.toLowerCase().includes('role'))
-                                ? 'text-red-400'
-                                : !row.role.trim()
-                                ? 'text-red-400 italic'
-                                : 'text-text-secondary'
-                            }`}>
+                            <td
+                              className={`px-4 py-3 ${
+                                rowErrors.some((e) => e.toLowerCase().includes('role'))
+                                  ? 'text-red-400'
+                                  : !row.role.trim()
+                                    ? 'text-red-400 italic'
+                                    : 'text-text-secondary'
+                              }`}
+                            >
                               {row.role || 'missing'}
                             </td>
                             <td className="px-4 py-3">
@@ -515,7 +550,9 @@ export default function StaffImportPage() {
                     <Upload className="w-8 h-8 text-brand animate-pulse" />
                   </div>
                   <h3 className="font-serif text-2xl text-white mb-2">Importing staff...</h3>
-                  <p className="text-text-secondary">Please wait while the staff accounts are being created.</p>
+                  <p className="text-text-secondary">
+                    Please wait while the staff accounts are being created.
+                  </p>
                 </div>
                 <div className="max-w-md mx-auto">
                   <div className="flex items-center justify-between mb-2">
@@ -543,7 +580,8 @@ export default function StaffImportPage() {
                       </div>
                       <h3 className="font-serif text-3xl text-white mb-2">Import Complete</h3>
                       <p className="text-text-secondary">
-                        Successfully created {importResults.successCount} staff account{importResults.successCount !== 1 ? 's' : ''}.
+                        Successfully created {importResults.successCount} staff account
+                        {importResults.successCount !== 1 ? 's' : ''}.
                       </p>
                     </>
                   ) : importResults.successCount > 0 ? (
@@ -551,9 +589,12 @@ export default function StaffImportPage() {
                       <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-yellow-500 bg-opacity-10 flex items-center justify-center">
                         <AlertTriangle className="w-8 h-8 text-yellow-400" />
                       </div>
-                      <h3 className="font-serif text-3xl text-white mb-2">Import Partially Complete</h3>
+                      <h3 className="font-serif text-3xl text-white mb-2">
+                        Import Partially Complete
+                      </h3>
                       <p className="text-text-secondary">
-                        {importResults.successCount} staff account{importResults.successCount !== 1 ? 's' : ''} created successfully.{' '}
+                        {importResults.successCount} staff account
+                        {importResults.successCount !== 1 ? 's' : ''} created successfully.{' '}
                         {importResults.errors.length} failed.
                       </p>
                     </>
@@ -578,7 +619,9 @@ export default function StaffImportPage() {
                   </div>
                   {importResults.errors.length > 0 && (
                     <div className="px-6 py-4 bg-red-500 bg-opacity-10 border border-red-500 border-opacity-30 rounded-xl text-center min-w-[140px]">
-                      <p className="text-red-400 text-3xl font-bold">{importResults.errors.length}</p>
+                      <p className="text-red-400 text-3xl font-bold">
+                        {importResults.errors.length}
+                      </p>
                       <p className="text-text-secondary text-sm">Failed</p>
                     </div>
                   )}
@@ -589,11 +632,13 @@ export default function StaffImportPage() {
                   <div className="bg-brand bg-opacity-10 border border-brand border-opacity-30 rounded-xl p-4 flex items-start space-x-3">
                     <KeyRound className="w-5 h-5 text-brand flex-shrink-0 mt-0.5" />
                     <div>
-                      <h4 className="text-white font-semibold mb-1">Passwords are not set automatically</h4>
+                      <h4 className="text-white font-semibold mb-1">
+                        Passwords are not set automatically
+                      </h4>
                       <p className="text-text-secondary text-sm">
-                        These accounts have been created without a usable password and no email has been sent.
-                        Ask each staff member to use the Forgotten password link on the login page to set
-                        their password before signing in for the first time.
+                        These accounts have been created without a usable password and no email has
+                        been sent. Ask each staff member to use the Forgotten password link on the
+                        login page to set their password before signing in for the first time.
                       </p>
                     </div>
                   </div>
@@ -617,7 +662,8 @@ export default function StaffImportPage() {
                     <ul className="space-y-1">
                       {importResults.errors.map((err, i) => (
                         <li key={i} className="text-red-300 text-sm">
-                          {err.row > 0 ? `Row ${err.row}: ` : ''}{err.message}
+                          {err.row > 0 ? `Row ${err.row}: ` : ''}
+                          {err.message}
                         </li>
                       ))}
                     </ul>

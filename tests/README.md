@@ -5,9 +5,11 @@ This directory contains end-to-end tests for the Swimly application, verifying t
 ## Test Coverage
 
 ### API Endpoint Tests
+
 Location: `services/membership/src/e2e/api.e2e.test.ts`
 
 Tests all major API endpoints:
+
 - Authentication (login, register, profile)
 - Users (15 expected)
 - Members (30 expected)
@@ -20,9 +22,11 @@ Tests all major API endpoints:
 - Communications
 
 ### Frontend Smoke Tests
+
 Location: `tests/frontend-smoke.e2e.test.ts`
 
 Tests web application routes:
+
 - Public routes (login, register) return 200
 - Protected routes redirect to login when unauthenticated (307)
 
@@ -36,6 +40,7 @@ npm run test:e2e
 ```
 
 This runs tests against the Railway staging environment:
+
 - API: http://localhost:3001
 - Web: http://localhost:3000
 
@@ -98,6 +103,7 @@ Each test is independent and does not rely on the execution order of other tests
 ### Success Criteria
 
 All tests should pass when:
+
 - The staging/local environment is running
 - The database contains the expected demo data
 - All API endpoints are accessible
@@ -106,16 +112,19 @@ All tests should pass when:
 ### Common Failures
 
 **401 Unauthorized errors:**
+
 - Check that demo data has been seeded
 - Verify test credentials are correct
 - Ensure JWT secret is consistent
 
 **Connection errors:**
+
 - Verify the API/web servers are running
 - Check firewall/network settings
 - Confirm the URLs are correct
 
 **Data count mismatches:**
+
 - Database may have been modified
 - Re-seed the demo data
 - Check for data migrations that changed counts

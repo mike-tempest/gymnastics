@@ -142,7 +142,7 @@ describe('API Validation', () => {
     it('POST /api/invoices with invalid family_id returns 400 or 404', async () => {
       const res = await authPost('/invoices', adminToken, {
         family_id: '00000000-0000-0000-0000-000000000000',
-        amount: 50.00,
+        amount: 50.0,
         due_date: '2026-03-01',
       });
 
@@ -152,7 +152,7 @@ describe('API Validation', () => {
     it('POST /api/invoices with non-UUID family_id returns 400', async () => {
       const res = await authPost('/invoices', adminToken, {
         family_id: 'not-a-uuid',
-        amount: 50.00,
+        amount: 50.0,
         due_date: '2026-03-01',
       });
 
@@ -161,7 +161,7 @@ describe('API Validation', () => {
 
     it('POST /api/invoices with missing family_id returns 400', async () => {
       const res = await authPost('/invoices', adminToken, {
-        amount: 50.00,
+        amount: 50.0,
         due_date: '2026-03-01',
       });
 

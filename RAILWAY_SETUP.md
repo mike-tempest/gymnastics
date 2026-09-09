@@ -5,7 +5,9 @@
 The following configuration is complete:
 
 ### Environment Variables
+
 All required environment variables are configured in the Railway production environment:
+
 - ✅ `DATABASE_URL` - `postgresql://swimly:***@postgresql.railway.internal:5432/swimly`
 - ✅ `NODE_ENV=production`
 - ✅ `NEXTAUTH_SECRET` - Configured with secure random value
@@ -14,6 +16,7 @@ All required environment variables are configured in the Railway production envi
 - ✅ `NEXT_PUBLIC_API_URL` - Public API endpoint
 
 ### Build Configuration
+
 - ✅ `railway.toml` configured in `apps/web/`
 - ✅ Dockerfile optimised for monorepo deployment
 - ✅ Multi-stage build with standalone output
@@ -27,6 +30,7 @@ All required environment variables are configured in the Railway production envi
 The Web App service needs to be connected to the GitHub repository to enable deployments.
 
 **Steps:**
+
 1. Go to Railway dashboard: https://railway.app/project/26c6f28c-d0ab-4555-8c7a-838f3fe3f3ea
 2. Select the **production** environment
 3. Click on the **Web App** service
@@ -43,6 +47,7 @@ The Web App service needs to be connected to the GitHub repository to enable dep
 ### Trigger Deployment
 
 Once the repository is connected:
+
 1. Railway should automatically trigger a deployment
 2. Or manually click **Deploy** in the service dashboard
 3. Monitor the build logs for any errors
@@ -62,6 +67,7 @@ Once the repository is connected:
 ### Verification
 
 After deployment completes:
+
 1. Check deployment status in Railway dashboard
 2. Visit: https://web-app-production-7a4c.up.railway.app
 3. Verify the app loads correctly
@@ -71,6 +77,7 @@ After deployment completes:
 ## Railway Service IDs
 
 For reference:
+
 - Project ID: `26c6f28c-d0ab-4555-8c7a-838f3fe3f3ea`
 - Production Environment ID: `b3cfcdf2-94b5-4451-b994-25be81a376ce`
 - Web App Service ID: `9396cb64-48c5-44f9-b580-e997f78d60cc`
@@ -79,16 +86,19 @@ For reference:
 ## Troubleshooting
 
 ### Build Failures
+
 - Check build logs in Railway dashboard
 - Verify Dockerfile builds locally: `docker build -f apps/web/Dockerfile .` (from repo root)
 - Ensure all environment variables are set
 
 ### Runtime Errors
+
 - Check service logs in Railway dashboard
 - Verify DATABASE_URL is accessible
 - Check Next.js build output for errors
 
 ### Database Connection Issues
+
 - Ensure PostgreSQL service is running
 - Verify DATABASE_URL reference is correct
 - Check network policies (should be internal by default)

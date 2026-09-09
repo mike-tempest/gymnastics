@@ -113,7 +113,9 @@ function FamiliesPageInner() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
             <div>
-              <h1 className="font-serif text-5xl sm:text-6xl text-dark-primary tracking-tight mb-2">Families</h1>
+              <h1 className="font-serif text-5xl sm:text-6xl text-dark-primary tracking-tight mb-2">
+                Families
+              </h1>
               <p className="text-grey-600 text-lg">Manage family accounts and contacts</p>
             </div>
             <button
@@ -147,21 +149,26 @@ function FamiliesPageInner() {
                   {error ? '—' : families.length}
                   {!error && <span className="text-4xl">+</span>}
                 </h2>
-                <p className="text-grey-600 text-lg">{error ? 'Unable to load' : 'Active Families'}</p>
+                <p className="text-grey-600 text-lg">
+                  {error ? 'Unable to load' : 'Active Families'}
+                </p>
               </div>
               <div className="flex flex-row sm:flex-col gap-4">
                 <div className="bg-brand rounded-3xl p-4 sm:p-6 text-center flex-1 sm:min-w-[180px] shadow-sm">
                   <p className="text-dark-primary text-sm font-semibold mb-1">{`Total ${MEMBER_NOUN_PLURAL}`}</p>
                   <p className="text-dark-primary text-2xl sm:text-4xl font-bold">
-                    {error ? '—' : families.reduce((sum, family) => sum + (family.members?.length || 0), 0)}
+                    {error
+                      ? '—'
+                      : families.reduce((sum, family) => sum + (family.members?.length || 0), 0)}
                   </p>
                 </div>
                 <div className="bg-white rounded-3xl p-4 sm:p-6 text-center flex-1 sm:min-w-[180px]">
                   <p className="text-dark-primary text-sm font-semibold mb-1">Avg per Family</p>
                   <p className="text-dark-primary text-2xl sm:text-4xl font-bold">
-                    {error ? '—' : families.length > 0
-                      ? (
-                          Math.round(
+                    {error
+                      ? '—'
+                      : families.length > 0
+                        ? Math.round(
                             (families.reduce(
                               (sum, family) => sum + (family.members?.length || 0),
                               0
@@ -169,8 +176,7 @@ function FamiliesPageInner() {
                               families.length) *
                               10
                           ) / 10
-                        )
-                      : 0}
+                        : 0}
                   </p>
                 </div>
               </div>
@@ -180,7 +186,9 @@ function FamiliesPageInner() {
           {/* Families List */}
           <div className="bg-dark-primary rounded-3xl shadow-lg p-4 sm:p-8 border border-white/10">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
-              <h2 className="font-serif text-2xl sm:text-4xl text-white tracking-tight">All Families</h2>
+              <h2 className="font-serif text-2xl sm:text-4xl text-white tracking-tight">
+                All Families
+              </h2>
               <div className="flex space-x-2">
                 <button className="px-4 py-2 min-h-[44px] bg-brand text-dark-primary rounded-button font-semibold text-sm">
                   Active
@@ -257,7 +265,8 @@ function FamiliesPageInner() {
               <div className="space-y-4">
                 {searchQuery && (
                   <p className="text-text-secondary text-sm mb-2">
-                    Showing {filteredFamilies.length} of {families.length} {families.length === 1 ? 'family' : 'families'}
+                    Showing {filteredFamilies.length} of {families.length}{' '}
+                    {families.length === 1 ? 'family' : 'families'}
                   </p>
                 )}
                 {filteredFamilies.map((family, index) => (
@@ -281,7 +290,9 @@ function FamiliesPageInner() {
                         </div>
                       </div>
                       <div className="min-w-0">
-                        <h3 className="font-bold text-base sm:text-xl text-white mb-1 truncate">{family.family_name}</h3>
+                        <h3 className="font-bold text-base sm:text-xl text-white mb-1 truncate">
+                          {family.family_name}
+                        </h3>
                         <p className="text-xs sm:text-sm text-text-secondary line-clamp-2 sm:truncate">
                           {family.primary_contact_name} • {family.primary_contact_email}
                           {family.primary_contact_phone && ` • ${family.primary_contact_phone}`}

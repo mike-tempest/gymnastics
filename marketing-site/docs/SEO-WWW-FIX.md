@@ -1,18 +1,22 @@
 # Fixing WWW Redirect — SEO Link Equity Consolidation
 
 ## Problem
+
 Both `www.swimly.uk` and `swimly.uk` are indexed in Google, splitting link equity between two versions of the same content. This dilutes SEO authority and can hurt rankings.
 
 ## Current State ✓
 
 ### What's Working
+
 1. **301 Redirect:** `www.swimly.uk` → `swimly.uk` (permanent redirect)
-2. **Canonical Tags:** All pages have `<link rel="canonical" href="https://swimly.uk/...">` 
+2. **Canonical Tags:** All pages have `<link rel="canonical" href="https://swimly.uk/...">`
 3. **Sitemaps:** All sitemap URLs use `https://swimly.uk/` (no www)
 4. **GSC Property:** Domain property `sc-domain:swimly.uk` (covers both versions)
 
 ### The Issue
+
 Despite proper redirects and canonical tags, Google has already indexed both versions. This is common when:
+
 - Site launched with inconsistent domain usage
 - External sites linked to both www and non-www
 - Google discovered both before canonicals were in place
@@ -30,6 +34,7 @@ Despite proper redirects and canonical tags, Google has already indexed both ver
 5. **Structured data:** All schema.org URLs use non-www
 
 **Verification script:**
+
 ```bash
 cd ~/clawd/projects/swim-team/marketing-site/scripts
 node gsc-verify-canonicals.js
@@ -38,12 +43,14 @@ node gsc-verify-canonicals.js
 ### Phase 2: De-indexing (Manual, 1-2 weeks)
 
 **Option A: Wait for Google (Recommended)**
+
 - Google will eventually de-index www URLs due to canonicals + redirects
 - Timeline: 2-8 weeks typically
 - Zero risk, no API quota usage
 - Monitor weekly via `site:www.swimly.uk` search
 
 **Option B: Manual Removal Requests (Faster)**
+
 1. Go to [Google Search Console](https://search.google.com/search-console)
 2. Select property: `sc-domain:swimly.uk`
 3. Navigate to: **Removals** (left sidebar)
@@ -56,6 +63,7 @@ node gsc-verify-canonicals.js
 This removes www URLs from search results within 1-3 days, but they may reappear if canonicals aren't maintained.
 
 **Option C: robots.txt Disallow (Nuclear Option)**
+
 ```
 # robots.txt
 User-agent: *
@@ -65,11 +73,13 @@ Disallow: /
 User-agent: *
 Allow: /$
 ```
+
 ⚠️ **Not recommended** — Can cause unintended crawl issues.
 
 ### Phase 3: Monitoring (Ongoing)
 
 **Weekly checks:**
+
 ```bash
 # Check www indexation (should decrease over time)
 curl -s "https://www.google.com/search?q=site:www.swimly.uk" | grep "did not match any documents"
@@ -79,12 +89,14 @@ curl -s "https://www.google.com/search?q=site:swimly.uk" -A "Mozilla/5.0" | grep
 ```
 
 **GSC Performance:**
+
 ```bash
 cd ~/clawd/projects/swim-team/marketing-site/scripts
 node gsc-performance.js --days=7
 ```
 
 Look for:
+
 - Declining impressions from www URLs
 - Increasing click-through rate (less confusion from duplicate results)
 - Stable/improving average position
@@ -103,23 +115,25 @@ Look for:
 
 ## Expected Timeline
 
-| Week | Action | Expected Result |
-|------|--------|----------------|
-| 0 | Verify configuration | All signals point to non-www |
-| 1 | Submit GSC removal (optional) | www URLs disappear from search |
-| 2-4 | Google processes canonicals | www index count decreases |
-| 4-8 | Natural de-indexing complete | `site:www.swimly.uk` returns zero results |
+| Week | Action                        | Expected Result                           |
+| ---- | ----------------------------- | ----------------------------------------- |
+| 0    | Verify configuration          | All signals point to non-www              |
+| 1    | Submit GSC removal (optional) | www URLs disappear from search            |
+| 2-4  | Google processes canonicals   | www index count decreases                 |
+| 4-8  | Natural de-indexing complete  | `site:www.swimly.uk` returns zero results |
 
 ## Success Metrics
 
 **Before:**
+
 - `site:www.swimly.uk` → ~1,200 results
 - `site:swimly.uk` → ~1,200 results
 - Link equity split 50/50
 
 **After:**
+
 - `site:www.swimly.uk` → 0 results
-- `site:swimly.uk` → ~1,200+ results  
+- `site:swimly.uk` → ~1,200+ results
 - 100% link equity consolidated
 - Potential 10-30% ranking improvement on competitive keywords
 

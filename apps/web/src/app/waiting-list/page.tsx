@@ -140,7 +140,7 @@ export default function WaitingListPage() {
 
   const handleEnrol = async (row: WaitingListRow) => {
     const squadId = row.pending_offer?.squad_id ?? row.preferred_squad_id ?? null;
-    const squadLabel = squadId ? squadNameById.get(squadId) ?? 'their class' : null;
+    const squadLabel = squadId ? (squadNameById.get(squadId) ?? 'their class') : null;
     const confirmed = await confirm({
       title: `Enrol ${row.child_first_name} ${row.child_last_name}`,
       description: squadLabel
@@ -281,7 +281,11 @@ export default function WaitingListPage() {
           />
 
           {/* Status filter */}
-          <div className="flex flex-wrap gap-2 mb-6" role="tablist" aria-label="Waiting list status">
+          <div
+            className="flex flex-wrap gap-2 mb-6"
+            role="tablist"
+            aria-label="Waiting list status"
+          >
             {STATUS_TABS.map((tab) => (
               <button
                 key={tab.value}

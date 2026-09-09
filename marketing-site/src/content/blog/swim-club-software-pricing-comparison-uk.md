@@ -1,9 +1,9 @@
 ---
-title: "How Much Does Swim Club Management Software Cost in 2026? UK Pricing Compared"
-description: "A transparent comparison of UK swim club management software pricing, covering SwimClub Manager, Club Organiser, Swimly and free alternatives."
+title: 'How Much Does Swim Club Management Software Cost in 2026? UK Pricing Compared'
+description: 'A transparent comparison of UK swim club management software pricing, covering SwimClub Manager, Club Organiser, Swimly and free alternatives.'
 pubDate: 2026-03-21
-author: "Swimly Team"
-tags: ["swim clubs", "software", "pricing", "club management", "committee", "treasurer"]
+author: 'Swimly Team'
+tags: ['swim clubs', 'software', 'pricing', 'club management', 'committee', 'treasurer']
 ---
 
 If your committee is discussing whether to invest in [swim club management software](/swim-club-management-software), the first question is almost always: "How much does it cost?" It is a fair question, but the answer is rarely straightforward. Pricing models vary wildly between providers, and the headline figure often hides additional costs for features, support, or integrations.
@@ -14,13 +14,13 @@ This guide breaks down the real cost of the main UK swim club management softwar
 
 UK swim club management software ranges from **free to around £650 per year**, depending on the provider and your club's size. Budget-conscious committees often start by comparing [Club Organiser](/compare/cluborganiser) against other options to understand the feature-to-cost trade-offs. Here is a quick summary before we dig into the details:
 
-| Software | Approximate Annual Cost | Pricing Model |
-|----------|------------------------|---------------|
-| Swimly | Free (under 50 members), £348/yr (50+) | Flat monthly rate |
-| Club Organiser | ~£300/yr | Monthly subscription |
-| SwimClub Manager | £649/yr | Annual licence |
-| Swim Manager | Contact for pricing | Custom quotes |
-| Spreadsheets | Free (but costly in time) | N/A |
+| Software         | Approximate Annual Cost                | Pricing Model        |
+| ---------------- | -------------------------------------- | -------------------- |
+| Swimly           | Free (under 50 members), £348/yr (50+) | Flat monthly rate    |
+| Club Organiser   | ~£300/yr                               | Monthly subscription |
+| SwimClub Manager | £649/yr                                | Annual licence       |
+| Swim Manager     | Contact for pricing                    | Custom quotes        |
+| Spreadsheets     | Free (but costly in time)              | N/A                  |
 
 These are software-only costs. You will also want to factor in payment processing fees if you use integrated billing (typically 1-2% per transaction for Direct Debit providers like GoCardless).
 
@@ -29,6 +29,7 @@ These are software-only costs. You will also want to factor in payment processin
 [SwimClub Manager](/compare/swimclubmanager) is the most established name in UK swim club software. It has been around for over a decade and holds Swim England API approval.
 
 **What you get for £649/yr:**
+
 - Member database and [registration management](/features/membership)
 - Session and squad management with [attendance tracking](/features/attendance)
 - Swim England API integration (automatic membership syncing)
@@ -37,6 +38,7 @@ These are software-only costs. You will also want to factor in payment processin
 - Financial tracking and invoicing
 
 **What to watch for:**
+
 - The annual cost is fixed regardless of club size, which means smaller clubs (under 100 members) pay the same as clubs with 300+
 - Some clubs report that the interface feels dated compared to newer alternatives
 - Setup and data migration support varies
@@ -48,6 +50,7 @@ For a club with 150 members, that works out at roughly **£4.33 per member per y
 [Club Organiser](/compare/cluborganiser) is a budget-friendly option at **£24.95 per month** (approximately £300 per year). It is aimed at smaller to mid-sized clubs and offers a simpler feature set.
 
 **What you get for ~£300/yr:**
+
 - Member database
 - Session management
 - Hy-Tek and SportSystems file compatibility
@@ -55,6 +58,7 @@ For a club with 150 members, that works out at roughly **£4.33 per member per y
 - Communication tools
 
 **What to watch for:**
+
 - Monthly subscription gives flexibility (no annual lock-in)
 - Feature set is more limited than SwimClub Manager or Swimly
 - Check whether Swim England API integration is included or planned
@@ -66,6 +70,7 @@ For a 150-member club, that is roughly **£2 per member per year**, making it th
 [Swimly](/pricing) takes a different approach to pricing. Clubs with **fewer than 50 members pay nothing**. For clubs with 50 or more members, it is a flat **£29 per month** (£348 per year).
 
 **What you get:**
+
 - Full [member database](/features/membership) with [parent portal](/features/parent-portal)
 - Session management with poolside [attendance tracking](/features/attendance) (mobile-optimised)
 - Automated [billing](/features/billing) with Direct Debit integration
@@ -75,6 +80,7 @@ For a 150-member club, that is roughly **£2 per member per year**, making it th
 - Built-in communication tools
 
 **What makes the pricing different:**
+
 - The free tier means very small clubs or new clubs can use proper software without any budget commitment
 - Flat-rate pricing means no surprises as your club grows (a club with 50 members and a club with 300 members pay the same)
 - No annual contract, cancel any time
@@ -87,6 +93,7 @@ For a 150-member club, that is roughly **£2.32 per member per year**. For a clu
 [TeamUnify](/compare/teamunify) is an American platform that has expanded to the UK market. Pricing is not published on their website, and you need to contact them for a custom quote.
 
 **What to watch for:**
+
 - Built for the US market, adapted for UK clubs
 - Some features may not align with Swim England requirements
 - Contact-only pricing can make budget planning difficult
@@ -97,12 +104,14 @@ For a 150-member club, that is roughly **£2.32 per member per year**. For a clu
 [Swim Manager](/compare/gomotion) does not publish pricing on its website. You need to contact them for a custom quote, which typically means the cost varies based on club size and requirements.
 
 **What you get:**
+
 - Member management
 - Swim England API integration (approved)
 - Mobile app with offline mode
 - Session and squad management
 
 **What to watch for:**
+
 - Contact-only pricing can make budget planning difficult for committees
 - Custom quotes sometimes mean higher costs for features you assumed were included
 - Worth requesting a detailed breakdown of what is and is not included before committing
@@ -123,6 +132,7 @@ The real cost of spreadsheets is not zero. It is hidden in volunteer burnout, pa
 When presenting software costs to your committee, frame it properly:
 
 **Annual software cost** is the headline number, but compare it against:
+
 - Hours your Membership Secretary currently spends on admin (track this for a month)
 - Time your Treasurer spends chasing failed standing orders or cash payments
 - Risk cost of a Wavepower compliance gap or GDPR breach
@@ -154,10 +164,10 @@ Here is a practical framework for your committee:
 
 We built [Swimly](/features) because we are swim parents who saw committees struggling with exactly these decisions. We wanted transparent, affordable pricing with no feature gatekeeping. [Join the founding club programme](/pilot) to get hands-on migration support and help shape the product roadmap.
 
-But we would rather your club use *any* proper software than continue with spreadsheets. If SwimClub Manager or Club Organiser fits your club better, that is genuinely fine. The important thing is that your volunteers stop drowning in admin and your members get a better experience.
+But we would rather your club use _any_ proper software than continue with spreadsheets. If SwimClub Manager or Club Organiser fits your club better, that is genuinely fine. The important thing is that your volunteers stop drowning in admin and your members get a better experience.
 
 [Compare all options](/compare/swimclubmanager) or [see Swimly's pricing](/pricing).
 
 ---
 
-*Have questions about software costs for your club? [Get in touch](/contact) and we will help you work through the numbers, even if you do not end up choosing Swimly. If your club also runs learn-to-swim classes, see our [swim school management](/swim-school-management) features.*
+_Have questions about software costs for your club? [Get in touch](/contact) and we will help you work through the numbers, even if you do not end up choosing Swimly. If your club also runs learn-to-swim classes, see our [swim school management](/swim-school-management) features._

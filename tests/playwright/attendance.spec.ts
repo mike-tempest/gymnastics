@@ -5,12 +5,12 @@ async function login(page) {
   await page.fill('input[type="email"]', process.env.TEST_EMAIL || 'admin@kestrelvalegym.org.uk');
   await page.fill('input[type="password"]', process.env.TEST_PASSWORD || 'Demo2024!');
   const loginResponse = page.waitForResponse(
-    resp => resp.url().includes('/auth/login') && resp.status() === 201,
+    (resp) => resp.url().includes('/auth/login') && resp.status() === 201,
     { timeout: 15000 }
   );
   await page.click('button[type="submit"]');
   await loginResponse;
-  await page.waitForURL(url => !url.pathname.includes('/login'), { timeout: 15000 });
+  await page.waitForURL((url) => !url.pathname.includes('/login'), { timeout: 15000 });
 }
 
 test.describe('Attendance Flow', () => {
@@ -21,7 +21,7 @@ test.describe('Attendance Flow', () => {
   test('should display attendance page and allow marking attendance', async ({ page }) => {
     await page.goto('/attendance');
     await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {});
-    
+
     // Verify page loads
     await page.waitForTimeout(1500);
     const pageContent = page.locator('body');
@@ -43,9 +43,7 @@ test.describe('Attendance Flow', () => {
 
     const values = await selector
       .locator('option')
-      .evaluateAll((options: HTMLOptionElement[]) =>
-        options.map((o) => o.value).filter(Boolean),
-      );
+      .evaluateAll((options: HTMLOptionElement[]) => options.map((o) => o.value).filter(Boolean));
     expect(values.length).toBeGreaterThan(0);
 
     for (const value of values) {

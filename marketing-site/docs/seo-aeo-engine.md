@@ -62,11 +62,11 @@ technical issue is worth more than a thin new post.
      program, traveling) and US terminology (team, season, fees).
    - **United Kingdom (root), Canada (`/ca`), Australia (`/au`):
      Commonwealth/British spelling** (colour, organise, centre, programme).
-   Match the region's governing body and terminology too (Swim England and
-   "gala" for the UK; USA Swimming for the US; Swimming Canada for Canada;
-   Swimming Australia for Australia). The `spelling` field on each region in
-   `src/config/regions.ts` (`'us'` for the US, `'gb'` for the rest) is the
-   source of truth; do not mix spellings within a page.
+     Match the region's governing body and terminology too (Swim England and
+     "gala" for the UK; USA Swimming for the US; Swimming Canada for Canada;
+     Swimming Australia for Australia). The `spelling` field on each region in
+     `src/config/regions.ts` (`'us'` for the US, `'gb'` for the rest) is the
+     source of truth; do not mix spellings within a page.
 4. **Never invent facts, in any region.** Swimly is an early-stage product. Do
    not fabricate statistics, member counts, testimonials, case studies, client
    names, awards, or "trusted by N clubs" claims, for the UK or for the US,
@@ -213,7 +213,7 @@ highest-value genuine gap. Rules:
    `npm run build`. Confirm it builds with no errors and the page count is sensible.
    Do not open a pull request on a broken build.
 5. **Hand off.** Pin the `mike-tempest` token first (hard rule 9): `TKN=$(gh auth
-   token -u mike-tempest)`, and use it for the push and PR. Create a branch
+token -u mike-tempest)`, and use it for the push and PR. Create a branch
    `seo/YYYY-MM-DD-short-slug`. Stage only the files you changed (explicit paths,
    never `git add -A`; the working tree has unrelated changes). Commit with a clear
    message. Push and open a pull request using the token (see hard rule 9) and the
@@ -264,19 +264,19 @@ As of this writing:
 
 ```yaml
 ---
-title: "Keyword-led, specific, under 60 characters where possible"
-description: "Compelling summary, 155 characters or fewer, used as the meta description"
-pubDate: "YYYY-MM-DD"            # required
-updatedDate: "YYYY-MM-DD"        # optional, set when refreshing
-author: "Swimly Team"            # or "Mike Tempest" for first-person pieces
-tags: ["swim clubs", "compliance", "Swim England"]   # reuse the existing vocabulary
-seoTitle: "Optional override if a better search title than the H1 exists"
-seoDescription: "Optional meta-description override"
-faqItems:                        # optional, drives FAQPage schema (AEO)
-  - question: "A real question a user would ask"
-    answer: "A concise, factual, self-contained answer"
-canonical: "https://swimly.uk/..."   # optional; use the region's host (swimly.uk for UK, swimly.club for /us, /ca, /au) and only when pointing elsewhere
-noindex: false                   # optional, true for drafts you do not want indexed
+title: 'Keyword-led, specific, under 60 characters where possible'
+description: 'Compelling summary, 155 characters or fewer, used as the meta description'
+pubDate: 'YYYY-MM-DD' # required
+updatedDate: 'YYYY-MM-DD' # optional, set when refreshing
+author: 'Swimly Team' # or "Mike Tempest" for first-person pieces
+tags: ['swim clubs', 'compliance', 'Swim England'] # reuse the existing vocabulary
+seoTitle: 'Optional override if a better search title than the H1 exists'
+seoDescription: 'Optional meta-description override'
+faqItems: # optional, drives FAQPage schema (AEO)
+  - question: 'A real question a user would ask'
+    answer: 'A concise, factual, self-contained answer'
+canonical: 'https://swimly.uk/...' # optional; use the region's host (swimly.uk for UK, swimly.club for /us, /ca, /au) and only when pointing elsewhere
+noindex: false # optional, true for drafts you do not want indexed
 ---
 ```
 
@@ -288,7 +288,7 @@ links to a relevant Swimly page. British spelling throughout.
 ## SEO conventions
 
 - Slugs: kebab-case, keyword-led, stable. Never rename an existing slug (it breaks
-  links and loses ranking). 
+  links and loses ranking).
 - Internal links: every post should link to relevant siblings and to at least one
   money page (`/features/`, `/pricing/`, a relevant `/compare/` page) where natural.
 - Tags: reuse the existing tag vocabulary rather than inventing near-duplicates.

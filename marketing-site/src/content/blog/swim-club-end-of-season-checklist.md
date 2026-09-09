@@ -1,9 +1,9 @@
 ---
-title: "Swim Club End of Season Checklist: 15 Things Your Committee Should Do Before Summer"
-description: "A practical end-of-season checklist for swim club committees: wrap up finances, membership and safeguarding, and plan for the new season."
-pubDate: "2026-03-16"
-author: "Mike Tempest"
-tags: ["committee", "planning", "compliance"]
+title: 'Swim Club End of Season Checklist: 15 Things Your Committee Should Do Before Summer'
+description: 'A practical end-of-season checklist for swim club committees: wrap up finances, membership and safeguarding, and plan for the new season.'
+pubDate: '2026-03-16'
+author: 'Mike Tempest'
+tags: ['committee', 'planning', 'compliance']
 ---
 
 # Swim Club End of Season Checklist: 15 Things Your Committee Should Do Before Summer

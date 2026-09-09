@@ -5,16 +5,20 @@ import { getToken } from 'next-auth/jwt';
 // Role constants matching backend UserRole enum values (supports both cases)
 const ADMIN_ROLES = ['ADMIN', 'admin', 'super_admin', 'SUPER_ADMIN'];
 const COACH_ROLES = ['COACH', 'coach', 'head_coach', 'HEAD_COACH', 'squad_coach', 'SQUAD_COACH'];
+const WELFARE_ROLES = ['welfare_officer', 'WELFARE_OFFICER'];
 const PARENT_ROLE = 'PARENT';
 
 // Routes accessible by coaches (in addition to admins)
-const COACH_ROUTES = [
-  '/attendance',
-  '/sessions',
-  '/members',
-  '/squads',
-  '/communications',
-];
+const COACH_ROUTES = ['/attendance', '/sessions', '/members', '/squads', '/communications'];
+
+// Routes accessible by the club's Welfare Officer. The compliance screens are
+// their job; the gymnast list is the context for it. Both are backed by
+// endpoints the role can already read.
+const WELFARE_ROUTES = ['/compliance', '/members'];
+
+// The Welfare Officer's landing page. The club dashboard is built on finance
+// figures they have no access to, so send them to compliance instead.
+const WELFARE_HOME = '/compliance';
 
 // Routes restricted to parents only
 const PARENT_ROUTES = ['/parent'];
@@ -25,6 +29,10 @@ function isAdminRole(role: string): boolean {
 
 function isCoachRole(role: string): boolean {
   return COACH_ROLES.includes(role);
+}
+
+function isWelfareRole(role: string): boolean {
+  return WELFARE_ROLES.includes(role);
 }
 
 function matchesRoute(pathname: string, routes: string[]): boolean {
@@ -77,6 +85,17 @@ export async function middleware(request: NextRequest) {
 
     // Unauthorised: redirect coaches to dashboard
     return NextResponse.redirect(new URL('/', request.url));
+  }
+
+  // Welfare Officer access: the compliance module and the gymnast list.
+  // Anything else, including the club dashboard, lands on compliance rather
+  // than bouncing them back to the login screen.
+  if (isWelfareRole(role)) {
+    if (matchesRoute(pathname, WELFARE_ROUTES)) {
+      return NextResponse.next();
+    }
+
+    return NextResponse.redirect(new URL(WELFARE_HOME, request.url));
   }
 
   // Parent access

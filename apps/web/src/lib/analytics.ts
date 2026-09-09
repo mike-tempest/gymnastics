@@ -144,16 +144,9 @@ export type SignupField =
   | 'password'
   | 'confirmPassword';
 
-export type SignupFailureReason =
-  | 'email_taken'
-  | 'slug_taken'
-  | 'validation'
-  | 'server_error';
+export type SignupFailureReason = 'email_taken' | 'slug_taken' | 'validation' | 'server_error';
 
-export type OnboardingExitType =
-  | 'skip_setup_and_explore'
-  | 'navigated_away'
-  | 'logout';
+export type OnboardingExitType = 'skip_setup_and_explore' | 'navigated_away' | 'logout';
 
 export interface OnboardingStep {
   index: number;

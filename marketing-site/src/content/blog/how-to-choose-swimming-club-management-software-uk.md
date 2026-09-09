@@ -2,8 +2,8 @@
 title: "How to Choose Swimming Club Management Software: The UK Committee's Complete Guide"
 description: "From Wavepower compliance to Direct Debit integration, here's everything UK swim club committees need to know before choosing management software in 2026."
 pubDate: 2026-03-15
-author: "Mike Tempest"
-tags: ["swim clubs", "software selection", "committee guide", "UK swimming", "management platform"]
+author: 'Mike Tempest'
+tags: ['swim clubs', 'software selection', 'committee guide', 'UK swimming', 'management platform']
 noindex: true
 ---
 
@@ -13,7 +13,7 @@ Welcome to the most important procurement decision your club will make this deca
 
 Choose well, and you'll save hundreds of committee hours, reduce dropout rates, and make your club more professional. Choose poorly, and you'll spend the next three years fighting with a system that doesn't fit how UK swim clubs actually work.
 
-This guide is for UK swim club committees evaluating management platforms in 2026. Not a sales pitch. Not a feature list. A comprehensive framework for making the right decision for *your* club.
+This guide is for UK swim club committees evaluating management platforms in 2026. Not a sales pitch. Not a feature list. A comprehensive framework for making the right decision for _your_ club.
 
 ## Understanding What You Actually Need
 
@@ -98,6 +98,7 @@ When comparing platforms, check whether systems like [SwimClub Manager](/compare
 UK clubs are data controllers. You hold sensitive personal data (names, addresses, dates of birth, medical information for children). Your platform must help you comply with GDPR, not expose you to risk.
 
 **What to ask:**
+
 - Where is data stored? (UK or EU servers preferred)
 - Can members request their data? (Subject Access Requests)
 - Can members be deleted? (Right to Erasure)
@@ -154,7 +155,7 @@ These add polish but aren't deal-breakers:
 
 **Advanced analytics:** Attendance trends, dropout prediction, engagement scoring. Interesting, but most committees don't have time to act on insights anyway.
 
-### What *Not* to Prioritise
+### What _Not_ to Prioritise
 
 Features that sound impressive in demos but rarely get used:
 
@@ -175,6 +176,7 @@ You've got a shortlist of platforms that fit your requirements. Now you need to 
 Don't evaluate on dummy data. Import 20-30 real members (with permission) and actually use the platform for a week.
 
 **What to test:**
+
 - Import members from your current system
 - Set up squads and sessions
 - Create invoices and test payment collection
@@ -199,6 +201,7 @@ Platforms that can't handle edge cases will create future headaches.
 Ask the platform for references. Specifically request clubs of similar size in your region.
 
 **Questions to ask reference clubs:**
+
 - What's the actual time saving? (Not "it's great," but "our Membership Sec went from 10 hours/week to 2 hours/week")
 - What surprised you after you'd been using it for 6 months?
 - What's support actually like when something breaks?
@@ -210,12 +213,14 @@ Ask the platform for references. Specifically request clubs of similar size in y
 Moving from your current system (even if it's just spreadsheets) to new software is disruptive. How much disruption depends on the platform's onboarding support.
 
 **What good looks like:**
+
 - Dedicated onboarding consultant
 - Data migration handled by the platform (you send them your spreadsheet, they import it correctly)
 - Training for committee members
 - Launch support (they're available during your first week live)
 
 **Red flags:**
+
 - "Here's a guide, good luck"
 - Data import is DIY with no validation
 - Training is just "watch these videos"
@@ -287,18 +292,18 @@ Here's how to make the final call:
 
 Create a simple scorecard:
 
-| Criteria | Weight | Platform A | Platform B | Platform C |
-|----------|--------|------------|------------|------------|
-| Meets must-have features | 30% | | | |
-| UK swim-specific (Swim England, Wavepower) | 25% | | | |
-| Parent experience | 20% | | | |
-| Pricing transparency | 10% | | | |
-| Onboarding quality | 10% | | | |
-| Support quality | 5% | | | |
+| Criteria                                   | Weight | Platform A | Platform B | Platform C |
+| ------------------------------------------ | ------ | ---------- | ---------- | ---------- |
+| Meets must-have features                   | 30%    |            |            |            |
+| UK swim-specific (Swim England, Wavepower) | 25%    |            |            |            |
+| Parent experience                          | 20%    |            |            |            |
+| Pricing transparency                       | 10%    |            |            |            |
+| Onboarding quality                         | 10%    |            |            |            |
+| Support quality                            | 5%     |            |            |            |
 
 Rate each platform 1-10 on each criterion. Multiply by weight. Add up scores.
 
-The highest score wins *unless* there's a strong qualitative reason to override (e.g., your Treasurer absolutely hates the interface of the highest-scoring platform).
+The highest score wins _unless_ there's a strong qualitative reason to override (e.g., your Treasurer absolutely hates the interface of the highest-scoring platform).
 
 ### Run a Committee Vote
 
@@ -322,6 +327,7 @@ The worst they can say is no. Often they'll say yes.
 Don't go live in peak season (September/October). Don't go live right before a major gala. Don't go live during a school holiday when parents aren't checking email.
 
 Ideal launch windows for UK clubs:
+
 - **April/May:** Post-Easter, before summer holidays
 - **Late August:** Just before term starts, when parents are paying attention
 - **January:** New year, new system, fresh start
@@ -334,7 +340,7 @@ Choosing the platform is half the battle. Actually using it well is the other ha
 
 ### Communicate the Change
 
-Parents don't like change. Explain *why* you're switching and *what's better* for them:
+Parents don't like change. Explain _why_ you're switching and _what's better_ for them:
 
 ❌ "We're implementing a new management platform to streamline administrative processes."
 
@@ -369,6 +375,7 @@ Most of these are teething problems, not platform failures. Solve them quickly a
 Did you achieve what you wanted? Are the original pain points solved?
 
 If yes, celebrate. If no, understand why:
+
 - Is it the platform? (Maybe you chose wrong)
 - Is it usage? (Committee not using features properly)
 - Is it configuration? (Settings need adjusting)
@@ -383,7 +390,7 @@ Choosing swim club management software is a significant decision. You'll live wi
 
 Do the research properly. Involve the right people. Test thoroughly. Choose deliberately.
 
-And remember: the goal isn't to find the perfect platform (it doesn't exist). The goal is to find the platform that solves *your* top 3 problems with minimal friction.
+And remember: the goal isn't to find the perfect platform (it doesn't exist). The goal is to find the platform that solves _your_ top 3 problems with minimal friction.
 
 For most UK swim clubs in 2026, that platform is [Swimly](/). Built for how UK clubs actually work. Priced transparently with [clear flat-rate pricing](/pricing). Owned by swim parents who get it. Explore our complete suite of [features](/features) including [membership management](/features/membership/), [automated billing](/features/billing/), [attendance tracking](/features/attendance/), [compliance management](/features/compliance/), and [parent portal](/features/parent-portal/).
 

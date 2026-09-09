@@ -168,10 +168,15 @@ export default function MemberCheckIn({
           >
             {fullName}
           </p>
-          <ReadinessIndicator readiness={readiness ?? null} prefersLandTraining={prefersLandTraining} />
+          <ReadinessIndicator
+            readiness={readiness ?? null}
+            prefersLandTraining={prefersLandTraining}
+          />
         </div>
         {notes && (
-          <p className={`text-xs truncate mt-0.5 ${display ? display.notesClass : 'text-text-tertiary'}`}>
+          <p
+            className={`text-xs truncate mt-0.5 ${display ? display.notesClass : 'text-text-tertiary'}`}
+          >
             {notes}
           </p>
         )}

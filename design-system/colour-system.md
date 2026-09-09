@@ -20,12 +20,12 @@ The authoritative source of truth is `apps/web/tailwind.config.ts` and `apps/web
 
 The sidebar, top bar, and dark cards use a deep teal family rather than near-black.
 
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `dark-primary` | `#0F2D2D` | Deepest teal. Sidebar, dark page surfaces |
-| `dark-secondary` | `#163F3F` | Raised dark panels |
-| `dark-tertiary` / `dark-card` | `#1E5555` | Dark cards on teal |
-| `teal` | `#297373` | Mid teal accent (`teal-light` `#3A9E9E`) |
+| Token                         | Hex       | Usage                                     |
+| ----------------------------- | --------- | ----------------------------------------- |
+| `dark-primary`                | `#0F2D2D` | Deepest teal. Sidebar, dark page surfaces |
+| `dark-secondary`              | `#163F3F` | Raised dark panels                        |
+| `dark-tertiary` / `dark-card` | `#1E5555` | Dark cards on teal                        |
+| `teal`                        | `#297373` | Mid teal accent (`teal-light` `#3A9E9E`)  |
 
 ### Coral (Accent)
 
@@ -54,60 +54,64 @@ The sidebar, top bar, and dark cards use a deep teal family rather than near-bla
 
 ## Semantic Colours
 
-| Role | Token | Hex | Usage |
-|------|-------|-----|-------|
-| Success | `success` | `#85FFC7` | Payment confirmed, mandate approved, attendance marked, compliant |
-| Warning | `warning` | `#FFB020` | Expiring soon, partial payment, pending approval, action needed |
-| Danger | `danger` | `#FF4D4D` | Payment failed, mandate cancelled, non-compliant, error state |
-| Info | `info` | `#4D9FFF` | Informational notices, tips, neutral updates |
-| Inactive | `grey-400` / `grey-500` | `#999999` / `#808080` | Archived, disabled |
+| Role     | Token                   | Hex                   | Usage                                                             |
+| -------- | ----------------------- | --------------------- | ----------------------------------------------------------------- |
+| Success  | `success`               | `#85FFC7`             | Payment confirmed, mandate approved, attendance marked, compliant |
+| Warning  | `warning`               | `#FFB020`             | Expiring soon, partial payment, pending approval, action needed   |
+| Danger   | `danger`                | `#FF4D4D`             | Payment failed, mandate cancelled, non-compliant, error state     |
+| Info     | `info`                  | `#4D9FFF`             | Informational notices, tips, neutral updates                      |
+| Inactive | `grey-400` / `grey-500` | `#999999` / `#808080` | Archived, disabled                                                |
 
 Tailwind: `text-success` / `bg-success`, `text-warning` / `bg-warning`, `text-danger` / `bg-danger`, `text-info` / `bg-info`.
 
 ## Grey Scale
 
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `grey-50` | `#F0F0F0` | Lightest backgrounds |
-| `grey-100` | `#E6E6E6` | Canvas background |
-| `grey-200` | `#CCCCCC` | Borders, dividers |
-| `grey-300` | `#B3B3B3` | Disabled states |
-| `grey-400` | `#999999` | Placeholder text |
-| `grey-500` | `#808080` | Muted text |
-| `grey-600` | `#666666` | Secondary text |
+| Token      | Hex       | Usage                          |
+| ---------- | --------- | ------------------------------ |
+| `grey-50`  | `#F0F0F0` | Lightest backgrounds           |
+| `grey-100` | `#E6E6E6` | Canvas background              |
+| `grey-200` | `#CCCCCC` | Borders, dividers              |
+| `grey-300` | `#B3B3B3` | Disabled states                |
+| `grey-400` | `#999999` | Placeholder text               |
+| `grey-500` | `#808080` | Muted text                     |
+| `grey-600` | `#666666` | Secondary text                 |
 | `grey-700` | `#4D4D4D` | Body text on light backgrounds |
-| `grey-800` | `#39393A` | Graphite. Primary text |
-| `grey-900` | `#2A2A2B` | Darkest grey |
+| `grey-800` | `#39393A` | Graphite. Primary text         |
+| `grey-900` | `#2A2A2B` | Darkest grey                   |
 
 ### Text Colours
 
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `text-text-primary` | `#39393A` | Graphite. Headings, primary body text |
-| `text-text-secondary` | `#666666` | Secondary text, labels |
-| `text-text-tertiary` | `#999999` | Placeholder, disabled text |
+| Token                 | Hex       | Usage                                 |
+| --------------------- | --------- | ------------------------------------- |
+| `text-text-primary`   | `#39393A` | Graphite. Headings, primary body text |
+| `text-text-secondary` | `#666666` | Secondary text, labels                |
+| `text-text-tertiary`  | `#999999` | Placeholder, disabled text            |
 
 ## Status Colour Mapping (Committee Context)
 
 ### Membership Status
+
 - **Active:** Success
 - **Pending renewal:** Warning
 - **Lapsed:** Danger
 - **Inactive/archived:** Grey
 
 ### Payment Status
+
 - **Paid:** Success
 - **Pending:** Info
 - **Overdue:** Danger
 - **Partial:** Warning
 
 ### Compliance Status
+
 - **Compliant (DBS valid, safeguarding current):** Success
 - **Expiring soon (under 30 days):** Warning
 - **Expired:** Danger
 - **Not required:** Grey
 
 ### Session Attendance
+
 - **Present:** Success
 - **Absent (notified):** Grey
 - **Absent (no notice):** Warning
@@ -134,11 +138,13 @@ Tailwind: `text-success` / `bg-success`, `text-warning` / `bg-warning`, `text-da
 ## Accessibility Contrast Requirements
 
 ### WCAG 2.1 AA Minimums
+
 - **Normal text (under 18px):** 4.5:1 contrast ratio
 - **Large text (18px or larger, or 14px bold):** 3:1 contrast ratio
 - **UI components:** 3:1 contrast ratio
 
 ### Guidance
+
 - Graphite text (`#39393A`) on canvas (`#E6E6E6`) and on surface (`#F0F0F0`) passes AA comfortably for body text.
 - Mint (`#85FFC7`) reads well on deep teal (`#0F2D2D`); use mint on dark surfaces, not as text on light surfaces.
 - Lime (`#E8F059`) has very low contrast on the light canvas. Use it for chart accents only, never for text.
@@ -173,6 +179,7 @@ Tailwind: `text-success` / `bg-success`, `text-warning` / `bg-warning`, `text-da
 ## Common Mistakes
 
 ### Wrong
+
 ```html
 <!-- Raw hex and a foreign grey -->
 <button class="bg-[#85FFC7] text-gray-900">Click Me</button>
@@ -182,6 +189,7 @@ Tailwind: `text-success` / `bg-success`, `text-warning` / `bg-warning`, `text-da
 ```
 
 ### Correct
+
 ```html
 <!-- Tokens only; mint is interactive -->
 <button class="bg-brand text-dark-primary font-semibold rounded-button">Click Me</button>

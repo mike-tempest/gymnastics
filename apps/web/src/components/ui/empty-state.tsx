@@ -13,7 +13,16 @@ interface EmptyStateProps {
   features?: string[];
 }
 
-export default function EmptyState({ icon: Icon, title, description, actionLabel, actionHref, actionOnClick, hint, features }: EmptyStateProps) {
+export default function EmptyState({
+  icon: Icon,
+  title,
+  description,
+  actionLabel,
+  actionHref,
+  actionOnClick,
+  hint,
+  features,
+}: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center justify-center py-16 sm:py-20 text-center px-4">
       <div className="w-16 h-16 rounded-2xl bg-brand/10 flex items-center justify-center mb-6">
@@ -21,9 +30,7 @@ export default function EmptyState({ icon: Icon, title, description, actionLabel
       </div>
       <h3 className="font-serif text-2xl sm:text-3xl text-white mb-3">{title}</h3>
       <p className="text-text-secondary text-base mb-2 max-w-md">{description}</p>
-      {hint && (
-        <p className="text-text-tertiary text-sm mb-4 max-w-sm">{hint}</p>
-      )}
+      {hint && <p className="text-text-tertiary text-sm mb-4 max-w-sm">{hint}</p>}
       {features && features.length > 0 && (
         <ul className="mt-4 mb-6 space-y-2 text-left max-w-sm">
           {features.map((feature, index) => (

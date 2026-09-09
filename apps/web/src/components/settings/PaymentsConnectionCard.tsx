@@ -33,13 +33,22 @@ function maskAccountId(accountId: string): string {
 function badgeForStatus(status: PaymentConnectionStatus) {
   switch (status) {
     case 'active':
-      return { label: 'Connected', className: 'bg-success/15 text-success border border-success/40' };
+      return {
+        label: 'Connected',
+        className: 'bg-success/15 text-success border border-success/40',
+      };
     case 'pending':
-      return { label: 'Setup incomplete', className: 'bg-warning/15 text-warning border border-warning/40' };
+      return {
+        label: 'Setup incomplete',
+        className: 'bg-warning/15 text-warning border border-warning/40',
+      };
     case 'restricted':
       return { label: 'Restricted', className: 'bg-danger/15 text-danger border border-danger/40' };
     case 'disconnected':
-      return { label: 'Disconnected', className: 'bg-danger/15 text-danger border border-danger/40' };
+      return {
+        label: 'Disconnected',
+        className: 'bg-danger/15 text-danger border border-danger/40',
+      };
     default:
       return null;
   }
@@ -193,8 +202,8 @@ export function PaymentsConnectionCard() {
       {connection.status === 'none' && (
         <>
           <p className="text-white/60 text-sm">
-            Connect your club&apos;s own Stripe account and payments from parents go directly to
-            the club, with support for card and bank debit payments.
+            Connect your club&apos;s own Stripe account and payments from parents go directly to the
+            club, with support for card and bank debit payments.
           </p>
           {connectButton('Connect with Stripe')}
         </>
@@ -214,7 +223,8 @@ export function PaymentsConnectionCard() {
               ))}
               {hiddenRequirementCount > 0 && (
                 <li>
-                  and {hiddenRequirementCount} more requirement{hiddenRequirementCount > 1 ? 's' : ''}
+                  and {hiddenRequirementCount} more requirement
+                  {hiddenRequirementCount > 1 ? 's' : ''}
                 </li>
               )}
             </ul>
@@ -250,7 +260,9 @@ export function PaymentsConnectionCard() {
                 className={`w-5 h-5 ${connection.capabilities?.charges_enabled ? 'text-success' : 'text-white/30'}`}
               />
               <span className="text-white/80">
-                {connection.capabilities?.charges_enabled ? 'Payments enabled' : 'Payments not yet enabled'}
+                {connection.capabilities?.charges_enabled
+                  ? 'Payments enabled'
+                  : 'Payments not yet enabled'}
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -258,7 +270,9 @@ export function PaymentsConnectionCard() {
                 className={`w-5 h-5 ${connection.capabilities?.payouts_enabled ? 'text-success' : 'text-white/30'}`}
               />
               <span className="text-white/80">
-                {connection.capabilities?.payouts_enabled ? 'Payouts enabled' : 'Payouts not yet enabled'}
+                {connection.capabilities?.payouts_enabled
+                  ? 'Payouts enabled'
+                  : 'Payouts not yet enabled'}
               </span>
             </div>
           </div>

@@ -46,12 +46,12 @@ This opens a browser window. Log in with your Railway account (or create one at 
 
 ### Other tools required
 
-| Tool | Minimum version | Purpose |
-|------|----------------|---------|
-| Node.js | 20 LTS | Local builds and scripts |
-| pnpm | 8.15+ | Monorepo package manager |
-| Docker | Any recent | Local image builds (optional) |
-| Git | Any | Source control |
+| Tool    | Minimum version | Purpose                       |
+| ------- | --------------- | ----------------------------- |
+| Node.js | 20 LTS          | Local builds and scripts      |
+| pnpm    | 8.15+           | Monorepo package manager      |
+| Docker  | Any recent      | Local image builds (optional) |
+| Git     | Any             | Source control                |
 
 ---
 
@@ -59,11 +59,11 @@ This opens a browser window. Log in with your Railway account (or create one at 
 
 Swimly is deployed as three Railway services within a single project, backed by a Railway-managed PostgreSQL database:
 
-| Service | Description | Port | Dockerfile |
-|---------|-------------|------|------------|
-| `web` | Next.js frontend | 3000 | `apps/web/Dockerfile` |
+| Service      | Description           | Port | Dockerfile                            |
+| ------------ | --------------------- | ---- | ------------------------------------- |
+| `web`        | Next.js frontend      | 3000 | `apps/web/Dockerfile`                 |
 | `membership` | NestJS membership API | 3001 | `services/membership/Dockerfile.prod` |
-| `postgres` | PostgreSQL database | 5432 | Railway Plugin (managed) |
+| `postgres`   | PostgreSQL database   | 5432 | Railway Plugin (managed)              |
 
 The `notifications` service exists in the repository as a template store but has no deployable source code yet. It is excluded from the Railway deployment.
 
@@ -118,33 +118,33 @@ Set variables in the Railway dashboard under each service's **Variables** tab. N
 
 ### Membership service variables
 
-| Variable | Required | Description | How to generate |
-|----------|----------|-------------|----------------|
-| `DATABASE_URL` | Yes | Railway PostgreSQL connection string | Set automatically when you link the PostgreSQL plugin |
-| `NODE_ENV` | Yes | Set to `production` | - |
-| `PORT` | Yes | Set to `3001` | - |
-| `JWT_SECRET` | Yes | Signs authentication tokens | `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` |
-| `JWT_EXPIRES_IN` | Yes | Token expiry, e.g. `24h` | - |
-| `CORS_ORIGINS` | Yes | Comma-separated list of allowed frontend origins | e.g. `https://swimly.uk,https://www.swimly.uk` |
-| `EMAIL_HOST` | No | SMTP hostname | Your SMTP provider |
-| `EMAIL_PORT` | No | SMTP port | Usually `587` |
-| `EMAIL_USER` | No | SMTP username | Your SMTP provider |
-| `EMAIL_PASSWORD` | No | SMTP password | Your SMTP provider |
-| `EMAIL_FROM` | No | Sender address | e.g. `noreply@swimly.uk` |
-| `GOCARDLESS_ACCESS_TOKEN` | No | GoCardless API key | GoCardless dashboard |
-| `GOCARDLESS_ENVIRONMENT` | No | `sandbox` or `live` | - |
-| `GOCARDLESS_WEBHOOK_SECRET` | No | Verifies GoCardless webhooks | GoCardless dashboard |
-| `LOG_LEVEL` | No | `warn` for production | - |
+| Variable                    | Required | Description                                      | How to generate                                                            |
+| --------------------------- | -------- | ------------------------------------------------ | -------------------------------------------------------------------------- |
+| `DATABASE_URL`              | Yes      | Railway PostgreSQL connection string             | Set automatically when you link the PostgreSQL plugin                      |
+| `NODE_ENV`                  | Yes      | Set to `production`                              | -                                                                          |
+| `PORT`                      | Yes      | Set to `3001`                                    | -                                                                          |
+| `JWT_SECRET`                | Yes      | Signs authentication tokens                      | `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` |
+| `JWT_EXPIRES_IN`            | Yes      | Token expiry, e.g. `24h`                         | -                                                                          |
+| `CORS_ORIGINS`              | Yes      | Comma-separated list of allowed frontend origins | e.g. `https://swimly.uk,https://www.swimly.uk`                             |
+| `EMAIL_HOST`                | No       | SMTP hostname                                    | Your SMTP provider                                                         |
+| `EMAIL_PORT`                | No       | SMTP port                                        | Usually `587`                                                              |
+| `EMAIL_USER`                | No       | SMTP username                                    | Your SMTP provider                                                         |
+| `EMAIL_PASSWORD`            | No       | SMTP password                                    | Your SMTP provider                                                         |
+| `EMAIL_FROM`                | No       | Sender address                                   | e.g. `noreply@swimly.uk`                                                   |
+| `GOCARDLESS_ACCESS_TOKEN`   | No       | GoCardless API key                               | GoCardless dashboard                                                       |
+| `GOCARDLESS_ENVIRONMENT`    | No       | `sandbox` or `live`                              | -                                                                          |
+| `GOCARDLESS_WEBHOOK_SECRET` | No       | Verifies GoCardless webhooks                     | GoCardless dashboard                                                       |
+| `LOG_LEVEL`                 | No       | `warn` for production                            | -                                                                          |
 
 ### Web service variables
 
-| Variable | Required | Description | Notes |
-|----------|----------|-------------|-------|
-| `NODE_ENV` | Yes | Set to `production` | - |
-| `NEXTAUTH_URL` | Yes | Public URL of the web app | e.g. `https://swimly.uk` |
-| `NEXTAUTH_SECRET` | Yes | NextAuth session secret | `openssl rand -base64 32` |
-| `NEXT_PUBLIC_API_URL` | Yes | Public URL of the membership API | e.g. `https://membership.swimly.uk` or the Railway-generated URL |
-| `MEMBERSHIP_API_URL` | Yes | Private server-side URL of the membership API | Use Railway private networking: `http://membership.railway.internal:3001` |
+| Variable              | Required | Description                                   | Notes                                                                     |
+| --------------------- | -------- | --------------------------------------------- | ------------------------------------------------------------------------- |
+| `NODE_ENV`            | Yes      | Set to `production`                           | -                                                                         |
+| `NEXTAUTH_URL`        | Yes      | Public URL of the web app                     | e.g. `https://swimly.uk`                                                  |
+| `NEXTAUTH_SECRET`     | Yes      | NextAuth session secret                       | `openssl rand -base64 32`                                                 |
+| `NEXT_PUBLIC_API_URL` | Yes      | Public URL of the membership API              | e.g. `https://membership.swimly.uk` or the Railway-generated URL          |
+| `MEMBERSHIP_API_URL`  | Yes      | Private server-side URL of the membership API | Use Railway private networking: `http://membership.railway.internal:3001` |
 
 > **Note on `NEXT_PUBLIC_API_URL` vs `MEMBERSHIP_API_URL`:** The `NEXT_PUBLIC_` prefix makes a variable available in the browser bundle at build time. Use `MEMBERSHIP_API_URL` for server-side calls (e.g. NextAuth) so they go over Railway's private network rather than the public internet.
 
@@ -260,22 +260,22 @@ Railway will display the DNS records to add. Typically:
 
 **Apex domain (swimly.uk):**
 
-| Type | Name | Value |
-|------|------|-------|
-| `CNAME` | `@` | Provided by Railway |
+| Type    | Name | Value               |
+| ------- | ---- | ------------------- |
+| `CNAME` | `@`  | Provided by Railway |
 
 > Some registrars do not support CNAME on the apex. In that case, use Railway's IP addresses with `A` records.
 
 **www subdomain:**
 
-| Type | Name | Value |
-|------|------|-------|
+| Type    | Name  | Value               |
+| ------- | ----- | ------------------- |
 | `CNAME` | `www` | Provided by Railway |
 
 **API subdomain (optional):**
 
-| Type | Name | Value |
-|------|------|-------|
+| Type    | Name  | Value                          |
+| ------- | ----- | ------------------------------ |
 | `CNAME` | `api` | Membership service Railway URL |
 
 Railway provisions TLS certificates via Let's Encrypt automatically once DNS resolves.
@@ -296,15 +296,15 @@ railway variables set CORS_ORIGINS=https://swimly.uk,https://www.swimly.uk --ser
 
 Use separate Railway projects for staging and production.
 
-| Setting | Staging | Production |
-|---------|---------|-----------|
-| Project name | `swimly-staging` | `swimly` |
-| Branch | `develop` or `staging` | `main` |
-| `GOCARDLESS_ENVIRONMENT` | `sandbox` | `live` |
-| `NEXTAUTH_URL` | Railway-generated URL | `https://swimly.uk` |
-| `CORS_ORIGINS` | Railway-generated web URL | `https://swimly.uk,https://www.swimly.uk` |
-| Database | Separate Railway PostgreSQL instance | Separate Railway PostgreSQL instance |
-| Secrets | Test values | Production-grade values only |
+| Setting                  | Staging                              | Production                                |
+| ------------------------ | ------------------------------------ | ----------------------------------------- |
+| Project name             | `swimly-staging`                     | `swimly`                                  |
+| Branch                   | `develop` or `staging`               | `main`                                    |
+| `GOCARDLESS_ENVIRONMENT` | `sandbox`                            | `live`                                    |
+| `NEXTAUTH_URL`           | Railway-generated URL                | `https://swimly.uk`                       |
+| `CORS_ORIGINS`           | Railway-generated web URL            | `https://swimly.uk,https://www.swimly.uk` |
+| Database                 | Separate Railway PostgreSQL instance | Separate Railway PostgreSQL instance      |
+| Secrets                  | Test values                          | Production-grade values only              |
 
 ### Create a staging project
 
@@ -333,6 +333,7 @@ railway logs --service membership
 ```
 
 Common causes:
+
 - `DATABASE_URL` not set or incorrect (check Variables tab in Railway dashboard)
 - Migrations have not been run yet (run them after first deploy)
 - The container is still starting (the health check timeout is 300 seconds)
@@ -368,6 +369,7 @@ Make sure both are set correctly in the Railway web service Variables tab.
 ### Deployment stuck in "Building" state
 
 Check the build logs in the Railway dashboard for errors. Common causes:
+
 - Docker build layer cache issue (trigger a fresh build by clicking **Redeploy** with cache cleared)
 - pnpm lockfile mismatch (run `pnpm install` locally and commit the updated `pnpm-lock.yaml`)
 

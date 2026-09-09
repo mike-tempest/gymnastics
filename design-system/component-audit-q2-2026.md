@@ -9,14 +9,14 @@
 
 ## Audit Summary
 
-| Category | Components Audited | Exists | Partial | Missing | Blockers |
-|----------|-------------------|--------|---------|---------|----------|
-| Competition Module | 6 | 0 | 0 | 6 | 4 |
-| Multi-club Branding | 4 | 0 | 1 | 3 | 2 |
-| Committee Handover | 4 | 0 | 1 | 3 | 3 |
-| Parent Mobile | 4 | 2 | 1 | 1 | 0 |
-| Coach Poolside | 4 | 3 | 0 | 1 | 1 |
-| **Total** | **22** | **5** | **3** | **14** | **10** |
+| Category            | Components Audited | Exists | Partial | Missing | Blockers |
+| ------------------- | ------------------ | ------ | ------- | ------- | -------- |
+| Competition Module  | 6                  | 0      | 0       | 6       | 4        |
+| Multi-club Branding | 4                  | 0      | 1       | 3       | 2        |
+| Committee Handover  | 4                  | 0      | 1       | 3       | 3        |
+| Parent Mobile       | 4                  | 2      | 1       | 1       | 0        |
+| Coach Poolside      | 4                  | 3      | 0       | 1       | 1        |
+| **Total**           | **22**             | **5**  | **3**   | **14**  | **10**   |
 
 **Risk Level:** HIGH — 10 blocker components missing with Q2 sprint starting 1 April
 
@@ -25,6 +25,7 @@
 ## 1. Competition Module (Module 5)
 
 ### 1.1 Meet Card
+
 **Component Name:** `MeetCard.tsx`  
 **Current Status:** Missing  
 **Used In:** Gala management dashboard, upcoming meets list  
@@ -33,6 +34,7 @@
 **Gap Severity:** BLOCKER
 
 **Required Props:**
+
 - `meetName`: string
 - `meetDate`: Date
 - `meetVenue`: string
@@ -43,6 +45,7 @@
 - `onEnterSwimmers`: () => void
 
 **Missing Features:**
+
 - Status badge with colour coding
 - Entry deadline countdown
 - Quick action buttons (view, enter, export)
@@ -51,6 +54,7 @@
 ---
 
 ### 1.2 Entry Form
+
 **Component Name:** `GalaEntryForm.tsx`  
 **Current Status:** Missing  
 **Used In:** Swimmer gala entry flow, coach bulk entry  
@@ -59,6 +63,7 @@
 **Gap Severity:** BLOCKER
 
 **Required Props:**
+
 - `swimmer`: SwimmerProfile
 - `events`: GalaEvent[]
 - `qualifyingTimes`: QualifyingTime[]
@@ -66,6 +71,7 @@
 - `onCancel`: () => void
 
 **Missing Features:**
+
 - Event selection with qualifying time validation
 - Auto-filter events by swimmer age/category
 - Entry time input with format validation (MM:SS.ss)
@@ -76,6 +82,7 @@
 ---
 
 ### 1.3 Qualifying Time Display
+
 **Component Name:** `QualifyingTimeIndicator.tsx`  
 **Current Status:** Missing  
 **Used In:** Event selection, swimmer profile, entry validation  
@@ -84,12 +91,14 @@
 **Gap Severity:** BLOCKER
 
 **Required Props:**
+
 - `swimmerPB`: string (MM:SS.ss format)
 - `qualifyingTime`: string (MM:SS.ss format)
 - `event`: string
 - `showDifference`: boolean
 
 **Missing Features:**
+
 - Visual comparison (PB vs QT)
 - Colour coding (qualified green, close amber, far red)
 - Time difference calculation display
@@ -98,6 +107,7 @@
 ---
 
 ### 1.4 Results Table
+
 **Component Name:** `GalaResultsTable.tsx`  
 **Current Status:** Missing  
 **Used In:** Post-gala results display, swimmer profile history  
@@ -106,12 +116,14 @@
 **Gap Severity:** Nice-to-have (post-event feature)
 
 **Required Props:**
+
 - `results`: GalaResult[]
 - `sortBy`: 'time' | 'place' | 'swimmer'
 - `groupBy`: 'event' | 'swimmer'
 - `showComparison`: boolean (PB comparison)
 
 **Missing Features:**
+
 - Gala-specific columns (heat, lane, place)
 - PB indicator (new PB highlighted)
 - Sortable by multiple columns
@@ -121,6 +133,7 @@
 ---
 
 ### 1.5 File Upload/Download
+
 **Component Name:** `GalaFileManager.tsx`  
 **Current Status:** Missing  
 **Used In:** Entry file export (Hy-Tek), results file import  
@@ -129,6 +142,7 @@
 **Gap Severity:** BLOCKER
 
 **Required Props:**
+
 - `fileType`: 'entry' | 'results'
 - `format`: 'hytek' | 'sportsystems' | 'csv'
 - `onUpload`: (file: File) => void
@@ -136,6 +150,7 @@
 - `uploadProgress?`: number
 
 **Missing Features:**
+
 - Drag-and-drop upload area
 - File format validation
 - Download format selector
@@ -146,6 +161,7 @@
 ---
 
 ### 1.6 Gala Fee Breakdown
+
 **Component Name:** `GalaFeeBreakdown.tsx`  
 **Current Status:** Missing  
 **Used In:** Entry confirmation, parent payment flow  
@@ -154,6 +170,7 @@
 **Gap Severity:** Nice-to-have (can use generic invoice initially)
 
 **Required Props:**
+
 - `events`: SelectedEvent[]
 - `eventFee`: number
 - `convenienceFee`: number
@@ -161,6 +178,7 @@
 - `showBreakdown`: boolean
 
 **Missing Features:**
+
 - Per-event cost line items
 - Convenience fee explanation tooltip
 - Total calculation
@@ -171,6 +189,7 @@
 ## 2. Multi-club Branding
 
 ### 2.1 Club Logo Upload
+
 **Component Name:** `ClubLogoUpload.tsx`  
 **Current Status:** Missing  
 **Used In:** Club settings, multi-club setup wizard  
@@ -179,6 +198,7 @@
 **Gap Severity:** BLOCKER
 
 **Required Props:**
+
 - `currentLogo?`: string (URL)
 - `onUpload`: (file: File) => void
 - `onRemove`: () => void
@@ -186,6 +206,7 @@
 - `acceptedFormats`: string[]
 
 **Missing Features:**
+
 - Image preview before upload
 - Crop/resize tool (simple)
 - Format validation (PNG, SVG, JPG)
@@ -196,6 +217,7 @@
 ---
 
 ### 2.2 Colour Picker
+
 **Component Name:** `BrandColourPicker.tsx`  
 **Current Status:** Partial (generic colour input exists, no brand presets)  
 **Used In:** Club branding settings  
@@ -204,12 +226,14 @@
 **Gap Severity:** Nice-to-have (can use text input initially)
 
 **Required Props:**
+
 - `value`: string (hex)
 - `onChange`: (colour: string) => void
 - `presets?`: string[] (common club colours)
 - `label`: string
 
 **Missing Features:**
+
 - Visual colour swatch picker
 - Preset colour palette (aquatic blues, greens)
 - Hex input with validation
@@ -221,6 +245,7 @@
 ---
 
 ### 2.3 Brand Preview
+
 **Component Name:** `BrandPreview.tsx`  
 **Current Status:** Missing  
 **Used In:** Club settings, before saving branding changes  
@@ -229,12 +254,14 @@
 **Gap Severity:** BLOCKER
 
 **Required Props:**
+
 - `logo`: string (URL)
 - `primaryColour`: string
 - `clubName`: string
 - `previewMode`: 'sidebar' | 'card' | 'full'
 
 **Missing Features:**
+
 - Live preview of logo + colour in UI context
 - Multiple preview modes (sidebar, member card, invoice)
 - Before/after comparison
@@ -243,6 +270,7 @@
 ---
 
 ### 2.4 Theme Switcher
+
 **Component Name:** `ClubThemeSwitcher.tsx`  
 **Current Status:** Missing  
 **Used In:** User preferences (if multi-club volunteer), club selector  
@@ -251,11 +279,13 @@
 **Gap Severity:** Nice-to-have (single-club MVP doesn't need this)
 
 **Required Props:**
+
 - `clubs`: Club[]
 - `activeClub`: Club
 - `onSwitch`: (clubId: string) => void
 
 **Missing Features:**
+
 - Club selector dropdown with logo + name
 - Active club indicator
 - Quick-switch between clubs
@@ -266,6 +296,7 @@
 ## 3. Committee Handover
 
 ### 3.1 Role Assignment Wizard
+
 **Component Name:** `RoleAssignmentWizard.tsx`  
 **Current Status:** Missing  
 **Used In:** Annual handover flow, committee onboarding  
@@ -274,12 +305,14 @@
 **Gap Severity:** BLOCKER
 
 **Required Props:**
+
 - `currentRoles`: CommitteeRole[]
 - `availableMembers`: Member[]
 - `onAssign`: (roleId: string, memberId: string) => void
 - `onComplete`: () => void
 
 **Missing Features:**
+
 - Step-by-step wizard (5-7 steps for key roles)
 - Current vs new role comparison
 - Member search and selection
@@ -290,6 +323,7 @@
 ---
 
 ### 3.2 Permission Matrix
+
 **Component Name:** `PermissionMatrix.tsx`  
 **Current Status:** Partial (role data exists, no visual matrix UI)  
 **Used In:** Role management, security audit  
@@ -298,6 +332,7 @@
 **Gap Severity:** BLOCKER
 
 **Required Props:**
+
 - `roles`: Role[]
 - `permissions`: Permission[]
 - `matrix`: RolePermissionMap
@@ -305,6 +340,7 @@
 - `onChange?`: (roleId: string, permissionId: string, value: boolean) => void
 
 **Missing Features:**
+
 - 2D matrix grid (roles × permissions)
 - Visual checkboxes (read/write/none)
 - Tooltips explaining permissions
@@ -316,6 +352,7 @@
 ---
 
 ### 3.3 Handover Confirmation
+
 **Component Name:** `HandoverConfirmation.tsx`  
 **Current Status:** Missing  
 **Used In:** Final step of handover wizard  
@@ -324,6 +361,7 @@
 **Gap Severity:** BLOCKER
 
 **Required Props:**
+
 - `outgoingRoles`: RoleChange[]
 - `incomingRoles`: RoleChange[]
 - `effectiveDate`: Date
@@ -331,6 +369,7 @@
 - `onCancel`: () => void
 
 **Missing Features:**
+
 - Summary of all role changes
 - Outgoing members confirmation
 - Incoming members notification preview
@@ -340,6 +379,7 @@
 ---
 
 ### 3.4 Audit Log Viewer
+
 **Component Name:** `AuditLogViewer.tsx`  
 **Current Status:** Missing  
 **Used In:** Governance dashboard, security review  
@@ -348,11 +388,13 @@
 **Gap Severity:** Nice-to-have (governance feature, not MVP)
 
 **Required Props:**
+
 - `logs`: AuditLogEntry[]
 - `filters`: LogFilter
 - `onFilter`: (filter: LogFilter) => void
 
 **Missing Features:**
+
 - Filterable table (date, user, action, resource)
 - Search by user or action type
 - Export to CSV for compliance
@@ -364,6 +406,7 @@
 ## 4. Parent Mobile
 
 ### 4.1 Session Card
+
 **Component Name:** `SessionCard.tsx` (exists in `/components/sessions/`)  
 **Current Status:** Exists  
 **Used In:** Parent dashboard, today's sessions view  
@@ -372,10 +415,12 @@
 **Gap Severity:** N/A
 
 **Existing Props:**
+
 - `session`: Session
 - `onViewDetails`: () => void
 
 **Enhancements Needed:**
+
 - Add "Add to Calendar" button
 - Show coach name
 - Swimming pool address with map link
@@ -383,6 +428,7 @@
 ---
 
 ### 4.2 Swimmer Profile
+
 **Component Name:** `SwimmerProfileCard.tsx`  
 **Current Status:** Partial (data exists, parent-view card missing)  
 **Used In:** Parent dashboard (per child)  
@@ -391,12 +437,14 @@
 **Gap Severity:** Nice-to-have (data accessible via other routes)
 
 **Required Props:**
+
 - `swimmer`: Swimmer
 - `squad`: Squad
 - `nextSession`: Session
 - `recentPBs`: PersonalBest[]
 
 **Missing Features:**
+
 - Avatar/initials circle
 - Next session display
 - Recent PBs section (last 3)
@@ -407,6 +455,7 @@
 ---
 
 ### 4.3 Payment History
+
 **Component Name:** `PaymentHistoryList.tsx`  
 **Current Status:** Exists (in `/components/invoices/InvoiceTable.tsx`)  
 **Used In:** Parent billing view  
@@ -415,10 +464,12 @@
 **Gap Severity:** N/A
 
 **Existing Props:**
+
 - `invoices`: Invoice[]
 - `onViewInvoice`: (id: string) => void
 
 **Enhancements Needed:**
+
 - Parent-friendly mobile view (cards not table)
 - Download receipt link per payment
 - Filter by date range
@@ -426,6 +477,7 @@
 ---
 
 ### 4.4 Notification Centre
+
 **Component Name:** `NotificationCentre.tsx`  
 **Current Status:** Missing  
 **Used In:** Parent mobile app, notification history  
@@ -434,12 +486,14 @@
 **Gap Severity:** Nice-to-have (email notifications sufficient for MVP)
 
 **Required Props:**
+
 - `notifications`: Notification[]
 - `onMarkRead`: (id: string) => void
 - `onMarkAllRead`: () => void
 - `onClear`: (id: string) => void
 
 **Missing Features:**
+
 - Notification list (unread highlighted)
 - Mark as read/unread
 - Clear individual notifications
@@ -451,6 +505,7 @@
 ## 5. Coach Poolside
 
 ### 5.1 Session Register
+
 **Component Name:** `AttendanceRoster.tsx` (exists in `/components/attendance/`)  
 **Current Status:** Exists  
 **Used In:** Coach poolside attendance tracking  
@@ -459,11 +514,13 @@
 **Gap Severity:** N/A
 
 **Existing Props:**
+
 - `session`: Session
 - `swimmers`: Swimmer[]
 - `onMarkAttendance`: (swimmerId: string, status: AttendanceStatus) => void
 
 **Enhancements Needed:**
+
 - Larger touch targets for mobile (current: 40px, need: 48px)
 - One-tap toggle (present/absent)
 - Offline mode with sync indicator
@@ -471,6 +528,7 @@
 ---
 
 ### 5.2 Attendance Toggle
+
 **Component Name:** `StatusSelector.tsx` (exists in `/components/attendance/`)  
 **Current Status:** Exists  
 **Used In:** Poolside register, individual swimmer check-in  
@@ -479,16 +537,19 @@
 **Gap Severity:** N/A
 
 **Existing Props:**
+
 - `status`: AttendanceStatus
 - `onChange`: (status: AttendanceStatus) => void
 
 **Enhancements Needed:**
+
 - Ensure 48px minimum touch target (currently borderline)
 - Haptic feedback on toggle (if supported)
 
 ---
 
 ### 5.3 Medical Flag Display
+
 **Component Name:** `MedicalAlertBadge.tsx`  
 **Current Status:** Exists (in `/components/swimmers/`, used in roster)  
 **Used In:** Attendance roster, swimmer profile  
@@ -497,10 +558,12 @@
 **Gap Severity:** N/A
 
 **Existing Props:**
+
 - `swimmer`: Swimmer
 - `showDetails`: boolean
 
 **Enhancements Needed:**
+
 - Expandable details on tap
 - Clear visual warning (colour + icon)
 - Accessibility (screen reader announces alert)
@@ -508,6 +571,7 @@
 ---
 
 ### 5.4 Offline Sync Indicator
+
 **Component Name:** `ConnectivityBanner.tsx` (exists in `/components/ui/`)  
 **Current Status:** Exists  
 **Used In:** All pages when offline  
@@ -516,10 +580,12 @@
 **Gap Severity:** N/A (but needs testing for attendance sync)
 
 **Existing Props:**
+
 - `isOnline`: boolean
 - `syncStatus`: 'synced' | 'pending' | 'error'
 
 **Enhancements Needed:**
+
 - Coach-specific messaging ("Attendance will sync when online")
 - Manual sync button
 - Pending changes count indicator
@@ -531,6 +597,7 @@
 ## Priority Actions (Before 1 April Sprint Planning)
 
 ### Must Complete (Blockers)
+
 1. **Competition Module** (4 blockers):
    - `MeetCard.tsx` — Sprint 1, Week 1
    - `GalaEntryForm.tsx` — Sprint 1, Week 1-2
@@ -550,6 +617,7 @@
    - Test offline attendance sync on iOS/Android — Sprint 1, Week 1
 
 ### Can Defer (Nice-to-Have)
+
 - `GalaResultsTable.tsx` — Post-event feature, defer to Sprint 3
 - `GalaFeeBreakdown.tsx` — Use generic invoice initially
 - `ClubThemeSwitcher.tsx` — Single-club MVP doesn't need this
@@ -557,6 +625,7 @@
 - `NotificationCentre.tsx` — Email notifications sufficient for MVP
 
 ### Enhancement Backlog (Existing Components)
+
 - `SessionCard.tsx` — Add calendar integration
 - `SwimmerProfileCard.tsx` — Build parent-view variant
 - `PaymentHistoryList.tsx` — Mobile card view
@@ -569,18 +638,21 @@
 ## Sprint Planning Recommendations
 
 **Sprint 1 (1-14 April):**
+
 - Focus: Competition Module + Multi-club Branding blockers
 - Capacity: 10 development days
 - Components: 6 blockers
 - Risk: Tight timeline, may slip to Sprint 2
 
 **Sprint 2 (15-28 April):**
+
 - Focus: Committee Handover + remaining Competition features
 - Capacity: 10 development days
 - Components: 4 blockers + 2 enhancements
 - Risk: Handover wizard complex, needs thorough testing
 
 **Sprint 3 (29 April - 12 May):**
+
 - Focus: Nice-to-haves + polish
 - Components: Results table, fee breakdown, notification centre
 - Risk: Low, these are enhancements not blockers

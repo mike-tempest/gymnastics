@@ -182,7 +182,7 @@ describe('autoMapHeaders', () => {
   it('maps a Swim Central style header row via synonyms', () => {
     const mapping = autoMapHeaders(
       ['Member Number', 'Given Name', 'Family Name', 'Date of Birth', 'Club'],
-      fields,
+      fields
     );
     expect(mapping).toEqual({
       registration_number: 'Member Number',
@@ -197,7 +197,7 @@ describe('autoMapHeaders', () => {
     // also a synonym for another concept.
     const mapping = autoMapHeaders(
       ['first_name', 'Surname', 'dob', 'registration_number', 'family'],
-      fields,
+      fields
     );
     expect(mapping.family).toBe('family');
     expect(mapping.last_name).toBe('Surname');
@@ -252,7 +252,7 @@ describe('autoMapHeaders', () => {
         'Postcode',
         'Balance',
       ],
-      memberFields,
+      memberFields
     );
 
     expect(mapping).toEqual({

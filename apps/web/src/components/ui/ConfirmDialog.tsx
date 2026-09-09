@@ -81,8 +81,9 @@ export default function ConfirmDialog({
   if (!open) return null;
 
   const getConfirmButtonClasses = () => {
-    const baseClasses = 'px-6 py-3 min-h-[44px] rounded-full font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed';
-    
+    const baseClasses =
+      'px-6 py-3 min-h-[44px] rounded-full font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed';
+
     switch (variant) {
       case 'danger':
         return `${baseClasses} bg-red-500 text-white hover:bg-red-600`;
@@ -108,16 +109,10 @@ export default function ConfirmDialog({
         className="w-full max-w-md mx-auto bg-dark-primary rounded-3xl p-6 md:p-8 shadow-2xl border border-white/10 animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 
-          id="confirm-dialog-title" 
-          className="font-serif text-2xl md:text-3xl text-white mb-3"
-        >
+        <h2 id="confirm-dialog-title" className="font-serif text-2xl md:text-3xl text-white mb-3">
           {title}
         </h2>
-        <p 
-          id="confirm-dialog-description" 
-          className="text-white/70 text-base leading-relaxed mb-8"
-        >
+        <p id="confirm-dialog-description" className="text-white/70 text-base leading-relaxed mb-8">
           {description}
         </p>
 
@@ -140,9 +135,25 @@ export default function ConfirmDialog({
           >
             {isLoading ? (
               <span className="flex items-center justify-center gap-2">
-                <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                <svg
+                  className="animate-spin h-5 w-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
                 </svg>
                 Please wait...
               </span>

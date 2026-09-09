@@ -98,7 +98,14 @@ export default function LoginPage() {
       <div className="bg-dark-primary rounded-3xl shadow-lg p-6 sm:p-10">
         {/* Logo and Header */}
         <div className="text-center mb-6 sm:mb-10">
-          <Image src="/swimly-logo.svg" alt="" width={200} height={64} className="h-16 w-auto mx-auto mb-6" priority />
+          <Image
+            src="/swimly-logo.svg"
+            alt=""
+            width={200}
+            height={64}
+            className="h-16 w-auto mx-auto mb-6"
+            priority
+          />
           <p className="text-white/70 text-lg">Sign in to your account</p>
         </div>
 
@@ -163,15 +170,34 @@ export default function LoginPage() {
                   fill="none"
                   viewBox="0 0 24 24"
                 >
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
                 </svg>
                 <span>Signing in...</span>
               </span>
             ) : (
               <>
                 <span>Sign In</span>
-                <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" viewBox="0 0 24 24" stroke="currentColor">
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="3"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
                   <path d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </>
@@ -183,13 +209,19 @@ export default function LoginPage() {
         <div className="mt-8 text-center">
           <p className="text-sm text-white/70">
             New to {BRAND.name}?{' '}
-            <Link href="/register" className="font-bold text-brand-dark hover:text-brand transition-colors">
+            <Link
+              href="/register"
+              className="font-bold text-brand-dark hover:text-brand transition-colors"
+            >
               Create an account
             </Link>
           </p>
           <p className="mt-3 text-sm text-white/70">
             Setting up a new club?{' '}
-            <Link href="/create-club" className="font-bold text-brand-dark hover:text-brand transition-colors">
+            <Link
+              href="/create-club"
+              className="font-bold text-brand-dark hover:text-brand transition-colors"
+            >
               Create one
             </Link>
           </p>

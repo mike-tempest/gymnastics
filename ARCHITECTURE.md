@@ -37,14 +37,14 @@
 
 ### User Experience by Device
 
-| User Role | Primary Device | Use Case |
-|-----------|---------------|----------|
-| **Treasurer** | Desktop | Financial reports, reconciliation, exports |
-| **Competition Secretary** | Desktop | Meet file import, entry management |
-| **Head Coach** | Desktop + Tablet | Training plans, performance analytics |
-| **Squad Coach** | Tablet/Mobile | Poolside attendance, workout delivery |
-| **Parent** | Mobile | View schedule, payments, messages |
-| **Swimmer (18+)** | Mobile | View training, log wellness, messages |
+| User Role                 | Primary Device   | Use Case                                   |
+| ------------------------- | ---------------- | ------------------------------------------ |
+| **Treasurer**             | Desktop          | Financial reports, reconciliation, exports |
+| **Competition Secretary** | Desktop          | Meet file import, entry management         |
+| **Head Coach**            | Desktop + Tablet | Training plans, performance analytics      |
+| **Squad Coach**           | Tablet/Mobile    | Poolside attendance, workout delivery      |
+| **Parent**                | Mobile           | View schedule, payments, messages          |
+| **Swimmer (18+)**         | Mobile           | View training, log wellness, messages      |
 
 **Implementation:** Next.js with Tailwind CSS (mobile-first responsive design)
 
@@ -317,6 +317,7 @@ apps/web/
    - Route groups `(dashboard)`, `(auth)`, `(parent)`
 
 2. **Server Components**
+
    ```tsx
    // app/(dashboard)/swimmers/page.tsx
    export default async function SwimmersPage() {
@@ -326,11 +327,13 @@ apps/web/
      return <SwimmersTable swimmers={swimmers} />;
    }
    ```
+
    - Faster page loads
    - Less JavaScript sent to client
    - Direct database queries (via API routes)
 
 3. **API Routes (Backend-for-Frontend)**
+
    ```tsx
    // app/api/swimmers/route.ts
    export async function GET(request: Request) {
@@ -339,22 +342,24 @@ apps/web/
      // Call backend microservice
      const response = await fetch(`${process.env.API_URL}/api/v1/swimmers`, {
        headers: {
-         'Authorization': `Bearer ${session.accessToken}`,
+         Authorization: `Bearer ${session.accessToken}`,
        },
      });
 
      return Response.json(await response.json());
    }
    ```
+
    - Proxy to backend services
    - Handle authentication
    - Transform data
    - No CORS issues
 
 4. **Server Actions** (for mutations)
+
    ```tsx
    // app/(dashboard)/swimmers/actions.ts
-   'use server'
+   'use server';
 
    export async function createSwimmer(formData: FormData) {
      const session = await getServerSession();
@@ -362,7 +367,7 @@ apps/web/
      const response = await fetch(`${process.env.API_URL}/api/v1/swimmers`, {
        method: 'POST',
        headers: {
-         'Authorization': `Bearer ${session.accessToken}`,
+         Authorization: `Bearer ${session.accessToken}`,
          'Content-Type': 'application/json',
        },
        body: JSON.stringify({
@@ -382,6 +387,7 @@ apps/web/
    - Multi-panel views (e.g., inbox + message detail)
 
 6. **Progressive Web App (PWA)**
+
    ```json
    // public/manifest.json
    {
@@ -395,6 +401,7 @@ apps/web/
      "icons": [...]
    }
    ```
+
    - Installable on mobile home screen
    - Offline support via Service Worker
    - Push notifications
@@ -405,20 +412,21 @@ apps/web/
 
 ### Service Responsibilities
 
-| Service | Port | Responsibilities |
-|---------|------|------------------|
-| **Membership** | 3001 | Clubs, families, swimmers, squads, DBS, consents, users, permissions |
-| **Finance** | 3002 | Invoices, payments, GoCardless, Stripe, billing engine, reconciliation |
-| **Competition** | 3003 | Meets, events, entries, results, PBs, file parsers (.hy3, .sex), volunteers |
-| **Performance** | 3004 | Training sessions, workouts, attendance, RPE, ACWR, wellness, wearables, CSS |
-| **Communications** | 3005 | Messages, notifications (push/email/SMS), calendar, documents |
+| Service            | Port | Responsibilities                                                             |
+| ------------------ | ---- | ---------------------------------------------------------------------------- |
+| **Membership**     | 3001 | Clubs, families, swimmers, squads, DBS, consents, users, permissions         |
+| **Finance**        | 3002 | Invoices, payments, GoCardless, Stripe, billing engine, reconciliation       |
+| **Competition**    | 3003 | Meets, events, entries, results, PBs, file parsers (.hy3, .sex), volunteers  |
+| **Performance**    | 3004 | Training sessions, workouts, attendance, RPE, ACWR, wellness, wearables, CSS |
+| **Communications** | 3005 | Messages, notifications (push/email/SMS), calendar, documents                |
 
 ### Service Communication
 
 **Services communicate via:**
+
 1. **HTTP/REST** for synchronous requests
 2. **Redis Pub/Sub** for events (e.g., "swimmer_created" → update welcome email)
-3. **Shared Database** (same PostgreSQL, different schemas) - *acceptable for monolith-first approach*
+3. **Shared Database** (same PostgreSQL, different schemas) - _acceptable for monolith-first approach_
 
 **Future:** Move to message queue (RabbitMQ/Kafka) if needed.
 
@@ -587,6 +595,7 @@ export const authOptions: NextAuthOptions = {
 ### Permission Matrix
 
 Enforced at:
+
 1. **Next.js API Routes** (before calling backend)
 2. **Backend Services** (double-check)
 3. **UI** (hide unauthorized actions)
