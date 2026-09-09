@@ -285,7 +285,7 @@ export class AuthService {
     context?: { ipAddress?: string; userAgent?: string },
   ): Promise<{ access_token: string; user: User }> {
     // Find user by email
-    const user = await this.usersService.findByEmail(loginDto.email);
+    const user = await this.usersService.findCredentialsByEmail(loginDto.email);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }

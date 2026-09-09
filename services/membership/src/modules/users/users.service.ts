@@ -123,6 +123,10 @@ export class UsersService {
     return await this.usersRepository.findByEmail(email);
   }
 
+  async findCredentialsByEmail(email: string): Promise<User | null> {
+    return await this.usersRepository.findCredentialsByEmail(email);
+  }
+
   async findByRole(role: UserRole): Promise<User[]> {
     const users = await this.usersRepository.findByRole(role);
     return users.map((user) => {
