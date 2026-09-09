@@ -1,9 +1,9 @@
 ---
-title: "Direct Debit vs Card Payments for Swim Clubs: Which is Better?"
-description: "Direct Debit vs card payments for UK swim clubs: real cost comparison, failure rates, admin time, and which option works best for recurring membership fees."
+title: 'Direct Debit vs Card Payments for Swim Clubs: Which is Better?'
+description: 'Direct Debit vs card payments for UK swim clubs: real cost comparison, failure rates, admin time, and which option works best for recurring membership fees.'
 pubDate: 2026-02-15
-author: "Swimly Team"
-tags: ["payments", "direct debit", "billing", "club finances"]
+author: 'Swimly Team'
+tags: ['payments', 'direct debit', 'billing', 'club finances']
 ---
 
 Collecting membership fees reliably is one of the most persistent challenges for swimming clubs. Every treasurer knows the pattern: fees are due, most families pay promptly, a handful forget, and then the chasing begins. Emails are sent, reminders are posted in the group chat, and someone on the committee spends their evenings matching bank transfers to the correct family. Managing payments effectively is part of broader [compliance requirements](/features/compliance) that well-run clubs maintain.

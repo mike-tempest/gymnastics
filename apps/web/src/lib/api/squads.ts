@@ -73,7 +73,7 @@ export async function getSquadMembers(squadId: string): Promise<Member[]> {
 }
 
 export async function bulkImportSquads(
-  squads: CreateSquadInput[],
+  squads: CreateSquadInput[]
 ): Promise<{ created: Squad[]; errors: Array<{ row: number; message: string }> }> {
   return api.post('/squads/bulk', { squads });
 }

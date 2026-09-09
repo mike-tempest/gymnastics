@@ -29,9 +29,7 @@ describe('useFormatters', () => {
 
     const { result } = renderHook(() => useFormatters(), { wrapper: createWrapper() });
 
-    await waitFor(() =>
-      expect(result.current.formatCurrency(1250)).toBe('£1,250.00'),
-    );
+    await waitFor(() => expect(result.current.formatCurrency(1250)).toBe('£1,250.00'));
     expect(result.current.formatDate('2026-07-09T12:00:00Z')).toBe('9 Jul 2026');
   });
 
@@ -47,9 +45,7 @@ describe('useFormatters', () => {
 
     const { result } = renderHook(() => useFormatters(), { wrapper: createWrapper() });
 
-    await waitFor(() =>
-      expect(result.current.formatCurrency(1250)).toBe('$1,250.00'),
-    );
+    await waitFor(() => expect(result.current.formatCurrency(1250)).toBe('$1,250.00'));
     expect(result.current.formatCurrency(1250, 'CAD')).toBe('CA$1,250.00');
     expect(result.current.formatDate('2026-07-09T12:00:00Z')).toBe('Jul 9, 2026');
     expect(
@@ -57,7 +53,7 @@ describe('useFormatters', () => {
         hour: 'numeric',
         minute: '2-digit',
         hourCycle: 'h23',
-      }),
+      })
     ).toBe('12:00');
   });
 });

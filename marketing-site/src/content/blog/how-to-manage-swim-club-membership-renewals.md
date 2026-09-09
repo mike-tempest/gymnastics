@@ -1,9 +1,16 @@
 ---
-title: "How to Manage Swim Club Membership Renewals Without the Chaos"
-description: "Stop chasing parents every renewal season. How UK swim club committees can simplify membership renewals, collect on time, and keep accurate records."
+title: 'How to Manage Swim Club Membership Renewals Without the Chaos'
+description: 'Stop chasing parents every renewal season. How UK swim club committees can simplify membership renewals, collect on time, and keep accurate records.'
 pubDate: 2026-02-16
-author: "Swimly Team"
-tags: ["membership renewals", "club management", "swim club admin", "membership retention", "swimming club"]
+author: 'Swimly Team'
+tags:
+  [
+    'membership renewals',
+    'club management',
+    'swim club admin',
+    'membership retention',
+    'swimming club',
+  ]
 ---
 
 Membership renewal season is one of the most stressful periods in the swim club calendar. For a few weeks each year, committee volunteers find themselves buried in spreadsheets, chasing parents for forms, fielding questions about fees, and trying to work out who is actually coming back next term. It does not have to be this way.

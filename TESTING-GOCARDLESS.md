@@ -203,13 +203,13 @@ curl -X POST https://api-sandbox.gocardless.com/mandates/MD_XXXX/actions/activat
 
 ### Available Sandbox Actions
 
-| Resource   | Action      | Description                          |
-| ---------- | ----------- | ------------------------------------ |
-| Mandates   | `activate`  | Moves mandate to active status       |
-| Mandates   | `fail`      | Moves mandate to failed status       |
-| Payments   | `confirm`   | Confirms a pending payment           |
-| Payments   | `fail`      | Fails a pending payment              |
-| Payments   | `pay_out`   | Marks a confirmed payment as paid out |
+| Resource | Action     | Description                           |
+| -------- | ---------- | ------------------------------------- |
+| Mandates | `activate` | Moves mandate to active status        |
+| Mandates | `fail`     | Moves mandate to failed status        |
+| Payments | `confirm`  | Confirms a pending payment            |
+| Payments | `fail`     | Fails a pending payment               |
+| Payments | `pay_out`  | Marks a confirmed payment as paid out |
 
 For full details, see the
 [GoCardless sandbox documentation](https://developer.gocardless.com/getting-started/developer-tools/testing/).

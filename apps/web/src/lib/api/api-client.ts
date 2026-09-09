@@ -3,8 +3,7 @@
  * Handles authentication, error responses, and provides typed HTTP helpers
  */
 
-export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
 /**
  * Derive the liveness-probe URL from the API base. The membership service
@@ -54,7 +53,7 @@ export class ApiError extends Error {
   constructor(
     message: string,
     public status: number,
-    public data?: unknown,
+    public data?: unknown
   ) {
     super(message);
     this.name = 'ApiError';
@@ -100,10 +99,7 @@ function handle401(): void {
 /**
  * Base fetch wrapper with auth and error handling
  */
-export async function apiClient<T>(
-  path: string,
-  options: RequestInit = {},
-): Promise<T> {
+export async function apiClient<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = getAuthToken();
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
@@ -126,7 +122,7 @@ export async function apiClient<T>(
     throw new ApiError(
       body.message || `Request failed: ${response.statusText}`,
       response.status,
-      body,
+      body
     );
   }
 
@@ -162,7 +158,7 @@ export async function apiDownload(path: string, fallbackFilename: string): Promi
     throw new ApiError(
       body.message || `Request failed: ${response.statusText}`,
       response.status,
-      body,
+      body
     );
   }
 

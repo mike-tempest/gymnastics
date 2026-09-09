@@ -13,6 +13,7 @@ The platform combines a powerful web-based admin dashboard with a mobile-friendl
 ## Tech Stack
 
 ### Frontend
+
 - **Next.js 14** with App Router and React Server Components
 - **TypeScript 5.3+** for type safety
 - **Tailwind CSS** for styling
@@ -20,6 +21,7 @@ The platform combines a powerful web-based admin dashboard with a mobile-friendl
 - **TanStack Query** for data fetching and caching
 
 ### Backend
+
 - **NestJS** microservices architecture
 - **PostgreSQL 16** for data persistence
 - **Redis 7** for caching and sessions
@@ -27,10 +29,12 @@ The platform combines a powerful web-based admin dashboard with a mobile-friendl
 - **TypeORM** for database access
 
 ### Payments & Billing
+
 - **GoCardless** for Direct Debit (primary)
 - **Stripe** for card payments (secondary)
 
 ### Infrastructure
+
 - **Docker & Docker Compose** for local development
 - **Turborepo** for monorepo management
 - **pnpm** for package management
@@ -40,6 +44,7 @@ The platform combines a powerful web-based admin dashboard with a mobile-friendl
 ### Prerequisites
 
 Ensure you have the following installed:
+
 - **Node.js 20+ LTS** (verify with `node --version`)
 - **pnpm 8.15+** (verify with `pnpm --version`; install with `corepack enable && corepack prepare pnpm@8.15.0 --activate`)
 - **Docker 24+** with Docker Compose (verify with `docker --version`)
@@ -68,6 +73,7 @@ docker compose exec membership pnpm seed:demo:gym
 ```
 
 That's it! The following services will be available:
+
 - **Web App**: http://localhost:3000
 - **Membership API**: http://localhost:3001
 - **Notifications API**: http://localhost:3005
@@ -235,14 +241,14 @@ This runs the Next.js web app and all backend services in parallel with hot-relo
 
 Once all services are running, confirm the following URLs respond:
 
-| Service | URL | Description |
-|---------|-----|-------------|
-| Web App | http://localhost:3000 | Next.js frontend |
-| Membership API | http://localhost:3001/api | NestJS membership service |
+| Service           | URL                       | Description                         |
+| ----------------- | ------------------------- | ----------------------------------- |
+| Web App           | http://localhost:3000     | Next.js frontend                    |
+| Membership API    | http://localhost:3001/api | NestJS membership service           |
 | Notifications API | http://localhost:3005/api | NestJS notifications service (stub) |
-| pgAdmin | http://localhost:5050 | Database UI (Option B only) |
-| MailHog | http://localhost:8025 | Email testing UI (Option B only) |
-| MinIO Console | http://localhost:9001 | Object storage UI (Option B only) |
+| pgAdmin           | http://localhost:5050     | Database UI (Option B only)         |
+| MailHog           | http://localhost:8025     | Email testing UI (Option B only)    |
+| MinIO Console     | http://localhost:9001     | Object storage UI (Option B only)   |
 
 ## Environment Variables
 
@@ -252,70 +258,70 @@ Below is the complete list of environment variables used across the project. Def
 
 These variables are shared across all services and are read by Docker Compose.
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `DB_HOST` | `localhost` | PostgreSQL host |
-| `DB_PORT` | `5432` | PostgreSQL port |
-| `DB_USERNAME` | `postgres` | PostgreSQL username |
-| `DB_PASSWORD` | `postgres` | PostgreSQL password |
-| `DB_DATABASE` | `swim_nexus_dev` | PostgreSQL database name |
-| `NODE_ENV` | `development` | Application environment (`development`, `production`, `test`) |
-| `JWT_SECRET` | *(must generate)* | Secret for signing JWTs. Generate with `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` |
-| `JWT_EXPIRES_IN` | `24h` | JWT token expiry duration |
-| `NEXTAUTH_SECRET` | *(must generate)* | NextAuth.js session secret. Generate with `openssl rand -base64 32` |
-| `NEXTAUTH_URL` | `http://localhost:3000` | Canonical URL of the web app |
-| `CORS_ORIGINS` | `http://localhost:3000` | Allowed CORS origins (comma-separated in production) |
-| `NEXT_PUBLIC_API_URL` | `http://localhost:3001` | Public URL of the membership API |
-| `MEMBERSHIP_PORT` | `3001` | Port for the membership service |
-| `NOTIFICATIONS_PORT` | `3005` | Port for the notifications service |
-| `EMAIL_HOST` | `localhost` | SMTP host (use MailHog on `localhost:1025` for local dev) |
-| `EMAIL_PORT` | `1025` | SMTP port |
-| `EMAIL_USER` | *(empty)* | SMTP username |
-| `EMAIL_PASSWORD` | *(empty)* | SMTP password |
-| `EMAIL_FROM` | `noreply@swimly.app` | Default "from" address for outgoing emails |
-| `GOCARDLESS_ACCESS_TOKEN` | *(empty)* | GoCardless API token (sandbox or live) |
-| `GOCARDLESS_ENVIRONMENT` | `sandbox` | GoCardless environment (`sandbox` or `live`) |
-| `GOCARDLESS_WEBHOOK_SECRET` | *(empty)* | GoCardless webhook signing secret |
-| `S3_ENDPOINT` | `http://minio:9000` | S3-compatible storage endpoint |
-| `S3_ACCESS_KEY` | *(empty)* | S3 access key |
-| `S3_SECRET_KEY` | *(empty)* | S3 secret key |
-| `S3_BUCKET` | `swimly` | S3 bucket name |
-| `LOG_LEVEL` | `debug` | Logging verbosity (`debug`, `info`, `warn`, `error`) |
+| Variable                    | Default                 | Description                                                                                                       |
+| --------------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `DB_HOST`                   | `localhost`             | PostgreSQL host                                                                                                   |
+| `DB_PORT`                   | `5432`                  | PostgreSQL port                                                                                                   |
+| `DB_USERNAME`               | `postgres`              | PostgreSQL username                                                                                               |
+| `DB_PASSWORD`               | `postgres`              | PostgreSQL password                                                                                               |
+| `DB_DATABASE`               | `swim_nexus_dev`        | PostgreSQL database name                                                                                          |
+| `NODE_ENV`                  | `development`           | Application environment (`development`, `production`, `test`)                                                     |
+| `JWT_SECRET`                | _(must generate)_       | Secret for signing JWTs. Generate with `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` |
+| `JWT_EXPIRES_IN`            | `24h`                   | JWT token expiry duration                                                                                         |
+| `NEXTAUTH_SECRET`           | _(must generate)_       | NextAuth.js session secret. Generate with `openssl rand -base64 32`                                               |
+| `NEXTAUTH_URL`              | `http://localhost:3000` | Canonical URL of the web app                                                                                      |
+| `CORS_ORIGINS`              | `http://localhost:3000` | Allowed CORS origins (comma-separated in production)                                                              |
+| `NEXT_PUBLIC_API_URL`       | `http://localhost:3001` | Public URL of the membership API                                                                                  |
+| `MEMBERSHIP_PORT`           | `3001`                  | Port for the membership service                                                                                   |
+| `NOTIFICATIONS_PORT`        | `3005`                  | Port for the notifications service                                                                                |
+| `EMAIL_HOST`                | `localhost`             | SMTP host (use MailHog on `localhost:1025` for local dev)                                                         |
+| `EMAIL_PORT`                | `1025`                  | SMTP port                                                                                                         |
+| `EMAIL_USER`                | _(empty)_               | SMTP username                                                                                                     |
+| `EMAIL_PASSWORD`            | _(empty)_               | SMTP password                                                                                                     |
+| `EMAIL_FROM`                | `noreply@swimly.app`    | Default "from" address for outgoing emails                                                                        |
+| `GOCARDLESS_ACCESS_TOKEN`   | _(empty)_               | GoCardless API token (sandbox or live)                                                                            |
+| `GOCARDLESS_ENVIRONMENT`    | `sandbox`               | GoCardless environment (`sandbox` or `live`)                                                                      |
+| `GOCARDLESS_WEBHOOK_SECRET` | _(empty)_               | GoCardless webhook signing secret                                                                                 |
+| `S3_ENDPOINT`               | `http://minio:9000`     | S3-compatible storage endpoint                                                                                    |
+| `S3_ACCESS_KEY`             | _(empty)_               | S3 access key                                                                                                     |
+| `S3_SECRET_KEY`             | _(empty)_               | S3 secret key                                                                                                     |
+| `S3_BUCKET`                 | `swimly`                | S3 bucket name                                                                                                    |
+| `LOG_LEVEL`                 | `debug`                 | Logging verbosity (`debug`, `info`, `warn`, `error`)                                                              |
 
 ### Web App `apps/web/.env.local`
 
 These variables are specific to the Next.js frontend.
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `NEXTAUTH_SECRET` | *(must generate)* | NextAuth.js session secret (same value as root) |
-| `NEXTAUTH_URL` | `http://localhost:3000` | Canonical URL of the web app |
+| Variable              | Default                     | Description                                               |
+| --------------------- | --------------------------- | --------------------------------------------------------- |
+| `NEXTAUTH_SECRET`     | _(must generate)_           | NextAuth.js session secret (same value as root)           |
+| `NEXTAUTH_URL`        | `http://localhost:3000`     | Canonical URL of the web app                              |
 | `NEXT_PUBLIC_API_URL` | `http://localhost:3001/api` | API base URL used by the browser. Note the `/api` suffix. |
 
 ### Membership Service `services/membership/.env`
 
 These variables are specific to the NestJS membership microservice.
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `NODE_ENV` | `development` | Application environment |
-| `PORT` | `3001` | Port the service listens on |
-| `DB_HOST` | `localhost` | PostgreSQL host |
-| `DB_PORT` | `5432` | PostgreSQL port |
-| `DB_USERNAME` | `postgres` | PostgreSQL username |
-| `DB_PASSWORD` | `postgres` | PostgreSQL password |
-| `DB_DATABASE` | `swim_nexus_membership` | Database name (can differ from root default) |
-| `JWT_SECRET` | *(must generate)* | Same JWT secret as root `.env` |
-| `JWT_EXPIRES_IN` | `24h` | JWT token expiry |
-| `CORS_ORIGINS` | `http://localhost:3000` | Allowed CORS origins |
-| `APP_URL` | `http://localhost:3000` | URL of the web frontend |
-| `EMAIL_HOST` | `localhost` | SMTP host |
-| `EMAIL_PORT` | `1025` | SMTP port |
-| `EMAIL_SECURE` | `false` | Whether to use TLS for SMTP |
-| `EMAIL_FROM` | `"Swim Club" <noreply@swimclub.co.uk>` | Default sender address |
-| `GOCARDLESS_ACCESS_TOKEN` | *(empty)* | GoCardless API token |
-| `GOCARDLESS_ENVIRONMENT` | `sandbox` | GoCardless environment |
-| `GOCARDLESS_WEBHOOK_SECRET` | *(empty)* | GoCardless webhook secret |
+| Variable                    | Default                                | Description                                  |
+| --------------------------- | -------------------------------------- | -------------------------------------------- |
+| `NODE_ENV`                  | `development`                          | Application environment                      |
+| `PORT`                      | `3001`                                 | Port the service listens on                  |
+| `DB_HOST`                   | `localhost`                            | PostgreSQL host                              |
+| `DB_PORT`                   | `5432`                                 | PostgreSQL port                              |
+| `DB_USERNAME`               | `postgres`                             | PostgreSQL username                          |
+| `DB_PASSWORD`               | `postgres`                             | PostgreSQL password                          |
+| `DB_DATABASE`               | `swim_nexus_membership`                | Database name (can differ from root default) |
+| `JWT_SECRET`                | _(must generate)_                      | Same JWT secret as root `.env`               |
+| `JWT_EXPIRES_IN`            | `24h`                                  | JWT token expiry                             |
+| `CORS_ORIGINS`              | `http://localhost:3000`                | Allowed CORS origins                         |
+| `APP_URL`                   | `http://localhost:3000`                | URL of the web frontend                      |
+| `EMAIL_HOST`                | `localhost`                            | SMTP host                                    |
+| `EMAIL_PORT`                | `1025`                                 | SMTP port                                    |
+| `EMAIL_SECURE`              | `false`                                | Whether to use TLS for SMTP                  |
+| `EMAIL_FROM`                | `"Swim Club" <noreply@swimclub.co.uk>` | Default sender address                       |
+| `GOCARDLESS_ACCESS_TOKEN`   | _(empty)_                              | GoCardless API token                         |
+| `GOCARDLESS_ENVIRONMENT`    | `sandbox`                              | GoCardless environment                       |
+| `GOCARDLESS_WEBHOOK_SECRET` | _(empty)_                              | GoCardless webhook secret                    |
 
 > **Tip:** When running via Docker Compose (Option A), the root `.env` values are injected into each container automatically. You only need the service-level `.env` files when running services natively.
 
@@ -379,20 +385,20 @@ pnpm docker:restart
 
 ### Port reference
 
-| Port | Service |
-|------|---------|
-| 3000 | Next.js web app |
-| 3001 | Membership API |
-| 3005 | Notifications API (stub) |
-| 5432 | PostgreSQL |
-| 6379 | Redis |
+| Port | Service                   |
+| ---- | ------------------------- |
+| 3000 | Next.js web app           |
+| 3001 | Membership API            |
+| 3005 | Notifications API (stub)  |
+| 5432 | PostgreSQL                |
+| 6379 | Redis                     |
 | 8000 | Kong Gateway (HTTP proxy) |
-| 8001 | Kong Admin API |
-| 8025 | MailHog web UI |
-| 1025 | MailHog SMTP |
-| 9000 | MinIO S3 API |
-| 9001 | MinIO Console |
-| 5050 | pgAdmin |
+| 8001 | Kong Admin API            |
+| 8025 | MailHog web UI            |
+| 1025 | MailHog SMTP              |
+| 9000 | MinIO S3 API              |
+| 9001 | MinIO Console             |
+| 5050 | pgAdmin                   |
 
 ## Database Management
 
@@ -578,12 +584,12 @@ This runs Playwright E2E tests across all workspaces that define a `test:e2e` sc
 
 ### Test configuration summary
 
-| Scope | Framework | Config file | Command |
-|-------|-----------|-------------|---------|
-| Web unit tests | Jest + React Testing Library | `apps/web/jest.config.ts` | `cd apps/web && pnpm test` |
-| Service unit tests | Jest + NestJS Testing | `services/membership/package.json` (inline) | `cd services/membership && pnpm test` |
-| E2E smoke tests | Playwright | `apps/web/playwright.config.ts` | `cd apps/web && pnpm test:e2e` |
-| All tests (root) | Turborepo | n/a | `pnpm test` |
+| Scope              | Framework                    | Config file                                 | Command                               |
+| ------------------ | ---------------------------- | ------------------------------------------- | ------------------------------------- |
+| Web unit tests     | Jest + React Testing Library | `apps/web/jest.config.ts`                   | `cd apps/web && pnpm test`            |
+| Service unit tests | Jest + NestJS Testing        | `services/membership/package.json` (inline) | `cd services/membership && pnpm test` |
+| E2E smoke tests    | Playwright                   | `apps/web/playwright.config.ts`             | `cd apps/web && pnpm test:e2e`        |
+| All tests (root)   | Turborepo                    | n/a                                         | `pnpm test`                           |
 
 ## Project Structure
 
@@ -652,12 +658,14 @@ swimly/
 Swimly provides 37 pages across the following functional areas:
 
 ### Authentication & Access (4 pages)
+
 - Club registration and onboarding
 - User login and password reset
 - Multi-factor authentication
 - Role-based access control (admin, coach, treasurer, parent)
 
 ### Administration (5 pages)
+
 - Club settings and configuration
 - User management
 - Role assignment
@@ -665,6 +673,7 @@ Swimly provides 37 pages across the following functional areas:
 - System notifications
 
 ### Swimmer Management (6 pages)
+
 - Swimmer profiles with medical information
 - Swimmer registration (individual and CSV bulk import)
 - Squad assignment
@@ -673,12 +682,14 @@ Swimly provides 37 pages across the following functional areas:
 - Profile photos and documentation
 
 ### Family Management (4 pages)
+
 - Family account dashboard
 - Parent/guardian management
 - Sibling linking
 - Family billing summary
 
 ### Squad Management (5 pages)
+
 - Squad creation and configuration
 - Coach assignment
 - Swimmer allocation
@@ -686,6 +697,7 @@ Swimly provides 37 pages across the following functional areas:
 - Squad performance overview
 
 ### Session & Attendance (5 pages)
+
 - Session scheduling
 - Session templates
 - Attendance register (mark present/absent/late)
@@ -693,6 +705,7 @@ Swimly provides 37 pages across the following functional areas:
 - Session notes
 
 ### Billing & Payments (6 pages)
+
 - Invoice generation and management
 - Payment collection (GoCardless/Stripe)
 - Payment history
@@ -701,12 +714,14 @@ Swimly provides 37 pages across the following functional areas:
 - Fee structure configuration
 
 ### Compliance & Safeguarding (4 pages)
+
 - DBS check tracking
 - Safeguarding certificate management
 - Qualification tracking (coaching, first aid)
 - Compliance dashboard and alerts
 
 ### Communications (5 pages)
+
 - Announcement creation (club-wide, squad, individual)
 - Email composer
 - SMS messaging
@@ -714,6 +729,7 @@ Swimly provides 37 pages across the following functional areas:
 - Communication history
 
 ### Parent Portal (3 pages)
+
 - Family dashboard
 - Swimmer attendance view
 - Payment history and invoice download
@@ -848,24 +864,27 @@ flyctl scale vm shared-cpu-2x --app swimly-membership
 ## Roadmap
 
 ### Phase 1: Core Operations (Current)
+
 ✅ Club registration and setup  
 ✅ Swimmer and family management  
 ✅ Squad management  
 ✅ Attendance tracking  
 ✅ Basic billing and invoicing  
 ✅ Parent portal  
-✅ Communication tools  
+✅ Communication tools
 
 ### Phase 2: Advanced Features
+
 🚧 GoCardless variable Direct Debit  
 🚧 Competition entry management  
 🚧 Training plan builder  
-🚧 Reporting and analytics  
+🚧 Reporting and analytics
 
 ### Phase 3: Integrations
+
 ⏳ Swim England membership sync  
 ⏳ Wavepower compliance automation  
-⏳ Calendar integrations (Google, Apple)  
+⏳ Calendar integrations (Google, Apple)
 
 ## Contributing
 
@@ -882,6 +901,7 @@ This project is under active development. Please see [CONTRIBUTING.md](./CONTRIB
 ## Support
 
 For issues, questions, or feature requests:
+
 - Email: support@swimly.uk
 - Documentation: https://docs.swimly.uk
 - GitHub Issues: https://github.com/your-org/swimly/issues

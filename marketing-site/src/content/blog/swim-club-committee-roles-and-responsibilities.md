@@ -1,19 +1,19 @@
 ---
-title: "Swim Club Committee Roles and Responsibilities Explained"
-description: "Who does what on a swimming club committee. A clear guide to the chair, secretary, treasurer, welfare officer and coach roles for UK volunteer committees."
-pubDate: "2026-07-13"
-author: "Swimly Team"
-tags: ["committee", "governance", "Swim England", "volunteers", "club management", "swim clubs"]
+title: 'Swim Club Committee Roles and Responsibilities Explained'
+description: 'Who does what on a swimming club committee. A clear guide to the chair, secretary, treasurer, welfare officer and coach roles for UK volunteer committees.'
+pubDate: '2026-07-13'
+author: 'Swimly Team'
+tags: ['committee', 'governance', 'Swim England', 'volunteers', 'club management', 'swim clubs']
 faqItems:
-  - question: "What are the main roles on a swimming club committee?"
+  - question: 'What are the main roles on a swimming club committee?'
     answer: "Most swimming club committees are built around four core officer roles: a chair, a secretary, a treasurer and a welfare officer. Swim England expects an affiliated club to have these, plus a coach or teacher involved in the club's running. Beyond that, clubs commonly add a membership secretary, a competition or gala secretary, a fundraising coordinator, a volunteer coordinator and a communications lead, depending on their size."
-  - question: "Does a swimming club have to have a welfare officer?"
+  - question: 'Does a swimming club have to have a welfare officer?'
     answer: "Yes. Every Swim England affiliated club must adopt Wavepower, the governing body's safeguarding framework, and appointing at least one club welfare officer is part of that. The welfare officer is the first point of contact for any concern about a child's welfare. Under the current Wavepower, the welfare officer must also be independent, meaning not related to or in a close relationship with the chair or a coach at the club."
-  - question: "What does a swim club secretary actually do?"
+  - question: 'What does a swim club secretary actually do?'
     answer: "The secretary is the administrative and communications hub of the club. They call meetings and circulate the agenda, take and store the minutes, handle correspondence with members and with Swim England, keep the club's key documents and records, and make sure the AGM and committee meetings happen properly and on notice. In many clubs the secretary is the person who holds the club together week to week."
-  - question: "Can one person hold two committee roles?"
+  - question: 'Can one person hold two committee roles?'
     answer: "It is common in small clubs, but do it carefully. Combining the secretary and treasurer roles, for example, weakens financial oversight because the same person records decisions and controls the money. Swim England's current safeguarding rules also require the welfare officer to be independent of the chair and coaches, so that role in particular should not be doubled up with them. Where you must combine roles, add a second signatory or a reviewer to keep a check in place."
-  - question: "How are swim club committee members elected?"
+  - question: 'How are swim club committee members elected?'
     answer: "Officer roles are normally elected by the members at the annual general meeting, for the term set out in the club's constitution, which is often one year with the option to stand again. Nominations usually need a proposer and a seconder. If a role falls vacant during the year, most constitutions let the committee co-opt someone until the next AGM. Always check your own constitution, as it is the document that governs how your club fills its roles."
 ---
 
@@ -76,15 +76,15 @@ Smaller clubs simply fold these duties into the core roles. The important thing 
 
 ## Who does what: a quick reference
 
-| Role | Owns | Typical first port of call for |
-|------|------|--------------------------------|
-| Chair | Leadership, direction, chairing meetings, representing the club | Disputes, big decisions, external relationships |
-| Secretary | Meetings, minutes, records, correspondence | Notices, documents, "who do I email?" |
-| Treasurer | Fees, payments, accounts, budget | Invoices, refunds, financial questions |
-| Welfare officer | Safeguarding, Wavepower, concerns | Any worry about a child's welfare |
-| Head coach | Squads, sessions, coaching rota, pathway | Training, moving squads, poolside issues |
-| Membership secretary | Joining, renewals, Swim England registration | Membership queries, new starters |
-| Competition secretary | Meet and gala entries, licences | Entering a gala, entry deadlines |
+| Role                  | Owns                                                            | Typical first port of call for                  |
+| --------------------- | --------------------------------------------------------------- | ----------------------------------------------- |
+| Chair                 | Leadership, direction, chairing meetings, representing the club | Disputes, big decisions, external relationships |
+| Secretary             | Meetings, minutes, records, correspondence                      | Notices, documents, "who do I email?"           |
+| Treasurer             | Fees, payments, accounts, budget                                | Invoices, refunds, financial questions          |
+| Welfare officer       | Safeguarding, Wavepower, concerns                               | Any worry about a child's welfare               |
+| Head coach            | Squads, sessions, coaching rota, pathway                        | Training, moving squads, poolside issues        |
+| Membership secretary  | Joining, renewals, Swim England registration                    | Membership queries, new starters                |
+| Competition secretary | Meet and gala entries, licences                                 | Entering a gala, entry deadlines                |
 
 ## Making committee roles and responsibilities work together
 
@@ -125,4 +125,4 @@ Officer roles are normally elected by the members at the annual general meeting,
 
 ---
 
-*Clear roles are easier to run when the systems behind them are shared, not stuck on one volunteer's laptop. [Swimly](/) is [club management software](/swim-club-management-software/) built for UK swimming clubs, bringing [membership records](/features/membership/), [billing](/features/billing/) and [Wavepower compliance](/features/compliance/) into one place the whole committee can see. See [pricing](/pricing/) to find out how much committee time you could hand back.*
+_Clear roles are easier to run when the systems behind them are shared, not stuck on one volunteer's laptop. [Swimly](/) is [club management software](/swim-club-management-software/) built for UK swimming clubs, bringing [membership records](/features/membership/), [billing](/features/billing/) and [Wavepower compliance](/features/compliance/) into one place the whole committee can see. See [pricing](/pricing/) to find out how much committee time you could hand back._

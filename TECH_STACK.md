@@ -4,17 +4,17 @@ This document explains the key technology choices for SwimNexus UK and the ratio
 
 ## Overview
 
-| Layer | Technology | Justification |
-|-------|-----------|---------------|
-| **Web Frontend** | Next.js 14 (App Router) | SSR, SEO, API routes, production-ready |
-| **Mobile** | Flutter 3.19+ | Single codebase, offline-first, native performance |
-| **Backend** | NestJS (Node.js/TypeScript) | Microservices support, shared language, DI pattern |
-| **API Gateway** | Kong Gateway | Production-ready, plugin ecosystem, self-hosted |
-| **Database** | PostgreSQL 16 | JSONB, RLS, time-series, ACID compliance |
-| **Cache** | Redis 7 | Session storage, pub/sub, rate limiting |
-| **File Storage** | AWS S3 | Scalable, secure, video storage |
-| **Message Queue** | Redis (Bull/BullMQ) | Job scheduling, background tasks |
-| **Monitoring** | Prometheus + Grafana | Open-source, K8s native |
+| Layer             | Technology                  | Justification                                      |
+| ----------------- | --------------------------- | -------------------------------------------------- |
+| **Web Frontend**  | Next.js 14 (App Router)     | SSR, SEO, API routes, production-ready             |
+| **Mobile**        | Flutter 3.19+               | Single codebase, offline-first, native performance |
+| **Backend**       | NestJS (Node.js/TypeScript) | Microservices support, shared language, DI pattern |
+| **API Gateway**   | Kong Gateway                | Production-ready, plugin ecosystem, self-hosted    |
+| **Database**      | PostgreSQL 16               | JSONB, RLS, time-series, ACID compliance           |
+| **Cache**         | Redis 7                     | Session storage, pub/sub, rate limiting            |
+| **File Storage**  | AWS S3                      | Scalable, secure, video storage                    |
+| **Message Queue** | Redis (Bull/BullMQ)         | Job scheduling, background tasks                   |
+| **Monitoring**    | Prometheus + Grafana        | Open-source, K8s native                            |
 
 ---
 
@@ -32,6 +32,7 @@ This document explains the key technology choices for SwimNexus UK and the ratio
    - Critical for admin dashboards with large data tables
 
 2. **API Routes (Backend-for-Frontend)**
+
    ```typescript
    // app/api/swimmers/route.ts
    export async function GET(request: Request) {
@@ -40,11 +41,13 @@ This document explains the key technology choices for SwimNexus UK and the ratio
      return Response.json(swimmers);
    }
    ```
+
    - Simplifies authentication flow
    - No CORS issues
    - Type-safe API calls with tRPC integration
 
 3. **File-Based Routing**
+
    ```
    app/
    ├── (auth)/
@@ -58,6 +61,7 @@ This document explains the key technology choices for SwimNexus UK and the ratio
    └── api/
        └── [...routes]/
    ```
+
    - Intuitive structure
    - Automatic code splitting
    - Layout nesting
@@ -68,15 +72,11 @@ This document explains the key technology choices for SwimNexus UK and the ratio
    - Streaming UI with Suspense
 
 5. **Image Optimization**
+
    ```tsx
-   <Image
-     src="/swimmer-photo.jpg"
-     width={400}
-     height={300}
-     alt="Swimmer"
-     priority
-   />
+   <Image src="/swimmer-photo.jpg" width={400} height={300} alt="Swimmer" priority />
    ```
+
    - Automatic WebP conversion
    - Lazy loading
    - Responsive images
@@ -94,6 +94,7 @@ This document explains the key technology choices for SwimNexus UK and the ratio
 **❌ Why NOT Vite + React?**
 
 While Vite is excellent for SPAs:
+
 - **No built-in SSR:** Requires manual setup (Vite-SSR, vike)
 - **No API routes:** Need separate backend or serverless functions
 - **SEO challenges:** Client-side rendering only
@@ -101,6 +102,7 @@ While Vite is excellent for SPAs:
 - **Less opinionated:** More decisions = more bikeshedding
 
 **Use Case Fit:**
+
 - SwimNexus web app is a **data-intensive admin portal**
 - Need **fast page loads** for treasurers/secretaries (not tech-savvy)
 - **SEO matters** for public club pages (future feature)
@@ -142,6 +144,7 @@ While Vite is excellent for SPAs:
    - Excellent tooling (DevTools, Flutter Inspector)
 
 **❌ Why NOT React Native?**
+
 - **Offline support:** More complex (AsyncStorage + custom sync)
 - **Performance:** JavaScript bridge can be bottleneck
 - **Native modules:** Often requires platform-specific code
@@ -158,6 +161,7 @@ While Vite is excellent for SPAs:
 **Key Advantages:**
 
 1. **Shared Language**
+
    ```typescript
    // Backend
    export class CreateSwimmerDto {
@@ -169,10 +173,12 @@ While Vite is excellent for SPAs:
    import { CreateSwimmerDto } from '@club-manager/shared-types';
    const swimmer: CreateSwimmerDto = { ... };
    ```
+
    - TypeScript across backend, web, and shared packages
    - Single mental model for team
 
 2. **Microservices Support**
+
    ```typescript
    @Controller('swimmers')
    export class SwimmersController {
@@ -182,6 +188,7 @@ While Vite is excellent for SPAs:
      }
    }
    ```
+
    - Built-in microservices architecture
    - Dependency injection
    - Modular structure
@@ -205,16 +212,19 @@ While Vite is excellent for SPAs:
 **Alternatives Considered:**
 
 **Python (FastAPI)**
+
 - **Pros:** Excellent for data science, ML (future nutrition/performance features)
 - **Cons:** Type system less mature, slower startup, no shared types with frontend
 - **Verdict:** Great for specialized services, but not primary backend
 
 **Go**
+
 - **Pros:** Superior performance, built-in concurrency
 - **Cons:** Smaller talent pool, slower development, verbose error handling
 - **Verdict:** Overkill for current scale (50-300 clubs)
 
 **Rust**
+
 - **Pros:** Memory safety, blazing performance
 - **Cons:** Steep learning curve, small ecosystem, slow compilation
 - **Verdict:** Too niche for startup timeline
@@ -230,6 +240,7 @@ While Vite is excellent for SPAs:
 **Key Advantages:**
 
 1. **JSONB Support**
+
    ```sql
    -- Flexible club configuration
    SELECT * FROM clubs WHERE config->>'payment_gateway' = 'gocardless';
@@ -237,25 +248,30 @@ While Vite is excellent for SPAs:
    -- Update nested fields
    UPDATE clubs SET config = jsonb_set(config, '{features,video_analysis}', 'true');
    ```
+
    - Store workout JSON, club settings, consent flags
    - Query JSON with indexes
    - Schema flexibility
 
 2. **Row-Level Security (Multi-Tenancy)**
+
    ```sql
    CREATE POLICY club_isolation ON swimmers
      USING (club_id = current_setting('app.current_club_id')::uuid);
    ```
+
    - Data isolation per club
    - Enforced at database level
    - No accidental cross-club data leaks
 
 3. **Full-Text Search**
+
    ```sql
    SELECT * FROM swimmers
    WHERE to_tsvector('english', first_name || ' ' || last_name)
      @@ to_tsquery('emma');
    ```
+
    - Search swimmers, meets, events
    - No need for Elasticsearch initially
 
@@ -276,12 +292,15 @@ While Vite is excellent for SPAs:
 **Alternatives Considered:**
 
 **MySQL/MariaDB**
+
 - **Cons:** Weaker JSON support, no RLS, licensing concerns (MySQL)
 
 **MongoDB**
+
 - **Cons:** No ACID transactions (critical for finance), no joins (complex queries)
 
 **Supabase (PostgreSQL + Realtime)**
+
 - **Pros:** Realtime subscriptions, built-in auth
 - **Cons:** Vendor lock-in, less control, pricing unpredictable at scale
 
@@ -303,6 +322,7 @@ While Vite is excellent for SPAs:
    - All out-of-box
 
 2. **Declarative Configuration**
+
    ```yaml
    services:
      - name: membership-service
@@ -317,6 +337,7 @@ While Vite is excellent for SPAs:
                config:
                  minute: 100
    ```
+
    - Infrastructure as code
    - Version controlled
    - Easy to replicate environments
@@ -334,12 +355,15 @@ While Vite is excellent for SPAs:
 **Alternatives Considered:**
 
 **AWS API Gateway**
+
 - **Cons:** Vendor lock-in, cost unpredictable, local dev complex
 
 **Traefik**
+
 - **Cons:** Less API-focused, fewer plugins, primarily for Docker/K8s
 
 **Express Gateway**
+
 - **Cons:** Less mature, smaller community, fewer features
 
 ---
@@ -384,10 +408,12 @@ While Vite is excellent for SPAs:
 **Alternatives Considered:**
 
 **Cloudflare R2**
+
 - **Pros:** No egress fees
 - **Cons:** Newer service, less mature
 
 **DigitalOcean Spaces**
+
 - **Pros:** Simpler pricing
 - **Cons:** Smaller network, fewer regions
 
@@ -414,11 +440,13 @@ While Vite is excellent for SPAs:
    - Handles 100k+ ops/sec
 
 3. **Data Structures**
+
    ```typescript
    // Rate limiting with sorted sets
    await redis.zadd(`rate-limit:${userId}`, Date.now(), requestId);
    const count = await redis.zcount(`rate-limit:${userId}`, oneHourAgo, now);
    ```
+
    - Sorted sets, hashes, lists
    - Atomic operations
 
@@ -430,9 +458,11 @@ While Vite is excellent for SPAs:
 **Alternatives Considered:**
 
 **Memcached**
+
 - **Cons:** No persistence, simpler data structures, no pub/sub
 
 **DragonflyDB**
+
 - **Pros:** Redis-compatible, faster
 - **Cons:** Newer, less battle-tested
 
@@ -470,9 +500,11 @@ While Vite is excellent for SPAs:
 **Alternatives Considered:**
 
 **Datadog/New Relic**
+
 - **Cons:** Expensive at scale, vendor lock-in
 
 **AWS CloudWatch**
+
 - **Cons:** AWS-specific, less flexible querying
 
 ---
@@ -488,11 +520,13 @@ Our tech stack prioritizes:
 5. **Future-Proof:** Modern, actively maintained, clear upgrade paths
 
 **Total Stack Learning Curve:**
+
 - **Easy:** Next.js, PostgreSQL, Redis (common skills)
 - **Medium:** NestJS, Flutter (growing ecosystems)
 - **Advanced:** Kong, Prometheus (DevOps-focused)
 
 **Estimated Team Size for Phase 1-3:**
+
 - 2-3 full-stack engineers (TypeScript)
 - 1 mobile engineer (Flutter)
 - 0.5 DevOps engineer (can outsource initially)

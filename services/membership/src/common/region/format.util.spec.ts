@@ -44,9 +44,7 @@ describe('formatClubDate', () => {
   const date = new Date('2026-07-09T12:00:00Z');
 
   it('matches the previous en-GB default output', () => {
-    expect(formatClubDate(date, 'en-GB', 'Europe/London')).toBe(
-      date.toLocaleDateString('en-GB'),
-    );
+    expect(formatClubDate(date, 'en-GB', 'Europe/London')).toBe(date.toLocaleDateString('en-GB'));
   });
 
   it('renders month-first for a US club', () => {
@@ -55,9 +53,7 @@ describe('formatClubDate', () => {
 
   it('respects the club timezone across the date line', () => {
     const lateEvening = new Date('2026-07-09T22:00:00Z');
-    expect(formatClubDate(lateEvening, 'en-AU', 'Australia/Sydney')).toBe(
-      '10/07/2026',
-    );
+    expect(formatClubDate(lateEvening, 'en-AU', 'Australia/Sydney')).toBe('10/07/2026');
   });
 
   it('passes through explicit options', () => {

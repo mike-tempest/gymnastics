@@ -71,9 +71,10 @@ export default function PaymentsPage() {
     setShowSetup(false);
   };
 
-  const filteredInvoices = filterStatus === 'all'
-    ? invoices
-    : invoices.filter((inv) => getDisplayStatus(inv) === filterStatus);
+  const filteredInvoices =
+    filterStatus === 'all'
+      ? invoices
+      : invoices.filter((inv) => getDisplayStatus(inv) === filterStatus);
 
   return (
     <MainLayout>
@@ -81,8 +82,12 @@ export default function PaymentsPage() {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="font-serif text-5xl sm:text-6xl text-dark-primary tracking-tight mb-2">Payments & Invoices</h1>
-            <p className="text-dark-primary/60 text-lg">Manage your invoices and payment settings</p>
+            <h1 className="font-serif text-5xl sm:text-6xl text-dark-primary tracking-tight mb-2">
+              Payments & Invoices
+            </h1>
+            <p className="text-dark-primary/60 text-lg">
+              Manage your invoices and payment settings
+            </p>
           </div>
 
           {/* Tabs */}
@@ -199,10 +204,14 @@ export default function PaymentsPage() {
                               <InvoiceStatusBadge status={getDisplayStatus(invoice)} />
                             </div>
                             <p className="text-sm text-text-secondary mb-1">
-                              Amount: <span className="font-semibold text-white tabular-nums">{formatCurrency(invoice.total_amount, invoice.currency)}</span>
+                              Amount:{' '}
+                              <span className="font-semibold text-white tabular-nums">
+                                {formatCurrency(invoice.total_amount, invoice.currency)}
+                              </span>
                             </p>
                             <p className="text-sm text-text-secondary tabular-nums">
-                              Due {formatDate(invoice.due_date)} &middot; Created {formatDate(invoice.created_at)}
+                              Due {formatDate(invoice.due_date)} &middot; Created{' '}
+                              {formatDate(invoice.created_at)}
                             </p>
                             {invoice.items && invoice.items.length > 0 && (
                               <div className="mt-2">
@@ -238,7 +247,9 @@ export default function PaymentsPage() {
               payment connection, otherwise the provider-specific setup flow. */}
           {activeTab === 'settings' && paymentsNotSetUp && (
             <div className="bg-dark-primary rounded-3xl shadow-lg border border-white/10 p-6">
-              <h2 className="font-serif text-2xl text-white mb-4">Online payments are not available yet</h2>
+              <h2 className="font-serif text-2xl text-white mb-4">
+                Online payments are not available yet
+              </h2>
               <p className="text-text-secondary text-sm">
                 Your club has not set up online payments yet. You will be able to add a payment
                 method here once they have. Contact the club if you have questions.
@@ -262,7 +273,9 @@ export default function PaymentsPage() {
                     <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                   </svg>
                   <div>
-                    <h3 className="text-dark-primary font-semibold mb-2">About {settingsHeading}</h3>
+                    <h3 className="text-dark-primary font-semibold mb-2">
+                      About {settingsHeading}
+                    </h3>
                     <p className="text-text-secondary text-sm">
                       {isStripe
                         ? 'Set up automatic payments for your monthly swim club fees. You will be taken to a secure Stripe page to set up your payment method. Depending on your club, you can pay by bank debit or card. You can cancel at any time.'
@@ -298,11 +311,15 @@ export default function PaymentsPage() {
                 <h2 className="font-serif text-2xl text-white mb-4">Payment Information</h2>
                 <div className="space-y-4 text-sm text-text-secondary">
                   <div>
-                    <h3 className="text-white font-medium mb-2">How {settingsHeading} work{isStripe ? '' : 's'}</h3>
+                    <h3 className="text-white font-medium mb-2">
+                      How {settingsHeading} work{isStripe ? '' : 's'}
+                    </h3>
                     <ul className="list-disc list-inside space-y-1">
                       <li>Monthly fees are automatically collected on the 1st of each month</li>
                       <li>You&apos;ll receive notification before each payment is taken</li>
-                      {!isStripe && <li>Payments are taken {settlementTiming} after the collection date</li>}
+                      {!isStripe && (
+                        <li>Payments are taken {settlementTiming} after the collection date</li>
+                      )}
                       <li>You can cancel or pause at any time through this page</li>
                     </ul>
                   </div>
@@ -319,24 +336,29 @@ export default function PaymentsPage() {
                       <>
                         <h3 className="text-white font-medium mb-2">Direct Debit Guarantee</h3>
                         <p>
-                          The Direct Debit Guarantee protects you against incorrect payments. If an error is made by us or
-                          your bank, you are entitled to a full and immediate refund from your bank.
+                          The Direct Debit Guarantee protects you against incorrect payments. If an
+                          error is made by us or your bank, you are entitled to a full and immediate
+                          refund from your bank.
                         </p>
                       </>
                     ) : isBecs ? (
                       <>
-                        <h3 className="text-white font-medium mb-2">Direct Debit Request Service Agreement</h3>
+                        <h3 className="text-white font-medium mb-2">
+                          Direct Debit Request Service Agreement
+                        </h3>
                         <p>
-                          Your Direct Debit Request is governed by the Bulk Electronic Clearing System (BECS) rules and the
-                          Direct Debit Request Service Agreement. If a payment is taken in error, you are entitled to a
-                          refund from your bank. You can cancel at any time.
+                          Your Direct Debit Request is governed by the Bulk Electronic Clearing
+                          System (BECS) rules and the Direct Debit Request Service Agreement. If a
+                          payment is taken in error, you are entitled to a refund from your bank.
+                          You can cancel at any time.
                         </p>
                       </>
                     ) : (
                       <>
                         <h3 className="text-white font-medium mb-2">Payment protection</h3>
                         <p>
-                          Your payments are protected by your country&apos;s bank debit scheme rules. You can cancel at any time.
+                          Your payments are protected by your country&apos;s bank debit scheme
+                          rules. You can cancel at any time.
                         </p>
                       </>
                     )}
@@ -344,8 +366,8 @@ export default function PaymentsPage() {
                   <div>
                     <h3 className="text-white font-medium mb-2">Alternative payment methods</h3>
                     <p>
-                      If you prefer not to use {settingsHeading}, you can pay invoices manually via bank transfer. Please
-                      contact the club administrator for bank details.
+                      If you prefer not to use {settingsHeading}, you can pay invoices manually via
+                      bank transfer. Please contact the club administrator for bank details.
                     </p>
                   </div>
                 </div>

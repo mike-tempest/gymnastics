@@ -76,7 +76,7 @@ export interface MemberImportResponse {
  */
 export async function previewMembersImport(
   rows: MemberImportRow[],
-  options: MemberImportOptions,
+  options: MemberImportOptions
 ): Promise<MemberImportPreviewResponse> {
   return api.post<MemberImportPreviewResponse>('/import/members?preview=true', {
     rows,
@@ -89,7 +89,7 @@ export async function previewMembersImport(
  */
 export async function importMembers(
   rows: MemberImportRow[],
-  options: MemberImportOptions,
+  options: MemberImportOptions
 ): Promise<MemberImportResponse> {
   return api.post<MemberImportResponse>('/import/members?preview=false', {
     rows,
@@ -176,7 +176,7 @@ export interface GoCardlessImportResponse {
 /** Dry run of the takeover: matches and validates server-side, writes nothing. */
 export async function previewGoCardlessImport(
   payload: GoCardlessImportPayload,
-  options: GoCardlessImportOptions,
+  options: GoCardlessImportOptions
 ): Promise<GoCardlessPreviewResponse> {
   return api.post<GoCardlessPreviewResponse>('/import/gocardless?preview=true', {
     ...payload,
@@ -187,7 +187,7 @@ export async function previewGoCardlessImport(
 /** Real takeover: creates or matches families and writes their mandates. */
 export async function importGoCardless(
   payload: GoCardlessImportPayload,
-  options: GoCardlessImportOptions,
+  options: GoCardlessImportOptions
 ): Promise<GoCardlessImportResponse> {
   return api.post<GoCardlessImportResponse>('/import/gocardless?preview=false', {
     ...payload,

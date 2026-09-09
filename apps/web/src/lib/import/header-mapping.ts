@@ -300,14 +300,14 @@ export interface AutoMapField<F extends string> {
  */
 export function autoMapHeaders<F extends string>(
   headers: readonly string[],
-  fields: readonly AutoMapField<F>[],
+  fields: readonly AutoMapField<F>[]
 ): Partial<Record<F, string>> {
   const mapping: Partial<Record<F, string>> = {};
   const claimed = new Set<string>();
 
   for (const field of fields) {
     const exact = headers.find(
-      (h) => !claimed.has(h) && normaliseHeader(h) === normaliseHeader(field.key),
+      (h) => !claimed.has(h) && normaliseHeader(h) === normaliseHeader(field.key)
     );
     if (exact !== undefined) {
       mapping[field.key] = exact;
@@ -334,7 +334,7 @@ export function autoMapHeaders<F extends string>(
  */
 export function normaliseGender(
   value: string,
-  allowed: readonly string[] = ['M', 'F', 'X'],
+  allowed: readonly string[] = ['M', 'F', 'X']
 ): string | null {
   const lower = value.trim().toLowerCase();
   let code: string | null = null;

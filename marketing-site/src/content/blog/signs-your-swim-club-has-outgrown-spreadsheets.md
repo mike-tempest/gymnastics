@@ -1,9 +1,9 @@
 ---
-title: "5 Signs Your Swim Club Has Outgrown Spreadsheets"
-description: "If your swimming club relies on spreadsheets for membership, fees, and attendance, these five warning signs suggest it is time for a change."
+title: '5 Signs Your Swim Club Has Outgrown Spreadsheets'
+description: 'If your swimming club relies on spreadsheets for membership, fees, and attendance, these five warning signs suggest it is time for a change.'
 pubDate: 2026-02-14
-author: "Swimly Team"
-tags: ["swim clubs", "spreadsheets", "club management", "club admin"]
+author: 'Swimly Team'
+tags: ['swim clubs', 'spreadsheets', 'club management', 'club admin']
 ---
 
 Spreadsheets are where most swimming clubs start. Someone on the committee builds a membership tracker in Excel or Google Sheets. Another person creates a fee collection log. A third maintains an attendance register. It works. For a while.

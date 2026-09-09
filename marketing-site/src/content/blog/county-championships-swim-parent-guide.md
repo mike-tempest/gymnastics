@@ -1,12 +1,12 @@
 ---
 title: "County Championships: A Swim Parent's Guide to Your Child's First Big Meet"
-description: "Everything first-time swim parents need to know about county championships — from qualification times to what to pack on the day."
-pubDate: "2026-03-09"
-author: "Mike Tempest"
-tags: ["swim parents", "competitions", "county championships", "meet guide"]
+description: 'Everything first-time swim parents need to know about county championships — from qualification times to what to pack on the day.'
+pubDate: '2026-03-09'
+author: 'Mike Tempest'
+tags: ['swim parents', 'competitions', 'county championships', 'meet guide']
 ---
 
-County championships season is here, and if your child has qualified for their first one, you're probably equal parts proud and anxious. What even *is* a county championship? What should you bring? How long will you be there? And most importantly, how do you support your child without accidentally becoming *that* parent?
+County championships season is here, and if your child has qualified for their first one, you're probably equal parts proud and anxious. What even _is_ a county championship? What should you bring? How long will you be there? And most importantly, how do you support your child without accidentally becoming _that_ parent?
 
 Here's what I wish I'd known before our first county champs.
 
@@ -41,6 +41,7 @@ Some counties run "timed finals" for certain age groups or events, where you swi
 ## What to Pack (Trust Me on the Chair)
 
 **The essentials:**
+
 - **Folding camping chair** — This is non-negotiable. You will be there for hours. Poolside seating is limited and often reserved for coaches. Bring a chair.
 - **Layers of clothing** — Pool temperature varies wildly. Bring a hoodie even if it's sunny outside.
 - **Snacks and drinks** — Venue cafes are expensive and often understaffed. Pack enough for the whole session.
@@ -48,6 +49,7 @@ Some counties run "timed finals" for certain age groups or events, where you swi
 - **Cash** — Some venues still don't take card for programmes or raffle tickets.
 
 **For your swimmer:**
+
 - Multiple towels (one is never enough)
 - Warm tracksuit or hoodie and joggers
 - Pool shoes or flip-flops
@@ -63,6 +65,7 @@ Some counties run "timed finals" for certain age groups or events, where you swi
 When you arrive, you'll be handed (or can download) a heat sheet. This is the bible of the meet. It lists every race, every heat, every lane, and every swimmer.
 
 Find your child's events and note:
+
 - Event number
 - Heat number
 - Lane number
@@ -79,24 +82,27 @@ Here's the reality check: most swimmers do not swim faster at county championshi
 The pressure is higher. The competition is tougher. The atmosphere is intense. A time that's within a few tenths of their personal best is a good result. A personal best is fantastic. A medal is exceptional.
 
 **What success looks like:**
+
 - Your child swims their race without being disqualified
 - They finish close to or faster than their seed time
 - They manage their nerves and enjoy the experience
 - They learn something about racing at a higher level
 
-If they're disappointed with their time, remind them they *qualified for counties*. That alone puts them among the fastest swimmers in the county for their age.
+If they're disappointed with their time, remind them they _qualified for counties_. That alone puts them among the fastest swimmers in the county for their age.
 
 ## How to Support Without Adding Pressure
 
 The best thing you can do is stay calm. Your child will pick up on your anxiety, so manage your own expectations first.
 
 **Do:**
+
 - Cheer for them during their race
 - Be warm and encouraging afterwards, regardless of the result
 - Let them debrief with their coach first (they'll want technical feedback, not emotional reassurance)
 - Celebrate the achievement of being there
 
 **Don't:**
+
 - Analyse their race technique (that's the coach's job)
 - Compare them to other swimmers
 - Focus on times or placings immediately after the race
@@ -119,6 +125,7 @@ County championships need volunteers to run smoothly: timekeepers, marshals, ann
 Your club may ask if you're available to help. Volunteering is a brilliant way to understand the meet format better, and you'll still get to watch your child race (volunteers work in shifts).
 
 **Common roles:**
+
 - **Timekeeper:** Operate manual stopwatch as backup to electronic timing
 - **Marshal:** Help get swimmers to the right heat and lane
 - **Runner:** Deliver result slips from timing desk to results board
@@ -147,7 +154,6 @@ Let them process it in their own time. Then ask if they'd like to aim for counti
 ---
 
 **Want a pre-meet checklist you can actually use?** Join our waitlist at [swimly.uk](/) and we'll send you our county championships parent pack — covering everything from heat sheet navigation to post-race nutrition.
-
 
 ---
 

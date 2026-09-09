@@ -201,9 +201,7 @@ describe('UsersService', () => {
 
       expect(result.created).toHaveLength(1);
       expect(result.created[0].email).toBe('treasurer@example.com');
-      expect(result.errors).toEqual([
-        { row: 1, message: 'User with this email already exists' },
-      ]);
+      expect(result.errors).toEqual([{ row: 1, message: 'User with this email already exists' }]);
     });
 
     it('should detect an existing user case-insensitively', async () => {
@@ -215,12 +213,8 @@ describe('UsersService', () => {
       const result = await service.bulkCreateStaff([staffItems[0]]);
 
       expect(result.created).toHaveLength(0);
-      expect(result.errors).toEqual([
-        { row: 1, message: 'User with this email already exists' },
-      ]);
-      expect(mockRepository.findByEmailInsensitive).toHaveBeenCalledWith(
-        'head.coach@example.com',
-      );
+      expect(result.errors).toEqual([{ row: 1, message: 'User with this email already exists' }]);
+      expect(mockRepository.findByEmailInsensitive).toHaveBeenCalledWith('head.coach@example.com');
       expect(mockRepository.create).not.toHaveBeenCalled();
     });
 

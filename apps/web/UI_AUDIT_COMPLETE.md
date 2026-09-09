@@ -13,7 +13,7 @@ All UI audit fixes for loading states, error boundaries, and empty states have b
 All key routes have `loading.tsx` files with proper loading spinners:
 
 - ✅ `/swimmers` - Loading spinner with "Loading swimmers..." message
-- ✅ `/families` - Loading spinner with "Loading families..." message  
+- ✅ `/families` - Loading spinner with "Loading families..." message
 - ✅ `/sessions` - Loading spinner with appropriate message
 - ✅ `/attendance` - Loading spinner implemented
 - ✅ `/squads` - Loading spinner implemented
@@ -110,6 +110,7 @@ npx next build
 ## Design Consistency
 
 All empty states follow Swimly design system:
+
 - Dark theme colours (`#0A0E17`, `#131824`, etc.)
 - Mint accent colour (`#4ECDC4`) for CTAs
 - Appropriate icon sizes (20x20 for large icons)
@@ -132,8 +133,9 @@ While all requirements have been met, consider these enhancements for future ite
 **Status:** ✅ COMPLETE
 
 All UI audit requirements have been verified:
+
 - Loading states: 12/12 routes ✓
-- Error boundaries: 12/12 routes ✓  
+- Error boundaries: 12/12 routes ✓
 - Empty states: 9/9 list pages ✓
 
 The app is ready for pilot deployment from a UI completeness perspective. Users will see proper loading feedback, graceful error recovery, and friendly empty states throughout the application.

@@ -135,7 +135,11 @@ export class InvoicePdfService {
 
     // Reference block: number, dates, and the tax registration line.
     const metaRow = (label: string, value: string): void => {
-      doc.font('Helvetica').fontSize(9).fillColor(MUTED).text(label, left, y + 1, { width: 130 });
+      doc
+        .font('Helvetica')
+        .fontSize(9)
+        .fillColor(MUTED)
+        .text(label, left, y + 1, { width: 130 });
       doc
         .font('Helvetica')
         .fontSize(10)
@@ -258,7 +262,11 @@ export class InvoicePdfService {
 
     const totalsLabelX = rightEdge - 260;
     const totalsValueX = rightEdge - 110;
-    const totalsRow = (label: string, value: string, opts?: { bold?: boolean; muted?: boolean }): void => {
+    const totalsRow = (
+      label: string,
+      value: string,
+      opts?: { bold?: boolean; muted?: boolean },
+    ): void => {
       doc
         .font(opts?.bold ? 'Helvetica-Bold' : 'Helvetica')
         .fontSize(opts?.bold ? 11 : 10)

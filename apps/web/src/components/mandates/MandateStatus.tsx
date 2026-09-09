@@ -14,7 +14,6 @@ import { useFormatters } from '@/hooks/useFormatters';
 import { mandatesApi } from '@/lib/api/mandates';
 import { paymentMethodLabel } from '@/lib/utils/region-labels';
 
-
 interface MandateStatusProps {
   familyId: string;
   onSetupClick?: () => void;
@@ -90,7 +89,11 @@ export function MandateStatus({ familyId, onSetupClick }: MandateStatusProps) {
   const handleCancel = async () => {
     if (!mandate) return;
 
-    if (!confirm(`Are you sure you want to cancel this ${methodLabel} mandate? This will stop all automatic payments.`)) {
+    if (
+      !confirm(
+        `Are you sure you want to cancel this ${methodLabel} mandate? This will stop all automatic payments.`
+      )
+    ) {
       return;
     }
 
@@ -138,7 +141,8 @@ export function MandateStatus({ familyId, onSetupClick }: MandateStatusProps) {
         </CardHeader>
         <CardContent>
           <p className="text-text-secondary mb-4">
-            No {methodLabel} mandate is set up for this family. Set up {methodLabel} to enable automatic monthly payments.
+            No {methodLabel} mandate is set up for this family. Set up {methodLabel} to enable
+            automatic monthly payments.
           </p>
           {onSetupClick && (
             <Button onClick={onSetupClick}>
@@ -155,9 +159,7 @@ export function MandateStatus({ familyId, onSetupClick }: MandateStatusProps) {
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="font-serif">{methodLabel}</CardTitle>
-          <Badge className={getStatusColour(mandate.status)}>
-            {mandate.status}
-          </Badge>
+          <Badge className={getStatusColour(mandate.status)}>{mandate.status}</Badge>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -216,12 +218,7 @@ export function MandateStatus({ familyId, onSetupClick }: MandateStatusProps) {
           </Button>
 
           {mandate.status === 'active' && (
-            <Button
-              onClick={handleCancel}
-              disabled={cancelling}
-              variant="destructive"
-              size="sm"
-            >
+            <Button onClick={handleCancel} disabled={cancelling} variant="destructive" size="sm">
               {cancelling ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />

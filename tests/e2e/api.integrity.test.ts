@@ -15,7 +15,7 @@ describe('Data Integrity API', () => {
     const squadsRes = await authGet('/squads', adminToken);
     expect(squadsRes.status).toBe(200);
     const squads = await squadsRes.json();
-    
+
     const validSquadIds = new Set(squads.map((s: any) => s.squad_id));
 
     for (const member of members) {
@@ -33,7 +33,7 @@ describe('Data Integrity API', () => {
     const familiesRes = await authGet('/families', adminToken);
     expect(familiesRes.status).toBe(200);
     const families = await familiesRes.json();
-    
+
     const validFamilyIds = new Set(families.map((f: any) => f.family_id));
 
     for (const member of members) {
@@ -51,7 +51,7 @@ describe('Data Integrity API', () => {
     const familiesRes = await authGet('/families', adminToken);
     expect(familiesRes.status).toBe(200);
     const families = await familiesRes.json();
-    
+
     const validFamilyIds = new Set(families.map((f: any) => f.family_id));
 
     for (const invoice of invoices) {
@@ -69,7 +69,7 @@ describe('Data Integrity API', () => {
     const sessionsRes = await authGet('/sessions', adminToken);
     expect(sessionsRes.status).toBe(200);
     const sessions = await sessionsRes.json();
-    
+
     const membersRes = await authGet('/members', adminToken);
     expect(membersRes.status).toBe(200);
     const members = await membersRes.json();
@@ -95,7 +95,7 @@ describe('Data Integrity API', () => {
     const squadsRes = await authGet('/squads', adminToken);
     expect(squadsRes.status).toBe(200);
     const squads = await squadsRes.json();
-    
+
     const validSquadIds = new Set(squads.map((s: any) => s.squad_id));
 
     for (const session of sessions) {

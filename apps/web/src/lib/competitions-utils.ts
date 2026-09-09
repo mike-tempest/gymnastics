@@ -1,4 +1,9 @@
-import { CompetitionStatus, CompetitionType, Course, QualifyingTime } from '@club-manager/shared-types';
+import {
+  CompetitionStatus,
+  CompetitionType,
+  Course,
+  QualifyingTime,
+} from '@club-manager/shared-types';
 
 export const COMPETITION_STATUS_STYLES: Record<CompetitionStatus, string> = {
   [CompetitionStatus.DRAFT]: 'bg-white/10 text-grey-300',
@@ -101,7 +106,7 @@ export function parseSwimTimeInput(value: string): number | null {
 export function findQualifyingTime(
   qualifyingTimes: QualifyingTime[] | null | undefined,
   distance: number,
-  stroke: string,
+  stroke: string
 ): QualifyingTime | undefined {
   return qualifyingTimes?.find((qt) => qt.distance === distance && qt.stroke === stroke);
 }

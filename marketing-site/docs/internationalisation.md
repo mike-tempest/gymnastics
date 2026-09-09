@@ -49,12 +49,12 @@ its own geographic targeting.
 One Astro project produces every page. Regions are expressed as path prefixes,
 which matches how the pages sit on disk under `src/pages/`.
 
-| Region | Host | Path prefix | Example page |
-|--------|------|-------------|--------------|
-| United Kingdom | https://swimly.uk | (none, root) | `https://swimly.uk/pricing/` |
-| United States | https://swimly.club | `/us` | `https://swimly.club/us/pricing/` |
-| Canada | https://swimly.club | `/ca` | `https://swimly.club/ca/pricing/` |
-| Australia | https://swimly.club | `/au` | `https://swimly.club/au/pricing/` |
+| Region         | Host                | Path prefix  | Example page                      |
+| -------------- | ------------------- | ------------ | --------------------------------- |
+| United Kingdom | https://swimly.uk   | (none, root) | `https://swimly.uk/pricing/`      |
+| United States  | https://swimly.club | `/us`        | `https://swimly.club/us/pricing/` |
+| Canada         | https://swimly.club | `/ca`        | `https://swimly.club/ca/pricing/` |
+| Australia      | https://swimly.club | `/au`        | `https://swimly.club/au/pricing/` |
 
 In addition there is an **international hub** built under `international/`. It is
 a small set of pages on swimly.club that introduce Swimly to visitors who have
@@ -114,18 +114,18 @@ export type RegionKey = 'uk' | 'us' | 'ca' | 'au';
 
 export interface Region {
   key: RegionKey;
-  name: string;             // 'United Kingdom', 'United States', ...
-  hreflang: string;         // 'en-GB', 'en-US', 'en-CA', 'en-AU'
-  host: string;             // 'https://swimly.uk' or 'https://swimly.club'
-  pathPrefix: string;       // '' for UK, '/us', '/ca', '/au'
-  currency: string;         // 'GBP', 'USD', 'CAD', 'AUD'
-  currencySymbol: string;   // '£', '$', 'C$', 'A$'
-  pricePrimary: number;     // PROVISIONAL until confirmed before launch
+  name: string; // 'United Kingdom', 'United States', ...
+  hreflang: string; // 'en-GB', 'en-US', 'en-CA', 'en-AU'
+  host: string; // 'https://swimly.uk' or 'https://swimly.club'
+  pathPrefix: string; // '' for UK, '/us', '/ca', '/au'
+  currency: string; // 'GBP', 'USD', 'CAD', 'AUD'
+  currencySymbol: string; // '£', '$', 'C$', 'A$'
+  pricePrimary: number; // PROVISIONAL until confirmed before launch
   pricePerformance: number; // PROVISIONAL until confirmed before launch
-  governingBody: string;    // 'Swim England', 'USA Swimming', ...
-  spelling: 'gb' | 'us';    // 'us' for the US, 'gb' for UK/CA/AU
-  appUrl: string;           // application sign-in URL for the region
-  contactEmail: string;     // 'hello@swimly.uk' or 'hello@swimly.club'
+  governingBody: string; // 'Swim England', 'USA Swimming', ...
+  spelling: 'gb' | 'us'; // 'us' for the US, 'gb' for UK/CA/AU
+  appUrl: string; // application sign-in URL for the region
+  contactEmail: string; // 'hello@swimly.uk' or 'hello@swimly.club'
 }
 ```
 
@@ -170,7 +170,7 @@ The layout is responsible for deriving the current page's region from its
 pathname and emitting the region-aware head tags. The contract is:
 
 - **Canonical.** `canonicalFor(Astro.url.pathname)` sets `<link
-  rel="canonical">`. Region-only pages (pages that exist in just one region, for
+rel="canonical">`. Region-only pages (pages that exist in just one region, for
   example a US-specific governing-body answer page) self-canonicalise to their
   own URL on their own host. They do not point at a UK equivalent, because there
   is not one.

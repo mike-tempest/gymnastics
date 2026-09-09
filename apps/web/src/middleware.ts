@@ -9,13 +9,7 @@ const WELFARE_ROLES = ['welfare_officer', 'WELFARE_OFFICER'];
 const PARENT_ROLE = 'PARENT';
 
 // Routes accessible by coaches (in addition to admins)
-const COACH_ROUTES = [
-  '/attendance',
-  '/sessions',
-  '/members',
-  '/squads',
-  '/communications',
-];
+const COACH_ROUTES = ['/attendance', '/sessions', '/members', '/squads', '/communications'];
 
 // Routes accessible by the club's Welfare Officer. The compliance screens are
 // their job; the gymnast list is the context for it. Both are backed by

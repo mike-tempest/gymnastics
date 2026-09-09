@@ -35,10 +35,7 @@ describe('DataImportService', () => {
     parent_email: 'sarah.jones@example.com',
   };
 
-  const makeDto = (
-    rows: MemberImportRowDto[],
-    createMissingSquads = false,
-  ): ImportMembersDto => ({
+  const makeDto = (rows: MemberImportRowDto[], createMissingSquads = false): ImportMembersDto => ({
     rows,
     options: { create_missing_squads: createMissingSquads },
   });
@@ -226,7 +223,9 @@ describe('DataImportService', () => {
       };
       mockMembersRepository.findAll.mockResolvedValue([englandMember, walesMember]);
 
-      const result = await service.importMembers(makeDto([{ ...baseRow, registration_number: '1234567' }]));
+      const result = await service.importMembers(
+        makeDto([{ ...baseRow, registration_number: '1234567' }]),
+      );
 
       expect(result.errors).toHaveLength(1);
       expect(result.errors[0].row).toBe(1);

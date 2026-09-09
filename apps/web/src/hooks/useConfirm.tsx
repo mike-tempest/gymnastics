@@ -46,19 +46,22 @@ export function useConfirm() {
     setIsOpen(false);
   }, [resolver]);
 
-  const ConfirmDialogComponent = useCallback(() => (
-    <ConfirmDialog
-      open={isOpen}
-      onOpenChange={handleCancel}
-      title={options.title}
-      description={options.description}
-      confirmLabel={options.confirmLabel}
-      cancelLabel={options.cancelLabel}
-      variant={options.variant}
-      onConfirm={handleConfirm}
-      isLoading={isLoading}
-    />
-  ), [isOpen, options, isLoading, handleConfirm, handleCancel]);
+  const ConfirmDialogComponent = useCallback(
+    () => (
+      <ConfirmDialog
+        open={isOpen}
+        onOpenChange={handleCancel}
+        title={options.title}
+        description={options.description}
+        confirmLabel={options.confirmLabel}
+        cancelLabel={options.cancelLabel}
+        variant={options.variant}
+        onConfirm={handleConfirm}
+        isLoading={isLoading}
+      />
+    ),
+    [isOpen, options, isLoading, handleConfirm, handleCancel]
+  );
 
   return { confirm, ConfirmDialog: ConfirmDialogComponent };
 }

@@ -409,13 +409,19 @@ describe('MandatesService', () => {
         providerMandateId: 'MD000001',
         providerCustomerId: 'CU000001',
       });
-      mockRepository.create.mockImplementation((dto) => Promise.resolve({ ...mockMandate, ...dto }));
+      mockRepository.create.mockImplementation((dto) =>
+        Promise.resolve({ ...mockMandate, ...dto }),
+      );
     });
 
     it("should record scheme 'bacs' for a GB club", async () => {
       mockClubsRepository.findOne.mockResolvedValue({ club_id: '999e0000', country: 'GB' });
 
-      await service.completeRedirectFlow('RE000001', 'session-123', mockMandate.family_id as string);
+      await service.completeRedirectFlow(
+        'RE000001',
+        'session-123',
+        mockMandate.family_id as string,
+      );
 
       expect(mockRepository.create).toHaveBeenCalledWith(
         expect.objectContaining({ scheme: 'bacs' }),
@@ -425,7 +431,11 @@ describe('MandatesService', () => {
     it("should record scheme 'ach' for a US club", async () => {
       mockClubsRepository.findOne.mockResolvedValue({ club_id: '999e0000', country: 'US' });
 
-      await service.completeRedirectFlow('RE000001', 'session-123', mockMandate.family_id as string);
+      await service.completeRedirectFlow(
+        'RE000001',
+        'session-123',
+        mockMandate.family_id as string,
+      );
 
       expect(mockRepository.create).toHaveBeenCalledWith(
         expect.objectContaining({ scheme: 'ach' }),
@@ -435,7 +445,11 @@ describe('MandatesService', () => {
     it("should record scheme 'becs' for an AU club", async () => {
       mockClubsRepository.findOne.mockResolvedValue({ club_id: '999e0000', country: 'AU' });
 
-      await service.completeRedirectFlow('RE000001', 'session-123', mockMandate.family_id as string);
+      await service.completeRedirectFlow(
+        'RE000001',
+        'session-123',
+        mockMandate.family_id as string,
+      );
 
       expect(mockRepository.create).toHaveBeenCalledWith(
         expect.objectContaining({ scheme: 'becs' }),

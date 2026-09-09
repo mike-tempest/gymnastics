@@ -51,7 +51,10 @@ export async function createCompetition(data: CreateCompetitionInput): Promise<C
   return api.post<Competition>('/competitions', data);
 }
 
-export async function updateCompetition(id: string, data: UpdateCompetitionInput): Promise<Competition> {
+export async function updateCompetition(
+  id: string,
+  data: UpdateCompetitionInput
+): Promise<Competition> {
   return api.patch<Competition>(`/competitions/${id}`, data);
 }
 
@@ -91,12 +94,14 @@ export interface CreateEntryInput {
 }
 
 export async function getCompetitionEntries(competitionId: string): Promise<CompetitionEntry[]> {
-  return api.get<CompetitionEntry[]>(`/competitions/${competitionId}/entries`, { cache: 'no-store' });
+  return api.get<CompetitionEntry[]>(`/competitions/${competitionId}/entries`, {
+    cache: 'no-store',
+  });
 }
 
 export async function addCompetitionEntries(
   competitionId: string,
-  entries: CreateEntryInput[],
+  entries: CreateEntryInput[]
 ): Promise<CompetitionEntry[]> {
   return api.post<CompetitionEntry[]>(`/competitions/${competitionId}/entries`, entries);
 }
@@ -156,7 +161,7 @@ export type UpdateResultInput = Partial<Omit<CreateResultInput, 'member_id'>>;
 
 export async function addCompetitionResult(
   competitionId: string,
-  data: CreateResultInput,
+  data: CreateResultInput
 ): Promise<CompetitionResult> {
   return api.post<CompetitionResult>(`/competitions/${competitionId}/results`, data);
 }
@@ -164,14 +169,14 @@ export async function addCompetitionResult(
 export async function updateCompetitionResult(
   competitionId: string,
   resultId: string,
-  data: UpdateResultInput,
+  data: UpdateResultInput
 ): Promise<CompetitionResult> {
   return api.patch<CompetitionResult>(`/competitions/${competitionId}/results/${resultId}`, data);
 }
 
 export async function deleteCompetitionResult(
   competitionId: string,
-  resultId: string,
+  resultId: string
 ): Promise<void> {
   return api.delete<void>(`/competitions/${competitionId}/results/${resultId}`);
 }
@@ -209,14 +214,16 @@ export interface ImportOutcome {
 }
 
 export async function getCompetitionResults(competitionId: string): Promise<CompetitionResult[]> {
-  return api.get<CompetitionResult[]>(`/competitions/${competitionId}/results`, { cache: 'no-store' });
+  return api.get<CompetitionResult[]>(`/competitions/${competitionId}/results`, {
+    cache: 'no-store',
+  });
 }
 
 export async function importCompetitionResults(
   competitionId: string,
   file: File,
   format?: string,
-  preview?: boolean,
+  preview?: boolean
 ): Promise<ImportPreview | ImportOutcome> {
   const { API_BASE_URL } = await import('./api-client');
   const formData = new FormData();
@@ -278,7 +285,7 @@ export interface TimesImportOutcome {
 export async function importCompetitionTimes(
   competitionId: string,
   file: File,
-  preview?: boolean,
+  preview?: boolean
 ): Promise<TimesImportPreview | TimesImportOutcome> {
   const { API_BASE_URL } = await import('./api-client');
   const formData = new FormData();
@@ -303,7 +310,7 @@ export async function importCompetitionTimes(
 
 export async function exportCompetitionEntries(
   competitionId: string,
-  format: string,
+  format: string
 ): Promise<void> {
   const { API_BASE_URL } = await import('./api-client');
   const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null;
@@ -313,7 +320,7 @@ export async function exportCompetitionEntries(
     {
       method: 'POST',
       headers: { ...(token && { Authorization: `Bearer ${token}` }) },
-    },
+    }
   );
 
   if (!response.ok) {
@@ -340,9 +347,13 @@ export async function exportCompetitionEntries(
 // --- Member Results ---
 
 export async function getMemberResults(memberId: string): Promise<CompetitionResult[]> {
-  return api.get<CompetitionResult[]>(`/competitions/member/${memberId}/results`, { cache: 'no-store' });
+  return api.get<CompetitionResult[]>(`/competitions/member/${memberId}/results`, {
+    cache: 'no-store',
+  });
 }
 
 export async function getMemberPersonalBests(memberId: string): Promise<MemberPersonalBests> {
-  return api.get<MemberPersonalBests>(`/competitions/member/${memberId}/personal-bests`, { cache: 'no-store' });
+  return api.get<MemberPersonalBests>(`/competitions/member/${memberId}/personal-bests`, {
+    cache: 'no-store',
+  });
 }

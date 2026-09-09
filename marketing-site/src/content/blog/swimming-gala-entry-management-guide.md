@@ -1,9 +1,9 @@
 ---
 title: "Swimming Gala Entry Management: A Treasurer's Guide"
-description: "The comprehensive guide to managing gala entries, qualifying times, and competition admin for UK swim clubs. From spreadsheet chaos to streamlined processes."
-pubDate: "2026-03-08"
-author: "Mike Tempest"
-tags: ["swim clubs", "gala management", "competition", "admin", "treasurer"]
+description: 'The comprehensive guide to managing gala entries, qualifying times, and competition admin for UK swim clubs. From spreadsheet chaos to streamlined processes.'
+pubDate: '2026-03-08'
+author: 'Mike Tempest'
+tags: ['swim clubs', 'gala management', 'competition', 'admin', 'treasurer']
 ---
 
 If you're a swim club treasurer or secretary managing gala entries, you already know the drill: spreadsheets upon spreadsheets, chasing parents for payments, wrestling with Hy-Tek files, and praying you haven't accidentally entered someone who doesn't have qualifying times. Then results come back and you're manually updating PBs in yet another spreadsheet.
@@ -49,12 +49,14 @@ Miss updating a PB, and you might enter a swimmer into an event they've already 
 Hy-Tek is the incumbent in UK swimming. It's powerful, comprehensive, and has been around since the 1990s. Many county and regional bodies require Hy-Tek exports for entries.
 
 **Pros:**
+
 - Industry standard for UK meets
 - Comprehensive meet management features
 - Handles qualifying times, meet seeding, results import
 - Offline desktop software (works poolside)
 
 **Cons:**
+
 - Desktop-only (Windows, limited Mac support via emulation)
 - Steep learning curve for new committee members
 - Expensive (£300+ for full version)
@@ -68,12 +70,14 @@ Most clubs using Hy-Tek have one person who knows how to use it. When that perso
 SportSystems is a cloud-based alternative that's gained traction in the past five years, particularly in southern England.
 
 **Pros:**
+
 - Web-based (accessible from any device)
 - Modern interface
 - Built-in parent portal for entries and payments
 - Automatic results import from affiliated meets
 
 **Cons:**
+
 - Not universally accepted (some meets still require Hy-Tek files)
 - Subscription pricing (£500-1,000/year depending on club size)
 - Learning curve for clubs migrating from Hy-Tek
@@ -86,12 +90,14 @@ SportSystems is a significant improvement over Hy-Tek for clubs that can afford 
 Many smaller clubs still do everything in Excel or Google Sheets. It's free, flexible, and everyone knows how to use it.
 
 **Pros:**
+
 - Zero software cost
 - Complete flexibility
 - No lock-in
 - Works offline
 
 **Cons:**
+
 - Entirely manual process (no automation)
 - Error-prone (typos, formula mistakes)
 - Time-intensive for treasurers and secretaries
@@ -125,6 +131,7 @@ Here's what it will do:
 County, regional, and national standards (Swim England) built into the system. Updated automatically when new standards are published. Coaches see which swimmers are eligible for which events before they start selecting.
 
 **Three-Role Workflow**
+
 1. **Comp Sec creates the gala** – Imports standards, sets entry deadline, specifies file format required
 2. **Coach selects swimmers** – System highlights eligible swimmers, flags those without qualifying times
 3. **Parent confirms and pays** – Receives notification, confirms entries, pays via Direct Debit with 50p convenience fee
@@ -146,16 +153,19 @@ Module 5 isn't built yet. We're architecting it in March 2026, with development 
 ## What You Can Do Now
 
 **If you're using spreadsheets:**
+
 - Create a qualifying times database now (copy-paste from county websites)
 - Set up a template for entry fee calculations (per-event pricing)
 - Document your file export process (future you will thank you)
 
 **If you're using Hy-Tek:**
+
 - Document everything in a handover guide for the next committee member
 - Consider cloud backup of your Hy-Tek database (it's just a file)
 - Test your results import process before competition season starts
 
 **If you're considering SportSystems:**
+
 - Check compatibility with your local competition calendar
 - Calculate total cost (subscription + setup + training time)
 - Run a pilot with one squad before rolling out club-wide

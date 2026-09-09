@@ -14,12 +14,10 @@ export default function NotFound() {
           <Search className="h-10 w-10 text-brand" aria-hidden="true" />
         </div>
         <h1 className="text-7xl font-bold text-brand mb-3">404</h1>
-        <h2 className="text-2xl font-semibold text-dark-primary mb-2">
-          Page not found
-        </h2>
+        <h2 className="text-2xl font-semibold text-dark-primary mb-2">Page not found</h2>
         <p className="text-text-secondary mb-8 leading-relaxed">
-          Sorry, we couldn&apos;t find the page you were looking for. It may
-          have been moved or no longer exists.
+          Sorry, we couldn&apos;t find the page you were looking for. It may have been moved or no
+          longer exists.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link

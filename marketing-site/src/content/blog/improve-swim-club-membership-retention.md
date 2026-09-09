@@ -1,9 +1,9 @@
 ---
-title: "5 Proven Strategies to Improve Swim Club Membership Retention"
-description: "Five evidence-based ways to improve swim club membership retention, from better communication to clear progression pathways and a stronger community."
+title: '5 Proven Strategies to Improve Swim Club Membership Retention'
+description: 'Five evidence-based ways to improve swim club membership retention, from better communication to clear progression pathways and a stronger community.'
 pubDate: 2026-02-15
-author: "Swimly Team"
-tags: ["swim clubs", "membership", "retention", "club management"]
+author: 'Swimly Team'
+tags: ['swim clubs', 'membership', 'retention', 'club management']
 ---
 
 [Recruiting new members](/blog/how-to-grow-swim-club-membership/) gets a lot of attention in swimming clubs. Retention rarely gets the same focus, which is a problem, because losing existing members is far more costly than gaining new ones. Every swimmer who leaves represents lost subscription income, wasted onboarding effort, and often a gap in squad numbers that affects training quality for everyone else.

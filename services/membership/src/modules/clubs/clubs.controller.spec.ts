@@ -5,10 +5,7 @@ import { ClubsService } from './clubs.service';
 import { ClubsRepository } from './clubs.repository';
 import { Club, ClubStatus } from './entities/club.entity';
 import { PaymentConnectionsService } from '../finance/payment-connections/payment-connections.service';
-import {
-  CLS_CLUB_ID_KEY,
-  TenantContextService,
-} from '../../common/tenancy/tenant-context.service';
+import { CLS_CLUB_ID_KEY, TenantContextService } from '../../common/tenancy/tenant-context.service';
 
 const CLUB_A = 'club-aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa';
 const CLUB_B = 'club-bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb';

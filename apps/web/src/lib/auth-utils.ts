@@ -96,13 +96,16 @@ export function getAuthHeaders(): HeadersInit {
  * Login with email and password
  */
 export async function login(email: string, password: string): Promise<AuthTokens> {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/auth/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, password }),
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/auth/login`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    }
+  );
 
   if (!response.ok) {
     const error = await response.json();
@@ -124,13 +127,16 @@ export async function register(userData: {
   last_name: string;
   role?: 'ADMIN' | 'COACH' | 'PARENT';
 }): Promise<AuthTokens> {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/auth/register`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/auth/register`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    }
+  );
 
   if (!response.ok) {
     const error = await response.json();

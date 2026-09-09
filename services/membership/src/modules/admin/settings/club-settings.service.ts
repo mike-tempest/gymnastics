@@ -8,10 +8,7 @@ import { TenantContextService } from '../../../common/tenancy/tenant-context.ser
 import { ClubsService } from '../../clubs/clubs.service';
 import { ClubsRepository } from '../../clubs/clubs.repository';
 import { Club } from '../../clubs/entities/club.entity';
-import {
-  isValidTimezoneForCountry,
-  regionForCountry,
-} from '../../../common/region/region.util';
+import { isValidTimezoneForCountry, regionForCountry } from '../../../common/region/region.util';
 import { COUNTRY_GOVERNING_BODIES, GoverningBody } from '@club-manager/shared-types';
 
 /**
@@ -157,9 +154,7 @@ export class ClubSettingsService {
     // (the historic signup shape) or affiliationNumber (the web settings form),
     // plus a region key; all are mapped onto the new columns, never stored.
     const readLegacyString = (key: string): string | undefined =>
-      typeof legacyAffiliation?.[key] === 'string'
-        ? (legacyAffiliation[key] as string)
-        : undefined;
+      typeof legacyAffiliation?.[key] === 'string' ? (legacyAffiliation[key] as string) : undefined;
     const affiliationNumber =
       rawAffiliationNumber?.trim() ??
       readLegacyString('affiliate_number') ??

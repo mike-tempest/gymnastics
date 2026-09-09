@@ -23,13 +23,13 @@ type ErrorCollector = { errors: string[] };
 function attachErrorCollector(page: Page): ErrorCollector {
   const collector: ErrorCollector = { errors: [] };
 
-  page.on('console', msg => {
+  page.on('console', (msg) => {
     if (msg.type() === 'error') {
       collector.errors.push(msg.text());
     }
   });
 
-  page.on('pageerror', err => {
+  page.on('pageerror', (err) => {
     collector.errors.push(err.message);
   });
 
@@ -42,7 +42,7 @@ function attachErrorCollector(page: Page): ErrorCollector {
  */
 function getCriticalErrors(collector: ErrorCollector): string[] {
   return collector.errors.filter(
-    e =>
+    (e) =>
       !e.includes('Failed to fetch') &&
       !e.includes('NetworkError') &&
       !e.includes('ECONNREFUSED') &&

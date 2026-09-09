@@ -30,7 +30,12 @@ export default function InviteLinkModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="invite-link-modal-title">
+    <div
+      className="fixed inset-0 z-50 overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="invite-link-modal-title"
+    >
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black bg-opacity-75 transition-opacity"
@@ -74,7 +79,9 @@ export default function InviteLinkModal({
                 <path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
               </svg>
             </div>
-            <h2 id="invite-link-modal-title" className="text-3xl font-bold text-white">Parent Invitation Link</h2>
+            <h2 id="invite-link-modal-title" className="text-3xl font-bold text-white">
+              Parent Invitation Link
+            </h2>
             <p className="text-text-secondary text-lg mt-2">
               Share this link with parents of {familyName}
             </p>

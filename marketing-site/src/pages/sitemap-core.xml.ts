@@ -21,26 +21,89 @@ export const GET: APIRoute = async () => {
     { loc: `${baseUrl}/blog/`, lastmod: currentDate, changefreq: 'daily', priority: '0.9' },
     { loc: `${baseUrl}/clubs/`, lastmod: currentDate, changefreq: 'weekly', priority: '0.8' },
     { loc: `${baseUrl}/clubs/map/`, lastmod: currentDate, changefreq: 'weekly', priority: '0.7' },
-    { loc: `${baseUrl}/swimming-club-software/`, lastmod: currentDate, changefreq: 'weekly', priority: '0.8' },
+    {
+      loc: `${baseUrl}/swimming-club-software/`,
+      lastmod: currentDate,
+      changefreq: 'weekly',
+      priority: '0.8',
+    },
     { loc: `${baseUrl}/about/`, lastmod: currentDate, changefreq: 'monthly', priority: '0.6' },
     { loc: `${baseUrl}/faq/`, lastmod: currentDate, changefreq: 'weekly', priority: '0.8' },
-    { loc: `${baseUrl}/swim-school-management/`, lastmod: currentDate, changefreq: 'monthly', priority: '0.8' },
-    { loc: `${baseUrl}/swimming-club-billing-software/`, lastmod: currentDate, changefreq: 'monthly', priority: '0.8' },
-    { loc: `${baseUrl}/swim-team-management-software/`, lastmod: currentDate, changefreq: 'monthly', priority: '0.8' },
-    { loc: `${baseUrl}/swimming-management-software/`, lastmod: currentDate, changefreq: 'monthly', priority: '0.8' },
-    { loc: `${baseUrl}/swim-club-software/`, lastmod: currentDate, changefreq: 'monthly', priority: '0.8' },
-    { loc: `${baseUrl}/swim-club-management-software/`, lastmod: currentDate, changefreq: 'monthly', priority: '0.8' },
-    { loc: `${baseUrl}/swimming-club-membership-software/`, lastmod: currentDate, changefreq: 'monthly', priority: '0.8' },
-    { loc: `${baseUrl}/swimming-club-payment-software/`, lastmod: currentDate, changefreq: 'monthly', priority: '0.8' },
-    { loc: `${baseUrl}/best-swim-club-software-uk/`, lastmod: currentDate, changefreq: 'monthly', priority: '0.8' },
+    {
+      loc: `${baseUrl}/swim-school-management/`,
+      lastmod: currentDate,
+      changefreq: 'monthly',
+      priority: '0.8',
+    },
+    {
+      loc: `${baseUrl}/swimming-club-billing-software/`,
+      lastmod: currentDate,
+      changefreq: 'monthly',
+      priority: '0.8',
+    },
+    {
+      loc: `${baseUrl}/swim-team-management-software/`,
+      lastmod: currentDate,
+      changefreq: 'monthly',
+      priority: '0.8',
+    },
+    {
+      loc: `${baseUrl}/swimming-management-software/`,
+      lastmod: currentDate,
+      changefreq: 'monthly',
+      priority: '0.8',
+    },
+    {
+      loc: `${baseUrl}/swim-club-software/`,
+      lastmod: currentDate,
+      changefreq: 'monthly',
+      priority: '0.8',
+    },
+    {
+      loc: `${baseUrl}/swim-club-management-software/`,
+      lastmod: currentDate,
+      changefreq: 'monthly',
+      priority: '0.8',
+    },
+    {
+      loc: `${baseUrl}/swimming-club-membership-software/`,
+      lastmod: currentDate,
+      changefreq: 'monthly',
+      priority: '0.8',
+    },
+    {
+      loc: `${baseUrl}/swimming-club-payment-software/`,
+      lastmod: currentDate,
+      changefreq: 'monthly',
+      priority: '0.8',
+    },
+    {
+      loc: `${baseUrl}/best-swim-club-software-uk/`,
+      lastmod: currentDate,
+      changefreq: 'monthly',
+      priority: '0.8',
+    },
     { loc: `${baseUrl}/contact/`, lastmod: currentDate, changefreq: 'monthly', priority: '0.6' },
-    { loc: `${baseUrl}/founding-clubs/`, lastmod: currentDate, changefreq: 'monthly', priority: '0.7' },
+    {
+      loc: `${baseUrl}/founding-clubs/`,
+      lastmod: currentDate,
+      changefreq: 'monthly',
+      priority: '0.7',
+    },
     { loc: `${baseUrl}/privacy/`, lastmod: currentDate, changefreq: 'yearly', priority: '0.3' },
-    { loc: `${baseUrl}/terms/`, lastmod: currentDate, changefreq: 'yearly', priority: '0.3' },
+    { loc: `${baseUrl}/terms/`, lastmod: currentDate, changefreq: 'yearly', priority: '0.3' }
   );
 
   // ── Feature pages ─────────────────────────────────────────────────────
-  const featurePages = ['membership', 'billing', 'attendance', 'compliance', 'competitions', 'parent-portal', 'mobile'];
+  const featurePages = [
+    'membership',
+    'billing',
+    'attendance',
+    'compliance',
+    'competitions',
+    'parent-portal',
+    'mobile',
+  ];
   for (const page of featurePages) {
     urls.push({
       loc: `${baseUrl}/features/${page}/`,
@@ -51,7 +114,14 @@ export const GET: APIRoute = async () => {
   }
 
   // ── Competitor comparison pages ───────────────────────────────────────
-  const competitors = ['cluborganiser', 'clubspark', 'coacha', 'gomotion', 'swimclubmanager', 'teamunify'];
+  const competitors = [
+    'cluborganiser',
+    'clubspark',
+    'coacha',
+    'gomotion',
+    'swimclubmanager',
+    'teamunify',
+  ];
   for (const competitor of competitors) {
     urls.push({
       loc: `${baseUrl}/compare/${competitor}/`,

@@ -38,7 +38,7 @@ describe('formatDateIntl', () => {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
-      }),
+      })
     ).toMatch(/^Thursday,? 9 July 2026$/);
   });
 });
@@ -53,7 +53,7 @@ describe('formatDateIntl date-only handling', () => {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric',
-      }),
+      })
     ).toBe('01/08/2026');
   });
 });
@@ -66,7 +66,7 @@ describe('formatDateTimeIntl', () => {
         hour: 'numeric',
         minute: '2-digit',
         hourCycle: 'h23',
-      }),
+      })
     ).toBe('12:00');
   });
 });

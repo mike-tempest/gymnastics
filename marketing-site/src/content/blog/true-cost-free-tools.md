@@ -1,11 +1,12 @@
 ---
-title: "The True Cost of Free Tools for Swimming Clubs"
-description: "Google Sheets, WhatsApp groups, free email accounts and Doodle polls cost nothing to set up. But the real price your club pays in volunteer time, data risk, and missed revenue is far higher than you think."
+title: 'The True Cost of Free Tools for Swimming Clubs'
+description: 'Google Sheets, WhatsApp groups, free email accounts and Doodle polls cost nothing to set up. But the real price your club pays in volunteer time, data risk, and missed revenue is far higher than you think.'
 pubDate: 2026-03-18
-author: "Mike Tempest"
-tags: ["free tools", "volunteer burnout", "club admin", "swimming clubs", "Google Sheets", "WhatsApp"]
-seoTitle: "The True Cost of Free Tools for Swimming Clubs | Swimly Blog"
-seoDescription: "Free tools like Google Sheets and WhatsApp seem free, but the true cost to a swimming club in volunteer hours, data risk and missed revenue is far higher."
+author: 'Mike Tempest'
+tags:
+  ['free tools', 'volunteer burnout', 'club admin', 'swimming clubs', 'Google Sheets', 'WhatsApp']
+seoTitle: 'The True Cost of Free Tools for Swimming Clubs | Swimly Blog'
+seoDescription: 'Free tools like Google Sheets and WhatsApp seem free, but the true cost to a swimming club in volunteer hours, data risk and missed revenue is far higher.'
 ---
 
 Every swimming club starts the same way. Someone creates a Google Sheet for the membership list. Someone else sets up a WhatsApp group for each squad. The treasurer tracks payments in another spreadsheet, or maybe a free accounting tool. Session scheduling goes in a shared Google Calendar. Committee documents live in a free Google Drive folder. New member enquiries come through a Gmail address that three people have the password to.

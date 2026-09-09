@@ -31,7 +31,12 @@ const PersonalBests = dynamic(() => import('@/components/members/PersonalBests')
 export default function MemberDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { formatDate } = useFormatters();
-  const { data: member, isLoading: memberLoading, error: memberError, refetch: refetchMember } = useMember(params.id);
+  const {
+    data: member,
+    isLoading: memberLoading,
+    error: memberError,
+    refetch: refetchMember,
+  } = useMember(params.id);
   const { data: squad } = useSquad(member?.squad_id ?? undefined);
   const isLoading = memberLoading;
   const [error, setError] = useState<string | null>(null);
@@ -122,7 +127,7 @@ export default function MemberDetailPage({ params }: { params: { id: string } })
               { label: `${member.first_name} ${member.last_name}` },
             ]}
           />
-          
+
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-8 gap-4">
             <div>

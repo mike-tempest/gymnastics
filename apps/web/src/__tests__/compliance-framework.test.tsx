@@ -76,7 +76,9 @@ describe('Compliance dashboard framework awareness', () => {
       ).toBeInTheDocument()
     );
     expect(
-      screen.getByText(/British Gymnastics Safeguarding and Protecting Children Policy requirements/)
+      screen.getByText(
+        /British Gymnastics Safeguarding and Protecting Children Policy requirements/
+      )
     ).toBeInTheDocument();
     expect(
       screen.getByText(/Welfare Officer for Safeguarding and Protecting Children Policy compliance/)
@@ -92,12 +94,8 @@ describe('Compliance dashboard framework awareness', () => {
     await waitFor(() =>
       expect(screen.getByRole('heading', { name: 'Compliance and Safe Sport' })).toBeInTheDocument()
     );
-    expect(
-      screen.getByText(/USA Swimming Safe Sport requirements/)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Safeguarding Officer for Safe Sport compliance/)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/USA Swimming Safe Sport requirements/)).toBeInTheDocument();
+    expect(screen.getByText(/Safeguarding Officer for Safe Sport compliance/)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Add SafeSport checks' })).toBeInTheDocument();
     expect(screen.queryByText(/Wavepower/)).not.toBeInTheDocument();
   });
@@ -117,7 +115,9 @@ describe('Compliance dashboard framework awareness', () => {
       expect(screen.getByRole('heading', { name: 'Compliance and Safe Sport' })).toBeInTheDocument()
     );
     // No doubled "Check checks": the noun strips the trailing "Check".
-    expect(screen.getByRole('link', { name: 'Add Working With Children checks' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'Add Working With Children checks' })
+    ).toBeInTheDocument();
     expect(
       screen.getByText(/Member Protection Information Officer \(MPIO\) for Safe Sport compliance/)
     ).toBeInTheDocument();
@@ -140,12 +140,16 @@ describe('DBS check tracker framework awareness', () => {
     await waitFor(() =>
       expect(screen.getByRole('heading', { name: 'DBS check tracker' })).toBeInTheDocument()
     );
-    expect(screen.getByText('Monitor DBS disclosure status for all staff and volunteers')).toBeInTheDocument();
+    expect(
+      screen.getByText('Monitor DBS disclosure status for all staff and volunteers')
+    ).toBeInTheDocument();
     expect(screen.getByText('Expiring within 90 days')).toBeInTheDocument();
     expect(
       screen.getByText(/stay Safeguarding and Protecting Children Policy compliant/)
     ).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Search by name, role, or DBS number...')).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('Search by name, role, or DBS number...')
+    ).toBeInTheDocument();
     expect(screen.queryByText(/60 days/)).not.toBeInTheDocument();
   });
 
@@ -158,8 +162,12 @@ describe('DBS check tracker framework awareness', () => {
       expect(screen.getByRole('heading', { name: 'SafeSport check tracker' })).toBeInTheDocument()
     );
     // Non-DBS frameworks drop the DBS-specific word "disclosure".
-    expect(screen.getByText('Monitor SafeSport check status for all staff and volunteers')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Search by name, role, or SafeSport number...')).toBeInTheDocument();
+    expect(
+      screen.getByText('Monitor SafeSport check status for all staff and volunteers')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('Search by name, role, or SafeSport number...')
+    ).toBeInTheDocument();
     expect(screen.getByText(/stay Safe Sport compliant/)).toBeInTheDocument();
     expect(screen.queryByText(/DBS/)).not.toBeInTheDocument();
   });
@@ -184,7 +192,9 @@ describe('DBS check tracker framework awareness', () => {
       screen.getByText('Monitor Working With Children check status for all staff and volunteers')
     ).toBeInTheDocument();
     // Tight surfaces use the WWCC short label.
-    expect(screen.getByPlaceholderText('Search by name, role, or WWCC number...')).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('Search by name, role, or WWCC number...')
+    ).toBeInTheDocument();
     expect(screen.queryByText(/Check check/)).not.toBeInTheDocument();
     expect(screen.queryByText(/disclosure/)).not.toBeInTheDocument();
     expect(screen.queryByText(/DBS/)).not.toBeInTheDocument();

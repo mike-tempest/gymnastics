@@ -23,10 +23,7 @@ export default function GlobalError({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="m-0 flex min-h-screen items-center justify-center bg-canvas p-4 font-sans">
-        <main
-          role="alert"
-          className="max-w-md rounded-card bg-dark-primary p-10 text-center"
-        >
+        <main role="alert" className="max-w-md rounded-card bg-dark-primary p-10 text-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="64"
@@ -50,8 +47,8 @@ export default function GlobalError({
           </h1>
 
           <p className="mb-8 leading-relaxed text-grey-300">
-            A critical error occurred. Please try again, or contact your club
-            administrator if the problem persists.
+            A critical error occurred. Please try again, or contact your club administrator if the
+            problem persists.
           </p>
 
           <div className="flex flex-wrap justify-center gap-3">

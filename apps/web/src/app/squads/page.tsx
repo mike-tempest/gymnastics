@@ -132,7 +132,9 @@ export default function SquadsPage() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
             <div>
-              <h1 className="font-serif text-2xl sm:text-5xl md:text-6xl text-dark-primary tracking-tight mb-2">Squads</h1>
+              <h1 className="font-serif text-2xl sm:text-5xl md:text-6xl text-dark-primary tracking-tight mb-2">
+                Squads
+              </h1>
               <p className="text-grey-600 text-lg">Manage your club&apos;s training squads</p>
             </div>
             <button
@@ -166,17 +168,27 @@ export default function SquadsPage() {
                   {displayError ? '—' : squads.length}
                   {!displayError && <span className="text-4xl">+</span>}
                 </h2>
-                <p className="text-grey-600 text-lg">{displayError ? 'Unable to load' : 'Active Training Groups'}</p>
+                <p className="text-grey-600 text-lg">
+                  {displayError ? 'Unable to load' : 'Active Training Groups'}
+                </p>
               </div>
               <div className="flex flex-row sm:flex-col gap-4">
                 <div className="bg-brand rounded-3xl p-4 sm:p-6 text-center flex-1 sm:min-w-[180px] shadow-sm">
-                  <p className="text-dark-primary text-sm font-semibold mb-1">Total {MEMBER_NOUN_PLURAL}</p>
-                  <p className="text-dark-primary text-2xl sm:text-4xl font-bold">{displayError ? '—' : totalMembers}</p>
+                  <p className="text-dark-primary text-sm font-semibold mb-1">
+                    Total {MEMBER_NOUN_PLURAL}
+                  </p>
+                  <p className="text-dark-primary text-2xl sm:text-4xl font-bold">
+                    {displayError ? '—' : totalMembers}
+                  </p>
                 </div>
                 <div className="bg-white rounded-3xl p-4 sm:p-6 text-center flex-1 sm:min-w-[180px]">
                   <p className="text-dark-primary text-sm font-semibold mb-1">Avg per Squad</p>
                   <p className="text-dark-primary text-2xl sm:text-4xl font-bold">
-                    {displayError ? '—' : squads.length > 0 ? Math.round(totalMembers / squads.length) : 0}
+                    {displayError
+                      ? '—'
+                      : squads.length > 0
+                        ? Math.round(totalMembers / squads.length)
+                        : 0}
                   </p>
                 </div>
               </div>
@@ -186,7 +198,9 @@ export default function SquadsPage() {
           {/* Squads List */}
           <div className="bg-dark-primary rounded-3xl shadow-lg p-4 sm:p-8 border border-white/20">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
-              <h2 className="font-serif text-2xl sm:text-4xl text-white tracking-tight">All Squads</h2>
+              <h2 className="font-serif text-2xl sm:text-4xl text-white tracking-tight">
+                All Squads
+              </h2>
             </div>
 
             {/* Filter Bar */}
@@ -220,7 +234,7 @@ export default function SquadsPage() {
             </div>
 
             {isLoading ? (
-              <LoadingSpinner message='Loading squads...' />
+              <LoadingSpinner message="Loading squads..." />
             ) : squads.length === 0 ? (
               <EmptyState
                 icon={Users}

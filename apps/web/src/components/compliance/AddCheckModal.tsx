@@ -1,6 +1,10 @@
 'use client';
 
-import { type GoverningBodyConfig, checkNoun, orderedBackgroundCheckTypes } from '@club-manager/shared-types';
+import {
+  type GoverningBodyConfig,
+  checkNoun,
+  orderedBackgroundCheckTypes,
+} from '@club-manager/shared-types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
 import { X } from 'lucide-react';
@@ -47,10 +51,7 @@ function addYears(isoDate: string, years: number): string {
  */
 export default function AddCheckModal({ config, region, onClose, onCreated }: AddCheckModalProps) {
   const noun = checkNoun(config.backgroundCheckFramework);
-  const checkTypes = useMemo(
-    () => orderedBackgroundCheckTypes(config, region),
-    [config, region],
-  );
+  const checkTypes = useMemo(() => orderedBackgroundCheckTypes(config, region), [config, region]);
   const { data: users, isLoading: usersLoading } = useQuery({
     queryKey: ['users', 'list'],
     queryFn: listUsers,
@@ -136,7 +137,12 @@ export default function AddCheckModal({ config, region, onClose, onCreated }: Ad
             <label htmlFor="check-user" className={labelClass}>
               Staff member or volunteer
             </label>
-            <select {...register('user_id')} id="check-user" className={fieldClass} disabled={usersLoading}>
+            <select
+              {...register('user_id')}
+              id="check-user"
+              className={fieldClass}
+              disabled={usersLoading}
+            >
               <option value="" className="text-dark-primary">
                 {usersLoading ? 'Loading members...' : 'Select a member'}
               </option>
@@ -157,7 +163,11 @@ export default function AddCheckModal({ config, region, onClose, onCreated }: Ad
             </label>
             <select {...register('type_index')} id="check-type" className={fieldClass}>
               {checkTypes.map((type, index) => (
-                <option key={`${type.value}-${index}`} value={String(index)} className="text-dark-primary">
+                <option
+                  key={`${type.value}-${index}`}
+                  value={String(index)}
+                  className="text-dark-primary"
+                >
                   {type.label}
                 </option>
               ))}
@@ -171,9 +181,16 @@ export default function AddCheckModal({ config, region, onClose, onCreated }: Ad
             <label htmlFor="check-number" className={labelClass}>
               {config.certificateNumberLabel}
             </label>
-            <input {...register('certificate_number')} id="check-number" type="text" className={fieldClass} />
+            <input
+              {...register('certificate_number')}
+              id="check-number"
+              type="text"
+              className={fieldClass}
+            />
             {errors.certificate_number && (
-              <p className="mt-2 text-sm text-danger font-semibold">{errors.certificate_number.message}</p>
+              <p className="mt-2 text-sm text-danger font-semibold">
+                {errors.certificate_number.message}
+              </p>
             )}
           </div>
 
@@ -182,9 +199,16 @@ export default function AddCheckModal({ config, region, onClose, onCreated }: Ad
               <label htmlFor="check-issue-date" className={labelClass}>
                 Issue date
               </label>
-              <input {...register('issue_date')} id="check-issue-date" type="date" className={fieldClass} />
+              <input
+                {...register('issue_date')}
+                id="check-issue-date"
+                type="date"
+                className={fieldClass}
+              />
               {errors.issue_date && (
-                <p className="mt-2 text-sm text-danger font-semibold">{errors.issue_date.message}</p>
+                <p className="mt-2 text-sm text-danger font-semibold">
+                  {errors.issue_date.message}
+                </p>
               )}
             </div>
             <div>

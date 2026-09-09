@@ -1,23 +1,23 @@
 ---
-title: "Swim England Club Health Tracker: A 2026 Club Guide"
-description: "What the Swim England Club Health Tracker measures, whether it is compulsory, how it differs from Club Affiliation, and where SwimMark now stands."
-pubDate: "2026-03-01"
-updatedDate: "2026-07-28"
-author: "Mike Tempest"
-tags: ["swim clubs", "compliance", "Swim England", "club management", "quality"]
+title: 'Swim England Club Health Tracker: A 2026 Club Guide'
+description: 'What the Swim England Club Health Tracker measures, whether it is compulsory, how it differs from Club Affiliation, and where SwimMark now stands.'
+pubDate: '2026-03-01'
+updatedDate: '2026-07-28'
+author: 'Mike Tempest'
+tags: ['swim clubs', 'compliance', 'Swim England', 'club management', 'quality']
 faqItems:
-  - question: "What is the Swim England Club Health Tracker?"
-    answer: "The Club Health Tracker is an online self-assessment and benchmarking tool for Swim England affiliated clubs, delivered for Swim England by Sporting Insights and launched in December 2022. Each discipline section of a club answers multiple choice questions across six areas of club life, then sees its scores compared against averages from other clubs regionally and nationally, along with resources aimed at the areas where it scored lowest."
-  - question: "Is the Club Health Tracker mandatory for swimming clubs?"
+  - question: 'What is the Swim England Club Health Tracker?'
+    answer: 'The Club Health Tracker is an online self-assessment and benchmarking tool for Swim England affiliated clubs, delivered for Swim England by Sporting Insights and launched in December 2022. Each discipline section of a club answers multiple choice questions across six areas of club life, then sees its scores compared against averages from other clubs regionally and nationally, along with resources aimed at the areas where it scored lowest.'
+  - question: 'Is the Club Health Tracker mandatory for swimming clubs?'
     answer: "No. The Club Health Tracker is a development tool that clubs are invited and encouraged to complete each year, not a condition of affiliation. The annual process that is compulsory is Club Affiliation, Swim England's minimum standard, and a club that fails to maintain it faces suspension. It is worth knowing the difference, because the two are often confused."
-  - question: "Has SwimMark been replaced by the Club Health Tracker?"
-    answer: "Not formally. Swim England announced in November 2024 that it was pausing SwimMark accreditation for new submissions while it develops a new club development framework, and SwimMark will only be withdrawn officially once that framework is in place. Clubs that already held SwimMark at the point of the pause keep their accreditation and its benefits, and can still use the logo and the SwimMark portal, until the new framework is announced. The Club Health Tracker is the tool clubs are pointed to in the meantime, rather than a like for like successor."
-  - question: "What are the six areas of the Club Health Tracker?"
-    answer: "Coaching and teaching, financial management, pool operator relationships, governance and standards, growth, and volunteers. Each section of the survey asks multiple choice questions about how the club currently operates in that area, and each produces its own score and benchmark comparison."
-  - question: "What is the difference between Club Affiliation and the Club Health Tracker?"
-    answer: "Club Affiliation is the compulsory annual minimum standard. Clubs submit evidence to Swim England covering areas such as the club constitution, welfare officer and chair statements of compliance, risk assessments, the club personnel report and an equality, diversity and inclusion plan, and missing it can lead to suspension. The Club Health Tracker is voluntary, produces no pass or fail, and exists to help the committee see where the club is strong and where it needs to develop."
-  - question: "Who at the club should complete the Club Health Tracker?"
-    answer: "Club secretaries receive login details by email for each section of the club, so a multi discipline club completes a separate assessment for swimming, diving, water polo and artistic swimming. One person can technically fill it in, but the answers are more accurate and far more useful when the committee works through the questions together in a dedicated meeting."
+  - question: 'Has SwimMark been replaced by the Club Health Tracker?'
+    answer: 'Not formally. Swim England announced in November 2024 that it was pausing SwimMark accreditation for new submissions while it develops a new club development framework, and SwimMark will only be withdrawn officially once that framework is in place. Clubs that already held SwimMark at the point of the pause keep their accreditation and its benefits, and can still use the logo and the SwimMark portal, until the new framework is announced. The Club Health Tracker is the tool clubs are pointed to in the meantime, rather than a like for like successor.'
+  - question: 'What are the six areas of the Club Health Tracker?'
+    answer: 'Coaching and teaching, financial management, pool operator relationships, governance and standards, growth, and volunteers. Each section of the survey asks multiple choice questions about how the club currently operates in that area, and each produces its own score and benchmark comparison.'
+  - question: 'What is the difference between Club Affiliation and the Club Health Tracker?'
+    answer: 'Club Affiliation is the compulsory annual minimum standard. Clubs submit evidence to Swim England covering areas such as the club constitution, welfare officer and chair statements of compliance, risk assessments, the club personnel report and an equality, diversity and inclusion plan, and missing it can lead to suspension. The Club Health Tracker is voluntary, produces no pass or fail, and exists to help the committee see where the club is strong and where it needs to develop.'
+  - question: 'Who at the club should complete the Club Health Tracker?'
+    answer: 'Club secretaries receive login details by email for each section of the club, so a multi discipline club completes a separate assessment for swimming, diving, water polo and artistic swimming. One person can technically fill it in, but the answers are more accurate and far more useful when the committee works through the questions together in a dedicated meeting.'
 ---
 
 If you have been searching for information about SwimMark accreditation, you are not alone. For years SwimMark was Swim England's quality mark for swimming clubs, a badge that showed your club met certain standards around governance, safeguarding and coaching. New committee members still ask how to get it.
@@ -63,13 +63,13 @@ What you cannot skip is **Club Affiliation**. Swim England's SwimMark announceme
 
 ### Club Affiliation versus the Club Health Tracker
 
-| | Club Affiliation | Club Health Tracker |
-| --- | --- | --- |
-| **Compulsory?** | Yes, annually | No, invited and encouraged |
-| **Purpose** | Prove the club meets the minimum standard | Help the club see where to develop |
-| **Outcome** | Approved, or the club risks suspension | Scores and benchmarks, no pass or fail |
-| **Who submits** | The club, through the governance portal | Each discipline section, via emailed login |
-| **What it asks for** | Documentary evidence | Multiple choice answers about how you operate |
+|                      | Club Affiliation                          | Club Health Tracker                           |
+| -------------------- | ----------------------------------------- | --------------------------------------------- |
+| **Compulsory?**      | Yes, annually                             | No, invited and encouraged                    |
+| **Purpose**          | Prove the club meets the minimum standard | Help the club see where to develop            |
+| **Outcome**          | Approved, or the club risks suspension    | Scores and benchmarks, no pass or fail        |
+| **Who submits**      | The club, through the governance portal   | Each discipline section, via emailed login    |
+| **What it asks for** | Documentary evidence                      | Multiple choice answers about how you operate |
 
 Affiliation asks for evidence rather than opinions. The evidence set covers the club constitution, a welfare officer statement of compliance confirming the club is run in line with Wavepower, a chair statement of compliance on the Code of Ethics and role descriptions, risk assessments for club activities, the club personnel report downloaded from the Online Membership System, and an equality, diversity and inclusion plan with evidence of CPD. Regions publish their own checklists and the exact requirements are updated from time to time, so work from your region's current guidance and Swim England's affiliation page rather than from a previous year's paperwork.
 

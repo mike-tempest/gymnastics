@@ -1,22 +1,22 @@
 ---
-title: "What Is a Swim Club Constitution? A Committee Guide"
-description: "What a swim club constitution is, what it must contain, and how Swim England affiliated clubs adopt and change one. A practical guide for UK committees."
-pubDate: "2026-07-06"
-author: "Swimly Team"
-tags: ["governance", "committee", "Swim England", "compliance", "swim clubs"]
+title: 'What Is a Swim Club Constitution? A Committee Guide'
+description: 'What a swim club constitution is, what it must contain, and how Swim England affiliated clubs adopt and change one. A practical guide for UK committees.'
+pubDate: '2026-07-06'
+author: 'Swimly Team'
+tags: ['governance', 'committee', 'Swim England', 'compliance', 'swim clubs']
 faqItems:
-  - question: "What is a swim club constitution?"
+  - question: 'What is a swim club constitution?'
     answer: "A swim club constitution is the club's governing document. It is the written set of rules that says what the club exists to do, who its members are, how the committee is elected, how money is handled, how meetings and votes work, and how the club can be wound up. For a Swim England affiliated club it is a condition of affiliation, and it is the document Swim England, banks, funders and insurers will ask to see."
-  - question: "Does a swimming club legally need a constitution?"
-    answer: "There is no single law that forces every club to have one, but in practice you cannot run an affiliated swimming club without it. Swim England requires affiliated clubs to adopt a constitution based on its recommended Model Club Constitution, most banks will not open a club account without a copy, and grant funders almost always ask for it. It is also what protects the committee if a decision is ever challenged."
-  - question: "What should a swim club constitution include?"
-    answer: "At a minimum: the club name, its objects or aims, membership categories and subscriptions, the committee and its officer roles, how the AGM and any extraordinary meetings are called and run, quorum and voting rules, how finances are managed, a safeguarding commitment, how the constitution can be amended, and a dissolution clause setting out where any remaining assets go if the club closes."
-  - question: "Where can I get a swim club constitution template?"
-    answer: "Swim England publishes a recommended Model Club Constitution for affiliated clubs, along with a Community Amateur Sports Club version, in its clubs resources library. Start from that template rather than writing one from scratch, then adapt it to your club. Changes to the wording need approval from your Swim England region before members adopt them at a general meeting."
-  - question: "How do you change a swim club constitution?"
-    answer: "Constitutional changes are a higher bar than ordinary business. Draft the exact new wording, get it approved by your Swim England region first, then put it to members with proper notice at an AGM or extraordinary general meeting. Most constitutions require a two-thirds or 75 per cent majority to pass an amendment. Once adopted, update the document, tell your region, and store the dated version."
-  - question: "What is the difference between an unincorporated club, a CASC and a charity?"
-    answer: "An unincorporated association is the simplest and most common structure for a small club, but members can be personally liable for its debts. A Community Amateur Sports Club (CASC) is an HMRC tax status that gives rate relief and Gift Aid but locks the club into non-profit rules. A charity or Charitable Incorporated Organisation offers wider tax benefits and, for a CIO, limited liability, but comes with more regulation. Each needs specific wording in the constitution."
+  - question: 'Does a swimming club legally need a constitution?'
+    answer: 'There is no single law that forces every club to have one, but in practice you cannot run an affiliated swimming club without it. Swim England requires affiliated clubs to adopt a constitution based on its recommended Model Club Constitution, most banks will not open a club account without a copy, and grant funders almost always ask for it. It is also what protects the committee if a decision is ever challenged.'
+  - question: 'What should a swim club constitution include?'
+    answer: 'At a minimum: the club name, its objects or aims, membership categories and subscriptions, the committee and its officer roles, how the AGM and any extraordinary meetings are called and run, quorum and voting rules, how finances are managed, a safeguarding commitment, how the constitution can be amended, and a dissolution clause setting out where any remaining assets go if the club closes.'
+  - question: 'Where can I get a swim club constitution template?'
+    answer: 'Swim England publishes a recommended Model Club Constitution for affiliated clubs, along with a Community Amateur Sports Club version, in its clubs resources library. Start from that template rather than writing one from scratch, then adapt it to your club. Changes to the wording need approval from your Swim England region before members adopt them at a general meeting.'
+  - question: 'How do you change a swim club constitution?'
+    answer: 'Constitutional changes are a higher bar than ordinary business. Draft the exact new wording, get it approved by your Swim England region first, then put it to members with proper notice at an AGM or extraordinary general meeting. Most constitutions require a two-thirds or 75 per cent majority to pass an amendment. Once adopted, update the document, tell your region, and store the dated version.'
+  - question: 'What is the difference between an unincorporated club, a CASC and a charity?'
+    answer: 'An unincorporated association is the simplest and most common structure for a small club, but members can be personally liable for its debts. A Community Amateur Sports Club (CASC) is an HMRC tax status that gives rate relief and Gift Aid but locks the club into non-profit rules. A charity or Charitable Incorporated Organisation offers wider tax benefits and, for a CIO, limited liability, but comes with more regulation. Each needs specific wording in the constitution.'
 ---
 
 Somewhere in your club's records, probably as a slightly faded PDF or a photocopy from the 1990s, is a document called the constitution. Most committee members never read it until something goes wrong: a contested vote, a bank that will not open an account, a grant application that asks for it, or a Swim England affiliation query. Then it suddenly matters a great deal.
@@ -49,12 +49,12 @@ If your club is affiliated and cannot lay hands on its constitution, that is the
 
 Before you finalise the wording, decide what kind of body the club is. The structure shapes several clauses, so get it right before adopting the document.
 
-| Structure | What it is | Liability | Best for |
-|-----------|-----------|-----------|----------|
-| Unincorporated association | The default: members bound together by the constitution, no separate legal identity | Members and committee can be personally liable for debts | Most small and medium clubs |
-| Community Amateur Sports Club (CASC) | An HMRC tax status, not a separate structure, sitting on top of an unincorporated or incorporated club | Depends on the underlying structure | Clubs wanting rate relief and Gift Aid without full charity regulation |
-| Charity or Charitable Incorporated Organisation (CIO) | A registered charity; a CIO also gives the club a separate legal identity | A CIO gives limited liability; a plain charitable trust may not | Larger clubs, or those owning premises |
-| Company limited by guarantee | A company with no shareholders | Limited liability for members | Clubs holding significant assets or long leases |
+| Structure                                             | What it is                                                                                             | Liability                                                       | Best for                                                               |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Unincorporated association                            | The default: members bound together by the constitution, no separate legal identity                    | Members and committee can be personally liable for debts        | Most small and medium clubs                                            |
+| Community Amateur Sports Club (CASC)                  | An HMRC tax status, not a separate structure, sitting on top of an unincorporated or incorporated club | Depends on the underlying structure                             | Clubs wanting rate relief and Gift Aid without full charity regulation |
+| Charity or Charitable Incorporated Organisation (CIO) | A registered charity; a CIO also gives the club a separate legal identity                              | A CIO gives limited liability; a plain charitable trust may not | Larger clubs, or those owning premises                                 |
+| Company limited by guarantee                          | A company with no shareholders                                                                         | Limited liability for members                                   | Clubs holding significant assets or long leases                        |
 
 Most swimming clubs are **unincorporated associations**, and many of those also register as a **CASC** for the tax reliefs. Registering as a CASC brings specific constitutional demands: [HMRC's guidance](https://www.gov.uk/government/publications/community-amateur-sports-clubs-detailed-guidance-notes/community-amateur-sports-clubs-detailed-guidance-notes) requires that any surplus is reinvested in the club rather than distributed to members, that the main purpose is to provide facilities for and encourage participation in an eligible sport, and that the constitution has a dissolution clause applying any net assets to approved sporting or charitable purposes. Swim England publishes a [CASC version of its model constitution](https://www.swimming.org/library/358) alongside the standard one.
 
@@ -129,4 +129,4 @@ An unincorporated association is the simplest and most common structure for a sm
 
 ---
 
-*Your constitution sets the rules; [Swimly](/) helps you run the club within them. It is [club management software](/swim-club-management-software/) built for UK swimming clubs, with [membership records](/features/membership/), automated [billing](/features/billing/) and [Wavepower compliance](/features/compliance/) in one place. See [pricing](/pricing/) to find out how much committee time you could save.*
+_Your constitution sets the rules; [Swimly](/) helps you run the club within them. It is [club management software](/swim-club-management-software/) built for UK swimming clubs, with [membership records](/features/membership/), automated [billing](/features/billing/) and [Wavepower compliance](/features/compliance/) in one place. See [pricing](/pricing/) to find out how much committee time you could save._

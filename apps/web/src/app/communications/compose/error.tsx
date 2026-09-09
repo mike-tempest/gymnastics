@@ -3,15 +3,30 @@
 import { AlertCircle } from 'lucide-react';
 import { useEffect } from 'react';
 
-export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
-  useEffect(() => { console.error(error); }, [error]);
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
   return (
     <div className="flex h-dvh items-center justify-center bg-dark-primary p-4">
       <div className="text-center max-w-md">
         <AlertCircle className="h-16 w-16 text-danger mx-auto mb-4" />
         <h2 className="font-serif text-2xl text-white mb-2">Could not load compose page</h2>
-        <p className="text-text-secondary mb-6">{error.message || 'An error occurred. Please try again.'}</p>
-        <button onClick={reset} className="px-6 py-3 min-h-[48px] bg-brand text-dark-primary rounded-xl font-semibold hover:bg-brand-light transition-all">Try Again</button>
+        <p className="text-text-secondary mb-6">
+          {error.message || 'An error occurred. Please try again.'}
+        </p>
+        <button
+          onClick={reset}
+          className="px-6 py-3 min-h-[48px] bg-brand text-dark-primary rounded-xl font-semibold hover:bg-brand-light transition-all"
+        >
+          Try Again
+        </button>
       </div>
     </div>
   );

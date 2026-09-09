@@ -33,9 +33,7 @@ const mockFamilies = [
     postcode: 'M1 1AA',
     created_at: '2026-01-01',
     updated_at: '2026-01-01',
-    members: [
-      { member_id: 's1', first_name: 'Alice', last_name: 'Smith' },
-    ],
+    members: [{ member_id: 's1', first_name: 'Alice', last_name: 'Smith' }],
   },
   {
     family_id: 'f2',

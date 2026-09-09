@@ -1,9 +1,9 @@
 ---
-title: "New Season Setup: The Complete Guide to Starting Your Swim Club Year Right"
-description: "A practical checklist for committee members preparing for a new swimming season: registration, squad allocation, billing, compliance, and communication."
-pubDate: "2026-03-17"
-author: "Mike Tempest"
-tags: ["swim clubs", "new season", "registration", "committee", "admin", "membership"]
+title: 'New Season Setup: The Complete Guide to Starting Your Swim Club Year Right'
+description: 'A practical checklist for committee members preparing for a new swimming season: registration, squad allocation, billing, compliance, and communication.'
+pubDate: '2026-03-17'
+author: 'Mike Tempest'
+tags: ['swim clubs', 'new season', 'registration', 'committee', 'admin', 'membership']
 ---
 
 The weeks before a new swimming season are when volunteer committees earn their stripes. There's a narrow window between the end-of-season awards evening and the first training session of the new year, and somehow in that gap you need to sort registrations, update squads, confirm coaching rosters, set up billing, verify safeguarding documents, and communicate everything to parents who are already asking "what time does training start?"
@@ -17,30 +17,35 @@ Here's how to approach new season setup methodically, whether you're a seasoned 
 The biggest mistake clubs make is treating new season setup as a two-week sprint. It isn't. You need at least eight weeks to do it properly without burning out your volunteers.
 
 **Eight weeks before first session:**
+
 - Confirm pool booking times with your venue
 - Agree squad structure with head coach (any changes to groups, session times, capacity?)
 - Set membership fees for the new season (committee vote if increasing)
 - Decide registration deadlines
 
 **Six weeks before:**
+
 - Send "new season information" email to all current members
 - Open online registration (or send out forms if you're still paper-based)
 - Chase any outstanding fees from the previous season
 - Confirm coaching staff and their qualifications are current
 
 **Four weeks before:**
+
 - Close early-bird registration window (if applicable)
 - Allocate swimmers to squads based on coach recommendations
 - Set up billing — whether that's standing orders, Direct Debit, or manual invoicing
 - Verify all DBS checks and safeguarding certificates are in date
 
 **Two weeks before:**
+
 - Send squad allocation emails to parents
 - Share the new training timetable
 - Confirm poolside access for coaches
 - Run a final check on your membership database
 
 **Week of first session:**
+
 - Final registration deadline
 - Welcome email with practical details (what to bring, pool rules, emergency contacts)
 - Coaches briefed on new swimmers in their groups
@@ -82,6 +87,7 @@ Here's what actually works:
 Nothing creates more admin headache than billing issues that compound through the season. A missed payment in September becomes a debt by December becomes an awkward conversation by March.
 
 **Set your fee structure clearly:**
+
 - Monthly training fee (the core subscription)
 - Swim England affiliation (annual, usually collected separately)
 - Club membership fee (annual, if separate from training)
@@ -140,4 +146,4 @@ The question isn't whether software is better than spreadsheets. It's whether th
 
 ---
 
-*New season is the perfect time to evaluate whether your current admin setup is working for you. If you're spending more time on spreadsheets than on swimming, [take a look at what Swimly offers](/features) — it's built specifically for UK swim clubs by someone who sits in the stands every training session. We are welcoming [founding clubs](/pilot) with free migration support.*
+_New season is the perfect time to evaluate whether your current admin setup is working for you. If you're spending more time on spreadsheets than on swimming, [take a look at what Swimly offers](/features) — it's built specifically for UK swim clubs by someone who sits in the stands every training session. We are welcoming [founding clubs](/pilot) with free migration support._

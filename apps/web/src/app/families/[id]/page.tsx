@@ -19,7 +19,12 @@ import { useFamily } from '@/lib/hooks';
 export default function FamilyDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { formatDate } = useFormatters();
-  const { data: family, isLoading, error: familyError, refetch: refetchFamily } = useFamily(params.id);
+  const {
+    data: family,
+    isLoading,
+    error: familyError,
+    refetch: refetchFamily,
+  } = useFamily(params.id);
   const [members, setMembers] = useState<Member[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -160,11 +165,13 @@ export default function FamilyDetailPage({ params }: { params: { id: string } })
               { label: family.family_name || 'Family Details' },
             ]}
           />
-          
+
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-8 gap-4">
             <div>
-              <h1 className="font-serif text-5xl sm:text-6xl text-dark-primary tracking-tight mb-2">{family.family_name}</h1>
+              <h1 className="font-serif text-5xl sm:text-6xl text-dark-primary tracking-tight mb-2">
+                {family.family_name}
+              </h1>
               <p className="text-grey-500 text-lg">
                 {family.primary_contact_name} • {family.primary_contact_email}
               </p>
@@ -172,7 +179,15 @@ export default function FamilyDetailPage({ params }: { params: { id: string } })
               <div className="mt-3">
                 {family.invite_status === 'accepted' && (
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-green-500 bg-opacity-20 text-green-400 border border-green-500">
-                    <svg className="w-4 h-4 mr-2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg
+                      className="w-4 h-4 mr-2"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
                       <path d="M5 13l4 4L19 7" />
                     </svg>
                     Invitation Accepted
@@ -180,7 +195,15 @@ export default function FamilyDetailPage({ params }: { params: { id: string } })
                 )}
                 {family.invite_status === 'pending' && (
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-yellow-500 bg-opacity-20 text-yellow-400 border border-yellow-500">
-                    <svg className="w-4 h-4 mr-2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg
+                      className="w-4 h-4 mr-2"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
                       <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     Invitation Pending
@@ -188,7 +211,15 @@ export default function FamilyDetailPage({ params }: { params: { id: string } })
                 )}
                 {!family.invite_status && (
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-text-tertiary bg-opacity-20 text-text-tertiary border border-text-tertiary">
-                    <svg className="w-4 h-4 mr-2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg
+                      className="w-4 h-4 mr-2"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
                       <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                     Not Invited
@@ -204,9 +235,25 @@ export default function FamilyDetailPage({ params }: { params: { id: string } })
               >
                 {isGeneratingInvite ? (
                   <>
-                    <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    <svg
+                      className="animate-spin h-5 w-5"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
                     </svg>
                     <span>Generating...</span>
                   </>
@@ -328,17 +375,12 @@ export default function FamilyDetailPage({ params }: { params: { id: string } })
                 </svg>
                 <span className="text-text-secondary text-sm font-semibold">Phone</span>
               </div>
-              <p className="text-white text-lg">
-                {family.primary_contact_phone || 'Not provided'}
-              </p>
+              <p className="text-white text-lg">{family.primary_contact_phone || 'Not provided'}</p>
             </div>
           </div>
 
           {/* Address */}
-          {(family.address_line1 ||
-            family.address_line2 ||
-            family.city ||
-            family.postcode) && (
+          {(family.address_line1 || family.address_line2 || family.city || family.postcode) && (
             <div className="bg-dark-primary rounded-3xl shadow-lg p-6 border border-white/10 mb-8">
               <div className="flex items-center mb-3">
                 <svg
@@ -359,9 +401,7 @@ export default function FamilyDetailPage({ params }: { params: { id: string } })
                 {family.address_line1 && <p>{family.address_line1}</p>}
                 {family.address_line2 && <p>{family.address_line2}</p>}
                 {(family.city || family.postcode) && (
-                  <p>
-                    {[family.city, family.postcode].filter(Boolean).join(', ')}
-                  </p>
+                  <p>{[family.city, family.postcode].filter(Boolean).join(', ')}</p>
                 )}
               </div>
             </div>
@@ -370,9 +410,12 @@ export default function FamilyDetailPage({ params }: { params: { id: string } })
           {/* Members List */}
           <div className="bg-dark-primary rounded-3xl shadow-lg p-8 border border-white/10">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="font-serif text-4xl text-dark-primary tracking-tight">Family Members</h2>
+              <h2 className="font-serif text-4xl text-dark-primary tracking-tight">
+                Family Members
+              </h2>
               <span className="text-grey-500 text-lg">
-                {members.length} {members.length === 1 ? MEMBER_NOUN_LOWER : MEMBER_NOUN_PLURAL_LOWER}
+                {members.length}{' '}
+                {members.length === 1 ? MEMBER_NOUN_LOWER : MEMBER_NOUN_PLURAL_LOWER}
               </span>
             </div>
 
@@ -389,7 +432,9 @@ export default function FamilyDetailPage({ params }: { params: { id: string } })
                 >
                   <path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                 </svg>
-                <p className="text-grey-500 text-lg">No {MEMBER_NOUN_PLURAL_LOWER} in this family yet</p>
+                <p className="text-grey-500 text-lg">
+                  No {MEMBER_NOUN_PLURAL_LOWER} in this family yet
+                </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -406,7 +451,12 @@ export default function FamilyDetailPage({ params }: { params: { id: string } })
                         </h3>
                         {member.dob && (
                           <p className="text-sm text-text-secondary">
-                            Born: {formatDate(member.dob, { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                            Born:{' '}
+                            {formatDate(member.dob, {
+                              day: '2-digit',
+                              month: '2-digit',
+                              year: 'numeric',
+                            })}
                           </p>
                         )}
                         {member.registration_number && (

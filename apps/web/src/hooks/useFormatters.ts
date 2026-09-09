@@ -18,10 +18,7 @@ export interface Formatters {
   /** Formats a date in the club's locale (day/short-month/year by default). */
   formatDate: (date: Date | string, opts?: Intl.DateTimeFormatOptions) => string;
   /** Formats a date and time in the club's locale and timezone. */
-  formatDateTime: (
-    date: Date | string,
-    opts?: Intl.DateTimeFormatOptions,
-  ) => string;
+  formatDateTime: (date: Date | string, opts?: Intl.DateTimeFormatOptions) => string;
 }
 
 /**
@@ -35,19 +32,18 @@ export function useFormatters(): Formatters {
   const formatCurrency = useCallback(
     (amount: number | string, currencyOverride?: string) =>
       formatCurrencyIntl(amount, currencyOverride || currency, locale),
-    [currency, locale],
+    [currency, locale]
   );
 
   const formatDate = useCallback(
-    (date: Date | string, opts?: Intl.DateTimeFormatOptions) =>
-      formatDateIntl(date, locale, opts),
-    [locale],
+    (date: Date | string, opts?: Intl.DateTimeFormatOptions) => formatDateIntl(date, locale, opts),
+    [locale]
   );
 
   const formatDateTime = useCallback(
     (date: Date | string, opts?: Intl.DateTimeFormatOptions) =>
       formatDateTimeIntl(date, locale, timezone, opts),
-    [locale, timezone],
+    [locale, timezone]
   );
 
   return { formatCurrency, formatDate, formatDateTime };

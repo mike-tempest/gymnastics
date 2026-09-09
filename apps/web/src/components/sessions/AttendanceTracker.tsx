@@ -28,9 +28,15 @@ const statusLabels = {
   [AttendanceStatus.EXCUSED]: 'Excused',
 };
 
-export default function AttendanceTracker({ sessionId, squadId, onUpdate }: AttendanceTrackerProps) {
+export default function AttendanceTracker({
+  sessionId,
+  squadId,
+  onUpdate,
+}: AttendanceTrackerProps) {
   const [members, setMembers] = useState<Member[]>([]);
-  const [attendanceRecords, setAttendanceRecords] = useState<Map<string, AttendanceStatus | null>>(new Map());
+  const [attendanceRecords, setAttendanceRecords] = useState<Map<string, AttendanceStatus | null>>(
+    new Map()
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -206,25 +212,37 @@ export default function AttendanceTracker({ sessionId, squadId, onUpdate }: Atte
         <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
           <p className="text-green-400 text-sm font-semibold mb-1">Present</p>
           <p className="text-white text-2xl font-bold tabular-nums">
-            {Array.from(attendanceRecords.values()).filter((s) => s === AttendanceStatus.PRESENT).length}
+            {
+              Array.from(attendanceRecords.values()).filter((s) => s === AttendanceStatus.PRESENT)
+                .length
+            }
           </p>
         </div>
         <div className="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
           <p className="text-yellow-400 text-sm font-semibold mb-1">Late</p>
           <p className="text-white text-2xl font-bold tabular-nums">
-            {Array.from(attendanceRecords.values()).filter((s) => s === AttendanceStatus.LATE).length}
+            {
+              Array.from(attendanceRecords.values()).filter((s) => s === AttendanceStatus.LATE)
+                .length
+            }
           </p>
         </div>
         <div className="p-4 bg-brand/10 border border-brand/30 rounded-xl">
           <p className="text-brand text-sm font-semibold mb-1">Excused</p>
           <p className="text-white text-2xl font-bold tabular-nums">
-            {Array.from(attendanceRecords.values()).filter((s) => s === AttendanceStatus.EXCUSED).length}
+            {
+              Array.from(attendanceRecords.values()).filter((s) => s === AttendanceStatus.EXCUSED)
+                .length
+            }
           </p>
         </div>
         <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
           <p className="text-red-400 text-sm font-semibold mb-1">Absent</p>
           <p className="text-white text-2xl font-bold tabular-nums">
-            {Array.from(attendanceRecords.values()).filter((s) => s === AttendanceStatus.ABSENT).length}
+            {
+              Array.from(attendanceRecords.values()).filter((s) => s === AttendanceStatus.ABSENT)
+                .length
+            }
           </p>
         </div>
       </div>

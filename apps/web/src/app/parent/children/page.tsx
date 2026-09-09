@@ -1,6 +1,6 @@
 'use client';
 
-import { Member , AttendanceStats, Session } from '@club-manager/shared-types';
+import { Member, AttendanceStats, Session } from '@club-manager/shared-types';
 import { Users } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -89,11 +89,13 @@ export default function ChildrenListPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <Breadcrumb items={[{ label: 'Parent Portal', href: '/parent' }, { label: 'Children' }]} />
-          <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight mb-2">Your children</h1>
-          <p className="text-text-secondary text-lg">
-            View and manage your registered members.
-          </p>
+          <Breadcrumb
+            items={[{ label: 'Parent Portal', href: '/parent' }, { label: 'Children' }]}
+          />
+          <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight mb-2">
+            Your children
+          </h1>
+          <p className="text-text-secondary text-lg">View and manage your registered members.</p>
         </div>
 
         {/* Summary Cards */}
@@ -101,7 +103,15 @@ export default function ChildrenListPage() {
           <div className="bg-dark-primary rounded-card p-6 md:p-8 shadow-card border border-white/10">
             <div className="flex items-center justify-between mb-4">
               <div className="w-14 h-14 bg-brand/20 rounded-full flex items-center justify-center">
-                <svg className="w-8 h-8 text-brand" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <svg
+                  className="w-8 h-8 text-brand"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
                   <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               </div>
@@ -113,7 +123,15 @@ export default function ChildrenListPage() {
           <div className="bg-dark-primary rounded-card p-6 md:p-8 shadow-card border border-white/10">
             <div className="flex items-center justify-between mb-4">
               <div className="w-14 h-14 bg-brand/20 rounded-full flex items-center justify-center">
-                <svg className="w-8 h-8 text-brand" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <svg
+                  className="w-8 h-8 text-brand"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
                   <path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
               </div>
@@ -127,7 +145,15 @@ export default function ChildrenListPage() {
           <div className="bg-dark-primary rounded-card p-6 md:p-8 shadow-card border border-white/10">
             <div className="flex items-center justify-between mb-4">
               <div className="w-14 h-14 bg-success/20 rounded-full flex items-center justify-center">
-                <svg className="w-8 h-8 text-success" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <svg
+                  className="w-8 h-8 text-success"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
                   <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
@@ -147,7 +173,9 @@ export default function ChildrenListPage() {
         {/* Children List */}
         <div className="bg-dark-primary rounded-card shadow-card border border-white/10">
           <div className="p-4 md:p-6 border-b border-white/10">
-            <h2 className="font-serif text-2xl text-white">Registered {MEMBER_NOUN_PLURAL_LOWER}</h2>
+            <h2 className="font-serif text-2xl text-white">
+              Registered {MEMBER_NOUN_PLURAL_LOWER}
+            </h2>
           </div>
           <div className="p-4 md:p-6">
             {members.length === 0 ? (
@@ -167,7 +195,8 @@ export default function ChildrenListPage() {
                     <div className="flex items-center space-x-4 min-w-0">
                       <div className="w-14 h-14 bg-brand/20 rounded-full flex items-center justify-center flex-shrink-0">
                         <span className="text-brand font-bold text-xl">
-                          {member.first_name[0]}{member.last_name[0]}
+                          {member.first_name[0]}
+                          {member.last_name[0]}
                         </span>
                       </div>
                       <div className="min-w-0">
@@ -197,14 +226,24 @@ export default function ChildrenListPage() {
                       {/* Attendance */}
                       <div className="hidden md:block text-right">
                         <p className="text-text-tertiary text-xs">Attendance</p>
-                        <p className={`font-bold text-lg tabular-nums ${attendanceColour(member.attendanceStats?.attendance_rate ?? 0)}`}>
+                        <p
+                          className={`font-bold text-lg tabular-nums ${attendanceColour(member.attendanceStats?.attendance_rate ?? 0)}`}
+                        >
                           {member.attendanceStats
                             ? `${member.attendanceStats.attendance_rate}%`
                             : 'N/A'}
                         </p>
                       </div>
                       {/* Chevron */}
-                      <svg className="w-5 h-5 text-text-tertiary group-hover:text-brand transition-colors" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg
+                        className="w-5 h-5 text-text-tertiary group-hover:text-brand transition-colors"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
                         <path d="M9 5l7 7-7 7" />
                       </svg>
                     </div>

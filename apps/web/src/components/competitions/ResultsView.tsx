@@ -1,6 +1,16 @@
 'use client';
 
-import { ChevronDown, ChevronRight, Medal, Pencil, Plus, Star, Trash2, Users, XCircle } from 'lucide-react';
+import {
+  ChevronDown,
+  ChevronRight,
+  Medal,
+  Pencil,
+  Plus,
+  Star,
+  Trash2,
+  Users,
+  XCircle,
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -64,7 +74,13 @@ function getMemberName(result: CompetitionResult): string {
   return `Unknown ${MEMBER_NOUN}`;
 }
 
-function SplitsRow({ splits, relayLegs }: { splits: number[]; relayLegs?: CompetitionResult['relay_legs'] }) {
+function SplitsRow({
+  splits,
+  relayLegs,
+}: {
+  splits: number[];
+  relayLegs?: CompetitionResult['relay_legs'];
+}) {
   // Cumulative splits (strictly increasing) also get their lap time — the
   // difference from the previous split — which is what pacing is read from.
   const cumulative = splits.length > 1 && splits.every((s, i) => i === 0 || s > splits[i - 1]);
@@ -83,7 +99,9 @@ function SplitsRow({ splits, relayLegs }: { splits: number[]; relayLegs?: Compet
                 <span className="text-text-tertiary text-xs mr-1">{leg.leg}.</span>
                 <span className="text-white text-sm">{leg.name ?? 'Unknown'}</span>
                 {leg.split !== null && (
-                  <span className="text-text-secondary text-sm tabular-nums ml-2">{formatSwimTime(leg.split)}</span>
+                  <span className="text-text-secondary text-sm tabular-nums ml-2">
+                    {formatSwimTime(leg.split)}
+                  </span>
                 )}
               </div>
             ))}
@@ -160,9 +178,17 @@ interface ResultRowActions {
   onDelete: (result: CompetitionResult) => void;
 }
 
-function DesktopResultRow({ result, actions }: { result: CompetitionResult; actions: ResultRowActions }) {
+function DesktopResultRow({
+  result,
+  actions,
+}: {
+  result: CompetitionResult;
+  actions: ResultRowActions;
+}) {
   const [expanded, setExpanded] = useState(false);
-  const hasDetails = (result.splits && result.splits.length > 0) || (result.relay_legs && result.relay_legs.length > 0);
+  const hasDetails =
+    (result.splits && result.splits.length > 0) ||
+    (result.relay_legs && result.relay_legs.length > 0);
   const memberName = getMemberName(result);
 
   return (
@@ -174,22 +200,33 @@ function DesktopResultRow({ result, actions }: { result: CompetitionResult; acti
             className={`flex items-center gap-2 min-h-[44px] ${hasDetails ? 'cursor-pointer' : 'cursor-default'}`}
             disabled={!hasDetails}
             aria-expanded={hasDetails ? expanded : undefined}
-            aria-label={hasDetails ? `${expanded ? 'Collapse' : 'Expand'} details for ${memberName}` : undefined}
+            aria-label={
+              hasDetails
+                ? `${expanded ? 'Collapse' : 'Expand'} details for ${memberName}`
+                : undefined
+            }
           >
-            {hasDetails && (
-              expanded
-                ? <ChevronDown className="w-4 h-4 text-text-tertiary" />
-                : <ChevronRight className="w-4 h-4 text-text-tertiary" />
-            )}
+            {hasDetails &&
+              (expanded ? (
+                <ChevronDown className="w-4 h-4 text-text-tertiary" />
+              ) : (
+                <ChevronRight className="w-4 h-4 text-text-tertiary" />
+              ))}
             <span className="text-white font-medium">{memberName}</span>
             {result.is_relay && <RelayBadge />}
           </button>
         </td>
         <td className="px-4 py-3">
-          <span className={`tabular-nums text-sm ${result.dq ? 'text-red-400 line-through' : 'text-white'}`}>
+          <span
+            className={`tabular-nums text-sm ${result.dq ? 'text-red-400 line-through' : 'text-white'}`}
+          >
             {formatSwimTime(result.time)}
           </span>
-          {result.is_pb && <span className="ml-2"><PBBadge /></span>}
+          {result.is_pb && (
+            <span className="ml-2">
+              <PBBadge />
+            </span>
+          )}
         </td>
         <td className="px-4 py-3 text-text-secondary text-sm">{result.place ?? '-'}</td>
         <td className="px-4 py-3 text-text-secondary text-sm">{result.heat ?? '-'}</td>
@@ -225,9 +262,17 @@ function DesktopResultRow({ result, actions }: { result: CompetitionResult; acti
   );
 }
 
-function MobileResultCard({ result, actions }: { result: CompetitionResult; actions: ResultRowActions }) {
+function MobileResultCard({
+  result,
+  actions,
+}: {
+  result: CompetitionResult;
+  actions: ResultRowActions;
+}) {
   const [expanded, setExpanded] = useState(false);
-  const hasSplits = (result.splits && result.splits.length > 0) || (result.relay_legs && result.relay_legs.length > 0);
+  const hasSplits =
+    (result.splits && result.splits.length > 0) ||
+    (result.relay_legs && result.relay_legs.length > 0);
 
   return (
     <div className="bg-white/[0.03] rounded-xl p-4 border border-white/5">
@@ -244,18 +289,16 @@ function MobileResultCard({ result, actions }: { result: CompetitionResult; acti
           {result.is_pb && <PBBadge />}
         </div>
         <div className="flex items-center gap-4 text-sm">
-          <span className={`tabular-nums ${result.dq ? 'text-red-400 line-through' : 'text-white'}`}>
+          <span
+            className={`tabular-nums ${result.dq ? 'text-red-400 line-through' : 'text-white'}`}
+          >
             {formatSwimTime(result.time)}
           </span>
           {result.place !== null && (
             <span className="text-text-secondary">Place: {result.place}</span>
           )}
-          {result.heat !== null && (
-            <span className="text-text-secondary">Heat: {result.heat}</span>
-          )}
-          {result.lane !== null && (
-            <span className="text-text-secondary">Lane: {result.lane}</span>
-          )}
+          {result.heat !== null && <span className="text-text-secondary">Heat: {result.heat}</span>}
+          {result.lane !== null && <span className="text-text-secondary">Lane: {result.lane}</span>}
         </div>
         {result.dq && (
           <p className="mt-1 text-red-400 text-xs">
@@ -269,7 +312,9 @@ function MobileResultCard({ result, actions }: { result: CompetitionResult; acti
           </div>
         )}
       </button>
-      {expanded && hasSplits && <SplitsRow splits={result.splits ?? []} relayLegs={result.relay_legs} />}
+      {expanded && hasSplits && (
+        <SplitsRow splits={result.splits ?? []} relayLegs={result.relay_legs} />
+      )}
       <div className="flex items-center justify-end gap-2 mt-2 pt-2 border-t border-white/5">
         <button
           onClick={() => actions.onEdit(result)}
@@ -307,7 +352,9 @@ function EventGroupSection({ group, actions }: { group: EventGroup; actions: Res
             <th className="px-4 py-2 font-semibold">Heat</th>
             <th className="px-4 py-2 font-semibold">Lane</th>
             <th className="px-4 py-2 font-semibold">Status</th>
-            <th className="px-4 py-2 font-semibold"><span className="sr-only">Actions</span></th>
+            <th className="px-4 py-2 font-semibold">
+              <span className="sr-only">Actions</span>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -402,8 +449,14 @@ export default function ResultsView({ competitionId }: ResultsViewProps) {
   }
 
   async function handleDelete(result: CompetitionResult) {
-    const name = result.member ? `${result.member.first_name} ${result.member.last_name}` : 'this member';
-    if (!window.confirm(`Delete the ${result.distance}m ${result.stroke} result for ${name}? Personal bests will be recalculated.`)) {
+    const name = result.member
+      ? `${result.member.first_name} ${result.member.last_name}`
+      : 'this member';
+    if (
+      !window.confirm(
+        `Delete the ${result.distance}m ${result.stroke} result for ${name}? Personal bests will be recalculated.`
+      )
+    ) {
       return;
     }
     try {
@@ -434,7 +487,8 @@ export default function ResultsView({ competitionId }: ResultsViewProps) {
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <p className="text-text-secondary text-sm">
-          {results.length} result{results.length !== 1 ? 's' : ''} across {groups.length} event{groups.length !== 1 ? 's' : ''}
+          {results.length} result{results.length !== 1 ? 's' : ''} across {groups.length} event
+          {groups.length !== 1 ? 's' : ''}
         </p>
         <button
           onClick={() => setShowRecordModal(true)}

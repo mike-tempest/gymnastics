@@ -1,4 +1,5 @@
 # Technical SEO Audit — swimly.uk
+
 **Date:** 2 March 2026  
 **Auditor:** Swimly SEO Agent  
 **Scope:** URL duplicates, schema markup, internal linking
@@ -17,11 +18,12 @@ The technical SEO foundation is **strong**. All critical schema markup is implem
 ## Findings
 
 ### ✅ RESOLVED: Canonical Tags
+
 **Status:** Implemented correctly  
 **Location:** `src/layouts/Layout.astro` (lines 17, 74)
 
 ```javascript
-canonical = new URL(Astro.url.pathname, SITE_URL).href
+canonical = new URL(Astro.url.pathname, SITE_URL).href;
 ```
 
 - All pages include `<link rel="canonical">` tag
@@ -30,6 +32,7 @@ canonical = new URL(Astro.url.pathname, SITE_URL).href
 - **Impact:** Google knows the preferred version of each page
 
 ### ✅ RESOLVED: Article Schema
+
 **Status:** Implemented on all blog posts  
 **Location:** `src/layouts/BlogPost.astro` (lines 54-75)
 
@@ -49,6 +52,7 @@ canonical = new URL(Astro.url.pathname, SITE_URL).href
 - **Impact:** Eligible for rich results in Google Search
 
 ### ✅ RESOLVED: FAQPage Schema
+
 **Status:** Conditionally implemented  
 **Location:** `src/layouts/Layout.astro` (lines 49-61)
 
@@ -57,8 +61,10 @@ canonical = new URL(Astro.url.pathname, SITE_URL).href
 - **Recommendation:** Add `faqItems` to compliance guide blog posts (Wavepower, GDPR, AGM)
 
 ### ✅ RESOLVED: LocalBusiness & BreadcrumbList Schema
+
 **Status:** Implemented  
 **Coverage:**
+
 - LocalBusiness schema on 560 town pages ✓
 - BreadcrumbList schema on:
   - Homepage, features, blog index, FAQ, pricing, about ✓
@@ -66,11 +72,12 @@ canonical = new URL(Astro.url.pathname, SITE_URL).href
   - Town pages (`/swimming-club-software/[county]/[town]`) ✓
 
 ### ✅ RESOLVED: Trailing Slash Configuration
+
 **Status:** Configured correctly  
 **Location:** `astro.config.mjs` (line 7)
 
 ```javascript
-trailingSlash: 'always'
+trailingSlash: 'always';
 ```
 
 - Astro automatically adds trailing slashes to all URLs
@@ -82,17 +89,20 @@ trailingSlash: 'always'
 ## Issue Analysis: URL Duplicates in GSC
 
 ### What GSC Shows
+
 ```
 /blog/why-swim-clubs-need-modern-software   → 4 impressions, pos 33.0
 /blog/why-swim-clubs-need-modern-software/  → 21 impressions, pos 69.8
 ```
 
 ### Why This Happens
+
 1. **Old crawls:** Google indexed the non-trailing-slash version before the config was set
 2. **Cache lag:** GSC data can be 2-3 days behind actual index state
 3. **External links:** If external sites link to the non-trailing-slash version, Google may crawl it
 
 ### Why This Will Resolve Itself
+
 1. **Canonical tags:** Every page declares the trailing-slash version as canonical
 2. **Astro redirects:** Requests to `/blog/post` are 301 redirected to `/blog/post/`
 3. **Sitemap:** Only trailing-slash URLs are submitted to Google
@@ -105,7 +115,9 @@ trailingSlash: 'always'
 ## Internal Linking Audit
 
 ### Current State
+
 Internal navigation links (Nav, Footer) do not include trailing slashes:
+
 ```html
 <a href="/pricing">Pricing</a>
 <a href="/blog">Blog</a>
@@ -113,25 +125,30 @@ Internal navigation links (Nav, Footer) do not include trailing slashes:
 ```
 
 ### Impact
+
 - Astro automatically 301 redirects `/pricing` → `/pricing/`
 - **Minor performance hit:** Each click triggers a redirect (adds ~10-50ms)
 - **SEO impact:** Minimal (Google follows 301s correctly)
 
 ### Recommendation
+
 **Priority:** LOW (nice-to-have, not urgent)
 
 Add trailing slashes to internal links to avoid redirect chains:
+
 ```diff
 - <a href="/pricing">Pricing</a>
 + <a href="/pricing/">Pricing</a>
 ```
 
 **Files to update:**
+
 - `src/components/Nav.astro` (lines 56, 98-100, 138-141)
 - `src/components/Footer.astro` (check dynamic link arrays)
 - Any other components with hardcoded links
 
 **Benefit:**
+
 - Slightly faster page loads (no redirect delay)
 - Cleaner server logs
 - Better link equity flow (no 301 hop)
@@ -141,12 +158,15 @@ Add trailing slashes to internal links to avoid redirect chains:
 ## Internal Linking Strategy
 
 ### Current Cross-Linking
+
 **Good:**
+
 - Blog posts link back to `/blog` (breadcrumb)
 - Town/club pages link to each other via county indexes
 - Footer includes extensive city navigation
 
 **Missing Opportunities:**
+
 1. **Blog → Product:** Blog posts should link to relevant feature pages
    - Example: DBS guide → `/features/compliance`
    - Example: Billing post → `/features/billing`
@@ -166,12 +186,14 @@ Add trailing slashes to internal links to avoid redirect chains:
 ### Recommended Link Architecture
 
 **Hub Pages (should have most inbound links):**
+
 1. Homepage (`/`)
 2. Pricing (`/pricing`)
 3. Features hub (`/features`)
 4. Blog index (`/blog`)
 
 **Content Clusters:**
+
 ```
 Compliance Cluster:
 ├─ /features/compliance (hub)
@@ -191,6 +213,7 @@ Operational Cluster:
 ```
 
 **Implementation:**
+
 - Add "Related articles" section to BlogPost.astro layout
 - Add "Learn more" CTA blocks in feature pages linking to blog content
 - Add internal links within blog post content (editorial links)
@@ -202,12 +225,15 @@ Operational Cluster:
 ### Priority Additions
 
 #### 1. FAQPage on Compliance Guides
+
 **Where:** Blog posts about regulations/compliance  
 **Examples:**
+
 - `/blog/guide-to-wavepower-compliance`
 - `/blog/dbs-check-tracking`
 
 **Implementation:**
+
 ```astro
 // In blog post frontmatter
 faqItems: [
@@ -225,12 +251,15 @@ faqItems: [
 Then pass to Layout via BlogPost wrapper.
 
 #### 2. HowTo Schema (Future)
+
 **Where:** Operational guide blog posts  
 **Examples:**
+
 - "How to run a swimming club committee"
 - "How to organise a swim club AGM"
 
 **Implementation:**
+
 ```json
 {
   "@type": "HowTo",
@@ -246,10 +275,12 @@ Then pass to Layout via BlogPost wrapper.
 ```
 
 #### 3. AggregateRating (When Real Testimonials Available)
+
 **Where:** Homepage, pricing page  
 **Current:** Testimonials exist but are not real clubs yet
 
 **Implementation (when ready):**
+
 ```json
 {
   "@type": "AggregateRating",
@@ -265,6 +296,7 @@ Add to SoftwareApplication schema in Layout.astro.
 ## Action Plan
 
 ### Immediate (This Week)
+
 - [x] Audit complete — no urgent fixes required
 - [ ] **Monitor GSC Performance report** for next 2 weeks
   - Watch for duplicate URL consolidation
@@ -272,6 +304,7 @@ Add to SoftwareApplication schema in Layout.astro.
   - Verify non-trailing-slash versions drop off
 
 ### Short-Term (Next 2 Weeks)
+
 - [ ] **Add FAQPage schema to compliance guides**
   - Wavepower guide
   - DBS check guide
@@ -284,6 +317,7 @@ Add to SoftwareApplication schema in Layout.astro.
   - Priority: LOW (minor performance improvement)
 
 ### Medium-Term (Next Month)
+
 - [ ] **Internal linking strategy**
   - Add "Related articles" component to blog posts
   - Add blog CTAs to feature pages
@@ -295,6 +329,7 @@ Add to SoftwareApplication schema in Layout.astro.
   - Priority: LOW (nice-to-have for rich results)
 
 ### Ongoing
+
 - [ ] **Monthly GSC audit**
   - Check for new duplicate URLs
   - Monitor schema validation errors
@@ -306,12 +341,14 @@ Add to SoftwareApplication schema in Layout.astro.
 ## Tools & Scripts
 
 **Existing Tools:**
+
 - `scripts/gsc-verify-canonicals.js` — Check for www vs non-www URLs
 - `scripts/gsc-performance.js` — Pull GSC performance data
 - `scripts/gsc-audit.js` — Full GSC audit
 - `scripts/gsc-submit.js` — Submit URLs to Indexing API
 
 **Recommended:**
+
 - Google Rich Results Test: https://search.google.com/test/rich-results
 - Google Search Console: https://search.google.com/search-console
 - Screaming Frog (for deep internal link audit, if needed)
@@ -321,16 +358,19 @@ Add to SoftwareApplication schema in Layout.astro.
 ## Success Metrics
 
 **2 Weeks from Now (16 March 2026):**
+
 - [ ] Duplicate URLs in GSC reduced by 80%+
 - [ ] All trailing-slash versions show higher impressions than non-trailing
 - [ ] No schema validation errors in GSC
 
 **1 Month from Now (2 April 2026):**
+
 - [ ] FAQPage schema live on 2+ compliance guides
 - [ ] Internal link graph shows strong hub pages (features, pricing)
 - [ ] Average position improved for priority keywords
 
 **3 Months from Now (2 June 2026):**
+
 - [ ] 3+ blog posts ranking in top 20 for target keywords
 - [ ] Rich results appearing for FAQ schema pages
 - [ ] Zero duplicate content issues in GSC
@@ -343,17 +383,20 @@ Add to SoftwareApplication schema in Layout.astro.
 Swimly's technical SEO foundation is excellent. The duplicate URL issue is a normal part of Google's index update process and will resolve automatically via the canonical tags already in place.
 
 **Key Strengths:**
+
 - Comprehensive schema markup (Article, LocalBusiness, BreadcrumbList, FAQ)
 - Proper canonical tag implementation
 - Consistent trailing slash configuration
 - Well-structured sitemap
 
 **Opportunities:**
+
 - Add FAQPage schema to compliance guides (quick win)
 - Strengthen internal linking between blog and product pages
 - Monitor GSC for duplicate URL consolidation
 
 **Next Steps:**
+
 1. Monitor GSC Performance for 2 weeks
 2. Add FAQPage schema to Wavepower/DBS guides
 3. Plan internal linking enhancements

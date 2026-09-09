@@ -1,4 +1,13 @@
-import { loginAs, authGet, authPost, authPatch, authDelete, ADMIN_EMAIL, ADMIN_PASSWORD, API_BASE } from './helpers';
+import {
+  loginAs,
+  authGet,
+  authPost,
+  authPatch,
+  authDelete,
+  ADMIN_EMAIL,
+  ADMIN_PASSWORD,
+  API_BASE,
+} from './helpers';
 
 describe('CRUD Operations API', () => {
   let adminToken: string;
@@ -71,7 +80,7 @@ describe('CRUD Operations API', () => {
     expect([200, 204]).toContain(deleteRes.status);
 
     // Remove from cleanup list
-    createdIds.members = createdIds.members.filter(id => id !== created.member_id);
+    createdIds.members = createdIds.members.filter((id) => id !== created.member_id);
   });
 
   it('Create a squad, verify it appears, then delete it', async () => {
@@ -101,7 +110,7 @@ describe('CRUD Operations API', () => {
     expect([200, 204]).toContain(deleteRes.status);
 
     // Remove from cleanup list
-    createdIds.squads = createdIds.squads.filter(id => id !== created.squad_id);
+    createdIds.squads = createdIds.squads.filter((id) => id !== created.squad_id);
   });
 
   it('Create an invoice, verify it appears, then delete it', async () => {
@@ -142,7 +151,7 @@ describe('CRUD Operations API', () => {
     expect([200, 204]).toContain(deleteRes.status);
 
     // Remove from cleanup list
-    createdIds.invoices = createdIds.invoices.filter(id => id !== created.invoice_id);
+    createdIds.invoices = createdIds.invoices.filter((id) => id !== created.invoice_id);
   });
 
   it('Update a member via PATCH and verify changes', async () => {

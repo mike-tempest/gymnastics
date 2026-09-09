@@ -68,10 +68,12 @@ export default function ColumnMappingStep({
       </div>
 
       <div>
-        <h3 className="text-lg font-semibold text-white mb-1">Match your columns to {BRAND.name} fields</h3>
+        <h3 className="text-lg font-semibold text-white mb-1">
+          Match your columns to {BRAND.name} fields
+        </h3>
         <p className="text-text-secondary text-sm">
-          We matched columns automatically where we could. Check them and fill in any gaps.
-          Fields marked with * are required.
+          We matched columns automatically where we could. Check them and fill in any gaps. Fields
+          marked with * are required.
         </p>
       </div>
 

@@ -139,7 +139,9 @@ export default function PaymentModal({
         {/* Header */}
         <div className="flex items-center justify-between p-4 sm:p-8 border-b border-white/10">
           <div>
-            <h2 id="payment-modal-title" className="text-2xl sm:text-3xl font-bold text-white mb-1">Record Payment</h2>
+            <h2 id="payment-modal-title" className="text-2xl sm:text-3xl font-bold text-white mb-1">
+              Record Payment
+            </h2>
             <p className="text-text-secondary">Record a payment received for this invoice</p>
           </div>
           <button
@@ -176,7 +178,8 @@ export default function PaymentModal({
                   ref={(e) => {
                     register('amount').ref(e);
                     if (e) {
-                      (firstInputRef as React.MutableRefObject<HTMLInputElement | null>).current = e;
+                      (firstInputRef as React.MutableRefObject<HTMLInputElement | null>).current =
+                        e;
                     }
                   }}
                   id="amount"
@@ -187,11 +190,16 @@ export default function PaymentModal({
                   className="w-full px-4 py-3 bg-white/10 text-white rounded-xl border border-white/10 focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 transition-all outline-none tabular-nums"
                   disabled={isSubmitting}
                 />
-                {errors.amount && <p className="mt-2 text-sm text-danger">{errors.amount.message}</p>}
+                {errors.amount && (
+                  <p className="mt-2 text-sm text-danger">{errors.amount.message}</p>
+                )}
               </div>
 
               <div>
-                <label htmlFor="payment_date" className="block text-sm font-semibold text-white mb-2">
+                <label
+                  htmlFor="payment_date"
+                  className="block text-sm font-semibold text-white mb-2"
+                >
                   Payment Date <span className="text-brand">*</span>
                 </label>
                 <input
@@ -201,7 +209,9 @@ export default function PaymentModal({
                   className="w-full px-4 py-3 bg-white/10 text-white rounded-xl border border-white/10 focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 transition-all outline-none"
                   disabled={isSubmitting}
                 />
-                {errors.payment_date && <p className="mt-2 text-sm text-danger">{errors.payment_date.message}</p>}
+                {errors.payment_date && (
+                  <p className="mt-2 text-sm text-danger">{errors.payment_date.message}</p>
+                )}
               </div>
             </div>
 
@@ -238,7 +248,9 @@ export default function PaymentModal({
                 placeholder="e.g., Transaction ID, cheque number"
                 disabled={isSubmitting}
               />
-              {errors.reference && <p className="mt-2 text-sm text-danger">{errors.reference.message}</p>}
+              {errors.reference && (
+                <p className="mt-2 text-sm text-danger">{errors.reference.message}</p>
+              )}
             </div>
 
             {/* Notes */}

@@ -75,7 +75,7 @@ export default function PersonalBests({
   }
 
   const seasonBestByKey = new Map(
-    data.seasonBests.map((sb) => [`${sb.distance}|${sb.stroke}|${sb.course}`, sb]),
+    data.seasonBests.map((sb) => [`${sb.distance}|${sb.stroke}|${sb.course}`, sb])
   );
   const totalPBs = results.filter((r) => r.is_pb).length;
 
@@ -95,7 +95,9 @@ export default function PersonalBests({
           </div>
           <div className="flex gap-4 text-sm text-text-secondary">
             <span>{results.length} results</span>
-            <span className="flex items-center gap-1"><Star className="w-3.5 h-3.5 text-yellow-400" /> {totalPBs} PBs</span>
+            <span className="flex items-center gap-1">
+              <Star className="w-3.5 h-3.5 text-yellow-400" /> {totalPBs} PBs
+            </span>
           </div>
         </div>
 
@@ -118,14 +120,18 @@ export default function PersonalBests({
                     <td className="py-3 text-white font-medium">
                       {pb.distance}m {pb.stroke} <CourseBadge course={pb.course} />
                     </td>
-                    <td className="py-3 text-white/70 font-mono tabular-nums">{formatSwimTime(Number(pb.time))}</td>
+                    <td className="py-3 text-white/70 font-mono tabular-nums">
+                      {formatSwimTime(Number(pb.time))}
+                    </td>
                     <td className="py-3 text-white/70 font-mono tabular-nums">
                       {seasonBest ? formatSwimTime(seasonBest.time) : '-'}
                       {seasonBest && Number(seasonBest.time) === Number(pb.time) && (
                         <Star className="inline w-3.5 h-3.5 text-yellow-400 fill-yellow-400 ml-1.5 align-text-bottom" />
                       )}
                     </td>
-                    <td className="py-3 text-white/50">{pb.achieved_at ? formatDate(pb.achieved_at) : '-'}</td>
+                    <td className="py-3 text-white/50">
+                      {pb.achieved_at ? formatDate(pb.achieved_at) : '-'}
+                    </td>
                   </tr>
                 );
               })}
@@ -138,7 +144,10 @@ export default function PersonalBests({
           {sortedPbs.map((pb) => {
             const seasonBest = seasonBestByKey.get(`${pb.distance}|${pb.stroke}|${pb.course}`);
             return (
-              <div key={pb.pb_id} className="flex items-center justify-between bg-white/5 rounded-xl p-3 border border-white/10">
+              <div
+                key={pb.pb_id}
+                className="flex items-center justify-between bg-white/5 rounded-xl p-3 border border-white/10"
+              >
                 <div>
                   <p className="text-white font-medium text-sm">
                     {pb.distance}m {pb.stroke} <CourseBadge course={pb.course} />
@@ -148,7 +157,9 @@ export default function PersonalBests({
                     {seasonBest ? ` - season ${formatSwimTime(seasonBest.time)}` : ''}
                   </p>
                 </div>
-                <span className="font-mono tabular-nums text-white/70">{formatSwimTime(Number(pb.time))}</span>
+                <span className="font-mono tabular-nums text-white/70">
+                  {formatSwimTime(Number(pb.time))}
+                </span>
               </div>
             );
           })}

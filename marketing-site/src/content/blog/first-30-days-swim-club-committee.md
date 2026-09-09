@@ -1,9 +1,9 @@
 ---
-title: "Your First 30 Days as a New Swim Club Committee Member"
+title: 'Your First 30 Days as a New Swim Club Committee Member'
 description: "Just got elected to your swim club committee? Here's your survival guide for the first month, from handovers to systems access to avoiding common pitfalls."
-pubDate: "2026-03-11"
-author: "Mike Tempest"
-tags: ["committee", "volunteers", "club management", "AGM"]
+pubDate: '2026-03-11'
+author: 'Mike Tempest'
+tags: ['committee', 'volunteers', 'club management', 'AGM']
 ---
 
 Congratulations. You've just been elected to your swim club's committee.
@@ -21,6 +21,7 @@ Here's what the first 30 days actually look like, and how to survive them.
 ### Your First Week Checklist
 
 **1. Get access to everything you need**
+
 - Club email account (if your role has one)
 - Shared drives or Dropbox folders
 - Bank account access (Treasurer, Membership Secretary)
@@ -33,6 +34,7 @@ Don't assume you'll be added automatically. Chase this. You can't do your job wi
 
 **2. Find the actual current documents**
 Write down where things actually are. Not where they should be, but where they are:
+
 - Membership list (is it in a spreadsheet? Which one? Where?)
 - Financial records
 - Safeguarding certificates
@@ -45,6 +47,7 @@ You'll likely find multiple versions of the same document. Find out which is cur
 
 **3. Understand what's already in motion**
 Your first month isn't a blank slate. Ask:
+
 - What regular tasks happen in the next 30 days?
 - What payments are due or expected?
 - Are there any competitions, galas, or events already committed to?
@@ -52,6 +55,7 @@ Your first month isn't a blank slate. Ask:
 
 **4. Schedule a proper handover meeting**
 Even if the previous person "doesn't have time", book 30 minutes in a coffee shop. Bring your questions. Don't try to learn everything — just understand:
+
 - What takes the most time each month
 - What the previous person wished they'd known sooner
 - Who to ask for help when something goes wrong
@@ -66,6 +70,7 @@ If your predecessor has genuinely vanished, ask other long-serving committee mem
 Every club is different, but here's what these roles typically involve:
 
 **Membership Secretary:**
+
 - Processing new member applications
 - Keeping the membership database current
 - Collecting membership fees
@@ -73,6 +78,7 @@ Every club is different, but here's what these roles typically involve:
 - Checking DBS certificates and safeguarding compliance
 
 **Treasurer:**
+
 - Collecting squad fees
 - Processing payments (Direct Debit, bank transfers, cash)
 - Paying coaches and facility hire
@@ -80,6 +86,7 @@ Every club is different, but here's what these roles typically involve:
 - Year-end accounts
 
 **Competition Secretary:**
+
 - Managing gala entries (entries, payments, withdrawals)
 - Communicating with event organisers
 - Working with coaches on swimmer selection
@@ -87,6 +94,7 @@ Every club is different, but here's what these roles typically involve:
 - Competition calendar planning
 
 **Chair/Secretary:**
+
 - Running committee meetings
 - Communication with members
 - Club policies and procedures
@@ -94,6 +102,7 @@ Every club is different, but here's what these roles typically involve:
 - Strategic planning
 
 **Your job this week:** Make a list of your core responsibilities, then separate them into:
+
 - Daily/weekly tasks
 - Monthly tasks
 - Annual tasks (renewals, AGM, year-end)
@@ -126,6 +135,7 @@ By week four, you've seen enough to know what's chaotic and what works. Now you 
 
 **Set up your task management**
 However you organise your life, apply it here:
+
 - Recurring calendar reminders for regular tasks
 - A simple task list (even just Notes on your phone)
 - Email folders for different types of requests
@@ -133,6 +143,7 @@ However you organise your life, apply it here:
 
 **Create your templates**
 You're going to send the same emails dozens of times. Write them once:
+
 - "Welcome to the club" email for new members
 - "Payment failed" message
 - "Competition entry confirmed" response
@@ -165,6 +176,7 @@ Write it down. If you get hit by a bus tomorrow, someone needs to be able to pic
 ## What Success Looks Like After 30 Days
 
 You won't have everything perfect. But you should have:
+
 - Access to all the systems you need
 - A clear understanding of your core responsibilities
 - A list of regular tasks and when they happen
@@ -188,4 +200,4 @@ And if you can leave the role in better shape than you found it, you've done wel
 
 ---
 
-*Building tools to make swim club committee roles less chaotic is exactly why we're building [Swimly](/). From [membership management](/features/membership/) to [automated billing](/features/billing/), [Wavepower compliance tracking](/features/compliance/), and [swim school management](/swim-school-management), it's designed for volunteers who need things to work without a learning curve. Compare us with [SwimClub Manager](/compare/swimclubmanager) or [Club Organiser](/compare/cluborganiser), check our [pricing](/pricing), or [join our founding clubs programme](/pilot/).*
+_Building tools to make swim club committee roles less chaotic is exactly why we're building [Swimly](/). From [membership management](/features/membership/) to [automated billing](/features/billing/), [Wavepower compliance tracking](/features/compliance/), and [swim school management](/swim-school-management), it's designed for volunteers who need things to work without a learning curve. Compare us with [SwimClub Manager](/compare/swimclubmanager) or [Club Organiser](/compare/cluborganiser), check our [pricing](/pricing), or [join our founding clubs programme](/pilot/)._

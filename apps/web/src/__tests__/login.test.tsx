@@ -55,7 +55,10 @@ describe('LoginPage', () => {
   it('renders a link to the register page', () => {
     render(<LoginPage />);
 
-    expect(screen.getByRole('link', { name: /create an account/i })).toHaveAttribute('href', '/register');
+    expect(screen.getByRole('link', { name: /create an account/i })).toHaveAttribute(
+      'href',
+      '/register'
+    );
   });
 
   it('shows validation error when email is empty on submit', async () => {

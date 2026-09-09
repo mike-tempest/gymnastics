@@ -21,7 +21,8 @@ export default function Error({
         <AlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
         <h2 className="text-2xl font-bold text-white mb-2">Failed to load onboarding</h2>
         <p className="text-text-secondary mb-6">
-          {error.message || 'An error occurred whilst loading the onboarding page. Please try again.'}
+          {error.message ||
+            'An error occurred whilst loading the onboarding page. Please try again.'}
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button

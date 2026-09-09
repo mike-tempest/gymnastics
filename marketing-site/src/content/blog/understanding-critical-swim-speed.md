@@ -1,9 +1,9 @@
 ---
-title: "Understanding Critical Swim Speed (CSS): The Training Tool Every Swim Parent Should Know"
+title: 'Understanding Critical Swim Speed (CSS): The Training Tool Every Swim Parent Should Know'
 description: "What Critical Swim Speed (CSS) means, why your child's coach uses it, and how it helps age-group swimmers train smarter. A plain-English guide for parents."
-pubDate: "2026-02-28"
-author: "Mike Tempest"
-tags: ["training", "CSS", "swim parents", "coaching", "performance"]
+pubDate: '2026-02-28'
+author: 'Mike Tempest'
+tags: ['training', 'CSS', 'swim parents', 'coaching', 'performance']
 ---
 
 If your child's coach has mentioned "CSS testing" or "training zones based on critical swim speed," you've probably nodded along whilst secretly wondering what any of it means.
@@ -27,6 +27,7 @@ CSS gives coaches a number to work with. Instead of guessing what "moderately ha
 Here's the clever bit: you don't need to swim an actual 1500-metre time trial to work out your CSS. You just need two shorter swims.
 
 **The CSS Test:**
+
 1. Swim a 400-metre time trial (all-out effort, proper race pace)
 2. Rest for 5-8 minutes
 3. Swim a 200-metre time trial (again, all-out effort)
@@ -36,6 +37,7 @@ Then you plug the times into a simple formula:
 **CSS pace (seconds per 100m) = (T400 - T200) ÷ 2**
 
 Let's use a real example. Suppose your child swims:
+
 - 400m in 5:20 (320 seconds)
 - 200m in 2:30 (150 seconds)
 
@@ -52,15 +54,19 @@ CSS gives you the same outcome (individualised training zones) with nothing more
 **Here's why coaches love it:**
 
 ### 1. It's Personal
+
 A 12-year-old county-level swimmer and a 12-year-old novice will have completely different CSS values. Training everyone at the same pace makes no sense. CSS ensures each swimmer works at the right intensity for their current fitness.
 
 ### 2. It's Specific
+
 CSS training prepares swimmers for middle- and long-distance events (200m and above). If your child races 200 free or 400 IM, CSS-based training teaches them how to hold pace, manage effort, and avoid the dreaded "death lap" where they slow dramatically in the final 50 metres.
 
 ### 3. It's Measurable
+
 Coaches can retest CSS every 8-12 weeks and watch the pace improve. If your child's CSS drops from 85 seconds per 100m to 82 seconds per 100m, that's proof their aerobic fitness is improving — even if race results haven't caught up yet.
 
 ### 4. It Teaches Pace Awareness
+
 Swimming too fast early in a race is one of the biggest mistakes age-group swimmers make. CSS training forces them to learn what sustainable speed feels like. Go off too fast in a CSS set and they'll pay for it five reps later.
 
 ## What CSS Training Actually Looks Like
@@ -93,11 +99,13 @@ For coaches, this means they can programme effective aerobic training without ne
 Your child's coach might not use the term "CSS" explicitly. Some programmes call it "threshold pace" or "T-pace." Others just say "aerobic intervals." The concept is the same.
 
 **What you'll notice at training:**
+
 - CSS testing sessions every couple of months (usually a 400m and 200m time trial)
 - Sets where swimmers are asked to hold a specific pace per 100m
 - Coaches timing reps and giving feedback like "that was 3 seconds too fast, bring it back next rep"
 
 **What you won't notice:**
+
 - Immediate improvements in sprint times (CSS training doesn't directly help 50m races)
 - Dramatic sessions where swimmers collapse at the end (CSS work is tough but controlled)
 
@@ -110,6 +118,7 @@ When swimmers first test their CSS, the number might feel frustratingly slow. Th
 Over months of consistent training, CSS improves. The same swimmer who started at 85 seconds per 100m might drop to 82, then 80, then 78. Those gains translate directly into race performance for 200m events and above.
 
 **What drives CSS improvement?**
+
 - Better aerobic fitness (heart and lungs working more efficiently)
 - Improved stroke efficiency (less drag, better propulsion)
 - Mental toughness (learning to hold pace when it hurts)
@@ -155,7 +164,6 @@ That's not magic. It's just good coaching.
 ---
 
 **Running a swim club and trying to track CSS scores, monitor progress, and keep training plans organised across multiple squads?** That's exactly the kind of thing modern software should handle. Swimly's [attendance tracking](/features/attendance) and [membership management](/features/membership) already take the admin burden off coaches. [Join the Swimly waitlist](/) and we'll let you know when performance tracking features are ready.
-
 
 ---
 

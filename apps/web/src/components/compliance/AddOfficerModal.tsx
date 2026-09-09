@@ -127,13 +127,23 @@ export default function AddOfficerModal({
               <label htmlFor="officer-check-number" className={labelClass}>
                 {certificateLabel} <span className="font-normal text-white/50">(optional)</span>
               </label>
-              <input {...register('dbs_number')} id="officer-check-number" type="text" className={fieldClass} />
+              <input
+                {...register('dbs_number')}
+                id="officer-check-number"
+                type="text"
+                className={fieldClass}
+              />
             </div>
             <div>
               <label htmlFor="officer-check-expiry" className={labelClass}>
                 Check expiry <span className="font-normal text-white/50">(optional)</span>
               </label>
-              <input {...register('dbs_expiry')} id="officer-check-expiry" type="date" className={fieldClass} />
+              <input
+                {...register('dbs_expiry')}
+                id="officer-check-expiry"
+                type="date"
+                className={fieldClass}
+              />
             </div>
           </div>
 
@@ -141,7 +151,12 @@ export default function AddOfficerModal({
             <label htmlFor="officer-qualifications" className={labelClass}>
               Qualifications <span className="font-normal text-white/50">(optional)</span>
             </label>
-            <input {...register('qualifications')} id="officer-qualifications" type="text" className={fieldClass} />
+            <input
+              {...register('qualifications')}
+              id="officer-qualifications"
+              type="text"
+              className={fieldClass}
+            />
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 pt-2">

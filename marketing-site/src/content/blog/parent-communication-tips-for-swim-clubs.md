@@ -1,9 +1,16 @@
 ---
-title: "Parent Communication Tips Every Swim Club Should Follow"
-description: "Parent communication tips for swim clubs: choosing the right channels, managing expectations, and handling difficult conversations with confidence."
+title: 'Parent Communication Tips Every Swim Club Should Follow'
+description: 'Parent communication tips for swim clubs: choosing the right channels, managing expectations, and handling difficult conversations with confidence.'
 pubDate: 2026-02-16
-author: "Swimly Team"
-tags: ["parent communication", "swim club management", "club communication", "customer service", "swimming club"]
+author: 'Swimly Team'
+tags:
+  [
+    'parent communication',
+    'swim club management',
+    'club communication',
+    'customer service',
+    'swimming club',
+  ]
 ---
 
 Poor communication is the number one complaint parents have about swimming clubs. Not the coaching. Not the facilities. Not even the fees. It is the sense that they never know what is happening, information arrives too late or not at all, and when they do have questions, getting answers is like pulling teeth.

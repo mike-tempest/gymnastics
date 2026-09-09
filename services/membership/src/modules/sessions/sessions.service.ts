@@ -260,9 +260,7 @@ export class SessionsService {
       // Load candidate sessions across a two-day window (server today and
       // tomorrow). This covers every club's local "tomorrow" regardless of its
       // UTC offset; each club is then narrowed to its own local tomorrow below.
-      const windowStart = new Date(now.getTime() - 24 * 60 * 60 * 1000)
-        .toISOString()
-        .split('T')[0];
+      const windowStart = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
       const windowEnd = new Date(now.getTime() + 48 * 60 * 60 * 1000).toISOString().split('T')[0];
 
       const sessions = await this.sessionsRepository.findSessionsForRemindersBetween(
@@ -447,9 +445,7 @@ export class SessionsService {
         if (members.length === 0) return;
 
         // Group by family to send one notification per family
-        const familyIds = [
-          ...new Set(members.map((s) => s.family_id).filter(Boolean) as string[]),
-        ];
+        const familyIds = [...new Set(members.map((s) => s.family_id).filter(Boolean) as string[])];
 
         // Resolve the club so the cancellation date is formatted in the club's
         // own locale. The stored date is the club's local wall-clock date, so

@@ -1,6 +1,14 @@
 'use client';
 
-import { Upload, FileCheck, AlertTriangle, CheckCircle2, ArrowLeft, Download, FileSpreadsheet } from 'lucide-react';
+import {
+  Upload,
+  FileCheck,
+  AlertTriangle,
+  CheckCircle2,
+  ArrowLeft,
+  Download,
+  FileSpreadsheet,
+} from 'lucide-react';
 import Link from 'next/link';
 import Papa from 'papaparse';
 import { useCallback, useRef, useState } from 'react';
@@ -168,7 +176,9 @@ export default function SquadsImportPage() {
       complete: (results) => {
         if (results.errors.length > 0) {
           const firstError = results.errors[0];
-          setParseError(`CSV parsing error (row ${(firstError.row ?? 0) + 1}): ${firstError.message}`);
+          setParseError(
+            `CSV parsing error (row ${(firstError.row ?? 0) + 1}): ${firstError.message}`
+          );
           return;
         }
 
@@ -176,7 +186,7 @@ export default function SquadsImportPage() {
         if (!headers.includes('squad_name')) {
           setParseError(
             `Missing required column: squad_name. ` +
-            `Expected headers: ${EXPECTED_HEADERS.join(', ')}`
+              `Expected headers: ${EXPECTED_HEADERS.join(', ')}`
           );
           setParsedRows([]);
           return;
@@ -236,10 +246,12 @@ export default function SquadsImportPage() {
 
     setStep('importing');
     setImportProgress(0);
-    setSubmittedRows(validEntries.map((entry) => ({
-      originalIndex: entry.originalIndex,
-      raw: entry.row._raw,
-    })));
+    setSubmittedRows(
+      validEntries.map((entry) => ({
+        originalIndex: entry.originalIndex,
+        raw: entry.row._raw,
+      }))
+    );
 
     const squadInputs: CreateSquadInput[] = validEntries.map(({ row }) => ({
       squad_name: row.squad_name.trim(),
@@ -266,9 +278,13 @@ export default function SquadsImportPage() {
         warningCount: 0,
       });
       if (result.created.length > 0 && (!result.errors || result.errors.length === 0)) {
-        toast.success(`${result.created.length} squad${result.created.length !== 1 ? 's' : ''} imported successfully`);
+        toast.success(
+          `${result.created.length} squad${result.created.length !== 1 ? 's' : ''} imported successfully`
+        );
       } else if (result.created.length > 0) {
-        toast.success(`${result.created.length} squad${result.created.length !== 1 ? 's' : ''} imported with some errors`);
+        toast.success(
+          `${result.created.length} squad${result.created.length !== 1 ? 's' : ''} imported with some errors`
+        );
       } else {
         toast.error('Import failed. No squads were added');
       }
@@ -315,7 +331,9 @@ export default function SquadsImportPage() {
                 <ArrowLeft className="w-5 h-5" />
                 <span>Back to Squads</span>
               </Link>
-              <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight mb-2">Import Squads</h1>
+              <h1 className="font-serif text-4xl sm:text-5xl text-dark-primary tracking-tight mb-2">
+                Import Squads
+              </h1>
               <p className="text-grey-600 text-lg">
                 Upload a CSV file to add multiple squads at once
               </p>
@@ -340,7 +358,8 @@ export default function SquadsImportPage() {
                   </h3>
                   <p className="text-text-secondary text-sm mb-3">
                     Required column: <span className="text-white font-medium">squad_name</span>.
-                    Other columns (description, min_age, max_age, coach_name, training_times, max_capacity) are optional.
+                    Other columns (description, min_age, max_age, coach_name, training_times,
+                    max_capacity) are optional.
                   </p>
                   <button
                     onClick={downloadTemplate}
@@ -353,9 +372,7 @@ export default function SquadsImportPage() {
 
                 {/* File Upload Area */}
                 <div>
-                  <h3 className="text-lg font-semibold text-white mb-3">
-                    2. Upload your file
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white mb-3">2. Upload your file</h3>
                   <div
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
@@ -439,14 +456,30 @@ export default function SquadsImportPage() {
                     <thead>
                       <tr className="bg-dark-primary/80">
                         <th className="px-4 py-3 text-left text-text-secondary font-semibold">#</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Squad Name</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Description</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Min Age</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Max Age</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Coach</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Training Times</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Capacity</th>
-                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">Status</th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Squad Name
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Description
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Min Age
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Max Age
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Coach
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Training Times
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Capacity
+                        </th>
+                        <th className="px-4 py-3 text-left text-text-secondary font-semibold">
+                          Status
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -462,35 +495,53 @@ export default function SquadsImportPage() {
                             title={hasRowError ? rowErrors.join(', ') : undefined}
                           >
                             <td className="px-4 py-3 text-text-tertiary">{i + 1}</td>
-                            <td className={`px-4 py-3 ${
-                              rowErrors.some((e) => e.toLowerCase().includes('squad name'))
-                                ? 'text-red-400 italic'
-                                : 'text-white'
-                            }`}>
+                            <td
+                              className={`px-4 py-3 ${
+                                rowErrors.some((e) => e.toLowerCase().includes('squad name'))
+                                  ? 'text-red-400 italic'
+                                  : 'text-white'
+                              }`}
+                            >
                               {row.squad_name || 'missing'}
                             </td>
-                            <td className="px-4 py-3 text-text-secondary">{row.description || '-'}</td>
-                            <td className={`px-4 py-3 ${
-                              rowErrors.some((e) => e.toLowerCase().includes('minimum age'))
-                                ? 'text-red-400'
-                                : 'text-text-secondary'
-                            }`}>
+                            <td className="px-4 py-3 text-text-secondary">
+                              {row.description || '-'}
+                            </td>
+                            <td
+                              className={`px-4 py-3 ${
+                                rowErrors.some((e) => e.toLowerCase().includes('minimum age'))
+                                  ? 'text-red-400'
+                                  : 'text-text-secondary'
+                              }`}
+                            >
                               {row.min_age || '-'}
                             </td>
-                            <td className={`px-4 py-3 ${
-                              rowErrors.some((e) => e.toLowerCase().includes('maximum age') || e.toLowerCase().includes('greater than maximum age'))
-                                ? 'text-red-400'
-                                : 'text-text-secondary'
-                            }`}>
+                            <td
+                              className={`px-4 py-3 ${
+                                rowErrors.some(
+                                  (e) =>
+                                    e.toLowerCase().includes('maximum age') ||
+                                    e.toLowerCase().includes('greater than maximum age')
+                                )
+                                  ? 'text-red-400'
+                                  : 'text-text-secondary'
+                              }`}
+                            >
                               {row.max_age || '-'}
                             </td>
-                            <td className="px-4 py-3 text-text-secondary">{row.coach_name || '-'}</td>
-                            <td className="px-4 py-3 text-text-secondary">{row.training_times || '-'}</td>
-                            <td className={`px-4 py-3 ${
-                              rowErrors.some((e) => e.toLowerCase().includes('capacity'))
-                                ? 'text-red-400'
-                                : 'text-text-secondary'
-                            }`}>
+                            <td className="px-4 py-3 text-text-secondary">
+                              {row.coach_name || '-'}
+                            </td>
+                            <td className="px-4 py-3 text-text-secondary">
+                              {row.training_times || '-'}
+                            </td>
+                            <td
+                              className={`px-4 py-3 ${
+                                rowErrors.some((e) => e.toLowerCase().includes('capacity'))
+                                  ? 'text-red-400'
+                                  : 'text-text-secondary'
+                              }`}
+                            >
                               {row.max_capacity || '-'}
                             </td>
                             <td className="px-4 py-3">
@@ -561,7 +612,9 @@ export default function SquadsImportPage() {
                     <Upload className="w-8 h-8 text-brand animate-pulse" />
                   </div>
                   <h3 className="font-serif text-2xl text-white mb-2">Importing squads...</h3>
-                  <p className="text-text-secondary">Please wait while your squads are being added.</p>
+                  <p className="text-text-secondary">
+                    Please wait while your squads are being added.
+                  </p>
                 </div>
                 <div className="max-w-md mx-auto">
                   <div className="flex items-center justify-between mb-2">
@@ -591,7 +644,8 @@ export default function SquadsImportPage() {
                       </div>
                       <h3 className="font-serif text-3xl text-white mb-2">Import Complete</h3>
                       <p className="text-text-secondary">
-                        Successfully imported {importResults.successCount} squad{importResults.successCount !== 1 ? 's' : ''}.
+                        Successfully imported {importResults.successCount} squad
+                        {importResults.successCount !== 1 ? 's' : ''}.
                       </p>
                     </>
                   ) : importResults.successCount > 0 ? (
@@ -599,9 +653,12 @@ export default function SquadsImportPage() {
                       <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-yellow-500 bg-opacity-10 flex items-center justify-center">
                         <AlertTriangle className="w-8 h-8 text-yellow-400" />
                       </div>
-                      <h3 className="font-serif text-3xl text-white mb-2">Import Partially Complete</h3>
+                      <h3 className="font-serif text-3xl text-white mb-2">
+                        Import Partially Complete
+                      </h3>
                       <p className="text-text-secondary">
-                        {importResults.successCount} squad{importResults.successCount !== 1 ? 's' : ''} imported successfully.{' '}
+                        {importResults.successCount} squad
+                        {importResults.successCount !== 1 ? 's' : ''} imported successfully.{' '}
                         {importResults.errors.length} failed.
                       </p>
                     </>
@@ -626,7 +683,9 @@ export default function SquadsImportPage() {
                   </div>
                   {importResults.errors.length > 0 && (
                     <div className="px-6 py-4 bg-red-500 bg-opacity-10 border border-red-500 border-opacity-30 rounded-xl text-center min-w-[140px]">
-                      <p className="text-red-400 text-3xl font-bold">{importResults.errors.length}</p>
+                      <p className="text-red-400 text-3xl font-bold">
+                        {importResults.errors.length}
+                      </p>
                       <p className="text-text-secondary text-sm">Failed</p>
                     </div>
                   )}
@@ -650,7 +709,8 @@ export default function SquadsImportPage() {
                     <ul className="space-y-1">
                       {importResults.errors.map((err, i) => (
                         <li key={i} className="text-red-300 text-sm">
-                          {err.row > 0 ? `Row ${err.row}: ` : ''}{err.message}
+                          {err.row > 0 ? `Row ${err.row}: ` : ''}
+                          {err.message}
                         </li>
                       ))}
                     </ul>

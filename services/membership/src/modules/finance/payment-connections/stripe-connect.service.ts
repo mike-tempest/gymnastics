@@ -107,8 +107,7 @@ export class StripeConnectService {
     // disconnected: onboarding may need several visits, and an active account
     // may legitimately be sent back through the link to finish new requirements.
     let connection = connections.find(
-      (row) =>
-        row.provider === 'stripe' && row.status !== PaymentConnectionStatus.DISCONNECTED,
+      (row) => row.provider === 'stripe' && row.status !== PaymentConnectionStatus.DISCONNECTED,
     );
 
     if (!connection) {
@@ -192,9 +191,7 @@ export class StripeConnectService {
       where: { provider: 'stripe', external_account_id: externalAccountId },
     });
     if (!connection) {
-      this.logger.warn(
-        `Ignoring account.updated for unknown Stripe account ${externalAccountId}.`,
-      );
+      this.logger.warn(`Ignoring account.updated for unknown Stripe account ${externalAccountId}.`);
       return;
     }
 

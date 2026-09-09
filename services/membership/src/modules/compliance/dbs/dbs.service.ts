@@ -310,9 +310,7 @@ export class DBSService {
   ): string {
     const matches = config.backgroundCheckTypes.filter((type) => type.value === checkType);
     if (matches.length === 0) return checkType;
-    const regional = region
-      ? matches.find((type) => type.regions?.includes(region))
-      : undefined;
+    const regional = region ? matches.find((type) => type.regions?.includes(region)) : undefined;
     return (regional ?? matches[0]).label;
   }
 

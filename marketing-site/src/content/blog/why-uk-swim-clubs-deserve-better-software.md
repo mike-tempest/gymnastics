@@ -1,9 +1,9 @@
 ---
-title: "Why UK Swim Clubs Deserve Better Software"
-description: "British swimming clubs face challenges generic software cannot address, from Wavepower compliance to Direct Debit. Why UK clubs need purpose-built tools."
+title: 'Why UK Swim Clubs Deserve Better Software'
+description: 'British swimming clubs face challenges generic software cannot address, from Wavepower compliance to Direct Debit. Why UK clubs need purpose-built tools.'
 pubDate: 2026-02-08
-author: "Swimly Team"
-tags: ["UK swim clubs", "swimming club software", "club management"]
+author: 'Swimly Team'
+tags: ['UK swim clubs', 'swimming club software', 'club management']
 ---
 
 Running a swimming club in the UK is not the same as running one in America, Australia, or anywhere else. British swimming clubs operate within a specific framework of regulations, governance structures, and cultural expectations that make them fundamentally different from their international counterparts.
