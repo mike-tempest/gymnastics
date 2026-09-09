@@ -46,6 +46,15 @@ export class UsersRepository {
     });
   }
 
+  // Only authentication may opt in to reading the stored password hash.
+  async findCredentialsByEmail(email: string): Promise<User | null> {
+    return await this.userRepository
+      .createQueryBuilder('user')
+      .addSelect('user.password_hash')
+      .where('user.email = :email', { email })
+      .getOne();
+  }
+
   async findByEmailInsensitive(email: string): Promise<User | null> {
     return await this.userRepository
       .createQueryBuilder('user')
