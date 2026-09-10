@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CTA from '../components/CTA.astro';
+import { BRAND, MEMBER_NOUN_PLURAL } from '../config';
+const features = [
+  ['Enrolment', 'Keep the waiting list moving.', 'Set offer priorities, give families a clear acceptance window and bring accepted places into your enrolment process.', ['Configurable offer priorities', 'Time-limited acceptance', 'Connected family and class records']],
+  ['Payments', 'Direct Debit in your own account.', 'Connect your club’s GoCardless organisation for fee collection. Keep invoices, mandates and payment records linked to the right family.', ['Club-owned GoCardless connection', 'Family billing and invoices', 'Stripe card payments as a secondary option']],
+  ['Compliance', 'Know what needs attention.', 'Give the Welfare Officer a dedicated view of background checks, first aid, coaching qualifications and safeguarding training.', ['Credential records with expiry dates', 'Expiry reminders', 'Role-based access to staff records']],
+  ['Club life', 'Make the next session simpler.', 'Organise recreational classes and squad pathways, filter by discipline and keep attendance records together.', [`${MEMBER_NOUN_PLURAL}, families and classes`, 'Session registers and attendance', 'Configurable disciplines and programme flags']],
+  ['Awards', 'Keep progress visible.', 'Record assessments and awards using the schemes your club runs. Parents can see progress in their portal.', ['Configurable award schemes', 'Rise CSV bridge', 'Parent progress views']],
+  ['Your data', 'Make moving manageable.', 'Bring supported spreadsheets into the migration wizard, review the mapping and keep a way to export your records whenever you need them.', ['Import review before saving', 'Full club data export', 'Club-scoped read API']],
+];
+---
+<Layout title="Features" description="Explore Tumblebase waiting lists, Direct Debit billing, staff compliance, registers, awards, imports and data export.">
+  <section class="wrap py-16 lg:py-24"><p class="eyebrow">Made for everyday club life</p><h1 class="mt-5 max-w-3xl font-display text-5xl leading-tight sm:text-6xl">All the moving parts.<br />One organised club.</h1><p class="prose-copy mt-6 max-w-2xl">{BRAND.name} brings the people, payments and records behind each session together.</p></section>
+  <div class="wrap">{features.map(([label, title, copy, bullets]) => <section class="grid gap-7 border-t border-line py-12 md:grid-cols-[1fr_2fr]"><p class="eyebrow">{label}</p><div><h2 class="font-display text-3xl sm:text-4xl">{title}</h2><p class="prose-copy mt-4 max-w-2xl">{copy}</p><ul class="mt-5 space-y-2 text-sm text-forest-soft">{(bullets as string[]).map(item => <li class="flex gap-3"><span aria-hidden="true">✓</span>{item}</li>)}</ul></div></section>)}</div>
+  <section class="wrap py-12"><div class="rounded-2xl bg-sage-light p-8"><h2 class="font-display text-3xl">Works alongside your governing body.</h2><p class="prose-copy mt-4 max-w-3xl">Use My BG for British Gymnastics membership administration. {BRAND.name} records BG membership numbers and supports club operations. Rise remains British Gymnastics’ award programme; our configurable records and CSV bridge do not replace Rise Hub.</p></div></section>
+  <CTA />
+</Layout>

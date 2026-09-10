@@ -1,0 +1,41 @@
+@import 'tailwindcss' source(none);
+@source '../';
+
+@theme {
+  --color-forest: #1c302a;
+  --color-forest-soft: #365e54;
+  --color-sage: #b9d8cb;
+  --color-sage-light: #d9e9e0;
+  --color-chalk: #f4f2ec;
+  --color-paper: #faf9f5;
+  --color-clay: #a44932;
+  --color-clay-hover: #893b2a;
+  --color-ink: #263d34;
+  --color-muted: #52655c;
+  --color-line: #d6ddd5;
+  --font-sans: 'Inter', 'Avenir Next', system-ui, sans-serif;
+  --font-display: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-chalk text-ink font-sans antialiased; }
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+  :focus-visible { outline: 3px solid #a44932; outline-offset: 5px; }
+  ::selection { @apply bg-sage text-forest; }
+}
+
+@layer components {
+  .wrap { @apply mx-auto w-full max-w-6xl px-6 lg:px-10; }
+  .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.18em] text-forest-soft; }
+  .button { @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-forest px-6 py-3 text-sm font-semibold text-paper transition-colors hover:bg-forest-soft; }
+  .button-light { @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-sage px-6 py-3 text-sm font-semibold text-forest transition-colors hover:bg-sage-light; }
+  .text-link { @apply inline-flex min-h-12 items-center gap-2 font-semibold underline decoration-forest-soft/30 underline-offset-4 hover:decoration-forest; }
+  .prose-copy { @apply text-base leading-8 text-muted; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
