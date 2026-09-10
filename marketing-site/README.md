@@ -28,3 +28,7 @@ Checked on 10 September 2026:
 - [British Gymnastics on purchasing Rise](https://www.british-gymnastics.org/articles/how-to-purchase-rise-gymnastics): Rise and Rise Hub remain British Gymnastics services. Tumblebase supplies configurable records and a CSV bridge, not licensed Rise content or a replacement portal.
 
 Product features are based on completed Linear issues TEM-18 through TEM-24 and TEM-29 through TEM-32. Live deployment acceptance remains TEM-16/TEM-17. No competitor prices or compliance guarantees are published.
+
+## Build runtime
+
+Use Node 22.12 or newer (CI uses Node 22 LTS). The active site only needs Astro and Tailwind. Puppeteer, Playwright, Sharp as a direct dependency, tsx and Lucide were removed from this package because the active static build does not use them. Dormant inherited scripts are unsupported and must not be run as part of the Tumblebase workflow.

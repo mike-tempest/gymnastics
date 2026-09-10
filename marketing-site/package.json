@@ -6,20 +6,15 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "verify:i18n": "node scripts/verify-i18n.mjs",
     "astro": "astro",
     "verify:site": "python3 scripts/verify-tumblebase.py"
   },
   "dependencies": {
-    "@lucide/astro": "^0.563.0",
-    "@tailwindcss/vite": "^4.1.18",
-    "astro": "^5.17.1",
-    "puppeteer": "^24.40.0",
-    "tailwindcss": "^4.1.18"
+    "@tailwindcss/vite": "4.3.3",
+    "astro": "7.3.2",
+    "tailwindcss": "4.3.3"
   },
-  "devDependencies": {
-    "@playwright/test": "^1.58.2",
-    "sharp": "^0.34.5",
-    "tsx": "^4.21.0"
+  "engines": {
+    "node": ">=22.12.0"
   }
 }
