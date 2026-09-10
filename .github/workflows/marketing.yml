@@ -28,5 +28,7 @@ jobs:
           cache-dependency-path: marketing-site/package-lock.json
       - run: npm ci --ignore-scripts
         working-directory: marketing-site
+      - run: npm audit --audit-level=low
+        working-directory: marketing-site
       - run: bash -n marketing-site/deploy-ftp.sh
       - run: ./marketing-site/deploy-ftp.sh --dry-run

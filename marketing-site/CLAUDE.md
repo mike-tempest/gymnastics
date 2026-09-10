@@ -1,6 +1,6 @@
 # Tumblebase marketing site
 
-Astro + Tailwind, built from `site/` with `public-tumblebase/` assets. The inherited `src/` and `public/` trees are dormant reference material and are explicitly excluded by Astro's source/public configuration. Do not ship them, run their outreach/SEO scripts, or connect to inherited resources.
+Astro 7 + Tailwind, built from `site/` with `public-tumblebase/` assets. The inherited `src/` and `public/` trees are dormant reference material and are explicitly excluded by Astro's source/public configuration. Do not ship them, run their outreach/SEO scripts, or connect to inherited resources.
 
 Product name and display nouns are imported from the app's brand module. Marketing colour tokens live in `site/styles/global.css` and follow TEM-12. Use British English, Tailwind, no inline styles, no em dashes and no emojis.
 
@@ -22,3 +22,7 @@ Only deploy through `deploy-ftp.sh`. It builds, verifies the output, fixes local
 TEM-25 owns the core site. TEM-26 owns the final founding-club offer, working application capture and authorised outreach. Neither issue is done until its required live acceptance checks pass.
 
 The current build has five HTML pages: home, features, pricing, founding clubs and 404. It also generates a sitemap and robots file. Verify the exact inventory and all local links before publishing.
+
+## Build runtime
+
+Use Node 22.12 or newer (CI uses Node 22 LTS). The active site only needs Astro and Tailwind. Puppeteer, Playwright, Sharp as a direct dependency, tsx and Lucide were removed from this package because the active static build does not use them. Dormant inherited scripts are unsupported and must not be run as part of the Tumblebase workflow.
