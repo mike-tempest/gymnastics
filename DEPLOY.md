@@ -1,6 +1,6 @@
-# Deploy the gymnastics platform on Railway
+# Deploy Tumblebase on Railway
 
-Work is tracked in TEM-16. Use only the private [Gymnastics project](https://railway.com/project/dd7721ab-fcc4-4de9-8518-2eee17bc0f34). Its production environment and empty `membership` and `web` services were created on 9 September 2026. Databases, provider accounts, domains and deployed smoke tests are still outstanding. Nothing is shared with the original swimming platform.
+Work is tracked in TEM-16. Use only the private [Gymnastics project](https://railway.com/project/dd7721ab-fcc4-4de9-8518-2eee17bc0f34). Its production environment, membership/web services and separate PostgreSQL/Redis services exist. The GitHub sources and EU West deployment changes are staged. The app is not yet verified live; payment accounts, email verification, backups and deployed smoke tests remain outstanding. Nothing is shared with the original swimming platform.
 
 ## Connect the services
 
@@ -28,19 +28,19 @@ Create PostgreSQL and Redis inside this project using Railway's database templat
 
 Set membership variables using references to those new services:
 
-| Variable                                                                 | Value                                                      |
-| ------------------------------------------------------------------------ | ---------------------------------------------------------- |
-| `NODE_ENV`                                                               | `production`                                               |
-| `PORT`                                                                   | `3001`                                                     |
-| `DB_HOST`, `DB_PORT`                                                     | New PostgreSQL private host and port                       |
-| `DB_USERNAME`, `DB_PASSWORD`, `DB_DATABASE`                              | New PostgreSQL credentials and database                    |
-| `REDIS_HOST`, `REDIS_PORT`, `REDIS_PASSWORD`                             | New Redis private connection values                        |
-| `JWT_SECRET`                                                             | Fresh random secret, at least 32 characters                |
-| `APP_URL`, `CORS_ORIGINS`                                                | Exact public web origin                                    |
-| `API_URL`                                                                | Public API origin                                          |
-| `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USER`, `EMAIL_PASSWORD`, `EMAIL_FROM` | The gymnastics platform's mail service and verified sender |
-| `GOCARDLESS_ENVIRONMENT`                                                 | `sandbox` until payment testing is complete                |
-| `ENABLE_COMPETITIONS`                                                    | `false`                                                    |
+| Variable                                     | Value                                                     |
+| -------------------------------------------- | --------------------------------------------------------- |
+| `NODE_ENV`                                   | `production`                                              |
+| `PORT`                                       | `3001`                                                    |
+| `DB_HOST`, `DB_PORT`                         | New PostgreSQL private host and port                      |
+| `DB_USERNAME`, `DB_PASSWORD`, `DB_DATABASE`  | New PostgreSQL credentials and database                   |
+| `REDIS_HOST`, `REDIS_PORT`, `REDIS_PASSWORD` | New Redis private connection values                       |
+| `JWT_SECRET`                                 | Fresh random secret, at least 32 characters               |
+| `APP_URL`, `CORS_ORIGINS`                    | Exact public web origin                                   |
+| `API_URL`                                    | Public API origin                                         |
+| `RESEND_API_KEY`, `EMAIL_FROM`               | Dedicated Resend API key and a verified Tumblebase sender |
+| `GOCARDLESS_ENVIRONMENT`                     | `sandbox` until payment testing is complete               |
+| `ENABLE_COMPETITIONS`                        | `false`                                                   |
 
 The API reads `DB_USERNAME` and `DB_DATABASE`, not `DB_USER` or `DB_NAME`. A standalone `DATABASE_URL` does not satisfy its configuration validation. Keep schema synchronisation disabled and do not set `SEED_DEMO_CLUB` on the running production service.
 
@@ -54,9 +54,20 @@ Set web variables:
 | `NEXT_PUBLIC_API_URL` | Public API URL **including `/api`**, supplied at build time                   |
 | `MEMBERSHIP_API_URL`  | API origin or base URL reachable from the web service for server-side sign-in |
 
-Changing `NEXT_PUBLIC_API_URL` requires rebuilding the web image because Next.js includes it in the browser bundle. Generate Railway service domains first if the final product domain has not been decided. Do not invent a product name or buy a domain without the naming decision in TEM-5.
+Changing `NEXT_PUBLIC_API_URL` requires rebuilding the web image because Next.js includes it in the browser bundle. Mike has registered `tumblebase.com` (TEM-5). Use the Railway service domains for initial verification; configure `app.tumblebase.com` for the web app and `api.tumblebase.com` for the API once DNS access is available. Reserve the apex domain for marketing. Do not switch origins until DNS and certificates are ready.
 
 Mike owns creation of the separate GoCardless sandbox organisation and Stripe account. Connect GoCardless through the club's own organisation and configure its webhook secret using the existing provider setup. Never enable `LEGACY_GOCARDLESS_ENV_FALLBACK` in production. Configure Stripe test credentials and webhooks only for the separate account. A healthy API response with `gocardless.notConfigured=true` is not evidence that Direct Debit works.
+
+## Transactional email
+
+The email service uses Resend's HTTPS API. It does not connect to an SMTP server, and `EMAIL_HOST` / `EMAIL_PORT` are not required for startup. `EMAIL_PASSWORD` remains a legacy fallback for old environments; use `RESEND_API_KEY` for new deployments.
+
+1. Confirm the key belongs to the intended Tumblebase Resend account. Do not use another product's verified sender.
+2. Add `mail.tumblebase.com` as a sending domain and publish the exact DNS records returned by Resend. Keep the apex domain's incoming mail records intact.
+3. Wait until Resend reports the domain verified, then set `EMAIL_FROM` to `Tumblebase <noreply@mail.tumblebase.com>` and store the key in Railway's membership service variables. Never commit the key or put it in Linear.
+4. Deploy, verify the service reports email configured, and explicitly authorise a test recipient before sending a test email. Verify delivery and the link origin. An API key alone is not proof of delivery.
+
+Local environments may omit the key; sends then no-op with a warning. This is not acceptable evidence for production email acceptance. With no dedicated key/sender verification, keep TEM-16 and TEM-17 open.
 
 ## Verify the deployment (TEM-17)
 

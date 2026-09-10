@@ -8,6 +8,7 @@ import {
   IsOptional,
   MinLength,
 } from 'class-validator';
+import { BRAND } from '../common/brand';
 
 enum Environment {
   Development = 'development',
@@ -81,12 +82,20 @@ class EnvironmentVariables {
   @IsOptional()
   CORS_ORIGINS?: string = 'http://localhost:3000';
 
-  // Email
+  // Transactional email is sent through Resend HTTPS, not SMTP.
   @IsString()
-  EMAIL_HOST: string;
+  @IsOptional()
+  RESEND_API_KEY?: string;
+
+  // Legacy SMTP settings are accepted for existing local environments,
+  // but must not prevent a Resend-only deployment from starting.
+  @IsString()
+  @IsOptional()
+  EMAIL_HOST?: string;
 
   @IsNumber()
-  EMAIL_PORT: number;
+  @IsOptional()
+  EMAIL_PORT?: number;
 
   @IsString()
   @IsOptional()
@@ -98,7 +107,7 @@ class EnvironmentVariables {
 
   @IsString()
   @IsOptional()
-  EMAIL_FROM?: string = 'SwimNexus UK <noreply@swimnexus.local>';
+  EMAIL_FROM?: string = `${BRAND.name} <noreply@localhost>`;
 
   @IsString()
   @IsOptional()
