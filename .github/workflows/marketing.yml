@@ -1,0 +1,32 @@
+name: Tumblebase marketing
+
+on:
+  pull_request:
+    paths:
+      - 'marketing-site/**'
+      - 'apps/web/src/lib/brand.ts'
+      - '.github/workflows/marketing.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'marketing-site/**'
+      - 'apps/web/src/lib/brand.ts'
+      - '.github/workflows/marketing.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: marketing-site/package-lock.json
+      - run: npm ci --ignore-scripts
+        working-directory: marketing-site
+      - run: bash -n marketing-site/deploy-ftp.sh
+      - run: ./marketing-site/deploy-ftp.sh --dry-run

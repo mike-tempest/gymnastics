@@ -1,72 +1,30 @@
-# Swimly Marketing Site
+# Tumblebase marketing
 
-The marketing site for Swimly, the operating system for British swimming clubs. Static site built with [Astro](https://astro.build) and Tailwind CSS.
+The Tumblebase site is an Astro static build with Tailwind styling. Run all commands from this directory.
 
-## What this site is
-
-One Astro build produces content for two live domains:
-
-- **swimly.uk** is the UK site: homepage, features, pricing, blog, club directory, comparison pages. Everything at the root of `src/pages/` except the regional folders.
-- **swimly.club** is the international site, served from subfolders: `src/pages/us/`, `src/pages/ca/` and `src/pages/au/`, plus `src/pages/international/` which becomes the swimly.club hub homepage.
-- **swimly.info** exists only to 301 to swimly.club. It carries no content of its own.
-
-The deploy script splits the single build between the two document roots (see below). Region handling, canonical URLs and hreflang clusters live in `src/config/regions.ts` and `src/layouts/Layout.astro`.
-
-## Commands
-
-```bash
-npm run dev       # Local dev server on :4321
-npm run build     # Build to dist.nosync/
-./deploy-ftp.sh   # Build + fix permissions + FTP upload (the ONLY way to deploy)
+```sh
+npm ci --ignore-scripts
+npm run dev
+npm run build
+npm run verify:site
+./deploy-ftp.sh --dry-run
 ```
 
-The build directory is `dist.nosync/` (not `dist/`) because this repo lives in an iCloud-synced folder and the `.nosync` suffix stops iCloud evicting files mid-upload.
+The live source is `site/`, with public files in `public-tumblebase/`. `astro.config.mjs` excludes the inherited swimming site in `src/` and `public/`. The verification command checks the exact page inventory and prevents inherited swimming content from entering the built output.
 
-## Deploying (read this before you touch anything)
+## Launch configuration
 
-**Deploy ONLY via `./deploy-ftp.sh`. Never use raw lftp or FTP commands.** Bypassing the script has caused four full-site outages.
+Copy `.env.example` to a local environment file and set only verified values. Sign-in stays hidden until the application URL is configured. Enquiries use `mike@tumblebase.com`, which Mike confirmed he created. Without an approved monthly price, the pricing page says launch pricing is being finalised. These are explicit launch blockers, not an approved commercial offer.
 
-The reasons the script exists, and why every one of its steps matters:
+The current site collects no form data and loads no analytics or third-party fonts. A working founding-club application flow and the associated privacy information belong to TEM-26. Do not enable that flow without those prerequisites.
 
-1. **Permission fix.** The local system umask is 0077, so Astro's build output comes out as 600/700. LiteSpeed on the host cannot read those files and the whole site returns 403. The script chmods directories to 755 and files to 644 before upload. This is the step that, when skipped, caused the outages.
-2. **`.htaccess` is overwritten on every deploy.** The script writes a slim `.htaccess` from heredocs inside the script itself (Astro would otherwise generate over 1000 redirect rules, which crashes LiteSpeed). Any redirect that is not inside the script's heredocs is silently dropped on the next deploy. If you need a redirect to survive, it goes in the heredoc in `deploy-ftp.sh`, never in a standalone file.
-3. **Credentials come from the environment.** `FTP_PASS` must be set in your shell (or as a CI secret) before deploying. Never hardcode a password in the script; a previous hardcoded fallback leaked into git history.
-4. **Two targets, one build.** The script mirrors the UK part of the build to the swimly.uk root and the `us/`, `ca/`, `au/` and `international/` parts to the swimly.club document root, incrementally with checksums.
+Publish only with `deploy-ftp.sh` and a dedicated Tumblebase hosting account. It reads `TUMBLEBASE_FTP_HOST`, `TUMBLEBASE_FTP_USER`, `TUMBLEBASE_FTP_PASS` and `TUMBLEBASE_FTP_ROOT` from the environment. It requires explicit FTPS with a valid server certificate and support for `SITE CHMOD`. It does not delete files, so the first target must be a clean document root. Domain DNS and hosting access remain required.
 
-`DRY_RUN=1 ./deploy-ftp.sh` prints the generated lftp scripts without uploading anything, which is the safe way to inspect what a deploy would do.
+## Content evidence
 
-## The SEO/AEO engine
+Checked on 10 September 2026:
 
-A scheduled daily agent grows the site's search and answer-engine presence, making **one PR per day**. Its playbook and its append-only work ledger live at:
+- [British Gymnastics on My BG and JustGo for Clubs](https://www.british-gymnastics.org/articles/british-gymnastics-to-provide-clubs-with-free-use-of-new-justgo-for-clubs-class-management-system): supports keeping governing-body membership administration in My BG. No sync, affiliation or endorsement is claimed for Tumblebase.
+- [British Gymnastics on purchasing Rise](https://www.british-gymnastics.org/articles/how-to-purchase-rise-gymnastics): Rise and Rise Hub remain British Gymnastics services. Tumblebase supplies configurable records and a CSV bridge, not licensed Rise content or a replacement portal.
 
-- `docs/seo-aeo-engine.md` (how it works, what it may and may not touch)
-- `docs/seo-aeo-ledger.md` (what has been done, decisions, follow-ups)
-
-Rules when working near it:
-
-- Never create a second scheduled SEO agent or duplicate its daily PR.
-- Check the ledger before writing new content so topics are not duplicated, and add a ledger entry when you cover a topic yourself so the agent skips it.
-
-## Copy rules
-
-- **British English** on UK pages (colour, organise, programme, "term" not "semester"). US spelling only under `/us`. Commonwealth spelling under `/ca` and `/au`.
-- **No em dashes.** Rewrite the sentence instead.
-- **No emojis** in copy or code comments.
-- **Never invent facts**: no made-up statistics, testimonials, member counts or "trusted by N clubs" claims.
-- **Swim England is a file-based import, not an API.** Describe it carefully; do not imply a live API integration.
-- **Never claim UK data hosting.** It is an aspiration, not a fact.
-- Tailwind only; no inline styles. Lucide icons via `@lucide/astro`.
-- Write for volunteer club administrators, practical and helpful, never salesy.
-
-## Site structure
-
-- `src/pages/` - pages (`.astro`); regional content under `us/`, `ca/`, `au/`, `international/`
-- `src/components/` - shared components
-- `src/layouts/` - `Layout.astro` (meta, canonical, hreflang, JSON-LD) and `BlogPost.astro`
-- `src/content/blog/` - blog posts as Markdown (schema in `src/content.config.ts`)
-- `src/data/` - static data (towns, clubs directories)
-- `docs/` - SEO engine docs, audits, internationalisation notes
-
-## Verification
-
-Always run `npm run build` and check it completes cleanly before opening a PR. The build currently produces around 5,900 pages; a sudden large change in page count is a signal something broke.
+Product features are based on completed Linear issues TEM-18 through TEM-24 and TEM-29 through TEM-32. Live deployment acceptance remains TEM-16/TEM-17. No competitor prices or compliance guarantees are published.

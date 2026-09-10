@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+import { BRAND, appUrl } from '../config';
+interface Props { title: string; description?: string }
+const { title, description = BRAND.description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, BRAND.website);
+const links = [['Features', '/features/'], ['Pricing', '/pricing/'], ['Founding clubs', '/founding-clubs/']];
+---
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#1c302a" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={`${title} | ${BRAND.name}`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <title>{title} | {BRAND.name}</title>
+  </head>
+  <body>
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-paper focus:p-4">Skip to content</a>
+    <header class="border-b border-line">
+      <div class="wrap flex min-h-24 flex-wrap items-center justify-between gap-x-8 gap-y-1 py-4">
+        <a href="/" aria-label={`${BRAND.name} home`} class="flex min-h-12 items-center gap-3">
+          <img src="/favicon.svg" width="40" height="40" alt="" />
+          <span class="text-2xl font-semibold tracking-tight">{BRAND.name}</span>
+        </a>
+        <nav aria-label="Main navigation" class="flex flex-wrap items-center gap-x-5 text-sm sm:gap-x-7">
+          {links.map(([label, href]) => <a href={href} aria-current={Astro.url.pathname === href ? 'page' : undefined} class:list={['inline-flex min-h-12 items-center hover:underline underline-offset-4', Astro.url.pathname === href && 'font-semibold underline']}>{label}</a>)}
+          {appUrl && <a class="button" href={`${appUrl.replace(/\/$/, '')}/login`}>Sign in <span aria-hidden="true">↗</span></a>}
+        </nav>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="border-t border-line py-10">
+      <div class="wrap flex flex-col justify-between gap-7 sm:flex-row">
+        <div><a href="/" class="inline-flex min-h-12 items-center text-xl font-semibold">{BRAND.name}</a><p class="mt-1 max-w-xs text-sm leading-6 text-muted">A calmer way to run your gymnastics club.</p></div>
+        <div class="flex flex-wrap gap-x-6 gap-y-1 text-sm">{links.map(([label, href]) => <a class="inline-flex min-h-12 items-center underline-offset-4 hover:underline" href={href}>{label}</a>)}</div>
+      </div>
+      <div class="wrap mt-8 flex flex-col justify-between gap-3 border-t border-line pt-6 text-xs leading-6 text-muted">
+        <p>Independent club-management software. No affiliation with or endorsement by British Gymnastics is implied.</p>
+        <p>{BRAND.copyright}</p>
+      </div>
+    </footer>
+  </body>
+</html>

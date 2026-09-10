@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CTA from '../components/CTA.astro';
+import { BRAND, MEMBER_NOUN_PLURAL } from '../config';
+const stages = [
+  ['01', 'A place opens', 'Offer places from your waiting list using the priorities your club sets.'],
+  ['02', 'A family says yes', 'Bring enrolment, consent requests and payment setup into one joined-up journey.'],
+  ['03', 'The next session is ready', 'Keep class places, registers and billing connected as your club grows.'],
+];
+const features = [
+  ['Direct Debit, connected', 'Collect through GoCardless in your club’s own organisation. Keep invoices and payment records together.', '01 / Payments'],
+  ['Compliance in view', 'Give your Welfare Officer a dedicated view of staff checks, qualifications and upcoming expiry dates.', '02 / People'],
+  ['Progress worth celebrating', 'Record awards and assessments across configurable schemes, with progress visible to parents.', '03 / Progress'],
+];
+---
+<Layout title="Gymnastics club management" description="From waiting list to enrolled gymnast. Tumblebase brings club administration, Direct Debit billing, awards and compliance together.">
+  <section class="wrap grid gap-14 py-16 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-12 lg:py-24">
+    <div>
+      <p class="eyebrow">For the people behind the gymnastics</p>
+      <h1 class="mt-6 max-w-xl font-display text-6xl leading-[1.02] tracking-tight sm:text-7xl lg:text-[4rem]">From waiting list<br />to <em class="font-normal text-forest-soft">welcome.</em></h1>
+      <p class="mt-7 max-w-lg text-lg leading-8 text-muted">Enrolment, Direct Debit, registers and compliance. One organised home for the work that keeps your gymnastics club moving.</p>
+      <div class="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3"><a href="/founding-clubs/" class="button">Meet your next club platform <span aria-hidden="true">↗</span></a><a href="#how-it-works" class="text-link text-sm">See how it works</a></div>
+      <p class="mt-6 text-xs leading-6 text-muted">Built for British gymnastics clubs. Designed around everyday club life.</p>
+    </div>
+    <div class="relative">
+      <div class="rounded-[2rem] bg-sage-light p-5 sm:p-8">
+        <div class="overflow-hidden rounded-2xl border border-forest/10 bg-paper shadow-xl shadow-forest/5">
+          <div class="flex items-center justify-between border-b border-line px-5 py-4"><div class="flex items-center gap-2"><img src="/favicon.svg" alt="" width="24" height="24" /><span class="text-sm font-semibold">{BRAND.name}</span></div><span class="text-xs text-muted">Your club, together</span></div>
+          <div class="p-5 sm:p-6">
+            <p class="text-xs text-muted">Club overview</p><h2 class="mt-1 font-display text-3xl">Ready for the next session.</h2>
+            <div class="mt-6 flex flex-wrap gap-2 text-xs"><span class="rounded-full bg-sage-light px-3 py-2">{MEMBER_NOUN_PLURAL}</span><span class="rounded-full border border-line px-3 py-2">Families</span><span class="rounded-full border border-line px-3 py-2">Registers</span></div>
+            <div class="mt-5 rounded-xl border border-line p-4"><div class="flex items-center justify-between gap-2"><span class="text-sm font-semibold">Recreational gymnastics</span><span class="rounded-full bg-sage-light px-2 py-1 text-xs">Place available</span></div><p class="mt-2 text-xs leading-6 text-muted">Next step: offer to a family on the waiting list</p><div class="mt-4 border-t border-line pt-3 text-xs font-semibold text-forest-soft">Waiting list → Offer → Enrolment</div></div>
+            <div class="mt-3 grid grid-cols-2 gap-3"><div class="rounded-xl bg-chalk p-4"><p class="text-xs text-muted">Club payments</p><p class="mt-2 text-sm font-semibold">Direct Debit</p><p class="mt-1 text-xs text-muted">Your own GoCardless account</p></div><div class="rounded-xl bg-chalk p-4"><p class="text-xs text-muted">Welfare Officer</p><p class="mt-2 text-sm font-semibold">Expiry reminders</p><p class="mt-1 text-xs text-muted">Checks and qualifications</p></div></div>
+          </div>
+        </div>
+        <p class="mt-4 text-center text-xs text-forest-soft">Illustrative club view</p>
+      </div>
+    </div>
+  </section>
+  <section class="border-y border-line bg-paper py-7"><div class="wrap grid grid-cols-2 gap-6 text-center text-sm font-medium text-forest-soft sm:grid-cols-4"><p>Waiting-list automation</p><p>Your own payment account</p><p>Welfare Officer view</p><p>Full data export</p></div></section>
+  <section id="how-it-works" class="wrap py-20 lg:py-24">
+    <div class="max-w-2xl"><p class="eyebrow">One connected journey</p><h2 class="mt-5 font-display text-4xl leading-tight sm:text-5xl">A new place. A warm welcome.<br />Everything in order.</h2><p class="prose-copy mt-5">Give families a clear next step, and your team a reliable record of what happens next.</p></div>
+    <div class="mt-12 grid gap-9 md:grid-cols-3">{stages.map(([number, title, copy]) => <article class="border-t border-line pt-6"><span class="font-display text-3xl text-forest-soft">{number}</span><h3 class="mt-6 text-xl font-semibold">{title}</h3><p class="prose-copy mt-3">{copy}</p></article>)}</div>
+  </section>
+  <section class="bg-forest py-20 text-paper"><div class="wrap"><p class="text-xs font-semibold uppercase tracking-[0.18em] text-sage">The whole club, considered</p><h2 class="mt-5 max-w-2xl font-display text-4xl leading-tight sm:text-5xl">The important details deserve a proper home.</h2><div class="mt-12 grid gap-10 md:grid-cols-3">{features.map(([title, copy, label]) => <article class="border-t border-sage/30 pt-6"><p class="text-xs text-sage">{label}</p><h3 class="mt-5 text-xl font-semibold">{title}</h3><p class="mt-4 text-base leading-8 text-paper/80">{copy}</p></article>)}</div><a href="/features/" class="mt-10 inline-flex min-h-12 items-center gap-3 font-semibold text-sage underline underline-offset-4">Explore the platform <span aria-hidden="true">→</span></a></div></section>
+  <section class="wrap grid gap-10 py-20 md:grid-cols-2 md:gap-20"><div><p class="eyebrow">Your club. Your records.</p><h2 class="mt-5 font-display text-4xl leading-tight">Built to work with<br />your club's world.</h2></div><div class="space-y-7"><div><h3 class="text-lg font-semibold">Alongside My BG</h3><p class="prose-copy mt-2">Keep British Gymnastics membership administration in My BG, with BG membership numbers recorded in {BRAND.name}.</p></div><div><h3 class="text-lg font-semibold">Take your data with you</h3><p class="prose-copy mt-2">Export your club records, or use the club-scoped read API to connect your own reporting tools.</p></div></div></section>
+  <CTA />
+</Layout>
