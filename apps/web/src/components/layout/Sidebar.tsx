@@ -37,7 +37,7 @@ import { signOut } from 'next-auth/react';
 import { useState, useEffect, useMemo } from 'react';
 
 import { useClubRegion } from '@/hooks/useClubRegion';
-import { MEMBER_NOUN_PLURAL } from '@/lib/brand';
+import { BRAND, MEMBER_NOUN_PLURAL } from '@/lib/brand';
 import { isCompetitionsEnabled } from '@/lib/features';
 import { useRole, isAdmin, isCoach, isParent, isWelfareOfficer } from '@/lib/hooks/useRole';
 
@@ -269,8 +269,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             <Link href="/" onClick={onClose} className="flex items-center space-x-3 group">
               <div>
                 <Image
-                  src="/swimly-logo.svg"
-                  alt=""
+                  src="/tumblebase-logo.svg"
+                  alt={BRAND.name}
                   width={120}
                   height={32}
                   className="h-8 w-auto"

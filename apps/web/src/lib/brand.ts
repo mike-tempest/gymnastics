@@ -1,14 +1,12 @@
 /**
  * Single source of truth for product brand strings in the web app.
  *
- * The product name is not yet decided (TEM-5), so these values hold a
- * neutral placeholder. When the real name lands, changing this file
- * rebrands the whole app in one place.
+ * Product name and domain confirmed in TEM-5.
  *
  * JSON files cannot import this module, so apps/web/public/site.webmanifest
  * must be kept in sync by hand.
  */
-const PRODUCT_NAME = 'Club Manager';
+const PRODUCT_NAME = 'Tumblebase';
 
 /**
  * Display noun for the core Member entity. Code says Member everywhere;
@@ -25,7 +23,8 @@ export const BRAND = {
   /** Product name shown in headings, wordmarks and body copy. */
   name: PRODUCT_NAME,
   /** Meta description for the app shell. */
-  description: 'Club management platform for sports clubs',
+  description: 'Gymnastics club management, Direct Debit billing and compliance in one place.',
+  website: 'https://tumblebase.com',
   /** Copyright line rendered in page footers. */
   copyright: `${new Date().getFullYear()} ${PRODUCT_NAME}. All rights reserved.`,
 } as const;

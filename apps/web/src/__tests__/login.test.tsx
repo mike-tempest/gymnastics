@@ -1,6 +1,8 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { signIn } from 'next-auth/react';
 
+import { BRAND } from '@/lib/brand';
+
 import LoginPage from '../app/(auth)/login/page';
 
 // Mock next/navigation
@@ -46,9 +48,10 @@ describe('LoginPage', () => {
   it('renders the brand logo and subtitle', () => {
     render(<LoginPage />);
 
-    // The logo is decorative (empty alt) until the placeholder artwork is
-    // replaced with the real brand's wordmark.
-    expect(document.querySelector('img[alt=""]')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: BRAND.name })).toHaveAttribute(
+      'src',
+      '/tumblebase-logo.svg'
+    );
     expect(screen.getByText('Sign in to your account')).toBeInTheDocument();
   });
 
