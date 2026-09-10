@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import { brandColours } from './src/lib/brand-colours';
 
 const config: Config = {
   darkMode: ['class'],
@@ -14,82 +15,9 @@ const config: Config = {
         sans: ['var(--font-inter)', 'sans-serif'],
       },
       colors: {
-        // Brand palette - Mint
-        brand: {
-          DEFAULT: '#85FFC7',
-          dark: '#5CEFAA',
-          light: '#B2FFE0',
-          muted: 'rgba(133, 255, 199, 0.15)',
-        },
-        // Deep Teal (navigation, headers, dark surfaces)
-        teal: {
-          DEFAULT: '#297373',
-          light: '#3A9E9E',
-          dark: '#1E5555',
-          darker: '#163F3F',
-          deepest: '#0F2D2D',
-        },
-        // Coral (CTA accent, highlights, attention)
-        coral: {
-          DEFAULT: '#FF8552',
-          hover: '#FF6B33',
-          light: '#FFB899',
-          dark: '#E66A35',
-          muted: 'rgba(255, 133, 82, 0.15)',
-        },
-        // Canvas and surfaces (Light Grey based)
-        canvas: {
-          DEFAULT: '#E6E6E6',
-          light: '#F0F0F0',
-          dark: '#D9D9D9',
-        },
-        surface: {
-          DEFAULT: '#F0F0F0',
-          hover: '#E6E6E6',
-        },
-        // Dark palette (Deep Teal derived)
-        dark: {
-          primary: '#0F2D2D',
-          secondary: '#163F3F',
-          tertiary: '#1E5555',
-          card: '#1E5555',
-        },
-        // Grey system (no pure white/black)
-        grey: {
-          50: '#F0F0F0',
-          100: '#E6E6E6',
-          200: '#CCCCCC',
-          300: '#B3B3B3',
-          400: '#999999',
-          500: '#808080',
-          600: '#666666',
-          700: '#4D4D4D',
-          800: '#39393A',
-          900: '#2A2A2B',
-        },
-        // Semantic colours
-        warning: '#FFB020',
-        danger: '#FF4D4D',
-        info: '#4D9FFF',
-        success: '#85FFC7',
-        // Legacy aliases (for gradual migration)
-        sage: {
-          light: '#F0F0F0',
-          DEFAULT: '#E6E6E6',
-          dark: '#D9D9D9',
-        },
-        lime: {
-          light: '#B2FFE0',
-          DEFAULT: '#85FFC7',
-          dark: '#5CEFAA',
-        },
-        text: {
-          primary: '#39393A',
-          secondary: '#666666',
-          tertiary: '#999999',
-        },
+        ...brandColours,
         card: {
-          light: '#F0F0F0',
+          light: '#FAF9F5',
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
@@ -131,8 +59,8 @@ const config: Config = {
         },
       },
       boxShadow: {
-        glow: '0 0 30px rgba(133, 255, 199, 0.2)',
-        'glow-sm': '0 0 15px rgba(133, 255, 199, 0.15)',
+        glow: '0 0 30px rgba(185, 216, 203, 0.2)',
+        'glow-sm': '0 0 15px rgba(185, 216, 203, 0.15)',
         card: '0 1px 3px rgba(57, 57, 58, 0.08), 0 1px 2px rgba(57, 57, 58, 0.06)',
         'card-hover': '0 4px 12px rgba(57, 57, 58, 0.12), 0 2px 4px rgba(57, 57, 58, 0.08)',
         soft: '0 1px 2px rgba(57, 57, 58, 0.06)',

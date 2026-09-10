@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This is a **clean fork of Swimly** (`team-swim`) into a standalone club-management platform for **British Gymnastics-affiliated clubs**. Product name is not yet decided (Linear TEM-5); until it is, refer to it as "the gymnastics platform" and do not invent a brand name in code or copy.
+This is a **clean fork of Swimly** (`team-swim`) into a standalone club-management platform for **British Gymnastics-affiliated clubs**. Product name is **Tumblebase** (confirmed in Linear TEM-5). Mike has registered **tumblebase.com**. Use the central brand configuration for product copy.
 
 The fork thesis: Swimly is ~75% generic club-management SaaS. Swimming lives in three seams, and this fork removes them:
 
@@ -103,7 +103,7 @@ UI primitives in `apps/web/src/components/ui/`. Feature components by domain: at
 
 - UK-centric: British spelling, UK date/currency formats, "term" not "semester"
 - Calm, not cluttered. Gym halls are loud and busy; the product should feel organised and in control.
-- Muted palette, generous whitespace, clear typography. Brand tokens live in one config (TEM-12) once the name is decided.
+- Muted palette, generous whitespace, clear typography. Brand tokens live in `apps/web/src/lib/brand-colours.ts` (TEM-12).
 - Accessibility: WCAG AA minimum, touch targets >= 48x48px
 
 ## Positioning and Product Rules (READ THIS)

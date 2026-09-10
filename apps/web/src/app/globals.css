@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --bg-primary: #E6E6E6;
+  --bg-primary: #F4F2EC;
   --bg-secondary: #F2F2F2;
-  --brand: #85FFC7;
-  --brand-dark: #5CE6A8;
+  --brand: #B9D8CB;
+  --brand-dark: #A5CABB;
   --text-primary: #39393A;
   --text-secondary: #6B6B6B;
 }
@@ -24,54 +24,54 @@ body {
 
 @layer base {
   :root {
-    --background: 0 0% 90%;
+    --background: 45 27% 94%;
     --foreground: 240 1% 23%;
-    --card: 0 0% 95%;
+    --card: 48 33% 97%;
     --card-foreground: 240 1% 23%;
-    --popover: 0 0% 95%;
+    --popover: 48 33% 97%;
     --popover-foreground: 240 1% 23%;
-    --primary: 180 47% 31%;
-    --primary-foreground: 0 0% 95%;
-    --secondary: 0 0% 90%;
+    --primary: 165 27% 29%;
+    --primary-foreground: 48 33% 97%;
+    --secondary: 45 27% 94%;
     --secondary-foreground: 240 1% 23%;
     --muted: 0 0% 85%;
     --muted-foreground: 0 0% 42%;
-    --accent: 152 100% 76%;
+    --accent: 157 28% 79%;
     --accent-foreground: 240 1% 23%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 95%;
+    --destructive-foreground: 48 33% 97%;
     --border: 0 0% 80%;
     --input: 0 0% 80%;
-    --ring: 152 100% 76%;
-    --chart-1: 18 100% 66%;
-    --chart-2: 180 47% 31%;
-    --chart-3: 152 100% 76%;
+    --ring: 157 28% 79%;
+    --chart-1: 12 53% 42%;
+    --chart-2: 165 27% 29%;
+    --chart-3: 157 28% 79%;
     --chart-4: 43 74% 66%;
     --chart-5: 0 0% 42%;
     --radius: 0.5rem;
   }
   .dark {
-    --background: 180 52% 15%;
-    --foreground: 0 0% 90%;
-    --card: 180 47% 31%;
-    --card-foreground: 0 0% 90%;
-    --popover: 180 47% 31%;
-    --popover-foreground: 0 0% 90%;
-    --primary: 152 100% 76%;
-    --primary-foreground: 180 52% 15%;
-    --secondary: 180 48% 22%;
-    --secondary-foreground: 0 0% 90%;
-    --muted: 180 48% 22%;
+    --background: 162 26% 15%;
+    --foreground: 45 27% 94%;
+    --card: 165 27% 29%;
+    --card-foreground: 45 27% 94%;
+    --popover: 165 27% 29%;
+    --popover-foreground: 45 27% 94%;
+    --primary: 157 28% 79%;
+    --primary-foreground: 162 26% 15%;
+    --secondary: 162 24% 22%;
+    --secondary-foreground: 45 27% 94%;
+    --muted: 162 24% 22%;
     --muted-foreground: 0 0% 70%;
-    --accent: 18 100% 66%;
-    --accent-foreground: 0 0% 95%;
+    --accent: 12 53% 42%;
+    --accent-foreground: 48 33% 97%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 90%;
-    --border: 180 48% 22%;
-    --input: 180 48% 22%;
-    --ring: 152 100% 76%;
-    --chart-1: 152 100% 76%;
-    --chart-2: 18 100% 66%;
+    --destructive-foreground: 45 27% 94%;
+    --border: 162 24% 22%;
+    --input: 162 24% 22%;
+    --ring: 157 28% 79%;
+    --chart-1: 157 28% 79%;
+    --chart-2: 12 53% 42%;
     --chart-3: 43 74% 66%;
     --chart-4: 0 0% 70%;
     --chart-5: 180 46% 42%;
@@ -91,7 +91,7 @@ body {
 
 @layer utilities {
   :focus-visible {
-    outline: 2px solid #85FFC7;
+    outline: 2px solid #365E54;
     outline-offset: 2px;
   }
 }
@@ -99,7 +99,7 @@ body {
 /* Visible focus rings for inputs on dark backgrounds */
 @layer components {
   .input-dark {
-    @apply w-full px-4 py-3 min-h-[44px] rounded-lg bg-dark-primary border border-grey-50/10 text-grey-50
+    @apply w-full px-4 py-3 min-h-[48px] rounded-lg bg-dark-primary border border-grey-50/10 text-grey-50
       focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-dark-primary focus:border-brand;
   }
 }

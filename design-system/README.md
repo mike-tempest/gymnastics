@@ -1,12 +1,12 @@
-# Swimly Design System
+# Tumblebase Design System
 
 **Version:** 1.0  
 **Last Updated:** 7 March 2026  
-**Owner:** Swimly Design (swimly-design agent)
+**Owner:** Tumblebase Design (swimly-design agent)
 
 ## Purpose
 
-This design system ensures consistency across all Swimly interfaces: parent portal, coach views, committee dashboards, and admin panels. It exists to make volunteers' lives easier through calm, predictable, accessible design.
+This design system ensures consistency across all Tumblebase interfaces: parent portal, coach views, committee dashboards, and admin panels. It exists to make volunteers' lives easier through calm, predictable, accessible design.
 
 ## Core Principles
 
@@ -32,7 +32,7 @@ UI copy in British English. Date formats DD/MM/YYYY. Currency in £. Distances i
 
 ### 6. Calm, Not Cluttered
 
-Swimming pools are chaotic enough. Swimly should feel calm, organised, and in control. Muted colours, clear typography, generous whitespace.
+Swimming pools are chaotic enough. Tumblebase should feel calm, organised, and in control. Muted colours, clear typography, generous whitespace.
 
 ## Design System Structure
 
@@ -102,4 +102,4 @@ To propose changes, create a task in Workshop tagged `design-system`.
 
 ---
 
-**Next:** Start with [Typography](./typography.md) to understand the foundation of all text in Swimly.
+**Next:** Start with [Typography](./typography.md) to understand the foundation of all text in Tumblebase.

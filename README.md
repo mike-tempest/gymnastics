@@ -1,12 +1,12 @@
-# Swimly
+# Tumblebase
 
 > Modern swim club management software built specifically for British swim clubs
 
-Swimly is a comprehensive platform designed to eliminate administrative overhead for volunteer-run swimming clubs across the UK. From membership management to billing, attendance tracking to parent communication, Swimly handles the operational complexity so coaches and volunteers can focus on what matters: developing swimmers.
+Tumblebase brings enrolment, Direct Debit billing, attendance, awards and compliance together for gymnastics clubs. The registered product domain is **tumblebase.com**.
 
 ## Overview
 
-Swimly provides an end-to-end solution for managing every aspect of a swim club's operations. Built with British clubs in mind, it supports Swim England compliance, DBS tracking, GoCardless Direct Debit integration, and family-based membership structures with sibling discounts.
+Built for British Gymnastics-affiliated clubs, Tumblebase works alongside My BG. It supports waiting-list offers, family records, GoCardless in each club's own organisation, staff credential expiry tracking and full club data export.
 
 The platform combines a powerful web-based admin dashboard with a mobile-friendly parent portal, giving clubs and families the tools they need to stay organised and connected.
 
@@ -908,7 +908,7 @@ For issues, questions, or feature requests:
 
 ## Licence
 
-Copyright © 2025 Swimly Ltd. All rights reserved.
+Copyright © 2026. All rights reserved.
 
 ---
 

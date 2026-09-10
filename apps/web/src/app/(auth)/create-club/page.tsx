@@ -276,8 +276,8 @@ export default function CreateClubPage() {
         {/* Logo and Header */}
         <div className="text-center mb-6 sm:mb-10">
           <Image
-            src="/swimly-logo.svg"
-            alt=""
+            src="/tumblebase-logo.svg"
+            alt={BRAND.name}
             width={200}
             height={64}
             className="h-16 w-auto mx-auto mb-6"
