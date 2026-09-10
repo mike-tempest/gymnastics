@@ -1,6 +1,6 @@
 # Deploy Tumblebase on Railway
 
-Work is tracked in TEM-16. Use only the private [Gymnastics project](https://railway.com/project/dd7721ab-fcc4-4de9-8518-2eee17bc0f34). Its production environment, membership/web services and separate PostgreSQL/Redis services exist. The GitHub sources and EU West deployment changes are staged. The app is not yet verified live; payment accounts, email verification, backups and deployed smoke tests remain outstanding. Nothing is shared with the original swimming platform.
+Work is tracked in TEM-16. Use only the private [Gymnastics project](https://railway.com/project/dd7721ab-fcc4-4de9-8518-2eee17bc0f34). Its production environment, membership/web services and separate PostgreSQL/Redis services exist. The GitHub main sources and EU West deployment configuration are applied. The API is live with a healthy database; web rollout verification, payment accounts, backups and deployed hero-flow tests remain outstanding. Nothing is shared with the original swimming platform.
 
 ## Connect the services
 
@@ -14,9 +14,11 @@ Set these values directly in each service's settings:
 | Dockerfile path      | `services/membership/Dockerfile.prod` | `apps/web/Dockerfile`         |
 | Root directory       | `/`                                   | `/`                           |
 | Port                 | `3001`                                | `3000`                        |
-| Health check         | `/health`                             | `/`                           |
+| Health check         | `/health`                             | `/login`                      |
 | Health check timeout | `300` seconds                         | `300` seconds                 |
 | Restart policy       | On failure, maximum 3 retries         | On failure, maximum 3 retries |
+
+Use `/login` for the web health check: `/` redirects unauthenticated visitors with HTTP 307, which Railway does not accept as a successful health response.
 
 The old config files have been removed. Railway's [current configuration guidance](https://docs.railway.com/config-as-code) says new services cannot opt into legacy `railway.json` / `railway.toml` configuration. Use dashboard settings for this initial setup; a future infrastructure-as-code change can capture the complete project after its resources are verified.
 
