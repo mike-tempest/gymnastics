@@ -13,7 +13,7 @@ Product name and display nouns are imported from the app's brand module. Marketi
 - `./deploy-ftp.sh --dry-run`
 - `./deploy-ftp.sh` for publishing, with dedicated Tumblebase hosting variables
 
-Only deploy through `deploy-ftp.sh`. It builds, verifies the output, fixes local permissions, uploads via certificate-verified FTPS and sets readable remote permissions. It has no inherited targets or shared credential fallback and never deletes remote files.
+Railway is the intended primary host, authorised by Mike on 11 September 2026. Use `marketing-site/Dockerfile` with the repository root as build context and port 8080. The final image serves only verified static output with Caddy; assets deploy with the site. Keep A2 DNS and mail records intact. Before moving the apex, verify the Railway service and confirm the DNS provider supports apex ALIAS/ANAME or CNAME flattening. For the A2 fallback, only deploy through `deploy-ftp.sh`. It builds, verifies the output, fixes local permissions, uploads via certificate-verified FTPS and sets readable remote permissions. It has no inherited targets or shared credential fallback and never deletes remote files.
 
 ## Launch inputs
 

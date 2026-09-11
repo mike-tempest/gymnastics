@@ -18,7 +18,7 @@ Copy `.env.example` to a local environment file and set only verified values. Si
 
 The current site collects no form data and loads no analytics or third-party fonts. A working founding-club application flow and the associated privacy information belong to TEM-26. Do not enable that flow without those prerequisites.
 
-Publish only with `deploy-ftp.sh` and a dedicated Tumblebase hosting account. It reads `TUMBLEBASE_FTP_HOST`, `TUMBLEBASE_FTP_USER`, `TUMBLEBASE_FTP_PASS` and `TUMBLEBASE_FTP_ROOT` from the environment. It requires explicit FTPS with a valid server certificate and support for `SITE CHMOD`. It does not delete files, so the first target must be a clean document root. Domain DNS and hosting access remain required.
+For the A2 fallback, publish only with `deploy-ftp.sh` and a dedicated Tumblebase hosting account. It reads `TUMBLEBASE_FTP_HOST`, `TUMBLEBASE_FTP_USER`, `TUMBLEBASE_FTP_PASS` and `TUMBLEBASE_FTP_ROOT` from the environment. It requires explicit FTPS with a valid server certificate and support for `SITE CHMOD`. It does not delete files, so the first target must be a clean document root. Domain DNS and hosting access remain required.
 
 ## Content evidence
 
@@ -32,3 +32,20 @@ Product features are based on completed Linear issues TEM-18 through TEM-24 and 
 ## Build runtime
 
 Use Node 22.12 or newer (CI uses Node 22 LTS). The active site only needs Astro and Tailwind. Puppeteer, Playwright, Sharp as a direct dependency, tsx and Lucide were removed from this package because the active static build does not use them. Dormant inherited scripts are unsupported and must not be run as part of the Tumblebase workflow.
+
+## Railway hosting (TEM-16)
+
+Build from the repository root using `marketing-site/Dockerfile`. The Docker build runs the site verification gate, and the final Caddy image contains only `dist.nosync` output. Images, fonts and PDFs in `public-tumblebase/` are published at their corresponding root-relative paths. Do not put private uploads in this directory.
+
+Configure a separate `marketing` service in the Gymnastics project with port `8080`, health check `/`, Dockerfile path `marketing-site/Dockerfile` and one replica. Keep serverless disabled to avoid cold starts for visitors. Watch `/marketing-site/**` and `/apps/web/src/lib/brand.ts` for deployments. Connect the GitHub source through the Railway dashboard.
+
+Optional build arguments are `PUBLIC_APP_URL`, `PUBLIC_CONTACT_EMAIL` and `PUBLIC_MONTHLY_PRICE_GBP`. These are public values, not secrets. Keep the app URL and price unset until their launch prerequisites are satisfied. Updating them requires a rebuild.
+
+Verify the generated Railway HTTPS address, all five pages, a missing URL returning 404, and image/CSS responses before changing DNS. Railway provides the exact custom-domain DNS records; publish all verification records it requires. Apex hosting requires ALIAS/ANAME or CNAME flattening at the DNS provider. Never replace apex MX/TXT records with a conventional CNAME or move nameservers without preserving the full mail configuration. Keep the A2 website available until custom-domain HTTPS and content checks pass.
+
+Local validation:
+
+```sh
+docker build -f marketing-site/Dockerfile -t tumblebase-marketing .
+docker run --rm -p 8080:8080 tumblebase-marketing
+```
