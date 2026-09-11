@@ -140,7 +140,7 @@ Full brief: `docs/05-Build-Brief-Positioning-and-Product-Rules.md`. Read it befo
 ## Deployment
 
 - App: Railway (separate project from Swimly). GitHub OAuth connected via dashboard, not API.
-- Marketing site: only via `marketing-site/deploy-ftp.sh`, never raw FTP (system umask 0077 breaks Astro output permissions without the script's fix).
+- Marketing site: Railway static container via `marketing-site/Dockerfile` (repository root context, port 8080). A2 fallback deployments must use `marketing-site/deploy-ftp.sh`, never raw FTP.
 
 ## Git
 
