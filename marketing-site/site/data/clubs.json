@@ -1,0 +1,2014 @@
+[
+  {
+    "slug": "abbey-gymnastics",
+    "name": "Abbey Gymnastics",
+    "nation": "Northern Ireland",
+    "region": "Northern Ireland",
+    "town": "Belfast",
+    "addresses": [
+      "Units 34 and 35, Argyle Business Centre, 39 North Howard Street, Belfast, BT13 2AU"
+    ],
+    "website": "https://abbeygymnastics.com/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://abbeygymnastics.com/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "aberdeen-gymnastics-club",
+    "name": "Aberdeen Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Aberdeen",
+    "addresses": ["Lang Stracht, Aberdeen, AB15 6XH"],
+    "website": null,
+    "disciplines": [
+      "Men's Artistic Gymnastics",
+      "Recreational Gymnastics",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/aberdeen-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "aberdeenshire-aspire-trampoline-academy",
+    "name": "Aberdeenshire Aspire Trampoline Academy",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Inverurie",
+    "addresses": ["Highclere Way, Inverurie, AB51 5QW"],
+    "website": null,
+    "disciplines": ["Trampoline"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/aberdeenshire-aspire-trampoline-academy"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "aberystwyth-gymnastics-club",
+    "name": "Aberystwyth Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Aberystwyth",
+    "addresses": ["Penglais Sports Hall, Waun Fawr, Aberystwyth, SY23 3AW"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "aboyne-gc-trampoline-club",
+    "name": "Aboyne GC & Trampoline Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Aboyne",
+    "addresses": [
+      "Low Road, Aboyne, AB34 5GW",
+      "Units 6–10, Banchory Trade Park, Banchory, AB31 5DF"
+    ],
+    "website": "http://www.aboynegc.co.uk",
+    "disciplines": ["Pre-school", "Women's Artistic Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/aboyne-gc-tc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "active-gymnastics-club",
+    "name": "Active Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Elgin",
+    "addresses": ["Crown Buildings, Trinity Road, ELGIN, IV30 1UE"],
+    "website": null,
+    "disciplines": ["Recreational Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/active-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "afan-lido-gymnastics-club",
+    "name": "Afan Lido Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Port Talbot",
+    "addresses": ["Vitality, Acacia Road, Port Talbot, SA12 7DP"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "all-star-elite-trampoline-dmt-team",
+    "name": "All Star Elite Trampoline & DMT Team",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "East Kilbride",
+    "addresses": ["Calderwood Road, East Kilbride, G74 3EU"],
+    "website": null,
+    "disciplines": ["Trampoline"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/all-star-elite-trampoline-dmt-team"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "all-stars-gymnastics-club",
+    "name": "All Stars Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Pontypridd",
+    "addresses": [
+      "Warehouse E30, Units 27-30 JR Business Centre, Treforest Industrial Estate, Main Avenue, Pontypridd, CF37 5YR"
+    ],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "allander-gymnastics-club",
+    "name": "Allander Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Glasgow",
+    "addresses": ["Milngavie Road, Bearsden, Glasgow, G61 3DF"],
+    "website": "http://www.allandergymnasticsclub.com",
+    "disciplines": [
+      "Men's Artistic Gymnastics",
+      "Recreational Gymnastics",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/allander-gymnastics-club"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "arbroath-gymnastics-club",
+    "name": "Arbroath Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Arbroath",
+    "addresses": [
+      "58 Montrose Road, Arbroath, Angus, DD11 5JW",
+      "Old Glamis Road, Dundee, DD3 8LF"
+    ],
+    "website": null,
+    "disciplines": [
+      "Men's Artistic Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/arbroath-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "auchterarder-gymnastics-club",
+    "name": "Auchterarder Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Auchterarder",
+    "addresses": ["New School Lane, Auchterarder, PH3 1BL"],
+    "website": "http://www.auchterardergymnastics.co.uk",
+    "disciplines": [
+      "Adult Gymnastics",
+      "Men's Artistic Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/auchterarder-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "ayrshire-gymnastics-club",
+    "name": "Ayrshire Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Kilmarnock",
+    "addresses": ["Braeside Street, Kilmarnock, KA1 3BP"],
+    "website": null,
+    "disciplines": [
+      "Acrobatic Gymnastics",
+      "Adult Gymnastics",
+      "Disability Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "Tumbling"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/ayrshire-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "back-to-roots-gymnastics",
+    "name": "Back to Roots Gymnastics",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Llandrindod Wells",
+    "addresses": ["MRC, Oxford Road, Llandrindod Wells, LD1 6AH"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "balmoor-gymnastics-club",
+    "name": "Balmoor Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Peterhead",
+    "addresses": ["8 Blackhouse Circle, Blackhouse Industrial Estate, Peterhead, AB42 1BN"],
+    "website": null,
+    "disciplines": ["Pre-school", "Recreational Gymnastics", "Women's Artistic Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/balmoor-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "banchory-trampoline-dmt-club",
+    "name": "Banchory Trampoline & DMT Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Banchory",
+    "addresses": ["Raemoir Road, Banchory, Banchory, AB31 5XP"],
+    "website": "http://banchorytrampolineclub.managemyclub.net",
+    "disciplines": ["Trampoline"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/banchory-trampoline-dmt-club"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "bangor-gymnastic-club",
+    "name": "Bangor Gymnastic Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Bangor",
+    "addresses": ["Unit 5, Llandegai Industrial Estate, Bangor, LL57 4YH"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "beacon-rhythmic-gymnastics-club",
+    "name": "Beacon Rhythmic Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Aberdeen",
+    "addresses": ["Kepplehills Road, Bucksburn, Aberdeen, AB21 9DG"],
+    "website": null,
+    "disciplines": ["Rhythmic Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/beacon-rhythmic-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "bedwas-gymnastics-club",
+    "name": "Bedwas Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Caerphilly",
+    "addresses": ["Unit 9, Trecenydd Business Park, Caerphilly, CF83 2RZ"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "bettws-gymnastics-club",
+    "name": "Bettws Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Newport",
+    "addresses": ["Bettws Active Living Centre, Bettws Lane, Newport, NP20 7YB"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "birmingham-gymnastics-academy",
+    "name": "Birmingham Gymnastics Academy",
+    "nation": "England",
+    "region": "West Midlands",
+    "town": "Birmingham",
+    "addresses": [
+      "Metchley Lane Gymnastics Centre, Metchley Park Road, Harborne, Birmingham, B15 2PQ"
+    ],
+    "website": "https://www.birminghamgymnasticsacademy.org/contact/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.birminghamgymnasticsacademy.org/contact/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "bishopbriggs-acro-gymnastics-club",
+    "name": "Bishopbriggs Acro Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Glasgow",
+    "addresses": ["The Leisuredrome, 147 Balmuildy Road Bishopbriggs, Glasgow, G64 3HD"],
+    "website": "https://bishopbriggsacrogymnastics.com/",
+    "disciplines": ["Acrobatic Gymnastics", "Recreational Gymnastics", "Tumbling"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/bishopbriggs-acro-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "bristol-hawks-gymnastics-club",
+    "name": "Bristol Hawks Gymnastics Club",
+    "nation": "England",
+    "region": "South West",
+    "town": "Bristol",
+    "addresses": ["11 Roman Road, Easton, Bristol, BS5 6DH"],
+    "website": "https://bristolhawksgymnastics.org/classes/",
+    "disciplines": ["Parent and toddler", "Award scheme classes", "Competitive gymnastics"],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://bristolhawksgymnastics.org/classes/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "buckley-gymnastics-club",
+    "name": "Buckley Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Gwernaffield",
+    "addresses": ["Unit A, Gwernaffield Industrial Estate, Pant-y-Buarth, Gwernaffield, CH7 5ER"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "caerau-vale-trampoline-club",
+    "name": "Caerau Vale Trampoline Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Penarth",
+    "addresses": ["Ysgol Pen-Y-Garth, Redlands Road, Penarth, CF64 2QN"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "caerphilly-dragonflies",
+    "name": "Caerphilly Dragonflies",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Caerphilly",
+    "addresses": ["Caerphilly Leisure Centre, Virginia Close, Caerphilly, CF83 3SW"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "carnegie-spartan-gymnastics-club",
+    "name": "Carnegie Spartan Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Dunfermline",
+    "addresses": ["40 Bruce Street, Dunfermline, KY12 7AG"],
+    "website": null,
+    "disciplines": [
+      "Adult Gymnastics",
+      "Men's Artistic Gymnastics",
+      "Recreational Gymnastics",
+      "TeamGym"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/carnegie-spartan-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "city-of-aberdeen-gymnastics-club",
+    "name": "City of Aberdeen Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Aberdeen",
+    "addresses": ["Cardens Knowe, Bridge Of Don, Aberdeen, AB22 8PE"],
+    "website": "http://www.coag.org.uk",
+    "disciplines": [
+      "Adult Gymnastics",
+      "Disability Gymnastics",
+      "Recreational Gymnastics",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/city-of-aberdeen-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "city-of-bristol-gymnastics-centre",
+    "name": "City of Bristol Gymnastics Centre",
+    "nation": "England",
+    "region": "South West",
+    "town": "Bristol",
+    "addresses": ["Bridge Learning Campus, Teyfant Road, Hartcliffe, Bristol"],
+    "website": "https://www.bristolgymnastics.co.uk/plan-your-visit",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.bristolgymnastics.co.uk/plan-your-visit"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "city-of-edinburgh-gymnastics-club",
+    "name": "City of Edinburgh Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Edinburgh",
+    "addresses": [
+      "29 East Fettes Avenue, Edinburgh, EH4 1EG",
+      "57 Lauderdale Street, Edinburgh, EH9 1DD",
+      "92 Pilton Drive, Edinburgh, EH5 2HF",
+      "Westbank Street, Edinburgh, EH15 1DR",
+      "22 Gracemount Drive, Edinburgh, EH16 6RN"
+    ],
+    "website": "http://www.edinburghgymnastics.org",
+    "disciplines": ["Recreational Gymnastics", "Women's Artistic Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/city-of-edinburgh-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "city-of-glasgow-gymnastics-club",
+    "name": "City of Glasgow Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Glasgow",
+    "addresses": ["Bellahouston Drive, Glasgow, G52 1HH"],
+    "website": "http://coggc.co.uk",
+    "disciplines": [
+      "Acrobatic Gymnastics",
+      "Adult Gymnastics",
+      "Disability Gymnastics",
+      "Men's Artistic Gymnastics",
+      "Recreational Gymnastics",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/city-of-glasgow-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "city-of-liverpool-gymnastics-club",
+    "name": "City of Liverpool Gymnastics Club",
+    "nation": "England",
+    "region": "North West",
+    "town": "Liverpool",
+    "addresses": ["Steble Street, Liverpool, L8 6QH"],
+    "website": "https://www.cityofliverpoolgymnasticsclub.com/contact-6",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.cityofliverpoolgymnasticsclub.com/contact-6"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "city-of-newcastle-gymnastics-academy",
+    "name": "City of Newcastle Gymnastics Academy",
+    "nation": "England",
+    "region": "North East",
+    "town": "Newcastle upon Tyne",
+    "addresses": ["Benfield Road, Walkergate, Newcastle upon Tyne, NE6 4NU"],
+    "website": "https://www.newcastlegymnastics.org/contact-us/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.newcastlegymnastics.org/contact-us/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "diamonds-trampoline-dmt-club",
+    "name": "Diamonds Trampoline & DMT Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Inverurie",
+    "addresses": ["Bremner Way, Kemnay, Inverurie, AB51 5FW"],
+    "website": null,
+    "disciplines": ["Trampoline"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/diamonds-trampoline-dmt-club"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "donside-gymnastics-club",
+    "name": "Donside Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Inverurie",
+    "addresses": ["Burghmuir Drive, Inverurie, AB51 4GY", "Victoria Street, Inverurie, AB51 3QZ"],
+    "website": null,
+    "disciplines": ["Recreational Gymnastics", "Women's Artistic Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/donside-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "dumfries-y-gymnastics",
+    "name": "Dumfries Y Gymnastics",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Dumfries",
+    "addresses": [
+      "101 English Street, Dumfries, DG1 2DA",
+      "13a & 13b, Silverlaw Industrial Estate, Annan, DG12 5EJ"
+    ],
+    "website": null,
+    "disciplines": [
+      "Adult Gymnastics",
+      "Disability Gymnastics",
+      "Men's Artistic Gymnastics",
+      "Pre-school",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/dumfries-y-gymnastics"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "dundonald-gymnastics-club",
+    "name": "Dundonald Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Ayr",
+    "addresses": ["Annbank Road, Mossblown, Ayr, KA6 5BH", "Glenmuir Place, Ayr, KA8 9RW"],
+    "website": "http://Www.dundonaldgymnasticsclub.co.uk",
+    "disciplines": [
+      "Adult Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "TeamGym",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/dundonald-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "dynamic-gymnastics-academy",
+    "name": "Dynamic Gymnastics Academy",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Motherwell",
+    "addresses": ["1 O'Donnell Way, Motherwell, ML1 2TZ"],
+    "website": null,
+    "disciplines": [
+      "Acrobatic Gymnastics",
+      "Adult Gymnastics",
+      "Disability Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "Trampoline",
+      "Tumbling",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/dynamic-gymnastics-academy"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "dynamite-gymnastics-club",
+    "name": "Dynamite Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Clydebank",
+    "addresses": ["12 North Avenue, Clydebank Business Park, Clydebank, G81 2QP"],
+    "website": "https://dynamitegymnastics.weebly.com/",
+    "disciplines": [
+      "Acrobatic Gymnastics",
+      "Disability Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "TeamGym",
+      "Trampoline",
+      "Tumbling"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/dynamite-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "east-kilbride-gymnastics-club",
+    "name": "East Kilbride Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Glasgow",
+    "addresses": [
+      "4 Colvilles Place, East Kilbride, Glasgow, G75 0PZ",
+      "Stewartfield Community Centre, 3 Macneish Way, East Kilbride, G74 4TT"
+    ],
+    "website": "http://www.ekgc.org",
+    "disciplines": [
+      "Acrobatic Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "Tumbling",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/east-kilbride-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "eclipse-gymnastics-club-scotland",
+    "name": "Eclipse Gymnastics Club Scotland",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Aberdeen",
+    "addresses": ["Kepplehills Road, Bucksburn, Aberdeen, AB21 9DG"],
+    "website": null,
+    "disciplines": [
+      "Disability Gymnastics",
+      "Recreational Gymnastics",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/eclipse-gymnastics-club-scotland"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "edinburgh-university-trampoline-club",
+    "name": "Edinburgh University Trampoline Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Edinburgh",
+    "addresses": ["48 Pleasance, Edinburgh, EH8 9TJ"],
+    "website": "http://eutc.ddns.net",
+    "disciplines": ["Trampoline"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/edinburgh-university-trampoline-club"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "enigma-gymnastics-club",
+    "name": "Enigma Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Leven",
+    "addresses": ["Methilhaven Road, Buckhaven, Leven, KY8 1EA"],
+    "website": "http://www.enigmagymnasticsclub.co.uk",
+    "disciplines": [
+      "Acrobatic Gymnastics",
+      "Disability Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/enigma-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "erewash-valley-gymnastics-club",
+    "name": "Erewash Valley Gymnastics Club",
+    "nation": "England",
+    "region": "East Midlands",
+    "town": "Long Eaton",
+    "addresses": [
+      "New Tythe Street, Long Eaton, Nottingham, NG10 2DL",
+      "Hallam Fields Road, Ilkeston, Derby, DE7 4AZ"
+    ],
+    "website": "https://www.evgc.co.uk/contact-us/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.evgc.co.uk/contact-us/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "fife-gymnastics-club",
+    "name": "Fife Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Dunfermline",
+    "addresses": ["40 Bruce Street, Dunfermline, KY12 7AG"],
+    "website": null,
+    "disciplines": ["Women's Artistic Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/fife-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "flair-gymnastics-club",
+    "name": "Flair Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Glasgow",
+    "addresses": ["137 Shawbridge Street, Glasgow, G43 1QQ"],
+    "website": "http://www.flairgymnasticsclub.co.uk",
+    "disciplines": [
+      "Adult Gymnastics",
+      "Men's Artistic Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/flair-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "flyers-trampoline-club",
+    "name": "Flyers Trampoline Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Glenrothes",
+    "addresses": ["Viewfield, Glenrothes, KY6 2RD", "Esplanade, Kirkcaldy, KY1 1HR"],
+    "website": "http://www.flyerstrampoline.co.uk",
+    "disciplines": ["Trampoline"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/flyers-tc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "forth-valley-team-gymnastics-ltd",
+    "name": "Forth Valley Team Gymnastics Ltd",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Larbert",
+    "addresses": ["Lochlands Industrial Estate, Larbert, FK5 3NS"],
+    "website": null,
+    "disciplines": [
+      "Freestyle",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "TeamGym",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/forth-valley-team-gymnastics-ltd"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "fyrish-gymnastics-club",
+    "name": "Fyrish Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Alness",
+    "addresses": ["Culcraggie House Dailnanrocas, Teaninich Industrial Estate, Alness, IV17 0PH"],
+    "website": "http://www.fyrishgc.co.uk",
+    "disciplines": [
+      "Adult Gymnastics",
+      "Disability Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/fyrish-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "gym-juniors",
+    "name": "Gym Juniors",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Edinburgh",
+    "addresses": ["Unit 2, 454 Gorgie Road, Edinburgh, EH11 2RN"],
+    "website": "https://www.gymjuniors.co.uk/",
+    "disciplines": [
+      "Adult Gymnastics",
+      "Freestyle",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "Tumbling",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/gym-juniors"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "hamilton-gymnastics-club",
+    "name": "Hamilton Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Glasgow",
+    "addresses": [
+      "Block 6, Third Road Blantyre Industrial Estate, Glasgow, G72 0UP",
+      "Devonhill Avenue, Hamilton, ML3 7RP"
+    ],
+    "website": null,
+    "disciplines": [
+      "Acrobatic Gymnastics",
+      "Adult Gymnastics",
+      "Disability Gymnastics",
+      "Men's Artistic Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "Tumbling",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/hamilton-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "heathrow-gymnastics-club",
+    "name": "Heathrow Gymnastics Club",
+    "nation": "England",
+    "region": "London",
+    "town": "Hounslow",
+    "addresses": ["Green Lane, Hounslow, TW4 6DH"],
+    "website": "https://www.heathrowgymnastics.org.uk/aboutus/contact/message/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.heathrowgymnastics.org.uk/aboutus/contact/message/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "hillfoots-gymnastics-club",
+    "name": "Hillfoots Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Alva",
+    "addresses": ["Academy Avenue, Alva, FK12 5FE"],
+    "website": null,
+    "disciplines": ["Pre-school", "Recreational Gymnastics", "Women's Artistic Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/hillfoots-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "huntingdon-gymnastics-club",
+    "name": "Huntingdon Gymnastics Club",
+    "nation": "England",
+    "region": "East of England",
+    "town": "Huntingdon",
+    "addresses": ["Mayfield Road, Huntingdon, PE29 1UL"],
+    "website": "https://www.huntingdon-gymnastics.org/message-us",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.huntingdon-gymnastics.org/message-us"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "ibex-gymnastics-club",
+    "name": "Ibex Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Edinburgh",
+    "addresses": [
+      "22 Gracemount Drive, Edinburgh, EH16 6RN",
+      "Eskdale Drive, Bonnyrigg, EH19 2LA",
+      "Westbank Street, Edinburgh, EH15 1DR"
+    ],
+    "website": "http://n/a",
+    "disciplines": ["Women's Artistic Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/ibex-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "innovate-gymnastics-club",
+    "name": "Innovate Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Callander",
+    "addresses": ["Mollands Road, Callander, FK17 8JP", "Roman Road, Balfron, Glasgow, G63 0PW"],
+    "website": "https://www.innovategymnastics.club/",
+    "disciplines": [
+      "Pre-school",
+      "Recreational Gymnastics",
+      "Tumbling",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/innovate-gymnastics-club"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "inverness-gymnastics-club",
+    "name": "Inverness Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Inverness",
+    "addresses": [
+      "14 Limetree Avenue, Inverness, IV3 5RH",
+      "Bught Lane, Inverness, IV3 5SS",
+      "Culdothel Road, Inverness, IV1 2RE",
+      "Hilton Village, Oldtown Road, Inverness, IV2 4HT"
+    ],
+    "website": "http://www.invernessgymnastics.com",
+    "disciplines": [
+      "Men's Artistic Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "TeamGym",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/inverness-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "inverurie-gymnastics-club",
+    "name": "Inverurie Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Inverurie",
+    "addresses": [
+      "Burghmuir Circle, Blackhall Industrial Estate, Inverurie, AB51 4FS",
+      "Victoria Street, Inverurie, AB51 3QZ"
+    ],
+    "website": null,
+    "disciplines": ["Pre-school", "Recreational Gymnastics", "Women's Artistic Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/inverurie-gymnastics-club"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "isle-of-lewis-gymnastics-club",
+    "name": "Isle of Lewis Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Stornaway",
+    "addresses": ["Springfield Road, Stornaway, HS2 2PZ"],
+    "website": null,
+    "disciplines": ["Recreational Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/isle-of-lewis-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "jump-gymnastics-club",
+    "name": "JUMP Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Cumbernauld",
+    "addresses": [
+      "1 Ardgoil Drive, Broadwood Stadium, Cumbernauld, G68 9NE",
+      "Coatbridge Gymnastics (JUMP Gymnastics Club), 35 Easton Place, Coatbridge, ml5 4ew"
+    ],
+    "website": "http://Www.jumpgymnasticsclub.co.uk",
+    "disciplines": [
+      "Pre-school",
+      "Recreational Gymnastics",
+      "TeamGym",
+      "Trampoline",
+      "Tumbling",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/jump-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "kc-gymnastics",
+    "name": "KC Gymnastics",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Glasgow",
+    "addresses": ["Auchinlea Road, Glasgow, G34 9HQ"],
+    "website": null,
+    "disciplines": ["Acrobatic Gymnastics", "Pre-school", "Tumbling"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/kc-gymnastics"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "kilmarnock-acro-gymnastics-club",
+    "name": "Kilmarnock Acro Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Kilmarnock",
+    "addresses": ["Unit 5, Tannock Street, Kilmarnock, KA1 4DN"],
+    "website": null,
+    "disciplines": ["Acrobatic Gymnastics", "Pre-school", "Recreational Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/kilmarnock-acro-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "kirkcaldy-gymnastics-club",
+    "name": "Kirkcaldy Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Kirkcaldy",
+    "addresses": ["Dunnikier Way, Kirkcaldy, KY1 3LR"],
+    "website": "http://www.kirkcaldygymnasticsclub.co.uk",
+    "disciplines": [
+      "Men's Artistic Gymnastics",
+      "Recreational Gymnastics",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/kirkcaldy-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "lx-gymnastics",
+    "name": "LX Gymnastics",
+    "nation": "Northern Ireland",
+    "region": "Northern Ireland",
+    "town": "Dunmurry",
+    "addresses": ["Upper Dunmurry Lane, Dunmurry, BT17 0HD"],
+    "website": "https://lxgymnastics.com/contact-us/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://lxgymnastics.com/contact-us/"
+      },
+      {
+        "label": "Active Living public club record",
+        "url": "https://activelivingnolimits.co.uk/find-an-opportunity/?councilArea=&impairment=&sportType=Gymnastics"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "largs-gymnastics-club",
+    "name": "Largs Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Largs",
+    "addresses": ["Sportscotland, Burnside Road, Largs, KA30 8RW"],
+    "website": "http://N/A",
+    "disciplines": [
+      "Adult Gymnastics",
+      "Recreational Gymnastics",
+      "TeamGym",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/largs-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "leeds-gymnastics-club",
+    "name": "Leeds Gymnastics Club",
+    "nation": "England",
+    "region": "Yorkshire and the Humber",
+    "town": "Leeds",
+    "addresses": [
+      "Limewood Road, Seacroft, Leeds, LS14 1AB",
+      "John Smeaton Leisure Centre, Smeaton Approach, Leeds, LS15 8TA"
+    ],
+    "website": "https://leedsgymnastics.com/contact/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://leedsgymnastics.com/contact/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "legacy-gymnastics-club",
+    "name": "Legacy Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Kirkliston",
+    "addresses": ["Kirklands Park Gardens, Kirkliston, EH29 9ET", "The Muirs, Kinross, KY13 8FQ"],
+    "website": null,
+    "disciplines": ["Recreational Gymnastics", "Women's Artistic Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/legacy-gymnastics-club"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "linlithgow-school-of-gymnastics",
+    "name": "Linlithgow School of Gymnastics",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Linlithgow",
+    "addresses": [
+      "Braehead Road, Linlithgow, EH49 6EH",
+      "Kettilstoun Mains Road, Linlithgow, EH49 6SQ"
+    ],
+    "website": null,
+    "disciplines": ["Acrobatic Gymnastics", "Pre-school"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/linlithgow-school-of-gymnastics"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "lothian-springers-trampoline-club",
+    "name": "Lothian Springers Trampoline Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Edinburgh",
+    "addresses": [
+      "22 Gracemount Drive, Edinburgh, EH16 6RN",
+      "Sighthill Court, Edinburgh, EH11 4BN"
+    ],
+    "website": null,
+    "disciplines": ["Pre-school", "Trampoline"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/lothian-springers-tc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "meadowbank-gymnastics-club",
+    "name": "Meadowbank Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Dalkeith",
+    "addresses": ["23F Mayfield Industrial Estate, Dalkeith, EH22 4AD"],
+    "website": "http://www.meadowbankgc.co.uk",
+    "disciplines": [
+      "Men's Artistic Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/meadowbank-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "milton-keynes-gymnastics",
+    "name": "Milton Keynes Gymnastics",
+    "nation": "England",
+    "region": "South East",
+    "town": "Milton Keynes",
+    "addresses": ["15 Winchester Circle, Kingston, Milton Keynes, MK10 0BA"],
+    "website": "https://miltonkeynesgymnastics.co.uk/contact-us/",
+    "disciplines": [
+      "Men's Artistic Gymnastics",
+      "Women's Artistic Gymnastics",
+      "Recreational Gymnastics",
+      "Acrobatic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://miltonkeynesgymnastics.co.uk/contact-us/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "moffat-gymnastics-club",
+    "name": "Moffat Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Moffat",
+    "addresses": ["Edinburgh Road, Moffat, DG10 9RY"],
+    "website": null,
+    "disciplines": ["Pre-school", "Recreational Gymnastics", "Women's Artistic Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/moffat-gymnastics-club"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "newton-mearns-gymnastics-club",
+    "name": "Newton Mearns Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Glasgow",
+    "addresses": [
+      "196 Ayr Road, Newton Mearns, Glasgow, G77 6DT",
+      "Newton Mearns Parish Church, 242 Ayr Road, GLASGOW, G77 6AA"
+    ],
+    "website": null,
+    "disciplines": [
+      "Acrobatic Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "Tumbling",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/newton-mearns-gymnastics-club"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "newtown-gymnastics",
+    "name": "Newtown Gymnastics",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Irvine",
+    "addresses": ["Dreghorn, Irvine, KA11 4HL"],
+    "website": "https://newtowngymnasticclub.co.uk",
+    "disciplines": ["Recreational Gymnastics", "TeamGym", "Women's Artistic Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/newtown-gymnastics"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "north-east-gymnastics-centre",
+    "name": "North East Gymnastics Centre",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Ellon",
+    "addresses": [
+      "Kellie Pearl Way, Ellon, AB41 8LF",
+      "North Mains of Barra, Oldmeldrum, Inverurie, AB51 0BB",
+      "Victoria Street, Inverurie, AB51 3QZ"
+    ],
+    "website": null,
+    "disciplines": [
+      "Disability Gymnastics",
+      "Freestyle",
+      "Recreational Gymnastics",
+      "Trampoline",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/north-east-gymnastics-centre"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "norwich-gymnastics-club",
+    "name": "Norwich Gymnastics Club",
+    "nation": "England",
+    "region": "East of England",
+    "town": "Norwich",
+    "addresses": ["Heartsease Recreation Ground, Sale Road, Norwich, NR7 9TT"],
+    "website": "https://www.norwichgymnasticsclub.co.uk/index.php",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.norwichgymnasticsclub.co.uk/index.php"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "notts-gymnastics-academy",
+    "name": "Notts Gymnastics Academy",
+    "nation": "England",
+    "region": "East Midlands",
+    "town": "West Bridgford",
+    "addresses": ["Boundary Road, West Bridgford, Nottingham, NG2 7BW"],
+    "website": "https://www.nottsgymnasticsacademy.co.uk/contact",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.nottsgymnasticsacademy.co.uk/contact"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "p-h-d-fundamentals",
+    "name": "P.H.D. Fundamentals",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Peebles",
+    "addresses": [
+      "Walkerhaugh, Peebles, EH45 8GL",
+      "Victoria Hall House, Scotts Place, SELKIRK, TD7 4LN",
+      "St. John Street, GALASHIELS, TD1 3JX"
+    ],
+    "website": "https://phdfundamentals.co.uk/",
+    "disciplines": [
+      "Acrobatic Gymnastics",
+      "Disability Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "TeamGym",
+      "Trampoline",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/p.h.d.-fundamentals"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "park-wrekin-gymnastics-club",
+    "name": "Park Wrekin Gymnastics Club",
+    "nation": "England",
+    "region": "West Midlands",
+    "town": "Telford",
+    "addresses": [
+      "Park Gymnastic Centre, Severn Drive, Dothill, Wellington, Telford, TF1 3LE",
+      "Lilleshall National Sports Centre, Lilleshall, near Newport, TF10 9LQ"
+    ],
+    "website": "https://parkwrekingymnastics.com/contact-us/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://parkwrekingymnastics.com/contact-us/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "pegasus-gymnastics-club",
+    "name": "Pegasus Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Newport On Tay",
+    "addresses": [
+      "Kirk Road, Newport On Tay, DD6 8HY",
+      "Old Glamis Road, Dundee, DD3 0NR",
+      "Shanwell Road, Tayport, DD6 9EA"
+    ],
+    "website": "http://www.pegasusgymnasticsclub.co.uk",
+    "disciplines": [
+      "Men's Artistic Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/pegasus-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "perth-gymnastics-club",
+    "name": "Perth Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Perth",
+    "addresses": ["15A & 15B Riverview House, Friarton Road, Perth, PH2 8DF"],
+    "website": "http://www.perthgymnasticsclub.org",
+    "disciplines": ["Pre-school", "Recreational Gymnastics", "Women's Artistic Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/perth-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "platinum-gymnastics-academy-scotland",
+    "name": "Platinum Gymnastics Academy Scotland",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Port Glasgow",
+    "addresses": ["Muirshiel Lane, Port Glasgow, PA14 5BS"],
+    "website": null,
+    "disciplines": ["Recreational Gymnastics", "Tumbling"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/platinum-gymnastics-academy-scotland"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "portsmouth-gymnastics-club",
+    "name": "Portsmouth Gymnastics Club",
+    "nation": "England",
+    "region": "South East",
+    "town": "Portsmouth",
+    "addresses": ["Portsmouth Gymnastics and Tennis Centre, Alex Way, Hilsea, Portsmouth, PO2 9AD"],
+    "website": "https://www.portsmouthgymnastics.club/index.php",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.portsmouthgymnastics.club/index.php"
+      },
+      {
+        "label": "Portsmouth City Council venue record",
+        "url": "https://www.portsmouth.gov.uk/services/leisure/sports-and-activities/sports-and-leisure-centres/portsmouth-gymnastics-centre"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "rathgael-gymnastics-and-tumbling-club",
+    "name": "Rathgael Gymnastics and Tumbling Club",
+    "nation": "Northern Ireland",
+    "region": "Northern Ireland",
+    "town": "Bangor",
+    "addresses": ["1, 14 Balloo Avenue, Bangor, BT19 7QT"],
+    "website": "https://www.rathgaelgym.org/information/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.rathgaelgym.org/information/"
+      },
+      {
+        "label": "Active Living public club record",
+        "url": "https://activelivingnolimits.co.uk/find-an-opportunity/?councilArea=&impairment=&sportType=Gymnastics"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "richmond-gymnastics-association",
+    "name": "Richmond Gymnastics Association",
+    "nation": "England",
+    "region": "London",
+    "town": "Richmond",
+    "addresses": ["RGA Centre, Townmead Road, Kew, Richmond, TW9 4EL"],
+    "website": "https://richmondgymnastics.co.uk/contact-us/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://richmondgymnastics.co.uk/contact-us/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "saltire-team-gymnastics",
+    "name": "Saltire Team Gymnastics",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Dalkeith",
+    "addresses": [
+      "23F Mayfield Industrial Estate, Dalkeith, EH22 4AD",
+      "Gunsgreenhill, Eyemouth, TD14 5LZ",
+      "Meadowmill, Tranent East Lothian, Tranent, EH33 1LZ",
+      "Westbank Street, Edinburgh, EH15 1DR",
+      "Meadowmill, Tranent, EH33 1LZ"
+    ],
+    "website": "http://www.saltireteamgym.co.uk",
+    "disciplines": [
+      "Adult Gymnastics",
+      "Disability Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "TeamGym"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/saltire-team-gymnastics"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "sapphire-gymnastics-club",
+    "name": "Sapphire Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Glasgow",
+    "addresses": ["26 Lochburn Road, Glasgow, G20 9AQ"],
+    "website": null,
+    "disciplines": [
+      "Disability Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "Trampoline",
+      "Tumbling"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/sapphire-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "shetland-gymnastics-club",
+    "name": "Shetland Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Lerwick",
+    "addresses": ["Clickimin Leisure Complex, North Lochside, Lerwick, ZE1 0PJ"],
+    "website": "http://www.shetlandgymnasticsclub.com",
+    "disciplines": [
+      "Men's Artistic Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/shetland-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "shine-trampoline-club",
+    "name": "Shine Trampoline Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Inverurie",
+    "addresses": [
+      "Victoria Street, Inverurie, AB51 3QZ",
+      "Fintry Road, Blackburn, Aberdeen, AB21 0JQ"
+    ],
+    "website": null,
+    "disciplines": [
+      "Disability Gymnastics",
+      "Recreational Gymnastics",
+      "Trampoline",
+      "Tumbling",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/shine-trampoline-club"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "south-ayrshire-gymnastics-club",
+    "name": "South Ayrshire Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Ayr",
+    "addresses": ["Annbank Road, Mossblown, Ayr, KA6 5BH", "South Beach Road, Ayr, KA7 1JB"],
+    "website": null,
+    "disciplines": ["Women's Artistic Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/south-ayrshire-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "south-essex-gymnastics-club",
+    "name": "South Essex Gymnastics Club",
+    "nation": "England",
+    "region": "East of England",
+    "town": "Basildon",
+    "addresses": ["Cranes Farm Road, Basildon, SS14 3GR", "Crest Avenue, Basildon, SS13 2EF"],
+    "website": "https://www.southessexgymnasticsclub.com/",
+    "disciplines": ["Recreational Gymnastics", "Competitive gymnastics"],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.southessexgymnasticsclub.com/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "sparta-trampoline-club",
+    "name": "Sparta Trampoline Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Glasgow",
+    "addresses": ["96 Fifty Pitches Road, Glasgow, G51 4EB"],
+    "website": "http://www.spartatc.co.uk",
+    "disciplines": ["Trampoline"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/sparta-trampoline-club"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "st-andrews-uni-trampoline-club",
+    "name": "St Andrews Uni Trampoline Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "St Andrews",
+    "addresses": ["St Leonards Road, St Andrews, KY16 9DY"],
+    "website": null,
+    "disciplines": ["Men's Artistic Gymnastics", "Trampoline", "Women's Artistic Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/st-andrews-uni-tc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "stenhousemuir-gymnastics-club",
+    "name": "Stenhousemuir Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Falkirk",
+    "addresses": ["Carronlea Drive, Falkirk, FK2 8DN"],
+    "website": null,
+    "disciplines": [
+      "Men's Artistic Gymnastics",
+      "Recreational Gymnastics",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/stenhousemuir-gymnastics-club"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "stonehaven-gymnastics-club",
+    "name": "Stonehaven Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Stonehaven",
+    "addresses": ["Stonehaven Leisure Centre, Stonehaven, AB39 2RD"],
+    "website": "https://www.stonehavengymnasticsclub.co.uk/",
+    "disciplines": ["Recreational Gymnastics", "Women's Artistic Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/stonehaven-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "tiggers-trampoline-club",
+    "name": "Tiggers Trampoline Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Newport-on-Tay",
+    "addresses": ["69 Kirk Road, Newport-on-Tay, DD6 8HY", "Old Glamis Road, Dundee, DD3 8LF"],
+    "website": "http://www.tiggerstrampolineclub.com",
+    "disciplines": ["Trampoline"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/tiggers-tc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "tilt-gymnastics",
+    "name": "Tilt Gymnastics",
+    "nation": "Northern Ireland",
+    "region": "Northern Ireland",
+    "town": "Belfast",
+    "addresses": ["Units 5 and 6, Prince Regent Road, Belfast, BT5 6QR"],
+    "website": "https://www.tiltgymnastics.org/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.tiltgymnastics.org/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "tryst-gymnastics-club",
+    "name": "Tryst Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Larbert",
+    "addresses": ["Carrongrange Avenue, LARBERT, FK5 3BQ"],
+    "website": "https://trystgymnasticsclub.com/",
+    "disciplines": ["Women's Artistic Gymnastics"],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/tryst-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "twisters-gymnastics-derry",
+    "name": "Twisters Gymnastics Derry",
+    "nation": "Northern Ireland",
+    "region": "Northern Ireland",
+    "town": "Derry",
+    "addresses": [
+      "Unit 11K, Pennyburn Business Park, Pennyburn Industrial Estate, Derry, BT48 0LU"
+    ],
+    "website": "https://www.twistersgymnastics.co.uk/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.twistersgymnastics.co.uk/"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  },
+  {
+    "slug": "west-dunbartonshire-gymnastics-club",
+    "name": "West Dunbartonshire Gymnastics Club",
+    "nation": "Scotland",
+    "region": "Scotland",
+    "town": "Dumbarton",
+    "addresses": ["Ardoch Crescent, Dumbarton, G82 4EN"],
+    "website": null,
+    "disciplines": [
+      "Disability Gymnastics",
+      "Pre-school",
+      "Recreational Gymnastics",
+      "Tumbling",
+      "Women's Artistic Gymnastics"
+    ],
+    "sources": [
+      {
+        "label": "Scottish Gymnastics club record",
+        "url": "https://www.scottishgymnastics.org/club/west-dunbartonshire-gc"
+      }
+    ],
+    "checkedAt": "2026-09-14"
+  }
+]

@@ -4,7 +4,7 @@ import { BRAND, appUrl } from '../config';
 interface Props { title: string; description?: string }
 const { title, description = BRAND.description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, BRAND.website);
-const links = [['Features', '/features/'], ['Pricing', '/pricing/'], ['Founding clubs', '/founding-clubs/']];
+const links = [['Features', '/features/'], ['Pricing', '/pricing/'], ['Find a club', '/clubs/'], ['Founding clubs', '/founding-clubs/']];
 ---
 <!doctype html>
 <html lang="en-GB">
