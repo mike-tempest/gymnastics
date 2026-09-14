@@ -7,11 +7,40 @@ const base = process.env.DIRECTORY_TEST_URL || 'http://127.0.0.1:4180';
 const browser = await chromium.launch({ headless: true });
 try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+  // Keep browser regression tests off the community tile service.
+  await page.route('https://tile.openstreetmap.org/**', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'image/png',
+      body: Buffer.from(
+        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jS1cAAAAASUVORK5CYII=',
+        'base64'
+      ),
+    })
+  );
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto(`${base}/clubs/`);
   await page.waitForSelector('#club-filters:visible');
   assert.equal(await page.locator('[data-club]:visible').count(), 100);
+  await page.getByRole('button', { name: 'Map view', exact: true }).click();
+  await page.waitForSelector('.leaflet-marker-icon');
+  assert.match(await page.locator('#map-status').innerText(), /98 of 100 matching clubs mapped/);
+  assert.equal(await page.locator('#club-results').isVisible(), false);
+  await page.getByLabel('Club, town or postcode').fill('Bristol Hawks');
+  assert.match(await page.locator('#map-status').innerText(), /1 of 1 matching clubs mapped/);
+  await page.locator('.leaflet-marker-icon').click();
+  assert.equal(
+    await page
+      .locator('.leaflet-popup')
+      .getByRole('link', { name: 'Bristol Hawks Gymnastics Club', exact: true })
+      .count(),
+    1
+  );
+  await page.getByLabel('Club, town or postcode').fill('not-a-real-club-zzzz');
+  assert.equal(await page.locator('.leaflet-marker-icon').count(), 0);
+  assert.match(await page.locator('#map-status').innerText(), /0 of 0/);
+  await page.getByRole('button', { name: 'List view', exact: true }).click();
   await page.getByLabel('Club, town or postcode').fill('bristol');
   assert.equal(await page.locator('[data-club]:visible').count(), 2);
   await page.getByLabel('Area', { exact: true }).selectOption('Wales');
@@ -23,14 +52,12 @@ try {
   );
   await page.getByLabel('Area', { exact: true }).selectOption('Scotland');
   await page.getByLabel('Discipline or programme').selectOption('Trampoline');
-  const filtered = await page
-    .locator('[data-club]:visible')
-    .evaluateAll((elements) =>
-      elements.map((element) => ({
-        region: element.dataset.region,
-        disciplines: JSON.parse(element.dataset.disciplines),
-      }))
-    );
+  const filtered = await page.locator('[data-club]:visible').evaluateAll((elements) =>
+    elements.map((element) => ({
+      region: element.dataset.region,
+      disciplines: JSON.parse(element.dataset.disciplines),
+    }))
+  );
   assert.ok(filtered.length > 0 && filtered.length < 69);
   assert.ok(
     filtered.every((club) => club.region === 'Scotland' && club.disciplines.includes('Trampoline'))
@@ -64,6 +91,19 @@ try {
   }
   await page.goto(`${base}/clubs/`);
   await page.screenshot({ path: '/tmp/tb-directory-mobile.png' });
+  await page.getByRole('button', { name: 'Map view', exact: true }).click();
+  await page.waitForSelector('.leaflet-marker-icon');
+  assert.equal(
+    await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    true,
+    'Mobile map overflow'
+  );
+  await page.getByLabel('Area', { exact: true }).selectOption('Northern Ireland');
+  assert.match(await page.locator('#map-status').innerText(), /5 of 5 matching clubs mapped/);
+  await page.getByRole('button', { name: 'Clear filters' }).click();
+  await page.waitForFunction(() =>
+    document.querySelector('#map-status').textContent.startsWith('98 of 100')
+  );
   assert.deepEqual(errors, []);
   const plain = await browser.newContext({ javaScriptEnabled: false });
   const nojs = await plain.newPage();

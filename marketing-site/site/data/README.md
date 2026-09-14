@@ -24,3 +24,13 @@ Only factual names, locations and published programme labels are recorded. Descr
 5. Run `node marketing-site/scripts/test-directory.mjs` against the container on localhost:4180. It uses the web app's existing Playwright dependency. Override `DIRECTORY_TEST_URL` for another preview.
 
 The directory is static and requires no membership API, new database or paid map service. Search is a progressive enhancement: all listing links remain available without JavaScript. Area pages are generated only when they contain listings. The sitemap includes every public listing and area page and excludes the 404 page and filter combinations.
+
+## Map locations
+
+Mike requested an interactive map during implementation. Leaflet 1.9.4 is bundled with the site; OpenStreetMap standard tiles load only after selecting Map view. Nearby pins group at each zoom level, and filters apply equally to map and list. Automated browser tests intercept tile requests rather than generating traffic on the public tile service.
+
+The initial map has 98 of 100 clubs. Ninety-three GB locations are postcode centroids retrieved from Postcodes.io on 14 September 2026 and cached in the dataset. Five Northern Irish listings use four OpenStreetMap town-centre locations, retrieved from Nominatim sequentially with an identified client and over one second between requests. NI postcode coordinates were not used because their commercial use requires a separate licence. Source URLs, precision and check dates are retained for each point.
+
+City of Bristol's conflicting postcode and Isle of Lewis's unrecognised published postcode are left unmapped. Multiple-venue clubs have one pin for the first listed venue. The UI states these limitations, labels all points approximate and retains the full listing when no point is available. Attribution appears beneath the map and on the tile layer. Do not label these coordinates as venue entrances or use them for turn-by-turn directions.
+
+Tile service: https://tile.openstreetmap.org/{z}/{x}/{y}.png, governed by https://operations.osmfoundation.org/policies/tiles/. Honour browser caching, retain Referer and visible attribution, and do not add tile prefetch or offline downloads. GB postcode licensing: https://postcodes.io/docs/licences/.

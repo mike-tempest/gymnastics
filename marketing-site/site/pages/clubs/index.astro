@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import ClubList from '../../components/ClubList.astro';
 import { clubs, regions, regionPath, jsonLd, absolute, clubPath } from '../../lib/clubs';
+const mapLocations = clubs.filter(club => club.mapLocation).map(club => ({ slug: club.slug, name: club.name, town: club.town, path: clubPath(club), ...club.mapLocation }));
 const disciplines = [...new Set(clubs.flatMap(club => club.disciplines))].sort();
 const schema = { '@context': 'https://schema.org', '@type': 'ItemList', name: 'UK gymnastics clubs directory', numberOfItems: clubs.length, itemListElement: clubs.map((club, i) => ({ '@type': 'ListItem', position: i + 1, name: club.name, url: absolute(clubPath(club)) })) };
 ---
@@ -27,8 +28,20 @@ const schema = { '@context': 'https://schema.org', '@type': 'ItemList', name: 'U
       <p class="text-sm leading-6 text-muted sm:col-span-3">Programme filters show only details confirmed in our sources. Clubs with unconfirmed programmes still appear when you choose all programmes.</p>
       <button type="reset" class="text-link justify-self-start text-sm">Clear filters</button>
     </form>
+    <div id="view-controls" class="mb-5 flex flex-wrap items-center gap-3" hidden>
+      <button id="list-view" type="button" aria-pressed="true" aria-controls="club-results" class="min-h-12 rounded-full border border-line px-6 text-sm font-semibold aria-pressed:bg-forest aria-pressed:text-paper">List view</button>
+      <button id="map-view" type="button" aria-pressed="false" aria-controls="club-map-panel" class="min-h-12 rounded-full border border-line px-6 text-sm font-semibold aria-pressed:bg-forest aria-pressed:text-paper">Map view</button>
+    </div>
     <p id="club-count" class="mb-5 text-sm text-muted" role="status" aria-live="polite">Showing {clubs.length} clubs</p>
     <p id="club-empty" class="mb-6 rounded-xl border border-line bg-paper p-6" hidden>No clubs match those filters. Try another area or clear the filters. Our directory is still growing.</p>
+    <section id="club-map-panel" hidden aria-label="Club map">
+      <div id="club-map" class="relative z-0 h-[28rem] rounded-2xl border border-line bg-sage-light sm:h-[36rem]" aria-label="Interactive map of club locations"></div>
+      <p id="map-status" class="mt-3 text-sm text-muted" role="status"></p>
+      <p id="map-error" class="mt-3 text-sm text-clay" hidden>The background map could not load. Club pins and the list are still available.</p>
+      <p class="mt-2 text-xs leading-6 text-muted">Pins show approximate postcode locations or town centres, not venue entrances. For clubs with several venues, the map shows the first listed location. Open a club page to check the venue before travelling.</p>
+      <p class="mt-2 text-xs leading-6 text-muted">GB locations via <a class="underline" href="https://postcodes.io/docs/licences/">Postcodes.io</a>. Contains Ordnance Survey, National Statistics and NRS data © Crown copyright and database right 2025; Royal Mail data © Royal Mail copyright and database right 2025. Town locations © <a class="underline" href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>.</p>
+    </section>
+    <script id="club-map-data" type="application/json" set:html={jsonLd(mapLocations)} />
     <ClubList clubs={clubs} />
   </section>
   <section class="border-t border-line bg-paper py-12"><div class="wrap grid gap-10 md:grid-cols-2">
@@ -44,7 +57,53 @@ const schema = { '@context': 'https://schema.org', '@type': 'ItemList', name: 'U
   const discipline = document.querySelector<HTMLSelectElement>('#club-discipline');
   const entries = [...document.querySelectorAll<HTMLElement>('[data-club]')];
   const normalise = (text: string) => text.toLowerCase().replace(/\s+/g, ' ').trim();
+  let mapController: { update: (slugs: string[]) => number } | undefined;
+  let mapActive = false;
+  const mapPanel = document.querySelector<HTMLElement>('#club-map-panel');
+  const list = document.querySelector<HTMLElement>('#club-results');
+  const listButton = document.querySelector<HTMLButtonElement>('#list-view');
+  const mapButton = document.querySelector<HTMLButtonElement>('#map-view');
+  function updateMap() {
+    if (!mapActive || !mapController) return;
+    const shown = entries.filter(entry => !entry.hidden).map(entry => entry.dataset.slug ?? '');
+    const count = mapController.update(shown);
+    const status = document.querySelector('#map-status');
+    if (status) status.textContent = `${count} of ${shown.length} matching clubs mapped. ${shown.length - count} have no confirmed map location and can be found in list view.`;
+  }
+  async function setView(showMap: boolean) {
+    mapActive = showMap;
+    if (mapPanel) mapPanel.hidden = !showMap;
+    if (list) list.hidden = showMap;
+    listButton?.setAttribute('aria-pressed', String(!showMap));
+    mapButton?.setAttribute('aria-pressed', String(showMap));
+    if (showMap && !mapController) {
+      if (mapButton) mapButton.disabled = true;
+      try {
+        const { createClubMap } = await import('../../lib/club-map.js');
+        const element = document.querySelector<HTMLElement>('#club-map');
+        const data = JSON.parse(document.querySelector('#club-map-data')?.textContent ?? '[]');
+        mapController = createClubMap(element, data, () => {
+          const error = document.querySelector<HTMLElement>('#map-error');
+          if (error) error.hidden = false;
+        });
+      } catch {
+        const error = document.querySelector<HTMLElement>('#map-error');
+        if (error) { error.textContent = 'The map could not load. Please use list view to browse clubs.'; error.hidden = false; }
+      } finally {
+        if (mapButton) mapButton.disabled = false;
+      }
+    }
+    updateMap();
+  }
+  listButton?.addEventListener('click', () => setView(false));
+  mapButton?.addEventListener('click', () => setView(true));
+  const controls = document.querySelector<HTMLElement>('#view-controls');
+  if (controls) controls.hidden = false;
+  let lastFilterKey: string | undefined;
   function filter() {
+    const key = JSON.stringify([query?.value, region?.value, discipline?.value]);
+    if (key === lastFilterKey) return;
+    lastFilterKey = key;
     const terms = normalise(query?.value ?? '').split(' ').filter(Boolean);
     let count = 0;
     entries.forEach(entry => {
@@ -57,6 +116,7 @@ const schema = { '@context': 'https://schema.org', '@type': 'ItemList', name: 'U
     if (status) status.textContent = `Showing ${count} ${count === 1 ? 'club' : 'clubs'}`;
     const empty = document.querySelector<HTMLElement>('#club-empty');
     if (empty) empty.hidden = count > 0;
+    updateMap();
   }
   if (form) {
     form.hidden = false;
