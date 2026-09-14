@@ -40,9 +40,7 @@
   *, *::before, *::after { transition-duration: 0.01ms !important; }
 }
 
-@layer components {
-  #club-map .leaflet-control-zoom a { @apply flex h-12 w-12 items-center justify-center text-forest; }
+#club-map .leaflet-control-zoom a { @apply flex h-12 w-12 items-center justify-center text-forest; }
   #club-map .leaflet-popup-close-button { @apply flex h-12 w-12 items-center justify-center; }
   #club-map .leaflet-popup-content { @apply mr-10; }
-  #club-map .leaflet-container { @apply font-sans; }
-}
+#club-map.leaflet-container { @apply font-sans; }
