@@ -1,0 +1,14 @@
+---
+import { clubPath, type Club } from '../lib/clubs';
+interface Props { clubs: Club[] }
+const { clubs } = Astro.props;
+---
+<ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" id="club-results">
+  {clubs.map((club) => <li data-club data-search={`${club.name} ${club.town} ${club.addresses.join(' ')}`.toLowerCase()} data-region={club.region} data-disciplines={JSON.stringify(club.disciplines)} class="rounded-2xl border border-line bg-paper p-6">
+    <p class="eyebrow">{club.town}</p>
+    <h2 class="mt-3 text-xl font-semibold"><a class="inline-flex min-h-12 items-center underline-offset-4 hover:underline" href={clubPath(club)}>{club.name}</a></h2>
+    <p class="mt-2 text-sm text-muted">{club.region}{club.nation === 'England' ? ', England' : ''}</p>
+    <p class="mt-4 text-sm leading-6 text-muted">{club.disciplines.length ? club.disciplines.join(' · ') : 'Contact the club for its current programme.'}</p>
+    <a href={clubPath(club)} class="text-link mt-4 text-sm" aria-label={`View ${club.name}`}>View club <span aria-hidden="true">→</span></a>
+  </li>)}
+</ul>

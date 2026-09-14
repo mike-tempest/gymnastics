@@ -1,0 +1,68 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ClubList from '../../components/ClubList.astro';
+import { clubs, regions, regionPath, jsonLd, absolute, clubPath } from '../../lib/clubs';
+const disciplines = [...new Set(clubs.flatMap(club => club.disciplines))].sort();
+const schema = { '@context': 'https://schema.org', '@type': 'ItemList', name: 'UK gymnastics clubs directory', numberOfItems: clubs.length, itemListElement: clubs.map((club, i) => ({ '@type': 'ListItem', position: i + 1, name: club.name, url: absolute(clubPath(club)) })) };
+---
+<Layout title="Find gymnastics clubs in the UK" description="Explore gymnastics clubs across England, Scotland, Wales and Northern Ireland. Find locations, published programmes and links to contact clubs directly.">
+  <script type="application/ld+json" set:html={jsonLd(schema)} />
+  <section class="border-b border-line bg-sage-light py-16 sm:py-24">
+    <div class="wrap">
+      <p class="eyebrow">The Tumblebase club directory</p>
+      <h1 class="mt-5 max-w-3xl font-display text-4xl leading-tight sm:text-6xl">Find gymnastics clubs<br />in the UK.</h1>
+      <p class="prose-copy mt-6 max-w-2xl">Explore gymnastics clubs in the UK, from recreational sessions to specialist disciplines. Find a club, check its programme and get in touch directly.</p>
+      <p class="mt-5 text-sm text-muted">{clubs.length} listings across all four UK nations. Coverage is growing and currently strongest in Scotland.</p>
+    </div>
+  </section>
+  <section class="wrap py-12" aria-label="Browse by area">
+    <h2 class="font-display text-3xl">Gymnastics closer to home</h2>
+    <div class="mt-5 flex flex-wrap gap-3">{regions.map(region => <a class="inline-flex min-h-12 items-center rounded-full border border-line bg-paper px-5 text-sm hover:bg-sage-light" href={regionPath(region)}>{region} <span class="ml-2 text-muted">{clubs.filter(c => c.region === region).length}</span></a>)}</div>
+  </section>
+  <section class="wrap pb-16" aria-label="Search the directory">
+    <form id="club-filters" class="mb-8 grid gap-5 rounded-2xl bg-paper p-6 sm:grid-cols-3" hidden>
+      <div><label class="text-sm font-semibold" for="club-query">Club, town or postcode</label><input id="club-query" type="search" class="mt-2 min-h-12 w-full rounded-lg border border-line bg-paper px-3 font-normal" placeholder="For example, Bristol" /></div>
+      <div><label class="text-sm font-semibold" for="club-region">Area</label><select id="club-region" class="mt-2 min-h-12 w-full rounded-lg border border-line bg-paper px-3 font-normal"><option value="">All areas</option>{regions.map(region => <option>{region}</option>)}</select></div>
+      <div><label class="text-sm font-semibold" for="club-discipline">Discipline or programme</label><select id="club-discipline" class="mt-2 min-h-12 w-full rounded-lg border border-line bg-paper px-3 font-normal"><option value="">All programmes</option>{disciplines.map(discipline => <option>{discipline}</option>)}</select></div>
+      <p class="text-sm leading-6 text-muted sm:col-span-3">Programme filters show only details confirmed in our sources. Clubs with unconfirmed programmes still appear when you choose all programmes.</p>
+      <button type="reset" class="text-link justify-self-start text-sm">Clear filters</button>
+    </form>
+    <p id="club-count" class="mb-5 text-sm text-muted" role="status" aria-live="polite">Showing {clubs.length} clubs</p>
+    <p id="club-empty" class="mb-6 rounded-xl border border-line bg-paper p-6" hidden>No clubs match those filters. Try another area or clear the filters. Our directory is still growing.</p>
+    <ClubList clubs={clubs} />
+  </section>
+  <section class="border-t border-line bg-paper py-12"><div class="wrap grid gap-10 md:grid-cols-2">
+    <div><h2 class="font-display text-3xl">Before your first visit</h2><p class="prose-copy mt-4">Contact the club to confirm its current venue, age groups, fees and available places. A published programme does not mean a class has spaces. Ask about trial sessions and any support you need.</p></div>
+    <div><h2 class="font-display text-3xl">Run a gymnastics club?</h2><p class="prose-copy mt-4">Tumblebase brings waiting lists, payments and club administration together, giving your team more time for gymnastics.</p><a class="text-link mt-3" href="/founding-clubs/">Explore the founding-club programme</a></div>
+    <p class="text-sm leading-6 text-muted md:col-span-2">This is an independent directory compiled from public club, governing-body and council records. Source checks are not club endorsements or safety assessments. Each listing includes its sources and a way to request a correction.</p>
+  </div></section>
+</Layout>
+<script>
+  const form = document.querySelector<HTMLFormElement>('#club-filters');
+  const query = document.querySelector<HTMLInputElement>('#club-query');
+  const region = document.querySelector<HTMLSelectElement>('#club-region');
+  const discipline = document.querySelector<HTMLSelectElement>('#club-discipline');
+  const entries = [...document.querySelectorAll<HTMLElement>('[data-club]')];
+  const normalise = (text: string) => text.toLowerCase().replace(/\s+/g, ' ').trim();
+  function filter() {
+    const terms = normalise(query?.value ?? '').split(' ').filter(Boolean);
+    let count = 0;
+    entries.forEach(entry => {
+      const text = normalise(entry.dataset.search ?? '');
+      const matches = terms.every(term => text.includes(term) || text.replace(/\s/g, '').includes(term)) && (!region?.value || entry.dataset.region === region.value) && (!discipline?.value || JSON.parse(entry.dataset.disciplines ?? '[]').includes(discipline.value));
+      entry.hidden = !matches;
+      if (matches) count++;
+    });
+    const status = document.querySelector('#club-count');
+    if (status) status.textContent = `Showing ${count} ${count === 1 ? 'club' : 'clubs'}`;
+    const empty = document.querySelector<HTMLElement>('#club-empty');
+    if (empty) empty.hidden = count > 0;
+  }
+  if (form) {
+    form.hidden = false;
+    form.addEventListener('submit', event => event.preventDefault());
+    form.addEventListener('input', filter);
+    form.addEventListener('change', filter);
+    form.addEventListener('reset', () => setTimeout(filter, 0));
+  }
+</script>

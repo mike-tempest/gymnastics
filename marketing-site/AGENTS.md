@@ -21,7 +21,7 @@ Railway is the intended primary host, authorised by Mike on 11 September 2026. U
 
 TEM-25 owns the core site. TEM-26 owns the final founding-club offer, working application capture and authorised outreach. Neither issue is done until its required live acceptance checks pass.
 
-The current build has five HTML pages: home, features, pricing, founding clubs and 404. It also generates a sitemap and robots file. Verify the exact inventory and all local links before publishing.
+The build has five core HTML pages plus the club directory, populated region pages and one page per record in `site/data/clubs.json`. Verify the exact data-driven inventory, sources, canonical URLs, sitemap and all local links before publishing. TEM-52 owns the informational directory approved by Mike on 14 September 2026. It has no booking or marketplace functions.
 
 ## Build runtime
 

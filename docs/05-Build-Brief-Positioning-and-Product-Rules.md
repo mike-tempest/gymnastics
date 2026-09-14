@@ -54,3 +54,7 @@ Published flat fee in the **£25–£35 / month** band, free below a small membe
 ## 6. Market facts to keep in mind
 
 ~1,000–1,400 British Gymnastics registered clubs; ~400,000 members; recreational programmes are the large majority; parents pay **~£30–70 / month** for one weekly class, mostly by Direct Debit on the 1st; BG and its funders cite **0.5–1 million** children on waiting lists (advocacy figures). The addressable pain is exactly the hero flow.
+
+## Approved marketing directory exception (TEM-52, 14 September 2026)
+
+Mike approved a public UK gymnastics club directory on the Tumblebase marketing site for discovery and SEO, following the existing directory approach. This supersedes the earlier discovery-directory exclusion for informational marketing pages only. The product still does not include a booking marketplace. Listings require public sources, a checked date, a correction route and honest coverage statements.

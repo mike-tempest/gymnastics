@@ -113,7 +113,7 @@ Full brief: `docs/05-Build-Brief-Positioning-and-Product-Rules.md`. Read it befo
 - **We are:** the operations and compliance platform for gymnastics clubs -- waiting list to enrolled, Direct-Debit-billed, safeguarding-compliant member in one click. Works alongside My BG.
 - **Positioned against:** JustGo for Clubs (British Gymnastics' official club tool, free, My BG sync, but no Direct Debit documented, manual waitlists, no badges, no club-level safeguarding), ClassForKids (card-only, +0.5%, no exports), Thrive4 (opaque pricing, proprietary DD rail), and DIY spreadsheets.
 - **Rules:** Direct Debit first with GoCardless in the club's own organisation (never our own rail); compliance is a first-class module with expiry alerts and a Welfare Officer view; the hero flow is auto-offer waiting list -> one-click enrolled member; badges are data (Rise / Proficiency / club schemes) with a CSV bridge, no API dependency; BG membership number is a first-class reconcilable field; full export + API are product features; Wales runs on Sport:80, not JustGo.
-- **Do not build:** competition scoring, a booking marketplace / directory, a payment rail, or anything duplicating My BG membership administration.
+- **Do not build:** competition scoring, a booking marketplace, a payment rail, or anything duplicating My BG membership administration. The informational marketing club directory is explicitly authorised under TEM-52 (14 September 2026); it does not handle bookings.
 
 ## Working Method
 

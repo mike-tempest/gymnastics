@@ -1,0 +1,24 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import ClubList from '../../../components/ClubList.astro';
+import { clubs, regions, slugify, regionPath, clubPath, absolute, jsonLd } from '../../../lib/clubs';
+export function getStaticPaths() {
+  return regions.map(region => ({ params: { region: slugify(region) }, props: { region, listings: clubs.filter(club => club.region === region) } }));
+}
+const { region, listings } = Astro.props;
+const schema = { '@context': 'https://schema.org', '@type': 'ItemList', name: `Gymnastics clubs in ${region}`, numberOfItems: listings.length, itemListElement: listings.map((club, i) => ({ '@type': 'ListItem', position: i + 1, name: club.name, url: absolute(clubPath(club)) })) };
+const towns = [...new Set(listings.map(club => club.town))].sort();
+---
+<Layout title={`Gymnastics clubs in ${region}`} description={`Browse ${listings.length} gymnastics club listings in ${region}. Find locations, published programmes and links to contact each club.`}>
+  <script type="application/ld+json" set:html={jsonLd(schema)} />
+  <div class="wrap py-12 sm:py-20">
+    <nav aria-label="Breadcrumb" class="mb-8 text-sm"><a class="text-link" href="/">Home</a><span aria-hidden="true"> / </span><a class="text-link" href="/clubs/">Club directory</a><span aria-hidden="true"> / </span><span>{region}</span></nav>
+    <p class="eyebrow">Find your next club</p>
+    <h1 class="mt-4 font-display text-4xl sm:text-5xl">Gymnastics clubs in {region}</h1>
+    <p class="prose-copy mt-5 max-w-3xl">Explore {listings.length} listings across {towns.length} {towns.length === 1 ? 'location' : 'locations'} in {region}. Each page brings together published venue details and a direct route to the club or its governing-body listing.</p>
+    <p class="mt-4 max-w-3xl text-sm leading-7 text-muted">Locations in this directory: {towns.join(', ')}. This is a growing selection, not a complete list of clubs in {region}.</p>
+    <div class="mt-10"><ClubList clubs={listings} /></div>
+    <section class="mt-12 rounded-2xl border border-line bg-paper p-8"><h2 class="font-display text-3xl">Choosing a club in {region}</h2><p class="prose-copy mt-4">Confirm which venue hosts your chosen class, especially when a club uses several locations. Ask the club about the right group for your experience, trial sessions, costs and waiting lists before travelling.</p><a class="text-link mt-3" href="/clubs/">Search all UK listings</a></section>
+    <nav aria-label="Other areas" class="mt-8 flex flex-wrap gap-x-6">{regions.filter(area => area !== region).map(area => <a class="text-link text-sm" href={regionPath(area)}>{area}</a>)}</nav>
+  </div>
+</Layout>
