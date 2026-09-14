@@ -11,6 +11,14 @@ export interface Club {
   website: string | null;
   disciplines: string[];
   sources: { label: string; url: string }[];
+  mapLocation?: {
+    latitude: number;
+    longitude: number;
+    label: string;
+    precision: string;
+    source: string;
+    checkedAt: string;
+  };
   checkedAt: string;
 }
 export const slugify = (value: string) =>
