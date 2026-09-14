@@ -41,7 +41,9 @@ Configure a separate `marketing` service in the Gymnastics project with port `80
 
 Optional build arguments are `PUBLIC_APP_URL`, `PUBLIC_CONTACT_EMAIL` and `PUBLIC_MONTHLY_PRICE_GBP`. These are public values, not secrets. Keep the app URL and price unset until their launch prerequisites are satisfied. Updating them requires a rebuild.
 
-Verify the generated Railway HTTPS address, all five pages, a missing URL returning 404, and image/CSS responses before changing DNS. Railway provides the exact custom-domain DNS records; publish all verification records it requires. Apex hosting requires ALIAS/ANAME or CNAME flattening at the DNS provider. Never replace apex MX/TXT records with a conventional CNAME or move nameservers without preserving the full mail configuration. Keep the A2 website available until custom-domain HTTPS and content checks pass.
+The canonical marketing address is `https://www.tumblebase.com`. In A2 DNS, update the existing `www` CNAME to the exact Railway target and add Railway's `_railway-verify.www` TXT record. Verify custom-domain HTTPS, all five pages, assets and 404 handling before redirecting the apex.
+
+Keep the apex A record and all mail records at A2. In cPanel Redirects, select Permanent (301), domain `tumblebase.com`, an empty path, destination `https://www.tumblebase.com/`, Do Not Redirect www, and Wild Card Redirect. This preserves page paths. Verify HTTP and HTTPS apex requests, including a nested path and query string, reach the same path on HTTPS www without a loop. Keep a valid apex certificate at A2 for HTTPS redirects. Do not enable the redirect until www is working.
 
 Local validation:
 

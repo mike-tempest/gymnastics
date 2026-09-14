@@ -24,7 +24,7 @@ export const BRAND = {
   name: PRODUCT_NAME,
   /** Meta description for the app shell. */
   description: 'Gymnastics club management, Direct Debit billing and compliance in one place.',
-  website: 'https://tumblebase.com',
+  website: 'https://www.tumblebase.com',
   /** Copyright line rendered in page footers. */
   copyright: `${new Date().getFullYear()} ${PRODUCT_NAME}. All rights reserved.`,
 } as const;
