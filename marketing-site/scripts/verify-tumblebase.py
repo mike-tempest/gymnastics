@@ -42,7 +42,7 @@ for path in root.rglob('*'):
     page = Page()
     page.feed(text)
     assert page.headings == 1, f'Expected one h1 in {path}'
-    assert page.canonical and page.canonical.startswith('https://tumblebase.com/'), f'Wrong canonical in {path}'
+    assert page.canonical and page.canonical.startswith('https://www.tumblebase.com/'), f'Wrong canonical in {path}'
     for link in page.links:
         url = urlparse(link)
         if url.scheme or url.netloc:
