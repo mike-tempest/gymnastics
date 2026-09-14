@@ -16,7 +16,15 @@
         "url": "https://abbeygymnastics.com/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 54.596391,
+      "longitude": -5.9301829,
+      "label": "Belfast",
+      "precision": "town",
+      "source": "https://www.openstreetmap.org/relation/19414244",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "aberdeen-gymnastics-club",
@@ -37,7 +45,15 @@
         "url": "https://www.scottishgymnastics.org/club/aberdeen-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 57.151843,
+      "longitude": -2.186875,
+      "label": "AB15 6XH",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "aberdeenshire-aspire-trampoline-academy",
@@ -54,7 +70,15 @@
         "url": "https://www.scottishgymnastics.org/club/aberdeenshire-aspire-trampoline-academy"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 57.284475,
+      "longitude": -2.404616,
+      "label": "AB51 5QW",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "aberystwyth-gymnastics-club",
@@ -71,7 +95,15 @@
         "url": "https://www.welshgymnastics.org/find-gymnastics/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 52.415784,
+      "longitude": -4.059413,
+      "label": "SY23 3AW",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "aboyne-gc-trampoline-club",
@@ -91,7 +123,15 @@
         "url": "https://www.scottishgymnastics.org/club/aboyne-gc-tc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 57.076931,
+      "longitude": -2.773696,
+      "label": "AB34 5GW",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "active-gymnastics-club",
@@ -108,7 +148,15 @@
         "url": "https://www.scottishgymnastics.org/club/active-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 57.651348,
+      "longitude": -3.317999,
+      "label": "IV30 1UE",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "afan-lido-gymnastics-club",
@@ -125,7 +173,15 @@
         "url": "https://www.welshgymnastics.org/find-gymnastics/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 51.602212,
+      "longitude": -3.812601,
+      "label": "SA12 7DP",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "all-star-elite-trampoline-dmt-team",
@@ -142,7 +198,15 @@
         "url": "https://www.scottishgymnastics.org/club/all-star-elite-trampoline-dmt-team"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.766635,
+      "longitude": -4.160976,
+      "label": "G74 3EU",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "all-stars-gymnastics-club",
@@ -161,7 +225,15 @@
         "url": "https://www.welshgymnastics.org/find-gymnastics/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 51.564843,
+      "longitude": -3.282486,
+      "label": "CF37 5YR",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "allander-gymnastics-club",
@@ -182,7 +254,15 @@
         "url": "https://www.scottishgymnastics.org/club/allander-gymnastics-club"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.931345,
+      "longitude": -4.310782,
+      "label": "G61 3DF",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "arbroath-gymnastics-club",
@@ -207,7 +287,15 @@
         "url": "https://www.scottishgymnastics.org/club/arbroath-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 56.570757,
+      "longitude": -2.577393,
+      "label": "DD11 5JW",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "auchterarder-gymnastics-club",
@@ -230,7 +318,15 @@
         "url": "https://www.scottishgymnastics.org/club/auchterarder-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 56.296943,
+      "longitude": -3.707356,
+      "label": "PH3 1BL",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "ayrshire-gymnastics-club",
@@ -254,7 +350,15 @@
         "url": "https://www.scottishgymnastics.org/club/ayrshire-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.609381,
+      "longitude": -4.492584,
+      "label": "KA1 3BP",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "back-to-roots-gymnastics",
@@ -271,7 +375,15 @@
         "url": "https://www.welshgymnastics.org/find-gymnastics/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 52.241814,
+      "longitude": -3.382717,
+      "label": "LD1 6AH",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "balmoor-gymnastics-club",
@@ -288,7 +400,15 @@
         "url": "https://www.scottishgymnastics.org/club/balmoor-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 57.513377,
+      "longitude": -1.809606,
+      "label": "AB42 1BN",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "banchory-trampoline-dmt-club",
@@ -305,7 +425,15 @@
         "url": "https://www.scottishgymnastics.org/club/banchory-trampoline-dmt-club"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 57.058362,
+      "longitude": -2.492749,
+      "label": "AB31 5XP",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "bangor-gymnastic-club",
@@ -322,7 +450,15 @@
         "url": "https://www.welshgymnastics.org/find-gymnastics/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 53.217985,
+      "longitude": -4.111526,
+      "label": "LL57 4YH",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "beacon-rhythmic-gymnastics-club",
@@ -339,7 +475,15 @@
         "url": "https://www.scottishgymnastics.org/club/beacon-rhythmic-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 57.177361,
+      "longitude": -2.182521,
+      "label": "AB21 9DG",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "bedwas-gymnastics-club",
@@ -356,7 +500,15 @@
         "url": "https://www.welshgymnastics.org/find-gymnastics/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 51.577551,
+      "longitude": -3.232824,
+      "label": "CF83 2RZ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "bettws-gymnastics-club",
@@ -373,7 +525,15 @@
         "url": "https://www.welshgymnastics.org/find-gymnastics/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 51.606884,
+      "longitude": -3.014868,
+      "label": "NP20 7YB",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "birmingham-gymnastics-academy",
@@ -392,7 +552,15 @@
         "url": "https://www.birminghamgymnasticsacademy.org/contact/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 52.455842,
+      "longitude": -1.941425,
+      "label": "B15 2PQ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "bishopbriggs-acro-gymnastics-club",
@@ -409,7 +577,15 @@
         "url": "https://www.scottishgymnastics.org/club/bishopbriggs-acro-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.916272,
+      "longitude": -4.233933,
+      "label": "G64 3HD",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "bristol-hawks-gymnastics-club",
@@ -426,7 +602,15 @@
         "url": "https://bristolhawksgymnastics.org/classes/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 51.466094,
+      "longitude": -2.564055,
+      "label": "BS5 6DH",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "buckley-gymnastics-club",
@@ -443,7 +627,15 @@
         "url": "https://www.welshgymnastics.org/find-gymnastics/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 53.16772,
+      "longitude": -3.194323,
+      "label": "CH7 5ER",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "caerau-vale-trampoline-club",
@@ -460,7 +652,15 @@
         "url": "https://www.welshgymnastics.org/find-gymnastics/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 51.441135,
+      "longitude": -3.196182,
+      "label": "CF64 2QN",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "caerphilly-dragonflies",
@@ -477,7 +677,15 @@
         "url": "https://www.welshgymnastics.org/find-gymnastics/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 51.583705,
+      "longitude": -3.214386,
+      "label": "CF83 3SW",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "carnegie-spartan-gymnastics-club",
@@ -499,7 +707,15 @@
         "url": "https://www.scottishgymnastics.org/club/carnegie-spartan-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 56.071914,
+      "longitude": -3.463814,
+      "label": "KY12 7AG",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "city-of-aberdeen-gymnastics-club",
@@ -521,7 +737,15 @@
         "url": "https://www.scottishgymnastics.org/club/city-of-aberdeen-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 57.18399,
+      "longitude": -2.103531,
+      "label": "AB22 8PE",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "city-of-bristol-gymnastics-centre",
@@ -561,7 +785,15 @@
         "url": "https://www.scottishgymnastics.org/club/city-of-edinburgh-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.960674,
+      "longitude": -3.221961,
+      "label": "EH4 1EG",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "city-of-glasgow-gymnastics-club",
@@ -585,7 +817,15 @@
         "url": "https://www.scottishgymnastics.org/club/city-of-glasgow-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.846119,
+      "longitude": -4.324012,
+      "label": "G52 1HH",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "city-of-liverpool-gymnastics-club",
@@ -602,7 +842,15 @@
         "url": "https://www.cityofliverpoolgymnasticsclub.com/contact-6"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 53.387098,
+      "longitude": -2.968993,
+      "label": "L8 6QH",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "city-of-newcastle-gymnastics-academy",
@@ -619,7 +867,15 @@
         "url": "https://www.newcastlegymnastics.org/contact-us/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 54.989913,
+      "longitude": -1.559327,
+      "label": "NE6 4NU",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "diamonds-trampoline-dmt-club",
@@ -636,7 +892,15 @@
         "url": "https://www.scottishgymnastics.org/club/diamonds-trampoline-dmt-club"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 57.240603,
+      "longitude": -2.449416,
+      "label": "AB51 5FW",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "donside-gymnastics-club",
@@ -653,7 +917,15 @@
         "url": "https://www.scottishgymnastics.org/club/donside-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 57.289899,
+      "longitude": -2.396612,
+      "label": "AB51 4GY",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "dumfries-y-gymnastics",
@@ -679,7 +951,15 @@
         "url": "https://www.scottishgymnastics.org/club/dumfries-y-gymnastics"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.069115,
+      "longitude": -3.607921,
+      "label": "DG1 2DA",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "dundonald-gymnastics-club",
@@ -702,7 +982,15 @@
         "url": "https://www.scottishgymnastics.org/club/dundonald-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.489691,
+      "longitude": -4.530372,
+      "label": "KA6 5BH",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "dynamic-gymnastics-academy",
@@ -728,7 +1016,15 @@
         "url": "https://www.scottishgymnastics.org/club/dynamic-gymnastics-academy"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.792131,
+      "longitude": -3.964001,
+      "label": "ML1 2TZ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "dynamite-gymnastics-club",
@@ -753,7 +1049,15 @@
         "url": "https://www.scottishgymnastics.org/club/dynamite-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.908149,
+      "longitude": -4.411933,
+      "label": "G81 2QP",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "east-kilbride-gymnastics-club",
@@ -779,7 +1083,15 @@
         "url": "https://www.scottishgymnastics.org/club/east-kilbride-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.750609,
+      "longitude": -4.155947,
+      "label": "G75 0PZ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "eclipse-gymnastics-club-scotland",
@@ -800,7 +1112,15 @@
         "url": "https://www.scottishgymnastics.org/club/eclipse-gymnastics-club-scotland"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 57.177361,
+      "longitude": -2.182521,
+      "label": "AB21 9DG",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "edinburgh-university-trampoline-club",
@@ -817,7 +1137,15 @@
         "url": "https://www.scottishgymnastics.org/club/edinburgh-university-trampoline-club"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.947238,
+      "longitude": -3.181714,
+      "label": "EH8 9TJ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "enigma-gymnastics-club",
@@ -840,7 +1168,15 @@
         "url": "https://www.scottishgymnastics.org/club/enigma-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 56.181549,
+      "longitude": -3.036038,
+      "label": "KY8 1EA",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "erewash-valley-gymnastics-club",
@@ -860,7 +1196,15 @@
         "url": "https://www.evgc.co.uk/contact-us/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 52.894641,
+      "longitude": -1.263693,
+      "label": "NG10 2DL",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "fife-gymnastics-club",
@@ -877,7 +1221,15 @@
         "url": "https://www.scottishgymnastics.org/club/fife-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 56.071914,
+      "longitude": -3.463814,
+      "label": "KY12 7AG",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "flair-gymnastics-club",
@@ -900,7 +1252,15 @@
         "url": "https://www.scottishgymnastics.org/club/flair-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.822944,
+      "longitude": -4.297053,
+      "label": "G43 1QQ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "flyers-trampoline-club",
@@ -917,7 +1277,15 @@
         "url": "https://www.scottishgymnastics.org/club/flyers-tc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 56.183842,
+      "longitude": -3.184788,
+      "label": "KY6 2RD",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "forth-valley-team-gymnastics-ltd",
@@ -940,7 +1308,15 @@
         "url": "https://www.scottishgymnastics.org/club/forth-valley-team-gymnastics-ltd"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 56.013072,
+      "longitude": -3.837273,
+      "label": "FK5 3NS",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "fyrish-gymnastics-club",
@@ -963,7 +1339,15 @@
         "url": "https://www.scottishgymnastics.org/club/fyrish-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 57.689257,
+      "longitude": -4.267199,
+      "label": "IV17 0PH",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "gym-juniors",
@@ -987,7 +1371,15 @@
         "url": "https://www.scottishgymnastics.org/club/gym-juniors"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.935433,
+      "longitude": -3.242745,
+      "label": "EH11 2RN",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "hamilton-gymnastics-club",
@@ -1016,7 +1408,15 @@
         "url": "https://www.scottishgymnastics.org/club/hamilton-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.781889,
+      "longitude": -4.086468,
+      "label": "G72 0UP",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "heathrow-gymnastics-club",
@@ -1033,7 +1433,15 @@
         "url": "https://www.heathrowgymnastics.org.uk/aboutus/contact/message/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 51.46793,
+      "longitude": -0.405723,
+      "label": "TW4 6DH",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "hillfoots-gymnastics-club",
@@ -1050,7 +1458,15 @@
         "url": "https://www.scottishgymnastics.org/club/hillfoots-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 56.150552,
+      "longitude": -3.791427,
+      "label": "FK12 5FE",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "huntingdon-gymnastics-club",
@@ -1067,7 +1483,15 @@
         "url": "https://www.huntingdon-gymnastics.org/message-us"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 52.336599,
+      "longitude": -0.169119,
+      "label": "PE29 1UL",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "ibex-gymnastics-club",
@@ -1088,7 +1512,15 @@
         "url": "https://www.scottishgymnastics.org/club/ibex-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.903832,
+      "longitude": -3.156816,
+      "label": "EH16 6RN",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "innovate-gymnastics-club",
@@ -1110,7 +1542,15 @@
         "url": "https://www.scottishgymnastics.org/club/innovate-gymnastics-club"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 56.236855,
+      "longitude": -4.212617,
+      "label": "FK17 8JP",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "inverness-gymnastics-club",
@@ -1138,7 +1578,15 @@
         "url": "https://www.scottishgymnastics.org/club/inverness-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 57.475876,
+      "longitude": -4.247453,
+      "label": "IV3 5RH",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "inverurie-gymnastics-club",
@@ -1158,7 +1606,15 @@
         "url": "https://www.scottishgymnastics.org/club/inverurie-gymnastics-club"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 57.286848,
+      "longitude": -2.395883,
+      "label": "AB51 4FS",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "isle-of-lewis-gymnastics-club",
@@ -1202,7 +1658,15 @@
         "url": "https://www.scottishgymnastics.org/club/jump-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.945336,
+      "longitude": -4.037042,
+      "label": "G68 9NE",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "kc-gymnastics",
@@ -1219,7 +1683,15 @@
         "url": "https://www.scottishgymnastics.org/club/kc-gymnastics"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.868917,
+      "longitude": -4.125961,
+      "label": "G34 9HQ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "kilmarnock-acro-gymnastics-club",
@@ -1236,7 +1708,15 @@
         "url": "https://www.scottishgymnastics.org/club/kilmarnock-acro-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.598942,
+      "longitude": -4.501558,
+      "label": "KA1 4DN",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "kirkcaldy-gymnastics-club",
@@ -1257,7 +1737,15 @@
         "url": "https://www.scottishgymnastics.org/club/kirkcaldy-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 56.132221,
+      "longitude": -3.166129,
+      "label": "KY1 3LR",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "lx-gymnastics",
@@ -1278,7 +1766,15 @@
         "url": "https://activelivingnolimits.co.uk/find-an-opportunity/?councilArea=&impairment=&sportType=Gymnastics"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 54.5531263,
+      "longitude": -6.0032081,
+      "label": "Dunmurry",
+      "precision": "town",
+      "source": "https://www.openstreetmap.org/node/4061608693",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "largs-gymnastics-club",
@@ -1300,7 +1796,15 @@
         "url": "https://www.scottishgymnastics.org/club/largs-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.803538,
+      "longitude": -4.849937,
+      "label": "KA30 8RW",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "leeds-gymnastics-club",
@@ -1320,7 +1824,15 @@
         "url": "https://leedsgymnastics.com/contact/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 53.827259,
+      "longitude": -1.460379,
+      "label": "LS14 1AB",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "legacy-gymnastics-club",
@@ -1337,7 +1849,15 @@
         "url": "https://www.scottishgymnastics.org/club/legacy-gymnastics-club"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.957161,
+      "longitude": -3.412645,
+      "label": "EH29 9ET",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "linlithgow-school-of-gymnastics",
@@ -1357,7 +1877,15 @@
         "url": "https://www.scottishgymnastics.org/club/linlithgow-school-of-gymnastics"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.971619,
+      "longitude": -3.612585,
+      "label": "EH49 6EH",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "lothian-springers-trampoline-club",
@@ -1377,7 +1905,15 @@
         "url": "https://www.scottishgymnastics.org/club/lothian-springers-tc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.903832,
+      "longitude": -3.156816,
+      "label": "EH16 6RN",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "meadowbank-gymnastics-club",
@@ -1399,7 +1935,15 @@
         "url": "https://www.scottishgymnastics.org/club/meadowbank-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.866856,
+      "longitude": -3.051677,
+      "label": "EH22 4AD",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "milton-keynes-gymnastics",
@@ -1421,7 +1965,15 @@
         "url": "https://miltonkeynesgymnastics.co.uk/contact-us/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 52.035377,
+      "longitude": -0.68817,
+      "label": "MK10 0BA",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "moffat-gymnastics-club",
@@ -1438,7 +1990,15 @@
         "url": "https://www.scottishgymnastics.org/club/moffat-gymnastics-club"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.337306,
+      "longitude": -3.449087,
+      "label": "DG10 9RY",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "newton-mearns-gymnastics-club",
@@ -1464,7 +2024,15 @@
         "url": "https://www.scottishgymnastics.org/club/newton-mearns-gymnastics-club"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.775792,
+      "longitude": -4.328275,
+      "label": "G77 6DT",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "newtown-gymnastics",
@@ -1481,7 +2049,15 @@
         "url": "https://www.scottishgymnastics.org/club/newtown-gymnastics"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.608594,
+      "longitude": -4.632921,
+      "label": "KA11 4HL",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "north-east-gymnastics-centre",
@@ -1508,7 +2084,15 @@
         "url": "https://www.scottishgymnastics.org/club/north-east-gymnastics-centre"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 57.358971,
+      "longitude": -2.053775,
+      "label": "AB41 8LF",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "norwich-gymnastics-club",
@@ -1525,7 +2109,15 @@
         "url": "https://www.norwichgymnasticsclub.co.uk/index.php"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 52.648297,
+      "longitude": 1.336533,
+      "label": "NR7 9TT",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "notts-gymnastics-academy",
@@ -1542,7 +2134,15 @@
         "url": "https://www.nottsgymnasticsacademy.co.uk/contact"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 52.917253,
+      "longitude": -1.123526,
+      "label": "NG2 7BW",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "p-h-d-fundamentals",
@@ -1571,7 +2171,15 @@
         "url": "https://www.scottishgymnastics.org/club/p.h.d.-fundamentals"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.650255,
+      "longitude": -3.183731,
+      "label": "EH45 8GL",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "park-wrekin-gymnastics-club",
@@ -1591,7 +2199,15 @@
         "url": "https://parkwrekingymnastics.com/contact-us/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 52.714534,
+      "longitude": -2.523241,
+      "label": "TF1 3LE",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "pegasus-gymnastics-club",
@@ -1617,7 +2233,15 @@
         "url": "https://www.scottishgymnastics.org/club/pegasus-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 56.431859,
+      "longitude": -2.952548,
+      "label": "DD6 8HY",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "perth-gymnastics-club",
@@ -1634,7 +2258,15 @@
         "url": "https://www.scottishgymnastics.org/club/perth-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 56.378113,
+      "longitude": -3.42793,
+      "label": "PH2 8DF",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "platinum-gymnastics-academy-scotland",
@@ -1651,7 +2283,15 @@
         "url": "https://www.scottishgymnastics.org/club/platinum-gymnastics-academy-scotland"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.927956,
+      "longitude": -4.678935,
+      "label": "PA14 5BS",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "portsmouth-gymnastics-club",
@@ -1672,7 +2312,15 @@
         "url": "https://www.portsmouth.gov.uk/services/leisure/sports-and-activities/sports-and-leisure-centres/portsmouth-gymnastics-centre"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 50.825378,
+      "longitude": -1.08021,
+      "label": "PO2 9AD",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "rathgael-gymnastics-and-tumbling-club",
@@ -1693,7 +2341,15 @@
         "url": "https://activelivingnolimits.co.uk/find-an-opportunity/?councilArea=&impairment=&sportType=Gymnastics"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 54.662595,
+      "longitude": -5.6679127,
+      "label": "Bangor",
+      "precision": "town",
+      "source": "https://www.openstreetmap.org/node/267762683",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "richmond-gymnastics-association",
@@ -1710,7 +2366,15 @@
         "url": "https://richmondgymnastics.co.uk/contact-us/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 51.473838,
+      "longitude": -0.276109,
+      "label": "TW9 4EL",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "saltire-team-gymnastics",
@@ -1739,7 +2403,15 @@
         "url": "https://www.scottishgymnastics.org/club/saltire-team-gymnastics"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.866856,
+      "longitude": -3.051677,
+      "label": "EH22 4AD",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "sapphire-gymnastics-club",
@@ -1762,7 +2434,15 @@
         "url": "https://www.scottishgymnastics.org/club/sapphire-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.891375,
+      "longitude": -4.289309,
+      "label": "G20 9AQ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "shetland-gymnastics-club",
@@ -1784,7 +2464,15 @@
         "url": "https://www.scottishgymnastics.org/club/shetland-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 60.153363,
+      "longitude": -1.159413,
+      "label": "ZE1 0PJ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "shine-trampoline-club",
@@ -1810,7 +2498,15 @@
         "url": "https://www.scottishgymnastics.org/club/shine-trampoline-club"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 57.282133,
+      "longitude": -2.377918,
+      "label": "AB51 3QZ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "south-ayrshire-gymnastics-club",
@@ -1827,7 +2523,15 @@
         "url": "https://www.scottishgymnastics.org/club/south-ayrshire-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.489691,
+      "longitude": -4.530372,
+      "label": "KA6 5BH",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "south-essex-gymnastics-club",
@@ -1844,7 +2548,15 @@
         "url": "https://www.southessexgymnasticsclub.com/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 51.578804,
+      "longitude": 0.448476,
+      "label": "SS14 3GR",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "sparta-trampoline-club",
@@ -1861,7 +2573,15 @@
         "url": "https://www.scottishgymnastics.org/club/sparta-trampoline-club"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.854637,
+      "longitude": -4.349686,
+      "label": "G51 4EB",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "st-andrews-uni-trampoline-club",
@@ -1878,7 +2598,15 @@
         "url": "https://www.scottishgymnastics.org/club/st-andrews-uni-tc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 56.337484,
+      "longitude": -2.811298,
+      "label": "KY16 9DY",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "stenhousemuir-gymnastics-club",
@@ -1899,7 +2627,15 @@
         "url": "https://www.scottishgymnastics.org/club/stenhousemuir-gymnastics-club"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 56.025605,
+      "longitude": -3.79605,
+      "label": "FK2 8DN",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "stonehaven-gymnastics-club",
@@ -1916,7 +2652,15 @@
         "url": "https://www.scottishgymnastics.org/club/stonehaven-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 56.96871,
+      "longitude": -2.205431,
+      "label": "AB39 2RD",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "tiggers-trampoline-club",
@@ -1933,7 +2677,15 @@
         "url": "https://www.scottishgymnastics.org/club/tiggers-tc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 56.431859,
+      "longitude": -2.952548,
+      "label": "DD6 8HY",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "tilt-gymnastics",
@@ -1950,7 +2702,15 @@
         "url": "https://www.tiltgymnastics.org/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 54.596391,
+      "longitude": -5.9301829,
+      "label": "Belfast",
+      "precision": "town",
+      "source": "https://www.openstreetmap.org/relation/19414244",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "tryst-gymnastics-club",
@@ -1967,7 +2727,15 @@
         "url": "https://www.scottishgymnastics.org/club/tryst-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 56.021066,
+      "longitude": -3.809028,
+      "label": "FK5 3BQ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "twisters-gymnastics-derry",
@@ -1986,7 +2754,15 @@
         "url": "https://www.twistersgymnastics.co.uk/"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 54.9978678,
+      "longitude": -7.3213056,
+      "label": "Derry",
+      "precision": "town",
+      "source": "https://www.openstreetmap.org/node/267762522",
+      "checkedAt": "2026-09-14"
+    }
   },
   {
     "slug": "west-dunbartonshire-gymnastics-club",
@@ -2009,6 +2785,14 @@
         "url": "https://www.scottishgymnastics.org/club/west-dunbartonshire-gc"
       }
     ],
-    "checkedAt": "2026-09-14"
+    "checkedAt": "2026-09-14",
+    "mapLocation": {
+      "latitude": 55.946687,
+      "longitude": -4.58563,
+      "label": "G82 4EN",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-14"
+    }
   }
 ]

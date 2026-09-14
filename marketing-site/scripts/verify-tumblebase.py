@@ -32,6 +32,14 @@ for record in records:
     for url in [source['url'] for source in record['sources']] + ([record['website']] if record['website'] else []):
         parsed = urlparse(url)
         assert parsed.scheme in ('https', 'http') and parsed.netloc and not parsed.username, f'Unsafe source URL: {url}'
+    if 'mapLocation' in record:
+        location = record['mapLocation']
+        assert 49 <= location['latitude'] <= 61 and -9 <= location['longitude'] <= 2, 'Map point outside UK bounds'
+        assert location['precision'] in ('postcode', 'town')
+        assert location['label'].strip() and location['source'].startswith('https://')
+        assert date.fromisoformat(location['checkedAt']) <= date.today()
+        if record['nation'] == 'Northern Ireland':
+            assert location['precision'] == 'town' and location['source'].startswith('https://www.openstreetmap.org/'), 'NI postcode data needs a commercial licence'
     paths.add(f"/clubs/{slugify(record['region'])}/{record['slug']}/")
 expected |= {path.strip('/') + '/index.html' for path in paths if path != '/'}
 actual = {str(p.relative_to(root)) for p in root.rglob('*.html')}
