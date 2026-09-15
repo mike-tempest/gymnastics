@@ -23,6 +23,7 @@ const FALLBACK_TIMEZONE = FALLBACK_REGION.defaultTimezone;
 
 export interface GoCardlessWebhookEvent {
   id: string;
+  created_at?: string;
   resource_type: string;
   action: string;
   links: Record<string, string>;

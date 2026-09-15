@@ -46,3 +46,25 @@ export async function startStripeConnect(): Promise<{ url: string }> {
 export async function syncStripeConnection(): Promise<PaymentConnection> {
   return api.post<PaymentConnection>('/admin/settings/payments/stripe/sync');
 }
+
+export function getGoCardlessConnection(): Promise<PaymentConnection> {
+  return api.get('/admin/settings/payments/gocardless/connection');
+}
+export function startGoCardlessConnect(): Promise<{ url: string }> {
+  return api.post('/admin/settings/payments/gocardless/connect');
+}
+export function completeGoCardlessConnect(code: string, state: string): Promise<PaymentConnection> {
+  return api.post('/admin/settings/payments/gocardless/complete', { code, state });
+}
+export function syncGoCardlessConnection(): Promise<PaymentConnection> {
+  return api.post('/admin/settings/payments/gocardless/sync');
+}
+export function disconnectGoCardlessConnection(): Promise<PaymentConnection> {
+  return api.post('/admin/settings/payments/gocardless/disconnect');
+}
+export interface MandateReconciliation {
+  results: { mandate_id: string; provider_mandate_id: string; status: string }[];
+}
+export function reconcileGoCardlessMandates(): Promise<MandateReconciliation> {
+  return api.post('/admin/settings/payments/gocardless/reconcile-mandates');
+}

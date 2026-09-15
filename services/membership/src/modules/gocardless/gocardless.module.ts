@@ -1,3 +1,4 @@
+import { PartnerWebhooksService } from './partner-webhooks.service';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -45,6 +46,7 @@ import { PaymentConnectionsModule } from '../finance/payment-connections/payment
   controllers: [WebhooksController, StripeWebhooksController],
   providers: [
     GoCardlessService,
+    PartnerWebhooksService,
     GoCardlessWebhookVerifier,
     StripeWebhookVerifier,
     WebhooksService,

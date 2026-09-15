@@ -1,3 +1,4 @@
+import { DataSource } from 'typeorm';
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
@@ -18,10 +19,11 @@ import { TenantContextService } from '../../../common/tenancy/tenant-context.ser
 @Global()
 @Module({
   providers: [
+    { provide: DataSource, useValue: { query: jest.fn(), transaction: jest.fn() } },
     { provide: ClubsRepository, useValue: { findOne: jest.fn() } },
     { provide: TenantContextService, useValue: { getClubId: jest.fn() } },
   ],
-  exports: [ClubsRepository, TenantContextService],
+  exports: [ClubsRepository, TenantContextService, DataSource],
 })
 class TestGlobalsModule {}
 

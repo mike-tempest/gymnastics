@@ -7,6 +7,9 @@ import { GoCardlessService } from './gocardless.service';
 // Mock the gocardless-nodejs client module
 jest.mock('gocardless-nodejs/client', () => ({
   GoCardlessClient: jest.fn().mockImplementation(() => ({
+    creditors: {
+      list: jest.fn().mockResolvedValue({ creditors: [{ verification_status: 'successful' }] }),
+    },
     redirectFlows: {
       create: jest.fn(),
       complete: jest.fn(),
@@ -127,7 +130,7 @@ describe('GoCardlessService', () => {
 
       expect(mockClient.redirectFlows.create).toHaveBeenCalledWith(
         expect.objectContaining({
-          description: 'Set up Direct Debit for swim club fees',
+          description: 'Set up Direct Debit for club fees',
         }),
       );
     });
@@ -196,6 +199,22 @@ describe('GoCardlessService', () => {
   });
 
   describe('createPayment', () => {
+    it('does not charge a mandate that is inaccessible to the connected organisation', async () => {
+      mockClient.mandates.find.mockRejectedValueOnce({ code: '404' });
+      await expect(
+        service.createPayment({ amount: 10, currency: 'GBP', mandateId: 'MD_OTHER' }),
+      ).rejects.toThrow(BadRequestException);
+      expect(mockClient.payments.create).not.toHaveBeenCalled();
+    });
+    it('does not charge until creditor verification is successful', async () => {
+      mockClient.creditors.list.mockResolvedValueOnce({
+        creditors: [{ verification_status: 'action_required' }],
+      });
+      await expect(
+        service.createPayment({ amount: 10, currency: 'GBP', mandateId: 'MD1' }),
+      ).rejects.toThrow(BadRequestException);
+      expect(mockClient.payments.create).not.toHaveBeenCalled();
+    });
     it('should convert pounds to pence when creating a payment', async () => {
       const mockResponse = { id: 'PM000001', amount: '2550', currency: 'GBP' };
       mockClient.payments.create.mockResolvedValue(mockResponse);

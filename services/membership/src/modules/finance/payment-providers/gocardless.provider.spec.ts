@@ -1,4 +1,5 @@
-import { NotImplementedException } from '@nestjs/common';
+import { ServiceUnavailableException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { GoCardlessProvider, GoCardlessProviderFactory } from './gocardless.provider';
 import { GoCardlessService } from '../../gocardless/gocardless.service';
 import { ProviderConnection } from './payment-provider.interface';
@@ -192,56 +193,43 @@ describe('GoCardlessProvider', () => {
 });
 
 describe('GoCardlessProviderFactory', () => {
-  let factory: GoCardlessProviderFactory;
-
-  const mockGoCardlessService = {
-    isConfigured: jest.fn(),
+  const config = new ConfigService({
+    PAYMENT_TOKEN_KEY_ID: 'v1',
+    PAYMENT_TOKEN_KEYS: JSON.stringify({ v1: 'ab'.repeat(32) }),
+    GOCARDLESS_ENVIRONMENT: 'sandbox',
+  });
+  const factory = new GoCardlessProviderFactory(config);
+  const connection: ProviderConnection = {
+    clubId: 'club-1',
+    provider: 'gocardless',
+    externalAccountId: 'OR1',
+    livemode: false,
+    source: 'connection',
+    accessToken: 'sandbox_token',
   };
-
-  beforeEach(() => {
-    jest.clearAllMocks();
-    factory = new GoCardlessProviderFactory(mockGoCardlessService as unknown as GoCardlessService);
+  it('creates distinct clients for two clubs', () => {
+    const a = factory.create(connection) as GoCardlessProvider;
+    const b = factory.create({
+      ...connection,
+      clubId: 'club-2',
+      externalAccountId: 'OR2',
+      accessToken: 'another_token',
+    }) as GoCardlessProvider;
+    expect(a.connection.accessToken).toBe('sandbox_token');
+    expect(b.connection.accessToken).toBe('another_token');
+    expect((a as any).goCardlessService).not.toBe((b as any).goCardlessService);
   });
-
-  it('is named gocardless', () => {
-    expect(factory.name).toBe('gocardless');
+  it('rejects legacy, missing credentials and mismatched environments', () => {
+    for (const row of [
+      { ...connection, source: 'env' as const },
+      { ...connection, accessToken: undefined },
+      { ...connection, livemode: true },
+    ]) {
+      expect(() => factory.create(row)).toThrow(ServiceUnavailableException);
+    }
   });
-
-  it('reports platform configuration from GoCardlessService', () => {
-    mockGoCardlessService.isConfigured.mockReturnValue(true);
-
+  it('requires encryption configuration', () => {
     expect(factory.isConfigured()).toBe(true);
-    expect(mockGoCardlessService.isConfigured).toHaveBeenCalledTimes(1);
-  });
-
-  it('builds a provider bound to a legacy env connection', () => {
-    const connection: ProviderConnection = {
-      clubId: 'club-1',
-      provider: 'gocardless',
-      externalAccountId: 'swimly-legacy-env',
-      livemode: false,
-      source: 'env',
-    };
-
-    const provider = factory.create(connection);
-
-    expect(provider).toBeInstanceOf(GoCardlessProvider);
-    expect(provider.connection).toBe(connection);
-  });
-
-  it('refuses a real connected account until Partner OAuth is wired', () => {
-    // The singleton client holds Swimly's own credentials. Building a provider
-    // from it for a club that connected its OWN GoCardless account would bill
-    // through Swimly's account instead of theirs, which is the exact bug this
-    // refactor removes. Fail loudly rather than silently.
-    const connection: ProviderConnection = {
-      clubId: 'club-1',
-      provider: 'gocardless',
-      externalAccountId: 'OR123',
-      livemode: true,
-      source: 'connection',
-    };
-
-    expect(() => factory.create(connection)).toThrow(NotImplementedException);
+    expect(new GoCardlessProviderFactory(new ConfigService()).isConfigured()).toBe(false);
   });
 });

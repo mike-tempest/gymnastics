@@ -115,7 +115,9 @@ export class AuditInterceptor implements NestInterceptor {
         entity_type: entityType,
         entity_id: resolveEntityId(url),
         description: describeRequest(method, url),
-        changes: this.redact(request.body),
+        changes: url.split('?')[0].endsWith('/payments/gocardless/complete')
+          ? { code: REDACTED, state: REDACTED }
+          : this.redact(request.body),
         metadata: {
           method: method.toUpperCase(),
           path: url.split('?')[0],

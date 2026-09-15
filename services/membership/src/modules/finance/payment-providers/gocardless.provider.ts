@@ -1,4 +1,6 @@
-import { Injectable, Logger, NotImplementedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { PaymentTokenCipher } from '../payment-connections/payment-token-cipher';
+import { Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { GoCardlessService } from '../../gocardless/gocardless.service';
 import {
   ChargeRecurringParams,
@@ -90,44 +92,33 @@ export class GoCardlessProvider implements PaymentProvider {
   }
 }
 
-/**
- * Builds club-bound GoCardless providers.
- *
- * GoCardlessService is a process singleton holding ONE client built from
- * Swimly's own environment credentials. That is correct for the legacy env
- * shim (`source: 'env'`), which is precisely a club still transacting on
- * Swimly's shared account.
- *
- * It is NOT correct for a real connected account: GoCardless Partner OAuth
- * issues a bearer token per merchant, so each connected club needs its own
- * client built from its own token. That client-per-token work belongs to the
- * Partner phase, so a `source: 'connection'` GoCardless connection is rejected
- * loudly here rather than being silently billed through Swimly's account,
- * which is the exact bug this whole refactor exists to remove.
- */
+/** Builds a fresh client for the connected club; no process-wide credential fallback. */
 @Injectable()
 export class GoCardlessProviderFactory implements PaymentProviderFactory {
   readonly name: PaymentProviderName = 'gocardless';
-  private readonly logger = new Logger(GoCardlessProviderFactory.name);
-
-  constructor(private readonly goCardlessService: GoCardlessService) {}
-
+  constructor(private readonly config: ConfigService) {}
   isConfigured(): boolean {
-    return this.goCardlessService.isConfigured();
+    return new PaymentTokenCipher(this.config).isConfigured();
   }
-
   create(connection: ProviderConnection): PaymentProvider {
-    if (connection.source === 'connection') {
-      this.logger.error(
-        `Club ${connection.clubId} has a GoCardless connection row (account ` +
-          `${connection.externalAccountId}) but per-merchant GoCardless credentials are not ` +
-          `wired yet. Refusing rather than billing through Swimly's own account.`,
-      );
-      throw new NotImplementedException(
-        'Connecting your own GoCardless account is not available yet. Please contact support.',
+    const environment = this.config.get<string>('GOCARDLESS_ENVIRONMENT', 'sandbox');
+    if (
+      !['sandbox', 'live'].includes(environment) ||
+      connection.source !== 'connection' ||
+      !connection.accessToken ||
+      connection.livemode !==
+        (this.config.get<string>('GOCARDLESS_ENVIRONMENT', 'sandbox') === 'live')
+    ) {
+      throw new ServiceUnavailableException(
+        'GoCardless is not connected in this payment environment.',
       );
     }
-
-    return new GoCardlessProvider(connection, this.goCardlessService);
+    const service = new GoCardlessService(
+      new ConfigService({
+        GOCARDLESS_ACCESS_TOKEN: connection.accessToken,
+        GOCARDLESS_ENVIRONMENT: connection.livemode ? 'live' : 'sandbox',
+      }),
+    );
+    return new GoCardlessProvider(connection, service);
   }
 }

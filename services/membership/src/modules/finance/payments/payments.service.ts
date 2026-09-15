@@ -212,6 +212,11 @@ export class PaymentsService {
 
       // Charge the recurring payment via the club's payment provider.
       const provider = await this.paymentProviders.forClub(clubId);
+      if (activeMandate.provider !== provider.connection.provider) {
+        throw new BadRequestException(
+          'The active mandate belongs to a different payment provider.',
+        );
+      }
       const providerPayment = await provider.chargeRecurring({
         amount: amountToCollect,
         currency,

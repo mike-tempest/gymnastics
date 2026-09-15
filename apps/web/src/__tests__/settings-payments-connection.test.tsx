@@ -1,3 +1,6 @@
+jest.mock('@/components/settings/GoCardlessConnectionCard', () => ({
+  GoCardlessConnectionCard: () => null,
+}));
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -153,9 +156,6 @@ describe('SettingsPage payments connection card', () => {
 
     const connectButton = await screen.findByRole('button', { name: 'Connect with Stripe' });
     expect(screen.getByText(/payments from parents go directly to\s+the club/)).toBeInTheDocument();
-    expect(
-      screen.getByText('Direct Debit via your own GoCardless account is coming soon.')
-    ).toBeInTheDocument();
 
     await user.click(connectButton);
 

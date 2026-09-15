@@ -44,6 +44,7 @@ describe('PaymentsService', () => {
   };
 
   const mockMandate = {
+    provider: 'gocardless',
     mandate_id: '667e8901-e89b-12d3-a456-426614174004',
     family_id: mockInvoice.family_id,
     provider_mandate_id: 'MD001ABC',

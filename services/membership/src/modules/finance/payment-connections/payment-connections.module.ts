@@ -1,3 +1,5 @@
+import { GoCardlessConnectController } from './gocardless-connect.controller';
+import { GoCardlessConnectService } from './gocardless-connect.service';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -21,8 +23,8 @@ import { PaymentConnectionsController } from './payment-connections.controller';
  */
 @Module({
   imports: [ConfigModule, TypeOrmModule.forFeature([ClubPaymentConnection])],
-  controllers: [PaymentConnectionsController],
-  providers: [PaymentConnectionsService, StripeConnectService],
-  exports: [PaymentConnectionsService, StripeConnectService],
+  controllers: [PaymentConnectionsController, GoCardlessConnectController],
+  providers: [PaymentConnectionsService, StripeConnectService, GoCardlessConnectService],
+  exports: [PaymentConnectionsService, StripeConnectService, GoCardlessConnectService],
 })
 export class PaymentConnectionsModule {}

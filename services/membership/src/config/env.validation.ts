@@ -126,13 +126,21 @@ class EnvironmentVariables {
   @IsOptional()
   GOCARDLESS_WEBHOOK_SECRET?: string;
 
-  // Opt-in gate for the legacy GoCardless environment-credentials shim.
-  // Exists ONLY for local demo environments that seed GoCardless mandates
-  // directly; must never be set in production. Anything other than the exact
-  // string 'true' leaves the shim off.
   @IsString()
   @IsOptional()
-  LEGACY_GOCARDLESS_ENV_FALLBACK?: string;
+  GOCARDLESS_CLIENT_ID?: string;
+
+  @IsString()
+  @IsOptional()
+  GOCARDLESS_CLIENT_SECRET?: string;
+
+  @IsString()
+  @IsOptional()
+  PAYMENT_TOKEN_KEY_ID?: string;
+
+  @IsString()
+  @IsOptional()
+  PAYMENT_TOKEN_KEYS?: string;
 
   // Swimming times/strokes competitions module gate (TEM-15). The module is
   // feature-flagged off by default and stays in the tree for a possible
