@@ -1,0 +1,224 @@
+{
+  "excludedVenues": [
+    {
+      "club": "AC Elite Gymnastics Club",
+      "sourceClubId": "91396",
+      "reason": "Postcode not resolved",
+      "postcode": "RH41SW"
+    },
+    {
+      "club": "Active Gym",
+      "sourceClubId": "92714",
+      "reason": "Postcode not resolved",
+      "postcode": "WS99PQ"
+    },
+    {
+      "club": "Airies Gymnastics Club",
+      "sourceClubId": "90313",
+      "reason": "Postcode not resolved",
+      "postcode": "WD5OGU"
+    },
+    {
+      "club": "Ambitions Gymnastics",
+      "sourceClubId": "91074",
+      "reason": "Postcode not resolved",
+      "postcode": "BD237DT"
+    },
+    {
+      "club": "Anima Gymnastics Club",
+      "sourceClubId": "91135",
+      "reason": "Postcode not resolved",
+      "postcode": "EN54DL"
+    },
+    {
+      "club": "ASG Community Gymnastics Club",
+      "sourceClubId": "89993",
+      "reason": "Postcode not resolved",
+      "postcode": "DA15"
+    },
+    {
+      "club": "Bucks Trampoline and Tumbling Academy (BTTA)",
+      "sourceClubId": "CL094262",
+      "reason": "Postcode not resolved",
+      "postcode": "HP227HF"
+    },
+    {
+      "club": "Cacl Gym Club Eastbourne",
+      "sourceClubId": "40741",
+      "reason": "Postcode not resolved",
+      "postcode": "BN207SR"
+    },
+    {
+      "club": "Cambridge University Gymnastics Club",
+      "sourceClubId": "69860",
+      "reason": "Postcode not resolved",
+      "postcode": "SG20AN"
+    },
+    {
+      "club": "CGA Gymnastics Satellites",
+      "sourceClubId": "91258",
+      "reason": "Postcode not resolved",
+      "postcode": "CB49LX"
+    },
+    {
+      "club": "De Mond Gymnastics Academy",
+      "sourceClubId": "74170",
+      "reason": "Outside UK",
+      "postcode": "JE33BN"
+    },
+    {
+      "club": "Drumchapel GC",
+      "sourceClubId": "70440",
+      "reason": "Postcode not resolved",
+      "postcode": "G158PN"
+    },
+    {
+      "club": "Eclipse Gymnastics Centre",
+      "sourceClubId": "40302",
+      "reason": "Postcode not resolved",
+      "postcode": "DN313JX"
+    },
+    {
+      "club": "Ellan Vannin Gymnastics Club",
+      "sourceClubId": "40240",
+      "reason": "Outside UK",
+      "postcode": "IM21AD"
+    },
+    {
+      "club": "Flexx Gymnastics Club Reading",
+      "sourceClubId": "92384",
+      "reason": "Postcode not resolved",
+      "postcode": "RG67NJ"
+    },
+    {
+      "club": "Gibraltar Gymnastics Club",
+      "sourceClubId": "41870",
+      "reason": "Outside UK",
+      "postcode": "GX111AA"
+    },
+    {
+      "club": "Guernsey Specials Gym Club LBG",
+      "sourceClubId": "41176",
+      "reason": "Outside UK",
+      "postcode": ""
+    },
+    {
+      "club": "Guernsey Tumbling Centre",
+      "sourceClubId": "91360",
+      "reason": "Outside UK",
+      "postcode": "GY68EQ"
+    },
+    {
+      "club": "Hi-tension Trampoline Club",
+      "sourceClubId": "41428",
+      "reason": "Postcode not resolved",
+      "postcode": "CO141YH"
+    },
+    {
+      "club": "Jersey Gymnastics Club",
+      "sourceClubId": "40685",
+      "reason": "Outside UK",
+      "postcode": "JE27TH"
+    },
+    {
+      "club": "Manx Gym Centre Of Excellence",
+      "sourceClubId": "40270",
+      "reason": "Outside UK",
+      "postcode": "IM26BN"
+    },
+    {
+      "club": "Marriotts Gymnastics Club",
+      "sourceClubId": "40477",
+      "reason": "Postcode not resolved",
+      "postcode": "SG20AN"
+    },
+    {
+      "club": "Max Force",
+      "sourceClubId": "42028",
+      "reason": "Postcode not resolved",
+      "postcode": "RH41SW"
+    },
+    {
+      "club": "Mulbarton Gymnastic Club",
+      "sourceClubId": "41225",
+      "reason": "Postcode not resolved",
+      "postcode": "NR14"
+    },
+    {
+      "club": "Night Flyers Trampoline Club",
+      "sourceClubId": "41528",
+      "reason": "Postcode not resolved",
+      "postcode": "NG105AE"
+    },
+    {
+      "club": "North Birmingham Community Gymnastics",
+      "sourceClubId": "40377",
+      "reason": "Postcode not resolved",
+      "postcode": "B757FS"
+    },
+    {
+      "club": "North Oxford Gymnastics ",
+      "sourceClubId": "91494",
+      "reason": "Postcode not resolved",
+      "postcode": "OX284DP"
+    },
+    {
+      "club": "Perfect 10",
+      "sourceClubId": "91172",
+      "reason": "Postcode not resolved",
+      "postcode": "IG117LX"
+    },
+    {
+      "club": "Redcar Gymnastics and Sports Club",
+      "sourceClubId": "40211",
+      "reason": "Postcode not resolved",
+      "postcode": "TS105QD"
+    },
+    {
+      "club": "Sarnia Trampoline Club",
+      "sourceClubId": "41761",
+      "reason": "Outside UK",
+      "postcode": "GY57DS"
+    },
+    {
+      "club": "Sarnia Trampoline Club",
+      "sourceClubId": "41761",
+      "reason": "Outside UK",
+      "postcode": "GY24DA"
+    },
+    {
+      "club": "Sarnia Trampoline Club",
+      "sourceClubId": "41761",
+      "reason": "Outside UK",
+      "postcode": "GY12DL"
+    },
+    {
+      "club": "Seaford Gymnastics Academy",
+      "sourceClubId": "72800",
+      "reason": "Postcode not resolved",
+      "postcode": "BN99JL"
+    },
+    {
+      "club": "Shepton Mallet Gym Club",
+      "sourceClubId": "42100",
+      "reason": "Postcode not resolved",
+      "postcode": "BA45LU"
+    },
+    {
+      "club": "Sittingbourne Swifts",
+      "sourceClubId": "40952",
+      "reason": "Postcode not resolved",
+      "postcode": "ME104NT"
+    },
+    {
+      "club": "Stevenage Sports Acro Club",
+      "sourceClubId": "40525",
+      "reason": "Postcode not resolved",
+      "postcode": "SG20AN"
+    }
+  ],
+  "checkedAt": "2026-09-15",
+  "source": "https://www.british-gymnastics.org/discover/club",
+  "sourceVenueCount": 1507,
+  "sourceClubCount": 1129
+}
