@@ -40,12 +40,8 @@ export const WEBHOOK_VERIFIERS = Symbol('WEBHOOK_VERIFIERS');
  * `connection` is the normal case: a row in club_payment_connections, created
  * when the club connected its own provider account.
  *
- * `env` is a deliberate, temporary shim that synthesises a connection from
- * Swimly's own environment-configured GoCardless credentials. It is OFF by
- * default and only produced when LEGACY_GOCARDLESS_ENV_FALLBACK='true', which
- * exists solely for local demo environments that seed GoCardless mandates
- * directly; Stripe Connect is the payment setup path for every club. The shim
- * is removed entirely when GoCardless Partner OAuth lands.
+ * `env` remains representable for compatibility, but factories reject it.
+ * All payment operations require a persisted club connection.
  */
 export type ProviderConnectionSource = 'connection' | 'env';
 
@@ -71,8 +67,7 @@ export interface ProviderConnection {
   /**
    * Bearer token for providers whose API is authenticated per merchant
    * (GoCardless Partner OAuth). Stripe Connect does not use this: the platform
-   * key plus the connected account id is the whole story, which is why nothing
-   * populates this yet.
+   * key plus the connected account id is sufficient.
    */
   accessToken?: string;
 }

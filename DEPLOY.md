@@ -58,7 +58,7 @@ Set web variables:
 
 Changing `NEXT_PUBLIC_API_URL` requires rebuilding the web image because Next.js includes it in the browser bundle. Mike has registered `tumblebase.com` (TEM-5). Use the Railway service domains for initial verification; configure `app.tumblebase.com` for the web app and `api.tumblebase.com` for the API once DNS access is available. Reserve the apex domain for marketing. Do not switch origins until DNS and certificates are ready.
 
-Mike owns creation of the separate GoCardless sandbox organisation and Stripe account. Connect GoCardless through the club's own organisation and configure its webhook secret using the existing provider setup. Never enable `LEGACY_GOCARDLESS_ENV_FALLBACK` in production. Configure Stripe test credentials and webhooks only for the separate account. A healthy API response with `gocardless.notConfigured=true` is not evidence that Direct Debit works.
+Mike owns creation of the separate GoCardless sandbox organisation and Stripe account. Follow [GoCardless Partner setup](docs/TEM-55-GoCardless-Partner-Setup.md) to configure the Partner app, callback, encryption keys and signed webhooks, then connect each club's own organisation. Environment-token fallback is not supported. Configure Stripe test credentials and webhooks only for the separate account. A healthy API response with `gocardless.notConfigured=true` is not evidence that Direct Debit works.
 
 ## Transactional email
 

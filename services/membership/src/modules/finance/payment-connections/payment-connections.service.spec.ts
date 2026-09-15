@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { LEGACY_ENV_ACCOUNT_REF, PaymentConnectionsService } from './payment-connections.service';
+import { PaymentConnectionsService } from './payment-connections.service';
 import {
   ClubPaymentConnection,
   PaymentConnectionStatus,
@@ -125,35 +125,13 @@ describe('PaymentConnectionsService', () => {
         );
       });
 
-      it('falls back to Swimly env credentials when the flag is explicitly on', async () => {
-        // Local demo environments seed GoCardless mandates directly and opt in
-        // with LEGACY_GOCARDLESS_ENV_FALLBACK='true'.
+      it('never falls back even when the obsolete environment flag is enabled', async () => {
         repo.findOne.mockResolvedValue(null);
         configValues.LEGACY_GOCARDLESS_ENV_FALLBACK = 'true';
         configValues.GOCARDLESS_ACCESS_TOKEN = 'sandbox_abc';
-        configValues.GOCARDLESS_ENVIRONMENT = 'sandbox';
-
-        const connection = await service.requireActiveConnection(CLUB_ID);
-
-        expect(connection).toEqual({
-          clubId: CLUB_ID,
-          provider: 'gocardless',
-          externalAccountId: LEGACY_ENV_ACCOUNT_REF,
-          livemode: false,
-          source: 'env',
-          accessToken: 'sandbox_abc',
-        });
-      });
-
-      it('marks the shim livemode only when GoCardless is pointed at live', async () => {
-        repo.findOne.mockResolvedValue(null);
-        configValues.LEGACY_GOCARDLESS_ENV_FALLBACK = 'true';
-        configValues.GOCARDLESS_ACCESS_TOKEN = 'live_abc';
-        configValues.GOCARDLESS_ENVIRONMENT = 'live';
-
-        const connection = await service.requireActiveConnection(CLUB_ID);
-
-        expect(connection.livemode).toBe(true);
+        await expect(service.requireActiveConnection(CLUB_ID)).rejects.toThrow(
+          ProviderNotConnectedException,
+        );
       });
 
       it('prefers a real connection over the env shim', async () => {
@@ -187,14 +165,12 @@ describe('PaymentConnectionsService', () => {
       await expect(service.providerForClub(CLUB_ID)).resolves.toBe('stripe');
     });
 
-    it('reports gocardless when the legacy env shim is explicitly enabled', async () => {
+    it('reports no provider when only legacy environment credentials exist', async () => {
       repo.findOne.mockResolvedValue(null);
       configValues.LEGACY_GOCARDLESS_ENV_FALLBACK = 'true';
-      configValues.GOCARDLESS_ACCESS_TOKEN = 'sandbox_abc';
-
-      await expect(service.providerForClub(CLUB_ID)).resolves.toBe('gocardless');
+      configValues.GOCARDLESS_ACCESS_TOKEN = 'token';
+      await expect(service.providerForClub(CLUB_ID)).resolves.toBeNull();
     });
-
     it('reports null when the env token is set but the fallback flag is not', async () => {
       // The /clubs/me display field must agree with requireActiveConnection:
       // if the club cannot actually collect, parents must not see Direct

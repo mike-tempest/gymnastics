@@ -1,3 +1,5 @@
+import { PartnerWebhooksService } from './partner-webhooks.service';
+import { ServiceUnavailableException } from '@nestjs/common';
 import {
   Controller,
   Post,
@@ -24,6 +26,7 @@ export class WebhooksController {
     private readonly verifier: GoCardlessWebhookVerifier,
     private readonly webhooksService: WebhooksService,
     private readonly connections: PaymentConnectionsService,
+    private readonly partner: PartnerWebhooksService,
   ) {}
 
   @Public()
@@ -32,7 +35,7 @@ export class WebhooksController {
   async handleWebhook(
     @Req() request: RawBodyRequest<Request>,
     @Headers('webhook-signature') signature: string,
-    @Body() body: { events?: GoCardlessWebhookEvent[] },
+    @Body() _body: { events?: GoCardlessWebhookEvent[] },
   ) {
     this.logger.log('Received GoCardless webhook');
 
@@ -40,7 +43,8 @@ export class WebhooksController {
     // signing secret, so it injects the verifier directly rather than resolving
     // a club-bound provider through the registry. Nothing below may read the
     // payload until this passes: the signature is what makes it trustworthy.
-    const rawBody = request.rawBody?.toString() || JSON.stringify(body);
+    if (!request.rawBody) throw new BadRequestException('Raw webhook body is required.');
+    const rawBody = request.rawBody.toString();
 
     if (!this.verifier.verify(rawBody, signature)) {
       this.logger.error('Invalid webhook signature');
@@ -49,40 +53,34 @@ export class WebhooksController {
 
     const events = this.verifier.parse(rawBody);
 
+    let failed = false;
     for (const event of events) {
       try {
         const routed = await this.resolveRoutedClub(event);
         if (!routed.known) {
           continue;
         }
-        await this.webhooksService.handleEvent(event, routed.clubId);
+        await this.partner.handle(event, routed.clubId!);
       } catch (error) {
-        this.logger.error(`Failed to process event ${event.id}`, error);
+        this.logger.error(`Failed to process event ${event.id}`);
+        failed = true;
         // Continue processing other events even if one fails
       }
     }
 
+    if (failed)
+      throw new ServiceUnavailableException('Some events could not be processed. Retry the batch.');
     return { received: true };
   }
 
-  /**
-   * Work out which club an event belongs to, from the connected account that
-   * sent it.
-   *
-   * Three outcomes:
-   * - a known connected account, so the club is named;
-   * - no account named at all, which is every event from Swimly's own legacy
-   *   account: it serves all clubs, so no club can be inferred and the handler
-   *   falls back to the record's own club (clubId null);
-   * - an account we do not recognise, which is skipped.
-   */
+  /** Route only events naming a known club organisation. */
   private async resolveRoutedClub(
     event: GoCardlessWebhookEvent,
   ): Promise<{ known: true; clubId: string | null } | { known: false }> {
     const accountRef = this.verifier.accountRefOf(event);
 
     if (!accountRef) {
-      return { known: true, clubId: null };
+      return { known: false };
     }
 
     const connection = await this.connections.findByExternalAccountId('gocardless', accountRef);

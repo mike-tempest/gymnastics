@@ -7,12 +7,12 @@ import { Session } from '../sessions/entities/session.entity';
 import { Invoice, InvoiceStatus } from '../finance/invoices/entities/invoice.entity';
 import { Attendance } from '../attendance/entities/attendance.entity';
 import { Family } from '../families/entities/family.entity';
-import { Payment, PaymentMethod, PaymentStatus } from '../finance/payments/entities/payment.entity';
+import { Payment } from '../finance/payments/entities/payment.entity';
 import {
   DirectDebitMandate,
   DirectDebitMandateStatus,
 } from '../finance/mandates/entities/direct-debit-mandate.entity';
-import { GoCardlessService } from '../gocardless/gocardless.service';
+import { PaymentsService } from '../finance/payments/payments.service';
 import { ClubsRepository } from '../clubs/clubs.repository';
 import { CompetitionResult } from '../competitions/entities/competition-result.entity';
 import { PersonalBestsService } from '../competitions/personal-bests.service';
@@ -80,7 +80,7 @@ export class ParentService {
     private paymentRepository: Repository<Payment>,
     @InjectRepository(DirectDebitMandate)
     private mandateRepository: Repository<DirectDebitMandate>,
-    private goCardlessService: GoCardlessService,
+    private paymentsService: PaymentsService,
     private readonly clubsRepository: ClubsRepository,
     private readonly scoped: TenantScopedHelper,
     private readonly tenantContext: TenantContextService,
@@ -526,67 +526,23 @@ export class ParentService {
       };
     }
 
-    if (!this.goCardlessService.isConfigured()) {
-      return {
-        paymentId: null,
-        status: 'not_configured',
-        redirectUrl: null,
-        message: 'Payment provider not configured. Please contact the club administrator.',
-      };
-    }
-
-    // Charge in the currency the invoice was issued in, falling back to the
-    // owning club's billing currency, then GBP, so a legacy invoice without a
-    // stamped currency behaves exactly as before. An AU club's invoices are
-    // stamped AUD at creation and are therefore collected in AUD.
-    let currency = invoice.currency;
-    if (!currency) {
-      const club = await this.clubsRepository.findOne(this.tenantContext.getClubId());
-      currency = club?.currency ?? 'GBP';
-    }
-
     try {
-      // This calls GoCardlessService directly because the parent pay endpoint
-      // predates the PaymentProviderRegistry; the admin collect-invoice flow
-      // (PaymentsService.collectDirectDebitPayment) routes through the
-      // registry. Rerouting this path is deferred as it changes the response
-      // contract (no_mandate / not_configured statuses) this endpoint exposes.
-      const gcPayment = await this.goCardlessService.createPayment({
-        amount: Number(invoice.total_amount),
-        currency,
-        mandateId: mandate.provider_mandate_id,
-        description: `Invoice ${invoice.invoice_id}`,
-        metadata: { invoice_id: invoice.invoice_id, family_id: familyId },
-      });
-
-      // Stamp club_id from the active tenant onto the new payment row.
-      const payment = this.paymentRepository.create(
-        this.scoped.stampCreate<Payment>({
-          invoice_id: invoice.invoice_id,
-          amount: Number(invoice.total_amount),
-          currency,
-          payment_date: new Date(),
-          payment_method: PaymentMethod.DIRECT_DEBIT,
-          status: PaymentStatus.PENDING_SUBMISSION,
-          provider_payment_id: gcPayment.id,
-        }),
-      );
-
-      const saved = await this.paymentRepository.save(payment);
-
+      // Reuse the invoice collection path, including outstanding balance and idempotency.
+      const payment = await this.paymentsService.collectDirectDebitPayment(invoiceId);
       return {
-        paymentId: saved.payment_id,
-        status: 'initiated',
+        paymentId: payment?.payment_id ?? null,
+        status: payment ? 'initiated' : 'not_collected',
         redirectUrl: null,
-        message: 'Payment initiated via Direct Debit',
+        message: payment
+          ? 'Payment initiated'
+          : 'No payment was collected. Check the invoice and payment setup.',
       };
-    } catch (error) {
-      this.logger.error(`GoCardless payment failed for invoice ${invoiceId}`, error);
+    } catch {
       return {
         paymentId: null,
         status: 'failed',
         redirectUrl: null,
-        message: 'Payment initiation failed. Please try again later.',
+        message: 'Payment initiation failed. Please contact the club administrator.',
       };
     }
   }

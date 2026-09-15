@@ -10,7 +10,7 @@ import { Attendance } from '../attendance/entities/attendance.entity';
 import { Family } from '../families/entities/family.entity';
 import { Payment } from '../finance/payments/entities/payment.entity';
 import { DirectDebitMandate } from '../finance/mandates/entities/direct-debit-mandate.entity';
-import { GoCardlessModule } from '../gocardless/gocardless.module';
+import { PaymentsModule } from '../finance/payments/payments.module';
 import { MandatesModule } from '../finance/mandates/mandates.module';
 import { InvoicePdfService } from '../finance/invoices/invoice-pdf.service';
 import { CompetitionsModule } from '../competitions/competitions.module';
@@ -32,7 +32,7 @@ import { competitionsEnabled } from '../../common/features/competitions.feature'
       // matching providers in ParentService are @Optional() for the off case.
       ...(competitionsEnabled() ? [CompetitionResult] : []),
     ]),
-    GoCardlessModule,
+    PaymentsModule,
     // Parent-scoped Direct Debit setup delegates to MandatesService; the
     // SUPER_ADMIN routes on its own controller are untouched (TEM-22).
     MandatesModule,

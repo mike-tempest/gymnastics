@@ -14,7 +14,7 @@ import {
   DirectDebitMandate,
   DirectDebitMandateStatus,
 } from '../finance/mandates/entities/direct-debit-mandate.entity';
-import { GoCardlessService } from '../gocardless/gocardless.service';
+import { PaymentsService } from '../finance/payments/payments.service';
 import { ClubsRepository } from '../clubs/clubs.repository';
 import { CompetitionResult } from '../competitions/entities/competition-result.entity';
 import { PersonalBestsService } from '../competitions/personal-bests.service';
@@ -137,7 +137,8 @@ describe('ParentService', () => {
     getMemberProgress: jest.fn(),
   };
 
-  const mockGoCardlessService = {
+  const mockPaymentsService = {
+    collectDirectDebitPayment: jest.fn(),
     isConfigured: jest.fn(),
     createPayment: jest.fn(),
   };
@@ -167,7 +168,7 @@ describe('ParentService', () => {
         { provide: getRepositoryToken(DirectDebitMandate), useValue: mockMandateRepository },
         { provide: getRepositoryToken(CompetitionResult), useValue: mockResultsRepository },
         { provide: PersonalBestsService, useValue: mockPersonalBestsService },
-        { provide: GoCardlessService, useValue: mockGoCardlessService },
+        { provide: PaymentsService, useValue: mockPaymentsService },
         { provide: ClubsRepository, useValue: mockClubsRepository },
         { provide: AwardsService, useValue: mockAwardsService },
       ],
@@ -677,7 +678,7 @@ describe('ParentService', () => {
           { provide: getRepositoryToken(Attendance), useValue: mockAttendanceRepository },
           { provide: getRepositoryToken(Payment), useValue: mockPaymentRepository },
           { provide: getRepositoryToken(DirectDebitMandate), useValue: mockMandateRepository },
-          { provide: GoCardlessService, useValue: mockGoCardlessService },
+          { provide: PaymentsService, useValue: mockPaymentsService },
           { provide: ClubsRepository, useValue: mockClubsRepository },
           // Awards is not feature-flagged, so it is present in both cases.
           { provide: AwardsService, useValue: mockAwardsService },
@@ -817,103 +818,26 @@ describe('ParentService', () => {
       expect(result.paymentId).toBeNull();
     });
 
-    it('should return not_configured status when GoCardless is not configured', async () => {
+    it('uses the shared club-scoped invoice collection path', async () => {
       mockInvoicesRepository.findOne.mockResolvedValue(mockInvoice);
       mockMandateRepository.findOne.mockResolvedValue(mockMandate);
-      mockGoCardlessService.isConfigured.mockReturnValue(false);
-
+      mockPaymentsService.collectDirectDebitPayment.mockResolvedValue({ payment_id: 'pay-1' });
       const result = await service.initiatePayment(familyId, invoiceId);
-
-      expect(result.status).toBe('not_configured');
-      expect(result.paymentId).toBeNull();
-    });
-
-    it('should create a payment successfully via GoCardless', async () => {
-      mockInvoicesRepository.findOne.mockResolvedValue(mockInvoice);
-      mockMandateRepository.findOne.mockResolvedValue(mockMandate);
-      mockGoCardlessService.isConfigured.mockReturnValue(true);
-      mockGoCardlessService.createPayment.mockResolvedValue({ id: 'gc-pay-1' });
-
-      const savedPayment = { payment_id: 'pay-new', invoice_id: invoiceId };
-      mockPaymentRepository.create.mockReturnValue(savedPayment);
-      mockPaymentRepository.save.mockResolvedValue(savedPayment);
-
-      const result = await service.initiatePayment(familyId, invoiceId);
-
       expect(result.status).toBe('initiated');
-      expect(result.paymentId).toBe('pay-new');
-      expect(mockGoCardlessService.createPayment).toHaveBeenCalledWith(
-        expect.objectContaining({
-          amount: 50,
-          currency: 'GBP',
-          mandateId: 'gc-mandate-1',
-        }),
-      );
+      expect(mockPaymentsService.collectDirectDebitPayment).toHaveBeenCalledWith(invoiceId);
+      expect(mockPaymentRepository.save).not.toHaveBeenCalled();
     });
-
-    it('should charge an AU invoice in its stamped AUD currency', async () => {
-      // The invoice's own currency wins: an Australian club's invoices are
-      // stamped AUD at creation and must never be collected as GBP.
-      mockInvoicesRepository.findOne.mockResolvedValue({
-        ...mockInvoice,
-        total_amount: '55.00',
-        currency: 'AUD',
-      });
-      mockMandateRepository.findOne.mockResolvedValue(mockMandate);
-      mockGoCardlessService.isConfigured.mockReturnValue(true);
-      mockGoCardlessService.createPayment.mockResolvedValue({ id: 'gc-pay-2' });
-
-      const savedPayment = { payment_id: 'pay-aud', invoice_id: invoiceId };
-      mockPaymentRepository.create.mockReturnValue(savedPayment);
-      mockPaymentRepository.save.mockResolvedValue(savedPayment);
-
-      const result = await service.initiatePayment(familyId, invoiceId);
-
-      expect(result.status).toBe('initiated');
-      expect(mockGoCardlessService.createPayment).toHaveBeenCalledWith(
-        expect.objectContaining({
-          amount: 55,
-          currency: 'AUD',
-          mandateId: 'gc-mandate-1',
-        }),
-      );
-      // The payment row records the same currency it was collected in.
-      expect(mockPaymentRepository.create).toHaveBeenCalledWith(
-        expect.objectContaining({ currency: 'AUD' }),
-      );
-      // The invoice carried a currency, so the club fallback is never needed.
-      expect(mockClubsRepository.findOne).not.toHaveBeenCalled();
-    });
-
-    it('should fall back to the club currency when the invoice has none stamped', async () => {
+    it('reports when no amount can be collected', async () => {
       mockInvoicesRepository.findOne.mockResolvedValue(mockInvoice);
       mockMandateRepository.findOne.mockResolvedValue(mockMandate);
-      mockGoCardlessService.isConfigured.mockReturnValue(true);
-      mockGoCardlessService.createPayment.mockResolvedValue({ id: 'gc-pay-3' });
-      mockClubsRepository.findOne.mockResolvedValueOnce({ id: clubId, currency: 'AUD' });
-
-      const savedPayment = { payment_id: 'pay-fallback', invoice_id: invoiceId };
-      mockPaymentRepository.create.mockReturnValue(savedPayment);
-      mockPaymentRepository.save.mockResolvedValue(savedPayment);
-
-      await service.initiatePayment(familyId, invoiceId);
-
-      expect(mockClubsRepository.findOne).toHaveBeenCalledWith(clubId);
-      expect(mockGoCardlessService.createPayment).toHaveBeenCalledWith(
-        expect.objectContaining({ currency: 'AUD' }),
-      );
+      mockPaymentsService.collectDirectDebitPayment.mockResolvedValue(null);
+      expect((await service.initiatePayment(familyId, invoiceId)).status).toBe('not_collected');
     });
-
-    it('should return failed status when GoCardless throws an error', async () => {
+    it('reports collection failure without exposing provider errors', async () => {
       mockInvoicesRepository.findOne.mockResolvedValue(mockInvoice);
       mockMandateRepository.findOne.mockResolvedValue(mockMandate);
-      mockGoCardlessService.isConfigured.mockReturnValue(true);
-      mockGoCardlessService.createPayment.mockRejectedValue(new Error('API error'));
-
-      const result = await service.initiatePayment(familyId, invoiceId);
-
-      expect(result.status).toBe('failed');
-      expect(result.paymentId).toBeNull();
+      mockPaymentsService.collectDirectDebitPayment.mockRejectedValue(new Error('secret'));
+      expect((await service.initiatePayment(familyId, invoiceId)).status).toBe('failed');
     });
   });
 });

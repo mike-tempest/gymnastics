@@ -1,3 +1,4 @@
+import { PaymentTokenCipher, paymentTokenContext } from './payment-token-cipher';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,13 +12,6 @@ import {
   PaymentProviderName,
   ProviderConnection,
 } from '../payment-providers/payment-provider.interface';
-
-/**
- * Synthetic account reference for the legacy environment-credentials shim.
- * Never matches a real Stripe `acct_…` or GoCardless organisation id, so it can
- * never collide with a genuine connected account.
- */
-export const LEGACY_ENV_ACCOUNT_REF = 'swimly-legacy-env';
 
 /**
  * Resolves which provider account a club transacts on.
@@ -56,11 +50,6 @@ export class PaymentConnectionsService {
       return this.toProviderConnection(active);
     }
 
-    const legacy = this.legacyEnvConnection(clubId);
-    if (legacy) {
-      return legacy;
-    }
-
     // Report WHY there is no active connection: "finish your onboarding" and
     // "you never started" need different actions from the club.
     const any = await this.connectionsRepository.findOne({ where: { club_id: clubId } });
@@ -83,11 +72,10 @@ export class PaymentConnectionsService {
   /**
    * The provider a club would transact on right now, or null when it has none.
    *
-   * Mirrors requireActiveConnection's resolution order (active row first, then
-   * the flag-gated legacy GoCardless environment shim) without throwing and
-   * without the shim's warn-log, because this feeds a read-only display field
-   * on every /clubs/me call rather than a money movement. With the flag unset
-   * (the default) an unconnected club reports null, so the parent portal shows
+   * Reports only a real active connection without decrypting its credentials.
+   * This feeds a read-only display field
+   * on every /clubs/me call rather than a money movement.
+   * An unconnected club reports null, so the parent portal shows
    * "payments not set up yet" rather than Direct Debit copy for a flow that
    * cannot collect.
    */
@@ -98,13 +86,6 @@ export class PaymentConnectionsService {
     });
     if (active) {
       return active.provider as PaymentProviderName;
-    }
-
-    if (
-      this.legacyEnvFallbackEnabled() &&
-      this.configService.get<string>('GOCARDLESS_ACCESS_TOKEN')
-    ) {
-      return 'gocardless';
     }
 
     return null;
@@ -140,65 +121,14 @@ export class PaymentConnectionsService {
       externalAccountId: row.external_account_id,
       livemode: row.livemode,
       source: 'connection',
-      // Decryption belongs to the GoCardless Partner phase; nothing writes an
-      // encrypted token yet, so nothing reads one.
-      accessToken: undefined,
-    };
-  }
-
-  /**
-   * Whether the legacy environment-credentials shim is allowed to run at all.
-   *
-   * OFF by default: Stripe Connect is the payment setup path for every club,
-   * so a club with no connection row should be told to connect Stripe, not
-   * silently routed through Swimly's shared GoCardless credentials. The flag
-   * exists ONLY for local demo environments that seed GoCardless mandates
-   * directly, and must never be set in production.
-   */
-  private legacyEnvFallbackEnabled(): boolean {
-    return this.configService.get<string>('LEGACY_GOCARDLESS_ENV_FALLBACK') === 'true';
-  }
-
-  /**
-   * TEMPORARY, and now OPT-IN: synthesise a connection from Swimly's own
-   * environment GoCardless credentials.
-   *
-   * Originally this kept clubs that predate connected accounts collecting
-   * while the connect flows were built. With Stripe Connect live and no live
-   * GoCardless activity to protect, it is gated behind
-   * LEGACY_GOCARDLESS_ENV_FALLBACK='true' and returns null otherwise, so an
-   * unconnected club surfaces ProviderNotConnectedException instead of being
-   * routed to credentials that may not move real money.
-   *
-   * DELETE THIS, the flag, and the GOCARDLESS_ACCESS_TOKEN it reads, the day
-   * GoCardless Partner OAuth lands. Every use is warn-logged so it cannot rot
-   * quietly.
-   */
-  private legacyEnvConnection(clubId: string): ProviderConnection | null {
-    if (!this.legacyEnvFallbackEnabled()) {
-      return null;
-    }
-
-    const accessToken = this.configService.get<string>('GOCARDLESS_ACCESS_TOKEN');
-    if (!accessToken) {
-      return null;
-    }
-
-    this.logger.warn(
-      `Club ${clubId} has no payment connection; falling back to Swimly's legacy environment ` +
-        `GoCardless credentials because LEGACY_GOCARDLESS_ENV_FALLBACK='true'. This shim is ` +
-        `for local demo environments only and will be removed when GoCardless Partner OAuth ` +
-        `lands. The club should connect its own account.`,
-    );
-
-    return {
-      clubId,
-      provider: 'gocardless',
-      externalAccountId: LEGACY_ENV_ACCOUNT_REF,
-      // The legacy account is live only when it is pointed at live GoCardless.
-      livemode: this.configService.get<string>('GOCARDLESS_ENVIRONMENT') === 'live',
-      source: 'env',
-      accessToken,
+      accessToken:
+        row.provider === 'gocardless'
+          ? new PaymentTokenCipher(this.configService).decrypt(
+              row.access_token_encrypted,
+              row.encryption_key_id,
+              paymentTokenContext(row),
+            )
+          : undefined,
     };
   }
 }

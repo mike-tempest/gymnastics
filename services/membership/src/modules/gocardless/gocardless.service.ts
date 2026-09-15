@@ -51,7 +51,7 @@ export class GoCardlessService {
     scheme?: string;
   }): Promise<RedirectFlow & APIResponse> {
     try {
-      this.logger.log(`Creating redirect flow for session: ${params.sessionToken}`);
+      this.logger.log('Creating mandate setup flow');
 
       // Fall back to the default UK payment-method label so an omitted
       // description keeps the exact previous wording for GB clubs.
@@ -60,7 +60,7 @@ export class GoCardlessService {
       const response = await this.client.redirectFlows.create({
         session_token: params.sessionToken,
         success_redirect_url: params.successRedirectUrl,
-        description: params.description || `Set up ${defaultLabel} for swim club fees`,
+        description: params.description || `Set up ${defaultLabel} for club fees`,
         // Pin the bank-debit scheme when the caller supplies one so GoCardless
         // hosts the correct regional flow. Omitted for callers that do not.
         ...(params.scheme ? { scheme: params.scheme as RedirectFlowScheme } : {}),
@@ -68,7 +68,7 @@ export class GoCardlessService {
 
       return response;
     } catch (error) {
-      this.logger.error('Failed to create redirect flow', error);
+      this.logger.error('Failed to create redirect flow');
       throw new BadRequestException('Failed to create mandate setup flow');
     }
   }
@@ -89,7 +89,7 @@ export class GoCardlessService {
 
       return response;
     } catch (error) {
-      this.logger.error('Failed to complete redirect flow', error);
+      this.logger.error('Failed to complete redirect flow');
       throw new BadRequestException('Failed to complete mandate setup');
     }
   }
@@ -102,7 +102,7 @@ export class GoCardlessService {
       const response = await this.client.customers.find(customerId);
       return response;
     } catch (error) {
-      this.logger.error(`Failed to get customer: ${customerId}`, error);
+      this.logger.error(`Failed to get customer: ${customerId}`);
       throw error;
     }
   }
@@ -115,7 +115,7 @@ export class GoCardlessService {
       const response = await this.client.mandates.find(mandateId);
       return response;
     } catch (error) {
-      this.logger.error(`Failed to get mandate: ${mandateId}`, error);
+      this.logger.error(`Failed to get mandate: ${mandateId}`);
       throw error;
     }
   }
@@ -130,7 +130,7 @@ export class GoCardlessService {
       const response = await this.client.mandates.cancel(mandateId, {});
       return response;
     } catch (error) {
-      this.logger.error(`Failed to cancel mandate: ${mandateId}`, error);
+      this.logger.error(`Failed to cancel mandate: ${mandateId}`);
       throw new BadRequestException('Failed to cancel mandate');
     }
   }
@@ -157,6 +157,15 @@ export class GoCardlessService {
       // on retry. The SDK defaults to fetching and returning the original
       // payment on an idempotency conflict rather than raising, which is
       // exactly the wanted behaviour.
+      const creditors = await this.client.creditors.list({ limit: '2' });
+      if (
+        creditors.creditors.length !== 1 ||
+        creditors.creditors[0].verification_status !== 'successful'
+      ) {
+        throw new BadRequestException('GoCardless account verification is incomplete.');
+      }
+      // A mandate imported from another organisation is not accessible with this token.
+      await this.client.mandates.find(params.mandateId);
       const response = await this.client.payments.create(
         {
           amount: String(Math.round(params.amount * 100)),
@@ -172,7 +181,7 @@ export class GoCardlessService {
 
       return response;
     } catch (error) {
-      this.logger.error('Failed to create payment', error);
+      this.logger.error('Failed to create payment');
       throw new BadRequestException('Failed to create payment');
     }
   }
@@ -185,7 +194,7 @@ export class GoCardlessService {
       const response = await this.client.payments.find(paymentId);
       return response;
     } catch (error) {
-      this.logger.error(`Failed to get payment: ${paymentId}`, error);
+      this.logger.error(`Failed to get payment: ${paymentId}`);
       throw error;
     }
   }
@@ -201,7 +210,7 @@ export class GoCardlessService {
       const response = await this.client.payments.list(params);
       return response;
     } catch (error) {
-      this.logger.error('Failed to list payments', error);
+      this.logger.error('Failed to list payments');
       throw error;
     }
   }
@@ -217,7 +226,7 @@ export class GoCardlessService {
 
       return computedSignature === signatureHeader;
     } catch (error) {
-      this.logger.error('Failed to verify webhook signature', error);
+      this.logger.error('Failed to verify webhook signature');
       return false;
     }
   }

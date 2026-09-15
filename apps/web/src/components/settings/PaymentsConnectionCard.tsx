@@ -15,10 +15,12 @@ import {
 import { BRAND } from '@/lib/brand';
 import { redirectTo } from '@/lib/utils/browser-navigation';
 
+import { GoCardlessConnectionCard } from './GoCardlessConnectionCard';
+
 const PRIMARY_BUTTON =
-  'inline-flex items-center gap-2 px-6 py-3 min-h-[44px] rounded-button font-semibold bg-brand text-dark-primary hover:bg-brand-dark transition-colors disabled:opacity-50';
+  'inline-flex items-center gap-2 px-6 py-3 min-h-[48px] rounded-button font-semibold bg-brand text-dark-primary hover:bg-brand-dark transition-colors disabled:opacity-50';
 const SECONDARY_BUTTON =
-  'inline-flex items-center gap-2 px-6 py-3 min-h-[44px] rounded-button font-semibold bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-colors disabled:opacity-50';
+  'inline-flex items-center gap-2 px-6 py-3 min-h-[48px] rounded-button font-semibold bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-colors disabled:opacity-50';
 
 const CONNECTION_QUERY_KEY = ['admin', 'payments', 'connection'];
 
@@ -90,6 +92,15 @@ function cleanStripeQueryParam() {
  * the backend; this card only reads it and redirects to Stripe-hosted pages.
  */
 export function PaymentsConnectionCard() {
+  return (
+    <div className="space-y-8">
+      <GoCardlessConnectionCard />
+      <StripeConnectionCard />
+    </div>
+  );
+}
+
+function StripeConnectionCard() {
   const queryClient = useQueryClient();
   const [connecting, setConnecting] = useState(false);
   const [syncing, setSyncing] = useState(false);
@@ -150,6 +161,8 @@ export function PaymentsConnectionCard() {
       setSyncing(false);
     }
   };
+
+  if (connection?.provider === 'gocardless') return null;
 
   if (isLoading) {
     return (
@@ -293,10 +306,6 @@ export function PaymentsConnectionCard() {
           </div>
         </>
       )}
-
-      <p className="text-white/40 text-sm">
-        Direct Debit via your own GoCardless account is coming soon.
-      </p>
     </div>
   );
 }

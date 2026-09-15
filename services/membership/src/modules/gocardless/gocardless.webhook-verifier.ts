@@ -69,12 +69,7 @@ export class GoCardlessWebhookVerifier implements WebhookVerifier {
     }
   }
 
-  /**
-   * GoCardless Partner webhooks name the connected merchant in
-   * `links.organisation`. Events from Swimly's own (non-partner) account carry
-   * no organisation link, which is why null is a normal answer here and the
-   * caller falls back to the legacy env connection.
-   */
+  /** Partner events must name the connected merchant in links.organisation. */
   accountRefOf(event: ProviderWebhookEvent): string | null {
     return event.links?.organisation ?? null;
   }

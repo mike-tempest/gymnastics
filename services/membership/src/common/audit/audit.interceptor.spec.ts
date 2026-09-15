@@ -124,6 +124,20 @@ describe('AuditInterceptor', () => {
     expect(changes.email).toBe('new@club.org.uk');
   });
 
+  it('redacts OAuth codes and state from payment authorisation audit records', async () => {
+    const interceptor = build();
+    const context = makeContext({
+      method: 'POST',
+      originalUrl: '/api/admin/settings/payments/gocardless/complete',
+      user: USER,
+      body: { code: 'sensitive-code', state: 'sensitive-state' },
+      headers: {},
+    });
+    await lastValueFrom(interceptor.intercept(context, makeHandler()));
+    const { changes } = auditLogsService.log.mock.calls[0][0];
+    expect(changes).toEqual({ code: '[REDACTED]', state: '[REDACTED]' });
+  });
+
   it('summarises large arrays instead of copying a bulk payload', async () => {
     const interceptor = build();
     const context = makeContext({

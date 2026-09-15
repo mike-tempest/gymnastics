@@ -47,7 +47,7 @@ export interface PaymentConnectionCapabilities {
  * No club's API keys are stored here. Stripe Connect authenticates with the
  * platform key plus `external_account_id`, so there is no per-club secret at
  * all. GoCardless Partner OAuth does issue a per-merchant bearer token, which
- * is why the encrypted-token columns exist, unused, ready for that phase.
+ * is why the encrypted-token columns exist, used for encrypted per-club credentials.
  */
 @Entity('club_payment_connections')
 export class ClubPaymentConnection {
@@ -91,9 +91,8 @@ export class ClubPaymentConnection {
 
   /**
    * Encrypted per-merchant bearer token, for providers that need one
-   * (GoCardless Partner OAuth). Null for Stripe, which needs no per-club
-   * secret. Nothing writes this yet; the columns exist so the GoCardless phase
-   * does not need another migration on a table by then holding live rows.
+   * (GoCardless Partner OAuth). Null for Stripe, which needs no per-club secret. Values are authenticated
+   * against the club, organisation and environment.
    */
   @Column({ type: 'text', nullable: true })
   access_token_encrypted: string | null;
