@@ -1,3 +1,4 @@
+import { BRAND } from '../../common/brand';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CommunicationsRepository } from './communications.repository';
 import { CreateCommunicationDto } from './dto/create-communication.dto';
@@ -33,7 +34,7 @@ export class CommunicationsService {
     }
 
     const club = await this.clubsService.findOne(this.tenantContext.getClubId());
-    const clubName = club?.name ?? 'Your Swimming Club';
+    const clubName = club?.name ?? BRAND.defaultClubName;
 
     const outcomes = await Promise.allSettled(
       recipients.map((r) =>

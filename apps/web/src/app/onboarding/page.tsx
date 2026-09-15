@@ -258,7 +258,7 @@ export default function OnboardingPage() {
   const isGB = country === 'GB';
   const regionFieldHelp = isGB
     ? 'Your county association, e.g. Kent County ASA'
-    : `Your ${regionFieldLabel.toLowerCase()} swimming association, if you have one.`;
+    : `Your ${regionFieldLabel.toLowerCase()} association, if you have one.`;
 
   // Analytics: timing + tally for the funnel events.
   const wizardStartedAt = useRef<number>(Date.now());
@@ -614,7 +614,7 @@ export default function OnboardingPage() {
         <input
           className={INPUT_CLASS}
           value={clubData.clubName}
-          placeholder="e.g. RTW Monson Swimming Club"
+          placeholder={BRAND.clubNamePlaceholder}
           onChange={(e) => setClubData((d) => ({ ...d, clubName: e.target.value }))}
         />
         {errors.clubName && <p className="text-danger text-sm mt-1">{errors.clubName}</p>}
@@ -780,15 +780,15 @@ export default function OnboardingPage() {
         </button>
       </div>
       <p className="text-white/50 text-sm mb-4">
-        Squads help you organise {MEMBER_NOUN_PLURAL_LOWER} by age or ability. e.g. Learn to Swim,
-        Development, Competition.
+        Squads help you organise {MEMBER_NOUN_PLURAL_LOWER} by age or ability. For example:{' '}
+        {BRAND.squadExamples}.
       </p>
 
       {squads.length === 0 && (
         <div className="rounded-xl border border-dashed border-white/20 p-6 text-center">
           <p className="text-white/70 text-sm mb-4">
             Squads help organise {MEMBER_NOUN_PLURAL_LOWER} by age or ability. Common examples:
-            Learn to Swim, Development, Competition, Masters.
+            {BRAND.squadExamples}.
           </p>
           <button type="button" className={primaryBtnClass} onClick={addSquad}>
             Add Squad

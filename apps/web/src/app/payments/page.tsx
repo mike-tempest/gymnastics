@@ -278,12 +278,12 @@ export default function PaymentsPage() {
                     </h3>
                     <p className="text-text-secondary text-sm">
                       {isStripe
-                        ? 'Set up automatic payments for your monthly swim club fees. You will be taken to a secure Stripe page to set up your payment method. Depending on your club, you can pay by bank debit or card. You can cancel at any time.'
+                        ? 'Set up automatic payments for your monthly club fees. You will be taken to a secure Stripe page to set up your payment method. Depending on your club, you can pay by bank debit or card. You can cancel at any time.'
                         : isBacs
-                          ? 'Set up Direct Debit to automatically pay your monthly swim club fees. Direct Debit is protected by the Direct Debit Guarantee, making it a safe and convenient way to pay. You can cancel at any time.'
+                          ? 'Set up Direct Debit to automatically pay your monthly club fees. Direct Debit is protected by the Direct Debit Guarantee, making it a safe and convenient way to pay. You can cancel at any time.'
                           : isBecs
-                            ? 'Set up Direct Debit to automatically pay your monthly swim club fees. You will be asked to complete a Direct Debit Request, and your payments are protected under the Bulk Electronic Clearing System (BECS) rules and the Direct Debit Request Service Agreement. You can cancel at any time.'
-                            : `Set up ${methodLabel} to automatically pay your monthly swim club fees. Your payments are protected by your country's bank debit scheme rules. You can cancel at any time.`}
+                            ? 'Set up Direct Debit to automatically pay your monthly club fees. You will be asked to complete a Direct Debit Request, and your payments are protected under the Bulk Electronic Clearing System (BECS) rules and the Direct Debit Request Service Agreement. You can cancel at any time.'
+                            : `Set up ${methodLabel} to automatically pay your monthly club fees. Your payments are protected by your country's bank debit scheme rules. You can cancel at any time.`}
                     </p>
                   </div>
                 </div>

@@ -394,7 +394,7 @@ export default function SettingsPage() {
                 Club Configuration
               </h1>
             </div>
-            <p className="text-grey-600 text-lg">Manage your swim club settings and preferences</p>
+            <p className="text-grey-600 text-lg">Manage your club settings and preferences</p>
           </div>
 
           {/* Region Section */}

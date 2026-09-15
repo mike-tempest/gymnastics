@@ -49,7 +49,7 @@ describe('MandateSetup payment vocabulary', () => {
 
     expect(
       screen.getByText(
-        'Set up a Direct Debit mandate to enable automatic monthly payments for swim club fees.'
+        'Set up a Direct Debit mandate to enable automatic monthly payments for club fees.'
       )
     ).toBeInTheDocument();
     expect(
@@ -113,7 +113,7 @@ describe('MandateSetup payment vocabulary', () => {
     // existing GoCardless direct-debit wording in any way.
     expect(
       screen.getByText(
-        'Set up a Direct Debit mandate to enable automatic monthly payments for swim club fees.'
+        'Set up a Direct Debit mandate to enable automatic monthly payments for club fees.'
       )
     ).toBeInTheDocument();
     expect(

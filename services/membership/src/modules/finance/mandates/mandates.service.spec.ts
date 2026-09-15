@@ -291,7 +291,7 @@ describe('MandatesService', () => {
 
       expect(mockProvider.startMandateSetup).toHaveBeenCalledWith(
         expect.objectContaining({
-          description: 'Set up Direct Debit for swim club membership fees',
+          description: 'Set up Direct Debit for club membership fees',
           scheme: 'bacs',
         }),
       );
@@ -308,7 +308,7 @@ describe('MandatesService', () => {
 
       expect(mockProvider.startMandateSetup).toHaveBeenCalledWith(
         expect.objectContaining({
-          description: 'Set up ACH bank debit for swim club membership fees',
+          description: 'Set up ACH bank debit for club membership fees',
           scheme: 'ach',
         }),
       );

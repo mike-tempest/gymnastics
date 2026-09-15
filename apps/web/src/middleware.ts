@@ -3,13 +3,20 @@ import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 // Role constants matching backend UserRole enum values (supports both cases)
-const ADMIN_ROLES = ['ADMIN', 'admin', 'super_admin', 'SUPER_ADMIN'];
+const ADMIN_ROLES = ['ADMIN', 'admin', 'super_admin', 'SUPER_ADMIN', 'treasurer', 'TREASURER'];
 const COACH_ROLES = ['COACH', 'coach', 'head_coach', 'HEAD_COACH', 'squad_coach', 'SQUAD_COACH'];
 const WELFARE_ROLES = ['welfare_officer', 'WELFARE_OFFICER'];
 const PARENT_ROLE = 'PARENT';
 
 // Routes accessible by coaches (in addition to admins)
-const COACH_ROUTES = ['/attendance', '/sessions', '/members', '/squads', '/communications'];
+const COACH_ROUTES = [
+  '/attendance',
+  '/sessions',
+  '/members',
+  '/squads',
+  '/communications',
+  '/awards',
+];
 
 // Routes accessible by the club's Welfare Officer. The compliance screens are
 // their job; the gymnast list is the context for it. Both are backed by
@@ -79,6 +86,10 @@ export async function middleware(request: NextRequest) {
       return NextResponse.next();
     }
 
+    if (matchesRoute(pathname, ['/waiting-list']) && ['head_coach', 'HEAD_COACH'].includes(role)) {
+      return NextResponse.next();
+    }
+
     if (matchesRoute(pathname, COACH_ROUTES)) {
       return NextResponse.next();
     }
@@ -127,6 +138,7 @@ export const config = {
     '/invoices/:path*',
     '/dashboard/:path*',
     '/attendance/:path*',
+    '/awards/:path*',
     '/sessions/:path*',
     '/billing/:path*',
     '/admin/:path*',

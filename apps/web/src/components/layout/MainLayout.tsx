@@ -27,12 +27,17 @@ export default function MainLayout({ children }: MainLayoutProps) {
         <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       </div>
 
-      <div data-layout="content-column" className="flex-1 flex flex-col overflow-hidden">
+      <div data-layout="content-column" className="min-w-0 flex-1 flex flex-col overflow-hidden">
         <div data-layout="topbar">
-          <TopBar onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
+          <TopBar menuOpen={sidebarOpen} onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
         </div>
 
-        <main id="main-content" aria-label="Main content" className="flex-1 overflow-y-auto">
+        <main
+          tabIndex={-1}
+          id="main-content"
+          aria-label="Main content"
+          className="flex-1 overflow-y-auto"
+        >
           {children}
         </main>
       </div>

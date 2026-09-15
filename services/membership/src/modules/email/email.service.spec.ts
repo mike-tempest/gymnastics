@@ -406,7 +406,7 @@ describe('EmailService', () => {
       expect(sendMock).toHaveBeenCalledWith(
         expect.objectContaining({
           to: 'admin@club.example',
-          subject: 'Take your first register poolside',
+          subject: 'Take your first register at training',
         }),
       );
     });

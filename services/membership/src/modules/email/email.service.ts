@@ -639,12 +639,12 @@ export class EmailService {
   }
 
   /**
-   * Activation sequence, day 5: take the first register poolside.
+   * Activation sequence, day 5: take the first register at training.
    */
   async sendActivationFirstRegister(data: ActivationEmailData): Promise<void> {
     await this.send(
       data.recipientEmail,
-      'Take your first register poolside',
+      'Take your first register at training',
       'activation-first-register',
       {
         firstName: data.firstName,

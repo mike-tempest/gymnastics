@@ -1,6 +1,11 @@
 'use client';
 
-import { governingBodyConfig, defaultGoverningBodyForCountry } from '@club-manager/shared-types';
+import {
+  governingBodyConfig,
+  defaultGoverningBodyForCountry,
+  UserRole,
+} from '@club-manager/shared-types';
+import * as Dialog from '@radix-ui/react-dialog';
 import {
   Home,
   Users,
@@ -28,6 +33,7 @@ import {
   User,
   LogOut,
   Heart,
+  X,
   type LucideIcon,
 } from 'lucide-react';
 import Image from 'next/image';
@@ -90,7 +96,6 @@ const allNavEntries: NavEntry[] = [
       { name: 'Create Invoice', href: '/billing/create', icon: FileSignature },
       { name: 'Fee Structures', href: '/fee-structures', icon: DollarSign },
       { name: 'Payments', href: '/payments', icon: Banknote },
-      { name: 'Mandates', href: '/mandates/complete', icon: FileSignature },
     ],
   },
   {
@@ -189,7 +194,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     if (isParent(role)) return parentNavEntries;
     if (isAdmin(role)) return localiseCheckItem(allNavEntries);
     if (isCoach(role)) {
-      return localiseCheckItem(allNavEntries.filter((entry) => COACH_NAV_NAMES.has(entry.name)));
+      return localiseCheckItem(
+        allNavEntries.filter(
+          (entry) =>
+            COACH_NAV_NAMES.has(entry.name) &&
+            (entry.name !== 'Waiting list' || role === UserRole.HEAD_COACH)
+        )
+      );
     }
     if (isWelfareOfficer(role)) {
       const byName = new Map(allNavEntries.map((entry) => [entry.name, entry]));
@@ -230,182 +241,214 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   function isItemActive(href: string): boolean {
     if (href === '/' || href === '/parent') return pathname === href;
-    return pathname.startsWith(href);
+    const links = navEntries.flatMap((entry) => (isSection(entry) ? entry.children : [entry]));
+    return (
+      (pathname === href || pathname.startsWith(`${href}/`)) &&
+      !links.some(
+        (item) =>
+          item.href.length > href.length &&
+          (pathname === item.href || pathname.startsWith(`${item.href}/`))
+      )
+    );
   }
 
   const displayName = user?.name || 'User';
   const displayEmail = user?.email || '';
   const displayRole = role ? formatRoleLabel(role) : '';
 
-  return (
-    <>
-      {/* Overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-60 z-40 lg:hidden backdrop-blur-sm"
+  const [isDesktop, setIsDesktop] = useState(true);
+  useEffect(() => {
+    const media = window.matchMedia('(min-width: 1024px)');
+    const update = () => setIsDesktop(media.matches);
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+
+  const content = (
+    <div className="flex flex-col h-full">
+      {/* Logo */}
+      <div className="p-4 border-b border-white/10 flex items-center justify-between gap-2">
+        <Link
+          href={isParent(role) ? '/parent' : isWelfareOfficer(role) ? '/compliance' : '/'}
           onClick={onClose}
-          aria-label="Close sidebar overlay"
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              onClose();
-            }
-          }}
-        />
-      )}
-
-      {/* Sidebar */}
-      <aside
-        className={`fixed left-0 top-0 z-50 h-full w-64 bg-dark-primary border-r border-white/10 transform transition-transform duration-300 ease-in-out ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        } lg:translate-x-0 lg:static`}
-        aria-label="Main navigation sidebar"
-      >
-        <div className="flex flex-col h-full">
-          {/* Logo */}
-          <div className="p-6 border-b border-white/10">
-            <Link href="/" onClick={onClose} className="flex items-center space-x-3 group">
-              <div>
-                <Image
-                  src="/tumblebase-logo.svg"
-                  alt={BRAND.name}
-                  width={120}
-                  height={32}
-                  className="h-8 w-auto"
-                />
-                <p className="text-xs text-grey-300 mt-1">Club Management</p>
-              </div>
-            </Link>
+          className="flex min-h-[48px] items-center space-x-3 group"
+        >
+          <div>
+            <Image
+              src="/tumblebase-logo.svg"
+              alt={BRAND.name}
+              width={120}
+              height={32}
+              className="h-8 w-auto"
+            />
+            <p className="text-xs text-grey-300 mt-1">Club Management</p>
           </div>
-
-          {/* Navigation */}
-          <nav
-            aria-label="Main navigation"
-            className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto"
+        </Link>
+        {!isDesktop && (
+          <Dialog.Close
+            className="min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg text-white/80 hover:bg-white/10"
+            aria-label="Close menu"
           >
-            {navEntries.map((entry) => {
-              if (isSection(entry)) {
-                const sectionActive = isSectionActive(entry);
-                const expanded = openSections[entry.name] ?? false;
-                const Icon = entry.icon;
+            <X aria-hidden="true" className="h-5 w-5" />
+          </Dialog.Close>
+        )}
+      </div>
 
-                return (
-                  <div key={entry.name}>
-                    <button
-                      onClick={() => toggleSection(entry.name)}
-                      aria-expanded={expanded}
-                      className={`w-full flex items-center justify-between px-3 py-2.5 min-h-[44px] rounded-xl transition-all duration-200 group ${
-                        sectionActive
-                          ? 'text-brand'
-                          : 'text-white/60 hover:bg-white/5 hover:text-white'
-                      }`}
-                    >
-                      <div className="flex items-center space-x-3">
-                        <Icon
-                          className={`w-5 h-5 transition-colors ${
-                            sectionActive ? 'text-brand' : 'text-white/70 group-hover:text-white/60'
-                          }`}
-                        />
-                        <span className="font-medium text-sm">{entry.name}</span>
-                      </div>
-                      {expanded ? (
-                        <ChevronDown className="w-4 h-4 text-white/70" />
-                      ) : (
-                        <ChevronRight className="w-4 h-4 text-white/70" />
-                      )}
-                    </button>
+      {/* Navigation */}
+      <nav aria-label="Main navigation" className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+        {navEntries.map((entry) => {
+          if (isSection(entry)) {
+            const sectionActive = isSectionActive(entry);
+            const expanded = openSections[entry.name] ?? false;
+            const Icon = entry.icon;
 
-                    <div
-                      className={`overflow-hidden transition-all duration-200 ease-in-out ${
-                        expanded ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
-                      }`}
-                    >
-                      <div className="ml-3 pl-3 border-l border-white/10 space-y-0.5 py-1">
-                        {entry.children.map((child) => {
-                          const active = isItemActive(child.href);
-                          const ChildIcon = child.icon;
-                          return (
-                            <Link
-                              key={child.href}
-                              href={child.href}
-                              onClick={onClose}
-                              className={`flex items-center space-x-3 px-3 py-2 min-h-[44px] rounded-lg transition-all duration-200 group ${
-                                active
-                                  ? 'bg-brand/20 text-brand'
-                                  : 'text-white/60 hover:bg-white/5 hover:text-white'
-                              }`}
-                            >
-                              <ChildIcon
-                                className={`w-4 h-4 transition-colors ${
-                                  active ? 'text-brand' : 'text-white/70 group-hover:text-white/60'
-                                }`}
-                              />
-                              <span className="font-medium text-sm">{child.name}</span>
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                );
-              }
-
-              const active = isItemActive(entry.href);
-              const Icon = entry.icon;
-              return (
-                <Link
-                  key={entry.href}
-                  href={entry.href}
-                  onClick={onClose}
-                  className={`flex items-center space-x-3 px-3 py-2.5 min-h-[44px] rounded-xl transition-all duration-200 group ${
-                    active
-                      ? 'bg-brand/20 text-brand border border-brand/20'
-                      : 'text-white/60 hover:bg-white/5 hover:text-white border border-transparent'
+            return (
+              <div key={entry.name}>
+                <button
+                  onClick={() => toggleSection(entry.name)}
+                  aria-expanded={expanded}
+                  aria-controls={`nav-section-${entry.name.toLowerCase()}`}
+                  className={`w-full flex items-center justify-between px-3 py-2.5 min-h-[48px] rounded-xl transition-all duration-200 group ${
+                    sectionActive ? 'text-brand' : 'text-white/60 hover:bg-white/5 hover:text-white'
                   }`}
                 >
-                  <Icon
-                    className={`w-5 h-5 transition-colors ${
-                      active ? 'text-brand' : 'text-white/70 group-hover:text-white/60'
-                    }`}
-                  />
-                  <span className="font-medium text-sm">{entry.name}</span>
-                </Link>
-              );
-            })}
-          </nav>
+                  <div className="flex items-center space-x-3">
+                    <Icon
+                      className={`w-5 h-5 transition-colors ${
+                        sectionActive ? 'text-brand' : 'text-white/70 group-hover:text-white/60'
+                      }`}
+                    />
+                    <span className="font-medium text-sm">{entry.name}</span>
+                  </div>
+                  {expanded ? (
+                    <ChevronDown className="w-4 h-4 text-white/70" />
+                  ) : (
+                    <ChevronRight className="w-4 h-4 text-white/70" />
+                  )}
+                </button>
 
-          {/* User info */}
-          <div className="px-3 py-3 border-t border-white/10">
-            <div className="flex items-center space-x-3 px-3 py-2.5">
-              <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                <User className="w-4 h-4 text-text-secondary" />
+                <div id={`nav-section-${entry.name.toLowerCase()}`} hidden={!expanded}>
+                  <div className="ml-3 pl-3 border-l border-white/10 space-y-0.5 py-1">
+                    {entry.children.map((child) => {
+                      const active = isItemActive(child.href);
+                      const ChildIcon = child.icon;
+                      return (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          aria-current={active ? 'page' : undefined}
+                          onClick={onClose}
+                          className={`flex items-center space-x-3 px-3 py-2 min-h-[48px] rounded-lg transition-all duration-200 group ${
+                            active
+                              ? 'bg-brand/20 text-brand'
+                              : 'text-white/60 hover:bg-white/5 hover:text-white'
+                          }`}
+                        >
+                          <ChildIcon
+                            className={`w-4 h-4 transition-colors ${
+                              active ? 'text-brand' : 'text-white/70 group-hover:text-white/60'
+                            }`}
+                          />
+                          <span className="font-medium text-sm">{child.name}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-white truncate">{displayName}</p>
-                <p className="text-xs text-grey-300 truncate">{displayRole || displayEmail}</p>
-              </div>
-              <button
-                onClick={() => signOut({ callbackUrl: '/login' })}
-                className="p-1.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors"
-                title="Log out"
-                aria-label="Log out"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
+            );
+          }
 
-          {/* Footer */}
-          <div className="px-4 pb-4">
-            <div className="bg-white/10 rounded-xl p-3">
-              <p className="text-xs font-medium text-white mb-1">Need help?</p>
-              <p className="text-xs text-text-secondary">Contact support</p>
-            </div>
+          const active = isItemActive(entry.href);
+          const Icon = entry.icon;
+          return (
+            <Link
+              key={entry.href}
+              href={entry.href}
+              aria-current={active ? 'page' : undefined}
+              onClick={onClose}
+              className={`flex items-center space-x-3 px-3 py-2.5 min-h-[48px] rounded-xl transition-all duration-200 group ${
+                active
+                  ? 'bg-brand/20 text-brand border border-brand/20'
+                  : 'text-white/60 hover:bg-white/5 hover:text-white border border-transparent'
+              }`}
+            >
+              <Icon
+                className={`w-5 h-5 transition-colors ${
+                  active ? 'text-brand' : 'text-white/70 group-hover:text-white/60'
+                }`}
+              />
+              <span className="font-medium text-sm">{entry.name}</span>
+            </Link>
+          );
+        })}
+      </nav>
+
+      {/* User info */}
+      <div className="px-3 py-3 border-t border-white/10">
+        <div className="flex items-center space-x-3 px-3 py-2.5">
+          <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+            <User className="w-4 h-4 text-white/80" />
           </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-white truncate">{displayName}</p>
+            <p className="text-xs text-grey-300 truncate">{displayRole || displayEmail}</p>
+          </div>
+          <button
+            onClick={() => signOut({ callbackUrl: '/login' })}
+            className="p-1.5 min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+            title="Log out"
+            aria-label="Log out"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
         </div>
+      </div>
+
+      {/* Footer */}
+      <div className="px-4 pb-4">
+        <div className="bg-white/10 rounded-xl p-3">
+          <p className="text-xs font-medium text-white mb-1">Need help?</p>
+          <p className="text-xs text-white/80">Contact support</p>
+        </div>
+      </div>
+    </div>
+  );
+
+  const navigationClasses =
+    'h-full w-64 max-w-[calc(100vw-1rem)] bg-dark-primary border-r border-white/10 [&_a:focus-visible]:outline [&_a:focus-visible]:outline-2 [&_a:focus-visible]:outline-brand [&_button:focus-visible]:outline [&_button:focus-visible]:outline-2 [&_button:focus-visible]:outline-brand';
+
+  if (isDesktop) {
+    return (
+      <aside aria-label="Main navigation sidebar" className={navigationClasses}>
+        {content}
       </aside>
-    </>
+    );
+  }
+
+  return (
+    <Dialog.Root
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!open) onClose();
+      }}
+    >
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm" />
+        <Dialog.Content
+          id="mobile-navigation"
+          aria-describedby={undefined}
+          className={`fixed left-0 top-0 z-50 ${navigationClasses}`}
+          onCloseAutoFocus={(event) => {
+            event.preventDefault();
+            document.getElementById('navigation-trigger')?.focus();
+          }}
+        >
+          <Dialog.Title className="sr-only">Main navigation</Dialog.Title>
+          {content}
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }

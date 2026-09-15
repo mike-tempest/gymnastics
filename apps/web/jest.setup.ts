@@ -1,1 +1,17 @@
 import '@testing-library/jest-dom';
+
+// Desktop by default; navigation tests override this for the mobile drawer.
+if (typeof window !== 'undefined')
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: jest.fn().mockImplementation((query: string) => ({
+      matches: true,
+      media: query,
+      onchange: null,
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })),
+  });

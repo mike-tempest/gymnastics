@@ -8,10 +8,12 @@ jest.mock('next/navigation', () => ({
   usePathname: () => '/members',
 }));
 
+let mockRole = UserRole.SQUAD_COACH;
+
 // A squad coach: the middleware lets them onto /members but not into /admin.
 jest.mock('next-auth/react', () => ({
   useSession: () => ({
-    data: { user: { name: 'Coach', role: 'squad_coach' } },
+    data: { user: { name: 'Coach', role: mockRole } },
     status: 'authenticated',
   }),
 }));
@@ -58,14 +60,19 @@ describe('The import link on the gymnast list', () => {
     mockGetSquads.mockResolvedValue([] as unknown as Squad[]);
   });
 
-  it('is hidden from a coach, who cannot reach the admin importer', async () => {
-    expect(UserRole.SQUAD_COACH).toBe('squad_coach');
+  it.each([UserRole.SQUAD_COACH, UserRole.WELFARE_OFFICER, UserRole.TREASURER])(
+    'hides unsupported actions for %s',
+    async (role) => {
+      mockRole = role;
+      expect(UserRole.SQUAD_COACH).toBe('squad_coach');
 
-    render(<MembersPage />, { wrapper: createWrapper() });
+      render(<MembersPage />, { wrapper: createWrapper() });
 
-    await waitFor(() => {
-      expect(screen.getByRole('heading', { name: 'Gymnasts' })).toBeInTheDocument();
-    });
-    expect(screen.queryByText('Import CSV')).not.toBeInTheDocument();
-  });
+      await waitFor(() => {
+        expect(screen.getByRole('heading', { name: 'Gymnasts' })).toBeInTheDocument();
+      });
+      expect(screen.queryByText('Import CSV')).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: 'Add Gymnast' })).not.toBeInTheDocument();
+    }
+  );
 });

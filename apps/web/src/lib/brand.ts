@@ -22,6 +22,8 @@ export const MEMBER_NOUN_PLURAL_LOWER = MEMBER_NOUN_PLURAL.toLowerCase();
 export const BRAND = {
   /** Product name shown in headings, wordmarks and body copy. */
   name: PRODUCT_NAME,
+  clubNamePlaceholder: 'e.g. Riverside Gymnastics Club',
+  squadExamples: 'Recreational, Development, Advanced, Adults',
   /** Meta description for the app shell. */
   description: 'Gymnastics club management, Direct Debit billing and compliance in one place.',
   website: 'https://www.tumblebase.com',
