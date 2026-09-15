@@ -59,12 +59,15 @@ export default function ConnectivityBanner() {
   if (!offline || dismissed) return null;
 
   return (
-    <div className="fixed top-0 inset-x-0 z-[100] bg-danger text-white px-4 py-3 flex items-center justify-center gap-3 text-sm font-semibold shadow-lg">
+    <div
+      role="status"
+      className="fixed top-0 inset-x-0 z-[100] bg-red-50 text-red-900 px-4 py-3 flex items-center justify-center gap-3 text-sm font-semibold shadow-lg"
+    >
       <WifiOff className="w-4 h-4 flex-shrink-0" />
       <span>Unable to connect to the server. Check your connection and try again.</span>
       <button
         onClick={() => setDismissed(true)}
-        className="ml-2 text-white/80 hover:text-white transition-colors"
+        className="ml-2 min-h-[48px] min-w-[48px] text-red-900 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-red-900"
         aria-label="Dismiss"
       >
         ✕

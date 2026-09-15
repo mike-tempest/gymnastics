@@ -141,7 +141,7 @@ export class MandatesService {
       const redirectFlow = await provider.startMandateSetup({
         sessionToken,
         successRedirectUrl,
-        description: `Set up ${region.paymentMethodLabel} for swim club membership fees`,
+        description: `Set up ${region.paymentMethodLabel} for club membership fees`,
         scheme: region.directDebitScheme,
         existingProviderCustomerId: existingProviderCustomerId ?? undefined,
       });

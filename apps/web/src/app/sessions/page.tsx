@@ -486,7 +486,7 @@ export default function SessionsPage() {
               <EmptyState
                 icon={Calendar}
                 title="No sessions yet"
-                description="Sessions are your weekly training schedule. Add one and you can take attendance poolside."
+                description="Sessions are your weekly training schedule. Add one and you can take attendance at training."
                 hint="Set up recurring sessions to save time each week."
                 actionLabel="Create Session"
                 actionOnClick={handleOpenAddModal}

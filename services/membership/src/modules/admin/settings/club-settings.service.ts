@@ -1,3 +1,4 @@
+import { BRAND } from '../../../common/brand';
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -73,7 +74,7 @@ export class ClubSettingsService {
       // Stamp the caller's club_id; never trust any club_id from elsewhere.
       settings = this.settingsRepository.create(
         this.scoped.stampCreate<ClubSettings>({
-          club_name: 'Swim Club',
+          club_name: club?.name || BRAND.defaultClubName,
           notification_prefs: {
             notifyNewMember: true,
             notifyPaymentReceived: true,

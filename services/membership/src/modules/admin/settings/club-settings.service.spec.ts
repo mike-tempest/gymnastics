@@ -196,10 +196,10 @@ describe('ClubSettingsService', () => {
       });
       // The created default carries the caller's club_id.
       expect(settingsRepo.create).toHaveBeenCalledWith(
-        expect.objectContaining({ club_id: TEST_CLUB_ID, club_name: 'Swim Club' }),
+        expect.objectContaining({ club_id: TEST_CLUB_ID, club_name: mockClub.name }),
       );
       expect(result.settings_id).toBe('new-id');
-      expect(result.club_name).toBe('Swim Club');
+      expect(result.club_name).toBe(mockClub.name);
       expect(result.club_id).toBe(TEST_CLUB_ID);
     });
   });

@@ -105,10 +105,10 @@ export function MandateSetup({ familyId, onComplete: _onComplete, onCancel }: Ma
           {isStripe
             ? 'You will be taken to a secure Stripe page to set up your payment method. Depending on your club, you can pay by bank debit or card.'
             : isBacs
-              ? 'Set up a Direct Debit mandate to enable automatic monthly payments for swim club fees.'
+              ? 'Set up a Direct Debit mandate to enable automatic monthly payments for club fees.'
               : isBecs
-                ? 'You will be asked to complete a Direct Debit Request to enable automatic monthly payments for swim club fees.'
-                : `Set up your ${methodLabel} mandate to enable automatic monthly payments for swim club fees.`}
+                ? 'You will be asked to complete a Direct Debit Request to enable automatic monthly payments for club fees.'
+                : `Set up your ${methodLabel} mandate to enable automatic monthly payments for club fees.`}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

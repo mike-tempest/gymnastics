@@ -498,14 +498,13 @@ export default function WellbeingPage({ params }: PageProps) {
                 <h3 className="text-white font-semibold">About cycle tracking</h3>
               </div>
               <p className="text-text-secondary text-sm leading-relaxed">
-                Swimming during your period is completely safe and can actually help reduce cramps.
                 This tracker is entirely private and optional. Coaches never see any of this
                 information. It is here to help you and your child understand how their cycle
                 affects how they feel in training.
               </p>
               <p className="text-text-secondary text-sm leading-relaxed">
-                If your child prefers land-based drills on certain days, use the check-in form to
-                let the coach know without sharing any personal details.
+                If your child would like support with training on certain days, use the check-in
+                form to let the coach know without sharing any personal details.
               </p>
             </div>
 

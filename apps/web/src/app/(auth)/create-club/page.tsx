@@ -300,7 +300,7 @@ export default function CreateClubPage() {
               Your club
             </legend>
             <p className="text-sm text-white/60 mb-4">
-              Tell us about your swimming club. You can change these details later in settings.
+              Tell us about your club. You can change these details later in settings.
             </p>
 
             <div>
@@ -313,7 +313,7 @@ export default function CreateClubPage() {
                 type="text"
                 autoComplete="organization"
                 className={fieldClass}
-                placeholder="Whitby Seals Swimming Club"
+                placeholder={BRAND.clubNamePlaceholder}
                 disabled={isSubmitting}
               />
               {errors.clubName && (

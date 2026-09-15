@@ -8,6 +8,7 @@
 export const BRAND = {
   /** Product name used in email wordmarks, subjects and PDF footers. */
   name: 'Tumblebase',
+  defaultClubName: 'Your club',
 } as const;
 
 /**

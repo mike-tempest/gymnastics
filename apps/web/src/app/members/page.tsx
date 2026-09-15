@@ -2,6 +2,7 @@
 
 import {
   Member,
+  UserRole,
   GOVERNING_BODY_LABELS,
   DISCIPLINE_LABELS,
   DISCIPLINE_SHORT_LABELS,
@@ -28,7 +29,7 @@ import {
   MEMBER_NOUN_PLURAL_LOWER,
 } from '@/lib/brand';
 import { useMembers } from '@/lib/hooks/useMembers';
-import { isCoach, useRole } from '@/lib/hooks/useRole';
+import { useRole } from '@/lib/hooks/useRole';
 import { useSquads } from '@/lib/hooks/useSquads';
 
 export default function MembersPage() {
@@ -42,10 +43,9 @@ export default function MembersPage() {
 function MembersPageInner() {
   const { formatDate } = useFormatters();
   const { role } = useRole();
-  // The importer moved under /admin, which the middleware closes to coaches.
-  // They can still see this list, so the link is hidden from them rather than
-  // bouncing them onto the dashboard with no explanation.
-  const canImport = !isCoach(role);
+  const canImport = role === UserRole.SUPER_ADMIN;
+  const canManage = role === UserRole.SUPER_ADMIN || role === UserRole.HEAD_COACH;
+  const canDelete = role === UserRole.SUPER_ADMIN;
   const { data: membersData, isLoading, error, refetch: refetchMembers } = useMembers();
   const { data: squadsData } = useSquads();
   const members = useMemo(() => membersData ?? [], [membersData]);
@@ -69,7 +69,7 @@ function MembersPageInner() {
   // Handle ?edit=<member_id> query param (from detail page edit button)
   useEffect(() => {
     const editId = searchParams.get('edit');
-    if (editId && members.length > 0) {
+    if (canManage && editId && members.length > 0) {
       const memberToEdit = members.find((s) => s.member_id === editId);
       if (memberToEdit) {
         setSelectedMember(memberToEdit);
@@ -86,7 +86,7 @@ function MembersPageInner() {
           });
       }
     }
-  }, [searchParams, members]);
+  }, [searchParams, members, canManage]);
 
   // Combined error from hook or mutations
   const displayError = error || mutationError;
@@ -201,29 +201,31 @@ function MembersPageInner() {
               {canImport && (
                 <Link
                   href="/admin/import/members"
-                  className="px-6 py-3 sm:px-8 sm:py-4 min-h-[44px] bg-dark-primary/80 text-white rounded-button font-bold hover:bg-white/5 transition-all flex items-center justify-center space-x-3 text-base sm:text-lg border border-white/20"
+                  className="px-6 py-3 sm:px-8 sm:py-4 min-h-[48px] bg-dark-primary/80 text-white rounded-button font-bold hover:bg-dark-secondary transition-all flex items-center justify-center space-x-3 text-base sm:text-lg border border-white/20"
                 >
                   <Upload className="w-6 h-6" />
                   <span>Import CSV</span>
                 </Link>
               )}
-              <button
-                onClick={handleOpenAddModal}
-                className="px-6 py-3 sm:px-8 sm:py-4 min-h-[44px] bg-brand text-dark-primary rounded-button font-bold hover:bg-brand-light transition-all shadow-sm flex items-center justify-center space-x-3 text-base sm:text-lg"
-              >
-                <span>Add {MEMBER_NOUN}</span>
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="3"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+              {canManage && (
+                <button
+                  onClick={handleOpenAddModal}
+                  className="px-6 py-3 sm:px-8 sm:py-4 min-h-[48px] bg-brand text-dark-primary rounded-button font-bold hover:bg-brand-light transition-all shadow-sm flex items-center justify-center space-x-3 text-base sm:text-lg"
                 >
-                  <path d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                </svg>
-              </button>
+                  <span>Add {MEMBER_NOUN}</span>
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="3"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                  </svg>
+                </button>
+              )}
             </div>
           </div>
 
@@ -269,10 +271,10 @@ function MembersPageInner() {
                 All {MEMBER_NOUN_PLURAL}
               </h2>
               <div className="flex space-x-2">
-                <button className="px-4 py-2 min-h-[44px] bg-brand text-dark-primary rounded-button font-semibold text-sm">
+                <button className="px-4 py-2 min-h-[48px] bg-brand text-dark-primary rounded-button font-semibold text-sm">
                   Active
                 </button>
-                <button className="px-4 py-2 min-h-[44px] bg-dark-primary/80 text-grey-300 rounded-button font-semibold text-sm hover:bg-dark-primary">
+                <button className="px-4 py-2 min-h-[48px] bg-dark-primary/80 text-grey-300 rounded-button font-semibold text-sm hover:bg-dark-primary">
                   All
                 </button>
               </div>
@@ -297,12 +299,12 @@ function MembersPageInner() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search by name or registration number..."
-                  className="w-full pl-12 pr-4 py-3 bg-white/5 text-white rounded-xl border border-white/20 focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 transition-all outline-none min-h-[44px]"
+                  className="w-full pl-12 pr-4 py-3 bg-white/5 text-white rounded-xl border border-white/20 focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 transition-all outline-none min-h-[48px]"
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-text-tertiary hover:text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-text-tertiary hover:text-white transition-colors min-w-[48px] min-h-[48px] flex items-center justify-center"
                     aria-label="Clear search"
                   >
                     <svg
@@ -322,7 +324,7 @@ function MembersPageInner() {
               <select
                 value={squadFilter}
                 onChange={(e) => setSquadFilter(e.target.value)}
-                className="w-full sm:w-auto px-4 py-3 bg-white/5 text-white rounded-xl border border-white/20 focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 transition-all outline-none min-h-[44px] sm:min-w-[200px]"
+                className="w-full sm:w-auto px-4 py-3 bg-white/5 text-white rounded-xl border border-white/20 focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 transition-all outline-none min-h-[48px] sm:min-w-[200px]"
               >
                 <option value="">All Squads</option>
                 {squads.map((squad) => (
@@ -335,7 +337,7 @@ function MembersPageInner() {
                 value={disciplineFilter}
                 onChange={(e) => setDisciplineFilter(e.target.value)}
                 aria-label="Filter by discipline"
-                className="w-full sm:w-auto px-4 py-3 bg-white/5 text-white rounded-xl border border-white/20 focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 transition-all outline-none min-h-[44px] sm:min-w-[200px]"
+                className="w-full sm:w-auto px-4 py-3 bg-white/5 text-white rounded-xl border border-white/20 focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 transition-all outline-none min-h-[48px] sm:min-w-[200px]"
               >
                 <option value="">All Disciplines</option>
                 {ORDERED_DISCIPLINES.map((discipline) => (
@@ -353,8 +355,12 @@ function MembersPageInner() {
                 icon={Users}
                 title={`No ${MEMBER_NOUN_PLURAL_LOWER} yet`}
                 description={`Register your club's ${MEMBER_NOUN_PLURAL_LOWER} so you can track attendance, squads, and progress.`}
-                hint="You can also import from a CSV if you have an existing spreadsheet."
-                actionLabel={`Add ${MEMBER_NOUN}`}
+                hint={
+                  canImport
+                    ? 'You can also import from a CSV if you have an existing spreadsheet.'
+                    : undefined
+                }
+                actionLabel={canManage ? `Add ${MEMBER_NOUN}` : undefined}
                 actionOnClick={handleOpenAddModal}
               />
             ) : filteredMembers.length === 0 ? (
@@ -377,7 +383,7 @@ function MembersPageInner() {
                   <Link
                     key={member.member_id}
                     href={`/members/${member.member_id}`}
-                    className="flex items-center justify-between p-4 sm:p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-brand transition-all group cursor-pointer min-h-[44px]"
+                    className="flex items-center justify-between p-4 sm:p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-brand transition-all group cursor-pointer min-h-[48px]"
                   >
                     <div className="flex items-center space-x-3 sm:space-x-5 min-w-0">
                       <div className="relative flex-shrink-0">
@@ -420,24 +426,26 @@ function MembersPageInner() {
                           ACTIVE
                         </span>
                       </div>
-                      <button
-                        onClick={(e) => handleDeleteClick(e, member)}
-                        className="p-3 text-text-tertiary hover:bg-red-500 hover:bg-opacity-20 hover:text-red-400 rounded-button transition-all min-w-[44px] min-h-[44px] flex items-center justify-center"
-                        aria-label={`Remove ${member.first_name} ${member.last_name}`}
-                      >
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
+                      {canDelete && (
+                        <button
+                          onClick={(e) => handleDeleteClick(e, member)}
+                          className="p-3 text-text-tertiary hover:bg-red-500 hover:bg-opacity-20 hover:text-red-400 rounded-button transition-all min-w-[48px] min-h-[48px] flex items-center justify-center"
+                          aria-label={`Remove ${member.first_name} ${member.last_name}`}
                         >
-                          <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </button>
-                      <div className="p-3 min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-brand hover:text-dark-primary rounded-button transition-all group-hover:bg-brand group-hover:text-dark-primary">
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      )}
+                      <div className="p-3 min-w-[48px] min-h-[48px] flex items-center justify-center hover:bg-brand hover:text-dark-primary rounded-button transition-all group-hover:bg-brand group-hover:text-dark-primary">
                         <svg
                           className="w-6 h-6"
                           fill="none"

@@ -23,10 +23,10 @@ export default function ErrorState({ message, onRetry }: ErrorStateProps) {
     : 'Something went wrong. Check your connection and try again.';
 
   return (
-    <div className="text-center py-16">
-      <div className="mb-6 p-6 bg-red-500 bg-opacity-10 border border-red-500 rounded-xl max-w-md mx-auto">
+    <div role="alert" className="text-center py-16 px-4">
+      <div className="mb-6 p-6 bg-red-50 border border-red-700 rounded-xl max-w-md mx-auto">
         <svg
-          className="w-12 h-12 mx-auto text-red-400 mb-4"
+          className="w-12 h-12 mx-auto text-red-900 mb-4"
           fill="none"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -40,13 +40,13 @@ export default function ErrorState({ message, onRetry }: ErrorStateProps) {
             <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
           )}
         </svg>
-        <p className="text-red-400 font-semibold text-lg">{heading}</p>
-        <p className="text-red-400/70 text-sm mt-2">{detail}</p>
+        <p className="text-red-900 font-semibold text-lg">{heading}</p>
+        <p className="text-red-800 text-sm mt-2">{detail}</p>
       </div>
       {onRetry && (
         <button
           onClick={onRetry}
-          className="px-6 py-3 min-h-[44px] bg-brand text-dark-primary rounded-xl font-semibold hover:bg-brand-light transition-all"
+          className="px-6 py-3 min-h-[48px] bg-brand text-dark-primary rounded-xl font-semibold hover:bg-brand-light transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-800 focus-visible:ring-offset-2 focus-visible:ring-offset-red-50"
         >
           Try Again
         </button>
