@@ -50,7 +50,12 @@ try {
   assert.match(await page.locator('#map-status').innerText(), /0 of 0/);
   await page.getByRole('button', { name: 'List view', exact: true }).click();
   await page.getByLabel('Club, town or postcode').fill('bristol');
-  assert.equal(await page.locator('[data-club]:visible').count(), 2);
+  assert.equal(
+    await page.locator('[data-club]:visible').count(),
+    clubs.filter((club) =>
+      [club.name, club.town, ...club.addresses].join(' ').toLowerCase().includes('bristol')
+    ).length
+  );
   await page.getByLabel('Area', { exact: true }).selectOption('Wales');
   assert.equal(await page.locator('[data-club]:visible').count(), 0);
   assert.equal(await page.locator('#club-empty').isVisible(), true);

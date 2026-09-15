@@ -1,6 +1,6 @@
 # Club directory maintenance (TEM-52)
 
-The directory contains 150 public-source-checked listings: 69 Scotland, 23 England, 50 Wales and 8 Northern Ireland. This is a growing selection, not a comprehensive national register. The front page states the coverage bias explicitly.
+The directory contains 1,175 public-source-checked listings: 945 England, 113 Scotland, 69 Wales and 48 Northern Ireland. This is a growing selection, not a comprehensive national register. The front page describes the sources and keeps the growing-coverage qualification.
 
 `clubs.json` is the publishing source. Each club requires a stable slug, nation, area, town, at least one published venue, sources and a genuine source-check date. A website and discipline list are optional. Missing programmes must remain unknown, not inferred from a club name. No club has claimed or approved its listing. Do not add ratings, current availability, affiliation badges or safeguarding claims without appropriate evidence.
 
@@ -40,3 +40,15 @@ Tile service: https://tile.openstreetmap.org/{z}/{x}/{y}.png, governed by https:
 Added 50 clubs: 40 Wales, seven England and three Northern Ireland. Welsh venues come from the public finder pagination. Duplicate Cardiff Olympic/COGC entries and ambiguous shared Newport records were excluded. Delyn and Pembrokeshire Academy venues are combined under one club; incomplete records and ambiguous provider branches were left out. Programmes are left unknown where the source only provides a venue. English additions use current club website venue pages; Salto and Pro-Star use their own contact pages, and Flight uses Gymnastics Ireland's public venue record.
 
 All 50 additions have approximate map points: 47 GB postcode centroids and three OpenStreetMap town centres for Northern Ireland, checked on 15 September. The directory now maps 148 of 150 clubs; the two previously unmapped records remain unchanged. Existing published slugs and source-check dates are preserved.
+
+## National expansion checked on 15 September 2026 (TEM-54)
+
+British Gymnastics' public venue finder returned its complete unfiltered response of 1,507 venue rows across 1,129 club identifiers. The import uses only the public names, venue addresses and programme tags. Multiple venues are grouped by the source club identifier, with duplicate address lines removed. The public finder does not cover Welsh Gymnastics' separate register, so the remaining Welsh finder pages were checked separately.
+
+The expansion adds 1,025 listings: 922 England, 44 Scotland, 19 Wales and 40 Northern Ireland. Ninety-seven national source identifiers were matched to existing listings by normalised name and nation, with manual checks for renamed clubs and shared venues. All 150 previously published records and slugs remain unchanged. South Staffs and Loughborough umbrella/section records were consolidated; unrelated clubs sharing a leisure centre remain separate. Valleys Gymnastics Academy's seven Welsh venues share one page.
+
+The national additions retain a direct link to the public club-detail page. The link format was checked in a browser against the displayed venue, contacts and programmes. No descriptions, logos, reviews, personal contact details or source map coordinates were copied. Websites remain unset where only a finder record was checked; the source link provides the published contact details. Tags are sourced, with Preschool normalised to Pre-school.
+
+GB postcodes were checked in batches against Postcodes.io, providing nation, English region and cached postcode-centroid points. Northern Irish additions use cached OpenStreetMap town-centre points, with sequential identified requests spaced by at least 1.3 seconds. The directory now has 1,173 mapped listings; the original two unresolved map locations remain unchanged.
+
+This is broad coverage, not a guarantee of every operating UK club. Non-UK venues, unresolved postcode records and ambiguous Welsh duplicates were held back. `coverage-review.json` records the national source records excluded from this import for follow-up. Existing listings can remain even if absent from the national finder. A checked date means the public source was read, not that the club confirmed current opening, availability, affiliation or safety.
