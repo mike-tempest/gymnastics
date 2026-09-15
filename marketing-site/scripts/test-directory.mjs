@@ -1,6 +1,11 @@
 // Run against the production container: node marketing-site/scripts/test-directory.mjs
 import { createRequire } from 'node:module';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+const clubs = JSON.parse(readFileSync(new URL('../site/data/clubs.json', import.meta.url), 'utf8'));
+const total = clubs.length;
+const mapped = clubs.filter((club) => club.mapLocation).length;
+const northernIreland = clubs.filter((club) => club.nation === 'Northern Ireland');
 const require = createRequire(new URL('../../apps/web/package.json', import.meta.url));
 const { chromium } = require('@playwright/test');
 const base = process.env.DIRECTORY_TEST_URL || 'http://127.0.0.1:4180';
@@ -22,10 +27,13 @@ try {
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto(`${base}/clubs/`);
   await page.waitForSelector('#club-filters:visible');
-  assert.equal(await page.locator('[data-club]:visible').count(), 100);
+  assert.equal(await page.locator('[data-club]:visible').count(), total);
   await page.getByRole('button', { name: 'Map view', exact: true }).click();
   await page.waitForSelector('.leaflet-marker-icon');
-  assert.match(await page.locator('#map-status').innerText(), /98 of 100 matching clubs mapped/);
+  assert.match(
+    await page.locator('#map-status').innerText(),
+    new RegExp(`${mapped} of ${total} matching clubs mapped`)
+  );
   assert.equal(await page.locator('#club-results').isVisible(), false);
   await page.getByLabel('Club, town or postcode').fill('Bristol Hawks');
   assert.match(await page.locator('#map-status').innerText(), /1 of 1 matching clubs mapped/);
@@ -48,7 +56,8 @@ try {
   assert.equal(await page.locator('#club-empty').isVisible(), true);
   await page.getByRole('button', { name: 'Clear filters' }).click();
   await page.waitForFunction(
-    () => document.querySelector('#club-count').textContent === 'Showing 100 clubs'
+    (count) => document.querySelector('#club-count').textContent === `Showing ${count} clubs`,
+    total
   );
   await page.getByLabel('Area', { exact: true }).selectOption('Scotland');
   await page.getByLabel('Discipline or programme').selectOption('Trampoline');
@@ -58,7 +67,10 @@ try {
       disciplines: JSON.parse(element.dataset.disciplines),
     }))
   );
-  assert.ok(filtered.length > 0 && filtered.length < 69);
+  assert.ok(
+    filtered.length > 0 &&
+      filtered.length < clubs.filter((club) => club.region === 'Scotland').length
+  );
   assert.ok(
     filtered.every((club) => club.region === 'Scotland' && club.disciplines.includes('Trampoline'))
   );
@@ -99,16 +111,22 @@ try {
     'Mobile map overflow'
   );
   await page.getByLabel('Area', { exact: true }).selectOption('Northern Ireland');
-  assert.match(await page.locator('#map-status').innerText(), /5 of 5 matching clubs mapped/);
+  assert.match(
+    await page.locator('#map-status').innerText(),
+    new RegExp(
+      `${northernIreland.filter((club) => club.mapLocation).length} of ${northernIreland.length} matching clubs mapped`
+    )
+  );
   await page.getByRole('button', { name: 'Clear filters' }).click();
-  await page.waitForFunction(() =>
-    document.querySelector('#map-status').textContent.startsWith('98 of 100')
+  await page.waitForFunction(
+    (prefix) => document.querySelector('#map-status').textContent.startsWith(prefix),
+    `${mapped} of ${total}`
   );
   assert.deepEqual(errors, []);
   const plain = await browser.newContext({ javaScriptEnabled: false });
   const nojs = await plain.newPage();
   await nojs.goto(`${base}/clubs/`);
-  assert.equal(await nojs.locator('[data-club]:visible').count(), 100);
+  assert.equal(await nojs.locator('[data-club]:visible').count(), total);
   assert.equal(await nojs.locator('#club-filters').isVisible(), false);
   const missing = await nojs.goto(`${base}/clubs/does-not-exist/`);
   assert.equal(missing.status(), 404);

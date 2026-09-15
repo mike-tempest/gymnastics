@@ -1,6 +1,7 @@
 # Generated dependencies, build output and test reports.
 **/node_modules/**
 **/dist/**
+**/dist.nosync/**
 **/build/**
 **/.next/**
 **/out/**

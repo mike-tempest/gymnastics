@@ -1,6 +1,6 @@
 # Club directory maintenance (TEM-52)
 
-The initial release contains 100 public-source-checked listings: 69 Scotland, 16 England, 10 Wales and 5 Northern Ireland. This is a growing selection, not a comprehensive national register. The front page states the coverage bias explicitly.
+The directory contains 150 public-source-checked listings: 69 Scotland, 23 England, 50 Wales and 8 Northern Ireland. This is a growing selection, not a comprehensive national register. The front page states the coverage bias explicitly.
 
 `clubs.json` is the publishing source. Each club requires a stable slug, nation, area, town, at least one published venue, sources and a genuine source-check date. A website and discipline list are optional. Missing programmes must remain unknown, not inferred from a club name. No club has claimed or approved its listing. Do not add ratings, current availability, affiliation badges or safeguarding claims without appropriate evidence.
 
@@ -34,3 +34,9 @@ The initial map has 98 of 100 clubs. Ninety-three GB locations are postcode cent
 City of Bristol's conflicting postcode and Isle of Lewis's unrecognised published postcode are left unmapped. Multiple-venue clubs have one pin for the first listed venue. The UI states these limitations, labels all points approximate and retains the full listing when no point is available. Attribution appears beneath the map and on the tile layer. Do not label these coordinates as venue entrances or use them for turn-by-turn directions.
 
 Tile service: https://tile.openstreetmap.org/{z}/{x}/{y}.png, governed by https://operations.osmfoundation.org/policies/tiles/. Honour browser caching, retain Referer and visible attribution, and do not add tile prefetch or offline downloads. GB postcode licensing: https://postcodes.io/docs/licences/.
+
+## Expansion checked on 15 September 2026 (TEM-53)
+
+Added 50 clubs: 40 Wales, seven England and three Northern Ireland. Welsh venues come from the public finder pagination. Duplicate Cardiff Olympic/COGC entries and ambiguous shared Newport records were excluded. Delyn and Pembrokeshire Academy venues are combined under one club; incomplete records and ambiguous provider branches were left out. Programmes are left unknown where the source only provides a venue. English additions use current club website venue pages; Salto and Pro-Star use their own contact pages, and Flight uses Gymnastics Ireland's public venue record.
+
+All 50 additions have approximate map points: 47 GB postcode centroids and three OpenStreetMap town centres for Northern Ireland, checked on 15 September. The directory now maps 148 of 150 clubs; the two previously unmapped records remain unchanged. Existing published slugs and source-check dates are preserved.

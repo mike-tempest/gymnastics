@@ -2794,5 +2794,1273 @@
       "source": "https://postcodes.io",
       "checkedAt": "2026-09-14"
     }
+  },
+  {
+    "slug": "attercliffe-gymnastics-academy",
+    "name": "Attercliffe Gymnastics Academy",
+    "nation": "England",
+    "region": "Yorkshire and the Humber",
+    "town": "Sheffield",
+    "addresses": ["Unit 1, Fieldhouse Way, Sheffield S4 7SF"],
+    "website": "https://www.aga-gymnastics.co.uk/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.aga-gymnastics.co.uk/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 53.398603,
+      "longitude": -1.448063,
+      "label": "S4 7SF",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "capital-academy-of-gymnastics-ltd",
+    "name": "Capital Academy of Gymnastics Ltd",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Cardiff",
+    "addresses": [
+      "Units 7/8 Western Business Centre, Riverside Terrace, Cowbridge Road West, Cardiff CF5 5AS"
+    ],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.483828,
+      "longitude": -3.230235,
+      "label": "CF5 5AS",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "cardiff-central-youth-club",
+    "name": "Cardiff Central Youth Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Cardiff",
+    "addresses": ["Ocean Park Ocean Way Cardiff CF24 5HF"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.475435,
+      "longitude": -3.158201,
+      "label": "CF24 5HF",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "cardiff-flyers-trampolining-club",
+    "name": "Cardiff Flyers Trampolining Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Cardiff",
+    "addresses": ["Sport Wales National Centre Sophia Gardens Cardiff CF11 9SW"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.486226,
+      "longitude": -3.19039,
+      "label": "CF11 9SW",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "cardiff-met-gymnastics-and-trampoline-club",
+    "name": "Cardiff Met Gymnastics and Trampoline Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Cardiff",
+    "addresses": [
+      "Cardiff Metropolitan University Sports Facilities Cyncoed Campus Cyncoed Road CF23 6XD"
+    ],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.510495,
+      "longitude": -3.161785,
+      "label": "CF23 6XD",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "cardiff-olympic-gymnastics-club",
+    "name": "Cardiff Olympic Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Cardiff",
+    "addresses": ["Ely Distribution Centre, Unit 19, Argyle Way, Ely, Cardiff CF5 5NJ"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.472816,
+      "longitude": -3.236735,
+      "label": "CF5 5NJ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "carmarthenshire-school-of-gymnastics-ltd",
+    "name": "Carmarthenshire School Of Gymnastics Ltd",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Cross Hands",
+    "addresses": ["Unit 3 Crosshands Square Crosshands SA14 6NT"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.793143,
+      "longitude": -4.086075,
+      "label": "SA14 6NT",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "city-of-newport-gymnastics-academy",
+    "name": "City of Newport Gymnastics Academy",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Newport",
+    "addresses": ["Units 9/10 Langland Park West Langland Way Newport NP19 4PT"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.572926,
+      "longitude": -2.963189,
+      "label": "NP19 4PT",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "clwb-gymnasteg-eryri",
+    "name": "Clwb Gymnasteg Eryri",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Penygroes",
+    "addresses": ["Byw'n Iach Plas Silyn Plas Silyn County Road Penygroes LL54 6HJ"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 53.053047,
+      "longitude": -4.275991,
+      "label": "LL54 6HJ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "cv-gymnastics",
+    "name": "CV Gymnastics",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Aberdare",
+    "addresses": ["Sobell Leisure Centre, The Ynys, Aberdare, CF44 7RP"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.712773,
+      "longitude": -3.439027,
+      "label": "CF44 7RP",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "deeside-gymnastics-club",
+    "name": "Deeside Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Saltney Ferry",
+    "addresses": ["3a/4a Aviation Park Flint Road Saltney Ferry Chester CH4 0GZ"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 53.186875,
+      "longitude": -2.974305,
+      "label": "CH4 0GZ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "deeside-rhythmic",
+    "name": "Deeside Rhythmic",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Queensferry",
+    "addresses": [
+      "Deeside Leisure Centre, Chester Road West, Queensferry, Deeside, Flintshire, CH5 1SA"
+    ],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 53.20652,
+      "longitude": -3.026345,
+      "label": "CH5 1SA",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "delyn-gymnastics-club",
+    "name": "Delyn Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Holywell",
+    "addresses": [
+      "Mostyn Road Holywell CH8 9DQ",
+      "Flint High School Maes Hyfred Flint CH6 5LL",
+      "Ysgol Trefynnon Strand Walk Holywell CH8 7AW"
+    ],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 53.299276,
+      "longitude": -3.227538,
+      "label": "CH8 9DQ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "dreigiau-r-dyffrin-gymnastics-club",
+    "name": "Dreigiau’r Dyffrin Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Bethesda",
+    "addresses": [
+      "Clwb Gymnasteg Dreigiau'r Dyffryn Units 6-7 Coed y Parc Industrial Estate Bethesda Gwynedd LL57 4YY"
+    ],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 53.177383,
+      "longitude": -4.074228,
+      "label": "LL57 4YY",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "dynamic-dragons-gymnastics",
+    "name": "Dynamic Dragons Gymnastics",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Llanwrtyd Wells",
+    "addresses": ["Bromsgrove Hall Doy-y-Coed Llanwrtyd Wells LD5 4RA"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 52.107634,
+      "longitude": -3.639815,
+      "label": "LD5 4RA",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "elements-gymnastics-club",
+    "name": "Elements Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Pembroke Dock",
+    "addresses": ["Unit 4, London Road Trading Estate, Pembroke Dock, SA72 4RS"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.692482,
+      "longitude": -4.925181,
+      "label": "SA72 4RS",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "flight-gymnastics-academy",
+    "name": "Flight Gymnastics Academy",
+    "nation": "Northern Ireland",
+    "region": "Northern Ireland",
+    "town": "Newtownabbey",
+    "addresses": ["Ballycraigy Business Park, 655 Antrim Road, Newtownabbey BT36 4RG"],
+    "website": "https://www.flightgymnastics.co.uk/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Gymnastics Ireland club finder",
+        "url": "https://www.gymnasticsireland.com/member-clubs"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 54.6778816,
+      "longitude": -5.9249199,
+      "label": "Newtownabbey",
+      "precision": "town",
+      "source": "https://www.openstreetmap.org/node/267763099",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "freefallers-trampoline-club",
+    "name": "Freefallers Trampoline Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Abertillery",
+    "addresses": ["Abertillery Comprehensive School Alma Street Abertillery NP13 1QD"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.736535,
+      "longitude": -3.136423,
+      "label": "NP13 1QD",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "fusion-gymnastics-wales",
+    "name": "Fusion Gymnastics Wales",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Pontyclun",
+    "addresses": ["Unit H2 Coed Cae Lane Industrial Estate Pontyclun CF72 9HG"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.532298,
+      "longitude": -3.40223,
+      "label": "CF72 9HG",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "grays-gymnastics-club",
+    "name": "Grays Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Llysfaen",
+    "addresses": ["UNIT 1, TY MAWR, TAN Y GRAIG ROAD, LLYSFAEN, LL29 8UE"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 53.283598,
+      "longitude": -3.674489,
+      "label": "LL29 8UE",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "haverfordwest-gymnastics-club",
+    "name": "Haverfordwest Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Haverfordwest",
+    "addresses": ["Brithdir Hall County Showground Withybush Road Haverfordwest Sa62 4BW"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.827576,
+      "longitude": -4.958387,
+      "label": "SA62 4BW",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "head-over-heels",
+    "name": "Head over Heels",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Newport",
+    "addresses": ["Trinity Church, Glasllwch Ln, Rogerstone, Newport NP20 3PU"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.57913,
+      "longitude": -3.035999,
+      "label": "NP20 3PU",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "hi-volume-trampoline-squad",
+    "name": "Hi-Volume Trampoline Squad",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Cwmbran",
+    "addresses": ["Fairwater Leisure Centre Cwmbran NP44 4YZ"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.647735,
+      "longitude": -3.051395,
+      "label": "NP44 4YZ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "jnb-academy-club-priestnall-gymnastics",
+    "name": "JNB Academy - Club Priestnall Gymnastics",
+    "nation": "England",
+    "region": "North West",
+    "town": "Stockport",
+    "addresses": ["Club Priestnall Leisure Centre, Priestnall Road, Stockport SK4 3HR"],
+    "website": "https://jnbacademy.org/club-priestnall-gymnastics",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://jnbacademy.org/club-priestnall-gymnastics"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 53.416513,
+      "longitude": -2.197132,
+      "label": "SK4 3HR",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "kestrel-gymnastics-club",
+    "name": "Kestrel Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Chepstow",
+    "addresses": ["Unit 1a, Bulwark Industrial Estate Chepstow NP16 5QZ"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.631643,
+      "longitude": -2.672464,
+      "label": "NP16 5QZ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "lampeter-flics-llambed",
+    "name": "Lampeter Flics Llambed",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Lampeter",
+    "addresses": ["Lampeter Wellbeing Centre Peterwell Terrace Lampeter SA48 7BX"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 52.111987,
+      "longitude": -4.081284,
+      "label": "SA48 7BX",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "llandrindod-dragons-gymnastics",
+    "name": "Llandrindod Dragons Gymnastics",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Llandrindod Wells",
+    "addresses": ["Llandrindod Wells Sports Centre Dyffryn Road Llandrindod Wells LD1 6AN"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 52.242243,
+      "longitude": -3.382964,
+      "label": "LD1 6AN",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "llanelli-gymnastics-club",
+    "name": "Llanelli Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Llanelli",
+    "addresses": ["Calsonic Kansei Felinfoel Llanelli SA14 8HU"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.699006,
+      "longitude": -4.140165,
+      "label": "SA14 8HU",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "llanelli-rhythmic-academy",
+    "name": "Llanelli Rhythmic Academy",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Llanelli",
+    "addresses": ["Lakefield Hall Lakefield Road Llanelli SA15 2UE"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.677886,
+      "longitude": -4.164034,
+      "label": "SA15 2UE",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "maldwyn-dragons-gymnastics-club",
+    "name": "Maldwyn Dragons Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Newtown",
+    "addresses": ["14 Mochdre Industrial Estate Newtown Powys SY16 4LE"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 52.502386,
+      "longitude": -3.336852,
+      "label": "SY16 4LE",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "milford-gymnastics-academy",
+    "name": "Milford Gymnastics Academy",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Neyland",
+    "addresses": ["VIP Class Acts Unit 70a Honeyborough Industrial Estate Neyland SA73 1SE"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.718809,
+      "longitude": -4.953539,
+      "label": "SA73 1SE",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "moelwyn-gymnastics-academy",
+    "name": "Moelwyn Gymnastics Academy",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Harlech",
+    "addresses": ["Ysgol Ardudwy Ffordd y Traeth Harlech LL46 2UH"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 52.862139,
+      "longitude": -4.111405,
+      "label": "LL46 2UH",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "monmouth-flyers",
+    "name": "Monmouth Flyers",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Monmouth",
+    "addresses": ["Monmouth School Sports Club NP25 3NG"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.810998,
+      "longitude": -2.704284,
+      "label": "NP25 3NG",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "monmouth-gymnastics-club",
+    "name": "Monmouth Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Monmouth",
+    "addresses": ["Monmouth Leisure Centre Old Dixton Road Monmouth NP25 3DP"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.813644,
+      "longitude": -2.709809,
+      "label": "NP25 3DP",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "neath-flyers-academy-trampoline-and-dmt",
+    "name": "Neath Flyers Academy Trampoline and DMT",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Neath",
+    "addresses": ["Neath Sports Centre Neath Abbey Road Cwrt Herbert SA10 7BE"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.663536,
+      "longitude": -3.812299,
+      "label": "SA10 7BE",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "newport-acrobatic-gymnastics",
+    "name": "Newport Acrobatic Gymnastics",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Rogerstone",
+    "addresses": ["Unit 4, Wern Industrial Estate, Rogerstone, NP10 9FQ"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.589087,
+      "longitude": -3.053865,
+      "label": "NP10 9FQ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "newport-girls-gymnastic-club",
+    "name": "Newport Girls Gymnastic Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Newport",
+    "addresses": ["Newport Girls Bettws Active Living Centre, Bettws Lane, NP20 7YB"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.606884,
+      "longitude": -3.014868,
+      "label": "NP20 7YB",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "olivia-s-school-of-rhythmic-gymnastics",
+    "name": "Olivia’s School of Rhythmic Gymnastics",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Swansea",
+    "addresses": ["Dyfed Avenue, Townhill Swansea, SA1 6NF"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.625699,
+      "longitude": -3.968967,
+      "label": "SA1 6NF",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "olympus-gymnastics-club",
+    "name": "Olympus Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Llay",
+    "addresses": ["Unit 6, Miners Road Llay Industrial Estate LL12 0PJ"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 53.100338,
+      "longitude": -3.010643,
+      "label": "LL12 0PJ",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "pembrokeshire-gymnastics-academy",
+    "name": "Pembrokeshire Gymnastics Academy",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Neyland",
+    "addresses": [
+      "Neyland Community Hub John Street Neyland SA73 1TH",
+      "Tenby Leisure Centre Marsh Road Tenby SA70 8DU"
+    ],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.710586,
+      "longitude": -4.949311,
+      "label": "SA73 1TH",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "pembrokeshire-special-needs-gymnastics-club",
+    "name": "Pembrokeshire Special Needs Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Milford Haven",
+    "addresses": ["The Meads Sports Centre Priory Road Milford Haven SA73 2EE"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.718194,
+      "longitude": -5.033054,
+      "label": "SA73 2EE",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "pen-y-bont-gymnastics-club",
+    "name": "Pen-y-Bont Gymnastics Club",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Bridgend",
+    "addresses": ["Waterton Road Bridgend CF31 3YY"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.494934,
+      "longitude": -3.556264,
+      "label": "CF31 3YY",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "phoenix-dance-gymnastics",
+    "name": "Phoenix Dance & Gymnastics",
+    "nation": "Wales",
+    "region": "Wales",
+    "town": "Aberdare",
+    "addresses": ["Unit 6, Canal Rd, Aberdare, CF44 0AG"],
+    "website": null,
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Welsh Gymnastics club finder",
+        "url": "https://www.welshgymnastics.org/find-gymnastics/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 51.702037,
+      "longitude": -3.413883,
+      "label": "CF44 0AG",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "pro-star-gymnastics-academy",
+    "name": "Pro-Star Gymnastics Academy",
+    "nation": "Northern Ireland",
+    "region": "Northern Ireland",
+    "town": "Newtownards",
+    "addresses": ["Unit 22E, Crawfordsburn Road, Newtownards BT23 4EA"],
+    "website": "https://prostargymnastics.com/contact/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://prostargymnastics.com/contact/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 54.5933779,
+      "longitude": -5.6960935,
+      "label": "Newtownards",
+      "precision": "town",
+      "source": "https://www.openstreetmap.org/node/267762996",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "salto-lisburn",
+    "name": "Salto Lisburn",
+    "nation": "Northern Ireland",
+    "region": "Northern Ireland",
+    "town": "Lisburn",
+    "addresses": ["4 Warren Park, Lisburn, Co. Antrim BT28 1LW"],
+    "website": "https://saltogymnasticsni.com/contact-us/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://saltogymnasticsni.com/contact-us/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 54.5112856,
+      "longitude": -6.046717,
+      "label": "Lisburn",
+      "precision": "town",
+      "source": "https://www.openstreetmap.org/node/1460517034",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "sarah-s-mini-gym",
+    "name": "Sarah's Mini Gym",
+    "nation": "England",
+    "region": "Yorkshire and the Humber",
+    "town": "Sheffield",
+    "addresses": ["Totley All Saints Church Hall, Totley Hall Lane, Sheffield S17 4AA"],
+    "website": "https://sarahsminigym.co.uk/?page_id=55",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://sarahsminigym.co.uk/?page_id=55"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 53.312827,
+      "longitude": -1.54008,
+      "label": "S17 4AA",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "sheffield-gymnastics-academy-the-gymnastics-academy",
+    "name": "Sheffield Gymnastics Academy - The Gymnastics Academy",
+    "nation": "England",
+    "region": "Yorkshire and the Humber",
+    "town": "Sheffield",
+    "addresses": ["6 Archer Drive, Archer Road Shopping Park, Sheffield S8 0LB"],
+    "website": "https://www.thegymnasticsacademy.co.uk/our-clubs/sheffield/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.thegymnasticsacademy.co.uk/our-clubs/sheffield/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 53.34701,
+      "longitude": -1.490863,
+      "label": "S8 0LB",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "sheffield-workshop-gymnastics",
+    "name": "Sheffield Workshop Gymnastics",
+    "nation": "England",
+    "region": "Yorkshire and the Humber",
+    "town": "Sheffield",
+    "addresses": ["Concorde Works, Little London Road, Sheffield S8 0UH"],
+    "website": "https://www.sheffieldworkshop-gymnastics.co.uk/find-us",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.sheffieldworkshop-gymnastics.co.uk/find-us"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 53.355113,
+      "longitude": -1.483495,
+      "label": "S8 0UH",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "warrington-gymnastics-club",
+    "name": "Warrington Gymnastics Club",
+    "nation": "England",
+    "region": "North West",
+    "town": "Warrington",
+    "addresses": [
+      "Performance Centre, Units 8-11 Wharf Street Industrial Estate, Wharf Street, Warrington WA1 2HT",
+      "Recreational Centre, Unit 14 Wharf Street Industrial Estate, Wharf Street, Warrington WA1 2HT"
+    ],
+    "website": "https://www.warringtongymnastics.co.uk/contact-1",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://www.warringtongymnastics.co.uk/contact-1"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 53.386021,
+      "longitude": -2.580954,
+      "label": "WA1 2HT",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
+  },
+  {
+    "slug": "york-city-gymnastics-foundation",
+    "name": "York City Gymnastics Foundation",
+    "nation": "England",
+    "region": "Yorkshire and the Humber",
+    "town": "York",
+    "addresses": ["St John's Walk, Heworth, York YO31 7SX"],
+    "website": "https://ycgf.org.uk/contact/",
+    "disciplines": [],
+    "sources": [
+      {
+        "label": "Club website",
+        "url": "https://ycgf.org.uk/contact/"
+      }
+    ],
+    "checkedAt": "2026-09-15",
+    "mapLocation": {
+      "latitude": 53.965709,
+      "longitude": -1.071561,
+      "label": "YO31 7SX",
+      "precision": "postcode",
+      "source": "https://postcodes.io",
+      "checkedAt": "2026-09-15"
+    }
   }
 ]
