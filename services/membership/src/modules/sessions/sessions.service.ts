@@ -1,4 +1,11 @@
-import { Injectable, NotFoundException, BadRequestException, Logger } from '@nestjs/common';
+import { TimetableService } from './timetable.service';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  Logger,
+  Optional,
+} from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { ConfigService } from '@nestjs/config';
 import { SessionsRepository } from './sessions.repository';
@@ -34,6 +41,7 @@ export class SessionsService {
     private readonly familiesRepository: FamiliesRepository,
     private readonly clubsRepository: ClubsRepository,
     private readonly tenantContext: TenantContextService,
+    @Optional() private readonly timetables?: TimetableService,
   ) {
     this.appUrl = this.configService.get<string>('APP_URL', 'http://localhost:3000');
   }
@@ -173,7 +181,10 @@ export class SessionsService {
   }
 
   async updateSessionStatus(id: string, status: SessionStatus): Promise<Session> {
-    await this.findOne(id); // This will throw if not found
+    const existing = await this.findOne(id);
+    if (existing.series_id && [SessionStatus.SCHEDULED, SessionStatus.CANCELLED].includes(status)) {
+      return this.timetables!.editOne(id, { status });
+    }
 
     // Validate status transitions
     const validStatuses = Object.values(SessionStatus);
@@ -194,7 +205,8 @@ export class SessionsService {
   }
 
   async update(id: string, updateSessionDto: UpdateSessionDto): Promise<Session> {
-    const existing = await this.findOne(id); // This will throw if not found
+    const existing = await this.findOne(id);
+    if (existing.series_id) return this.timetables!.editOne(id, updateSessionDto);
 
     // Validate that end_time is after start_time if both are provided
     if (updateSessionDto.start_time && updateSessionDto.end_time) {
@@ -226,7 +238,9 @@ export class SessionsService {
   }
 
   async remove(id: string): Promise<void> {
-    await this.findOne(id); // This will throw if not found
+    const existing = await this.findOne(id);
+    if (existing.series_id)
+      throw new BadRequestException('Cancel a recurring session instead of deleting its history');
     await this.sessionsRepository.remove(id);
   }
 

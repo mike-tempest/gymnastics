@@ -7,6 +7,10 @@ export function buildSession(overrides?: Partial<Session>): Session {
   const now = new Date();
 
   const defaults: Session = {
+    series_id: null,
+    occurrence_date: null,
+    is_override: false,
+    cancellation_reason: null,
     session_id: crypto.randomUUID(),
     club_id: crypto.randomUUID(),
     squad_id: crypto.randomUUID(),

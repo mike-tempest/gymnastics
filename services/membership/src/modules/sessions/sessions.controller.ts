@@ -17,7 +17,7 @@ import { UpdateSessionDto } from './dto/update-session.dto';
 import { SessionStatus } from './entities/session.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
-import { Roles } from '../auth/decorators/roles.decorator';
+import { ExactRoles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
 import { OptionalUuidParam, UuidParam } from '../../common/validation/parse-uuid.pipe';
 
@@ -28,7 +28,7 @@ export class SessionsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
+  @ExactRoles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
   create(@Body() createSessionDto: CreateSessionDto) {
     return this.sessionsService.create(createSessionDto);
   }
@@ -76,20 +76,20 @@ export class SessionsController {
   }
 
   @Patch(':id')
-  @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
+  @ExactRoles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
   update(@Param('id', UuidParam) id: string, @Body() updateSessionDto: UpdateSessionDto) {
     return this.sessionsService.update(id, updateSessionDto);
   }
 
   @Patch(':id/status')
-  @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
+  @ExactRoles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
   updateStatus(@Param('id', UuidParam) id: string, @Body('status') status: SessionStatus) {
     return this.sessionsService.updateSessionStatus(id, status);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Roles(UserRole.SUPER_ADMIN)
+  @ExactRoles(UserRole.SUPER_ADMIN)
   remove(@Param('id', UuidParam) id: string) {
     return this.sessionsService.remove(id);
   }
