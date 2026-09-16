@@ -1,3 +1,5 @@
+import { TimetableController } from './timetable.controller';
+import { TimetableService } from './timetable.service';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SessionsController } from './sessions.controller';
@@ -10,8 +12,8 @@ import { FamiliesModule } from '../families/families.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Session]), EmailModule, MembersModule, FamiliesModule],
-  controllers: [SessionsController],
-  providers: [SessionsService, SessionsRepository],
+  controllers: [SessionsController, TimetableController],
+  providers: [SessionsService, SessionsRepository, TimetableService],
   exports: [SessionsService, SessionsRepository],
 })
 export class SessionsModule {}

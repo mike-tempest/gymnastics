@@ -12,6 +12,10 @@ export interface Session {
   coach_name: string | null;
   max_participants: number | null;
   status: SessionStatus;
+  series_id?: string | null;
+  occurrence_date?: string | null;
+  is_override?: boolean;
+  cancellation_reason?: string | null;
   created_at: string;
   updated_at: string;
 

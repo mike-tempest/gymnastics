@@ -58,6 +58,18 @@ export class Session {
   })
   status: SessionStatus;
 
+  @Column({ type: 'uuid', nullable: true })
+  series_id: string | null;
+
+  @Column({ type: 'date', nullable: true })
+  occurrence_date: string | null;
+
+  @Column({ type: 'boolean', default: false })
+  is_override: boolean;
+
+  @Column({ type: 'varchar', length: 200, nullable: true })
+  cancellation_reason: string | null;
+
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 
