@@ -339,6 +339,12 @@ export default function ChildDetailPage({ params }: PageProps) {
                       </div>
                       <div>
                         <p className="text-white font-semibold">{session.session_name}</p>
+                        {session.status === 'cancelled' && (
+                          <p className="font-semibold text-red-300">
+                            Cancelled: {session.cancellation_reason ?? 'Club cancellation'}. No
+                            attendance expected.
+                          </p>
+                        )}
                         <p className="text-text-tertiary text-sm tabular-nums">
                           {formatDate(session.session_date)} at {formatTime(session.start_time)} -{' '}
                           {formatTime(session.end_time)}

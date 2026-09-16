@@ -51,7 +51,8 @@ export default function ChildrenListPage() {
             return {
               ...member,
               attendanceStats: stats,
-              upcomingSessionsCount: schedule.length,
+              upcomingSessionsCount: schedule.filter((session) => session.status !== 'cancelled')
+                .length,
             } as MemberWithStats;
           })
         );
