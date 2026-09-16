@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
 
+import InvoiceAdjustments from '@/components/billing/adjustments/InvoiceAdjustments';
 import InvoiceStatusBadge from '@/components/billing/InvoiceStatusBadge';
 import MainLayout from '@/components/layout/MainLayout';
 import Breadcrumb from '@/components/ui/Breadcrumb';
@@ -162,11 +163,17 @@ export default function BillingInvoiceDetailPage() {
       setError('Please enter a valid payment amount.');
       return;
     }
-    const totalPaid = invoice.payments?.reduce((sum, p) => sum + p.amount, 0) || 0;
-    const remainingBalance = invoice.total_amount - totalPaid;
+    const totalPaid = invoice.billing_balance
+      ? invoice.billing_balance.paid_minor / 100
+      : invoice.payments
+          ?.filter((p) => p.status === PaymentStatus.CONFIRMED)
+          .reduce((sum, p) => sum + Number(p.amount), 0) || 0;
+    const remainingBalance = invoice.billing_balance
+      ? invoice.billing_balance.collectable_minor / 100
+      : Number(invoice.total_amount) - totalPaid;
     if (amount > remainingBalance) {
       setError(
-        `Amount exceeds remaining balance of ${formatCurrency(remainingBalance, invoice.currency)}.`
+        `Amount exceeds remaining balance of ${formatCurrency(balanceDue, invoice.currency)}.`
       );
       return;
     }
@@ -238,8 +245,17 @@ export default function BillingInvoiceDetailPage() {
   }
 
   const displayStatus = getDisplayStatus(invoice);
-  const totalPaid = invoice.payments?.reduce((sum, p) => sum + p.amount, 0) || 0;
-  const remainingBalance = invoice.total_amount - totalPaid;
+  const totalPaid = invoice.billing_balance
+    ? invoice.billing_balance.paid_minor / 100
+    : invoice.payments
+        ?.filter((p) => p.status === PaymentStatus.CONFIRMED)
+        .reduce((sum, p) => sum + Number(p.amount), 0) || 0;
+  const remainingBalance = invoice.billing_balance
+    ? invoice.billing_balance.collectable_minor / 100
+    : Number(invoice.total_amount) - totalPaid;
+  const balanceDue = invoice.billing_balance
+    ? invoice.billing_balance.due_minor / 100
+    : remainingBalance;
   const isSettled =
     invoice.status === InvoiceStatus.PAID || invoice.status === InvoiceStatus.CANCELLED;
 
@@ -252,7 +268,7 @@ export default function BillingInvoiceDetailPage() {
   const taxApplied = Number(invoice.tax_amount) > 0;
   const taxRegNumber = clubRegion.club?.tax_registration_number ?? null;
   const isTaxInvoice = taxApplied && !!taxRegNumber && clubRegion.country === 'AU';
-  const taxInclusive = clubRegion.club?.tax_inclusive === true;
+  const taxInclusive = invoice.billing_tax_inclusive ?? clubRegion.club?.tax_inclusive === true;
   const taxLabel = invoice.tax_label ?? clubRegion.club?.tax_label ?? 'Tax';
 
   return (
@@ -269,6 +285,15 @@ export default function BillingInvoiceDetailPage() {
               ]}
             />
           </div>
+
+          <InvoiceAdjustments
+            invoiceId={invoice.invoice_id}
+            invoiceNumber={invoice.invoice_number}
+            familyName={invoice.family?.family_name}
+            items={invoice.items}
+            payments={invoice.payments}
+            onChanged={fetchInvoice}
+          />
 
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-8 gap-4">
@@ -705,14 +730,14 @@ export default function BillingInvoiceDetailPage() {
                     <span className="text-white font-semibold text-sm">Balance Due</span>
                     <span
                       className={`text-xl font-bold tabular-nums ${
-                        remainingBalance === 0
+                        balanceDue === 0
                           ? 'text-brand'
                           : displayStatus === 'overdue'
                             ? 'text-red-400'
                             : 'text-brand'
                       }`}
                     >
-                      {formatCurrency(remainingBalance, invoice.currency)}
+                      {formatCurrency(balanceDue, invoice.currency)}
                     </span>
                   </div>
                 </div>

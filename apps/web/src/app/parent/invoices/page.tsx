@@ -72,7 +72,14 @@ export default function InvoicesListPage() {
   const totalInvoices = invoices.length;
   const totalOutstanding = withStatus
     .filter((x) => x.displayStatus === 'sent' || x.displayStatus === 'overdue')
-    .reduce((sum, x) => sum + Number(x.invoice.total_amount), 0);
+    .reduce(
+      (sum, x) =>
+        sum +
+        (x.invoice.billing_balance
+          ? x.invoice.billing_balance.due_minor / 100
+          : Number(x.invoice.total_amount)),
+      0
+    );
   const totalPaid = withStatus
     .filter((x) => x.displayStatus === 'paid')
     .reduce((sum, x) => sum + Number(x.invoice.total_amount), 0);
