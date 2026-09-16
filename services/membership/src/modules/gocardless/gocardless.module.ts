@@ -1,3 +1,4 @@
+import { BillingLedgerModule } from '../finance/adjustments/billing-ledger.module';
 import { PartnerWebhooksService } from './partner-webhooks.service';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -34,6 +35,7 @@ import { PaymentConnectionsModule } from '../finance/payment-connections/payment
  */
 @Module({
   imports: [
+    BillingLedgerModule,
     ConfigModule,
     TypeOrmModule.forFeature([DirectDebitMandate, Payment, Invoice, InvoiceItem]),
     EmailModule,

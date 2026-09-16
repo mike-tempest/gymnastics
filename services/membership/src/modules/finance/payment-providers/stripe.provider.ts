@@ -3,6 +3,10 @@ import Stripe from 'stripe';
 import { ConfigService } from '@nestjs/config';
 import { getStripeConfig } from '../../../config/stripe.config';
 import {
+  ProviderSubmissionRejectedError,
+  RefundParams,
+  OperationLookup,
+  ProviderOperationResult,
   ChargeRecurringParams,
   ChargeRecurringResult,
   CompleteMandateSetupParams,
@@ -274,6 +278,110 @@ export class StripeProvider implements PaymentProvider {
     );
 
     return { providerPaymentId: intent.id };
+  }
+
+  private refundResult(refund: Stripe.Refund): ProviderOperationResult {
+    return {
+      id: refund.id,
+      amountMinor: refund.amount,
+      currency: refund.currency.toUpperCase(),
+      state:
+        refund.status === 'succeeded'
+          ? 'confirmed'
+          : ['failed', 'canceled'].includes(refund.status ?? '')
+            ? 'failed'
+            : 'pending',
+      operationId: refund.metadata?.billing_operation_id,
+      paymentId:
+        typeof refund.payment_intent === 'string'
+          ? refund.payment_intent
+          : refund.payment_intent?.id,
+    };
+  }
+  private paymentResult(payment: Stripe.PaymentIntent): ProviderOperationResult {
+    return {
+      id: payment.id,
+      amountMinor: payment.amount,
+      currency: payment.currency.toUpperCase(),
+      state:
+        payment.status === 'succeeded'
+          ? 'confirmed'
+          : ['canceled', 'requires_payment_method'].includes(payment.status)
+            ? 'failed'
+            : 'pending',
+      operationId: payment.metadata?.billing_operation_id,
+    };
+  }
+  async refund(params: RefundParams) {
+    try {
+      return this.refundResult(
+        await this.stripe.refunds.create(
+          {
+            payment_intent: params.providerPaymentId,
+            amount: params.amountMinor,
+            metadata: { billing_operation_id: params.operationId },
+          },
+          { stripeAccount: this.connection.externalAccountId, idempotencyKey: params.operationId },
+        ),
+      );
+    } catch (error) {
+      const rejected = error as { type?: string; statusCode?: number };
+      if (
+        [
+          'StripeInvalidRequestError',
+          'StripeAuthenticationError',
+          'StripePermissionError',
+        ].includes(rejected.type ?? '') &&
+        [400, 401, 403, 404].includes(rejected.statusCode ?? 0)
+      )
+        throw new ProviderSubmissionRejectedError(
+          'Stripe rejected the refund. Check the original payment and connected account.',
+        );
+      throw error;
+    }
+  }
+  async inspectPayment(id: string) {
+    const intent = await this.stripe.paymentIntents.retrieve(
+      id,
+      { expand: ['latest_charge'] },
+      { stripeAccount: this.connection.externalAccountId },
+    );
+    const charge = intent.latest_charge;
+    return {
+      ...this.paymentResult(intent),
+      refundedMinor: typeof charge === 'object' && charge ? charge.amount_refunded : 0,
+    };
+  }
+  async inspectRefund(id: string) {
+    return this.refundResult(
+      await this.stripe.refunds.retrieve(
+        id,
+        {},
+        { stripeAccount: this.connection.externalAccountId },
+      ),
+    );
+  }
+  async findOperation(lookup: OperationLookup) {
+    const options = { stripeAccount: this.connection.externalAccountId };
+    const created = { gte: Math.floor(new Date(lookup.createdAt).getTime() / 1000) };
+    if (lookup.kind === 'refund') {
+      for await (const refund of this.stripe.refunds.list(
+        { payment_intent: lookup.providerPaymentId, created, limit: 100 },
+        options,
+      )) {
+        if (refund.metadata?.billing_operation_id === lookup.operationId)
+          return this.refundResult(refund);
+      }
+    } else {
+      for await (const payment of this.stripe.paymentIntents.list(
+        { customer: lookup.providerCustomerId, created, limit: 100 },
+        options,
+      )) {
+        if (payment.metadata?.billing_operation_id === lookup.operationId)
+          return this.paymentResult(payment);
+      }
+    }
+    return null;
   }
 
   /** Stripe invalid-request errors, matched structurally so mocks can raise them. */

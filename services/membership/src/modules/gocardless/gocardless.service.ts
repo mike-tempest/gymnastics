@@ -1,8 +1,15 @@
+import {
+  AuthenticationError,
+  PermissionsError,
+  ValidationFailedError,
+} from 'gocardless-nodejs/errors';
+import { ProviderSubmissionRejectedError } from '../finance/payment-providers/payment-provider.interface';
 import { Injectable, Logger, BadRequestException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { GoCardlessClient } from 'gocardless-nodejs/client';
 import { Environments } from 'gocardless-nodejs/constants';
 import {
+  Refund,
   PaymentCurrency,
   RedirectFlow,
   RedirectFlowScheme,
@@ -13,6 +20,10 @@ import {
   ListMeta,
 } from 'gocardless-nodejs/types/Types';
 import { createHmac } from 'crypto';
+import {
+  RefundParams,
+  OperationLookup,
+} from '../finance/payment-providers/payment-provider.interface';
 import { getGoCardlessConfig } from '../../config/gocardless.config';
 import { GoCardlessWebhookEvent } from './webhooks.service';
 import { regionForCountry } from '../../common/region/region.util';
@@ -213,6 +224,46 @@ export class GoCardlessService {
       this.logger.error('Failed to list payments');
       throw error;
     }
+  }
+
+  async createBillingRefund(params: RefundParams): Promise<Refund & APIResponse> {
+    try {
+      return await this.client.refunds.create(
+        {
+          amount: String(params.amountMinor),
+          total_amount_confirmation: String(params.totalRefundedMinor),
+          links: { payment: params.providerPaymentId },
+          metadata: { billing_operation_id: params.operationId },
+        },
+        params.operationId,
+      );
+    } catch (error) {
+      if (
+        error instanceof ValidationFailedError ||
+        error instanceof AuthenticationError ||
+        error instanceof PermissionsError
+      )
+        throw new ProviderSubmissionRejectedError(
+          'GoCardless rejected the refund. Check the connected account, available refund funds and cumulative refund amount.',
+        );
+      throw error;
+    }
+  }
+
+  async getBillingRefund(id: string): Promise<Refund & APIResponse> {
+    return this.client.refunds.find(id);
+  }
+
+  async findBillingOperation(lookup: OperationLookup) {
+    const created_at = { gte: lookup.createdAt };
+    const resources =
+      lookup.kind === 'refund'
+        ? this.client.refunds.all({ payment: lookup.providerPaymentId, created_at, limit: '100' })
+        : this.client.payments.all({ mandate: lookup.providerMandateId, created_at, limit: '100' });
+    for await (const resource of resources) {
+      if (resource.metadata?.billing_operation_id === lookup.operationId) return resource;
+    }
+    return null;
   }
 
   /**

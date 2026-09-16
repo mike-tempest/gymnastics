@@ -1,3 +1,4 @@
+import { BillingBalanceService } from '../finance/adjustments/billing-balance.service';
 import { Injectable, Logger, NotFoundException, Optional } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, MoreThanOrEqual, Between, In, FindOptionsWhere } from 'typeorm';
@@ -97,6 +98,7 @@ export class ParentService {
     private resultsRepository?: Repository<CompetitionResult>,
     @Optional()
     private readonly personalBests?: PersonalBestsService,
+    @Optional() private readonly billingBalances?: BillingBalanceService,
   ) {}
 
   async getProfile(familyId: string) {
@@ -163,15 +165,23 @@ export class ParentService {
     const outstandingInvoices = await this.scoped.scopedFind(this.invoicesRepository, {
       where: {
         family_id: familyId,
-        status: In(['pending', 'overdue']),
+        status: In(['pending', 'sent', 'overdue']),
       },
       relations: ['items'],
       order: { due_date: 'ASC' },
     });
 
+    if (this.billingBalances) {
+      for (let i = 0; i < outstandingInvoices.length; i++)
+        outstandingInvoices[i] = await this.billingBalances.attach(outstandingInvoices[i]);
+    }
     // Calculate total outstanding
     const totalOutstanding = outstandingInvoices.reduce(
-      (sum, invoice) => sum + Number(invoice.total_amount),
+      (sum, invoice) =>
+        sum +
+        (invoice.billing_balance
+          ? invoice.billing_balance.due_minor / 100
+          : Number(invoice.total_amount)),
       0,
     );
 
@@ -433,7 +443,9 @@ export class ParentService {
       order: { issued_date: 'DESC' },
     });
 
-    return invoices;
+    return this.billingBalances
+      ? Promise.all(invoices.map((invoice) => this.billingBalances!.attach(invoice)))
+      : invoices;
   }
 
   async getInvoice(familyId: string, invoiceId: string) {
@@ -449,7 +461,7 @@ export class ParentService {
       throw new NotFoundException('Invoice not found or not associated with your family');
     }
 
-    return invoice;
+    return this.billingBalances ? this.billingBalances.attach(invoice) : invoice;
   }
 
   async getPayments(familyId: string) {
@@ -535,7 +547,7 @@ export class ParentService {
         redirectUrl: null,
         message: payment
           ? 'Payment initiated'
-          : 'No payment was collected. Check the invoice and payment setup.',
+          : 'No new payment record yet. Check your invoice for a pending collection before trying again.',
       };
     } catch {
       return {

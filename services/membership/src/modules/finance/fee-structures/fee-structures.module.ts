@@ -1,3 +1,4 @@
+import { BillingLedgerModule } from '../adjustments/billing-ledger.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FeeStructuresController } from './fee-structures.controller';
@@ -7,7 +8,7 @@ import { FeeStructure } from './entities/fee-structure.entity';
 import { SquadsModule } from '../../squads/squads.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([FeeStructure]), SquadsModule],
+  imports: [BillingLedgerModule, TypeOrmModule.forFeature([FeeStructure]), SquadsModule],
   controllers: [FeeStructuresController],
   providers: [FeeStructuresService, FeeStructuresRepository],
   exports: [FeeStructuresService, FeeStructuresRepository],
