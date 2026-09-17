@@ -6,5 +6,7 @@ Sentry.init({
   replaysSessionSampleRate: 0,
   replaysOnErrorSampleRate: 1.0,
   environment: process.env.NODE_ENV,
-  enabled: !!process.env.NEXT_PUBLIC_SENTRY_DSN,
+  enabled: !!process.env.NEXT_PUBLIC_SENTRY_DSN && window.location.pathname !== '/reset-password',
+  beforeSend: (event) => (window.location.pathname === '/reset-password' ? null : event),
+  beforeSendTransaction: (event) => (window.location.pathname === '/reset-password' ? null : event),
 });

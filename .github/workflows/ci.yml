@@ -237,3 +237,35 @@ jobs:
       - name: Print the API log
         if: always()
         run: cat "$RUNNER_TEMP/api-e2e.log" || true
+
+  password-recovery:
+    name: Password recovery and migration round-trip
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: tumblebase_test
+          POSTGRES_PASSWORD: tumblebase_test
+          POSTGRES_DB: tumblebase_tem64
+        ports:
+          - 55464:5432
+        options: >-
+          --health-cmd "pg_isready -U tumblebase_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build shared packages
+        run: pnpm exec turbo run build --filter=@club-manager/shared-types --filter=@club-manager/utils
+      - name: Test recovery with PostgreSQL
+        run: pnpm --filter @club-manager/membership-service exec jest --config test/password-recovery.jest.json --runInBand
