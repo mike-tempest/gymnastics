@@ -121,6 +121,12 @@ export default function ChildDetailPage({ params }: PageProps) {
     loadChildData();
   }, [id]);
 
+  useEffect(() => {
+    if (!isLoading && window.location.hash.startsWith('#session-')) {
+      document.getElementById(window.location.hash.slice(1))?.scrollIntoView();
+    }
+  }, [isLoading, upcomingSessions]);
+
   // Badges load on their own so a badge scheme the club has not set up yet, or
   // a failing awards call, never blanks the rest of the page.
   useEffect(() => {
@@ -321,6 +327,7 @@ export default function ChildDetailPage({ params }: PageProps) {
                 {upcomingSessions.map((session) => (
                   <div
                     key={session.session_id}
+                    id={`session-${session.session_id}`}
                     className="flex items-center justify-between p-4 bg-white/5 rounded-2xl"
                   >
                     <div className="flex items-center space-x-4">
