@@ -12,6 +12,8 @@ import { AuditLogsModule } from '../compliance/audit-logs/audit-logs.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
+import { PasswordRecoveryController } from './password-recovery.controller';
+import { PasswordRecoveryService } from './password-recovery.service';
 
 @Module({
   imports: [
@@ -39,8 +41,8 @@ import { RolesGuard } from './guards/roles.guard';
       inject: [ConfigService],
     }),
   ],
-  controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, JwtAuthGuard, RolesGuard],
+  controllers: [AuthController, PasswordRecoveryController],
+  providers: [AuthService, JwtStrategy, JwtAuthGuard, RolesGuard, PasswordRecoveryService],
   exports: [AuthService, JwtAuthGuard, RolesGuard],
 })
 export class AuthModule {}

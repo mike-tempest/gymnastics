@@ -1,3 +1,5 @@
+import { OperationalMessagesService } from '../notification-deliveries/operational-messages.service';
+import { TimetableService } from './timetable.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -58,6 +60,8 @@ describe('SessionsService', () => {
     attendanceCountsBySession: jest.fn(),
   };
 
+  const mockTimetables = { editOne: jest.fn() };
+
   const mockEmailService = {
     sendSessionReminder: jest.fn(),
   };
@@ -86,6 +90,8 @@ describe('SessionsService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         TestableSessionsService,
+        { provide: OperationalMessagesService, useValue: { updateSession: mockRepository.update } },
+        { provide: TimetableService, useValue: mockTimetables },
         { provide: SessionsRepository, useValue: mockRepository },
         { provide: EmailService, useValue: mockEmailService },
         { provide: ConfigService, useValue: mockConfigService },
@@ -106,6 +112,33 @@ describe('SessionsService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  describe('recurring session safeguards', () => {
+    it('cannot bypass history protection through ordinary session editing', async () => {
+      mockRepository.findOne.mockResolvedValue({ ...mockSession, series_id: 'series' });
+      mockTimetables.editOne.mockRejectedValue(new BadRequestException('History is protected'));
+      await expect(
+        service.update(mockSession.session_id!, { start_time: '12:00' }),
+      ).rejects.toThrow('History is protected');
+      expect(mockRepository.update).not.toHaveBeenCalled();
+    });
+    it('uses the protected occurrence edit for cancellation', async () => {
+      mockRepository.findOne.mockResolvedValue({ ...mockSession, series_id: 'series' });
+      mockTimetables.editOne.mockResolvedValue({ ...mockSession, status: SessionStatus.CANCELLED });
+      await service.updateSessionStatus(mockSession.session_id!, SessionStatus.CANCELLED);
+      expect(mockTimetables.editOne).toHaveBeenCalledWith(mockSession.session_id, {
+        status: SessionStatus.CANCELLED,
+      });
+      expect(mockRepository.update).not.toHaveBeenCalled();
+    });
+    it('rejects deletion of a recurring occurrence', async () => {
+      mockRepository.findOne.mockResolvedValue({ ...mockSession, series_id: 'series' });
+      await expect(service.remove(mockSession.session_id!)).rejects.toThrow(
+        'Cancel a recurring session',
+      );
+      expect(mockRepository.remove).not.toHaveBeenCalled();
+    });
   });
 
   describe('create', () => {

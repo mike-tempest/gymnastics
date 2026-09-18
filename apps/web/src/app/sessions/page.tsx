@@ -2,7 +2,9 @@
 
 import { Session, SessionStatus } from '@club-manager/shared-types';
 import { Calendar } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { useState, useMemo } from 'react';
 import { toast } from 'sonner';
 
@@ -92,6 +94,10 @@ function getMonday(date: Date): Date {
 
 export default function SessionsPage() {
   const router = useRouter();
+  const { data: auth } = useSession();
+  const canManageTimetable = ['super_admin', 'head_coach'].includes(
+    String(auth?.user?.role).toLowerCase()
+  );
   const {
     data: sessionsData,
     isLoading: sessionsLoading,
@@ -286,6 +292,14 @@ export default function SessionsPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
             <div>
               <h1 className="font-serif text-4xl text-dark-primary mb-2">Sessions</h1>
+              {canManageTimetable && (
+                <Link
+                  href="/sessions/timetable"
+                  className="inline-flex min-h-12 items-center font-medium underline"
+                >
+                  Manage term timetables
+                </Link>
+              )}
               <p className="text-grey-600 text-lg">Manage training sessions and track attendance</p>
             </div>
             <button
@@ -651,17 +665,19 @@ export default function SessionsPage() {
                                 onClick={() => handleOpenEditModal(session)}
                                 className="flex-1 px-4 py-2 min-h-[44px] bg-brand text-dark-primary rounded-button font-semibold hover:bg-brand-light transition-all"
                               >
-                                Edit
+                                {session.series_id ? 'Edit this session' : 'Edit'}
                               </button>
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleDeleteClick(session.session_id);
-                                }}
-                                className="px-4 py-2 min-h-[44px] bg-dark-primary text-text-secondary rounded-button font-semibold hover:bg-red-500 hover:text-white transition-all"
-                              >
-                                Delete
-                              </button>
+                              {!session.series_id && (
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteClick(session.session_id);
+                                  }}
+                                  className="px-4 py-2 min-h-[44px] bg-dark-primary text-text-secondary rounded-button font-semibold hover:bg-red-500 hover:text-white transition-all"
+                                >
+                                  Delete
+                                </button>
+                              )}
                             </div>
                           </div>
                         ))}

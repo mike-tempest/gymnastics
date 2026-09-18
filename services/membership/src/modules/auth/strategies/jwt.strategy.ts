@@ -9,6 +9,7 @@ export interface JwtPayload {
   email: string;
   role: string;
   club_id: string;
+  session_version?: number;
 }
 
 @Injectable()
@@ -35,8 +36,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload) {
-    const user = await this.usersService.findOne(payload.sub);
-    if (!user) {
+    const user = await this.usersService.findForAuthentication(payload.sub);
+    if (
+      !user ||
+      !user.active ||
+      user.club_id !== payload.club_id ||
+      (payload.session_version ?? 0) !== (user.session_version ?? 0)
+    ) {
       throw new UnauthorizedException();
     }
     return user;

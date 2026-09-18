@@ -334,6 +334,27 @@ export class EmailService {
     }
   }
 
+  isConfigured(): boolean {
+    return this.resend !== null;
+  }
+
+  /** A durable send must receive a provider acknowledgement, never a silent no-op. */
+  async sendOperationalEmail(input: {
+    to: string;
+    subject: string;
+    text: string;
+    idempotencyKey: string;
+  }): Promise<string> {
+    if (!this.resend) throw new Error('Email provider is not configured');
+    const result = await this.resend.emails.send(
+      { from: this.from, to: input.to, subject: input.subject, text: input.text },
+      { idempotencyKey: input.idempotencyKey },
+    );
+    if (result.error || !result.data?.id)
+      throw new Error('Email provider did not confirm acceptance');
+    return result.data.id;
+  }
+
   /**
    * HMAC over the lowercased address, so unsubscribe links cannot be forged
    * to suppress arbitrary addresses. Falls back to JWT_SECRET so no new env
@@ -437,6 +458,21 @@ export class EmailService {
       );
       throw error;
     }
+  }
+
+  async sendPasswordRecovery(recipientEmail: string, resetUrl: string): Promise<void> {
+    // Recovery cannot treat an unconfigured provider as a successful delivery.
+    if (!this.resend) {
+      throw new Error('Password recovery email provider is not configured');
+    }
+    const result = await this.resend.emails.send({
+      from: this.from,
+      to: recipientEmail,
+      subject: `Reset your ${BRAND.name} password`,
+      text: `A password reset was requested for your ${BRAND.name} account.\n\nUse this link within 30 minutes:\n${resetUrl}\n\nThis link can be used once. Your existing sessions will be signed out when you reset your password.\n\nIf you did not request this, you can ignore this email. Your password has not changed.`,
+    });
+    // Do not log provider payloads: they may contain the recovery link.
+    if (result.error) throw new Error('Password recovery email delivery failed');
   }
 
   async sendInvoiceCreated(data: InvoiceCreatedEmailData): Promise<void> {

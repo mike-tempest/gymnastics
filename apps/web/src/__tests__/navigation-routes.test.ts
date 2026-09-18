@@ -8,6 +8,9 @@ jest.mock('next-auth/jwt', () => ({ getToken: jest.fn() }));
 const token = getToken as jest.Mock;
 
 describe('navigation route permissions', () => {
+  beforeEach(() => {
+    global.fetch = jest.fn().mockResolvedValue({ ok: true, status: 200 });
+  });
   it.each([
     ['head_coach', '/waiting-list'],
     ['HEAD_COACH', '/waiting-list/entry-1'],
@@ -18,7 +21,7 @@ describe('navigation route permissions', () => {
     ['welfare_officer', '/compliance'],
     ['parent', '/parent/children'],
   ])('allows the supported %s link to %s', async (role, path) => {
-    token.mockResolvedValue({ role });
+    token.mockResolvedValue({ role, accessToken: 'valid-session' });
     const response = await middleware(new NextRequest(`http://localhost${path}`));
     expect(response.headers.get('x-middleware-next')).toBe('1');
   });
@@ -30,7 +33,7 @@ describe('navigation route permissions', () => {
     ['parent', '/awards', '/parent'],
     ['parent', '/waiting-list', '/parent'],
   ])('still restricts %s from %s', async (role, path, destination) => {
-    token.mockResolvedValue({ role });
+    token.mockResolvedValue({ role, accessToken: 'valid-session' });
     const response = await middleware(new NextRequest(`http://localhost${path}`));
     expect(response.headers.get('location')).toBe(`http://localhost${destination}`);
   });

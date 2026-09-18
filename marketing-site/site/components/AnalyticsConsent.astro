@@ -1,0 +1,130 @@
+<section
+  id="analytics-consent"
+  aria-labelledby="analytics-consent-title"
+  class="fixed inset-x-0 bottom-0 z-50 max-h-[80vh] overflow-y-auto border-t border-line bg-paper py-5 shadow-lg"
+  hidden
+>
+  <div class="wrap flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div class="max-w-2xl">
+      <h2 id="analytics-consent-title" class="font-semibold">Analytics cookies</h2>
+      <p class="mt-2 text-sm leading-6 text-muted">
+        With your permission, we use Google Analytics to understand which pages people visit
+        and improve this website. Google receives information about your visit and device.
+        We keep analytics cookies for up to six months and remember your choice on this browser
+        for six months. You can change it using Cookie preferences in the footer.
+        <a class="underline underline-offset-4" href="https://policies.google.com/technologies/partner-sites">How Google uses this information</a>.
+      </p>
+    </div>
+    <div class="flex shrink-0 flex-wrap gap-3">
+      <button id="analytics-accept" type="button" class="button">Accept analytics</button>
+      <button id="analytics-decline" type="button" class="button">Decline analytics</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  const measurementId = 'G-RMVXF1FVNH';
+  const consentKey = 'tumblebase-analytics-consent';
+  const lifetimeSeconds = 60 * 60 * 24 * 180;
+  type Choice = 'accepted' | 'declined';
+  const analyticsWindow = window as typeof window & {
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
+    'ga-disable-G-RMVXF1FVNH'?: boolean;
+  };
+  const banner = document.getElementById('analytics-consent')!;
+  const preferences = document.getElementById('cookie-preferences')!;
+  let loaded = false;
+  let returnFocus = false;
+
+  function readChoice(): Choice | null {
+    try {
+      const saved = JSON.parse(localStorage.getItem(consentKey) || 'null');
+      if (saved?.expiresAt > Date.now() && ['accepted', 'declined'].includes(saved.choice)) {
+        return saved.choice;
+      }
+    } catch {
+      // Storage may be unavailable. Ask again without starting analytics.
+    }
+    return null;
+  }
+
+  function clearAnalyticsCookies() {
+    for (const name of ['_ga', `_ga_${measurementId.slice(2)}`]) {
+      for (const domain of ['', `; Domain=${location.hostname}`]) {
+        document.cookie = `${name}=; Max-Age=0; Path=/${domain}; SameSite=Lax`;
+      }
+    }
+  }
+
+  function applyChoice(choice: Choice | null) {
+    analyticsWindow['ga-disable-G-RMVXF1FVNH'] = choice !== 'accepted';
+    if (choice !== 'accepted') {
+      analyticsWindow.gtag?.('consent', 'update', { analytics_storage: 'denied' });
+      clearAnalyticsCookies();
+      return;
+    }
+
+    if (loaded) {
+      analyticsWindow.gtag?.('consent', 'update', { analytics_storage: 'granted' });
+      return;
+    }
+    loaded = true;
+    analyticsWindow.dataLayer = analyticsWindow.dataLayer || [];
+    analyticsWindow.gtag = function () {
+      analyticsWindow.dataLayer!.push(arguments);
+    };
+    analyticsWindow.gtag('consent', 'default', {
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+    });
+    analyticsWindow.gtag('consent', 'update', { analytics_storage: 'granted' });
+    analyticsWindow.gtag('js', new Date());
+    analyticsWindow.gtag('config', measurementId, {
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false,
+      cookie_domain: location.hostname,
+      cookie_expires: lifetimeSeconds,
+      cookie_update: false,
+    });
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+    document.head.appendChild(script);
+  }
+
+  function choose(choice: Choice) {
+    try {
+      localStorage.setItem(consentKey, JSON.stringify({
+        choice,
+        expiresAt: Date.now() + lifetimeSeconds * 1000,
+      }));
+    } catch {
+      // Honour the current choice even when the browser cannot remember it.
+    }
+    applyChoice(choice);
+    banner.hidden = true;
+    if (returnFocus) preferences.focus();
+  }
+
+  preferences.hidden = false;
+  preferences.addEventListener('click', () => {
+    returnFocus = true;
+    banner.hidden = false;
+    document.getElementById('analytics-accept')?.focus();
+  });
+  document.getElementById('analytics-accept')?.addEventListener('click', () => choose('accepted'));
+  document.getElementById('analytics-decline')?.addEventListener('click', () => choose('declined'));
+  window.addEventListener('storage', (event) => {
+    if (event.key !== consentKey && event.key !== null) return;
+    const choice = readChoice();
+    applyChoice(choice);
+    banner.hidden = choice !== null;
+  });
+
+  const choice = readChoice();
+  applyChoice(choice);
+  banner.hidden = choice !== null;
+</script>

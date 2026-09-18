@@ -21,7 +21,8 @@ function getCountdown(sessions: Session[]): { label: string; detail: string } | 
   if (!sessions.length) return null;
 
   const now = new Date();
-  const nextSession = sessions[0];
+  const nextSession = sessions.find((session) => session.status === 'scheduled');
+  if (!nextSession) return null;
   const sessionDate = new Date(`${nextSession.session_date}T${nextSession.start_time}`);
   const diffMs = sessionDate.getTime() - now.getTime();
 
@@ -77,7 +78,10 @@ function generateRecentActivity(
       id: `sess-${sess.session_id}`,
       type: 'session',
       title: 'Upcoming session',
-      description: `${sess.session_name} at ${sess.location || 'TBC'}`,
+      description:
+        sess.status === 'cancelled'
+          ? `${sess.session_name}: cancelled. No attendance expected.`
+          : `${sess.session_name} at ${sess.location || 'TBC'}`,
       date: sess.session_date,
     });
   });
@@ -203,7 +207,9 @@ export default function ParentDashboardPage() {
               </div>
             </div>
             <p className="text-text-secondary text-sm mb-2">Upcoming sessions</p>
-            <p className="text-4xl font-bold text-brand tabular-nums">{sessions.length}</p>
+            <p className="text-4xl font-bold text-brand tabular-nums">
+              {sessions.filter((session) => session.status !== 'cancelled').length}
+            </p>
           </div>
 
           {/* Outstanding Invoices */}

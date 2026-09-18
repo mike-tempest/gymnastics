@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { BRAND, appUrl } from '../config';
+import AnalyticsConsent from '../components/AnalyticsConsent.astro';
 interface Props { title: string; description?: string }
 const { title, description = BRAND.description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, BRAND.website);
@@ -45,7 +46,9 @@ const links = [['Features', '/features/'], ['Pricing', '/pricing/'], ['Find a cl
       <div class="wrap mt-8 flex flex-col justify-between gap-3 border-t border-line pt-6 text-xs leading-6 text-muted">
         <p>Independent club-management software. No affiliation with or endorsement by British Gymnastics is implied.</p>
         <p>{BRAND.copyright}</p>
+        <button id="cookie-preferences" type="button" class="min-h-12 self-start text-sm underline underline-offset-4" hidden>Cookie preferences</button>
       </div>
     </footer>
+    <AnalyticsConsent />
   </body>
 </html>

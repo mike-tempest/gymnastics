@@ -32,6 +32,18 @@ export class User {
   @Column({ select: false })
   password_hash?: string;
 
+  @Column({ default: 0 })
+  session_version: number;
+
+  @Column({ type: 'varchar', length: 64, nullable: true, select: false })
+  password_reset_hash: string | null;
+
+  @Column({ type: 'timestamptz', nullable: true, select: false })
+  password_reset_expires_at: Date | null;
+
+  @Column({ type: 'timestamptz', nullable: true, select: false })
+  password_reset_requested_at: Date | null;
+
   @Column()
   first_name: string;
 

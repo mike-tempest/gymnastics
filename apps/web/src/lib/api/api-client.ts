@@ -92,6 +92,7 @@ function getAuthToken(): string | null {
  */
 function handle401(): void {
   if (typeof window !== 'undefined') {
+    clearBackendToken();
     window.location.href = '/login';
   }
 }

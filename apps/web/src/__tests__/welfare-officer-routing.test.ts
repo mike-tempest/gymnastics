@@ -26,7 +26,8 @@ async function locationFor(pathname: string): Promise<string | null> {
 
 describe('Welfare Officer route access', () => {
   beforeEach(() => {
-    mockGetToken.mockResolvedValue({ role: 'welfare_officer' });
+    global.fetch = jest.fn().mockResolvedValue({ ok: true, status: 200 });
+    mockGetToken.mockResolvedValue({ accessToken: 'valid-session', role: 'welfare_officer' });
   });
 
   it.each([
@@ -52,14 +53,14 @@ describe('Welfare Officer route access', () => {
   );
 
   it('leaves the other roles where they were', async () => {
-    mockGetToken.mockResolvedValue({ role: 'super_admin' });
+    mockGetToken.mockResolvedValue({ accessToken: 'valid-session', role: 'super_admin' });
     expect(await locationFor('/billing')).toBeNull();
 
-    mockGetToken.mockResolvedValue({ role: 'head_coach' });
+    mockGetToken.mockResolvedValue({ accessToken: 'valid-session', role: 'head_coach' });
     expect(await locationFor('/sessions')).toBeNull();
     expect(await locationFor('/billing')).toBe('/');
 
-    mockGetToken.mockResolvedValue({ role: 'PARENT' });
+    mockGetToken.mockResolvedValue({ accessToken: 'valid-session', role: 'PARENT' });
     expect(await locationFor('/parent')).toBeNull();
     expect(await locationFor('/compliance')).toBe('/parent');
   });

@@ -1,11 +1,15 @@
 import { UserRole } from '@club-manager/shared-types';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { signOut } from 'next-auth/react';
 
 let mockRole = UserRole.SUPER_ADMIN;
 let mockPath = '/compliance/dbs';
-jest.mock('next/navigation', () => ({ usePathname: () => mockPath }));
+jest.mock('next/navigation', () => ({
+  usePathname: () => mockPath,
+  useRouter: () => ({ push: jest.fn() }),
+}));
 jest.mock('next-auth/react', () => ({
   useSession: () => ({
     data: { user: { name: 'Test User', role: mockRole } },
@@ -65,7 +69,11 @@ describe('accessible navigation', () => {
 
   it('supports keyboard opening, Escape, focus return and sign-out in the account menu', async () => {
     const user = userEvent.setup();
-    render(<TopBar onMenuClick={() => {}} />);
+    render(
+      <QueryClientProvider client={new QueryClient()}>
+        <TopBar onMenuClick={() => {}} />
+      </QueryClientProvider>
+    );
     expect(screen.queryByRole('button', { name: 'Notifications' })).not.toBeInTheDocument();
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
     const trigger = screen.getByRole('button', { name: 'User menu for Test User' });

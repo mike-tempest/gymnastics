@@ -104,6 +104,7 @@ export class AuthService {
       email: user.email,
       role: user.role,
       club_id: user.club_id,
+      session_version: user.session_version ?? 0,
     };
     const access_token = await this.jwtService.signAsync(payload);
 
@@ -270,6 +271,7 @@ export class AuthService {
       email: createdUser.email,
       role: createdUser.role,
       club_id: createdUser.club_id,
+      session_version: createdUser.session_version ?? 0,
     };
     const access_token = await this.jwtService.signAsync(payload);
 
@@ -370,6 +372,7 @@ export class AuthService {
       email: user.email,
       role: user.role,
       club_id: user.club_id,
+      session_version: user.session_version ?? 0,
     };
     const access_token = await this.jwtService.signAsync(payload);
 

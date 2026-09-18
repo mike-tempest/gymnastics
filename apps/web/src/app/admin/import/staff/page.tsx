@@ -11,6 +11,7 @@ import {
   KeyRound,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import Papa from 'papaparse';
 import { useCallback, useRef, useState } from 'react';
 import { toast } from 'sonner';
@@ -77,6 +78,7 @@ function validateRow(row: ParsedRow, index: number, duplicateEmails: Set<string>
 }
 
 export default function StaffImportPage() {
+  const { data: session } = useSession();
   const migration = useMigrationStepReporter('staff');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [step, setStep] = useState<ImportStep>('upload');
@@ -274,6 +276,14 @@ export default function StaffImportPage() {
       fileInputRef.current.value = '';
     }
   };
+
+  if (session?.user.role?.toLowerCase() !== 'super_admin') {
+    return (
+      <MainLayout>
+        <p className="p-6">Only a club administrator can create staff accounts.</p>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>

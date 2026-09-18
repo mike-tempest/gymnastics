@@ -156,7 +156,9 @@ describe('UsersController', () => {
 
       mockUsersService.update.mockResolvedValue(updated as unknown as User);
 
-      const result = await controller.update(mockUser.user_id, updateDto as UpdateUserDto);
+      const result = await controller.update(mockUser.user_id, updateDto as UpdateUserDto, {
+        user: mockUser,
+      });
 
       expect(result.first_name).toBe('Janet');
     });

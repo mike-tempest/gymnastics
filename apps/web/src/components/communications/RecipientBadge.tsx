@@ -8,14 +8,14 @@ const BADGE_STYLES = {
   FAMILY: 'bg-coral/20 text-coral-light border border-coral/30',
 } as const;
 
-const BADGE_LABELS: Record<Communication['recipient_type'], (c: Communication) => string> = {
-  ALL: () => 'All Members',
+const BADGE_LABELS: Record<keyof typeof BADGE_STYLES, (c: Communication) => string> = {
+  ALL: () => 'All Families',
   SQUAD: (c) => c.squad?.squad_name ?? 'Squad',
   FAMILY: (c) => c.family?.family_name ?? 'Family',
 };
 
 export default function RecipientBadge({ communication }: { communication: Communication }) {
-  const type = communication.recipient_type;
+  const type = communication.recipient_type.toUpperCase() as keyof typeof BADGE_STYLES;
 
   return (
     <span

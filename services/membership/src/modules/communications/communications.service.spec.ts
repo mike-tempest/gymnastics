@@ -1,3 +1,4 @@
+import { OperationalMessagesService } from '../notification-deliveries/operational-messages.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { CommunicationsService } from './communications.service';
@@ -47,6 +48,7 @@ describe('CommunicationsService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         CommunicationsService,
+        { provide: OperationalMessagesService, useValue: { broadcast: mockRepository.create } },
         {
           provide: CommunicationsRepository,
           useValue: mockRepository,

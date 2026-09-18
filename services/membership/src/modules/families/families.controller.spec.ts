@@ -130,10 +130,12 @@ describe('FamiliesController', () => {
 
       mockService.acceptInvite.mockResolvedValue(mockFamily);
 
-      const result = await controller.acceptInvite(acceptInviteDto);
+      const result = await controller.acceptInvite(acceptInviteDto, {
+        user: { user_id: 'current-user' },
+      });
 
       expect(result).toEqual(mockFamily);
-      expect(mockService.acceptInvite).toHaveBeenCalledWith('abc123tokenvalue', undefined);
+      expect(mockService.acceptInvite).toHaveBeenCalledWith('abc123tokenvalue', 'current-user');
     });
   });
 

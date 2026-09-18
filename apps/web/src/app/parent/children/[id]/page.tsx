@@ -121,6 +121,12 @@ export default function ChildDetailPage({ params }: PageProps) {
     loadChildData();
   }, [id]);
 
+  useEffect(() => {
+    if (!isLoading && window.location.hash.startsWith('#session-')) {
+      document.getElementById(window.location.hash.slice(1))?.scrollIntoView();
+    }
+  }, [isLoading, upcomingSessions]);
+
   // Badges load on their own so a badge scheme the club has not set up yet, or
   // a failing awards call, never blanks the rest of the page.
   useEffect(() => {
@@ -321,6 +327,7 @@ export default function ChildDetailPage({ params }: PageProps) {
                 {upcomingSessions.map((session) => (
                   <div
                     key={session.session_id}
+                    id={`session-${session.session_id}`}
                     className="flex items-center justify-between p-4 bg-white/5 rounded-2xl"
                   >
                     <div className="flex items-center space-x-4">
@@ -339,6 +346,12 @@ export default function ChildDetailPage({ params }: PageProps) {
                       </div>
                       <div>
                         <p className="text-white font-semibold">{session.session_name}</p>
+                        {session.status === 'cancelled' && (
+                          <p className="font-semibold text-red-300">
+                            Cancelled: {session.cancellation_reason ?? 'Club cancellation'}. No
+                            attendance expected.
+                          </p>
+                        )}
                         <p className="text-text-tertiary text-sm tabular-nums">
                           {formatDate(session.session_date)} at {formatTime(session.start_time)} -{' '}
                           {formatTime(session.end_time)}

@@ -205,6 +205,13 @@ export default function LoginPage() {
           </button>
         </form>
 
+        <Link
+          href="/forgot-password"
+          className="mt-4 inline-flex min-h-[48px] items-center text-brand underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand"
+        >
+          Forgot password?
+        </Link>
+
         {/* Register Link */}
         <div className="mt-8 text-center">
           <p className="text-sm text-white/70">

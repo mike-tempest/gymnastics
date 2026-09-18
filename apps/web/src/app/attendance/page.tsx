@@ -381,13 +381,23 @@ export default function AttendancePage() {
           )}
 
           {/* Roster */}
-          {selectedSessionId && (
-            <AttendanceRoster
-              sessionId={selectedSessionId}
-              sessionName={selectedSession?.session_name ?? ''}
-              squadName={selectedSession?.squad?.squad_name ?? ''}
-            />
+          {selectedSession?.status === 'cancelled' && (
+            <p
+              role="status"
+              className="mb-6 rounded-lg border border-red-300 bg-red-50 p-4 text-dark-primary"
+            >
+              Cancelled: {selectedSession.cancellation_reason ?? 'Club cancellation'}. No attendance
+              expected.
+            </p>
           )}
+          {selectedSessionId &&
+            !(selectedSession?.series_id && selectedSession.status === 'cancelled') && (
+              <AttendanceRoster
+                sessionId={selectedSessionId}
+                sessionName={selectedSession?.session_name ?? ''}
+                squadName={selectedSession?.squad?.squad_name ?? ''}
+              />
+            )}
 
           {/* Print-only attendance key */}
           {selectedSession && (
