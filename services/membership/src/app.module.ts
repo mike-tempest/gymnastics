@@ -40,6 +40,7 @@ import { ExportModule } from './modules/export/export.module';
 import { ActivationModule } from './modules/activation/activation.module';
 import { ApiKeysModule } from './modules/api-keys/api-keys.module';
 import { AppController } from './app.controller';
+import { SearchModule } from './modules/search/search.module';
 
 @Module({
   imports: [
@@ -81,6 +82,7 @@ import { AppController } from './app.controller';
     SquadsModule,
     FamiliesModule,
     UsersModule,
+    SearchModule,
     AuthModule,
     SessionsModule,
     AttendanceModule,
