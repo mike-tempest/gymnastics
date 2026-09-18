@@ -92,24 +92,67 @@ describe('Password reset session invalidation', () => {
   const payload = { sub: 'user-a', email: 'parent@example.com', role: 'parent', club_id: 'club-a' };
   it.each([undefined, 0, 1])('rejects a token with old session version %s', async (version) => {
     const users = {
-      findOne: jest.fn().mockResolvedValue({ user_id: 'user-a', active: true, session_version: 2 }),
+      findForAuthentication: jest.fn().mockResolvedValue({
+        user_id: 'user-a',
+        club_id: 'club-a',
+        active: true,
+        session_version: 2,
+      }),
     };
     const strategy = new JwtStrategy(config, users as unknown as UsersService);
     await expect(strategy.validate({ ...payload, session_version: version })).rejects.toThrow();
   });
   it('preserves untouched legacy sessions and accepts newly issued sessions', async () => {
-    const users = { findOne: jest.fn().mockResolvedValue({ active: true, session_version: 0 }) };
+    const users = {
+      findForAuthentication: jest
+        .fn()
+        .mockResolvedValue({ club_id: 'club-a', active: true, session_version: 0 }),
+    };
     const strategy = new JwtStrategy(config, users as unknown as UsersService);
     await expect(strategy.validate(payload)).resolves.toMatchObject({ active: true });
-    users.findOne.mockResolvedValue({ active: true, session_version: 2 });
+    users.findForAuthentication.mockResolvedValue({
+      club_id: 'club-a',
+      active: true,
+      session_version: 2,
+    });
     await expect(strategy.validate({ ...payload, session_version: 2 })).resolves.toMatchObject({
       active: true,
     });
   });
   it('rejects inactive accounts even with a current token', async () => {
-    const users = { findOne: jest.fn().mockResolvedValue({ active: false, session_version: 0 }) };
+    const users = {
+      findForAuthentication: jest
+        .fn()
+        .mockResolvedValue({ club_id: 'club-a', active: false, session_version: 0 }),
+    };
     await expect(
       new JwtStrategy(config, users as unknown as UsersService).validate(payload),
     ).rejects.toThrow();
+  });
+  it('rejects a token issued for a different club', async () => {
+    const users = {
+      findForAuthentication: jest
+        .fn()
+        .mockResolvedValue({ club_id: 'club-b', active: true, session_version: 0 }),
+    };
+    await expect(
+      new JwtStrategy(config, users as unknown as UsersService).validate(payload),
+    ).rejects.toThrow();
+  });
+  it('uses the current account role rather than a revoked token role', async () => {
+    const users = {
+      findForAuthentication: jest.fn().mockResolvedValue({
+        club_id: 'club-a',
+        role: 'squad_coach',
+        active: true,
+        session_version: 0,
+      }),
+    };
+    await expect(
+      new JwtStrategy(config, users as unknown as UsersService).validate({
+        ...payload,
+        role: 'welfare_officer',
+      }),
+    ).resolves.toMatchObject({ role: 'squad_coach' });
   });
 });

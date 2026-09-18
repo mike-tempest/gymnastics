@@ -20,6 +20,10 @@ const STAFF_ROLES: ReadonlySet<UserRole> = new Set([
 
 @Injectable()
 export class UsersService {
+  /** Only JWT authentication calls this before a tenant context exists. */
+  findForAuthentication(id: string): Promise<User | null> {
+    return this.usersRepository.findForAuthentication(id);
+  }
   private readonly SALT_ROUNDS = 10;
 
   constructor(private readonly usersRepository: UsersRepository) {}
