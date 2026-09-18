@@ -3,7 +3,9 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import DeliveryFollowUp from '@/components/communications/DeliveryFollowUp';
+import RecipientBadge from '@/components/communications/RecipientBadge';
 import { api } from '@/lib/api/api-client';
+import type { Communication } from '@/lib/api/communications';
 
 let mockRole = 'head_coach';
 jest.mock('next-auth/react', () => ({
@@ -91,4 +93,11 @@ it('retries failed loading and pages through bounded recipient lists', async () 
       '/notification-deliveries?source_type=broadcast&source_id=message&page=1'
     )
   );
+});
+
+it.each(['all', 'squad', 'family'] as const)('renders the actual API recipient type %s', (type) => {
+  render(<RecipientBadge communication={{ recipient_type: type } as Communication} />);
+  expect(
+    screen.getByText(type === 'all' ? 'All Families' : type === 'squad' ? 'Squad' : 'Family')
+  ).toBeVisible();
 });

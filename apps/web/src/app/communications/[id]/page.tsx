@@ -63,16 +63,16 @@ export default function CommunicationDetailPage() {
 
               <div className="flex flex-wrap items-center gap-4 mb-8 pb-6 border-b border-white/10">
                 <RecipientBadge communication={communication} />
-                <span className="text-text-secondary text-sm">
+                <span className="text-white/70 text-sm">
                   {communication.recipient_count}{' '}
                   {communication.recipient_count === 1 ? 'recipient' : 'recipients'}
                 </span>
-                <span className="text-text-tertiary text-sm">
+                <span className="text-white/70 text-sm">
                   Recorded {formatDate(communication.sent_date)}
                 </span>
               </div>
 
-              <div className="whitespace-pre-wrap text-text-secondary leading-relaxed">
+              <div className="whitespace-pre-wrap text-white/80 leading-relaxed">
                 {communication.body}
               </div>
               <DeliveryFollowUp source="broadcast" sourceId={communication.communication_id} />

@@ -4,7 +4,7 @@ export interface Communication {
   communication_id: string;
   subject: string;
   body: string;
-  recipient_type: 'ALL' | 'SQUAD' | 'FAMILY';
+  recipient_type: 'all' | 'squad' | 'family' | 'ALL' | 'SQUAD' | 'FAMILY';
   squad_id: string | null;
   family_id: string | null;
   recipient_count: number;
