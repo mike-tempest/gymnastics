@@ -59,6 +59,30 @@ describe('EmailService', () => {
     expect(service).toBeDefined();
   });
 
+  it('keeps durable sends idempotent and reports provider acceptance explicitly', async () => {
+    await expect(
+      service.sendOperationalEmail({
+        to: 'test@example.test',
+        subject: 'Test',
+        text: 'Test',
+        idempotencyKey: 'tumblebase-delivery/one',
+      }),
+    ).resolves.toBe('eml_test_id');
+    expect(sendMock).toHaveBeenCalledWith(
+      expect.objectContaining({ to: 'test@example.test', text: 'Test' }),
+      { idempotencyKey: 'tumblebase-delivery/one' },
+    );
+    sendMock.mockResolvedValueOnce({ data: null, error: { message: 'Private provider detail' } });
+    await expect(
+      service.sendOperationalEmail({
+        to: 'test@example.test',
+        subject: 'Test',
+        text: 'Test',
+        idempotencyKey: 'tumblebase-delivery/one',
+      }),
+    ).rejects.toThrow('Email provider did not confirm acceptance');
+  });
+
   describe('sendWelcome', () => {
     const data = {
       firstName: 'Alice',

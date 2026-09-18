@@ -4,7 +4,7 @@ export interface Communication {
   communication_id: string;
   subject: string;
   body: string;
-  recipient_type: 'ALL' | 'SQUAD' | 'FAMILY';
+  recipient_type: 'all' | 'squad' | 'family' | 'ALL' | 'SQUAD' | 'FAMILY';
   squad_id: string | null;
   family_id: string | null;
   recipient_count: number;
@@ -34,6 +34,6 @@ export async function getCommunication(id: string): Promise<Communication> {
   return api.get<Communication>(`/communications/${id}`, { cache: 'no-store' });
 }
 
-export async function sendMessage(data: SendMessageData): Promise<void> {
-  return api.post<void>('/communications', data);
+export async function sendMessage(data: SendMessageData): Promise<Communication> {
+  return api.post<Communication>('/communications', data);
 }

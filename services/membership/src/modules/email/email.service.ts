@@ -334,6 +334,27 @@ export class EmailService {
     }
   }
 
+  isConfigured(): boolean {
+    return this.resend !== null;
+  }
+
+  /** A durable send must receive a provider acknowledgement, never a silent no-op. */
+  async sendOperationalEmail(input: {
+    to: string;
+    subject: string;
+    text: string;
+    idempotencyKey: string;
+  }): Promise<string> {
+    if (!this.resend) throw new Error('Email provider is not configured');
+    const result = await this.resend.emails.send(
+      { from: this.from, to: input.to, subject: input.subject, text: input.text },
+      { idempotencyKey: input.idempotencyKey },
+    );
+    if (result.error || !result.data?.id)
+      throw new Error('Email provider did not confirm acceptance');
+    return result.data.id;
+  }
+
   /**
    * HMAC over the lowercased address, so unsubscribe links cannot be forged
    * to suppress arbitrary addresses. Falls back to JWT_SECRET so no new env
