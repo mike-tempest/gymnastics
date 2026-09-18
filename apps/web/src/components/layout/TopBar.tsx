@@ -4,6 +4,8 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { ChevronDown, LogOut, Menu } from 'lucide-react';
 import { useSession, signOut } from 'next-auth/react';
 
+import GlobalSearch from './GlobalSearch';
+
 interface TopBarProps {
   onMenuClick: () => void;
   menuOpen?: boolean;
@@ -26,6 +28,7 @@ export default function TopBar({ onMenuClick, menuOpen = false }: TopBarProps) {
         >
           <Menu className="w-5 h-5" aria-hidden="true" />
         </button>
+        <GlobalSearch />
         <div className="flex-1" />
         {session && (
           <DropdownMenu.Root>
