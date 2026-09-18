@@ -11,9 +11,10 @@ jest.mock('next/navigation', () => ({
 }));
 
 // Mock next-auth
+let mockRole = 'super_admin';
 jest.mock('next-auth/react', () => ({
   useSession: () => ({
-    data: { user: { name: 'Admin', role: 'ADMIN' } },
+    data: { user: { name: 'Admin', role: mockRole } },
     status: 'authenticated',
   }),
 }));
@@ -91,10 +92,46 @@ function renderPage(): ReturnType<typeof render> {
 
 describe('SafeguardingPage', () => {
   beforeEach(() => {
+    mockRole = 'super_admin';
     jest.clearAllMocks();
+    mockGetMyClub.mockResolvedValue({ id: 'club-gb', name: 'Test club', country: 'GB' });
     mockGetChecklist.mockResolvedValue([...CHECKLIST]);
     mockGetOfficer.mockResolvedValue({ ...OFFICER });
     mockGetIncidents.mockResolvedValue([]);
+  });
+
+  it.each([
+    'treasurer',
+    'head_coach',
+    'squad_coach',
+    'competition_secretary',
+    'parent',
+    'member_adult',
+    'member_minor',
+  ])('does not request or display incident data for %s', async (role) => {
+    mockRole = role;
+    renderPage();
+    await screen.findByText('Safeguarding and Protecting Children Policy compliance checklist');
+    expect(mockGetIncidents).not.toHaveBeenCalled();
+    expect(screen.queryByText('Incident log')).not.toBeInTheDocument();
+  });
+
+  it('allows a Welfare Officer to read incidents', async () => {
+    mockRole = 'welfare_officer';
+    renderPage();
+    expect(await screen.findByText('Incident log')).toBeInTheDocument();
+    expect(mockGetIncidents).toHaveBeenCalledTimes(1);
+  });
+
+  it('hides incident data when a welfare role is removed', async () => {
+    mockRole = 'welfare_officer';
+    const view = renderPage();
+    await screen.findByText('Incident log');
+    mockRole = 'squad_coach';
+    view.rerender(<SafeguardingPage />);
+    await screen.findByText('Safeguarding and Protecting Children Policy compliance checklist');
+    expect(screen.queryByText('Incident log')).not.toBeInTheDocument();
+    expect(mockGetIncidents).toHaveBeenCalledTimes(1);
   });
 
   it('renders British Gymnastics safeguarding labels for a GB club by default', async () => {

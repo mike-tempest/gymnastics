@@ -2,7 +2,7 @@ import { Controller, Get, Request, Res, StreamableFile, UseGuards } from '@nestj
 import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { Response } from 'express';
 
-import { Roles } from '../auth/decorators/roles.decorator';
+import { ExactRoles } from '../auth/decorators/roles.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { UserRole } from '../users/entities/user.entity';
@@ -35,7 +35,7 @@ export class ExportController {
    * should not run the whole thing twice.
    */
   @Get('club.zip')
-  @Roles(UserRole.SUPER_ADMIN)
+  @ExactRoles(UserRole.SUPER_ADMIN)
   @UseGuards(ThrottlerGuard)
   @Throttle({ default: { limit: 3, ttl: 300_000 } })
   async downloadClubExport(

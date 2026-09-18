@@ -10,6 +10,7 @@ import {
   Mail,
   Calendar,
 } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
 
@@ -43,6 +44,9 @@ const INCIDENT_STATUS_MAP: Record<Incident['status'], { status: ComplianceStatus
   };
 
 export default function SafeguardingPage() {
+  const { data: session, status: sessionStatus } = useSession();
+  const role = session?.user.role?.toLowerCase();
+  const canReadIncidents = role === 'super_admin' || role === 'welfare_officer';
   const { formatDate } = useFormatters();
   const { country, club, isLoading: isRegionLoading } = useClubRegion();
   // Prefer the club's saved governing body; fall back to the country default.
@@ -67,13 +71,14 @@ export default function SafeguardingPage() {
   const INCIDENTS_PER_PAGE = 10;
 
   const fetchData = useCallback(async () => {
+    if (sessionStatus !== 'authenticated') return;
     setIsLoading(true);
     setError(null);
     try {
       const [checklistData, officerData, incidentsData] = await Promise.all([
         getChecklist(),
         getSafeguardingOfficer(),
-        getIncidents(),
+        canReadIncidents ? getIncidents() : Promise.resolve([]),
       ]);
       setChecklist(checklistData);
       setOfficer(officerData);
@@ -83,7 +88,7 @@ export default function SafeguardingPage() {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [canReadIncidents, sessionStatus]);
 
   useEffect(() => {
     fetchData();
@@ -296,173 +301,177 @@ export default function SafeguardingPage() {
           </div>
 
           {/* Incident Log */}
-          <div className="bg-dark-primary rounded-3xl shadow-lg p-6 border border-white/10">
-            <div className="flex items-center gap-3 mb-6">
-              <AlertTriangle className="w-6 h-6 text-warning" />
-              <h2 className="font-serif text-2xl sm:text-3xl text-white">Incident log</h2>
-            </div>
+          {canReadIncidents && (
+            <div className="bg-dark-primary rounded-3xl shadow-lg p-6 border border-white/10">
+              <div className="flex items-center gap-3 mb-6">
+                <AlertTriangle className="w-6 h-6 text-warning" />
+                <h2 className="font-serif text-2xl sm:text-3xl text-white">Incident log</h2>
+              </div>
 
-            {/* Status filter */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-6">
-              <select
-                value={incidentStatusFilter}
-                onChange={(e) => {
-                  setIncidentStatusFilter(
-                    e.target.value as '' | 'open' | 'under review' | 'resolved'
-                  );
-                  setIncidentPage(1);
-                }}
-                className="px-4 py-3 min-h-[44px] rounded-xl bg-white/5 border border-white/20 text-white focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 outline-none transition-all w-full sm:min-w-[200px]"
-              >
-                <option value="">All statuses</option>
-                <option value="open">Open</option>
-                <option value="under review">Under review</option>
-                <option value="resolved">Resolved</option>
-              </select>
-            </div>
-
-            {incidents.length === 0 ? (
-              <EmptyState
-                icon={ShieldCheck}
-                title="No incidents recorded"
-                description="A clear incident log means nothing has been reported. Any safeguarding concerns you log will appear here."
-                actionLabel={null}
-              />
-            ) : paginatedIncidents.length === 0 ? (
-              <EmptyState
-                icon={AlertTriangle}
-                title="No incidents found"
-                description="No incidents match the selected status."
-                actionLabel="Clear filter"
-                actionOnClick={() => {
-                  setIncidentStatusFilter('');
-                  setIncidentPage(1);
-                }}
-              />
-            ) : (
-              <>
-                {/* Mobile card view */}
-                <div className="md:hidden space-y-3">
-                  {paginatedIncidents.map((incident) => {
-                    const badge = INCIDENT_STATUS_MAP[incident.status];
-                    return (
-                      <div
-                        key={incident.id}
-                        className="p-4 rounded-xl bg-white/5 border border-white/10"
-                      >
-                        <div className="flex items-start justify-between mb-2">
-                          <div>
-                            <p className="text-white font-semibold text-sm">{incident.category}</p>
-                            <p className="text-white/60 text-xs tabular-nums">
-                              {formatDate(incident.date, {
-                                day: '2-digit',
-                                month: '2-digit',
-                                year: 'numeric',
-                              })}
-                            </p>
-                          </div>
-                          <ComplianceStatusBadge status={badge.status} label={badge.label} />
-                        </div>
-                        <p className="text-white/80 text-sm mb-2">{incident.summary}</p>
-                        <p className="text-white/60 text-xs">Reported by {incident.reportedBy}</p>
-                      </div>
+              {/* Status filter */}
+              <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                <select
+                  value={incidentStatusFilter}
+                  onChange={(e) => {
+                    setIncidentStatusFilter(
+                      e.target.value as '' | 'open' | 'under review' | 'resolved'
                     );
-                  })}
-                </div>
+                    setIncidentPage(1);
+                  }}
+                  className="px-4 py-3 min-h-[44px] rounded-xl bg-white/5 border border-white/20 text-white focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 outline-none transition-all w-full sm:min-w-[200px]"
+                >
+                  <option value="">All statuses</option>
+                  <option value="open">Open</option>
+                  <option value="under review">Under review</option>
+                  <option value="resolved">Resolved</option>
+                </select>
+              </div>
 
-                {/* Desktop table view */}
-                <div className="hidden md:block overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b border-white/10">
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
-                          Date
-                        </th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
-                          Category
-                        </th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
-                          Summary
-                        </th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
-                          Reported by
-                        </th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
-                          Status
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {paginatedIncidents.map((incident) => {
-                        const badge = INCIDENT_STATUS_MAP[incident.status];
-                        return (
-                          <tr
-                            key={incident.id}
-                            className="border-b border-white/10 last:border-b-0 hover:bg-white/5 transition-colors"
-                          >
-                            <td className="py-4 px-4">
-                              <p className="text-white/80 text-sm tabular-nums">
+              {incidents.length === 0 ? (
+                <EmptyState
+                  icon={ShieldCheck}
+                  title="No incidents recorded"
+                  description="A clear incident log means nothing has been reported. Any safeguarding concerns you log will appear here."
+                  actionLabel={null}
+                />
+              ) : paginatedIncidents.length === 0 ? (
+                <EmptyState
+                  icon={AlertTriangle}
+                  title="No incidents found"
+                  description="No incidents match the selected status."
+                  actionLabel="Clear filter"
+                  actionOnClick={() => {
+                    setIncidentStatusFilter('');
+                    setIncidentPage(1);
+                  }}
+                />
+              ) : (
+                <>
+                  {/* Mobile card view */}
+                  <div className="md:hidden space-y-3">
+                    {paginatedIncidents.map((incident) => {
+                      const badge = INCIDENT_STATUS_MAP[incident.status];
+                      return (
+                        <div
+                          key={incident.id}
+                          className="p-4 rounded-xl bg-white/5 border border-white/10"
+                        >
+                          <div className="flex items-start justify-between mb-2">
+                            <div>
+                              <p className="text-white font-semibold text-sm">
+                                {incident.category}
+                              </p>
+                              <p className="text-white/60 text-xs tabular-nums">
                                 {formatDate(incident.date, {
                                   day: '2-digit',
                                   month: '2-digit',
                                   year: 'numeric',
                                 })}
                               </p>
-                            </td>
-                            <td className="py-4 px-4">
-                              <p className="text-white font-semibold text-sm">
-                                {incident.category}
-                              </p>
-                            </td>
-                            <td className="py-4 px-4 max-w-md">
-                              <p className="text-white/80 text-sm">{incident.summary}</p>
-                            </td>
-                            <td className="py-4 px-4">
-                              <p className="text-white/80 text-sm">{incident.reportedBy}</p>
-                            </td>
-                            <td className="py-4 px-4">
-                              <ComplianceStatusBadge status={badge.status} label={badge.label} />
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-
-                <div className="flex flex-col sm:flex-row items-center justify-between mt-4 gap-4">
-                  <p className="text-white/60 text-sm tabular-nums">
-                    Showing{' '}
-                    {Math.min(
-                      (incidentPage - 1) * INCIDENTS_PER_PAGE + 1,
-                      filteredIncidents.length
-                    )}{' '}
-                    to {Math.min(incidentPage * INCIDENTS_PER_PAGE, filteredIncidents.length)} of{' '}
-                    {filteredIncidents.length} records
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => setIncidentPage((p) => Math.max(1, p - 1))}
-                      disabled={incidentPage === 1}
-                      className="px-4 py-2 min-h-[44px] rounded-button font-semibold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed bg-white/5 border border-white/10 text-white hover:border-brand"
-                    >
-                      Previous
-                    </button>
-                    <span className="text-white/60 text-sm tabular-nums">
-                      Page {incidentPage} of {totalPages}
-                    </span>
-                    <button
-                      onClick={() => setIncidentPage((p) => Math.min(totalPages, p + 1))}
-                      disabled={incidentPage === totalPages}
-                      className="px-4 py-2 min-h-[44px] rounded-button font-semibold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed bg-white/5 border border-white/10 text-white hover:border-brand"
-                    >
-                      Next
-                    </button>
+                            </div>
+                            <ComplianceStatusBadge status={badge.status} label={badge.label} />
+                          </div>
+                          <p className="text-white/80 text-sm mb-2">{incident.summary}</p>
+                          <p className="text-white/60 text-xs">Reported by {incident.reportedBy}</p>
+                        </div>
+                      );
+                    })}
                   </div>
-                </div>
-              </>
-            )}
-          </div>
+
+                  {/* Desktop table view */}
+                  <div className="hidden md:block overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-white/10">
+                          <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                            Date
+                          </th>
+                          <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                            Category
+                          </th>
+                          <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                            Summary
+                          </th>
+                          <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                            Reported by
+                          </th>
+                          <th className="text-left py-3 px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">
+                            Status
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {paginatedIncidents.map((incident) => {
+                          const badge = INCIDENT_STATUS_MAP[incident.status];
+                          return (
+                            <tr
+                              key={incident.id}
+                              className="border-b border-white/10 last:border-b-0 hover:bg-white/5 transition-colors"
+                            >
+                              <td className="py-4 px-4">
+                                <p className="text-white/80 text-sm tabular-nums">
+                                  {formatDate(incident.date, {
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    year: 'numeric',
+                                  })}
+                                </p>
+                              </td>
+                              <td className="py-4 px-4">
+                                <p className="text-white font-semibold text-sm">
+                                  {incident.category}
+                                </p>
+                              </td>
+                              <td className="py-4 px-4 max-w-md">
+                                <p className="text-white/80 text-sm">{incident.summary}</p>
+                              </td>
+                              <td className="py-4 px-4">
+                                <p className="text-white/80 text-sm">{incident.reportedBy}</p>
+                              </td>
+                              <td className="py-4 px-4">
+                                <ComplianceStatusBadge status={badge.status} label={badge.label} />
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-center justify-between mt-4 gap-4">
+                    <p className="text-white/60 text-sm tabular-nums">
+                      Showing{' '}
+                      {Math.min(
+                        (incidentPage - 1) * INCIDENTS_PER_PAGE + 1,
+                        filteredIncidents.length
+                      )}{' '}
+                      to {Math.min(incidentPage * INCIDENTS_PER_PAGE, filteredIncidents.length)} of{' '}
+                      {filteredIncidents.length} records
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setIncidentPage((p) => Math.max(1, p - 1))}
+                        disabled={incidentPage === 1}
+                        className="px-4 py-2 min-h-[44px] rounded-button font-semibold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed bg-white/5 border border-white/10 text-white hover:border-brand"
+                      >
+                        Previous
+                      </button>
+                      <span className="text-white/60 text-sm tabular-nums">
+                        Page {incidentPage} of {totalPages}
+                      </span>
+                      <button
+                        onClick={() => setIncidentPage((p) => Math.min(totalPages, p + 1))}
+                        disabled={incidentPage === totalPages}
+                        className="px-4 py-2 min-h-[44px] rounded-button font-semibold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed bg-white/5 border border-white/10 text-white hover:border-brand"
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
         </div>
       </div>
       {showAddOfficer && (
