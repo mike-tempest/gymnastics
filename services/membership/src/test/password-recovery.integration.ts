@@ -269,11 +269,15 @@ it('rejects a token when its account has been deactivated', async () => {
 });
 
 it('invalidates existing links when staff change the email or password', async () => {
-  const repository = new UsersRepository(database.getRepository(User), {} as TenantContextService);
+  let currentClub = clubA.id;
+  const repository = new UsersRepository(database.getRepository(User), {
+    getClubId: () => currentClub,
+  } as TenantContextService);
   const oldToken = await issue(parent);
   await repository.update(parent.user_id, { email: `${randomUUID()}@example.com` });
   await expect(recovery.resetPassword(oldToken, 'Replacement123')).rejects.toThrow();
   const staffToken = await issue(staff);
+  currentClub = clubB.id;
   await repository.update(staff.user_id, {}, await bcrypt.hash('StaffChanged123', 10));
   await expect(recovery.resetPassword(staffToken, 'Replacement123')).rejects.toThrow();
   expect((await secretRow(staff)).session_version).toBe(1);
