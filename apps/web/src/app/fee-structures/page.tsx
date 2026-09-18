@@ -2,6 +2,7 @@
 
 import { Squad } from '@club-manager/shared-types';
 import { Receipt } from 'lucide-react';
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -247,6 +248,12 @@ export default function FeeStructuresPage() {
               <h1 className="font-serif text-5xl sm:text-6xl text-dark-primary tracking-tight mb-2">
                 Fee Structures
               </h1>
+              <Link
+                className="inline-flex min-h-12 items-center underline"
+                href="/billing/adjustments"
+              >
+                Billing policies and invoice previews
+              </Link>
               <p className="text-grey-600 text-lg">Manage billing fee structures and pricing</p>
             </div>
             <button

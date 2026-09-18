@@ -106,7 +106,12 @@ export default function BillingPage() {
       const s = getDisplayStatus(inv);
       return s === 'sent' || s === 'overdue';
     })
-    .reduce((sum, inv) => sum + Number(inv.total_amount), 0);
+    .reduce(
+      (sum, inv) =>
+        sum +
+        (inv.billing_balance ? inv.billing_balance.due_minor / 100 : Number(inv.total_amount)),
+      0
+    );
 
   const overdueCount = invoices.filter((inv) => getDisplayStatus(inv) === 'overdue').length;
 
@@ -187,6 +192,12 @@ export default function BillingPage() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
             <div>
               <h1 className="font-serif text-3xl md:text-4xl text-dark-primary mb-1">Billing</h1>
+              <Link
+                className="inline-flex min-h-12 items-center underline"
+                href="/billing/adjustments"
+              >
+                Billing policies and invoice previews
+              </Link>
               <p className="text-grey-600 text-lg">Manage invoices and track payments</p>
             </div>
             <div className="flex flex-wrap gap-3">

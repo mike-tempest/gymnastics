@@ -141,6 +141,7 @@ export class StripeWebhookVerifier implements WebhookVerifier {
     }
     // The handler resolves the local record from this link. For payments the
     // object is the PaymentIntent, whose id we stored as provider_payment_id.
+    if (mapped.resource_type === 'refunds') links.refund = object.id ?? '';
     if (mapped.resource_type === 'payments') {
       links.payment = object.id ?? '';
     }
@@ -193,6 +194,9 @@ export class StripeWebhookVerifier implements WebhookVerifier {
  * retrieve, so no mandate events are mapped here.
  */
 const STRIPE_EVENT_MAP: Record<string, { resource_type: string; action: string }> = {
+  'refund.created': { resource_type: 'refunds', action: 'created' },
+  'refund.updated': { resource_type: 'refunds', action: 'updated' },
+  'refund.failed': { resource_type: 'refunds', action: 'failed' },
   'payment_intent.succeeded': { resource_type: 'payments', action: 'confirmed' },
   'payment_intent.payment_failed': { resource_type: 'payments', action: 'failed' },
   'payment_intent.canceled': { resource_type: 'payments', action: 'cancelled' },

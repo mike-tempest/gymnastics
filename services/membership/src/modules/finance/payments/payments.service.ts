@@ -1,3 +1,5 @@
+import { BillingBalanceService } from '../adjustments/billing-balance.service';
+import { PaymentOperationsService } from '../adjustments/payment-operations.service';
 import { Injectable, NotFoundException, BadRequestException, Logger } from '@nestjs/common';
 import { PaymentsRepository } from './payments.repository';
 import { InvoicesRepository } from '../invoices/invoices.repository';
@@ -7,9 +9,8 @@ import { FamiliesRepository } from '../../families/families.repository';
 import { EmailService } from '../../email/email.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
-import { Payment, PaymentStatus, PaymentMethod } from './entities/payment.entity';
+import { Payment, PaymentStatus } from './entities/payment.entity';
 import { InvoiceStatus } from '../invoices/entities/invoice.entity';
-import { DirectDebitMandateStatus } from '../mandates/entities/direct-debit-mandate.entity';
 import { ClubsRepository } from '../../clubs/clubs.repository';
 import { formatClubDate, formatMoney } from '../../../common/region/format.util';
 import { regionForCountry } from '../../../common/region/region.util';
@@ -26,6 +27,8 @@ export class PaymentsService {
     private readonly familiesRepository: FamiliesRepository,
     private readonly emailService: EmailService,
     private readonly clubsRepository: ClubsRepository,
+    private readonly balances: BillingBalanceService,
+    private readonly operations: PaymentOperationsService,
   ) {}
 
   async create(createPaymentDto: CreatePaymentDto): Promise<Payment> {
@@ -51,7 +54,7 @@ export class PaymentsService {
     // of truth), never from the caller, so a payment can never be recorded in a
     // currency that differs from its invoice. For a GBP invoice this is GBP, so
     // existing behaviour is unchanged.
-    const payment = await this.paymentsRepository.create({
+    const payment = await this.balances.recordManual(invoice.club_id, {
       ...createPaymentDto,
       currency: invoice.currency ?? 'GBP',
     });
@@ -88,7 +91,11 @@ export class PaymentsService {
   async update(id: string, updatePaymentDto: UpdatePaymentDto): Promise<Payment> {
     const existingPayment = await this.findOne(id);
 
-    const updated = await this.paymentsRepository.update(id, updatePaymentDto);
+    const updated = await this.balances.mutateManual(
+      existingPayment.club_id,
+      existingPayment,
+      updatePaymentDto,
+    );
     if (!updated) {
       throw new NotFoundException(`Payment with ID ${id} not found`);
     }
@@ -111,20 +118,17 @@ export class PaymentsService {
   }
 
   async remove(id: string): Promise<void> {
-    await this.findOne(id);
-    await this.paymentsRepository.remove(id);
+    const payment = await this.findOne(id);
+    await this.balances.mutateManual(payment.club_id, payment, null);
   }
 
   private async updateInvoiceStatus(invoiceId: string): Promise<void> {
     const invoice = await this.invoicesRepository.findOne(invoiceId);
     if (!invoice) return;
 
-    const totalPaid = await this.paymentsRepository.getTotalPaymentsByInvoice(invoiceId);
-    const invoiceTotal = parseFloat(invoice.total_amount.toString());
-
-    if (totalPaid >= invoiceTotal) {
+    const { balance } = await this.balances.invoice(invoice.club_id, invoiceId);
+    if (balance.due_minor === 0)
       await this.invoicesRepository.updateStatus(invoiceId, InvoiceStatus.PAID);
-    }
   }
 
   /**
@@ -132,146 +136,29 @@ export class PaymentsService {
    * @param invoiceId The invoice ID to collect payment for
    * @returns The created payment record, or null if no active mandate exists
    */
+  async collectInvoiceForCurrentClub(invoiceId: string): Promise<Payment | null> {
+    const invoice = await this.invoicesRepository.findOne(invoiceId);
+    if (!invoice) throw new NotFoundException('Invoice not found');
+    return this.collectDirectDebitPayment(invoiceId);
+  }
+
   async collectDirectDebitPayment(invoiceId: string): Promise<Payment | null> {
-    try {
-      // NON-REQUEST PATH: this method is invoked by the payment-collection cron
-      // job (PaymentCollectionTask) and by InvoicesService.create on the request
-      // path. To work in both, it uses the unscoped repository variants and
-      // derives club_id from the loaded invoice rather than the CLS context, so
-      // it never calls getClubId(). A guessed invoice id still cannot collect a
-      // payment for the wrong club because every downstream predicate is scoped
-      // by the invoice's own club_id.
-      const invoice = await this.invoicesRepository.findOneUnscoped(invoiceId);
-      if (!invoice) {
-        throw new NotFoundException(`Invoice with ID ${invoiceId} not found`);
-      }
-
-      const clubId = invoice.club_id;
-
-      // Check if invoice is already paid
-      if (invoice.status === InvoiceStatus.PAID) {
-        this.logger.log(`Invoice ${invoiceId} is already paid, skipping payment collection`);
-        return null;
-      }
-
-      // Find active mandate for this family (scoped to the invoice's club).
-      const activeMandates = await this.mandatesRepository.findByFamilyForClub(
-        invoice.family_id,
-        clubId,
-      );
-      const activeMandate = activeMandates.find(
-        (m) => m.status === DirectDebitMandateStatus.ACTIVE,
-      );
-
-      if (!activeMandate) {
-        this.logger.log(
-          `No active mandate found for family ${invoice.family_id}, skipping automatic payment`,
-        );
-        return null;
-      }
-
-      // Calculate amount to collect (total - already paid)
-      const totalPaid = await this.paymentsRepository.getTotalPaymentsByInvoiceForClub(
-        invoiceId,
-        clubId,
-      );
-      const amountToCollect = parseFloat(invoice.total_amount.toString()) - totalPaid;
-
-      if (amountToCollect <= 0) {
-        this.logger.log(
-          `Invoice ${invoiceId} has no remaining balance, skipping payment collection`,
-        );
-        return null;
-      }
-
-      // Collect in the invoice's currency. Fall back to the owning club's
-      // currency, then GBP, so a legacy invoice without a stored currency still
-      // behaves exactly as before (UK clubs are GBP throughout).
-      let currency = invoice.currency;
-      if (!currency) {
-        const club = await this.clubsRepository.findOne(clubId);
-        currency = club?.currency ?? 'GBP';
-      }
-
-      this.logger.log(
-        `Collecting ${currency} ${amountToCollect} via Direct Debit for invoice ${invoiceId} using mandate ${activeMandate.provider_mandate_id}`,
-      );
-
-      // The provider charge happens BEFORE the payment row below is written, so
-      // a crash in between takes the payer's money and leaves no record of it.
-      // A retry would then recompute the identical amountToCollect (because
-      // totalPaid never saw the lost payment) and charge them a second time.
-      //
-      // Keying on the invoice AND the amount closes exactly that window: the
-      // retry produces the same key and the provider returns the original
-      // payment instead of taking more money. A genuinely later collection of a
-      // different remaining balance yields a different key and proceeds
-      // normally. Amount is in minor units so float formatting cannot make two
-      // identical charges look like different keys.
-      const idempotencyKey = `invoice-${invoiceId}-${Math.round(amountToCollect * 100)}`;
-
-      // Charge the recurring payment via the club's payment provider.
-      const provider = await this.paymentProviders.forClub(clubId);
-      if (activeMandate.provider !== provider.connection.provider) {
-        throw new BadRequestException(
-          'The active mandate belongs to a different payment provider.',
-        );
-      }
-      const providerPayment = await provider.chargeRecurring({
-        amount: amountToCollect,
-        currency,
-        providerMandateId: activeMandate.provider_mandate_id,
-        // GoCardless charges the mandate directly and ignores this; Stripe has
-        // no chargeable mandate and must name the customer the payment method
-        // is attached to.
-        providerCustomerId: activeMandate.provider_customer_id ?? undefined,
-        idempotencyKey,
-        description: `Payment for invoice ${invoice.invoice_number}`,
-        metadata: {
-          invoice_id: invoiceId,
-          invoice_number: invoice.invoice_number,
-          family_id: invoice.family_id,
-        },
-      });
-
-      // Create payment record, stamping the club derived from the parent invoice
-      // (this path may run without CLS context, e.g. from the cron job).
-      const payment = await this.paymentsRepository.createForClub(
-        {
-          invoice_id: invoiceId,
-          amount: amountToCollect,
-          currency,
-          payment_method: PaymentMethod.DIRECT_DEBIT,
-          // Stamp which provider took the money so the webhook handler (which
-          // looks payments up by provider AND provider id) can find this row.
-          provider: provider.connection.provider,
-          provider_payment_id: providerPayment.providerPaymentId,
-          payment_date: new Date().toISOString(),
-          status: PaymentStatus.PENDING_SUBMISSION,
-        },
-        clubId,
-      );
-
-      this.logger.log(
-        `Created payment ${payment.payment_id} for invoice ${invoiceId} with GoCardless payment ${providerPayment.providerPaymentId}`,
-      );
-
-      return payment;
-    } catch (error) {
-      const err = error as Error;
-      this.logger.error(
-        `Failed to collect Direct Debit payment for invoice ${invoiceId}: ${err.message}`,
-        err.stack,
-      );
-      throw error;
-    }
+    const invoice = await this.invoicesRepository.findOneUnscoped(invoiceId);
+    if (!invoice) throw new NotFoundException('Invoice not found');
+    const operation = await this.operations.collect(invoice.club_id, invoiceId);
+    if (!operation?.payment_id) return null;
+    const payments = await this.paymentsRepository.findByProviderId(
+      operation.provider,
+      operation.provider_id!,
+    );
+    return payments;
   }
 
   /**
    * Collect payments for all pending invoices with active mandates
    * This can be run as a scheduled job
    */
-  async collectPendingInvoicePayments(): Promise<{
+  async collectPendingInvoicePayments(currentClubOnly = false): Promise<{
     attempted: number;
     successful: number;
     failed: number;
@@ -291,9 +178,9 @@ export class PaymentsService {
       // and must not call getClubId(). Each invoice is then collected via
       // collectDirectDebitPayment, which scopes all downstream work by that
       // invoice's own club_id.
-      const pendingInvoices = await this.invoicesRepository.findByStatusUnscoped(
-        InvoiceStatus.PENDING,
-      );
+      const pendingInvoices = currentClubOnly
+        ? await this.invoicesRepository.findByStatus(InvoiceStatus.PENDING)
+        : await this.invoicesRepository.findByStatusUnscoped(InvoiceStatus.PENDING);
 
       this.logger.log(`Found ${pendingInvoices.length} pending invoices to process`);
 

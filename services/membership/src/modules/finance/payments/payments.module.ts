@@ -1,3 +1,5 @@
+import { BillingLedgerModule } from '../adjustments/billing-ledger.module';
+import { PaymentOperationsModule } from '../adjustments/payment-operations.module';
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PaymentsController } from './payments.controller';
@@ -13,6 +15,8 @@ import { PaymentCollectionTask } from './payment-collection.task';
 
 @Module({
   imports: [
+    BillingLedgerModule,
+    PaymentOperationsModule,
     TypeOrmModule.forFeature([Payment]),
     forwardRef(() => InvoicesModule),
     MandatesModule,

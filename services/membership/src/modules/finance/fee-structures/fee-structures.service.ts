@@ -1,4 +1,5 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BillingBalanceService } from '../adjustments/billing-balance.service';
+import { Injectable, NotFoundException, Optional } from '@nestjs/common';
 import { FeeStructuresRepository } from './fee-structures.repository';
 import { CreateFeeStructureDto } from './dto/create-fee-structure.dto';
 import { BulkFeeStructureItemDto } from './dto/bulk-create-fee-structure.dto';
@@ -15,6 +16,7 @@ export class FeeStructuresService {
     private readonly clubsRepository: ClubsRepository,
     private readonly squadsRepository: SquadsRepository,
     private readonly tenantContext: TenantContextService,
+    @Optional() private readonly balances?: BillingBalanceService,
   ) {}
 
   async create(createFeeStructureDto: CreateFeeStructureDto): Promise<FeeStructure> {
@@ -121,7 +123,12 @@ export class FeeStructuresService {
   }
 
   async update(id: string, updateFeeStructureDto: UpdateFeeStructureDto): Promise<FeeStructure> {
-    await this.findOne(id); // This will throw if not found
+    const existing = await this.findOne(id);
+    if (
+      updateFeeStructureDto.amount !== undefined &&
+      updateFeeStructureDto.amount !== Number(existing.amount)
+    )
+      await this.balances?.assertBaseFeeEditable(this.tenantContext.getClubId(), id);
     const updated = await this.feeStructuresRepository.update(id, updateFeeStructureDto);
     if (!updated) {
       throw new NotFoundException(`Fee structure with ID ${id} not found`);
