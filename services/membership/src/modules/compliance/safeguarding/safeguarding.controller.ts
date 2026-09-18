@@ -18,7 +18,7 @@ import { UpdateOfficerDto } from './dto/update-officer.dto';
 import { UpdateChecklistItemDto } from './dto/update-checklist-item.dto';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
-import { Roles } from '../../auth/decorators/roles.decorator';
+import { ExactRoles, Roles } from '../../auth/decorators/roles.decorator';
 import { UserRole } from '../../users/entities/user.entity';
 import { UuidParam } from '../../../common/validation/parse-uuid.pipe';
 
@@ -65,13 +65,13 @@ export class SafeguardingController {
   }
 
   @Get('incidents')
-  @Roles(UserRole.SUPER_ADMIN, UserRole.HEAD_COACH)
+  @ExactRoles(UserRole.SUPER_ADMIN, UserRole.WELFARE_OFFICER)
   getIncidents() {
     return this.safeguardingService.getIncidents();
   }
 
   @Post('incidents')
-  @Roles(UserRole.SUPER_ADMIN)
+  @ExactRoles(UserRole.SUPER_ADMIN, UserRole.WELFARE_OFFICER)
   createIncident(@Body() createIncidentDto: CreateIncidentDto) {
     return this.safeguardingService.createIncident(createIncidentDto);
   }

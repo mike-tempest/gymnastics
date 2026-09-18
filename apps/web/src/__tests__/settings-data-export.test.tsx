@@ -1,6 +1,11 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+let mockRole = 'super_admin';
+jest.mock('next-auth/react', () => ({
+  useSession: () => ({ data: { user: { role: mockRole } } }),
+}));
+
 const mockToastSuccess = jest.fn();
 const mockToastError = jest.fn();
 jest.mock('sonner', () => ({
@@ -21,8 +26,27 @@ import { MEMBER_NOUN_PLURAL_LOWER } from '../lib/brand';
 
 describe('DataExportCard', () => {
   beforeEach(() => {
+    mockRole = 'super_admin';
     jest.clearAllMocks();
     mockDownloadClubExport.mockResolvedValue(undefined);
+  });
+
+  it.each([
+    'treasurer',
+    'head_coach',
+    'squad_coach',
+    'welfare_officer',
+    'competition_secretary',
+    'parent',
+    'member_adult',
+    'member_minor',
+  ])('does not offer the sensitive full export to %s', (role) => {
+    mockRole = role;
+    render(<DataExportCard />);
+    expect(
+      screen.queryByRole('button', { name: /download all your data/i })
+    ).not.toBeInTheDocument();
+    expect(mockDownloadClubExport).not.toHaveBeenCalled();
   });
 
   it('says plainly that the data belongs to the club', () => {

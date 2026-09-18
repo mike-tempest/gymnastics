@@ -1,6 +1,7 @@
 'use client';
 
 import { Download, Loader2 } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -31,6 +32,7 @@ const INCLUDED = [
  * is the promise as much as the file.
  */
 export function DataExportCard() {
+  const { data: session } = useSession();
   const [isExporting, setIsExporting] = useState(false);
 
   const handleExport = async () => {
@@ -53,6 +55,10 @@ export function DataExportCard() {
       setIsExporting(false);
     }
   };
+
+  if (session?.user.role?.toLowerCase() !== 'super_admin') {
+    return <p>Only a club administrator can download the full export.</p>;
+  }
 
   return (
     <div>
