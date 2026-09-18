@@ -1,3 +1,4 @@
+import { OperationalMessagesService } from '../notification-deliveries/operational-messages.service';
 import { TimetableService } from './timetable.service';
 import {
   Injectable,
@@ -41,6 +42,7 @@ export class SessionsService {
     private readonly familiesRepository: FamiliesRepository,
     private readonly clubsRepository: ClubsRepository,
     private readonly tenantContext: TenantContextService,
+    private readonly messages: OperationalMessagesService,
     @Optional() private readonly timetables?: TimetableService,
   ) {
     this.appUrl = this.configService.get<string>('APP_URL', 'http://localhost:3000');
@@ -192,13 +194,9 @@ export class SessionsService {
       throw new BadRequestException(`Invalid status: ${status}`);
     }
 
-    const updated = await this.sessionsRepository.update(id, { status });
+    const updated = await this.messages.updateSession(id, { status });
     if (!updated) {
       throw new NotFoundException(`Session with ID ${id} not found`);
-    }
-
-    if (status === SessionStatus.CANCELLED && updated.squad_id) {
-      this.sendSessionCancelledNotifications(updated);
     }
 
     return updated;
@@ -224,7 +222,7 @@ export class SessionsService {
     }
 
     try {
-      const updated = await this.sessionsRepository.update(id, updateSessionDto);
+      const updated = await this.messages.updateSession(id, updateSessionDto);
       if (!updated) {
         throw new NotFoundException(`Session with ID ${id} not found`);
       }
@@ -449,59 +447,5 @@ export class SessionsService {
         `Session reminder sent to ${family.primary_contact_email} for ${memberNames}`,
       );
     }
-  }
-
-  private sendSessionCancelledNotifications(session: Session): void {
-    (async () => {
-      try {
-        if (!session.squad_id) return;
-        const members = await this.membersRepository.findBySquadId(session.squad_id);
-        if (members.length === 0) return;
-
-        // Group by family to send one notification per family
-        const familyIds = [...new Set(members.map((s) => s.family_id).filter(Boolean) as string[])];
-
-        // Resolve the club so the cancellation date is formatted in the club's
-        // own locale. The stored date is the club's local wall-clock date, so
-        // anchor its components as a UTC instant and render in UTC, keeping a
-        // GB club byte-identical while other locales get their own style.
-        const club = await this.clubsRepository.findOne(session.club_id);
-        if (!club) {
-          this.logger.warn(
-            `Club ${session.club_id} not found for cancelled session ${session.session_id} - skipping notifications`,
-          );
-          return;
-        }
-        const locale = club.locale;
-        const sessionDateIso = this.sessionDateIso(session.session_date);
-        const [year, month, day] = sessionDateIso.split('-').map((part) => parseInt(part, 10));
-        const sessionDateInstant = new Date(Date.UTC(year, month - 1, day));
-
-        for (const familyId of familyIds) {
-          try {
-            const family = await this.familiesRepository.findOne(familyId);
-            if (!family || !family.primary_contact_email) continue;
-
-            await this.emailService.sendSessionCancelled({
-              recipientEmail: family.primary_contact_email,
-              memberName: family.primary_contact_name || family.family_name,
-              sessionName: session.session_name,
-              sessionDate: formatClubDate(sessionDateInstant, locale, 'UTC'),
-              sessionTime: session.start_time,
-              location: session.location ?? undefined,
-              squadName: session.squad?.squad_name || 'Unknown Squad',
-            });
-          } catch (error) {
-            this.logger.error(
-              `Failed to notify family ${familyId} of session cancellation: ${(error as Error).message}`,
-            );
-          }
-        }
-      } catch (error) {
-        this.logger.error(
-          `Failed to send session cancellation notifications: ${(error as Error).message}`,
-        );
-      }
-    })();
   }
 }

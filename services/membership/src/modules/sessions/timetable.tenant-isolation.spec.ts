@@ -1,3 +1,4 @@
+import { OperationalMessagesService } from '../notification-deliveries/operational-messages.service';
 import { randomUUID } from 'crypto';
 import { DataSource } from 'typeorm';
 import { TimetableService } from './timetable.service';
@@ -47,8 +48,16 @@ suite('Timetable PostgreSQL tenant isolation, history and concurrency', () => {
       "INSERT INTO members(member_id,club_id,squad_id,first_name,last_name,dob,gender) VALUES ($1,$2,$3,'Test','Gymnast','2015-01-01','female')",
       [member, club, squad],
     );
-    service = new TimetableService(db, { getClubId: () => club } as TenantContextService);
-    other = new TimetableService(db, { getClubId: () => clubB } as TenantContextService);
+    service = new TimetableService(
+      db,
+      { getClubId: () => club } as TenantContextService,
+      { sessionChanged: jest.fn() } as unknown as OperationalMessagesService,
+    );
+    other = new TimetableService(
+      db,
+      { getClubId: () => clubB } as TenantContextService,
+      { sessionChanged: jest.fn() } as unknown as OperationalMessagesService,
+    );
     jest
       .spyOn(service as unknown as { now: () => Date }, 'now')
       .mockReturnValue(new Date('2026-09-16T12:00:00Z'));

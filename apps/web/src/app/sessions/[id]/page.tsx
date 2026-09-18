@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
+import DeliveryFollowUp from '@/components/communications/DeliveryFollowUp';
 import MainLayout from '@/components/layout/MainLayout';
 import AttendanceTracker from '@/components/sessions/AttendanceTracker';
 import SessionModal from '@/components/sessions/SessionModal';
@@ -361,6 +362,8 @@ export default function SessionDetailPage() {
               </div>
             )}
           </div>
+
+          <DeliveryFollowUp source="session_cancellation" sourceId={sessionId} />
 
           {/* Attendance Tracker */}
           {session.squad_id && (

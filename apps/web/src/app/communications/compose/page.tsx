@@ -19,6 +19,8 @@ export default function ComposeMessagePage() {
   const [recipientType, setRecipientType] = useState<RecipientType>('all');
   const [selectedSquad, setSelectedSquad] = useState('');
   const [selectedFamily, setSelectedFamily] = useState('');
+  const [messageId, setMessageId] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [squads, setSquads] = useState<Squad[]>([]);
   const [families, setFamilies] = useState<Family[]>([]);
@@ -42,22 +44,28 @@ export default function ComposeMessagePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     try {
-      await sendMessage({
+      const message = await sendMessage({
         subject,
         body,
         recipientType,
         squadId: selectedSquad || undefined,
         familyId: selectedFamily || undefined,
       });
+      setMessageId(message.communication_id);
       setShowSuccess(true);
-      toast.success('Message sent successfully');
+      toast.success('Message saved for delivery');
     } catch {
-      toast.error('Failed to send message. Please try again.');
+      toast.error('Failed to save message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const canSubmit =
+    !isSubmitting &&
     subject.trim() !== '' &&
     body.trim() !== '' &&
     (recipientType === 'all' ||
@@ -73,21 +81,19 @@ export default function ComposeMessagePage() {
               <div className="flex justify-center mb-6">
                 <CheckCircle className="w-16 h-16 text-brand" />
               </div>
-              <h2 className="font-serif text-4xl text-dark-primary tracking-tight mb-4">
-                Message Sent Successfully
-              </h2>
+              <h2 className="font-serif text-4xl text-white tracking-tight mb-4">Message Saved</h2>
               <p className="text-text-secondary text-lg mb-2">
-                Your announcement has been sent to{' '}
-                {recipientType === 'all'
-                  ? 'all members'
-                  : recipientType === 'squad'
-                    ? squads.find((s) => s.squad_id === selectedSquad)?.squad_name
-                    : families.find((f) => f.family_id === selectedFamily)?.family_name}
-                .
+                Your announcement has been saved for delivery.
               </p>
               <p className="text-text-secondary mb-8">
-                Recipients will receive a notification shortly.
+                Check recipient delivery status and any contacts needing follow-up.
               </p>
+              <Link
+                href={`/communications/${messageId}`}
+                className="mb-4 inline-flex min-h-[48px] items-center px-4 text-white underline"
+              >
+                View delivery status
+              </Link>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                   onClick={() => {
@@ -134,7 +140,7 @@ export default function ComposeMessagePage() {
                 Compose Message
               </h1>
               <p className="text-text-secondary text-lg">
-                Send an announcement to your club members
+                Send an operational announcement to your club families
               </p>
             </div>
           </div>
@@ -152,7 +158,7 @@ export default function ComposeMessagePage() {
                     type="text"
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    placeholder="e.g. Pool closure notice"
+                    placeholder="e.g. Gym closure notice"
                     className="w-full px-4 py-3 min-h-[48px] bg-white/5 text-white rounded-xl border border-white/10 focus:border-brand focus:ring-2 focus:ring-brand focus:ring-opacity-50 transition-all outline-none placeholder:text-text-tertiary"
                   />
                 </div>
@@ -172,7 +178,7 @@ export default function ComposeMessagePage() {
                           : 'bg-white/5 text-text-secondary hover:text-white border border-white/10'
                       }`}
                     >
-                      All Members
+                      All Families
                     </button>
                     <button
                       type="button"

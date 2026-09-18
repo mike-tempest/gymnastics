@@ -1,3 +1,4 @@
+import { OperationalMessagesService } from '../notification-deliveries/operational-messages.service';
 import {
   BadRequestException,
   ConflictException,
@@ -29,6 +30,7 @@ export class TimetableService {
   constructor(
     private readonly db: DataSource,
     private readonly tenant: TenantContextService,
+    private readonly messages: OperationalMessagesService,
   ) {}
 
   protected now(): Date {
@@ -410,6 +412,17 @@ export class TimetableService {
             cancellation_reason: cancelled ? 'Holiday or club closure' : null,
             is_override: dto.scope === 'one',
           },
+        );
+        await this.messages.sessionChanged(
+          manager,
+          {
+            ...candidate,
+            ...this.fields(dto.definition),
+            session_date: date as unknown as Date,
+            status: cancelled ? SessionStatus.CANCELLED : SessionStatus.SCHEDULED,
+            cancellation_reason: cancelled ? 'Holiday or club closure' : null,
+          },
+          candidate.status,
         );
         updated++;
       }
