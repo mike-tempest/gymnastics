@@ -1,3 +1,4 @@
+import { NotificationDeliveriesModule } from '../notification-deliveries/notification-deliveries.module';
 import { TimetableController } from './timetable.controller';
 import { TimetableService } from './timetable.service';
 import { Module } from '@nestjs/common';
@@ -11,7 +12,13 @@ import { MembersModule } from '../members/members.module';
 import { FamiliesModule } from '../families/families.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Session]), EmailModule, MembersModule, FamiliesModule],
+  imports: [
+    NotificationDeliveriesModule,
+    TypeOrmModule.forFeature([Session]),
+    EmailModule,
+    MembersModule,
+    FamiliesModule,
+  ],
   controllers: [SessionsController, TimetableController],
   providers: [SessionsService, SessionsRepository, TimetableService],
   exports: [SessionsService, SessionsRepository],

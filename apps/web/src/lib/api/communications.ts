@@ -34,6 +34,6 @@ export async function getCommunication(id: string): Promise<Communication> {
   return api.get<Communication>(`/communications/${id}`, { cache: 'no-store' });
 }
 
-export async function sendMessage(data: SendMessageData): Promise<void> {
-  return api.post<void>('/communications', data);
+export async function sendMessage(data: SendMessageData): Promise<Communication> {
+  return api.post<Communication>('/communications', data);
 }

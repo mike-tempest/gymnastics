@@ -1,3 +1,4 @@
+import { NotificationDeliveriesModule } from '../notification-deliveries/notification-deliveries.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommunicationsController } from './communications.controller';
@@ -9,7 +10,11 @@ import { Member } from '../members/entities/member.entity';
 import { EmailModule } from '../email/email.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Communication, Family, Member]), EmailModule],
+  imports: [
+    NotificationDeliveriesModule,
+    TypeOrmModule.forFeature([Communication, Family, Member]),
+    EmailModule,
+  ],
   controllers: [CommunicationsController],
   providers: [CommunicationsService, CommunicationsRepository],
   exports: [CommunicationsService, CommunicationsRepository],

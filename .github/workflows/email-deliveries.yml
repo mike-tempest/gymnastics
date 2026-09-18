@@ -1,0 +1,31 @@
+name: Durable email delivery
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main]
+jobs:
+  delivery-database:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: tumblebase_test
+          POSTGRES_PASSWORD: tumblebase_test
+          POSTGRES_DB: tumblebase_delivery_test
+        ports:
+          - 55465:5432
+        options: >-
+          --health-cmd "pg_isready -U tumblebase_test -d tumblebase_delivery_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install -g pnpm@9.12.1
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @club-manager/shared-types build
+      - run: pnpm --filter @club-manager/utils build
+      - run: pnpm --filter @club-manager/membership-service exec jest --config test/deliveries.jest.json --runInBand

@@ -72,7 +72,7 @@ export default function CommunicationsPage() {
               {!isLoading && communications.length === 0 && (
                 <EmptyState
                   icon={Mail}
-                  title="No messages sent yet"
+                  title="No messages recorded yet"
                   description="Once you send an announcement, it will appear here so you can track what has been communicated to your club."
                   actionLabel="Compose Message"
                   actionHref="/communications/compose"
@@ -96,7 +96,7 @@ export default function CommunicationsPage() {
                             Count
                           </th>
                           <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-text-tertiary">
-                            Sent
+                            Recorded
                           </th>
                         </tr>
                       </thead>

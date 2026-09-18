@@ -1,3 +1,4 @@
+import { OperationalMessagesService } from '../notification-deliveries/operational-messages.service';
 import { TimetableService } from './timetable.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
@@ -89,6 +90,7 @@ describe('SessionsService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         TestableSessionsService,
+        { provide: OperationalMessagesService, useValue: { updateSession: mockRepository.update } },
         { provide: TimetableService, useValue: mockTimetables },
         { provide: SessionsRepository, useValue: mockRepository },
         { provide: EmailService, useValue: mockEmailService },

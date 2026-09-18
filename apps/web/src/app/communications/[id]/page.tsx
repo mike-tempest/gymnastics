@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import DeliveryFollowUp from '@/components/communications/DeliveryFollowUp';
 import RecipientBadge from '@/components/communications/RecipientBadge';
 import MainLayout from '@/components/layout/MainLayout';
 import ErrorState from '@/components/ui/ErrorState';
@@ -67,13 +68,14 @@ export default function CommunicationDetailPage() {
                   {communication.recipient_count === 1 ? 'recipient' : 'recipients'}
                 </span>
                 <span className="text-text-tertiary text-sm">
-                  Sent {formatDate(communication.sent_date)}
+                  Recorded {formatDate(communication.sent_date)}
                 </span>
               </div>
 
               <div className="whitespace-pre-wrap text-text-secondary leading-relaxed">
                 {communication.body}
               </div>
+              <DeliveryFollowUp source="broadcast" sourceId={communication.communication_id} />
             </div>
           )}
         </div>
