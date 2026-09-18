@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Request,
+  ForbiddenException,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -15,13 +26,13 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @Roles(UserRole.SUPER_ADMIN, UserRole.TREASURER)
+  @ExactRoles(UserRole.SUPER_ADMIN)
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
   @Post('bulk')
-  @Roles(UserRole.SUPER_ADMIN)
+  @ExactRoles(UserRole.SUPER_ADMIN)
   bulkCreateStaff(@Body() bulkCreateStaffDto: BulkCreateStaffDto) {
     return this.usersService.bulkCreateStaff(bulkCreateStaffDto.users);
   }
@@ -60,12 +71,31 @@ export class UsersController {
   }
 
   @Patch(':id')
-  update(@Param('id', UuidParam) id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(
+    @Param('id', UuidParam) id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Request() req: { user: { user_id: string; role: UserRole } },
+  ) {
+    // JWT validation supplies the current account, not the role from an old token.
+    // Self-service may change profile fields but never security or family access.
+    if (req.user.role !== UserRole.SUPER_ADMIN) {
+      const profileFields = new Set(['first_name', 'last_name', 'email', 'password']);
+      if (
+        id !== req.user.user_id ||
+        Object.entries(updateUserDto).some(
+          ([key, value]) => value !== undefined && !profileFields.has(key),
+        )
+      ) {
+        throw new ForbiddenException(
+          'Only a club administrator can manage other accounts or account permissions',
+        );
+      }
+    }
     return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
-  @Roles(UserRole.SUPER_ADMIN, UserRole.TREASURER)
+  @ExactRoles(UserRole.SUPER_ADMIN)
   remove(@Param('id', UuidParam) id: string) {
     return this.usersService.remove(id);
   }

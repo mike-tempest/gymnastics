@@ -267,5 +267,5 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Build shared packages
         run: pnpm exec turbo run build --filter=@club-manager/shared-types --filter=@club-manager/utils
-      - name: Test recovery with PostgreSQL
+      - name: Test recovery and account access with PostgreSQL
         run: pnpm --filter @club-manager/membership-service exec jest --config test/password-recovery.jest.json --runInBand

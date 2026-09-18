@@ -9,6 +9,8 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
+  Request,
+  ForbiddenException,
 } from '@nestjs/common';
 import { FamiliesService } from './families.service';
 import { CreateFamilyDto } from './dto/create-family.dto';
@@ -47,9 +49,14 @@ export class FamiliesController {
 
   @Post('invite/accept')
   @HttpCode(HttpStatus.OK)
-  @Public()
-  acceptInvite(@Body() acceptInviteDto: AcceptInviteDto) {
-    return this.familiesService.acceptInvite(acceptInviteDto.token, acceptInviteDto.userId);
+  acceptInvite(
+    @Body() acceptInviteDto: AcceptInviteDto,
+    @Request() req: { user: { user_id: string } },
+  ) {
+    if (acceptInviteDto.userId && acceptInviteDto.userId !== req.user.user_id) {
+      throw new ForbiddenException('An invitation can only be accepted for your own account');
+    }
+    return this.familiesService.acceptInvite(acceptInviteDto.token, req.user.user_id);
   }
 
   @Get('invite/verify/:token')
