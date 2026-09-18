@@ -63,6 +63,9 @@ async function bootstrap() {
     return Number.isFinite(parsed) && parsed >= 1 ? Math.floor(parsed) : fallback;
   };
   const authLimiter = rateLimit({
+    // Session validation is authenticated and runs on navigation. It must not
+    // consume the login/recovery attempt budget.
+    skip: (req) => req.method === 'GET' && req.path === '/profile',
     windowMs: positiveNumber(configService.get('AUTH_RATE_LIMIT_WINDOW_MS'), 15 * 60 * 1000),
     max: positiveNumber(configService.get('AUTH_RATE_LIMIT_MAX'), 15),
     standardHeaders: true,

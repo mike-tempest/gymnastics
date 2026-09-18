@@ -105,6 +105,11 @@ export class UsersRepository {
     const updateData: Record<string, unknown> = { ...updateUserDto };
     if (passwordHash) {
       updateData.password_hash = passwordHash;
+      updateData.session_version = () => 'session_version + 1';
+    }
+    if (passwordHash || updateUserDto.email !== undefined || updateUserDto.active === false) {
+      updateData.password_reset_hash = null;
+      updateData.password_reset_expires_at = null;
     }
 
     await this.userRepository.update(id, updateData);

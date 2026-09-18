@@ -56,6 +56,27 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
+  // The NextAuth cookie outlives the backend token. Validate it on protected
+  // navigation so a password reset revokes browser access as well as API access.
+  const apiBase =
+    process.env.MEMBERSHIP_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+  try {
+    const response = token.accessToken
+      ? await fetch(`${apiBase}${apiBase.endsWith('/api') ? '' : '/api'}/auth/profile`, {
+          headers: { Authorization: `Bearer ${token.accessToken}` },
+          cache: 'no-store',
+          signal: AbortSignal.timeout(5000),
+        })
+      : null;
+    if (!response?.ok) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+  } catch {
+    return new NextResponse('Unable to check your session. Please try again shortly.', {
+      status: 503,
+    });
+  }
+
   const role = token.role as string | undefined | null;
   const pathname = request.nextUrl.pathname;
 

@@ -20,7 +20,7 @@ let initialised = false;
 if (typeof window !== 'undefined') {
   const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
   const host = process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://eu.i.posthog.com';
-  if (key) {
+  if (key && window.location.pathname !== '/reset-password') {
     posthog.init(key, {
       api_host: host,
       // Capture events for anonymous visitors too, not just identified users.
@@ -32,6 +32,8 @@ if (typeof window !== 'undefined') {
       // We track pageviews manually because the App Router does client-side
       // navigation that the default capture_pageview does not pick up.
       capture_pageview: false,
+      // Recovery links and form interactions must never enter analytics.
+      before_send: (event) => (window.location.pathname === '/reset-password' ? null : event),
       // Autocapture catches button clicks and form interactions without
       // hand-instrumentation. Useful for early product; can be tightened later.
       autocapture: true,
