@@ -177,6 +177,26 @@ export default function BadgeProgress({
                     <p className="text-text-tertiary text-sm tabular-nums">
                       {statusLine(level, state, formatDate)}
                     </p>
+                    {level.criteria?.length ? (
+                      <ul className="mt-3 space-y-3" aria-label={`${level.name} skills`}>
+                        {level.criteria.map((skill) => (
+                          <li key={skill.criterion_id} className="text-sm text-text-secondary">
+                            <p className="font-semibold">
+                              {skill.name}
+                              {!skill.active ? ' (archived)' : ''}:{' '}
+                              {skill.status === 'achieved'
+                                ? 'Achieved'
+                                : skill.status === 'working_towards'
+                                  ? 'Working towards'
+                                  : 'Not assessed'}
+                            </p>
+                            {skill.guidance && <p>{skill.guidance}</p>}
+                            {skill.assessed_on && <p>Assessed {formatDate(skill.assessed_on)}</p>}
+                            {skill.parent_note && <p>{skill.parent_note}</p>}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
                   </div>
                 </li>
               );

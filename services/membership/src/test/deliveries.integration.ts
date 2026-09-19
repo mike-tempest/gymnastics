@@ -29,8 +29,12 @@ let tenant: TenantContextService;
 beforeAll(async () => {
   await db.initialize();
   await db.runMigrations();
-  // The newest migration must round-trip on this fresh disposable database.
-  await db.undoLastMigration();
+  const applied = await db.query('SELECT name FROM migrations ORDER BY timestamp DESC');
+  const target = applied.findIndex((row: { name: string }) =>
+    row.name.includes('NotificationDeliver'),
+  );
+  if (target < 0) throw new Error('Delivery migration missing');
+  for (let i = 0; i <= target; i++) await db.undoLastMigration();
   expect(
     (await db.query("SELECT to_regclass('notification_deliveries') AS name"))[0].name,
   ).toBeNull();

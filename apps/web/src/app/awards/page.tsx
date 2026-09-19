@@ -116,9 +116,9 @@ export default function AwardsPage() {
 
   const handleDeleteScheme = async (scheme: AwardScheme) => {
     const confirmed = await confirm({
-      title: 'Delete award scheme',
-      description: `Delete "${scheme.name}" and all of its badges? Any badge history recorded against it is deleted too. This cannot be undone.`,
-      confirmLabel: 'Delete scheme',
+      title: 'Archive award scheme',
+      description: `Archive "${scheme.name}"? Existing achievements and assessment history will remain available.`,
+      confirmLabel: 'Archive scheme',
       cancelLabel: 'Keep scheme',
       variant: 'danger',
     });
@@ -126,10 +126,10 @@ export default function AwardsPage() {
 
     try {
       await deleteAwardScheme(scheme.scheme_id);
-      toast.success('Award scheme deleted');
+      toast.success('Award scheme archived');
       await fetchData();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Could not delete the award scheme');
+      toast.error(err instanceof Error ? err.message : 'Could not archive the award scheme');
     }
   };
 
@@ -157,9 +157,9 @@ export default function AwardsPage() {
 
   const handleDeleteLevel = async (level: AwardLevel) => {
     const confirmed = await confirm({
-      title: 'Delete badge',
-      description: `Delete "${level.name}"? Any record of this badge being awarded is deleted too. This cannot be undone.`,
-      confirmLabel: 'Delete badge',
+      title: 'Archive badge',
+      description: `Archive "${level.name}"? Existing achievements and assessment history will remain available.`,
+      confirmLabel: 'Archive badge',
       cancelLabel: 'Keep badge',
       variant: 'danger',
     });
@@ -167,10 +167,10 @@ export default function AwardsPage() {
 
     try {
       await deleteAwardLevel(level.level_id);
-      toast.success('Badge deleted');
+      toast.success('Badge archived');
       await fetchData();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Could not delete the badge');
+      toast.error(err instanceof Error ? err.message : 'Could not archive the badge');
     }
   };
 
@@ -327,7 +327,7 @@ export default function AwardsPage() {
                         onClick={() => handleDeleteScheme(scheme)}
                         className="px-4 py-2 min-h-[44px] bg-red-500/20 text-red-400 rounded-xl font-semibold hover:bg-red-500 hover:text-white transition-all text-sm border border-red-500/40"
                       >
-                        Delete
+                        Archive
                       </button>
                     </div>
                   )}
@@ -372,6 +372,14 @@ export default function AwardsPage() {
                             >
                               <td className="py-4 px-6">
                                 <p className="text-white font-semibold">{level.name}</p>
+                                {canManage && (
+                                  <Link
+                                    className="inline-flex min-h-12 items-center underline"
+                                    href={`/awards/levels/${level.level_id}`}
+                                  >
+                                    Configure skills
+                                  </Link>
+                                )}
                                 {level.description && (
                                   <p className="text-text-secondary text-sm mt-1">
                                     {level.description}
@@ -400,7 +408,7 @@ export default function AwardsPage() {
                                       onClick={() => handleDeleteLevel(level)}
                                       className="px-3 py-2 min-h-[44px] bg-red-500/20 text-red-400 rounded-xl font-semibold hover:bg-red-500 hover:text-white transition-all text-sm border border-red-500/40"
                                     >
-                                      Delete
+                                      Archive
                                     </button>
                                   </div>
                                 </td>

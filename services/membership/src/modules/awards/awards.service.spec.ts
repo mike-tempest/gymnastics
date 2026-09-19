@@ -3,7 +3,8 @@ import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { AssessmentOutcomeResult, AwardProgressStatus } from '@club-manager/shared-types';
 import { AwardsService } from './awards.service';
 import { AwardsRepository } from './awards.repository';
-import { InvoicesService } from '../finance/invoices/invoices.service';
+import { AwardBillingService } from './award-billing.service';
+import { AwardSkillsService } from './award-skills.service';
 import { MembersRepository } from '../members/members.repository';
 import { AwardLevel } from './entities/award-level.entity';
 import { Member } from '../members/entities/member.entity';
@@ -48,7 +49,7 @@ function makeMember(overrides: Partial<Member> = {}): Member {
 describe('AwardsService', () => {
   let service: AwardsService;
   let awardsRepository: jest.Mocked<AwardsRepository>;
-  let invoicesService: jest.Mocked<InvoicesService>;
+  let billing: jest.Mocked<AwardBillingService>;
   let membersRepository: jest.Mocked<MembersRepository>;
 
   beforeEach(async () => {
@@ -83,8 +84,8 @@ describe('AwardsService', () => {
       findOneEvent: jest.fn().mockResolvedValue(null),
     };
 
-    const invoicesServiceMock = {
-      create: jest.fn().mockResolvedValue({ invoice_id: 'invoice-1' }),
+    const billingMock = {
+      record: jest.fn().mockResolvedValue({ invoice_id: 'invoice-1' }),
     };
 
     const membersRepositoryMock = {
@@ -96,14 +97,18 @@ describe('AwardsService', () => {
       providers: [
         AwardsService,
         { provide: AwardsRepository, useValue: awardsRepositoryMock },
-        { provide: InvoicesService, useValue: invoicesServiceMock },
+        { provide: AwardBillingService, useValue: billingMock },
+        {
+          provide: AwardSkillsService,
+          useValue: { updateLevel: jest.fn(), parentProgress: jest.fn() },
+        },
         { provide: MembersRepository, useValue: membersRepositoryMock },
       ],
     }).compile();
 
     service = module.get(AwardsService);
     awardsRepository = module.get(AwardsRepository);
-    invoicesService = module.get(InvoicesService);
+    billing = module.get(AwardBillingService);
     membersRepository = module.get(MembersRepository);
   });
 
@@ -193,237 +198,15 @@ describe('AwardsService', () => {
   });
 
   describe('recordAssessment', () => {
-    beforeEach(() => {
-      awardsRepository.findOneLevel.mockResolvedValue(makeLevel());
-    });
-
-    it('bills an awarded badge through InvoicesService.create, not the repository', async () => {
-      const result = await service.recordAssessment(
-        {
-          level_id: LEVEL_ID,
-          assessed_at: '2026-09-01',
-          outcomes: [{ member_id: 'member-1', outcome: AssessmentOutcomeResult.AWARDED }],
-        },
-        'user-1',
-      );
-
-      expect(invoicesService.create).toHaveBeenCalledWith(
-        expect.objectContaining({
-          family_id: FAMILY_ID,
-          issued_date: '2026-09-01',
-          due_date: '2026-09-15',
-          items: [
-            expect.objectContaining({
-              description: 'British Gymnastics Rise Explore 3 badge',
-              unit_price: 4.5,
-              quantity: 1,
-            }),
-          ],
-        }),
-      );
-      expect(result.awarded).toBe(1);
-      expect(result.invoices_raised).toBe(1);
-      expect(result.warnings).toEqual([]);
-      expect(awardsRepository.updateOutcomeInvoice).toHaveBeenCalledWith('outcome-1', 'invoice-1');
-    });
-
-    it('adds a certificate item when the level carries a certificate fee', async () => {
-      awardsRepository.findOneLevel.mockResolvedValue(makeLevel({ certificate_fee: 2 }));
-
-      await service.recordAssessment({
+    it('uses the transactional award service', async () => {
+      const dto = {
+        request_key: 'a4444444-4444-4444-8444-444444444444',
         level_id: LEVEL_ID,
         assessed_at: '2026-09-01',
         outcomes: [{ member_id: 'member-1', outcome: AssessmentOutcomeResult.AWARDED }],
-      });
-
-      const dto = invoicesService.create.mock.calls[0][0];
-      expect(dto.items).toHaveLength(2);
-      expect(dto.items?.[1].description).toBe('British Gymnastics Rise Explore 3 certificate');
-    });
-
-    it('coerces the string a decimal column returns into a numeric unit price', async () => {
-      awardsRepository.findOneLevel.mockResolvedValue(
-        makeLevel({ badge_fee: '4.50' as unknown as number }),
-      );
-
-      await service.recordAssessment({
-        level_id: LEVEL_ID,
-        assessed_at: '2026-09-01',
-        outcomes: [{ member_id: 'member-1', outcome: AssessmentOutcomeResult.AWARDED }],
-      });
-
-      expect(invoicesService.create.mock.calls[0][0].items?.[0].unit_price).toBe(4.5);
-    });
-
-    it('keeps the award and warns when the gymnast has no family to bill', async () => {
-      membersRepository.findOne.mockResolvedValue(makeMember({ family_id: null }));
-
-      const result = await service.recordAssessment({
-        level_id: LEVEL_ID,
-        assessed_at: '2026-09-01',
-        outcomes: [{ member_id: 'member-1', outcome: AssessmentOutcomeResult.AWARDED }],
-      });
-
-      expect(invoicesService.create).not.toHaveBeenCalled();
-      expect(result.awarded).toBe(1);
-      expect(result.invoices_raised).toBe(0);
-      expect(result.warnings).toHaveLength(1);
-      expect(result.warnings[0]).toContain('Ava Nolan');
-      expect(result.warnings[0]).toContain('no family on record');
-      // The award still stands: progress is recorded as awarded.
-      expect(awardsRepository.upsertProgress).toHaveBeenCalledWith(
-        'member-1',
-        LEVEL_ID,
-        expect.objectContaining({ status: AwardProgressStatus.AWARDED }),
-      );
-    });
-
-    it('keeps the award and warns when raising the invoice fails', async () => {
-      invoicesService.create.mockRejectedValue(new Error('payment provider unavailable'));
-
-      const result = await service.recordAssessment({
-        level_id: LEVEL_ID,
-        assessed_at: '2026-09-01',
-        outcomes: [{ member_id: 'member-1', outcome: AssessmentOutcomeResult.AWARDED }],
-      });
-
-      expect(result.awarded).toBe(1);
-      expect(result.invoices_raised).toBe(0);
-      expect(result.warnings[0]).toContain('payment provider unavailable');
-      expect(awardsRepository.upsertProgress).toHaveBeenCalledWith(
-        'member-1',
-        LEVEL_ID,
-        expect.objectContaining({ status: AwardProgressStatus.AWARDED }),
-      );
-    });
-
-    it('does not bill an unpriced level', async () => {
-      awardsRepository.findOneLevel.mockResolvedValue(
-        makeLevel({ badge_fee: null, certificate_fee: null }),
-      );
-
-      const result = await service.recordAssessment({
-        level_id: LEVEL_ID,
-        assessed_at: '2026-09-01',
-        outcomes: [{ member_id: 'member-1', outcome: AssessmentOutcomeResult.AWARDED }],
-      });
-
-      expect(invoicesService.create).not.toHaveBeenCalled();
-      expect(result.warnings).toEqual([]);
-    });
-
-    it('does not bill when the coach turns billing off', async () => {
-      await service.recordAssessment({
-        level_id: LEVEL_ID,
-        assessed_at: '2026-09-01',
-        bill_fees: false,
-        outcomes: [{ member_id: 'member-1', outcome: AssessmentOutcomeResult.AWARDED }],
-      });
-
-      expect(invoicesService.create).not.toHaveBeenCalled();
-    });
-
-    it('does not bill an outcome that did not award the badge', async () => {
-      const result = await service.recordAssessment({
-        level_id: LEVEL_ID,
-        assessed_at: '2026-09-01',
-        outcomes: [{ member_id: 'member-1', outcome: AssessmentOutcomeResult.NOT_YET }],
-      });
-
-      expect(invoicesService.create).not.toHaveBeenCalled();
-      expect(result.awarded).toBe(0);
-      expect(awardsRepository.upsertProgress).toHaveBeenCalledWith(
-        'member-1',
-        LEVEL_ID,
-        expect.objectContaining({ status: AwardProgressStatus.ASSESSED }),
-      );
-      // An outcome that did not award the badge leaves the award date alone
-      // rather than writing a null over it.
-      expect(awardsRepository.upsertProgress.mock.calls[0][2]).not.toHaveProperty('awarded_on');
-    });
-
-    it('never takes back a badge a gymnast has already been awarded', async () => {
-      awardsRepository.findOneProgress.mockResolvedValue({
-        status: AwardProgressStatus.AWARDED,
-        invoice_id: 'invoice-earlier',
-        awarded_on: '2026-05-01',
-      } as never);
-
-      // The coach re-runs the sitting for the whole squad, and this gymnast is
-      // marked "not yet" a second time by mistake.
-      const result = await service.recordAssessment({
-        level_id: LEVEL_ID,
-        assessed_at: '2026-09-01',
-        outcomes: [{ member_id: 'member-1', outcome: AssessmentOutcomeResult.NOT_YET }],
-      });
-
-      expect(result.awarded).toBe(0);
-      expect(awardsRepository.upsertProgress).toHaveBeenCalledWith(
-        'member-1',
-        LEVEL_ID,
-        expect.objectContaining({
-          status: AwardProgressStatus.AWARDED,
-          invoice_id: 'invoice-earlier',
-        }),
-      );
-      expect(awardsRepository.upsertProgress.mock.calls[0][2]).not.toHaveProperty('awarded_on');
-    });
-
-    it('rejects a level the club cannot see before writing anything', async () => {
-      awardsRepository.findOneLevel.mockResolvedValue(null);
-
-      await expect(
-        service.recordAssessment({
-          level_id: 'someone-elses-level',
-          assessed_at: '2026-09-01',
-          outcomes: [{ member_id: 'member-1', outcome: AssessmentOutcomeResult.AWARDED }],
-        }),
-      ).rejects.toBeInstanceOf(NotFoundException);
-      expect(awardsRepository.createEvent).not.toHaveBeenCalled();
-    });
-
-    it('rejects a member the club cannot see before writing anything', async () => {
-      membersRepository.findOne.mockResolvedValue(null);
-
-      await expect(
-        service.recordAssessment({
-          level_id: LEVEL_ID,
-          assessed_at: '2026-09-01',
-          outcomes: [
-            { member_id: 'someone-elses-member', outcome: AssessmentOutcomeResult.AWARDED },
-          ],
-        }),
-      ).rejects.toBeInstanceOf(NotFoundException);
-      expect(awardsRepository.createEvent).not.toHaveBeenCalled();
-    });
-
-    it('rejects a duplicated gymnast in one assessment', async () => {
-      await expect(
-        service.recordAssessment({
-          level_id: LEVEL_ID,
-          assessed_at: '2026-09-01',
-          outcomes: [
-            { member_id: 'member-1', outcome: AssessmentOutcomeResult.AWARDED },
-            { member_id: 'member-1', outcome: AssessmentOutcomeResult.NOT_YET },
-          ],
-        }),
-      ).rejects.toBeInstanceOf(BadRequestException);
-      expect(awardsRepository.createEvent).not.toHaveBeenCalled();
-    });
-
-    it('records the assessing coach on the event', async () => {
-      await service.recordAssessment(
-        {
-          level_id: LEVEL_ID,
-          assessed_at: '2026-09-01',
-          outcomes: [{ member_id: 'member-1', outcome: AssessmentOutcomeResult.AWARDED }],
-        },
-        'coach-9',
-      );
-
-      expect(awardsRepository.createEvent).toHaveBeenCalledWith(
-        expect.objectContaining({ assessed_by_user_id: 'coach-9' }),
-      );
+      };
+      await service.recordAssessment(dto, 'coach-1');
+      expect(billing.record).toHaveBeenCalledWith(dto, 'coach-1');
     });
   });
 
@@ -532,7 +315,7 @@ describe('AwardsService', () => {
       expect(result.imported).toBe(1);
       expect(result.skipped).toBe(0);
       expect(result.invoices_raised).toBe(0);
-      expect(invoicesService.create).not.toHaveBeenCalled();
+      expect(billing.record).not.toHaveBeenCalled();
       expect(awardsRepository.upsertProgress).toHaveBeenCalledWith(
         'member-1',
         LEVEL_ID,
@@ -543,21 +326,9 @@ describe('AwardsService', () => {
       );
     });
 
-    it('bills on import only when asked, and never twice for the same badge', async () => {
-      awardsRepository.findOneLevel.mockResolvedValue(makeLevel());
-      awardsRepository.findOneProgress.mockResolvedValue({
-        invoice_id: 'invoice-earlier',
-      } as never);
-
-      const result = await service.importRiseCsv({ csv, bill_fees: true });
-
-      expect(invoicesService.create).not.toHaveBeenCalled();
-      expect(result.invoices_raised).toBe(0);
-      expect(awardsRepository.upsertProgress).toHaveBeenCalledWith(
-        'member-1',
-        LEVEL_ID,
-        expect.objectContaining({ invoice_id: 'invoice-earlier' }),
-      );
+    it('requires a separate fee preview rather than charging from a CSV', async () => {
+      await expect(service.importRiseCsv({ csv, bill_fees: true })).rejects.toThrow('review fees');
+      expect(awardsRepository.upsertProgress).not.toHaveBeenCalled();
     });
 
     it('skips and reports a row it could not resolve', async () => {
