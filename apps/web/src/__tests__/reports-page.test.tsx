@@ -18,39 +18,33 @@ jest.mock('@/hooks/useFormatters', () => ({
   useFormatters: () => ({ formatDate: () => '19/09/2026' }),
 }));
 jest.mock('@/lib/api/admin', () => ({
-  getAdminDashboard: jest
-    .fn()
-    .mockResolvedValue({
-      membership: { activeMembers: 1 },
-      revenue: { collectionRate: 0 },
-      revenueChart: [],
-    }),
+  getAdminDashboard: jest.fn().mockResolvedValue({
+    membership: { activeMembers: 1 },
+    revenue: { collectionRate: 0 },
+    revenueChart: [],
+  }),
 }));
 jest.mock('@/lib/api/reports', () => ({
-  getAdminReports: jest
-    .fn()
-    .mockResolvedValue({
-      weeklyAttendanceTrend: [],
-      squadAttendanceRates: [],
-      topAbsentees: [],
-      newJoiners: [],
-      leavers: null,
-      leaversUnavailableReason: 'Departure history is unavailable.',
-      squadDistribution: [],
-    }),
+  getAdminReports: jest.fn().mockResolvedValue({
+    weeklyAttendanceTrend: [],
+    squadAttendanceRates: [],
+    topAbsentees: [],
+    newJoiners: [],
+    leavers: null,
+    leaversUnavailableReason: 'Departure history is unavailable.',
+    squadDistribution: [],
+  }),
 }));
 jest.mock('@/lib/api/finance', () => ({
-  getInvoices: jest
-    .fn()
-    .mockResolvedValue([
-      {
-        invoice_id: 'i',
-        invoice_number: 'TEST',
-        total_amount: '7.20',
-        due_date: '2026-09-20',
-        family: { family_name: 'Test Family' },
-      },
-    ]),
+  getInvoices: jest.fn().mockResolvedValue([
+    {
+      invoice_id: 'i',
+      invoice_number: 'TEST',
+      total_amount: '7.20',
+      due_date: '2026-09-20',
+      family: { family_name: 'Test Family' },
+    },
+  ]),
 }));
 it('renders decimal-string invoice totals and never calls missing departures zero', async () => {
   render(<ReportsPage />);
