@@ -20,7 +20,7 @@ import { RecordAssessmentDto, SetProgressDto } from './dto/record-assessment.dto
 import { RiseCsvImportDto } from './dto/rise-csv.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
-import { Roles } from '../auth/decorators/roles.decorator';
+import { ExactRoles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
 import {
   OptionalUuidParam,
@@ -52,21 +52,21 @@ export class AwardsController {
 
   @Get('schemes')
   @UseGuards(RolesGuard)
-  @Roles(...READ_ROLES)
+  @ExactRoles(...READ_ROLES)
   listSchemes(@Query('include_inactive') includeInactive?: string) {
     return this.awardsService.listSchemes(includeInactive === 'true');
   }
 
   @Get('schemes/:schemeId')
   @UseGuards(RolesGuard)
-  @Roles(...READ_ROLES)
+  @ExactRoles(...READ_ROLES)
   getScheme(@Param('schemeId', UuidParam) schemeId: string) {
     return this.awardsService.getScheme(schemeId);
   }
 
   @Post('schemes')
   @UseGuards(RolesGuard)
-  @Roles(UserRole.SUPER_ADMIN)
+  @ExactRoles(UserRole.SUPER_ADMIN)
   @HttpCode(HttpStatus.CREATED)
   createScheme(@Body() dto: CreateAwardSchemeDto) {
     return this.awardsService.createScheme(dto);
@@ -78,7 +78,7 @@ export class AwardsController {
    */
   @Post('schemes/install-defaults')
   @UseGuards(RolesGuard)
-  @Roles(UserRole.SUPER_ADMIN)
+  @ExactRoles(UserRole.SUPER_ADMIN)
   @HttpCode(HttpStatus.CREATED)
   installDefaults() {
     return this.awardsService.installDefaultSchemes();
@@ -86,14 +86,14 @@ export class AwardsController {
 
   @Patch('schemes/:schemeId')
   @UseGuards(RolesGuard)
-  @Roles(UserRole.SUPER_ADMIN)
+  @ExactRoles(UserRole.SUPER_ADMIN)
   updateScheme(@Param('schemeId', UuidParam) schemeId: string, @Body() dto: UpdateAwardSchemeDto) {
     return this.awardsService.updateScheme(schemeId, dto);
   }
 
   @Delete('schemes/:schemeId')
   @UseGuards(RolesGuard)
-  @Roles(UserRole.SUPER_ADMIN)
+  @ExactRoles(UserRole.SUPER_ADMIN)
   @HttpCode(HttpStatus.NO_CONTENT)
   removeScheme(@Param('schemeId', UuidParam) schemeId: string) {
     return this.awardsService.removeScheme(schemeId);
@@ -103,7 +103,7 @@ export class AwardsController {
 
   @Post('levels')
   @UseGuards(RolesGuard)
-  @Roles(UserRole.SUPER_ADMIN)
+  @ExactRoles(UserRole.SUPER_ADMIN)
   @HttpCode(HttpStatus.CREATED)
   createLevel(@Body() dto: CreateAwardLevelDto) {
     return this.awardsService.createLevel(dto);
@@ -111,14 +111,14 @@ export class AwardsController {
 
   @Patch('levels/:levelId')
   @UseGuards(RolesGuard)
-  @Roles(UserRole.SUPER_ADMIN)
+  @ExactRoles(UserRole.SUPER_ADMIN)
   updateLevel(@Param('levelId', UuidParam) levelId: string, @Body() dto: UpdateAwardLevelDto) {
     return this.awardsService.updateLevel(levelId, dto);
   }
 
   @Delete('levels/:levelId')
   @UseGuards(RolesGuard)
-  @Roles(UserRole.SUPER_ADMIN)
+  @ExactRoles(UserRole.SUPER_ADMIN)
   @HttpCode(HttpStatus.NO_CONTENT)
   removeLevel(@Param('levelId', UuidParam) levelId: string) {
     return this.awardsService.removeLevel(levelId);
@@ -128,21 +128,21 @@ export class AwardsController {
 
   @Get('member/:memberId/progress')
   @UseGuards(RolesGuard)
-  @Roles(...READ_ROLES)
+  @ExactRoles(...READ_ROLES)
   getMemberProgress(@Param('memberId', UuidParam) memberId: string) {
     return this.awardsService.getMemberProgress(memberId);
   }
 
   @Get('progress')
   @UseGuards(RolesGuard)
-  @Roles(...READ_ROLES)
+  @ExactRoles(...READ_ROLES)
   getProgressForMembers(@Query('member_ids', UuidListParam) memberIds: string[]) {
     return this.awardsService.getProgressForMembers(memberIds);
   }
 
   @Post('progress')
   @UseGuards(RolesGuard)
-  @Roles(...ASSESS_ROLES)
+  @ExactRoles(...ASSESS_ROLES)
   @HttpCode(HttpStatus.CREATED)
   setProgress(@Body() dto: SetProgressDto) {
     return this.awardsService.setProgress(dto);
@@ -152,7 +152,7 @@ export class AwardsController {
 
   @Post('assessments')
   @UseGuards(RolesGuard)
-  @Roles(...ASSESS_ROLES)
+  @ExactRoles(...ASSESS_ROLES)
   @HttpCode(HttpStatus.CREATED)
   recordAssessment(@Body() dto: RecordAssessmentDto, @Request() req: AuthenticatedRequest) {
     return this.awardsService.recordAssessment(dto, req.user?.user_id);
@@ -160,7 +160,7 @@ export class AwardsController {
 
   @Get('assessments')
   @UseGuards(RolesGuard)
-  @Roles(...READ_ROLES)
+  @ExactRoles(...READ_ROLES)
   listAssessments(
     @Query('level_id', OptionalUuidParam) levelId?: string,
     @Query('limit') limit?: string,
@@ -174,7 +174,7 @@ export class AwardsController {
 
   @Get('assessments/:eventId')
   @UseGuards(RolesGuard)
-  @Roles(...READ_ROLES)
+  @ExactRoles(...READ_ROLES)
   getAssessment(@Param('eventId', UuidParam) eventId: string) {
     return this.awardsService.getEvent(eventId);
   }
@@ -183,7 +183,7 @@ export class AwardsController {
 
   @Get('export/rise.csv')
   @UseGuards(RolesGuard)
-  @Roles(...READ_ROLES)
+  @ExactRoles(...READ_ROLES)
   @Header('Content-Type', 'text/csv; charset=utf-8')
   @Header('Content-Disposition', 'attachment; filename="rise-awards.csv"')
   exportRiseCsv(
@@ -198,7 +198,7 @@ export class AwardsController {
 
   @Post('import/rise/preview')
   @UseGuards(RolesGuard)
-  @Roles(...ASSESS_ROLES)
+  @ExactRoles(...ASSESS_ROLES)
   @HttpCode(HttpStatus.OK)
   previewRiseImport(@Body() dto: RiseCsvImportDto) {
     return this.awardsService.previewRiseImport(dto);
@@ -206,7 +206,7 @@ export class AwardsController {
 
   @Post('import/rise')
   @UseGuards(RolesGuard)
-  @Roles(UserRole.SUPER_ADMIN)
+  @ExactRoles(UserRole.SUPER_ADMIN)
   @HttpCode(HttpStatus.CREATED)
   importRiseCsv(@Body() dto: RiseCsvImportDto) {
     return this.awardsService.importRiseCsv(dto);

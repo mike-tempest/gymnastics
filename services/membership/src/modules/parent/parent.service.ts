@@ -25,7 +25,20 @@ import { TenantScopedHelper } from '../../common/tenancy/tenant-scoped.helper';
 import { TenantContextService } from '../../common/tenancy/tenant-context.service';
 
 /** One badge on the ladder, with where this gymnast has got to on it. */
+interface ParentSkill {
+  criterion_id: string;
+  level_id: string;
+  name: string;
+  guidance: string | null;
+  required: boolean;
+  active: boolean;
+  status: 'working_towards' | 'achieved' | null;
+  assessed_on: string | null;
+  parent_note: string | null;
+}
+
 export interface ChildBadgeLevel {
+  criteria: ParentSkill[];
   level_id: string;
   name: string;
   description: string | null;
@@ -288,9 +301,10 @@ export class ParentService {
 
     // Inactive schemes and levels are fetched too, then filtered below: a club
     // that has retired a scheme must not erase badges a gymnast already holds.
-    const [schemes, progressRows] = await Promise.all([
+    const [schemes, progressRows, skillRows] = await Promise.all([
       this.awardsService.listSchemes(true),
       this.awardsService.getMemberProgress(childId),
+      this.awardsService.getSkillProgress(childId) as Promise<ParentSkill[]>,
     ]);
 
     const progressByLevel = new Map(progressRows.map((row) => [row.level_id, row]));
@@ -302,6 +316,7 @@ export class ParentService {
         .map((level) => {
           const progress = progressByLevel.get(level.level_id);
           return {
+            criteria: skillRows.filter((skill) => skill.level_id === level.level_id),
             level_id: level.level_id,
             name: level.name,
             description: level.description,
@@ -332,13 +347,29 @@ export class ParentService {
       // rung of the ladder. Only then does the lowest un-started badge stand in
       // as the next thing to aim at. A scheme the club has retired has no next
       // badge at all: it is kept purely as history.
+      const activeIds = new Set(
+        scheme.levels.filter((level) => level.active).map((level) => level.level_id),
+      );
       const inProgress = levels.find(
         (level) =>
-          level.status === AwardProgressStatus.WORKING_TOWARDS ||
-          level.status === AwardProgressStatus.ASSESSED,
+          activeIds.has(level.level_id) &&
+          (level.status === AwardProgressStatus.WORKING_TOWARDS ||
+            level.status === AwardProgressStatus.ASSESSED),
+      );
+      const configuredNext = scheme.levels.find(
+        (level) => level.level_id === latestAward?.level_id,
+      )?.next_level_id;
+      const nextLevel = levels.find(
+        (level) =>
+          activeIds.has(level.level_id) &&
+          level.level_id === configuredNext &&
+          level.status !== AwardProgressStatus.AWARDED,
       );
       const currentLevel = scheme.active
-        ? (inProgress ?? levels.find((level) => level.status === null) ?? null)
+        ? (inProgress ??
+          nextLevel ??
+          levels.find((level) => activeIds.has(level.level_id) && level.status === null) ??
+          null)
         : null;
 
       ladders.push({

@@ -1,9 +1,5 @@
 import { Injectable, Logger, NotFoundException, BadRequestException } from '@nestjs/common';
-import {
-  AssessmentOutcomeResult,
-  AwardProgressStatus,
-  AwardSchemeSource,
-} from '@club-manager/shared-types';
+import { AwardProgressStatus, AwardSchemeSource } from '@club-manager/shared-types';
 import { AwardsRepository } from './awards.repository';
 import { AwardScheme } from './entities/award-scheme.entity';
 import { AwardLevel } from './entities/award-level.entity';
@@ -15,13 +11,11 @@ import { RecordAssessmentDto, SetProgressDto } from './dto/record-assessment.dto
 import { RiseCsvImportDto } from './dto/rise-csv.dto';
 import { DEFAULT_AWARD_SCHEMES } from './awards.defaults';
 import { parseRiseCsv, toDateKey, toRiseCsv, RiseCsvRow } from './awards.csv';
-import { InvoicesService } from '../finance/invoices/invoices.service';
+import { AwardBillingService } from './award-billing.service';
+import { AwardSkillsService } from './award-skills.service';
 import { MembersRepository } from '../members/members.repository';
 import { Member } from '../members/entities/member.entity';
 import { MEMBER_NOUN_LOWER } from '../../common/brand';
-
-/** Days between raising a badge invoice and its due date. */
-const BADGE_INVOICE_TERMS_DAYS = 14;
 
 /** Ceiling on one page of assessment history, whatever a caller asks for. */
 const MAX_EVENT_PAGE = 200;
@@ -82,8 +76,9 @@ export class AwardsService {
 
   constructor(
     private readonly awardsRepository: AwardsRepository,
-    private readonly invoicesService: InvoicesService,
+    private readonly billing: AwardBillingService,
     private readonly membersRepository: MembersRepository,
+    private readonly skills: AwardSkillsService,
   ) {}
 
   // --- Schemes and levels ---
@@ -139,7 +134,7 @@ export class AwardsService {
     if (!existing) {
       throw new NotFoundException('Award scheme not found');
     }
-    await this.awardsRepository.removeScheme(schemeId);
+    await this.awardsRepository.updateScheme(schemeId, { active: false });
   }
 
   async createLevel(dto: CreateAwardLevelDto): Promise<AwardLevel> {
@@ -157,7 +152,7 @@ export class AwardsService {
     if (!existing) {
       throw new NotFoundException('Award level not found');
     }
-    const updated = await this.awardsRepository.updateLevel(levelId, dto);
+    const updated = await this.skills.updateLevel(levelId, dto);
     return updated!;
   }
 
@@ -166,7 +161,7 @@ export class AwardsService {
     if (!existing) {
       throw new NotFoundException('Award level not found');
     }
-    await this.awardsRepository.removeLevel(levelId);
+    await this.skills.updateLevel(levelId, { active: false });
   }
 
   /**
@@ -222,6 +217,10 @@ export class AwardsService {
    * tenant-scoped and returns the level and scheme alongside each row, so that
    * consumer needs no further joins.
    */
+  async getSkillProgress(memberId: string) {
+    return this.skills.parentProgress(memberId);
+  }
+
   async getMemberProgress(memberId: string): Promise<MemberAwardProgress[]> {
     return this.awardsRepository.findProgressByMember(memberId);
   }
@@ -259,195 +258,8 @@ export class AwardsService {
     dto: RecordAssessmentDto,
     assessedByUserId?: string,
   ): Promise<AssessmentResult> {
-    const level = await this.awardsRepository.findOneLevel(dto.level_id);
-    if (!level) {
-      throw new NotFoundException('Award level not found');
-    }
-
-    const memberIds = dto.outcomes.map((outcome) => outcome.member_id);
-    const uniqueIds = new Set(memberIds);
-    if (uniqueIds.size !== memberIds.length) {
-      throw new BadRequestException(
-        `Each ${MEMBER_NOUN_LOWER} may only appear once per assessment`,
-      );
-    }
-
-    // Resolve every member up front through the tenant-scoped repository, so an
-    // id from another club is rejected before anything is written.
-    const members = new Map<string, Member>();
-    for (const id of uniqueIds) {
-      const member = await this.membersRepository.findOne(id);
-      if (!member) {
-        throw new NotFoundException(`${MEMBER_NOUN_LOWER} ${id} not found`);
-      }
-      members.set(id, member);
-    }
-
-    const event = await this.awardsRepository.createEvent({
-      level_id: dto.level_id,
-      assessed_at: dto.assessed_at as unknown as Date,
-      assessed_by_user_id: assessedByUserId ?? null,
-      notes: dto.notes ?? null,
-    });
-
-    const warnings: string[] = [];
-    let awarded = 0;
-    let invoicesRaised = 0;
-    const billFees = dto.bill_fees !== false;
-
-    for (const outcomeDto of dto.outcomes) {
-      const member = members.get(outcomeDto.member_id)!;
-      const outcome = await this.awardsRepository.createOutcome({
-        event_id: event.event_id,
-        member_id: outcomeDto.member_id,
-        outcome: outcomeDto.outcome,
-        notes: outcomeDto.notes ?? null,
-      });
-
-      const isAwarded = outcomeDto.outcome === AssessmentOutcomeResult.AWARDED;
-      // Any invoice already raised for this gymnast on this badge. A coach
-      // re-recording a sitting, or a double submit, must not charge a family
-      // twice for one badge, and must not lose the link to the first invoice.
-      const existing = await this.awardsRepository.findOneProgress(
-        outcomeDto.member_id,
-        dto.level_id,
-      );
-      let invoiceId: string | null = existing?.invoice_id ?? null;
-
-      if (isAwarded) {
-        awarded++;
-        if (billFees && !invoiceId) {
-          const billing = await this.billBadgeFee(member, level, dto.assessed_at);
-          invoiceId = billing.invoiceId;
-          if (billing.warning) warnings.push(billing.warning);
-          if (invoiceId) invoicesRaised++;
-        }
-      }
-
-      if (invoiceId) {
-        await this.awardsRepository.updateOutcomeInvoice(outcome.outcome_id, invoiceId);
-      }
-
-      // A badge already awarded stands. A coach re-running a sitting for the
-      // whole squad must not take it back from the gymnasts who already have
-      // it, above all when the club has issued the badge and invoiced for it.
-      const keepsEarlierAward = !isAwarded && existing?.status === AwardProgressStatus.AWARDED;
-
-      await this.awardsRepository.upsertProgress(outcomeDto.member_id, dto.level_id, {
-        status: keepsEarlierAward
-          ? AwardProgressStatus.AWARDED
-          : this.statusForOutcome(outcomeDto.outcome),
-        assessed_on: dto.assessed_at as unknown as Date,
-        // Set on an award, otherwise left exactly as it was, so an earlier
-        // award date survives a later sitting.
-        ...(isAwarded ? { awarded_on: dto.assessed_at as unknown as Date } : {}),
-        notes: outcomeDto.notes ?? null,
-        // Only ever set the link, never clear it: the invoice still exists
-        // whatever a later assessment concludes.
-        ...(invoiceId ? { invoice_id: invoiceId } : {}),
-      });
-    }
-
-    return { event, awarded, invoices_raised: invoicesRaised, warnings };
+    return this.billing.record(dto, assessedByUserId);
   }
-
-  private statusForOutcome(outcome: AssessmentOutcomeResult): AwardProgressStatus {
-    switch (outcome) {
-      case AssessmentOutcomeResult.AWARDED:
-        return AwardProgressStatus.AWARDED;
-      case AssessmentOutcomeResult.NOT_YET:
-        return AwardProgressStatus.ASSESSED;
-      default:
-        return AwardProgressStatus.WORKING_TOWARDS;
-    }
-  }
-
-  /**
-   * Raises the badge (and certificate) invoice for one awarded gymnast.
-   *
-   * Billing goes through InvoicesService.create rather than the repository on
-   * purpose: create resolves the club's currency and tax, emails the family
-   * and auto-attempts Direct Debit collection, which is the whole point of
-   * billing badges through the normal finance path.
-   *
-   * A gymnast with no family cannot be billed. That is a warning, never an
-   * error: the badge has been earned and the award stands regardless.
-   */
-  private async billBadgeFee(
-    member: Member,
-    level: AwardLevel,
-    awardDate: string,
-  ): Promise<{ invoiceId: string | null; warning: string | null }> {
-    const badgeFee = this.toAmount(level.badge_fee);
-    const certificateFee = this.toAmount(level.certificate_fee);
-    if (badgeFee === null && certificateFee === null) {
-      return { invoiceId: null, warning: null };
-    }
-
-    const memberName = `${member.first_name} ${member.last_name}`.trim();
-    if (!member.family_id) {
-      return {
-        invoiceId: null,
-        warning: `${memberName} was awarded ${level.name} but has no family on record, so no badge fee was billed`,
-      };
-    }
-
-    const schemeName = level.scheme?.name ?? 'Award';
-    const items = [];
-    if (badgeFee !== null) {
-      items.push({
-        description: `${schemeName} ${level.name} badge`,
-        unit_price: badgeFee,
-        quantity: 1,
-        ...(level.fee_structure_id ? { fee_structure_id: level.fee_structure_id } : {}),
-      });
-    }
-    if (certificateFee !== null) {
-      items.push({
-        description: `${schemeName} ${level.name} certificate`,
-        unit_price: certificateFee,
-        quantity: 1,
-        ...(level.fee_structure_id ? { fee_structure_id: level.fee_structure_id } : {}),
-      });
-    }
-
-    try {
-      const invoice = await this.invoicesService.create({
-        family_id: member.family_id,
-        issued_date: awardDate,
-        due_date: this.addDays(awardDate, BADGE_INVOICE_TERMS_DAYS),
-        notes: `${schemeName} ${level.name} for ${memberName}`,
-        items,
-      });
-      return { invoiceId: invoice.invoice_id, warning: null };
-    } catch (error) {
-      const err = error as Error;
-      this.logger.error(
-        `Failed to raise a badge invoice for ${memberName} on level ${level.level_id}: ${err.message}`,
-        err.stack,
-      );
-      return {
-        invoiceId: null,
-        warning: `${memberName} was awarded ${level.name} but the badge fee could not be billed: ${err.message}`,
-      };
-    }
-  }
-
-  /** Decimal columns come back from the driver as strings; coerce and drop zero/null. */
-  private toAmount(value: number | string | null): number | null {
-    if (value === null || value === undefined) return null;
-    const amount = Number(value);
-    if (!Number.isFinite(amount) || amount <= 0) return null;
-    return amount;
-  }
-
-  private addDays(isoDate: string, days: number): string {
-    const date = new Date(`${isoDate.split('T')[0]}T00:00:00.000Z`);
-    date.setUTCDate(date.getUTCDate() + days);
-    return date.toISOString().split('T')[0];
-  }
-
-  // --- Assessment history ---
 
   async listEvents(levelId?: string, limit = 50): Promise<AssessmentEvent[]> {
     // Clamped here rather than at the controller, so no caller can ask this
@@ -574,11 +386,15 @@ export class AwardsService {
    * rows; anything ambiguous is skipped and reported rather than guessed at.
    */
   async importRiseCsv(dto: RiseCsvImportDto): Promise<RiseImportResult> {
+    if (dto.bill_fees)
+      throw new BadRequestException(
+        'Import records without fees, then review fees on the assessment page.',
+      );
     const preview = await this.previewRiseImport(dto);
     const warnings: string[] = [];
     let imported = 0;
     let skipped = 0;
-    let invoicesRaised = 0;
+    const invoicesRaised = 0;
 
     for (const row of preview.rows) {
       if (row.errors.length > 0 || !row.member_id || !row.level_id) {
@@ -588,32 +404,12 @@ export class AwardsService {
       }
 
       const awardDate = toDateKey(row.award_date) ?? new Date().toISOString().split('T')[0];
-      let invoiceId: string | null = null;
+      const invoiceId: string | null = null;
 
       // One unhappy row must not abandon the rest of the file part-written.
       // The club gets the rows that did land plus a line-numbered note about
       // the one that did not, which is what it needs to fix and re-run.
       try {
-        if (dto.bill_fees) {
-          const member = await this.membersRepository.findOne(row.member_id);
-          const level = await this.awardsRepository.findOneLevel(row.level_id);
-          if (member && level) {
-            const existing = await this.awardsRepository.findOneProgress(
-              row.member_id,
-              row.level_id,
-            );
-            // Never bill twice for a badge this club has already awarded.
-            if (existing?.invoice_id) {
-              invoiceId = existing.invoice_id;
-            } else {
-              const billing = await this.billBadgeFee(member, level, awardDate);
-              invoiceId = billing.invoiceId;
-              if (billing.warning) warnings.push(`Row ${row.row_number}: ${billing.warning}`);
-              if (invoiceId) invoicesRaised++;
-            }
-          }
-        }
-
         await this.awardsRepository.upsertProgress(row.member_id, row.level_id, {
           status: AwardProgressStatus.AWARDED,
           assessed_on: awardDate as unknown as Date,

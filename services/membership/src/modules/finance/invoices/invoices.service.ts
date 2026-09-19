@@ -30,6 +30,9 @@ import {
   taxRegistrationLabelForCountry,
 } from '../../../common/region/region.util';
 import { Club } from '../../clubs/entities/club.entity';
+import { EntityManager } from 'typeorm';
+import { randomUUID } from 'crypto';
+import { InvoiceItem } from './entities/invoice-item.entity';
 
 /** Result of an invoice-generation run for a single fee structure. */
 export interface InvoiceGenerationSummary {
@@ -70,7 +73,6 @@ export class InvoicesService {
     const club = await this.clubsRepository.findOne(this.tenantContext.getClubId());
     const region = regionForCountry(club?.country);
     const currency = club?.currency ?? region.currency;
-    const locale = club?.locale ?? region.locale;
 
     // Create the invoice
     const invoice = await this.invoicesRepository.create(createInvoiceDto, invoiceNumber, currency);
@@ -88,6 +90,16 @@ export class InvoicesService {
 
     const createdInvoice = await this.findOne(invoice.invoice_id);
 
+    await this.dispatchCreated(createdInvoice, club);
+    return createdInvoice;
+  }
+
+  /** Invoke only after the transaction creating this invoice has committed. */
+  async dispatchCreated(createdInvoice: Invoice, club?: Club | null): Promise<void> {
+    club ??= await this.clubsRepository.findOne(this.tenantContext.getClubId());
+    const region = regionForCountry(club?.country);
+    const currency = createdInvoice.currency;
+    const locale = club?.locale ?? region.locale;
     // Send invoice created email to family
     try {
       const family = await this.familiesRepository.findOne(createdInvoice.family_id);
@@ -148,8 +160,55 @@ export class InvoicesService {
       );
       // Don't fail invoice creation if payment collection fails
     }
+  }
 
-    return createdInvoice;
+  /** Persist an award invoice atomically with its unique source. No external effects. */
+  async createInTransaction(dto: CreateInvoiceDto, em: EntityManager): Promise<Invoice> {
+    const clubId = this.tenantContext.getClubId();
+    const club = await em.findOne(Club, { where: { id: clubId } });
+    const family = await em.findOne(Family, {
+      where: { club_id: clubId, family_id: dto.family_id },
+    });
+    if (!club || !family) throw new NotFoundException('Billing family not found');
+    for (const item of dto.items ?? []) {
+      if (
+        item.fee_structure_id &&
+        !(await em.findOne(FeeStructure, {
+          where: { club_id: clubId, fee_structure_id: item.fee_structure_id },
+        }))
+      )
+        throw new NotFoundException('Fee structure not found');
+    }
+    const invoice = em.create(Invoice, {
+      club_id: clubId,
+      family_id: dto.family_id,
+      invoice_number: `AWD-${randomUUID()}`,
+      currency: club.currency ?? regionForCountry(club.country).currency,
+      issued_date: dto.issued_date as unknown as Date,
+      due_date: dto.due_date as unknown as Date,
+      status: InvoiceStatus.PENDING,
+      notes: dto.notes ?? null,
+      ...invoiceTotals(
+        (dto.items ?? []).reduce((sum, item) => sum + item.unit_price * (item.quantity ?? 1), 0),
+        club,
+      ),
+    });
+    await em.save(invoice);
+    invoice.items = [];
+    for (const item of dto.items ?? []) {
+      invoice.items.push(
+        await em.save(
+          em.create(InvoiceItem, {
+            ...item,
+            club_id: clubId,
+            invoice_id: invoice.invoice_id,
+            quantity: item.quantity ?? 1,
+            total: item.unit_price * (item.quantity ?? 1),
+          }),
+        ),
+      );
+    }
+    return invoice;
   }
 
   async findAll(): Promise<Invoice[]> {
@@ -561,28 +620,27 @@ export class InvoicesService {
     // or zero rate keeps tax_amount at 0, so every existing UK club (all of
     // which have a null rate) produces byte-identical totals as before.
     const owningClub = club ?? (await this.clubsRepository.findOne(invoice.club_id));
-    const taxRate = owningClub?.tax_rate ? Number(owningClub.tax_rate) : 0;
-
-    if (taxRate && owningClub?.tax_inclusive) {
-      // Tax-inclusive pricing (the Australian GST convention): the line-item
-      // sum IS the gross total the family pays. Back the tax out of it rather
-      // than adding it on top, e.g. $55.00 gross at 10% GST is $5.00 tax on a
-      // $50.00 subtotal, total $55.00.
-      const gross = roundTo2dp(subtotal);
-      const taxAmount = roundTo2dp((gross * taxRate) / (100 + taxRate));
-      await this.invoicesRepository.updateTotals(
-        invoiceId,
-        roundTo2dp(gross - taxAmount),
-        taxAmount,
-        gross,
-      );
-      return;
-    }
-
-    // Tax-exclusive (default): tax is added on top of the line-item subtotal.
-    const taxAmount = taxRate ? roundTo2dp((subtotal * taxRate) / 100) : 0;
-    const totalAmount = roundTo2dp(subtotal + taxAmount);
-
-    await this.invoicesRepository.updateTotals(invoiceId, subtotal, taxAmount, totalAmount);
+    const totals = invoiceTotals(subtotal, owningClub);
+    await this.invoicesRepository.updateTotals(
+      invoiceId,
+      totals.subtotal,
+      totals.tax_amount,
+      totals.total_amount,
+    );
   }
+}
+
+/** Shared by previews, transactional award invoices and ordinary invoices. */
+export function invoiceTotals(
+  subtotal: number,
+  club?: Pick<Club, 'tax_rate' | 'tax_inclusive'> | null,
+) {
+  const rate = Number(club?.tax_rate ?? 0);
+  if (rate && club?.tax_inclusive) {
+    const gross = roundTo2dp(subtotal);
+    const tax = roundTo2dp((gross * rate) / (100 + rate));
+    return { subtotal: roundTo2dp(gross - tax), tax_amount: tax, total_amount: gross };
+  }
+  const tax = rate ? roundTo2dp((subtotal * rate) / 100) : 0;
+  return { subtotal, tax_amount: tax, total_amount: roundTo2dp(subtotal + tax) };
 }

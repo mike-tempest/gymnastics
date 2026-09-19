@@ -1,3 +1,6 @@
+import { AwardSkillsService } from './award-skills.service';
+import { AwardBillingService } from './award-billing.service';
+import { AwardSkillsController } from './award-skills.controller';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AwardsController } from './awards.controller';
@@ -19,13 +22,12 @@ import { MembersModule } from '../members/members.module';
       AssessmentEvent,
       AssessmentOutcome,
     ]),
-    // Badge fees bill through the normal finance path: InvoicesService.create
-    // resolves currency and tax, emails the family and attempts Direct Debit.
+    // Award invoices commit with their source, then use normal finance delivery.
     InvoicesModule,
     MembersModule,
   ],
-  controllers: [AwardsController],
-  providers: [AwardsService, AwardsRepository],
+  controllers: [AwardsController, AwardSkillsController],
+  providers: [AwardsService, AwardsRepository, AwardSkillsService, AwardBillingService],
   exports: [AwardsService, AwardsRepository],
 })
 export class AwardsModule {}
