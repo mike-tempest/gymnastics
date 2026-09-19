@@ -114,12 +114,9 @@ export class AdminService {
       squadAttendanceRates,
       topAbsentees,
       newJoiners,
-      leavers: [] as Array<{
-        memberId: string;
-        name: string;
-        squadName: string;
-        leftAt: string;
-      }>,
+      leavers: null,
+      leaversUnavailableReason:
+        'Dated membership departures are not yet recorded. This is not evidence of zero leavers.',
       squadDistribution,
     };
   }

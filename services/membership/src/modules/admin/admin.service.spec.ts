@@ -268,10 +268,11 @@ describe('AdminService', () => {
       expect(result.squadAttendanceRates[0]).toHaveProperty('attendanceRate');
     });
 
-    it('should return leavers as an empty array', async () => {
+    it('should distinguish unavailable departures from zero leavers', async () => {
       const result = await service.getReportsData();
 
-      expect(result.leavers).toEqual([]);
+      expect(result.leavers).toBeNull();
+      expect(result.leaversUnavailableReason).toContain('not yet recorded');
     });
 
     it('should return squad distribution from repository', async () => {

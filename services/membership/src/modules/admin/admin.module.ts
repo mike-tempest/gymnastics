@@ -1,3 +1,5 @@
+import { OperationalReportsController } from './operational-reports.controller';
+import { OperationalReportsService } from './operational-reports.service';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminController } from './admin.controller';
@@ -27,8 +29,8 @@ import { Club } from '../clubs/entities/club.entity';
       Club,
     ]),
   ],
-  controllers: [AdminController],
-  providers: [AdminService, ClubSettingsService],
+  controllers: [AdminController, OperationalReportsController],
+  providers: [AdminService, ClubSettingsService, OperationalReportsService],
   exports: [AdminService, ClubSettingsService],
 })
 export class AdminModule {}
