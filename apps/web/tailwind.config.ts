@@ -17,7 +17,7 @@ const config: Config = {
       colors: {
         ...brandColours,
         card: {
-          light: '#FAF9F5',
+          light: brandColours.surface.DEFAULT,
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
@@ -59,8 +59,8 @@ const config: Config = {
         },
       },
       boxShadow: {
-        glow: '0 0 30px rgba(185, 216, 203, 0.2)',
-        'glow-sm': '0 0 15px rgba(185, 216, 203, 0.15)',
+        glow: '0 0 30px rgba(115, 210, 222, 0.2)',
+        'glow-sm': '0 0 15px rgba(115, 210, 222, 0.15)',
         card: '0 1px 3px rgba(57, 57, 58, 0.08), 0 1px 2px rgba(57, 57, 58, 0.06)',
         'card-hover': '0 4px 12px rgba(57, 57, 58, 0.12), 0 2px 4px rgba(57, 57, 58, 0.08)',
         soft: '0 1px 2px rgba(57, 57, 58, 0.06)',

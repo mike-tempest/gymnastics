@@ -47,11 +47,13 @@ Swimming pools are chaotic enough. Tumblebase should feel calm, organised, and i
 
 ### Colour Palette (Most Common)
 
-- **Canvas:** `#F0F0EC` (muted sage background)
-- **Surface:** `#FAFAF8` (card backgrounds)
-- **Dark Primary:** `#121216` (cards, sidebar, nav)
-- **Brand Green:** `#00FF90` (interactive: buttons, links, active states)
-- **Lime:** `#E8F059` (data accents ONLY: numbers, chart highlights)
+- **Canvas:** `#F4F2EC`; raised surface: `#FAF9F5`
+- **Teal:** `#218380`; deep teal navigation: `#122F35`
+- **Raspberry:** `#D81159` for primary actions; **plum:** `#8F2D56` for hover and feature panels
+- **Aqua:** `#73D2DE` for highlights with dark text
+- **Gold:** `#FFBC42` for milestones and data accents with dark text
+
+See [Colour System](./colour-system.md) for aliases, contrast pairings and usage rules.
 
 ### Typography
 

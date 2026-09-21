@@ -252,7 +252,7 @@ export default function LoginPage() {
       </div>
 
       {/* Footer */}
-      <div className="mt-8 text-center text-sm text-grey-400">
+      <div className="mt-8 text-center text-sm text-grey-600">
         <p>{BRAND.copyright}</p>
       </div>
     </>
