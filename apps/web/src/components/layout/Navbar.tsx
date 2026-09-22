@@ -13,7 +13,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
-            <Link href="/" className="text-xl font-bold text-brand">
+            <Link href="/" className="text-xl font-bold text-teal-dark">
               {BRAND.name}
             </Link>
 
@@ -21,19 +21,19 @@ export default function Navbar() {
               <div className="hidden md:flex space-x-4">
                 <Link
                   href="/members"
-                  className="text-grey-600 hover:text-brand px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                  className="text-grey-600 hover:text-teal-dark px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
                   {MEMBER_NOUN_PLURAL}
                 </Link>
                 <Link
                   href="/families"
-                  className="text-grey-600 hover:text-brand px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                  className="text-grey-600 hover:text-teal-dark px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
                   Families
                 </Link>
                 <Link
                   href="/squads"
-                  className="text-grey-600 hover:text-brand px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                  className="text-grey-600 hover:text-teal-dark px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
                   Squads
                 </Link>
