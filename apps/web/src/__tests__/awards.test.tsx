@@ -24,6 +24,10 @@ jest.mock('sonner', () => ({
 
 jest.mock('@/lib/api/awards', () => ({
   getAwardSchemes: jest.fn(),
+  getSkillContext: jest.fn(),
+  getSkillHistory: jest.fn().mockResolvedValue([]),
+  previewAwardFees: jest.fn(),
+  saveSkillAssessment: jest.fn(),
   createAwardScheme: jest.fn(),
   updateAwardScheme: jest.fn(),
   deleteAwardScheme: jest.fn(),
@@ -51,12 +55,13 @@ jest.mock('@/lib/api/squads', () => ({ getSquads: jest.fn() }));
 // Import after mocking
 import {
   getAwardSchemes,
+  getSkillContext,
+  previewAwardFees,
+  saveSkillAssessment,
   getMemberAwardProgress,
-  getProgressForMembers,
   installDefaultSchemes,
   recordAssessment,
 } from '@/lib/api/awards';
-import { getMembers } from '@/lib/api/members';
 import { getSquads } from '@/lib/api/squads';
 
 import AssessAwardsPage from '../app/awards/assess/page';
@@ -67,11 +72,7 @@ const mockGetAwardSchemes = getAwardSchemes as jest.MockedFunction<typeof getAwa
 const mockInstallDefaults = installDefaultSchemes as jest.MockedFunction<
   typeof installDefaultSchemes
 >;
-const mockGetMembers = getMembers as jest.MockedFunction<typeof getMembers>;
 const mockGetSquads = getSquads as jest.MockedFunction<typeof getSquads>;
-const mockGetProgressForMembers = getProgressForMembers as jest.MockedFunction<
-  typeof getProgressForMembers
->;
 const mockRecordAssessment = recordAssessment as jest.MockedFunction<typeof recordAssessment>;
 const mockGetMemberProgress = getMemberAwardProgress as jest.MockedFunction<
   typeof getMemberAwardProgress
@@ -165,74 +166,140 @@ describe('Badges page', () => {
 });
 
 describe('Assessment flow', () => {
+  const levelId = 'a1111111-1111-4111-8111-111111111111';
+  const memberId = 'a2222222-2222-4222-8222-222222222222';
+  const criterionId = 'a3333333-3333-4333-8333-333333333333';
   beforeEach(() => {
     jest.clearAllMocks();
-    mockGetAwardSchemes.mockResolvedValue([riseScheme]);
-    mockGetSquads.mockResolvedValue([
-      { squad_id: 'squad-1', squad_name: 'Recreational Tuesday' },
-    ] as never);
-    mockGetMembers.mockResolvedValue([
-      { member_id: 'member-1', first_name: 'Ava', last_name: 'Nolan', squad_id: 'squad-1' },
-    ] as never);
-    mockGetProgressForMembers.mockResolvedValue([]);
-    mockRecordAssessment.mockResolvedValue({ awarded: 1, invoices_raised: 1, warnings: [] });
+    Object.defineProperty(global.crypto, 'randomUUID', {
+      configurable: true,
+      value: jest.fn(() => 'a4444444-4444-4444-8444-444444444444'),
+    });
+    mockGetAwardSchemes.mockResolvedValue([
+      { ...riseScheme, levels: [{ ...riseScheme.levels[0], level_id: levelId }] },
+    ]);
+    mockGetSquads.mockResolvedValue([]);
+    (getSkillContext as jest.Mock).mockResolvedValue({
+      level: riseScheme.levels[0],
+      session: null,
+      members: [{ member_id: memberId, first_name: 'Ava', last_name: 'Nolan' }],
+      criteria: [
+        { criterion_id: criterionId, name: 'Balance', required: true, active: true, version: 3 },
+      ],
+      progress: [],
+    });
+    (saveSkillAssessment as jest.Mock).mockResolvedValue({ recorded: 1 });
+    mockRecordAssessment.mockResolvedValue({ awarded: 1, invoices_raised: 0, warnings: [] });
+    (previewAwardFees as jest.Mock).mockResolvedValue({
+      hash: 'a'.repeat(64),
+      currency: 'GBP',
+      rows: [
+        {
+          member_id: memberId,
+          member_name: 'Ava Nolan',
+          family_name: 'Nolan family',
+          total_amount: 4.5,
+          reason: null,
+        },
+      ],
+    });
+  });
+  async function load() {
+    renderWithQueryClient(<AssessAwardsPage />);
+    await screen.findByRole('option', { name: 'British Gymnastics Rise: Explore 3' });
+    await userEvent.selectOptions(screen.getByLabelText('Badge'), levelId);
+    await userEvent.click(screen.getByRole('button', { name: 'Load register' }));
+    await screen.findByRole('heading', { name: 'Ava Nolan' });
+    await waitFor(() => expect(screen.getByLabelText('Ava Nolan: Balance')).toBeEnabled());
+  }
+  it('leaves every result unchanged until the coach explicitly chooses one', async () => {
+    await load();
+    expect(screen.getByLabelText('Ava Nolan: Balance')).toHaveValue('');
+    expect(screen.getByRole('button', { name: 'Save skill progress (0)' })).toBeDisabled();
+    expect(screen.getByRole('checkbox')).not.toBeChecked();
+  });
+  it('shows an existing badge award and invoice instead of suggesting another award', async () => {
+    const base = await getSkillContext(levelId);
+    (getSkillContext as jest.Mock).mockResolvedValue({
+      ...base,
+      level_progress: [
+        { member_id: memberId, status: 'awarded', awarded_on: '2026-09-19', has_invoice: true },
+      ],
+    });
+    await load();
+    expect(
+      screen.getByText('Badge awarded on 19/09/2026. Fees already invoiced.')
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/Ready for a coach/)).not.toBeInTheDocument();
   });
 
-  it('records an award for a chosen badge and gymnast', async () => {
-    renderWithQueryClient(<AssessAwardsPage />);
-
-    await waitFor(() => expect(screen.getByLabelText('Badge')).toBeInTheDocument());
-
-    await userEvent.selectOptions(screen.getByLabelText('Badge'), 'level-1');
-    await waitFor(() => expect(screen.getByText('Ava Nolan')).toBeInTheDocument());
-
-    await userEvent.selectOptions(screen.getByLabelText('Result for Ava Nolan'), 'awarded');
-    await userEvent.click(screen.getByRole('button', { name: 'Record assessment' }));
-
+  it('saves selected skills with separate notes and no invoice', async () => {
+    await load();
+    await userEvent.selectOptions(screen.getByLabelText('Ava Nolan: Balance'), 'achieved');
+    const original = await (getSkillContext as jest.Mock).mock.results[0].value;
+    (getSkillContext as jest.Mock).mockResolvedValue({
+      ...original,
+      progress: [
+        { member_id: memberId, criterion_id: criterionId, status: 'achieved', version: 1 },
+      ],
+    });
+    await userEvent.type(screen.getByLabelText('Staff note'), 'Private assessment');
+    await userEvent.type(screen.getByLabelText('Note visible to parents'), 'Well done');
+    await userEvent.click(screen.getByRole('button', { name: 'Save skill progress (1)' }));
     await waitFor(() =>
-      expect(mockRecordAssessment).toHaveBeenCalledWith(
+      expect(saveSkillAssessment).toHaveBeenCalledWith(
         expect.objectContaining({
-          level_id: 'level-1',
-          bill_fees: true,
-          outcomes: [{ member_id: 'member-1', outcome: 'awarded' }],
+          results: [
+            expect.objectContaining({
+              member_id: memberId,
+              criterion_id: criterionId,
+              expected_version: 0,
+              criterion_version: 3,
+              status: 'achieved',
+              internal_note: 'Private assessment',
+              parent_note: 'Well done',
+            }),
+          ],
         })
       )
     );
+    expect(await screen.findByText(/1 of 1 required skills achieved/)).toBeInTheDocument();
+    expect(mockRecordAssessment).not.toHaveBeenCalled();
+    expect(previewAwardFees).not.toHaveBeenCalled();
   });
-
-  it('will not submit until a result has been recorded', async () => {
-    renderWithQueryClient(<AssessAwardsPage />);
-
-    await waitFor(() => expect(screen.getByLabelText('Badge')).toBeInTheDocument());
-    await userEvent.selectOptions(screen.getByLabelText('Badge'), 'level-1');
-
-    expect(await screen.findByRole('button', { name: 'Record assessment' })).toBeDisabled();
-  });
-
-  it('lets a coach turn the badge fee off before recording', async () => {
-    renderWithQueryClient(<AssessAwardsPage />);
-
-    await waitFor(() => expect(screen.getByLabelText('Badge')).toBeInTheDocument());
-    await userEvent.selectOptions(screen.getByLabelText('Badge'), 'level-1');
-    await waitFor(() => expect(screen.getByText('Ava Nolan')).toBeInTheDocument());
-
-    await userEvent.selectOptions(screen.getByLabelText('Result for Ava Nolan'), 'awarded');
+  it('defaults an explicit badge award to no fees', async () => {
+    await load();
     await userEvent.click(screen.getByRole('checkbox'));
-    await userEvent.click(screen.getByRole('button', { name: 'Record assessment' }));
-
+    await userEvent.click(screen.getByRole('button', { name: 'Award badges without fees (1)' }));
     await waitFor(() =>
       expect(mockRecordAssessment).toHaveBeenCalledWith(
         expect.objectContaining({ bill_fees: false })
       )
     );
   });
-
-  it('tells the coach nothing can be assessed when no badges exist', async () => {
-    mockGetAwardSchemes.mockResolvedValue([]);
-
-    renderWithQueryClient(<AssessAwardsPage />);
-
-    expect(await screen.findByText('No badges to assess yet')).toBeInTheDocument();
+  it('requires a separate confirmation of the displayed family fees', async () => {
+    await load();
+    await userEvent.click(screen.getByRole('checkbox'));
+    await userEvent.click(screen.getByRole('button', { name: 'Review badge fees' }));
+    expect(await screen.findByText(/Nolan family/)).toHaveTextContent('£4.50');
+    expect(mockRecordAssessment).not.toHaveBeenCalled();
+    await userEvent.click(screen.getByRole('button', { name: 'Confirm awards and listed fees' }));
+    await waitFor(() =>
+      expect(mockRecordAssessment).toHaveBeenCalledWith(
+        expect.objectContaining({ bill_fees: true, fee_preview_hash: 'a'.repeat(64) })
+      )
+    );
+  });
+  it('retries an uncertain save with exactly the same request', async () => {
+    (saveSkillAssessment as jest.Mock).mockRejectedValueOnce(new Error('Connection lost'));
+    await load();
+    await userEvent.selectOptions(screen.getByLabelText('Ava Nolan: Balance'), 'achieved');
+    await userEvent.click(screen.getByRole('button', { name: 'Save skill progress (1)' }));
+    await userEvent.click(await screen.findByRole('button', { name: 'Retry the same save' }));
+    await waitFor(() => expect(saveSkillAssessment).toHaveBeenCalledTimes(2));
+    expect((saveSkillAssessment as jest.Mock).mock.calls[0][0]).toEqual(
+      (saveSkillAssessment as jest.Mock).mock.calls[1][0]
+    );
   });
 });
 

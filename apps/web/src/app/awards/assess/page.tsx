@@ -1,475 +1,537 @@
 'use client';
 
-import { Squad } from '@club-manager/shared-types';
-import { ClipboardCheck } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { toast } from 'sonner';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import MainLayout from '@/components/layout/MainLayout';
-import Breadcrumb from '@/components/ui/Breadcrumb';
-import EmptyState from '@/components/ui/empty-state';
-import ErrorState from '@/components/ui/ErrorState';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import { useFormatters } from '@/hooks/useFormatters';
+import { Button } from '@/components/ui/button';
 import {
-  AssessmentOutcomeResult,
-  AwardScheme,
-  MemberAwardProgress,
-  feeAmount,
   getAwardSchemes,
-  getProgressForMembers,
+  getSkillContext,
+  getSkillHistory,
+  previewAwardFees,
   recordAssessment,
+  saveSkillAssessment,
+  FeePreview,
+  SkillContext,
 } from '@/lib/api/awards';
-import { getMembers } from '@/lib/api/members';
 import { getSquads } from '@/lib/api/squads';
-import { MEMBER_NOUN_LOWER, MEMBER_NOUN_PLURAL, MEMBER_NOUN_PLURAL_LOWER } from '@/lib/brand';
+import { MEMBER_NOUN_PLURAL } from '@/lib/brand';
 
-interface AssessableMember {
-  member_id: string;
-  first_name: string;
-  last_name: string;
-  squad_id: string | null;
-}
-
-const OUTCOME_OPTIONS: Array<{ value: AssessmentOutcomeResult; label: string }> = [
-  { value: 'awarded', label: 'Awarded' },
-  { value: 'not_yet', label: 'Not yet' },
-  { value: 'working_towards', label: 'Still working towards' },
-];
-
-const STATUS_LABELS: Record<string, string> = {
-  working_towards: 'Working towards',
-  assessed: 'Assessed',
-  awarded: 'Awarded',
+const settingsSchema = z.object({
+  level_id: z.string().uuid('Choose a badge'),
+  squad_id: z.string(),
+  assessed_on: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Choose a date'),
+});
+type Settings = z.infer<typeof settingsSchema>;
+type Result = {
+  status: 'working_towards' | 'achieved';
+  internal_note: string;
+  parent_note: string;
 };
+const control = 'min-h-12 rounded-lg border border-grey-200 bg-surface p-3 text-text-primary';
 
-/**
- * Says what a badge costs. Either fee can be unset, including the case where a
- * club charges only for the certificate, so the sentence is built rather than
- * concatenated from optional fragments.
- */
-function feeSentence(
-  badgeFee: number | null,
-  certificateFee: number | null,
-  formatCurrency: (amount: number) => string
-): string {
-  const parts: string[] = [];
-  if (badgeFee !== null) parts.push(`${formatCurrency(badgeFee)} per badge`);
-  if (certificateFee !== null) parts.push(`${formatCurrency(certificateFee)} per certificate`);
-
-  if (parts.length === 0) return 'has no fee, so awarding it does not invoice anyone.';
-  return `costs ${parts.join(' plus ')}.`;
+function History({ member, level }: { member: string; level: string }) {
+  const history = useQuery({
+    queryKey: ['skill-history', member, level],
+    queryFn: () => getSkillHistory(member, level),
+  });
+  return (
+    <div className="space-y-3 p-3" aria-live="polite">
+      {history.isPending
+        ? 'Loading history…'
+        : history.isError
+          ? 'Could not load history.'
+          : history.data.length
+            ? history.data.map((row) => (
+                <article key={row.assessment_id} className="border-b border-grey-200 pb-3">
+                  <p>
+                    {row.assessed_on}: {row.criterion_name}, {row.status.replaceAll('_', ' ')}
+                  </p>
+                  {row.assessor_name && <p>Assessed by {row.assessor_name}</p>}
+                  {row.internal_note && <p>Staff note: {row.internal_note}</p>}
+                  {row.parent_note && <p>Parent note: {row.parent_note}</p>}
+                </article>
+              ))
+            : 'No skill assessments recorded.'}
+    </div>
+  );
 }
-
-export default function AssessAwardsPage() {
-  const { formatCurrency } = useFormatters();
-
-  const [schemes, setSchemes] = useState<AwardScheme[]>([]);
-  const [squads, setSquads] = useState<Squad[]>([]);
-  const [members, setMembers] = useState<AssessableMember[]>([]);
-  const [progress, setProgress] = useState<MemberAwardProgress[]>([]);
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [levelId, setLevelId] = useState('');
-  const [squadId, setSquadId] = useState('');
-  const [assessedAt, setAssessedAt] = useState(() => new Date().toISOString().split('T')[0]);
-  const [notes, setNotes] = useState('');
-  const [billFees, setBillFees] = useState(true);
-  const [outcomes, setOutcomes] = useState<Record<string, AssessmentOutcomeResult>>({});
-
-  const fetchData = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const [schemesData, squadsData, membersData] = await Promise.all([
-        getAwardSchemes(),
-        getSquads(),
-        getMembers(),
-      ]);
-      setSchemes(schemesData);
-      setSquads(squadsData);
-      setMembers(membersData as unknown as AssessableMember[]);
-    } catch {
-      setError('Could not load the assessment screen. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    void fetchData();
-  }, [fetchData]);
-
-  // Every badge across every scheme, so a coach picks one from a single list.
-  const levels = useMemo(
-    () =>
-      schemes.flatMap((scheme) =>
-        scheme.levels
-          .filter((level) => level.active)
-          .map((level) => ({ ...level, schemeName: scheme.name }))
-      ),
-    [schemes]
-  );
-
-  const selectedLevel = levels.find((level) => level.level_id === levelId) ?? null;
-  const selectedBadgeFee = feeAmount(selectedLevel?.badge_fee);
-  const selectedCertificateFee = feeAmount(selectedLevel?.certificate_fee);
-
-  const squadMembers = useMemo(
-    () => (squadId ? members.filter((member) => member.squad_id === squadId) : members),
-    [members, squadId]
-  );
-
-  // Load what these gymnasts have already done on the chosen badge, so a coach
-  // can see who is already awarded before recording anything.
-  useEffect(() => {
-    if (squadMembers.length === 0) {
-      setProgress([]);
-      return;
-    }
-    let cancelled = false;
-    void getProgressForMembers(squadMembers.map((member) => member.member_id))
-      .then((rows) => {
-        if (!cancelled) setProgress(rows);
-      })
-      .catch(() => {
-        if (!cancelled) setProgress([]);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [squadMembers]);
-
-  const progressFor = (memberId: string): MemberAwardProgress | undefined =>
-    progress.find((row) => row.member_id === memberId && row.level_id === levelId);
-
-  const setOutcome = (memberId: string, outcome: AssessmentOutcomeResult | '') => {
-    setOutcomes((current) => {
-      const next = { ...current };
-      if (outcome === '') {
-        delete next[memberId];
-      } else {
-        next[memberId] = outcome;
-      }
-      return next;
-    });
+function Register({
+  context,
+  settings,
+  sessionId,
+}: {
+  context: SkillContext;
+  settings: Settings;
+  sessionId?: string;
+}) {
+  const queryClient = useQueryClient();
+  const [results, setResults] = useState<Record<string, Result>>({});
+  const [awards, setAwards] = useState<string[]>([]);
+  const [preview, setPreview] = useState<FeePreview | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState('');
+  const [historyMember, setHistoryMember] = useState('');
+  const [revision, setRevision] = useState(0);
+  const contextQuery = useQuery({
+    queryKey: ['skill-register', settings.level_id, sessionId, settings.squad_id],
+    queryFn: () => getSkillContext(settings.level_id, sessionId, settings.squad_id),
+    initialData: context,
+    initialDataUpdatedAt: 0,
+  });
+  const data = contextQuery.data;
+  const pending = useRef<{ kind: string; body: unknown } | null>(null);
+  const criteria = data.criteria.filter((c) => c.active);
+  const update = (key: string, patch: Partial<Result>) => {
+    setResults((old) => ({
+      ...old,
+      [key]: {
+        ...(old[key] ?? { status: 'working_towards', internal_note: '', parent_note: '' }),
+        ...patch,
+      },
+    }));
   };
-
-  const recorded = Object.entries(outcomes);
-  const awardedCount = recorded.filter(([, outcome]) => outcome === 'awarded').length;
-  const chargeable = selectedBadgeFee !== null || selectedCertificateFee !== null;
-  const totalToBill =
-    billFees && chargeable
-      ? awardedCount * ((selectedBadgeFee ?? 0) + (selectedCertificateFee ?? 0))
-      : 0;
-
-  const handleSubmit = async () => {
-    if (!levelId || recorded.length === 0) return;
-
+  const send = async (kind: 'skills' | 'award', bill = false) => {
+    setBusy(true);
+    setMessage('');
     try {
-      setIsSubmitting(true);
-      const result = await recordAssessment({
-        level_id: levelId,
-        assessed_at: assessedAt,
-        notes: notes.trim() ? notes : null,
-        bill_fees: billFees,
-        outcomes: recorded.map(([member_id, outcome]) => ({ member_id, outcome })),
-      });
-
-      toast.success(
-        `Recorded ${recorded.length} ${recorded.length === 1 ? 'result' : 'results'}. ` +
-          `${result.awarded} awarded, ${result.invoices_raised} ${
-            result.invoices_raised === 1 ? 'invoice' : 'invoices'
-          } raised.`
+      // Keep exactly the same request after an uncertain response. Editing is
+      // disabled until it is resolved, so retry cannot silently submit new data.
+      let body = pending.current?.body;
+      if (!body) {
+        body =
+          kind === 'skills'
+            ? {
+                request_key: crypto.randomUUID(),
+                level_id: settings.level_id,
+                assessed_on: settings.assessed_on,
+                ...(sessionId
+                  ? { session_id: sessionId }
+                  : settings.squad_id
+                    ? { squad_id: settings.squad_id }
+                    : {}),
+                results: Object.entries(results).map(([key, value]) => {
+                  const [member_id, criterion_id] = key.split(':');
+                  return {
+                    ...value,
+                    member_id,
+                    criterion_id,
+                    expected_version:
+                      data.progress.find(
+                        (p) => p.member_id === member_id && p.criterion_id === criterion_id
+                      )?.version ?? 0,
+                    criterion_version: criteria.find((c) => c.criterion_id === criterion_id)!
+                      .version,
+                  };
+                }),
+              }
+            : {
+                request_key: crypto.randomUUID(),
+                level_id: settings.level_id,
+                assessed_at: settings.assessed_on,
+                bill_fees: bill,
+                ...(bill && preview ? { fee_preview_hash: preview.hash } : {}),
+                outcomes: awards.map((member_id) => ({ member_id, outcome: 'awarded' as const })),
+              };
+        pending.current = { kind, body };
+      }
+      if (pending.current?.kind === 'skills') await saveSkillAssessment(body);
+      else await recordAssessment(body as Parameters<typeof recordAssessment>[0]);
+      const savedKind = pending.current?.kind;
+      pending.current = null;
+      if (savedKind === 'skills') setResults({});
+      else {
+        setAwards([]);
+        setPreview(null);
+      }
+      await contextQuery.refetch();
+      await queryClient.invalidateQueries({ queryKey: ['skill-history'] });
+      setRevision((v) => v + 1);
+      setMessage('Saved. Skill progress, awards and fees remain separate records.');
+    } catch (error) {
+      const status =
+        (error as { status?: number; statusCode?: number }).status ??
+        (error as { statusCode?: number }).statusCode;
+      if (status && status >= 400 && status < 500) {
+        pending.current = null;
+        setPreview(null);
+        if (status === 409) {
+          setResults({});
+          setAwards([]);
+          await contextQuery.refetch();
+        }
+      }
+      setMessage(
+        error instanceof Error
+          ? `${error.message}${status === 409 ? ' No changes saved. Review the history and select results again.' : ''}`
+          : 'Could not confirm the save. Retry the same request.'
       );
-      for (const warning of result.warnings) {
-        toast.error(warning);
-      }
-
-      setOutcomes({});
-      setNotes('');
-      if (squadMembers.length > 0) {
-        setProgress(await getProgressForMembers(squadMembers.map((member) => member.member_id)));
-      }
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Could not record the assessment');
     } finally {
-      setIsSubmitting(false);
+      setBusy(false);
     }
   };
-
+  const familyFees = Array.from(
+    (preview?.rows ?? [])
+      .reduce((groups, row) => {
+        const key = row.family_id ?? row.member_id;
+        const group = groups.get(key) ?? {
+          name: row.family_name ?? 'No family linked',
+          pence: 0,
+          rows: [],
+        };
+        group.pence += Math.round(row.total_amount * 100);
+        group.rows.push(row);
+        groups.set(key, group);
+        return groups;
+      }, new Map<string, { name: string; pence: number; rows: FeePreview['rows'] }>())
+      .entries()
+  );
+  const locked = busy || !!pending.current;
+  return (
+    <div className="space-y-6">
+      <p role="status" className="text-text-secondary">
+        {message}
+      </p>
+      {pending.current && !busy && (
+        <Button
+          className="min-h-12 rounded-lg border border-grey-200 bg-surface p-3 text-text-primary"
+          onClick={() => void send(pending.current!.kind as 'skills' | 'award')}
+        >
+          Retry the same save
+        </Button>
+      )}
+      {contextQuery.isError && (
+        <p role="alert">Could not refresh progress. Reload before making another assessment.</p>
+      )}
+      <fieldset
+        disabled={
+          locked ||
+          contextQuery.isFetching ||
+          contextQuery.isError ||
+          data.session?.status === 'cancelled'
+        }
+        className="space-y-6"
+      >
+        <legend className="text-xl font-semibold">{MEMBER_NOUN_PLURAL} and skills</legend>
+        {data.session?.status === 'cancelled' && <p>This session is cancelled.</p>}
+        {!criteria.length && (
+          <p>No skills configured for this badge. An administrator can add criteria from Awards.</p>
+        )}
+        {!data.members.length && <p>No one is on this register.</p>}
+        {data.members.map((member) => {
+          const name = `${member.first_name} ${member.last_name}`;
+          const badgeProgress = data.level_progress?.find((p) => p.member_id === member.member_id);
+          const alreadyAwarded = badgeProgress?.status === 'awarded';
+          const required = criteria.filter((c) => c.required);
+          const achieved = required.filter((c) =>
+            data.progress.some(
+              (p) =>
+                p.member_id === member.member_id &&
+                p.criterion_id === c.criterion_id &&
+                p.status === 'achieved'
+            )
+          ).length;
+          return (
+            <section
+              key={member.member_id}
+              className="rounded-xl border border-grey-200 bg-surface p-4 shadow-sm space-y-4"
+            >
+              <h2 className="text-lg font-semibold">{name}</h2>
+              {alreadyAwarded && (
+                <p className="font-semibold">
+                  Badge awarded
+                  {badgeProgress?.awarded_on
+                    ? ` on ${badgeProgress.awarded_on.split('-').reverse().join('/')}`
+                    : ''}
+                  .{badgeProgress?.has_invoice ? ' Fees already invoiced.' : ''}
+                </p>
+              )}
+              <p className="text-text-secondary">
+                {achieved} of {required.length} required skills achieved.{' '}
+                {!alreadyAwarded && required.length > 0 && achieved === required.length
+                  ? 'Ready for a coach to review the badge award.'
+                  : ''}
+              </p>
+              {criteria.map((criterion) => {
+                const key = `${member.member_id}:${criterion.criterion_id}`;
+                const value = results[key];
+                const old = data.progress.find(
+                  (p) =>
+                    p.member_id === member.member_id && p.criterion_id === criterion.criterion_id
+                );
+                return (
+                  <div
+                    key={key}
+                    className="grid gap-3 border-t border-grey-200 pt-4 md:grid-cols-2"
+                  >
+                    <div>
+                      <label htmlFor={key} className="block font-medium">
+                        {criterion.name}
+                        {criterion.required ? ' (required)' : ' (optional)'}
+                      </label>
+                      {criterion.guidance && (
+                        <p className="text-sm text-text-secondary">{criterion.guidance}</p>
+                      )}
+                      <p className="text-sm text-text-secondary">
+                        Currently: {old?.status.replaceAll('_', ' ') ?? 'not assessed'}
+                      </p>
+                    </div>
+                    <select
+                      id={key}
+                      aria-label={`${name}: ${criterion.name}`}
+                      className={control}
+                      value={value?.status ?? ''}
+                      onChange={(e) => {
+                        if (!e.target.value)
+                          setResults((previous) => {
+                            const next = { ...previous };
+                            delete next[key];
+                            return next;
+                          });
+                        else update(key, { status: e.target.value as Result['status'] });
+                      }}
+                    >
+                      <option value="">Leave unchanged</option>
+                      <option value="working_towards">Working towards</option>
+                      <option value="achieved">Achieved</option>
+                    </select>
+                    {value && (
+                      <>
+                        <label>
+                          Staff note
+                          <textarea
+                            className="min-h-12 rounded-lg border border-grey-200 bg-surface p-3 text-text-primary"
+                            maxLength={4000}
+                            value={value.internal_note}
+                            onChange={(e) => update(key, { internal_note: e.target.value })}
+                          />
+                        </label>
+                        <label>
+                          Note visible to parents
+                          <textarea
+                            className="min-h-12 rounded-lg border border-grey-200 bg-surface p-3 text-text-primary"
+                            maxLength={4000}
+                            value={value.parent_note}
+                            onChange={(e) => update(key, { parent_note: e.target.value })}
+                          />
+                        </label>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+              <label className="flex min-h-12 items-center gap-3">
+                <input
+                  type="checkbox"
+                  checked={awards.includes(member.member_id)}
+                  onChange={(e) => {
+                    setPreview(null);
+                    setAwards((old) =>
+                      e.target.checked
+                        ? [...old, member.member_id]
+                        : old.filter((id) => id !== member.member_id)
+                    );
+                  }}
+                />
+                Select {name} for a badge award
+              </label>
+              <Button
+                type="button"
+                variant="outline"
+                className="min-h-12 rounded-lg border border-grey-200 bg-surface p-3 text-text-primary"
+                onClick={() =>
+                  setHistoryMember(historyMember === member.member_id ? '' : member.member_id)
+                }
+              >
+                Assessment history for {member.first_name}
+              </Button>
+              {historyMember === member.member_id && (
+                <History
+                  key={`${member.member_id}:${revision}`}
+                  member={member.member_id}
+                  level={settings.level_id}
+                />
+              )}
+            </section>
+          );
+        })}
+        <div className="flex flex-wrap gap-3">
+          <Button
+            className="min-h-12 rounded-lg border border-grey-200 bg-surface p-3 text-text-primary"
+            disabled={!Object.keys(results).length}
+            onClick={() => void send('skills')}
+          >
+            Save skill progress ({Object.keys(results).length})
+          </Button>
+          <Button
+            className="min-h-12 rounded-lg border border-grey-200 bg-surface p-3 text-text-primary"
+            variant="outline"
+            disabled={!awards.length}
+            onClick={() => void send('award')}
+          >
+            Award badges without fees ({awards.length})
+          </Button>
+          <Button
+            className="min-h-12 rounded-lg border border-grey-200 bg-surface p-3 text-text-primary"
+            variant="outline"
+            disabled={!awards.length}
+            onClick={async () => {
+              setBusy(true);
+              try {
+                setPreview(await previewAwardFees(settings.level_id, awards));
+              } catch (e) {
+                setMessage(e instanceof Error ? e.message : 'Could not preview fees');
+              } finally {
+                setBusy(false);
+              }
+            }}
+          >
+            Review badge fees
+          </Button>
+        </div>
+        {preview && (
+          <section className="rounded-xl border border-grey-200 bg-surface p-4 shadow-sm space-y-4">
+            <h2 className="text-xl">Confirm fees</h2>
+            <p>
+              These invoices use the normal family billing process, including Direct Debit where
+              available.
+            </p>
+            <ul className="space-y-3">
+              {familyFees.map(([key, group]) => (
+                <li key={key} className="space-y-2">
+                  <p className="font-semibold">
+                    {group.name}:{' '}
+                    {new Intl.NumberFormat('en-GB', {
+                      style: 'currency',
+                      currency: preview.currency,
+                    }).format(group.pence / 100)}
+                  </p>
+                  {group.rows.map((row) => (
+                    <p key={row.member_id} className="text-sm">
+                      {row.member_name}:{' '}
+                      {new Intl.NumberFormat('en-GB', {
+                        style: 'currency',
+                        currency: preview.currency,
+                      }).format(row.total_amount)}
+                      {row.reason ? ` (${row.reason.replaceAll('_', ' ')})` : ''}
+                    </p>
+                  ))}
+                </li>
+              ))}
+            </ul>
+            <Button className="min-h-12" onClick={() => void send('award', true)}>
+              Confirm awards and listed fees
+            </Button>
+          </section>
+        )}
+      </fieldset>
+    </div>
+  );
+}
+function Assessment() {
+  const params = useSearchParams();
+  const sessionId = params.get('session_id') ?? undefined;
+  const schemes = useQuery({ queryKey: ['award-schemes'], queryFn: () => getAwardSchemes() });
+  const squads = useQuery({ queryKey: ['squads'], queryFn: () => getSquads() });
+  const form = useForm<Settings>({
+    resolver: zodResolver(settingsSchema),
+    defaultValues: {
+      level_id: '',
+      squad_id: params.get('squad_id') ?? '',
+      assessed_on: new Date().toISOString().slice(0, 10),
+    },
+  });
+  const [settings, setSettings] = useState<Settings | null>(null);
+  const context = useQuery({
+    queryKey: ['assessment-context', settings, sessionId],
+    queryFn: () => getSkillContext(settings!.level_id, sessionId, settings!.squad_id),
+    enabled: !!settings,
+  });
+  useEffect(() => {
+    if (context.data?.session) form.setValue('assessed_on', context.data.session.session_date);
+  }, [context.data?.session, form]);
   return (
     <MainLayout>
-      <div className="min-h-dvh bg-canvas p-6 sm:p-10">
-        <div className="max-w-7xl mx-auto">
-          <Breadcrumb
-            items={[
-              { label: 'Dashboard', href: '/' },
-              { label: 'Badges', href: '/awards' },
-              { label: 'Assess' },
-            ]}
-          />
-
-          <div className="mb-8">
-            <h1 className="font-serif text-5xl sm:text-6xl text-dark-primary tracking-tight mb-2">
-              Assess and award
-            </h1>
-            <p className="text-grey-600 text-lg">
-              Record how a group got on with one badge. Awarding a priced badge invoices the family.
-            </p>
-          </div>
-
-          {isLoading ? (
-            <div className="bg-dark-primary rounded-3xl shadow-lg border border-white/10">
-              <LoadingSpinner message="Loading badges and squads..." size="md" />
-            </div>
-          ) : error ? (
-            <div className="bg-dark-primary rounded-3xl shadow-lg border border-white/10">
-              <ErrorState message={error} onRetry={fetchData} />
-            </div>
-          ) : levels.length === 0 ? (
-            <div className="bg-dark-primary rounded-3xl shadow-lg border border-white/10">
-              <EmptyState
-                icon={ClipboardCheck}
-                title="No badges to assess yet"
-                description="An award scheme with at least one badge has to exist before you can assess against it."
-                hint="An administrator sets these up on the Badges page."
-                actionLabel="Go to Badges"
-                actionHref="/awards"
-              />
-            </div>
-          ) : (
-            <>
-              {/* Choose what is being assessed */}
-              <div className="bg-dark-primary rounded-3xl shadow-lg border border-white/10 mb-6 p-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div>
-                    <label
-                      htmlFor="assess-level"
-                      className="block text-sm font-semibold text-white mb-2"
-                    >
-                      Badge
-                    </label>
-                    <select
-                      id="assess-level"
-                      value={levelId}
-                      onChange={(event) => {
-                        setLevelId(event.target.value);
-                        setOutcomes({});
-                      }}
-                      className="w-full min-h-[48px] px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white focus:border-brand focus:outline-none"
-                    >
-                      <option value="">Choose a badge</option>
-                      {schemes.map((scheme) => (
-                        <optgroup key={scheme.scheme_id} label={scheme.name}>
-                          {scheme.levels
-                            .filter((level) => level.active)
-                            .map((level) => (
-                              <option key={level.level_id} value={level.level_id}>
-                                {level.name}
-                              </option>
-                            ))}
-                        </optgroup>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="assess-squad"
-                      className="block text-sm font-semibold text-white mb-2"
-                    >
-                      Squad
-                    </label>
-                    <select
-                      id="assess-squad"
-                      value={squadId}
-                      onChange={(event) => {
-                        setSquadId(event.target.value);
-                        setOutcomes({});
-                      }}
-                      className="w-full min-h-[48px] px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white focus:border-brand focus:outline-none"
-                    >
-                      <option value="">All {MEMBER_NOUN_PLURAL_LOWER}</option>
-                      {squads.map((squad) => (
-                        <option key={squad.squad_id} value={squad.squad_id}>
-                          {squad.squad_name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="assess-date"
-                      className="block text-sm font-semibold text-white mb-2"
-                    >
-                      Date assessed
-                    </label>
-                    <input
-                      id="assess-date"
-                      type="date"
-                      value={assessedAt}
-                      onChange={(event) => setAssessedAt(event.target.value)}
-                      className="w-full min-h-[48px] px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white focus:border-brand focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                {selectedLevel && (
-                  <p className="mt-6 text-text-secondary text-sm">
-                    {`${selectedLevel.schemeName} ${selectedLevel.name} ${feeSentence(
-                      selectedBadgeFee,
-                      selectedCertificateFee,
-                      formatCurrency
-                    )}`}
-                  </p>
-                )}
-              </div>
-
-              {/* Record outcomes */}
-              {levelId && (
-                <div className="bg-dark-primary rounded-3xl shadow-lg border border-white/10 mb-6">
-                  <div className="p-6 border-b border-white/10">
-                    <h2 className="font-serif text-3xl text-white">
-                      {squadId
-                        ? (squads.find((squad) => squad.squad_id === squadId)?.squad_name ??
-                          MEMBER_NOUN_PLURAL)
-                        : MEMBER_NOUN_PLURAL}
-                    </h2>
-                  </div>
-
-                  {squadMembers.length === 0 ? (
-                    <p className="p-6 text-text-secondary text-sm">
-                      There is no {MEMBER_NOUN_LOWER} in this squad to assess.
-                    </p>
-                  ) : (
-                    <div className="overflow-x-auto">
-                      <table className="w-full">
-                        <thead>
-                          <tr className="border-b border-white/10">
-                            <th className="text-left py-4 px-6 text-sm font-semibold text-white">
-                              Name
-                            </th>
-                            <th className="text-left py-4 px-6 text-sm font-semibold text-white">
-                              Where they are now
-                            </th>
-                            <th className="text-left py-4 px-6 text-sm font-semibold text-white">
-                              Result
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {squadMembers.map((member) => {
-                            const existing = progressFor(member.member_id);
-                            return (
-                              <tr
-                                key={member.member_id}
-                                className="border-b border-white/10 hover:bg-white/5 transition-colors"
-                              >
-                                <td className="py-4 px-6 text-white font-semibold">
-                                  {member.first_name} {member.last_name}
-                                </td>
-                                <td className="py-4 px-6 text-text-secondary text-sm">
-                                  {existing
-                                    ? (STATUS_LABELS[existing.status] ?? existing.status)
-                                    : 'Not started'}
-                                </td>
-                                <td className="py-4 px-6">
-                                  <label
-                                    className="sr-only"
-                                    htmlFor={`outcome-${member.member_id}`}
-                                  >
-                                    Result for {member.first_name} {member.last_name}
-                                  </label>
-                                  <select
-                                    id={`outcome-${member.member_id}`}
-                                    value={outcomes[member.member_id] ?? ''}
-                                    onChange={(event) =>
-                                      setOutcome(
-                                        member.member_id,
-                                        event.target.value as AssessmentOutcomeResult | ''
-                                      )
-                                    }
-                                    className="min-h-[44px] px-4 py-2 bg-white/5 border border-white/20 rounded-xl text-white focus:border-brand focus:outline-none"
-                                  >
-                                    <option value="">Not assessed</option>
-                                    {OUTCOME_OPTIONS.map((option) => (
-                                      <option key={option.value} value={option.value}>
-                                        {option.label}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                </div>
+      <div className="mx-auto max-w-5xl space-y-6 p-6 text-text-primary">
+        <h1 className="font-serif text-3xl font-semibold">Assess skills and award badges</h1>
+        <p>
+          Record only the skills you assessed. Review badge awards and any family fees separately.
+        </p>
+        <form onSubmit={form.handleSubmit(setSettings)} className="grid gap-4 md:grid-cols-3">
+          <label>
+            Badge
+            <select className={`${control} block w-full`} {...form.register('level_id')}>
+              <option value="">Choose a badge</option>
+              {schemes.data?.flatMap((s) =>
+                s.levels
+                  .filter((l) => l.active)
+                  .map((l) => (
+                    <option key={l.level_id} value={l.level_id}>
+                      {s.name}: {l.name}
+                    </option>
+                  ))
               )}
-
-              {/* Confirm */}
-              {levelId && squadMembers.length > 0 && (
-                <div className="bg-dark-primary rounded-3xl shadow-lg border border-white/10 p-6 space-y-5">
-                  <div>
-                    <label
-                      htmlFor="assess-notes"
-                      className="block text-sm font-semibold text-white mb-2"
-                    >
-                      Notes for this assessment
-                    </label>
-                    <textarea
-                      id="assess-notes"
-                      rows={2}
-                      value={notes}
-                      onChange={(event) => setNotes(event.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder:text-text-tertiary focus:border-brand focus:outline-none"
-                      placeholder="Anything worth recording about the session"
-                    />
-                  </div>
-
-                  {chargeable && (
-                    <label className="flex items-start gap-3 text-white">
-                      <input
-                        type="checkbox"
-                        checked={billFees}
-                        onChange={(event) => setBillFees(event.target.checked)}
-                        className="w-5 h-5 mt-0.5 rounded border-white/20 bg-white/5"
-                      />
-                      <span className="text-sm">
-                        Invoice families for the badges awarded. The invoice is emailed and
-                        collected by Direct Debit like any other fee.
-                      </span>
-                    </label>
-                  )}
-
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <p className="text-text-secondary text-sm">
-                      {recorded.length} {recorded.length === 1 ? 'result' : 'results'} to record,{' '}
-                      {awardedCount} awarded
-                      {totalToBill > 0 && `, ${formatCurrency(totalToBill)} to invoice`}
-                    </p>
-                    <button
-                      type="button"
-                      onClick={handleSubmit}
-                      disabled={isSubmitting || recorded.length === 0}
-                      className="w-full sm:w-auto min-h-[48px] px-8 py-4 bg-brand text-dark-primary rounded-button font-bold hover:bg-brand-light transition-all shadow-sm disabled:opacity-50"
-                    >
-                      {isSubmitting ? 'Recording...' : 'Record assessment'}
-                    </button>
-                  </div>
-                </div>
-              )}
-            </>
+            </select>
+          </label>
+          {!sessionId && (
+            <label>
+              Class
+              <select className={`${control} block w-full`} {...form.register('squad_id')}>
+                <option value="">All classes</option>
+                {squads.data?.map((s) => (
+                  <option key={s.squad_id} value={s.squad_id}>
+                    {s.squad_name}
+                  </option>
+                ))}
+              </select>
+            </label>
           )}
-        </div>
+          <label>
+            {sessionId ? 'Session date is used from the register' : 'Assessment date'}
+            <input
+              className={`${control} block w-full`}
+              readOnly={!!sessionId}
+              type="date"
+              {...form.register('assessed_on')}
+            />
+          </label>
+          <Button type="submit" className="min-h-12">
+            Load register
+          </Button>
+          {Object.values(form.formState.errors).map((error, i) => (
+            <p role="alert" key={i}>
+              {error.message}
+            </p>
+          ))}
+        </form>
+        {(schemes.isError || squads.isError || context.isError) && (
+          <p role="alert">Could not load assessment data. Please reload.</p>
+        )}
+        {settings && context.isFetching && <p>Loading register…</p>}
+        {settings && context.data && !context.isFetching && (
+          <Register
+            key={JSON.stringify(settings)}
+            settings={{
+              ...settings,
+              assessed_on: context.data.session?.session_date ?? settings.assessed_on,
+            }}
+            sessionId={sessionId}
+            context={context.data}
+          />
+        )}
       </div>
     </MainLayout>
+  );
+}
+export default function AssessAwardsPage() {
+  return (
+    <Suspense fallback={<p>Loading assessment…</p>}>
+      <Assessment />
+    </Suspense>
   );
 }

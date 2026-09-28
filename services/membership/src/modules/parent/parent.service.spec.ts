@@ -135,6 +135,7 @@ describe('ParentService', () => {
   const mockAwardsService = {
     listSchemes: jest.fn(),
     getMemberProgress: jest.fn(),
+    getSkillProgress: jest.fn().mockResolvedValue([]),
   };
 
   const mockPaymentsService = {
@@ -384,6 +385,7 @@ describe('ParentService', () => {
     beforeEach(() => {
       mockAwardsService.listSchemes.mockResolvedValue([riseScheme]);
       mockAwardsService.getMemberProgress.mockResolvedValue([]);
+      mockAwardsService.getSkillProgress.mockResolvedValue([]);
     });
 
     it("404s for a child outside the caller's family and reads no badge data", async () => {

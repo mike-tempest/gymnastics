@@ -13,6 +13,7 @@ export type AwardProgressStatus = 'working_towards' | 'assessed' | 'awarded';
 export type AssessmentOutcomeResult = 'awarded' | 'not_yet' | 'working_towards';
 
 export interface AwardLevel {
+  next_level_id?: string | null;
   level_id: string;
   club_id: string;
   scheme_id: string;
@@ -55,6 +56,7 @@ export interface MemberAwardProgress {
  * ladder needs no client-side joining of schemes against progress rows.
  */
 export interface BadgeLadderLevel {
+  criteria?: ParentSkill[];
   level_id: string;
   name: string;
   description: string | null;
@@ -113,6 +115,8 @@ export interface AssessmentOutcomeInput {
 }
 
 export interface RecordAssessmentInput {
+  request_key: string;
+  fee_preview_hash?: string;
   level_id: string;
   assessed_at: string;
   notes?: string | null;
@@ -282,3 +286,85 @@ export function feeAmount(value: number | string | null | undefined): number | n
   const amount = Number(value);
   return Number.isFinite(amount) && amount > 0 ? amount : null;
 }
+
+export interface SkillCriterion {
+  criterion_id: string;
+  level_id: string;
+  name: string;
+  guidance: string | null;
+  sort_order: number;
+  required: boolean;
+  active: boolean;
+  version: number;
+}
+export interface ParentSkill {
+  criterion_id: string;
+  name: string;
+  guidance: string | null;
+  required: boolean;
+  active: boolean;
+  status: 'working_towards' | 'achieved' | null;
+  assessed_on: string | null;
+  parent_note: string | null;
+}
+export interface SkillContext {
+  level_progress?: {
+    member_id: string;
+    status: AwardProgressStatus;
+    awarded_on: string | null;
+    has_invoice: boolean;
+  }[];
+  level: AwardLevel;
+  session: { session_id: string; session_date: string; status: string } | null;
+  members: { member_id: string; first_name: string; last_name: string }[];
+  criteria: SkillCriterion[];
+  progress: {
+    member_id: string;
+    criterion_id: string;
+    status: 'working_towards' | 'achieved';
+    version: number;
+    parent_note: string | null;
+  }[];
+}
+export interface FeePreview {
+  hash: string;
+  currency: string;
+  rows: {
+    member_id: string;
+    member_name: string;
+    family_name: string | null;
+    family_id: string | null;
+    total_amount: number;
+    tax_amount: number;
+    reason: string | null;
+  }[];
+}
+export const getSkillContext = (level: string, session?: string, squad?: string) =>
+  api.get<SkillContext>(
+    `/awards/skills/context?${new URLSearchParams({ level_id: level, ...(session ? { session_id: session } : squad ? { squad_id: squad } : {}) })}`,
+    { cache: 'no-store' }
+  );
+export const previewAwardFees = (level: string, members: string[]) =>
+  api.post<FeePreview>('/awards/fees/preview', { level_id: level, member_ids: members });
+export const saveSkillAssessment = (data: unknown) =>
+  api.post<{ recorded: number }>('/awards/skills/assessments', data);
+export const getCriteria = (level: string) =>
+  api.get<SkillCriterion[]>(`/awards/levels/${level}/criteria`, { cache: 'no-store' });
+export const createCriterion = (level: string, data: unknown) =>
+  api.post<SkillCriterion>(`/awards/levels/${level}/criteria`, data);
+export const updateCriterion = (id: string, data: unknown) =>
+  api.patch<SkillCriterion>(`/awards/criteria/${id}`, data);
+export const setNextLevel = (id: string, next: string | null) =>
+  api.patch(`/awards/levels/${id}/progression`, { next_level_id: next });
+export const getSkillHistory = (member: string, level: string) =>
+  api.get<
+    {
+      assessment_id: string;
+      criterion_name: string;
+      assessor_name: string;
+      status: string;
+      assessed_on: string;
+      internal_note: string | null;
+      parent_note: string | null;
+    }[]
+  >(`/awards/skills/history/${member}/${level}`, { cache: 'no-store' });

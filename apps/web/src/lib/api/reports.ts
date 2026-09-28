@@ -48,7 +48,8 @@ export interface AdminReportsData {
   squadAttendanceRates: SquadAttendanceRate[];
   topAbsentees: TopAbsentee[];
   newJoiners: NewJoiner[];
-  leavers: Leaver[];
+  leavers: Leaver[] | null;
+  leaversUnavailableReason?: string;
   squadDistribution: SquadDistributionItem[];
 }
 

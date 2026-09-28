@@ -1,27 +1,45 @@
-/** Tumblebase palette. Legacy aliases keep existing components consistent. */
+/** The five approved Tumblebase colours (TEM-114). */
+export const tumblebasePalette = {
+  gold: '#FFBC42',
+  raspberry: '#D81159',
+  plum: '#8F2D56',
+  teal: '#218380',
+  aqua: '#73D2DE',
+} as const;
+
+/** Semantic roles and legacy aliases consumed by Tailwind. */
 export const brandColours = {
-  // Brand palette: sage
+  // Aqua highlights and actions with dark text
   brand: {
-    DEFAULT: '#B9D8CB',
-    dark: '#A5CABB',
-    light: '#D9E9E0',
-    muted: 'rgba(185, 216, 203, 0.15)',
+    DEFAULT: tumblebasePalette.aqua,
+    dark: '#55B8C5',
+    light: '#BAE8EE',
+    muted: 'rgba(115, 210, 222, 0.15)',
   },
-  // Forest (navigation, headers, dark surfaces)
+  // Teal, with deeper shades for text and dark surfaces
   teal: {
-    DEFAULT: '#365E54',
-    light: '#4E786C',
-    dark: '#2D4A42',
-    darker: '#243C35',
-    deepest: '#1C302A',
+    DEFAULT: tumblebasePalette.teal,
+    light: '#399A97',
+    dark: '#176562',
+    darker: '#194148',
+    deepest: '#122F35',
   },
-  // Terracotta (CTA accent, highlights, attention)
+  // Raspberry actions; plum is the darker hover state
   coral: {
-    DEFAULT: '#A44932',
-    hover: '#893B2A',
-    light: '#E6C7BC',
-    dark: '#893B2A',
-    muted: 'rgba(164, 73, 50, 0.15)',
+    DEFAULT: tumblebasePalette.raspberry,
+    hover: tumblebasePalette.plum,
+    light: '#F6B8CE',
+    dark: tumblebasePalette.plum,
+    muted: 'rgba(216, 17, 89, 0.15)',
+  },
+  gold: {
+    DEFAULT: tumblebasePalette.gold,
+    light: '#FFF0D3',
+    dark: '#926000',
+  },
+  plum: {
+    DEFAULT: tumblebasePalette.plum,
+    light: '#FBE7EE',
   },
   // Canvas and surfaces (warm chalk)
   canvas: {
@@ -33,12 +51,12 @@ export const brandColours = {
     DEFAULT: '#FAF9F5',
     hover: '#F4F2EC',
   },
-  // Dark palette (Forest derived)
+  // Dark teal surfaces
   dark: {
-    primary: '#1C302A',
-    secondary: '#243C35',
-    tertiary: '#2D4A42',
-    card: '#2D4A42',
+    primary: '#122F35',
+    secondary: '#194148',
+    tertiary: '#20515A',
+    card: '#20515A',
   },
   // Grey system (no pure white/black)
   grey: {
@@ -54,10 +72,10 @@ export const brandColours = {
     900: '#2A2A2B',
   },
   // Semantic colours
-  warning: '#FFB020',
+  warning: tumblebasePalette.gold,
   danger: '#FF4D4D',
-  info: '#4D9FFF',
-  success: '#B9D8CB',
+  info: tumblebasePalette.aqua,
+  success: tumblebasePalette.aqua,
   // Legacy aliases (for gradual migration)
   sage: {
     light: '#FAF9F5',
@@ -65,9 +83,9 @@ export const brandColours = {
     dark: '#E7E4DC',
   },
   lime: {
-    light: '#D9E9E0',
-    DEFAULT: '#B9D8CB',
-    dark: '#A5CABB',
+    light: '#FFF0D3',
+    DEFAULT: tumblebasePalette.gold,
+    dark: '#E3A42F',
   },
   text: {
     primary: '#39393A',

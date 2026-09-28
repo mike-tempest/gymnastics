@@ -3,7 +3,6 @@
 import { InvoiceStatus, DISCIPLINE_LABELS, isDiscipline } from '@club-manager/shared-types';
 import {
   BarChart3,
-  Download,
   Printer,
   Users,
   UserPlus,
@@ -17,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
+import OperationalReports from '@/components/admin/OperationalReports';
 import MainLayout from '@/components/layout/MainLayout';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -164,7 +164,10 @@ export default function ReportsPage() {
   const maxRevenue =
     monthlyRevenue.length > 0 ? Math.max(...monthlyRevenue.map((m) => m.amount)) : 1;
 
-  const totalOutstanding = pendingInvoices.reduce((sum, inv) => sum + (inv.total_amount ?? 0), 0);
+  const totalOutstanding = pendingInvoices.reduce(
+    (sum, inv) => sum + Number(inv.total_amount ?? 0),
+    0
+  );
 
   const totalDistribution = squadDistribution.reduce((sum, s) => sum + s.memberCount, 0);
 
@@ -451,10 +454,6 @@ export default function ReportsPage() {
               </p>
             </div>
             <div className="flex items-center gap-2 shrink-0">
-              <Button className="flex items-center gap-2 bg-brand text-dark-primary hover:bg-brand-dark">
-                <Download className="w-4 h-4" />
-                Download CSV
-              </Button>
               <Button
                 onClick={() => window.print()}
                 className="flex items-center gap-2"
@@ -465,6 +464,8 @@ export default function ReportsPage() {
               </Button>
             </div>
           </div>
+
+          <OperationalReports />
 
           {/* Top-level stat cards */}
           <div className="report-stat-cards grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -872,7 +873,11 @@ export default function ReportsPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {leavers.length === 0 ? (
+                    {reports?.leavers == null ? (
+                      <p className="text-sm text-white/70">
+                        {reports?.leaversUnavailableReason ?? 'Departure history is unavailable.'}
+                      </p>
+                    ) : leavers.length === 0 ? (
                       <p className="text-sm text-white/70">No leavers this month.</p>
                     ) : (
                       leavers.map((leaver) => (
@@ -896,7 +901,11 @@ export default function ReportsPage() {
                   </div>
                   <div className="mt-4 flex items-center gap-1 text-sm text-danger report-trend-icon">
                     <TrendingDown className="w-4 h-4" />
-                    <span>{leavers.length} members left</span>
+                    <span>
+                      {reports?.leavers == null
+                        ? 'Unavailable'
+                        : `${leavers.length} ${MEMBER_NOUN_PLURAL.toLowerCase()} left`}
+                    </span>
                   </div>
                 </CardContent>
               </Card>

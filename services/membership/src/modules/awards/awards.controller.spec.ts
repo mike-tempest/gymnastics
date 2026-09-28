@@ -105,6 +105,7 @@ describe('AwardsController', () => {
     it('passes the authenticated coach id to the service', async () => {
       const dto = {
         level_id: 'level-1',
+        request_key: 'a4444444-4444-4444-8444-444444444444',
         assessed_at: '2026-09-01',
         outcomes: [{ member_id: 'member-1', outcome: AssessmentOutcomeResult.AWARDED }],
       };
@@ -117,6 +118,7 @@ describe('AwardsController', () => {
     it('copes with a request that carries no user', async () => {
       const dto = {
         level_id: 'level-1',
+        request_key: 'a4444444-4444-4444-8444-444444444444',
         assessed_at: '2026-09-01',
         outcomes: [{ member_id: 'member-1', outcome: AssessmentOutcomeResult.AWARDED }],
       };

@@ -3,6 +3,7 @@
 import { AttendanceStatus, SessionRosterEntry } from '@club-manager/shared-types';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Check, Users } from 'lucide-react';
+import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -228,6 +229,12 @@ export default function AttendanceRoster({
 
   return (
     <div className="space-y-4">
+      <Link
+        className="inline-flex min-h-12 items-center rounded-lg border border-white/20 px-4 text-white"
+        href={`/awards/assess?session_id=${sessionId}`}
+      >
+        Assess skills from this register
+      </Link>
       {/* Readiness summary */}
       {readinessData && readinessData.total > readinessData.no_data && (
         <div className="flex items-center gap-4 px-4 py-3 rounded-xl bg-white/5 border border-white/10 no-print">

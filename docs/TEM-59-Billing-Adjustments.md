@@ -42,11 +42,11 @@ Local verification on 16 September 2026 passed: full workspace build, lint (zero
 
 The implementation includes pure calculation tests, PostgreSQL concurrency/isolation tests, provider adapter tests, role/family access tests and interface preview/confirmation tests. Run the PostgreSQL suite against a disposable local database using `TEM59_TEST_DATABASE_URL`; the test refuses remote hosts or an unexpected database name. It creates uniquely identified fixtures and does not contact payment providers.
 
-Actual provider sandbox verification is outstanding. No test credentials were present in this checkout when implementation started. Mocked provider results are not sandbox evidence. Keep TEM-59 open and the PR in draft until the following have been exercised on connected test accounts:
+Actual provider sandbox verification is outstanding. No test credentials were present in this checkout when implementation started. Mocked provider results are not sandbox evidence. Mike authorised merging the PR on 28 September 2026 with sandbox verification still outstanding. Keep TEM-59 open until the following have been exercised on connected test accounts:
 
 1. A partial and remaining GoCardless refund, including insufficient available refund funds, confirmation-total rejection and duplicate submission.
 2. Stripe partial refunds on the connected account, pending/failed outcomes and duplicate submission.
 3. A lost response recovered through provider metadata, verified webhook delivery and subsequent reconciliation.
 4. Confirmation that both providers record the club account, operation reference, amount and currency expected by the saved intent.
 
-No live charges, live refunds, merge or deployment are authorised by this implementation plan.
+The 28 September merge authorisation supersedes the implementation plan’s restriction on merging. No live charges or live refunds have been authorised.

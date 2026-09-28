@@ -40,11 +40,14 @@ export class RecordAssessmentDto {
   @IsString()
   notes?: string | null;
 
-  /**
-   * Raise badge and certificate invoices for the members awarded. Defaults to
-   * true: a priced level bills through the normal finance path unless the
-   * coach deliberately turns it off, for example when re-recording history.
-   */
+  @IsUUID()
+  request_key: string;
+
+  @IsOptional()
+  @IsString()
+  fee_preview_hash?: string;
+
+  /** Fees require an explicit choice and a current preview. */
   @IsOptional()
   @IsBoolean()
   bill_fees?: boolean;

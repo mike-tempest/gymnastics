@@ -2,17 +2,23 @@
 @source '../';
 
 @theme {
-  --color-forest: #1c302a;
-  --color-forest-soft: #365e54;
-  --color-sage: #b9d8cb;
-  --color-sage-light: #d9e9e0;
+  /* Approved palette. Legacy aliases keep existing page styles consistent. */
+  --color-gold: #ffbc42;
+  --color-raspberry: #d81159;
+  --color-plum: #8f2d56;
+  --color-teal: #218380;
+  --color-aqua: #73d2de;
+  --color-forest: #122f35;
+  --color-forest-soft: #176562;
+  --color-sage: #73d2de;
+  --color-sage-light: #e3f5f7;
   --color-chalk: #f4f2ec;
   --color-paper: #faf9f5;
-  --color-clay: #a44932;
-  --color-clay-hover: #893b2a;
-  --color-ink: #263d34;
-  --color-muted: #52655c;
-  --color-line: #d6ddd5;
+  --color-clay: #d81159;
+  --color-clay-hover: #8f2d56;
+  --color-ink: #243c42;
+  --color-muted: #536468;
+  --color-line: #d3dfe0;
   --font-sans: 'Inter', 'Avenir Next', system-ui, sans-serif;
   --font-display: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
 }
@@ -22,14 +28,14 @@
   body { @apply bg-chalk text-ink font-sans antialiased; }
   h1, h2, h3 { text-wrap: balance; }
   p { text-wrap: pretty; }
-  :focus-visible { outline: 3px solid #a44932; outline-offset: 5px; }
+  :focus-visible { outline: 3px solid var(--color-plum); outline-offset: 3px; box-shadow: 0 0 0 3px var(--color-paper); }
   ::selection { @apply bg-sage text-forest; }
 }
 
 @layer components {
   .wrap { @apply mx-auto w-full max-w-6xl px-6 lg:px-10; }
   .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.18em] text-forest-soft; }
-  .button { @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-forest px-6 py-3 text-sm font-semibold text-paper transition-colors hover:bg-forest-soft; }
+  .button { @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-raspberry px-6 py-3 text-sm font-semibold text-paper transition-colors hover:bg-plum; }
   .button-light { @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-sage px-6 py-3 text-sm font-semibold text-forest transition-colors hover:bg-sage-light; }
   .text-link { @apply inline-flex min-h-12 items-center gap-2 font-semibold underline decoration-forest-soft/30 underline-offset-4 hover:decoration-forest; }
   .prose-copy { @apply text-base leading-8 text-muted; }

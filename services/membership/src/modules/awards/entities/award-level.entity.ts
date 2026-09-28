@@ -62,6 +62,9 @@ export class AwardLevel {
   @Column({ type: 'boolean', default: true })
   active: boolean;
 
+  @Column({ type: 'uuid', nullable: true })
+  next_level_id: string | null;
+
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 

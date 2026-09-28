@@ -36,7 +36,6 @@ export default function RiseBridgeCard({ schemes, onImported }: RiseBridgeCardPr
   const [includeAssessed, setIncludeAssessed] = useState(false);
   const [csv, setCsv] = useState('');
   const [preview, setPreview] = useState<RiseImportPreview | null>(null);
-  const [billFees, setBillFees] = useState(false);
   const [isWorking, setIsWorking] = useState(false);
 
   const handleExport = async () => {
@@ -78,7 +77,7 @@ export default function RiseBridgeCard({ schemes, onImported }: RiseBridgeCardPr
   const handleImport = async () => {
     try {
       setIsWorking(true);
-      const result = await importRiseCsv(csv, { schemeId: schemeId || undefined, billFees });
+      const result = await importRiseCsv(csv, { schemeId: schemeId || undefined });
       toast.success(
         `Imported ${result.imported} badge ${result.imported === 1 ? 'record' : 'records'}` +
           (result.skipped > 0 ? `, skipped ${result.skipped}` : '')
@@ -245,18 +244,10 @@ export default function RiseBridgeCard({ schemes, onImported }: RiseBridgeCardPr
                 </table>
               </div>
 
-              <label className="flex items-center gap-3 text-white">
-                <input
-                  type="checkbox"
-                  checked={billFees}
-                  onChange={(event) => setBillFees(event.target.checked)}
-                  className="w-5 h-5 rounded border-white/20 bg-white/5"
-                />
-                <span className="text-sm">
-                  Invoice families for these badges. Leave this off if you have already charged for
-                  them.
-                </span>
-              </label>
+              <p className="text-sm text-text-secondary">
+                Imports record achievements without fees. Review badge fees separately on the
+                assessment page.
+              </p>
 
               <div className="flex flex-col sm:flex-row gap-3">
                 <button
