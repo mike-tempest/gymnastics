@@ -165,6 +165,33 @@ export interface ChargeRecurringResult {
   providerPaymentId: string;
 }
 
+/** Only an explicit provider rejection proving no resource was created may release a reservation. */
+export class ProviderSubmissionRejectedError extends Error {}
+
+export interface ProviderOperationResult {
+  id: string;
+  amountMinor: number;
+  currency: string;
+  state: 'pending' | 'confirmed' | 'failed';
+  operationId?: string;
+  paymentId?: string;
+  refundedMinor?: number;
+}
+export interface RefundParams {
+  providerPaymentId: string;
+  amountMinor: number;
+  totalRefundedMinor: number;
+  operationId: string;
+}
+export interface OperationLookup {
+  kind: 'collection' | 'refund';
+  operationId: string;
+  providerPaymentId?: string;
+  providerMandateId?: string;
+  providerCustomerId?: string;
+  createdAt: string;
+}
+
 /**
  * Provider-neutral status of a mandate, mapped from the provider's own status
  * vocabulary. Values mirror the strings GoCardless returns so the existing
@@ -221,6 +248,10 @@ export interface PaymentProvider {
 
   /** Charge a recurring payment against a mandate. */
   chargeRecurring(params: ChargeRecurringParams): Promise<ChargeRecurringResult>;
+  refund?(params: RefundParams): Promise<ProviderOperationResult>;
+  inspectPayment?(id: string): Promise<ProviderOperationResult>;
+  inspectRefund?(id: string): Promise<ProviderOperationResult>;
+  findOperation?(lookup: OperationLookup): Promise<ProviderOperationResult | null>;
 }
 
 /**

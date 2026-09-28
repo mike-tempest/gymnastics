@@ -29,12 +29,17 @@ let tenant: TenantContextService;
 beforeAll(async () => {
   await db.initialize();
   await db.runMigrations();
-  const applied = await db.query('SELECT name FROM migrations ORDER BY timestamp DESC');
-  const target = applied.findIndex((row: { name: string }) =>
-    row.name.includes('NotificationDeliver'),
+  // Roll back through the delivery migration even when later migrations exist.
+  const applied: { name: string }[] = await db.query(
+    'SELECT name FROM migrations ORDER BY id DESC',
   );
-  if (target < 0) throw new Error('Delivery migration missing');
-  for (let i = 0; i <= target; i++) await db.undoLastMigration();
+  const deliveryMigration = applied.findIndex(
+    ({ name }) => name === 'AddNotificationDeliveries1789690000000',
+  );
+  expect(deliveryMigration).toBeGreaterThanOrEqual(0);
+  for (let index = 0; index <= deliveryMigration; index++) {
+    await db.undoLastMigration();
+  }
   expect(
     (await db.query("SELECT to_regclass('notification_deliveries') AS name"))[0].name,
   ).toBeNull();

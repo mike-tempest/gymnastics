@@ -1,3 +1,5 @@
+import { Optional } from '@nestjs/common';
+import { BillingBalanceService } from '../adjustments/billing-balance.service';
 import {
   Injectable,
   NotFoundException,
@@ -61,6 +63,7 @@ export class InvoicesService {
     private readonly membersRepository: MembersRepository,
     private readonly clubsRepository: ClubsRepository,
     private readonly tenantContext: TenantContextService,
+    @Optional() private readonly billingBalances?: BillingBalanceService,
   ) {}
 
   async create(createInvoiceDto: CreateInvoiceDto): Promise<Invoice> {
@@ -212,19 +215,31 @@ export class InvoicesService {
   }
 
   async findAll(): Promise<Invoice[]> {
-    return await this.invoicesRepository.findAll();
+    const invoices = await this.invoicesRepository.findAll();
+    return this.billingBalances
+      ? Promise.all(invoices.map((invoice) => this.billingBalances!.attach(invoice)))
+      : invoices;
   }
 
   async findByFamily(familyId: string): Promise<Invoice[]> {
-    return await this.invoicesRepository.findByFamily(familyId);
+    const invoices = await this.invoicesRepository.findByFamily(familyId);
+    return this.billingBalances
+      ? Promise.all(invoices.map((invoice) => this.billingBalances!.attach(invoice)))
+      : invoices;
   }
 
   async findByStatus(status: InvoiceStatus): Promise<Invoice[]> {
-    return await this.invoicesRepository.findByStatus(status);
+    const invoices = await this.invoicesRepository.findByStatus(status);
+    return this.billingBalances
+      ? Promise.all(invoices.map((invoice) => this.billingBalances!.attach(invoice)))
+      : invoices;
   }
 
   async findOverdue(): Promise<Invoice[]> {
-    return await this.invoicesRepository.findOverdue();
+    const invoices = await this.invoicesRepository.findOverdue();
+    return this.billingBalances
+      ? Promise.all(invoices.map((invoice) => this.billingBalances!.attach(invoice)))
+      : invoices;
   }
 
   async findOne(id: string): Promise<Invoice> {
@@ -232,11 +247,16 @@ export class InvoicesService {
     if (!invoice) {
       throw new NotFoundException(`Invoice with ID ${id} not found`);
     }
-    return invoice;
+    return this.billingBalances ? this.billingBalances.attach(invoice) : invoice;
   }
 
   async update(id: string, updateInvoiceDto: UpdateInvoiceDto): Promise<Invoice> {
     await this.findOne(id); // This will throw if not found
+    await this.billingBalances?.assertInvoiceEditable(
+      this.tenantContext.getClubId(),
+      id,
+      Object.keys(updateInvoiceDto),
+    );
     const updated = await this.invoicesRepository.update(id, updateInvoiceDto);
     if (!updated) {
       throw new NotFoundException(`Invoice with ID ${id} not found`);
@@ -246,6 +266,7 @@ export class InvoicesService {
 
   async remove(id: string): Promise<void> {
     await this.findOne(id); // This will throw if not found
+    await this.billingBalances?.assertInvoiceEditable(this.tenantContext.getClubId(), id, null);
     await this.invoicesRepository.remove(id);
   }
 
@@ -295,6 +316,7 @@ export class InvoicesService {
     feeStructureId: string,
     periodKey?: string,
   ): Promise<InvoiceGenerationSummary> {
+    await this.billingBalances?.assertLegacyGeneration(this.tenantContext.getClubId());
     const fee = await this.feeStructuresRepository.findOne(feeStructureId);
     if (!fee) {
       throw new NotFoundException(`Fee structure with ID ${feeStructureId} not found`);

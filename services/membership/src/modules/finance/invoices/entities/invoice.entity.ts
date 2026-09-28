@@ -23,6 +23,9 @@ export enum InvoiceStatus {
 
 @Entity('invoices')
 export class Invoice {
+  billing_tax_inclusive?: boolean;
+  billing_balance?: import('../../adjustments/billing-balance.service').BillingBalance;
+
   @PrimaryGeneratedColumn('uuid')
   invoice_id: string;
 

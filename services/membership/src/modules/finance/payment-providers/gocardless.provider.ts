@@ -3,6 +3,9 @@ import { PaymentTokenCipher } from '../payment-connections/payment-token-cipher'
 import { Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { GoCardlessService } from '../../gocardless/gocardless.service';
 import {
+  RefundParams,
+  OperationLookup,
+  ProviderOperationResult,
   ChargeRecurringParams,
   ChargeRecurringResult,
   CompleteMandateSetupParams,
@@ -89,6 +92,49 @@ export class GoCardlessProvider implements PaymentProvider {
     // GoCardless always returns an id for a created payment; the SDK merely types
     // it as optional, so coalesce to satisfy the contract.
     return { providerPaymentId: payment.id ?? '' };
+  }
+  private operation(
+    resource: {
+      id?: string;
+      amount?: string;
+      currency?: string;
+      status?: string;
+      metadata?: Record<string, unknown>;
+      links?: { payment?: string; mandate?: string };
+      amount_refunded?: string;
+    },
+    refund: boolean,
+  ): ProviderOperationResult {
+    const status = resource.status ?? '';
+    return {
+      id: resource.id ?? '',
+      amountMinor: Number(resource.amount),
+      currency: resource.currency ?? '',
+      state: (refund ? ['paid'] : ['confirmed', 'paid_out']).includes(status)
+        ? 'confirmed'
+        : (refund
+              ? ['cancelled', 'bounced', 'funds_returned', 'failed']
+              : ['failed', 'cancelled', 'charged_back']
+            ).includes(status)
+          ? 'failed'
+          : 'pending',
+      operationId: resource.metadata?.billing_operation_id as string | undefined,
+      paymentId: resource.links?.payment,
+      refundedMinor: Number(resource.amount_refunded ?? 0),
+    };
+  }
+  async refund(params: RefundParams) {
+    return this.operation(await this.goCardlessService.createBillingRefund(params), true);
+  }
+  async inspectPayment(id: string) {
+    return this.operation(await this.goCardlessService.getPayment(id), false);
+  }
+  async inspectRefund(id: string) {
+    return this.operation(await this.goCardlessService.getBillingRefund(id), true);
+  }
+  async findOperation(lookup: OperationLookup) {
+    const result = await this.goCardlessService.findBillingOperation(lookup);
+    return result ? this.operation(result, lookup.kind === 'refund') : null;
   }
 }
 

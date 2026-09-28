@@ -1,6 +1,23 @@
 import { InvoiceStatus } from '../enums';
 
+/** Amounts are integer minor units, including reservations that are not settled cash. */
+export interface BillingBalance {
+  original_minor: number;
+  credit_notes_minor: number;
+  allocated_in_minor: number;
+  allocated_out_minor: number;
+  paid_minor: number;
+  refunded_minor: number;
+  reserved_refunds_minor: number;
+  pending_minor: number;
+  due_minor: number;
+  collectable_minor: number;
+  available_credit_minor: number;
+}
+
 export interface Invoice {
+  billing_tax_inclusive?: boolean;
+  billing_balance?: BillingBalance;
   invoice_id: string;
   family_id: string;
   invoice_number: string;

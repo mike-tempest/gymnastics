@@ -1,3 +1,7 @@
+jest.mock('@/components/billing/adjustments/InvoiceAdjustments', () => ({
+  __esModule: true,
+  default: () => null,
+}));
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import { ReactElement } from 'react';

@@ -1,3 +1,4 @@
+import { BillingLedgerModule } from '../finance/adjustments/billing-ledger.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ParentController } from './parent.controller';
@@ -20,6 +21,7 @@ import { competitionsEnabled } from '../../common/features/competitions.feature'
 
 @Module({
   imports: [
+    BillingLedgerModule,
     TypeOrmModule.forFeature([
       Member,
       Session,

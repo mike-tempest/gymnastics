@@ -1,3 +1,5 @@
+import { BillingBalanceService } from '../adjustments/billing-balance.service';
+import { PaymentOperationsService } from '../adjustments/payment-operations.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
@@ -9,7 +11,6 @@ import { FamiliesRepository } from '../../families/families.repository';
 import { EmailService } from '../../email/email.service';
 import { Payment, PaymentStatus, PaymentMethod } from './entities/payment.entity';
 import { InvoiceStatus } from '../invoices/entities/invoice.entity';
-import { DirectDebitMandateStatus } from '../mandates/entities/direct-debit-mandate.entity';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
 import { ClubsRepository } from '../../clubs/clubs.repository';
@@ -43,16 +44,8 @@ describe('PaymentsService', () => {
     updated_at: new Date(),
   };
 
-  const mockMandate = {
-    provider: 'gocardless',
-    mandate_id: '667e8901-e89b-12d3-a456-426614174004',
-    family_id: mockInvoice.family_id,
-    provider_mandate_id: 'MD001ABC',
-    status: DirectDebitMandateStatus.ACTIVE,
-    scheme: 'bacs',
-  };
-
   const mockPaymentsRepository = {
+    findByProviderId: jest.fn(),
     create: jest.fn(),
     createForClub: jest.fn(),
     findAll: jest.fn(),
@@ -111,10 +104,24 @@ describe('PaymentsService', () => {
     findOne: jest.fn(),
   };
 
+  const operations = { collect: jest.fn() };
+  const balances = {
+    recordManual: jest.fn(async (_club: string, dto: CreatePaymentDto) =>
+      mockPaymentsRepository.create(dto),
+    ),
+    mutateManual: jest.fn(async (_club: string, payment: Payment, dto: UpdatePaymentDto | null) =>
+      dto
+        ? mockPaymentsRepository.update(payment.payment_id, dto)
+        : mockPaymentsRepository.remove(payment.payment_id),
+    ),
+    invoice: jest.fn(async () => ({ balance: { due_minor: 0 } })),
+  };
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PaymentsService,
+        { provide: BillingBalanceService, useValue: balances },
+        { provide: PaymentOperationsService, useValue: operations },
         { provide: PaymentsRepository, useValue: mockPaymentsRepository },
         { provide: InvoicesRepository, useValue: mockInvoicesRepository },
         { provide: MandatesRepository, useValue: mockMandatesRepository },
@@ -132,6 +139,7 @@ describe('PaymentsService', () => {
     // Re-establish provider resolution after clearAllMocks() between tests.
     mockPaymentProviders.forClub.mockResolvedValue(mockProvider);
     mockProvider.connection.provider = 'gocardless';
+    operations.collect.mockResolvedValue(null);
 
     // Default: a GB club, mirroring an existing UK club. Individual tests
     // override this to exercise other regions.
@@ -155,6 +163,7 @@ describe('PaymentsService', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    mockPaymentsRepository.getTotalPaymentsByInvoice.mockReset();
   });
 
   it('should be defined', () => {
@@ -350,192 +359,29 @@ describe('PaymentsService', () => {
   });
 
   describe('collectDirectDebitPayment', () => {
-    it('should return null if no active mandate exists for the family', async () => {
-      // Non-request path: derives the club from the loaded invoice via the
-      // unscoped repository variants rather than the CLS context.
+    it('derives the club from the invoice and delegates to the durable operation workflow', async () => {
       mockInvoicesRepository.findOneUnscoped.mockResolvedValue(mockInvoice);
-      mockMandatesRepository.findByFamilyForClub.mockResolvedValue([]);
-
-      const result = await service.collectDirectDebitPayment(mockInvoice.invoice_id);
-
-      expect(result).toBeNull();
+      operations.collect.mockResolvedValue({
+        payment_id: mockPayment.payment_id,
+        provider: 'stripe',
+        provider_id: 'pi_test',
+      });
+      mockPaymentsRepository.findByProviderId.mockResolvedValue(mockPayment);
+      expect(await service.collectDirectDebitPayment(mockInvoice.invoice_id)).toEqual(mockPayment);
+      expect(operations.collect).toHaveBeenCalledWith(CLUB_ID, mockInvoice.invoice_id);
       expect(mockProvider.chargeRecurring).not.toHaveBeenCalled();
     });
-
-    it('should return null if the invoice is already paid', async () => {
-      const paidInvoice = { ...mockInvoice, status: InvoiceStatus.PAID };
-      mockInvoicesRepository.findOneUnscoped.mockResolvedValue(paidInvoice);
-      mockMandatesRepository.findActiveByFamily.mockResolvedValue(mockMandate);
-
-      const result = await service.collectDirectDebitPayment(paidInvoice.invoice_id);
-
-      expect(result).toBeNull();
-    });
-
-    describe('idempotency', () => {
-      const arrangeCollection = (totalPaid = 0) => {
-        mockInvoicesRepository.findOneUnscoped.mockResolvedValue(mockInvoice);
-        mockMandatesRepository.findByFamilyForClub.mockResolvedValue([mockMandate]);
-        mockPaymentsRepository.getTotalPaymentsByInvoiceForClub.mockResolvedValue(totalPaid);
-        mockProvider.chargeRecurring.mockResolvedValue({ providerPaymentId: 'PM001' });
-        mockPaymentsRepository.createForClub.mockResolvedValue(mockPayment);
-      };
-
-      it('sends an idempotency key derived from the invoice and amount', async () => {
-        // The charge happens before the payment row is written, so a crash in
-        // between would otherwise let a retry charge the payer twice.
-        arrangeCollection(0);
-
-        await service.collectDirectDebitPayment(mockInvoice.invoice_id);
-
-        expect(mockProvider.chargeRecurring).toHaveBeenCalledWith(
-          expect.objectContaining({
-            idempotencyKey: `invoice-${mockInvoice.invoice_id}-5000`,
-          }),
-        );
-      });
-
-      it('produces the SAME key when a lost payment is retried', async () => {
-        // The crash case: the payment row never landed, so totalPaid is still 0
-        // and the retry recomputes an identical amount. Same key means the
-        // provider returns the original payment rather than taking more money.
-        arrangeCollection(0);
-        await service.collectDirectDebitPayment(mockInvoice.invoice_id);
-        const first = mockProvider.chargeRecurring.mock.calls[0][0].idempotencyKey;
-
-        mockProvider.chargeRecurring.mockClear();
-        arrangeCollection(0);
-        await service.collectDirectDebitPayment(mockInvoice.invoice_id);
-        const second = mockProvider.chargeRecurring.mock.calls[0][0].idempotencyKey;
-
-        expect(second).toBe(first);
-      });
-
-      it('produces a DIFFERENT key when collecting a different remaining balance', async () => {
-        // A genuine later collection of the rest of an invoice must not be
-        // swallowed as a duplicate.
-        arrangeCollection(0);
-        await service.collectDirectDebitPayment(mockInvoice.invoice_id);
-        const full = mockProvider.chargeRecurring.mock.calls[0][0].idempotencyKey;
-
-        mockProvider.chargeRecurring.mockClear();
-        arrangeCollection(20);
-        await service.collectDirectDebitPayment(mockInvoice.invoice_id);
-        const remainder = mockProvider.chargeRecurring.mock.calls[0][0].idempotencyKey;
-
-        expect(remainder).not.toBe(full);
-        expect(remainder).toBe(`invoice-${mockInvoice.invoice_id}-3000`);
-      });
-    });
-
-    it('should collect a GBP invoice in GBP (existing UK behaviour is unchanged)', async () => {
+    it('does not fabricate a payment for an uncertain or skipped operation', async () => {
       mockInvoicesRepository.findOneUnscoped.mockResolvedValue(mockInvoice);
-      mockMandatesRepository.findByFamilyForClub.mockResolvedValue([mockMandate]);
-      mockPaymentsRepository.getTotalPaymentsByInvoiceForClub.mockResolvedValue(0);
-      mockProvider.chargeRecurring.mockResolvedValue({ providerPaymentId: 'PM001GBP' });
-      mockPaymentsRepository.createForClub.mockResolvedValue({
-        ...mockPayment,
-        currency: 'GBP',
-      });
-
-      await service.collectDirectDebitPayment(mockInvoice.invoice_id);
-
-      // The provider is charged in the invoice's currency, not a hard-coded 'GBP',
-      // against the same GoCardless mandate id as before.
-      expect(mockProvider.chargeRecurring).toHaveBeenCalledWith(
-        expect.objectContaining({
-          amount: 50.0,
-          currency: 'GBP',
-          providerMandateId: mockMandate.provider_mandate_id,
-        }),
-      );
-      // The persisted payment is stamped with the same currency, scoped to the
-      // club derived from the parent invoice.
-      expect(mockPaymentsRepository.createForClub).toHaveBeenCalledWith(
-        expect.objectContaining({ currency: 'GBP', amount: 50.0 }),
-        CLUB_ID,
-      );
-      // The club fallback is never consulted when the invoice carries a currency.
-      expect(mockClubsRepository.findOne).not.toHaveBeenCalled();
+      operations.collect.mockResolvedValue({ payment_id: null, state: 'uncertain' });
+      expect(await service.collectDirectDebitPayment(mockInvoice.invoice_id)).toBeNull();
     });
-
-    it("should collect a non-GBP invoice in the invoice's currency", async () => {
-      const usdInvoice = { ...mockInvoice, currency: 'USD' };
-      mockInvoicesRepository.findOneUnscoped.mockResolvedValue(usdInvoice);
-      mockMandatesRepository.findByFamilyForClub.mockResolvedValue([mockMandate]);
-      mockPaymentsRepository.getTotalPaymentsByInvoiceForClub.mockResolvedValue(0);
-      mockProvider.chargeRecurring.mockResolvedValue({ providerPaymentId: 'PM001USD' });
-      mockPaymentsRepository.createForClub.mockResolvedValue({
-        ...mockPayment,
-        currency: 'USD',
-      });
-
-      await service.collectDirectDebitPayment(usdInvoice.invoice_id);
-
-      expect(mockProvider.chargeRecurring).toHaveBeenCalledWith(
-        expect.objectContaining({ amount: 50.0, currency: 'USD' }),
+    it('rejects an unknown invoice before any provider operation', async () => {
+      mockInvoicesRepository.findOneUnscoped.mockResolvedValue(null);
+      await expect(service.collectDirectDebitPayment(mockInvoice.invoice_id)).rejects.toThrow(
+        NotFoundException,
       );
-      expect(mockPaymentsRepository.createForClub).toHaveBeenCalledWith(
-        expect.objectContaining({ currency: 'USD' }),
-        CLUB_ID,
-      );
-    });
-
-    it("should fall back to the club's currency when the invoice has none", async () => {
-      // Legacy invoice without a stored currency: resolve via the owning club.
-      const legacyInvoice = { ...mockInvoice, currency: undefined };
-      mockInvoicesRepository.findOneUnscoped.mockResolvedValue(legacyInvoice);
-      mockMandatesRepository.findByFamilyForClub.mockResolvedValue([mockMandate]);
-      mockPaymentsRepository.getTotalPaymentsByInvoiceForClub.mockResolvedValue(0);
-      mockClubsRepository.findOne.mockResolvedValue({ id: CLUB_ID, currency: 'CAD' });
-      mockProvider.chargeRecurring.mockResolvedValue({ providerPaymentId: 'PM001CAD' });
-      mockPaymentsRepository.createForClub.mockResolvedValue({
-        ...mockPayment,
-        currency: 'CAD',
-      });
-
-      await service.collectDirectDebitPayment(legacyInvoice.invoice_id);
-
-      expect(mockClubsRepository.findOne).toHaveBeenCalledWith(CLUB_ID);
-      expect(mockProvider.chargeRecurring).toHaveBeenCalledWith(
-        expect.objectContaining({ currency: 'CAD' }),
-      );
-      expect(mockPaymentsRepository.createForClub).toHaveBeenCalledWith(
-        expect.objectContaining({ currency: 'CAD' }),
-        CLUB_ID,
-      );
-    });
-
-    it("charges with the mandate's customer and stamps the bound provider", async () => {
-      // A Stripe club: the mandate carries the Stripe customer the payment
-      // method is attached to, and the payment row must be stamped 'stripe' so
-      // Stripe webhooks (which look up by provider AND provider id) find it.
-      mockProvider.connection.provider = 'stripe';
-      mockInvoicesRepository.findOneUnscoped.mockResolvedValue(mockInvoice);
-      mockMandatesRepository.findByFamilyForClub.mockResolvedValue([
-        {
-          ...mockMandate,
-          provider: 'stripe',
-          provider_mandate_id: 'pm_123',
-          provider_customer_id: 'cus_123',
-        },
-      ]);
-      mockPaymentsRepository.getTotalPaymentsByInvoiceForClub.mockResolvedValue(0);
-      mockProvider.chargeRecurring.mockResolvedValue({ providerPaymentId: 'pi_1' });
-      mockPaymentsRepository.createForClub.mockResolvedValue(mockPayment);
-
-      await service.collectDirectDebitPayment(mockInvoice.invoice_id);
-
-      expect(mockProvider.chargeRecurring).toHaveBeenCalledWith(
-        expect.objectContaining({
-          providerMandateId: 'pm_123',
-          providerCustomerId: 'cus_123',
-        }),
-      );
-      expect(mockPaymentsRepository.createForClub).toHaveBeenCalledWith(
-        expect.objectContaining({ provider: 'stripe', provider_payment_id: 'pi_1' }),
-        CLUB_ID,
-      );
+      expect(operations.collect).not.toHaveBeenCalled();
     });
   });
 

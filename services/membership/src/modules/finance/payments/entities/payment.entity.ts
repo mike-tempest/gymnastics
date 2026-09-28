@@ -66,6 +66,9 @@ export class Payment {
   @Column({ type: 'varchar', length: 50, default: 'gocardless' })
   provider: string;
 
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  provider_account_id?: string | null;
+
   /**
    * Provider-side payment identifier, unique together with `provider`.
    *

@@ -1,4 +1,5 @@
 import {
+  SetMetadata,
   Controller,
   Get,
   Post,
@@ -28,6 +29,8 @@ import { OptionalUuidParam, UuidParam } from '../../../common/validation/parse-u
 
 @Controller('invoices')
 @UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.SUPER_ADMIN, UserRole.TREASURER)
+@SetMetadata('exactRoles', true)
 export class InvoicesController {
   constructor(
     private readonly invoicesService: InvoicesService,
@@ -36,21 +39,21 @@ export class InvoicesController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @Roles(UserRole.SUPER_ADMIN)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.TREASURER)
   create(@Body() createInvoiceDto: CreateInvoiceDto) {
     return this.invoicesService.create(createInvoiceDto);
   }
 
   @Post('generate-monthly')
   @HttpCode(HttpStatus.CREATED)
-  @Roles(UserRole.SUPER_ADMIN)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.TREASURER)
   generateMonthly(@Query('squad_id', OptionalUuidParam) squadId?: string) {
     return this.invoicesService.generateMonthlyInvoices(squadId);
   }
 
   @Post('generate')
   @HttpCode(HttpStatus.CREATED)
-  @Roles(UserRole.SUPER_ADMIN)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.TREASURER)
   generate(@Body() generateInvoicesDto: GenerateInvoicesDto) {
     return this.invoicesService.generateInvoicesForFeeStructure(
       generateInvoicesDto.fee_structure_id,
@@ -60,7 +63,7 @@ export class InvoicesController {
 
   @Post(':id/send-reminder')
   @HttpCode(HttpStatus.OK)
-  @Roles(UserRole.SUPER_ADMIN)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.TREASURER)
   sendReminder(@Param('id', UuidParam) id: string) {
     return this.invoicesService.sendReminder(id);
   }
@@ -106,14 +109,14 @@ export class InvoicesController {
   }
 
   @Patch(':id')
-  @Roles(UserRole.SUPER_ADMIN)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.TREASURER)
   update(@Param('id', UuidParam) id: string, @Body() updateInvoiceDto: UpdateInvoiceDto) {
     return this.invoicesService.update(id, updateInvoiceDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Roles(UserRole.SUPER_ADMIN)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.TREASURER)
   remove(@Param('id', UuidParam) id: string) {
     return this.invoicesService.remove(id);
   }

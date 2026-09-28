@@ -1,3 +1,4 @@
+import { BillingLedgerModule } from '../adjustments/billing-ledger.module';
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { InvoicesController } from './invoices.controller';
@@ -14,6 +15,7 @@ import { MembersModule } from '../../members/members.module';
 
 @Module({
   imports: [
+    BillingLedgerModule,
     TypeOrmModule.forFeature([Invoice, InvoiceItem]),
     FeeStructuresModule,
     forwardRef(() => PaymentsModule),

@@ -77,7 +77,7 @@ export class InvoicePdfService {
     const currency = invoice.currency ?? club?.currency ?? region.currency;
     const locale = club?.locale ?? region.locale;
     const taxApplied = Number(invoice.tax_amount) > 0;
-    const taxInclusive = club?.tax_inclusive === true;
+    const taxInclusive = invoice.billing_tax_inclusive ?? club?.tax_inclusive === true;
     const taxLabel = club?.tax_label ?? 'Tax';
     const title = this.isTaxInvoice(invoice, club) ? 'Tax Invoice' : 'Invoice';
 
@@ -293,6 +293,20 @@ export class InvoicePdfService {
       y = doc.y + 4;
     } else {
       totalsRow('Total', money(invoice.total_amount), { bold: true });
+    }
+
+    if (invoice.billing_balance) {
+      if (y > doc.page.height - MARGIN - 140) {
+        doc.addPage();
+        y = MARGIN;
+      }
+      const balance = invoice.billing_balance;
+      totalsRow('Credit notes', money(balance.credit_notes_minor / 100));
+      totalsRow('Credit applied', money(balance.allocated_in_minor / 100));
+      totalsRow('Paid', money(balance.paid_minor / 100));
+      totalsRow('Cash refunded', money(balance.refunded_minor / 100));
+      totalsRow('Collection pending', money(balance.pending_minor / 100));
+      totalsRow('Amount due', money(balance.due_minor / 100), { bold: true });
     }
 
     // Footer, pinned to the bottom of the final page: club contact details on

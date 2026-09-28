@@ -1,4 +1,5 @@
 import {
+  SetMetadata,
   Controller,
   Get,
   Post,
@@ -21,12 +22,14 @@ import { UuidParam } from '../../../common/validation/parse-uuid.pipe';
 
 @Controller('payments')
 @UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.SUPER_ADMIN, UserRole.TREASURER)
+@SetMetadata('exactRoles', true)
 export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @Roles(UserRole.SUPER_ADMIN)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.TREASURER)
   create(@Body() createPaymentDto: CreatePaymentDto) {
     return this.paymentsService.create(createPaymentDto);
   }
@@ -47,37 +50,37 @@ export class PaymentsController {
   }
 
   @Patch(':id')
-  @Roles(UserRole.SUPER_ADMIN)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.TREASURER)
   update(@Param('id', UuidParam) id: string, @Body() updatePaymentDto: UpdatePaymentDto) {
     return this.paymentsService.update(id, updatePaymentDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Roles(UserRole.SUPER_ADMIN)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.TREASURER)
   remove(@Param('id', UuidParam) id: string) {
     return this.paymentsService.remove(id);
   }
 
   @Post('collect-invoice/:invoiceId')
   @HttpCode(HttpStatus.OK)
-  @Roles(UserRole.SUPER_ADMIN)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.TREASURER)
   async collectInvoicePayment(@Param('invoiceId', UuidParam) invoiceId: string) {
-    const payment = await this.paymentsService.collectDirectDebitPayment(invoiceId);
+    const payment = await this.paymentsService.collectInvoiceForCurrentClub(invoiceId);
     return {
       success: !!payment,
       payment,
       message: payment
         ? 'Payment collection initiated successfully'
-        : 'No active mandate found or invoice already paid',
+        : 'No new payment record. Check the invoice balance and any pending provider operation.',
     };
   }
 
   @Post('collect-pending')
   @HttpCode(HttpStatus.OK)
-  @Roles(UserRole.SUPER_ADMIN)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.TREASURER)
   async collectPendingPayments() {
-    const stats = await this.paymentsService.collectPendingInvoicePayments();
+    const stats = await this.paymentsService.collectPendingInvoicePayments(true);
     return {
       success: true,
       stats,

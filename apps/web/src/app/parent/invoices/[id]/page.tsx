@@ -4,6 +4,7 @@ import { FileText } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
+import InvoiceAdjustments from '@/components/billing/adjustments/InvoiceAdjustments';
 import InvoiceStatusBadge from '@/components/billing/InvoiceStatusBadge';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import EmptyState from '@/components/ui/empty-state';
@@ -104,7 +105,7 @@ export default function InvoiceDetailPage({ params }: PageProps) {
   const taxApplied = Number(invoice.tax_amount) > 0;
   const taxRegNumber = clubRegion.club?.tax_registration_number ?? null;
   const isTaxInvoice = taxApplied && !!taxRegNumber && clubRegion.country === 'AU';
-  const taxInclusive = clubRegion.club?.tax_inclusive === true;
+  const taxInclusive = invoice.billing_tax_inclusive ?? clubRegion.club?.tax_inclusive === true;
   const taxLabel = invoice.tax_label ?? clubRegion.club?.tax_label ?? 'Tax';
 
   return (
@@ -127,6 +128,7 @@ export default function InvoiceDetailPage({ params }: PageProps) {
                   Tax Invoice
                 </p>
               )}
+              <InvoiceAdjustments invoiceId={invoice.invoice_id} />
               <h1 className="font-serif text-3xl md:text-4xl text-dark-primary mb-2">
                 {invoice.invoice_number}
               </h1>
@@ -400,10 +402,15 @@ export default function InvoiceDetailPage({ params }: PageProps) {
                     <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <div>
-                    <p className="text-brand font-semibold">Payment received</p>
+                    <p className="text-brand font-semibold">Invoice settled</p>
                     <p className="text-white/70 text-sm tabular-nums">
-                      {formatCurrency(invoice.total_amount, invoice.currency)} paid on{' '}
-                      {formatDate(invoice.updated_at)}
+                      {formatCurrency(
+                        invoice.billing_balance
+                          ? invoice.billing_balance.paid_minor / 100
+                          : invoice.total_amount,
+                        invoice.currency
+                      )}{' '}
+                      in payments. Updated {formatDate(invoice.updated_at)}
                     </p>
                   </div>
                 </div>

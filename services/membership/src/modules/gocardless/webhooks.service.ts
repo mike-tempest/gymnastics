@@ -1,3 +1,5 @@
+import { Optional } from '@nestjs/common';
+import { BillingBalanceService } from '../finance/adjustments/billing-balance.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { MandatesRepository } from '../finance/mandates/mandates.repository';
 import { PaymentsRepository } from '../finance/payments/payments.repository';
@@ -53,6 +55,7 @@ export class WebhooksService {
     private readonly familiesRepository: FamiliesRepository,
     private readonly emailService: EmailService,
     private readonly clubsRepository: ClubsRepository,
+    @Optional() private readonly billingBalances?: BillingBalanceService,
   ) {}
 
   /**
@@ -117,6 +120,21 @@ export class WebhooksService {
         `action: ${event.action}`,
     );
 
+    if (
+      routedClubId &&
+      this.billingBalances &&
+      ['payments', 'refunds'].includes(event.resource_type)
+    ) {
+      const kind = event.resource_type === 'refunds' ? 'refund' : 'collection';
+      const queued = await this.billingBalances.queueProviderEvent(
+        routedClubId,
+        provider,
+        event.links[kind === 'refund' ? 'refund' : 'payment'],
+        kind,
+      );
+      // Current provider state is fetched by reconciliation, so late events cannot undo a newer result.
+      if (queued || kind === 'refund') return;
+    }
     switch (event.resource_type) {
       case 'mandates':
         await this.handleMandateEvent(event, routedClubId, provider);
